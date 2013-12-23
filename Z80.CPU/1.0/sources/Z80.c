@@ -11,7 +11,7 @@ Released under the terms of the GNU General Public License v3. */
 #define MODULE_PREFIX z80_
 #define MODULE_HEADER <modules/emulation/CPU/Z80.h>
 
-#include <Q/macros/module.h>
+#include <Q/configuration/module.h>
 #include <Q/macros/value.h>
 
 typedef quint8 (* Instruction)(Z80 *object);
@@ -149,7 +149,7 @@ Q_INLINE void write_16bit(Z80 *object, quint16 address, quint16 value)
 static const quint8 pf_parity_table[256] = {
 /*	0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
 /* 0 */ 4, 0, 0, 4, 0, 4, 4, 0, 0, 4, 4, 0, 4, 0, 0, 4,
-/* 1 */	0, 4, 4, 0, 4, 0, 0, 4, 4, 0, 0, 4, 0, 4, 4, 0,
+/* 1 */ 0, 4, 4, 0, 4, 0, 0, 4, 4, 0, 0, 4, 0, 4, 4, 0,
 /* 2 */ 0, 4, 4, 0, 4, 0, 0, 4, 4, 0, 0, 4, 0, 4, 4, 0,
 /* 3 */ 4, 0, 0, 4, 0, 4, 4, 0, 0, 4, 4, 0, 4, 0, 0, 4,
 /* 4 */ 0, 4, 4, 0, 4, 0, 0, 4, 4, 0, 0, 4, 0, 4, 4, 0,
@@ -1568,7 +1568,7 @@ EXPORTED(void, nmi)(Z80 *object)		 {NMI = TRUE ;}
 EXPORTED(void, irq)(Z80 *object, qboolean state) {INT = state;}
 
 
-#if !defined(Z80_USE_CUSTOM_INTERFACE) && defined(BUILDING_MODULE)
+#if defined(BUILDING_MODULE) || defined(BUILDING_HYBRID_MODULE)
 
 	/* MARK: - Module Linking Information */
 
