@@ -7,48 +7,21 @@
 Copyright © 1999 Manuel Sainz de Baranda y Goñi.
 Released under the terms of the GNU General Public License v3. */
 
-#include <Q/hardware/CPU/architecture/Z80.h>
-#include <Q/types/generic functions.h>
+#define MODULE_NAME   Z80
+#define MODULE_PREFIX z80_
+#define MODULE_HEADER <modules/emulation/CPU/Z80.h>
+
+#include <Q/macros/module.h>
 #include <Q/macros/value.h>
-
-/* MARK: - Types */
-
-typedef struct {
-	QZ80State state;
-	Q16Bit	  xy;
-	quint8	  r7;
-	Q32Bit	  data;
-	qsize	  ticks;
-	void*	  cb_context;
-
-	struct {Q16BitAddressRead8Bit  read;
-		Q16BitAddressWrite8Bit write;
-		Q16BitAddressRead8Bit  in;
-		Q16BitAddressWrite8Bit out;
-		QRead32Bit	       int_data;
-		QSwitch		       halt;
-	} cb;
-} Z80;
 
 typedef quint8 (* Instruction)(Z80 *object);
 
 
-/* MARK: - Code Configuration */
-
-#ifdef Z80_USE_CUSTOM_INTERFACE
-#	define EXPORTED(type, symbol)	type Q_JOIN(Z80_FUNCTION_PREFIX, _, symbol)
-#	define SYMBOL(	      symbol)	     Q_JOIN(Z80_FUNCTION_PREFIX, _, symbol)
-#else
-#	define EXPORTED(type, symbol)	static type symbol
-#	define SYMBOL(	      symbol)		    symbol
-#endif
-
-
 /* MARK: - Macros: External */
 
-#define O(member)	Q_STRUCTURE_MEMBER_OFFSET(Z80, member)
-#define ROL(x)		Q_8BIT_ROTATE_LEFT( x, 1)
-#define ROR(x)		Q_8BIT_ROTATE_RIGHT(x, 1)
+#define O(member)  Q_STRUCTURE_MEMBER_OFFSET(Z80, member)
+#define ROL(value) Q_8BIT_ROTATE_LEFT( value, 1)
+#define ROR(value) Q_8BIT_ROTATE_RIGHT(value, 1)
 
 
 /* MARK: - Macros & Functions: Callback */
@@ -75,101 +48,98 @@ Q_INLINE void write_16bit(Z80 *object, quint16 address, quint16 value)
 	}
 
 
-#define READ_16( address)		read_16bit (object, address)
-#define WRITE_16(address, value)	write_16bit(object, address, value)
+#define READ_16( address)	 read_16bit (object, address)
+#define WRITE_16(address, value) write_16bit(object, address, value)
 
 
-/* MARK: - Macros: 16-Bit Registers */
+/* MARK: - Macros: Registers */
 
-#define AF	object->state.Q_Z80_STATE_MEMBER_AF
-#define BC	object->state.Q_Z80_STATE_MEMBER_BC
-#define DE	object->state.Q_Z80_STATE_MEMBER_DE
-#define HL	object->state.Q_Z80_STATE_MEMBER_HL
-#define IX	object->state.Q_Z80_STATE_MEMBER_IX
-#define IY	object->state.Q_Z80_STATE_MEMBER_IY
-#define PC	object->state.Q_Z80_STATE_MEMBER_PC
-#define SP	object->state.Q_Z80_STATE_MEMBER_SP
-#define AF_	object->state.Q_Z80_STATE_MEMBER_AF_
-#define BC_	object->state.Q_Z80_STATE_MEMBER_BC_
-#define DE_	object->state.Q_Z80_STATE_MEMBER_DE_
-#define HL_	object->state.Q_Z80_STATE_MEMBER_HL_
+#define AF    object->state.Q_Z80_STATE_MEMBER_AF
+#define BC    object->state.Q_Z80_STATE_MEMBER_BC
+#define DE    object->state.Q_Z80_STATE_MEMBER_DE
+#define HL    object->state.Q_Z80_STATE_MEMBER_HL
+#define IX    object->state.Q_Z80_STATE_MEMBER_IX
+#define IY    object->state.Q_Z80_STATE_MEMBER_IY
+#define PC    object->state.Q_Z80_STATE_MEMBER_PC
+#define SP    object->state.Q_Z80_STATE_MEMBER_SP
+#define AF_   object->state.Q_Z80_STATE_MEMBER_AF_
+#define BC_   object->state.Q_Z80_STATE_MEMBER_BC_
+#define DE_   object->state.Q_Z80_STATE_MEMBER_DE_
+#define HL_   object->state.Q_Z80_STATE_MEMBER_HL_
 
-
-/* MARK: - Macros: 8-Bit Registers */
-
-#define A	object->state.Q_Z80_STATE_MEMBER_A
-#define F	object->state.Q_Z80_STATE_MEMBER_F
-#define B	object->state.Q_Z80_STATE_MEMBER_B
-#define C	object->state.Q_Z80_STATE_MEMBER_C
-#define D	object->state.Q_Z80_STATE_MEMBER_D
-#define E	object->state.Q_Z80_STATE_MEMBER_E
-#define H	object->state.Q_Z80_STATE_MEMBER_H
-#define L	object->state.Q_Z80_STATE_MEMBER_L
-#define IXH	object->state.Q_Z80_STATE_MEMBER_IXH
-#define IXL	object->state.Q_Z80_STATE_MEMBER_IXL
-#define IYH	object->state.Q_Z80_STATE_MEMBER_IYH
-#define IYL	object->state.Q_Z80_STATE_MEMBER_IYL
-#define I	object->state.Q_Z80_STATE_MEMBER_I
-#define R	object->state.Q_Z80_STATE_MEMBER_R
-#define R_ALL	(R & 127) | (R7 & 128)
+#define A     object->state.Q_Z80_STATE_MEMBER_A
+#define F     object->state.Q_Z80_STATE_MEMBER_F
+#define B     object->state.Q_Z80_STATE_MEMBER_B
+#define C     object->state.Q_Z80_STATE_MEMBER_C
+#define D     object->state.Q_Z80_STATE_MEMBER_D
+#define E     object->state.Q_Z80_STATE_MEMBER_E
+#define H     object->state.Q_Z80_STATE_MEMBER_H
+#define L     object->state.Q_Z80_STATE_MEMBER_L
+#define IXH   object->state.Q_Z80_STATE_MEMBER_IXH
+#define IXL   object->state.Q_Z80_STATE_MEMBER_IXL
+#define IYH   object->state.Q_Z80_STATE_MEMBER_IYH
+#define IYL   object->state.Q_Z80_STATE_MEMBER_IYL
+#define I     object->state.Q_Z80_STATE_MEMBER_I
+#define R     object->state.Q_Z80_STATE_MEMBER_R
+#define R_ALL (R & 127) | (R7 & 128)
 
 
-/* MARK: - Macros: Internal state */
+/* MARK: - Macros: Internal State */
 
-#define R7	object->r7
-#define HALT	object->state.Q_Z80_STATE_MEMBER_HALT
-#define IFF1	object->state.Q_Z80_STATE_MEMBER_IFF1
-#define IFF2	object->state.Q_Z80_STATE_MEMBER_IFF2
-#define EI	object->state.Q_Z80_STATE_MEMBER_EI
-#define IM	object->state.Q_Z80_STATE_MEMBER_IM
-#define NMI	object->state.Q_Z80_STATE_MEMBER_NMI
-#define INT	object->state.Q_Z80_STATE_MEMBER_IRQ
-#define TICKS	object->ticks
+#define R7    object->r7
+#define HALT  object->state.Q_Z80_STATE_MEMBER_HALT
+#define IFF1  object->state.Q_Z80_STATE_MEMBER_IFF1
+#define IFF2  object->state.Q_Z80_STATE_MEMBER_IFF2
+#define EI    object->state.Q_Z80_STATE_MEMBER_EI
+#define IM    object->state.Q_Z80_STATE_MEMBER_IM
+#define NMI   object->state.Q_Z80_STATE_MEMBER_NMI
+#define INT   object->state.Q_Z80_STATE_MEMBER_IRQ
+#define TICKS object->ticks
 
 
 /* MARK: - Macros: Cached Instruction Data */
 
-#define BYTE(index)	object->data.uint8_array[index]
-#define BYTE0		BYTE(0)
-#define BYTE1		BYTE(1)
-#define BYTE2		BYTE(2)
-#define BYTE3		BYTE(3)
+#define BYTE(index) object->data.uint8_array[index]
+#define BYTE0	    BYTE(0)
+#define BYTE1	    BYTE(1)
+#define BYTE2	    BYTE(2)
+#define BYTE3	    BYTE(3)
 
 
 /* MARK: - Macros: Memory Addressing */
 
-#define XY		object->xy.uint16_value
-#define XY_ADDRESS	XY + object->data.int8_array[2]
+#define XY	   object->xy.uint16_value
+#define XY_ADDRESS XY + object->data.int8_array[2]
 
 
 /* MARK: - Macros: Flags */
 
-#define SF	128
-#define ZF	 64
-#define YF	 32
-#define HF	 16
-#define XF	  8
-#define PF	  4
-#define NF	  2
-#define CF	  1
+#define SF 128
+#define ZF  64
+#define YF  32
+#define HF  16
+#define XF   8
+#define PF   4
+#define NF   2
+#define CF   1
 
-#define SZPF	(SF | ZF | PF)
-#define SYXF	(SF | YF | XF)
-#define ZPF	(ZF | PF     )
-#define YXCF	(YF | XF | CF)
-#define YXF	(YF | XF     )
-#define PNF	(PF | NF     )
-#define HCF	(HF | CF     )
-#define NCF	(NF | CF     )
+#define SZPF (SF | ZF | PF)
+#define SYXF (SF | YF | XF)
+#define ZPF  (ZF | PF     )
+#define YXCF (YF | XF | CF)
+#define YXF  (YF | XF     )
+#define PNF  (PF | NF     )
+#define HCF  (HF | CF     )
+#define NCF  (NF | CF     )
 
-#define F_S	(F &   SF)
-#define F_Z	(F &   ZF)
-#define F_P	(F &   PF)
-#define F_H	(F &   HF)
-#define F_C	(F &   CF)
-#define F_SZP	(F & SZPF)
-#define A_SYX	(A & SYXF)
-#define A_YX	(A &  YXF)
+#define F_S   (F &   SF)
+#define F_Z   (F &   ZF)
+#define F_P   (F &   PF)
+#define F_H   (F &   HF)
+#define F_C   (F &   CF)
+#define F_SZP (F & SZPF)
+#define A_SYX (A & SYXF)
+#define A_YX  (A &  YXF)
 
 #define ZF_ZERO(value) (!(value) << 6)
 
@@ -281,7 +251,7 @@ R_8(_____kkk , j_k_p_q_table, 1,  7,	 )
    | __ss____ |   | 00 = bc |	| 00 = bc |   | 00 = bc |
    | __tt____ |   | 01 = de |	| 01 = de |   | 01 = de |
    '----------'   | 10 = hl |	| 10 = hl |   | 10 = XY |
-		  | 11 = sp |	| 11 = af |   | 11 = sp	|
+		  | 11 = sp |	| 11 = af |   | 11 = sp |
 		  '---------'	'---------'   '--------*/
 
 static const quint8 s_table[4] = {
@@ -341,25 +311,25 @@ Q_INLINE qboolean __zzz___(Z80 *object)
 	}
 
 
-/* MARK: - 8 Bit Arithmetic and Logical Operations Resolution and Execution
+/* MARK: - 8 Bit Arithmetic and Logical Operation Resolution and Execution
 
    .----------.   .-----------.		.-------------------------------.
    | 76543210 |   |     U     |		| S | Z | Y | H | X | P | N | C |
    |----------|   |-----------|   .-----+---+---+---+---+---+---+---+---|
-   | __uuu___ |   | 000 = add |	  | add | S | Z | 5 | H | 3 | V | 0 | C |
-   | _____vvv |   | 001 = adc |	  |-----+---+---+---+---+---+---+---+---|
-   '----------'   | 010 = sub |	  | adc | S | Z | 5 | H | 3 | V | 0 | C |
-		  | 011 = sbc |	  |-----+---+---+---+---+---+---+---+---|
-		  | 100 = and |	  | sub | S | Z | 5 | H | 3 | V | 1 | C |
-		  | 101 = xor |	  |-----+---+---+---+---+---+---+---+---|
-		  | 110 = or  |	  | sbc | S | Z | 5 | H | 3 | V | 1 | C |
-		  | 111 = cp  |	  |-----+---+---+---+---+---+---+---+---|
-		  |-----------|	  | and | S | Z | 5 | 1 | 3 | P | 0 | 0 |
-		  |     V     |	  |-----+---+---+---+---+---+---+---+---|
-		  |-----------|	  | xor | S | Z | 5 | 0 | 3 | P | 0 | 0 |
-		  | 100 = inc |	  |-----+---+---+---+---+---+---+---+---|
-		  | 101 = dec |	  | or  | S | Z | 5 | 0 | 3 | P | 0 | 0 |
-		  '-----------'	  |-----+---+---+---+---+---+---+---+---|
+   | __uuu___ |   | 000 = add |   | add | S | Z | 5 | H | 3 | V | 0 | C |
+   | _____vvv |   | 001 = adc |   |-----+---+---+---+---+---+---+---+---|
+   '----------'   | 010 = sub |   | adc | S | Z | 5 | H | 3 | V | 0 | C |
+		  | 011 = sbc |   |-----+---+---+---+---+---+---+---+---|
+		  | 100 = and |   | sub | S | Z | 5 | H | 3 | V | 1 | C |
+		  | 101 = xor |   |-----+---+---+---+---+---+---+---+---|
+		  | 110 = or  |   | sbc | S | Z | 5 | H | 3 | V | 1 | C |
+		  | 111 = cp  |   |-----+---+---+---+---+---+---+---+---|
+		  |-----------|   | and | S | Z | 5 | 1 | 3 | P | 0 | 0 |
+		  |     V     |   |-----+---+---+---+---+---+---+---+---|
+		  |-----------|   | xor | S | Z | 5 | 0 | 3 | P | 0 | 0 |
+		  | 100 = inc |   |-----+---+---+---+---+---+---+---+---|
+		  | 101 = dec |   | or  | S | Z | 5 | 0 | 3 | P | 0 | 0 |
+		  '-----------'   |-----+---+---+---+---+---+---+---+---|
 				  | cp  | S | Z |v.5| H |v.3| V | 1 | C |
 				  |-----+---+---+---+---+---+---+---+---|
 				  | inc | S | Z |v.5| H |v.3| V | 0 | . |
@@ -474,7 +444,7 @@ static quint8 _____vvv(Z80 *object, quint8 offset, quint8 value)
 	}
 
 
-/* MARK: - Rotation and Shift Operations Resolution and Execution
+/* MARK: - Rotation and Shift Operation Resolution and Execution
 
    .----------.   .-----------.
    | 76543210 |   |     G     |
@@ -575,7 +545,7 @@ static quint8 __ggg___(Z80 *object, quint8 offset, quint8 value)
 	}
 
 
-/* MARK: - Bit Set and Reset Operations Resolution and Execution
+/* MARK: - Bit Set and Reset Operation Resolution and Execution
 
    .----------.   .---------.
    | 76543210 |   |    M    |
@@ -596,29 +566,29 @@ Q_INLINE quint8 _m______(Z80 *object, quint8 offset, quint8 value)
 
 /* MARK: - Abreviation Macros */
 
-#define N(x)		((BYTE##x & 56) >> 3)
-#define N1		N(1)
-#define N3		N(3)
-#define X0		(*__xxx___0(object))
-#define X1		(*__xxx___1(object))
-#define Y0		(*_____yyy0(object))
-#define Y1		(*_____yyy1(object))
-#define Y3		(*_____yyy3(object))
-#define JP		(*__jjj___ (object))
-#define KQ		(*_____kkk (object))
-#define SS0		(*__ss____0(object))
-#define SS1		(*__ss____1(object))
-#define TT		(*__tt____ (object))
-#define Z		  __zzz___ (object)
-#define U0(value)	  __uuu___ (object, 0, value)
-#define U1(value)	  __uuu___ (object, 1, value)
-#define V0(value)	  _____vvv (object, 0, value)
-#define V1(value)	  _____vvv (object, 1, value)
-#define G1(value)	  __ggg___ (object, 1, value)
-#define G3(value)	  __ggg___ (object, 3, value)
-#define M1(value)	  _m______ (object, 1, value)
-#define M3(value)	  _m______ (object, 3, value)
-#define WW		(*(quint16 *)((void *)object + w_table[(BYTE1 >> 4) & 3]))
+#define N(x)	  ((BYTE##x & 56) >> 3)
+#define N1	  N(1)
+#define N3	  N(3)
+#define X0	  (*__xxx___0(object))
+#define X1	  (*__xxx___1(object))
+#define Y0	  (*_____yyy0(object))
+#define Y1	  (*_____yyy1(object))
+#define Y3	  (*_____yyy3(object))
+#define JP	  (*__jjj___ (object))
+#define KQ	  (*_____kkk (object))
+#define SS0	  (*__ss____0(object))
+#define SS1	  (*__ss____1(object))
+#define TT	  (*__tt____ (object))
+#define Z	    __zzz___ (object)
+#define U0(value)   __uuu___ (object, 0, value)
+#define U1(value)   __uuu___ (object, 1, value)
+#define V0(value)   _____vvv (object, 0, value)
+#define V1(value)   _____vvv (object, 1, value)
+#define G1(value)   __ggg___ (object, 1, value)
+#define G3(value)   __ggg___ (object, 3, value)
+#define M1(value)   _m______ (object, 1, value)
+#define M3(value)   _m______ (object, 3, value)
+#define WW	  (*(quint16 *)((void *)object + w_table[(BYTE1 >> 4) & 3]))
 
 
 /* MARK: - Reusable Code */
@@ -959,7 +929,7 @@ INSTRUCTION(U_a_KQ)	   {PC += 2; U1(KQ);							    CYCLES( 8);}
 INSTRUCTION(U_a_BYTE)	   {U0(READ_8((PC += 2) - 1));						    CYCLES( 7);}
 INSTRUCTION(U_a_vhl)	   {PC++; U0(READ_8(HL));						    CYCLES( 7);}
 INSTRUCTION(U_a_vXYOFFSET) {U1(READ_8(XY + READ_OFFSET((PC += 3) - 1)));			    CYCLES(19);}
-INSTRUCTION(V_X)	   {PC++;	  quint8 *r = __xxx___0(object); *r = V0(*r);		    CYCLES( 4);}
+INSTRUCTION(V_X)	   {PC++;    quint8 *r = __xxx___0(object); *r = V0(*r);		    CYCLES( 4);}
 INSTRUCTION(V_JP)	   {PC += 2; quint8 *r = __jjj___ (object); *r = V1(*r);		    CYCLES( 8);}
 INSTRUCTION(V_vhl)	   {PC++; WRITE_8(HL, V0(READ_8(HL)));					    CYCLES(11);}
 INSTRUCTION(V_vXYOFFSET)   {quint16 a = XY + READ_OFFSET((PC += 3) - 1); WRITE_8(a, V1(READ_8(a))); CYCLES(23);}
@@ -1138,7 +1108,7 @@ INSTRUCTION(rrca)	   {PC++; ROR(A); F = F_SZP | A_YX | (A >> 7);		    CYCLES( 4)
 INSTRUCTION(rra)	   {PC++; quint8 c = A & 1; A = (A >> 1) | (F << 7); RXA    CYCLES( 4);}
 INSTRUCTION(G_Y)	   {quint8 *r = _____yyy1(object); *r = G1(*r);		    CYCLES( 8);}
 INSTRUCTION(G_vhl)	   {WRITE_8(HL, G1(READ_8(HL)));			    CYCLES(15);}
-INSTRUCTION(G_vXYOFFSET)   {quint16 a = XY_ADDRESS; WRITE_8(a, G3(READ_8(a)));	    CYCLES(23);}
+INSTRUCTION(G_vXYOFFSET)   {quint16 a = XY_ADDRESS; WRITE_8(a,	    G3(READ_8(a))); CYCLES(23);}
 INSTRUCTION(G_vXYOFFSET_Y) {quint16 a = XY_ADDRESS; WRITE_8(a, Y3 = G3(READ_8(a))); CYCLES(23);}
 INSTRUCTION(rld)	   {PC += 2; RXD(<<, & 0xF, >> 4)			    CYCLES(18);}
 INSTRUCTION(rrd)	   {PC += 2; RXD(>>, << 4, & 0xF)			    CYCLES(18);}
@@ -1166,7 +1136,7 @@ INSTRUCTION(bit_N_vhl)	     {BIT_N_VALUE(READ_8(HL))				      CYCLES(12);}
 INSTRUCTION(bit_N_vXYOFFSET) {BIT_N_VADDRESS(XY_ADDRESS)			      CYCLES(20);}
 INSTRUCTION(M_N_Y)	     {quint8 *t = _____yyy1(object); *t = M1(*t);	      CYCLES( 8);}
 INSTRUCTION(M_N_vhl)	     {WRITE_8(HL, M1(READ_8(HL)));			      CYCLES(15);}
-INSTRUCTION(M_N_vXYOFFSET)   {quint16 a = XY_ADDRESS; WRITE_8(a, M3(READ_8(a)));      CYCLES(23);}
+INSTRUCTION(M_N_vXYOFFSET)   {quint16 a = XY_ADDRESS; WRITE_8(a,      M3(READ_8(a))); CYCLES(23);}
 INSTRUCTION(M_N_vXYOFFSET_Y) {quint16 a = XY_ADDRESS; WRITE_8(a, Y3 = M3(READ_8(a))); CYCLES(23);}
 
 
@@ -1274,107 +1244,108 @@ INSTRUCTION(XY_illegal);
 /* MARK: - Instruction Function Tables */
 
 static const Instruction instruction_table[256] = {
-/*	0		1		2		3		4		5		6		7		8		9		A		B		C		D		E		F	*/
-/* 0 */ nop,		ld_SS_WORD,	ld_vbc_a,	inc_SS,		V_X,		V_X,		ld_X_BYTE,	rlca,		ex_af_af_,	add_hl_SS,	ld_a_vbc,	dec_SS,		V_X,		V_X,		ld_X_BYTE,	rrca,
-/* 1 */ djnz_OFFSET,	ld_SS_WORD,	ld_vde_a,	inc_SS,		V_X,		V_X,		ld_X_BYTE,	rla,		jr_OFFSET,	add_hl_SS,	ld_a_vde,	dec_SS,		V_X,		V_X,		ld_X_BYTE,	rra,
-/* 2 */ jr_Z_OFFSET,	ld_SS_WORD,	ld_vWORD_hl,	inc_SS,		V_X,		V_X,		ld_X_BYTE,	daa,		jr_Z_OFFSET,	add_hl_SS,	ld_hl_vWORD,	dec_SS,		V_X,		V_X,		ld_X_BYTE,	cpl,
-/* 3 */ jr_Z_OFFSET,	ld_SS_WORD,	ld_vWORD_a,	inc_SS,		V_vhl,		V_vhl,		ld_vhl_BYTE,	scf,		jr_Z_OFFSET,	add_hl_SS,	ld_a_vWORD,	dec_SS,		V_X,		V_X,		ld_X_BYTE,	ccf,
-/* 4 */ ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_vhl,	ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_vhl,	ld_X_Y,
-/* 5 */ ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_vhl,	ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_vhl,	ld_X_Y,
-/* 6 */ ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_vhl,	ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_vhl,	ld_X_Y,
-/* 7 */ ld_vhl_Y,	ld_vhl_Y,	ld_vhl_Y,	ld_vhl_Y,	ld_vhl_Y,	ld_vhl_Y,	halt,		ld_vhl_Y,	ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_Y,		ld_X_vhl,	ld_X_Y,
-/* 8 */ U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_vhl,	U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_vhl,	U_a_Y,
-/* 9 */ U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_vhl,	U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_vhl,	U_a_Y,
-/* A */ U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_vhl,	U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_vhl,	U_a_Y,
-/* B */ U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_vhl,	U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_Y,		U_a_vhl,	U_a_Y,
-/* C */ ret_Z,		pop_TT,		jp_Z_WORD,	jp_WORD,	call_Z_WORD,	push_TT,	U_a_BYTE,	rst_N,		ret_Z,		ret,		jp_Z_WORD,	CB,		call_Z_WORD,	call_WORD,	U_a_BYTE,	rst_N,
-/* D */ ret_Z,		pop_TT,		jp_Z_WORD,	out_vBYTE_a,	call_Z_WORD,	push_TT,	U_a_BYTE,	rst_N,		ret_Z,		exx,		jp_Z_WORD,	in_a_BYTE,	call_Z_WORD,	DD,		U_a_BYTE,	rst_N,
-/* E */ ret_Z,		pop_TT,		jp_Z_WORD,	ex_vsp_hl,	call_Z_WORD,	push_TT,	U_a_BYTE,	rst_N,		ret_Z,		jp_hl,		jp_Z_WORD,	ex_de_hl,	call_Z_WORD,	ED,		U_a_BYTE,	rst_N,
-/* F */ ret_Z,		pop_TT,		jp_Z_WORD,	di,		call_Z_WORD,	push_TT,	U_a_BYTE,	rst_N,		ret_Z,		ld_sp_hl,	jp_Z_WORD,	ei,		call_Z_WORD,	FD,		U_a_BYTE,	rst_N
+/*	0	     1		 2	      3		   4		5	  6	       7	 8	      9		 A	      B		 C	      D		 E	    F */
+/* 0 */ nop,	     ld_SS_WORD, ld_vbc_a,    inc_SS,	   V_X,		V_X,	  ld_X_BYTE,   rlca,	 ex_af_af_,   add_hl_SS, ld_a_vbc,    dec_SS,	 V_X,	      V_X,	 ld_X_BYTE, rrca,
+/* 1 */ djnz_OFFSET, ld_SS_WORD, ld_vde_a,    inc_SS,	   V_X,		V_X,	  ld_X_BYTE,   rla,	 jr_OFFSET,   add_hl_SS, ld_a_vde,    dec_SS,	 V_X,	      V_X,	 ld_X_BYTE, rra,
+/* 2 */ jr_Z_OFFSET, ld_SS_WORD, ld_vWORD_hl, inc_SS,	   V_X,		V_X,	  ld_X_BYTE,   daa,	 jr_Z_OFFSET, add_hl_SS, ld_hl_vWORD, dec_SS,	 V_X,	      V_X,	 ld_X_BYTE, cpl,
+/* 3 */ jr_Z_OFFSET, ld_SS_WORD, ld_vWORD_a,  inc_SS,	   V_vhl,	V_vhl,	  ld_vhl_BYTE, scf,	 jr_Z_OFFSET, add_hl_SS, ld_a_vWORD,  dec_SS,	 V_X,	      V_X,	 ld_X_BYTE, ccf,
+/* 4 */ ld_X_Y,	     ld_X_Y,	 ld_X_Y,      ld_X_Y,	   ld_X_Y,	ld_X_Y,	  ld_X_vhl,    ld_X_Y,	 ld_X_Y,      ld_X_Y,	 ld_X_Y,      ld_X_Y,	 ld_X_Y,      ld_X_Y,	 ld_X_vhl,  ld_X_Y,
+/* 5 */ ld_X_Y,	     ld_X_Y,	 ld_X_Y,      ld_X_Y,	   ld_X_Y,	ld_X_Y,	  ld_X_vhl,    ld_X_Y,	 ld_X_Y,      ld_X_Y,	 ld_X_Y,      ld_X_Y,	 ld_X_Y,      ld_X_Y,	 ld_X_vhl,  ld_X_Y,
+/* 6 */ ld_X_Y,	     ld_X_Y,	 ld_X_Y,      ld_X_Y,	   ld_X_Y,	ld_X_Y,	  ld_X_vhl,    ld_X_Y,	 ld_X_Y,      ld_X_Y,	 ld_X_Y,      ld_X_Y,	 ld_X_Y,      ld_X_Y,	 ld_X_vhl,  ld_X_Y,
+/* 7 */ ld_vhl_Y,    ld_vhl_Y,	 ld_vhl_Y,    ld_vhl_Y,	   ld_vhl_Y,	ld_vhl_Y, halt,	       ld_vhl_Y, ld_X_Y,      ld_X_Y,	 ld_X_Y,      ld_X_Y,	 ld_X_Y,      ld_X_Y,	 ld_X_vhl,  ld_X_Y,
+/* 8 */ U_a_Y,	     U_a_Y,	 U_a_Y,	      U_a_Y,	   U_a_Y,	U_a_Y,	  U_a_vhl,     U_a_Y,	 U_a_Y,	      U_a_Y,	 U_a_Y,	      U_a_Y,	 U_a_Y,	      U_a_Y,	 U_a_vhl,   U_a_Y,
+/* 9 */ U_a_Y,	     U_a_Y,	 U_a_Y,	      U_a_Y,	   U_a_Y,	U_a_Y,	  U_a_vhl,     U_a_Y,	 U_a_Y,	      U_a_Y,	 U_a_Y,	      U_a_Y,	 U_a_Y,	      U_a_Y,	 U_a_vhl,   U_a_Y,
+/* A */ U_a_Y,	     U_a_Y,	 U_a_Y,	      U_a_Y,	   U_a_Y,	U_a_Y,	  U_a_vhl,     U_a_Y,	 U_a_Y,	      U_a_Y,	 U_a_Y,	      U_a_Y,	 U_a_Y,	      U_a_Y,	 U_a_vhl,   U_a_Y,
+/* B */ U_a_Y,	     U_a_Y,	 U_a_Y,	      U_a_Y,	   U_a_Y,	U_a_Y,	  U_a_vhl,     U_a_Y,	 U_a_Y,	      U_a_Y,	 U_a_Y,	      U_a_Y,	 U_a_Y,	      U_a_Y,	 U_a_vhl,   U_a_Y,
+/* C */ ret_Z,	     pop_TT,	 jp_Z_WORD,   jp_WORD,	   call_Z_WORD,	push_TT,  U_a_BYTE,    rst_N,	 ret_Z,	      ret,	 jp_Z_WORD,   CB,	 call_Z_WORD, call_WORD, U_a_BYTE,  rst_N,
+/* D */ ret_Z,	     pop_TT,	 jp_Z_WORD,   out_vBYTE_a, call_Z_WORD,	push_TT,  U_a_BYTE,    rst_N,	 ret_Z,	      exx,	 jp_Z_WORD,   in_a_BYTE, call_Z_WORD, DD,	 U_a_BYTE,  rst_N,
+/* E */ ret_Z,	     pop_TT,	 jp_Z_WORD,   ex_vsp_hl,   call_Z_WORD,	push_TT,  U_a_BYTE,    rst_N,	 ret_Z,	      jp_hl,	 jp_Z_WORD,   ex_de_hl,	 call_Z_WORD, ED,	 U_a_BYTE,  rst_N,
+/* F */ ret_Z,	     pop_TT,	 jp_Z_WORD,   di,	   call_Z_WORD,	push_TT,  U_a_BYTE,    rst_N,	 ret_Z,	      ld_sp_hl,	 jp_Z_WORD,   ei,	 call_Z_WORD, FD,	 U_a_BYTE,  rst_N
 };
 
 static const Instruction instruction_table_CB[256] = {
-/*	0		1		2		3		4		5		6		7		8		9		A		B		C		D		E		F	*/
-/* 0 */ G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_vhl,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_vhl,		G_Y, 
-/* 1 */ G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_vhl,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_vhl,		G_Y, 
-/* 2 */ G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_vhl,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_vhl,		G_Y, 
-/* 3 */ G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_vhl,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_Y,		G_vhl,		G_Y, 
-/* 4 */ bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_vhl,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_vhl,	bit_N_Y, 
-/* 5 */ bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_vhl,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_vhl,	bit_N_Y, 
-/* 6 */ bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_vhl,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_vhl,	bit_N_Y, 
-/* 7 */ bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_vhl,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_Y,	bit_N_vhl,	bit_N_Y, 
-/* 8 */ M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y, 
-/* 9 */ M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y, 
-/* A */ M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y, 
-/* B */ M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y, 
-/* C */ M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y, 
-/* D */ M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y, 
-/* E */ M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y, 
-/* F */ M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_Y,		M_N_vhl,	M_N_Y
+/*	0	 1	  2	   3	    4	     5	      6		 7	  8	   9	    A	     B	      C	       D	E	   F */
+/* 0 */ G_Y,	 G_Y,	  G_Y,	   G_Y,	    G_Y,     G_Y,     G_vhl,	 G_Y,	  G_Y,	   G_Y,	    G_Y,     G_Y,     G_Y,     G_Y,	G_vhl,	   G_Y,
+/* 1 */ G_Y,	 G_Y,	  G_Y,	   G_Y,	    G_Y,     G_Y,     G_vhl,	 G_Y,	  G_Y,	   G_Y,	    G_Y,     G_Y,     G_Y,     G_Y,	G_vhl,	   G_Y,
+/* 2 */ G_Y,	 G_Y,	  G_Y,	   G_Y,	    G_Y,     G_Y,     G_vhl,	 G_Y,	  G_Y,	   G_Y,	    G_Y,     G_Y,     G_Y,     G_Y,	G_vhl,	   G_Y,
+/* 3 */ G_Y,	 G_Y,	  G_Y,	   G_Y,	    G_Y,     G_Y,     G_vhl,	 G_Y,	  G_Y,	   G_Y,	    G_Y,     G_Y,     G_Y,     G_Y,	G_vhl,	   G_Y,
+/* 4 */ bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_vhl, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_vhl, bit_N_Y,
+/* 5 */ bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_vhl, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_vhl, bit_N_Y,
+/* 6 */ bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_vhl, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_vhl, bit_N_Y,
+/* 7 */ bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_vhl, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_Y, bit_N_vhl, bit_N_Y,
+/* 8 */ M_N_Y,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_vhl,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,	M_N_vhl,   M_N_Y,
+/* 9 */ M_N_Y,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_vhl,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,	M_N_vhl,   M_N_Y,
+/* A */ M_N_Y,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_vhl,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,	M_N_vhl,   M_N_Y,
+/* B */ M_N_Y,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_vhl,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,	M_N_vhl,   M_N_Y,
+/* C */ M_N_Y,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_vhl,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,	M_N_vhl,   M_N_Y,
+/* D */ M_N_Y,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_vhl,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,	M_N_vhl,   M_N_Y,
+/* E */ M_N_Y,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_vhl,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,	M_N_vhl,   M_N_Y,
+/* F */ M_N_Y,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_vhl,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,	M_N_vhl,   M_N_Y
 };
 
 static const Instruction instruction_table_XY_CB[256] = {
-/*	0			1			2			3			4			5			6			7			8			9			A			B			C			D			E			F	*/
-/* 0 */ G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET,		G_vXYOFFSET_Y,
-/* 1 */ G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET,		G_vXYOFFSET_Y,
-/* 2 */ G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET,		G_vXYOFFSET_Y,
-/* 3 */ G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET_Y,		G_vXYOFFSET,		G_vXYOFFSET_Y,
-/* 4 */ bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,
-/* 5 */ bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,
-/* 6 */ bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,
-/* 7 */ bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,	bit_N_vXYOFFSET,
-/* 8 */ M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,
-/* 9 */ M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,
-/* A */ M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,
-/* B */ M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,
-/* C */ M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,
-/* D */ M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,
-/* E */ M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,
-/* F */ M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET_Y,	M_N_vXYOFFSET,		M_N_vXYOFFSET_Y
+/*	0		 1		  2		   3		    4		     5		      6		       7		8		 9		  A		   B		    C		     D		      E		       F */
+/* 0 */ G_vXYOFFSET_Y,	 G_vXYOFFSET_Y,	  G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET,     G_vXYOFFSET_Y,	G_vXYOFFSET_Y,	 G_vXYOFFSET_Y,	  G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET,     G_vXYOFFSET_Y,
+/* 1 */ G_vXYOFFSET_Y,	 G_vXYOFFSET_Y,	  G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET,     G_vXYOFFSET_Y,	G_vXYOFFSET_Y,	 G_vXYOFFSET_Y,	  G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET,     G_vXYOFFSET_Y,
+/* 2 */ G_vXYOFFSET_Y,	 G_vXYOFFSET_Y,	  G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET,     G_vXYOFFSET_Y,	G_vXYOFFSET_Y,	 G_vXYOFFSET_Y,	  G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET,     G_vXYOFFSET_Y,
+/* 3 */ G_vXYOFFSET_Y,	 G_vXYOFFSET_Y,	  G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET,     G_vXYOFFSET_Y,	G_vXYOFFSET_Y,	 G_vXYOFFSET_Y,	  G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET,     G_vXYOFFSET_Y,
+/* 4 */ bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET,
+/* 5 */ bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET,
+/* 6 */ bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET,
+/* 7 */ bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET, bit_N_vXYOFFSET,
+/* 8 */ M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y,
+/* 9 */ M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y,
+/* A */ M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y,
+/* B */ M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y,
+/* C */ M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y,
+/* D */ M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y,
+/* E */ M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y,
+/* F */ M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y
 };
 
 static const Instruction instruction_table_XY[256] = {
-/*	0			1			2			3			4			5			6			7			8			9			A			B			C			D			E			F	*/
-/* 0 */ XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		add_XY_WW,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,
-/* 1 */ XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		add_XY_WW,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,
-/* 2 */ XY_illegal,		ld_XY_WORD,		ld_vWORD_XY,		inc_XY,			V_JP,			V_JP,			ld_JP_BYTE,		XY_illegal,		XY_illegal,		add_XY_WW,		ld_XY_vWORD,		dec_XY,			V_JP,			V_JP,			ld_JP_BYTE,		XY_illegal,
-/* 3 */ XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		V_vXYOFFSET,		V_vXYOFFSET,		ld_vXYOFFSET_BYTE,	XY_illegal,		XY_illegal,		add_XY_WW,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,
-/* 4 */ XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		ld_JP_KQ,		ld_JP_KQ,		ld_X_vXYOFFSET,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		ld_JP_KQ,		ld_JP_KQ,		ld_X_vXYOFFSET,		XY_illegal,
-/* 5 */ XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		ld_JP_KQ,		ld_JP_KQ,		ld_X_vXYOFFSET,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		ld_JP_KQ,		ld_JP_KQ,		ld_X_vXYOFFSET,		XY_illegal,
-/* 6 */ ld_JP_KQ,		ld_JP_KQ,		ld_JP_KQ,		ld_JP_KQ,		ld_JP_KQ,		ld_JP_KQ,		ld_X_vXYOFFSET,		ld_JP_KQ,		ld_JP_KQ,		ld_JP_KQ,		ld_JP_KQ,		ld_JP_KQ,		ld_JP_KQ,		ld_JP_KQ,		ld_X_vXYOFFSET,		ld_JP_KQ,
-/* 7 */ ld_vXYOFFSET_Y,		ld_vXYOFFSET_Y,		ld_vXYOFFSET_Y,		ld_vXYOFFSET_Y,		ld_vXYOFFSET_Y,		ld_vXYOFFSET_Y,		XY_illegal,		ld_vXYOFFSET_Y,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		ld_JP_KQ,		ld_JP_KQ,		ld_X_vXYOFFSET,		XY_illegal,
-/* 8 */ XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		U_a_KQ,			U_a_KQ,			U_a_vXYOFFSET,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		U_a_KQ,			U_a_KQ,			U_a_vXYOFFSET,		XY_illegal,
-/* 9 */ XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		U_a_KQ,			U_a_KQ,			U_a_vXYOFFSET,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		U_a_KQ,			U_a_KQ,			U_a_vXYOFFSET,		XY_illegal,
-/* A */ XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		U_a_KQ,			U_a_KQ,			U_a_vXYOFFSET,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		U_a_KQ,			U_a_KQ,			U_a_vXYOFFSET,		XY_illegal,
-/* B */ XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		U_a_KQ,			U_a_KQ,			U_a_vXYOFFSET,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		U_a_KQ,			U_a_KQ,			U_a_vXYOFFSET,		XY_illegal,
-/* C */ XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_CB,			XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,
-/* D */ XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,
-/* E */ XY_illegal,		pop_XY,			XY_illegal,		ex_vsp_XY,		XY_illegal,		push_XY,		XY_illegal,		XY_illegal,		XY_illegal,		jp_XY,			XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,
-/* F */ XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		ld_sp_XY,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal,		XY_illegal
+/*	0		1		2		3		4		5		6		   7		   8	       9	   A		B	    C		D	    E		    F */
+/* 0 */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	   XY_illegal,	   XY_illegal, add_XY_WW,  XY_illegal,	XY_illegal, XY_illegal, XY_illegal, XY_illegal,	    XY_illegal,
+/* 1 */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	   XY_illegal,	   XY_illegal, add_XY_WW,  XY_illegal,	XY_illegal, XY_illegal, XY_illegal, XY_illegal,	    XY_illegal,
+/* 2 */ XY_illegal,	ld_XY_WORD,	ld_vWORD_XY,	inc_XY,		V_JP,		V_JP,		ld_JP_BYTE,	   XY_illegal,	   XY_illegal, add_XY_WW,  ld_XY_vWORD, dec_XY,	    V_JP,	V_JP,	    ld_JP_BYTE,	    XY_illegal,
+/* 3 */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	V_vXYOFFSET,	V_vXYOFFSET,	ld_vXYOFFSET_BYTE, XY_illegal,	   XY_illegal, add_XY_WW,  XY_illegal,	XY_illegal, XY_illegal, XY_illegal, XY_illegal,	    XY_illegal,
+/* 4 */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	ld_JP_KQ,	ld_JP_KQ,	ld_X_vXYOFFSET,	   XY_illegal,	   XY_illegal, XY_illegal, XY_illegal,	XY_illegal, ld_JP_KQ,	ld_JP_KQ,   ld_X_vXYOFFSET, XY_illegal,
+/* 5 */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	ld_JP_KQ,	ld_JP_KQ,	ld_X_vXYOFFSET,	   XY_illegal,	   XY_illegal, XY_illegal, XY_illegal,	XY_illegal, ld_JP_KQ,	ld_JP_KQ,   ld_X_vXYOFFSET, XY_illegal,
+/* 6 */ ld_JP_KQ,	ld_JP_KQ,	ld_JP_KQ,	ld_JP_KQ,	ld_JP_KQ,	ld_JP_KQ,	ld_X_vXYOFFSET,	   ld_JP_KQ,	   ld_JP_KQ,   ld_JP_KQ,   ld_JP_KQ,	ld_JP_KQ,   ld_JP_KQ,	ld_JP_KQ,   ld_X_vXYOFFSET, ld_JP_KQ,
+/* 7 */ ld_vXYOFFSET_Y, ld_vXYOFFSET_Y, ld_vXYOFFSET_Y, ld_vXYOFFSET_Y, ld_vXYOFFSET_Y, ld_vXYOFFSET_Y, XY_illegal,	   ld_vXYOFFSET_Y, XY_illegal, XY_illegal, XY_illegal,	XY_illegal, ld_JP_KQ,	ld_JP_KQ,   ld_X_vXYOFFSET, XY_illegal,
+/* 8 */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	U_a_KQ,		U_a_KQ,		U_a_vXYOFFSET,	   XY_illegal,	   XY_illegal, XY_illegal, XY_illegal,	XY_illegal, U_a_KQ,	U_a_KQ,	    U_a_vXYOFFSET,  XY_illegal,
+/* 9 */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	U_a_KQ,		U_a_KQ,		U_a_vXYOFFSET,	   XY_illegal,	   XY_illegal, XY_illegal, XY_illegal,	XY_illegal, U_a_KQ,	U_a_KQ,	    U_a_vXYOFFSET,  XY_illegal,
+/* A */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	U_a_KQ,		U_a_KQ,		U_a_vXYOFFSET,	   XY_illegal,	   XY_illegal, XY_illegal, XY_illegal,	XY_illegal, U_a_KQ,	U_a_KQ,	    U_a_vXYOFFSET,  XY_illegal,
+/* B */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	U_a_KQ,		U_a_KQ,		U_a_vXYOFFSET,	   XY_illegal,	   XY_illegal, XY_illegal, XY_illegal,	XY_illegal, U_a_KQ,	U_a_KQ,	    U_a_vXYOFFSET,  XY_illegal,
+/* C */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	   XY_illegal,	   XY_illegal, XY_illegal, XY_illegal,	XY_CB,	    XY_illegal, XY_illegal, XY_illegal,	    XY_illegal,
+/* D */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	   XY_illegal,	   XY_illegal, XY_illegal, XY_illegal,	XY_illegal, XY_illegal, XY_illegal, XY_illegal,	    XY_illegal,
+/* E */ XY_illegal,	pop_XY,		XY_illegal,	ex_vsp_XY,	XY_illegal,	push_XY,	XY_illegal,	   XY_illegal,	   XY_illegal, jp_XY,	   XY_illegal,	XY_illegal, XY_illegal, XY_illegal, XY_illegal,	    XY_illegal,
+/* F */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	   XY_illegal,	   XY_illegal, ld_sp_XY,   XY_illegal,	XY_illegal, XY_illegal, XY_illegal, XY_illegal,	    XY_illegal
 };
 
 static const Instruction instruction_table_ED[256] = {
-/*	0		1		2		3		4		5		6		7		8		9		A		B		C		D		E		F	*/
-/* 0 */ ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,
-/* 1 */ ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,
-/* 2 */ ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,
-/* 3 */ ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,
-/* 4 */ in_X_vc,	out_vc_X,	sbc_hl_SS,	ld_vWORD_SS,	neg,		retn,		im_0,		ld_i_a,		in_X_vc,	out_vc_X,	adc_hl_SS,	ld_SS_vWORD,	neg,		reti,		im_0,		ld_r_a,
-/* 5 */ in_X_vc,	out_vc_X,	sbc_hl_SS,	ld_vWORD_SS,	neg,		retn,		im_1,		ld_a_i,		in_X_vc,	out_vc_X,	adc_hl_SS,	ld_SS_vWORD,	neg,		retn,		im_2,		ld_a_r,
-/* 6 */ in_X_vc,	out_vc_X,	sbc_hl_SS,	ld_vWORD_SS,	neg,		retn,		im_0,		rrd,		in_X_vc,	out_vc_X,	adc_hl_SS,	ld_SS_vWORD,	neg,		retn,		im_0,		rld,
-/* 7 */ in_0_vc,	out_vc_0,	sbc_hl_SS,	ld_vWORD_SS,	neg,		retn,		im_1,		ED_illegal,	in_X_vc,	out_vc_X,	adc_hl_SS,	ld_SS_vWORD,	neg,		retn,		im_2,		ED_illegal,
-/* 8 */ ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,
-/* 9 */ ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,
-/* A */ ldi,		cpi,		ini,		outi,		ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ldd,		cpd,		ind,		outd,		ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,
-/* B */ ldir,		cpir,		inir,		otir,		ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	lddr,		cpdr,		indr,		otdr,		ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,
-/* C */ ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,
-/* D */ ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,
-/* E */ ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,
-/* F */ ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal,	ED_illegal
+/*	0	    1		2	    3		 4	     5		 6	     7		 8	     9		 A	     B		  C	      D		  E	      F */
+/* 0 */ ED_illegal, ED_illegal, ED_illegal, ED_illegal,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal,  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
+/* 1 */ ED_illegal, ED_illegal, ED_illegal, ED_illegal,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal,  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
+/* 2 */ ED_illegal, ED_illegal, ED_illegal, ED_illegal,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal,  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
+/* 3 */ ED_illegal, ED_illegal, ED_illegal, ED_illegal,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal,  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
+/* 4 */ in_X_vc,    out_vc_X,	sbc_hl_SS,  ld_vWORD_SS, neg,	     retn,	 im_0,	     ld_i_a,	 in_X_vc,    out_vc_X,	 adc_hl_SS,  ld_SS_vWORD, neg,	      reti,	  im_0,	      ld_r_a,
+/* 5 */ in_X_vc,    out_vc_X,	sbc_hl_SS,  ld_vWORD_SS, neg,	     retn,	 im_1,	     ld_a_i,	 in_X_vc,    out_vc_X,	 adc_hl_SS,  ld_SS_vWORD, neg,	      retn,	  im_2,	      ld_a_r,
+/* 6 */ in_X_vc,    out_vc_X,	sbc_hl_SS,  ld_vWORD_SS, neg,	     retn,	 im_0,	     rrd,	 in_X_vc,    out_vc_X,	 adc_hl_SS,  ld_SS_vWORD, neg,	      retn,	  im_0,	      rld,
+/* 7 */ in_0_vc,    out_vc_0,	sbc_hl_SS,  ld_vWORD_SS, neg,	     retn,	 im_1,	     ED_illegal, in_X_vc,    out_vc_X,	 adc_hl_SS,  ld_SS_vWORD, neg,	      retn,	  im_2,	      ED_illegal,
+/* 8 */ ED_illegal, ED_illegal, ED_illegal, ED_illegal,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal,  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
+/* 9 */ ED_illegal, ED_illegal, ED_illegal, ED_illegal,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal,  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
+/* A */ ldi,	    cpi,	ini,	    outi,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ldd,	     cpd,	 ind,	     outd,	  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
+/* B */ ldir,	    cpir,	inir,	    otir,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, lddr,	     cpdr,	 indr,	     otdr,	  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
+/* C */ ED_illegal, ED_illegal, ED_illegal, ED_illegal,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal,  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
+/* D */ ED_illegal, ED_illegal, ED_illegal, ED_illegal,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal,  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
+/* E */ ED_illegal, ED_illegal, ED_illegal, ED_illegal,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal,  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
+/* F */ ED_illegal, ED_illegal, ED_illegal, ED_illegal,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal,  ED_illegal, ED_illegal, ED_illegal, ED_illegal
 };
 
 
 /* MARK: - Prefixed Instruction Set Selection and Execution */
+
 
 #define DD_FD(register)							\
 	quint8 tiks;							\
