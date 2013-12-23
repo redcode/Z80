@@ -30,6 +30,10 @@ typedef struct {
 	} cb;
 } Z80;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 qsize z80_run	(Z80*	  object,
 		 qsize	  cycles);
 
@@ -42,5 +46,9 @@ void  z80_nmi	(Z80*	  object);
 
 void  z80_irq	(Z80*	  object,
 		 qboolean state);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __Z80_H__ */
