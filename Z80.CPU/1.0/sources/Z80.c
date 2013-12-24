@@ -299,15 +299,15 @@ R_16(__tt____ , t_table, 0)
 		  | 111 = m  |
 		  '---------*/
 
-static const quint8 z_table[4] = {ZF, CF, PF, SF};
+static const quint8 z_table[8] = {ZF, ZF, CF, CF, PF, PF, SF, SF};
 
 Q_INLINE qboolean __zzz___(Z80 *object)
 	{
 	quint8 z = (BYTE0 & 56) >> 3;
 
-	return (F & (z_table[z >> 1]))
-		? !!(z & 1)	/* Flag is 1 */
-		:  !(z & 1);	/* Flag is 0 */
+	return (F & (z_table[z]))
+		?  (z & 1)  /* Flag is 1 */
+		: !(z & 1); /* Flag is 0 */
 	}
 
 
