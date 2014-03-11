@@ -38,7 +38,7 @@ typedef quint8 (* Instruction)(Z80 *object);
 
 
 Q_INLINE quint16 read_16bit(Z80 *object, quint16 address)
-	{return READ_8(address + 1) << 8 | READ_8(address);}
+	{return (READ_8(address) | READ_8(address + 1) << 8);}
 
 
 Q_INLINE void write_16bit(Z80 *object, quint16 address, quint16 value)
@@ -655,7 +655,7 @@ Q_INLINE quint8 _m______(Z80 *object, quint8 offset, quint8 value)
 	return 21;
 
 
-static void add_RR_NN(Z80 *object, quint16 *r, quint16 v)
+Q_INLINE void add_RR_NN(Z80 *object, quint16 *r, quint16 v)
 	{
 	quint16 t = *r + v;
 
@@ -1404,13 +1404,14 @@ EXPORTED(qsize, run)(Z80 *object, qsize cycles)
 		'--------------------------------------*/
 		if (NMI)
 			{
-			EXIT_HALT;			/* Resume CPU if halted.		       */
-			R++;				/* Consume memory refresh.		       */
-			NMI = FALSE;			/* Clear the NMI pulse.			       */
-			IFF1 = 0;			/* Reset IFF1 to don't bother the NMI routine. */
-			PUSH(PC);			/* Save return addres in the stack.	       */
-			PC = Q_Z80_ADDRESS_NMI_POINTER;	/* Make PC point to the NMI routine.	       */
-			TICKS += 11;			/* Accepting a NMI consumes 11 ticks.	       */
+			EXIT_HALT;			/* Resume CPU if halted.				  */
+			R++;				/* Consume memory refresh.				  */
+			NMI = FALSE;			/* Clear the NMI pulse.					  */
+			/*IFF2 = IFF1;*/		/* Backup IFF1 (it doesn't occur, acording to Sean Young. */
+			IFF1 = 0;			/* Reset IFF1 to don't bother the NMI routine.		  */
+			PUSH(PC);			/* Save return addres in the stack.			  */
+			PC = Q_Z80_ADDRESS_NMI_POINTER;	/* Make PC point to the NMI routine.			  */
+			TICKS += 11;			/* Accepting a NMI consumes 11 ticks.			  */
 			continue;
 			}
 
@@ -1572,7 +1573,7 @@ EXPORTED(void, irq)(Z80 *object, qboolean state) {INT = state;}
 
 	/* MARK: - Module Linking Information */
 
-#	include <Q/ABIs/QVirtualCPUABI.h>
+#	include <Q/ABIs/QCPUEmulationABI.h>
 
 	static const ACMEAction actions[] = {
 		{Q_CPU_ACTION_RUN,   run},
@@ -1593,46 +1594,7 @@ EXPORTED(void, irq)(Z80 *object, qboolean state) {INT = state;}
 		{Q_CPU_CB_HALT,				   O(cb.halt) }
 	};
 
-	static const ACMEContextVariable context_variables[] = {
-		{"PC",	O(state.Q_Z80_STATE_MEMBER_PC ), Q_UINT16_FORMAT},
-		{"SP",	O(state.Q_Z80_STATE_MEMBER_SP ), Q_UINT16_FORMAT},
-		{"AF",	O(state.Q_Z80_STATE_MEMBER_AF ), Q_UINT16_FORMAT},
-		{"BC",	O(state.Q_Z80_STATE_MEMBER_BC ), Q_UINT16_FORMAT},
-		{"DE",	O(state.Q_Z80_STATE_MEMBER_DE ), Q_UINT16_FORMAT},
-		{"HL",	O(state.Q_Z80_STATE_MEMBER_HL ), Q_UINT16_FORMAT},
-		{"IX",	O(state.Q_Z80_STATE_MEMBER_IX ), Q_UINT16_FORMAT},
-		{"IY",	O(state.Q_Z80_STATE_MEMBER_IY ), Q_UINT16_FORMAT},
-		{"AF'", O(state.Q_Z80_STATE_MEMBER_AF_), Q_UINT16_FORMAT},
-		{"BC'", O(state.Q_Z80_STATE_MEMBER_BC_), Q_UINT16_FORMAT},
-		{"DE'", O(state.Q_Z80_STATE_MEMBER_DE_), Q_UINT16_FORMAT},
-		{"HL'", O(state.Q_Z80_STATE_MEMBER_HL_), Q_UINT16_FORMAT},
-		{"A",	O(state.Q_Z80_STATE_MEMBER_A  ), Q_UINT8_FORMAT },
-		{"F",	O(state.Q_Z80_STATE_MEMBER_F  ), Q_UINT8_FORMAT },
-		{"B",	O(state.Q_Z80_STATE_MEMBER_B  ), Q_UINT8_FORMAT },
-		{"C",	O(state.Q_Z80_STATE_MEMBER_C  ), Q_UINT8_FORMAT },
-		{"D",	O(state.Q_Z80_STATE_MEMBER_D  ), Q_UINT8_FORMAT },
-		{"E",	O(state.Q_Z80_STATE_MEMBER_E  ), Q_UINT8_FORMAT },
-		{"H",	O(state.Q_Z80_STATE_MEMBER_H  ), Q_UINT8_FORMAT },
-		{"L",	O(state.Q_Z80_STATE_MEMBER_L  ), Q_UINT8_FORMAT },
-		{"IXH",	O(state.Q_Z80_STATE_MEMBER_IXH), Q_UINT8_FORMAT },
-		{"IXL",	O(state.Q_Z80_STATE_MEMBER_IXL), Q_UINT8_FORMAT },
-		{"IYH",	O(state.Q_Z80_STATE_MEMBER_IYH), Q_UINT8_FORMAT },
-		{"IYL",	O(state.Q_Z80_STATE_MEMBER_IYL), Q_UINT8_FORMAT },
-		{"I",	O(state.Q_Z80_STATE_MEMBER_I  ), Q_UINT8_FORMAT },
-		{"R",	O(state.Q_Z80_STATE_MEMBER_R  ), Q_UINT8_FORMAT }
-	};
-
-	static const ACMEContextBitField context_bit_fields[] = {
-		{"HALT", O(state.internal), sizeof(QZ80InternalState), &(QZ80InternalState){1, 0, 0, 0, 0, 0, 0}},
-		{"INT",	 O(state.internal), sizeof(QZ80InternalState), &(QZ80InternalState){0, 1, 0, 0, 0, 0, 0}},
-		{"NMI",	 O(state.internal), sizeof(QZ80InternalState), &(QZ80InternalState){0, 0, 1, 0, 0, 0, 0}},
-		{"IFF1", O(state.internal), sizeof(QZ80InternalState), &(QZ80InternalState){0, 0, 0, 1, 0, 0, 0}},
-		{"IFF2", O(state.internal), sizeof(QZ80InternalState), &(QZ80InternalState){0, 0, 0, 0, 1, 0, 0}},
-		{"EI",	 O(state.internal), sizeof(QZ80InternalState), &(QZ80InternalState){0, 0, 0, 0, 0, 1, 0}},
-		{"IM",	 O(state.internal), sizeof(QZ80InternalState), &(QZ80InternalState){0, 0, 0, 0, 0, 0, 3}}
-	};
-
-	const QVirtualCPUABI abi = {
+	const QCPUEmulationABI abi = {
 		.minimum_cycles	= 2,
 		.maximum_cycles	= 23,
 		.action_count	= 3,

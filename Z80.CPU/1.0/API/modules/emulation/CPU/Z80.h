@@ -10,8 +10,8 @@ Released under the terms of the GNU General Public License v3. */
 #include <Q/hardware/CPU/architecture/Z80.h>
 #include <Q/types/generic functions.h>
 
-#ifndef __Z80_H__
-#define __Z80_H__
+#ifndef __modules_emulation_CPU_Z80_H__
+#define __modules_emulation_CPU_Z80_H__
 
 typedef struct {
 	QZ80State state;
@@ -51,4 +51,4 @@ void  z80_irq	(Z80*	  object,
 }
 #endif
 
-#endif /* __Z80_H__ */
+#endif /* __modules_emulation_CPU_Z80_H__ */
