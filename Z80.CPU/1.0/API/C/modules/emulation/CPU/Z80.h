@@ -30,25 +30,36 @@ typedef struct {
 	} cb;
 } Z80;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
-qsize z80_run	(Z80*	  object,
-		 qsize	  cycles);
+#ifndef BUILDING_Z80_CPU
 
-void  z80_power	(Z80*	  object,
-		 qboolean state);
+#	ifdef __cplusplus
+	extern "C" {
+#	endif
 
-void  z80_reset	(Z80*	  object);
+#	ifdef USING_STATIC_LIBRARY_Z80_CPU
+#		define Z80_CPU_API
+#	else
+#		define Z80_CPU_API Q_API
+#	endif
 
-void  z80_nmi	(Z80*	  object);
+	Z80_CPU_API qsize z80_run   (Z80*     object,
+				     qsize    cycles);
 
-void  z80_irq	(Z80*	  object,
-		 qboolean state);
+	Z80_CPU_API void  z80_power (Z80*     object,
+				     qboolean state);
 
-#ifdef __cplusplus
-}
+	Z80_CPU_API void  z80_reset (Z80*     object);
+
+	Z80_CPU_API void  z80_nmi   (Z80*     object);
+
+	Z80_CPU_API void  z80_irq   (Z80*     object,
+				     qboolean state);
+
+#	ifdef __cplusplus
+	}
+#	endif
+
 #endif
 
 #endif /* __modules_emulation_CPU_Z80_H__ */

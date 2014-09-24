@@ -10,6 +10,7 @@ Released under the terms of the GNU General Public License v3. */
 #define MODULE_NAME   Z80
 #define MODULE_PREFIX z80_
 #define MODULE_HEADER <modules/emulation/CPU/Z80.h>
+#define BUILDING_Z80_CPU
 
 #include <Q/configuration/module.h>
 #include <Q/macros/value.h>
@@ -1420,9 +1421,9 @@ EXPORTED(qsize, run)(Z80 *object, qsize cycles)
 		'--------------------------*/
 		if (INT && IFF1 && !EI)
 			{
-			EXIT_HALT;		/* Resume CPU on halt.		*/
-			R++;			/* Consume memory refresh.	*/
-			IFF1 = IFF2 = 0;	/* Clear interrupt flip-flops.	*/
+			EXIT_HALT;	 /* Resume CPU on halt.		*/
+			R++;		 /* Consume memory refresh.	*/
+			IFF1 = IFF2 = 0; /* Clear interrupt flip-flops.	*/
 
 			#ifdef Z80_AUTOCLEARS_INT_LINE
 				INT = FALSE;
@@ -1568,51 +1569,5 @@ EXPORTED(void, power)(Z80 *object, qboolean state)
 EXPORTED(void, nmi)(Z80 *object)		 {NMI = TRUE ;}
 EXPORTED(void, irq)(Z80 *object, qboolean state) {INT = state;}
 
-
-#if defined(BUILDING_MODULE) || defined(BUILDING_HYBRID_MODULE)
-
-	/* MARK: - Module Linking Information */
-
-#	include <Q/ABIs/QCPUEmulationABI.h>
-
-	static const ACMEAction actions[] = {
-		{Q_CPU_ACTION_RUN,   run},
-		{Q_CPU_ACTION_POWER, power},
-		{Q_CPU_ACTION_RESET, reset}
-	};
-
-	static const ACMELine lines[] = {
-		{"NMI", Q_LINE_TYPE_PULSE,  nmi},
-		{"INT", Q_LINE_TYPE_SWITCH, irq}
-	};
-
-	static const ACMEContextCB context_cbs[] = {
-		{Q_CPU_CB_16BIT_MEMORY_ADDRESS_READ_8BIT,  O(cb.read )},
-		{Q_CPU_CB_16BIT_MEMORY_ADDRESS_WRITE_8BIT, O(cb.write)},
-		{Q_CPU_CB_16BIT_PORT_NUMBER_READ_8BIT,     O(cb.in)   },
-		{Q_CPU_CB_16BIT_PORT_NUMBER_WRITE_8BIT,    O(cb.out)  },
-		{Q_CPU_CB_HALT,				   O(cb.halt) }
-	};
-
-	const QCPUEmulationABI abi = {
-		.minimum_cycles	= 2,
-		.maximum_cycles	= 23,
-		.action_count	= 3,
-		.actions	= actions,
-		.line_count	= 2,
-		.lines		= lines,
-		.instance = {
-			.size		   = sizeof(Z80),
-			.cb_context_offset = O(cb_context),
-			.cb_count	   = 5,
-			.cbs		   = context_cbs,
-			.variable_count	   = 26,
-			.variables	   = context_variables,
-			.bit_field_count   = 7,
-			.bit_fields	   = context_bit_fields
-		}
-	};
-
-#endif
 
 /* Z80.c EOF */
