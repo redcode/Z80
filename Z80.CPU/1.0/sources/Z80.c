@@ -10,7 +10,7 @@ Released under the terms of the GNU General Public License v3. */
 #define MODULE_NAME   Z80
 #define MODULE_PREFIX z80_
 #define MODULE_HEADER <modules/emulation/CPU/Z80.h>
-#define BUILDING_Z80_CPU
+#define BUILDING_CPU_Z80
 
 #include <Q/configuration/module.h>
 #include <Q/macros/value.h>

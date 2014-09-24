@@ -31,29 +31,29 @@ typedef struct {
 } Z80;
 
 
-#ifndef BUILDING_Z80_CPU
+#ifndef BUILDING_CPU_Z80
 
 #	ifdef __cplusplus
 	extern "C" {
 #	endif
 
-#	ifdef USING_STATIC_LIBRARY_Z80_CPU
-#		define Z80_CPU_API
+#	ifdef USING_STATIC_CPU_Z80
+#		define CPU_Z80_API
 #	else
-#		define Z80_CPU_API Q_API
+#		define CPU_Z80_API Q_API
 #	endif
 
-	Z80_CPU_API qsize z80_run   (Z80*     object,
+	CPU_Z80_API qsize z80_run   (Z80*     object,
 				     qsize    cycles);
 
-	Z80_CPU_API void  z80_power (Z80*     object,
+	CPU_Z80_API void  z80_power (Z80*     object,
 				     qboolean state);
 
-	Z80_CPU_API void  z80_reset (Z80*     object);
+	CPU_Z80_API void  z80_reset (Z80*     object);
 
-	Z80_CPU_API void  z80_nmi   (Z80*     object);
+	CPU_Z80_API void  z80_nmi   (Z80*     object);
 
-	Z80_CPU_API void  z80_irq   (Z80*     object,
+	CPU_Z80_API void  z80_irq   (Z80*     object,
 				     qboolean state);
 
 #	ifdef __cplusplus
