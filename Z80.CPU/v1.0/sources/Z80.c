@@ -1405,14 +1405,14 @@ EXPORTED(qsize, run)(Z80 *object, qsize cycles)
 		'--------------------------------------*/
 		if (NMI)
 			{
-			EXIT_HALT;			/* Resume CPU if halted.				  */
-			R++;				/* Consume memory refresh.				  */
-			NMI = FALSE;			/* Clear the NMI pulse.					  */
-			/*IFF2 = IFF1;*/		/* Backup IFF1 (it doesn't occur, acording to Sean Young. */
-			IFF1 = 0;			/* Reset IFF1 to don't bother the NMI routine.		  */
-			PUSH(PC);			/* Save return addres in the stack.			  */
-			PC = Q_Z80_ADDRESS_NMI_POINTER;	/* Make PC point to the NMI routine.			  */
-			TICKS += 11;			/* Accepting a NMI consumes 11 ticks.			  */
+			EXIT_HALT;			/* Resume CPU if halted.				   */
+			R++;				/* Consume memory refresh.				   */
+			NMI = FALSE;			/* Clear the NMI pulse.					   */
+			/*IFF2 = IFF1;*/		/* Backup IFF1 (it doesn't occur, acording to Sean Young). */
+			IFF1 = 0;			/* Reset IFF1 to don't bother the NMI routine.		   */
+			PUSH(PC);			/* Save return addres in the stack.			   */
+			PC = Q_Z80_ADDRESS_NMI_POINTER;	/* Make PC point to the NMI routine.			   */
+			TICKS += 11;			/* Accepting a NMI consumes 11 ticks.			   */
 			continue;
 			}
 
@@ -1425,9 +1425,9 @@ EXPORTED(qsize, run)(Z80 *object, qsize cycles)
 			R++;		 /* Consume memory refresh.	*/
 			IFF1 = IFF2 = 0; /* Clear interrupt flip-flops.	*/
 
-			#ifdef Z80_AUTOCLEARS_INT_LINE
+#			ifdef Z80_AUTOCLEARS_INT_LINE
 				INT = FALSE;
-			#endif
+#			endif
 
 			/*if (DAISY) pointer = object->daisy.call_requester_device();
 			else;*/
