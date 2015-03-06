@@ -100,7 +100,7 @@ Q_INLINE void write_16bit(Z80 *object, quint16 address, quint16 value)
 
 /* MARK: - Macros: Cached Instruction Data */
 
-#define BYTE(index) object->data.uint8_array[index]
+#define BYTE(index) object->data.array_uint8[index]
 #define BYTE0	    BYTE(0)
 #define BYTE1	    BYTE(1)
 #define BYTE2	    BYTE(2)
@@ -109,8 +109,8 @@ Q_INLINE void write_16bit(Z80 *object, quint16 address, quint16 value)
 
 /* MARK: - Macros: Memory Addressing */
 
-#define XY	   object->xy.uint16_value
-#define XY_ADDRESS XY + object->data.int8_array[2]
+#define XY	   object->xy.value_uint16
+#define XY_ADDRESS XY + object->data.array_int8[2]
 
 
 /* MARK: - Macros: Flags */
@@ -225,8 +225,8 @@ static const quint8 j_k_p_q_table[8] = {
 	O(state.Q_Z80_STATE_MEMBER_C),
 	O(state.Q_Z80_STATE_MEMBER_D),
 	O(state.Q_Z80_STATE_MEMBER_E),
-	O(xy.uint8_values.index1    ),
-	O(xy.uint8_values.index0    ),
+	O(xy.values_uint8.index1    ),
+	O(xy.values_uint8.index0    ),
 	0,
 	O(state.Q_Z80_STATE_MEMBER_A)
 };
@@ -342,7 +342,7 @@ static void __uuu___(Z80 *object, quint8 offset, quint8 value)
 	{
 	quint8 t;
 
-	switch ((object->data.uint8_array[offset] >> 3) & 7)
+	switch ((object->data.array_uint8[offset] >> 3) & 7)
 		{
 		case 0:	/* ADD */
 		t = A + value;
@@ -423,7 +423,7 @@ static quint8 _____vvv(Z80 *object, quint8 offset, quint8 value)
 	quint8 t, pn;
 
 	/* DEC */
-	if (object->data.uint8_array[offset] & 1)
+	if (object->data.array_uint8[offset] & 1)
 		{				/* PF = Overflow */
 		pn = value == 128 ? PNF : NF;	/* NF = 1	 */
 		t = value - 1;
@@ -464,7 +464,7 @@ static quint8 __ggg___(Z80 *object, quint8 offset, quint8 value)
 	{
 	quint8 c;
 
-	switch ((object->data.uint8_array[offset] >> 3) & 7)
+	switch ((object->data.array_uint8[offset] >> 3) & 7)
 		{
 		/* RLC		 .----------------.
 			.----.   |  .---------.   |
@@ -557,7 +557,7 @@ static quint8 __ggg___(Z80 *object, quint8 offset, quint8 value)
 
 Q_INLINE quint8 _m______(Z80 *object, quint8 offset, quint8 value)
 	{
-	quint8 t = object->data.uint8_array[offset];
+	quint8 t = object->data.array_uint8[offset];
 
 	return (t & 64)
 		? value |  (1 << ((t & 56) >> 3))  /* SET */
@@ -716,10 +716,10 @@ Q_INLINE void add_RR_NN(Z80 *object, quint16 *r, quint16 v)
 
 #define BIT_N_VADDRESS(address)						\
 	Q16Bit a;							\
-	quint8 n = READ_8(a.uint16_value = address) & (1 << N3);	\
+	quint8 n = READ_8(a.value_uint16 = address) & (1 << N3);	\
 									\
 	F =	(n ? (n & SF) : ZPF)					\
-		| (a.uint8_values.index1 & YXF)				\
+		| (a.values_uint8.index1 & YXF)				\
 		| HF							\
 		| F_C;
 
