@@ -4,7 +4,7 @@
 /\ \/  \/\ \__/_/\ \/\ \/\ \/\  __/
 \ \__/\_\ \_____\ \_\ \_\ \_\ \____\
  \/_/\/_/\/_____/\/_/\/_/\/_/\/____/
-Copyright © 1999 Manuel Sainz de Baranda y Goñi.
+Copyright © 1999-2015 Manuel Sainz de Baranda y Goñi.
 Released under the terms of the GNU General Public License v3. */
 
 #define MODULE_NAME   Z80
@@ -20,22 +20,29 @@ typedef quint8 (* Instruction)(Z80 *object);
 
 /* MARK: - Macros: External */
 
-#define O(member)  Q_STRUCTURE_MEMBER_OFFSET(Z80, member)
+#define O(member)  Q_OFFSET_OF(Z80, member)
 #define ROL(value) Q_8BIT_ROTATE_LEFT( value, 1)
 #define ROR(value) Q_8BIT_ROTATE_RIGHT(value, 1)
 
 
 /* MARK: - Macros & Functions: Callback */
 
-#define READ_8(address)		object->cb.read	   (object->cb_context, (address)	  )
-#define WRITE_8(address, value)	object->cb.write   (object->cb_context, (address), (value))
-#define IN(port)		object->cb.in	   (object->cb_context, (port)		  )
-#define OUT(port, value)	object->cb.out	   (object->cb_context, (port),    (value))
-#define INT_DATA		object->cb.int_data(object->cb_context			  )
-#define READ_OFFSET(address)	(qint8)READ_8(address)
+#ifdef BUILDING_MODULE
+#	define CB_ACTION(name) object->cb.name.action
+#	define CB_OBJECT(name) object->cb.name.object
+#else
+#	define CB_ACTION(name) object->cb.name
+#	define CB_OBJECT(name) object->cb_context
+#endif
 
-#define SET_HALT		if (object->cb.halt != NULL) object->cb.halt(object->cb_context, TRUE)
-#define CLEAR_HALT		if (object->cb.halt != NULL) object->cb.halt(object->cb_context, FALSE)
+#define READ_8(address)		CB_ACTION(read	  )(CB_OBJECT(read    ), (address)	   )
+#define WRITE_8(address, value) CB_ACTION(write   )(CB_OBJECT(write   ), (address), (value))
+#define IN(port)		CB_ACTION(in	  )(CB_OBJECT(in      ), (port   )	   )
+#define OUT(port, value)        CB_ACTION(out	  )(CB_OBJECT(out     ), (port   ), (value))
+#define INT_DATA		CB_ACTION(int_data)(CB_OBJECT(int_data)			   )
+#define READ_OFFSET(address)	(qint8)READ_8(address)
+#define SET_HALT		if (CB_ACTION(halt) != NULL) CB_ACTION(halt)(CB_OBJECT(halt), TRUE )
+#define CLEAR_HALT		if (CB_ACTION(halt) != NULL) CB_ACTION(halt)(CB_OBJECT(halt), FALSE)
 
 
 Q_INLINE quint16 read_16bit(Z80 *object, quint16 address)
@@ -95,7 +102,7 @@ Q_INLINE void write_16bit(Z80 *object, quint16 address, quint16 value)
 #define IM    object->state.Q_Z80_STATE_MEMBER_IM
 #define NMI   object->state.Q_Z80_STATE_MEMBER_NMI
 #define INT   object->state.Q_Z80_STATE_MEMBER_IRQ
-#define TICKS object->ticks
+#define TICKS object->cycles
 
 
 /* MARK: - Macros: Cached Instruction Data */
@@ -1231,7 +1238,7 @@ INSTRUCTION(outd)	 {PC += 2; OUTX(--)			    CYCLES(16);}
 INSTRUCTION(otdr)	 {PC += 2; OTXR(--)				       }
 
 
-/* MARK: - Opcode selector prototypes */
+/* MARK: - Opcode Selector Prototypes */
 
 INSTRUCTION(CB);
 INSTRUCTION(DD);
@@ -1568,6 +1575,44 @@ EXPORTED(void, power)(Z80 *object, qboolean state)
 
 EXPORTED(void, nmi)(Z80 *object)		 {NMI = TRUE ;}
 EXPORTED(void, irq)(Z80 *object, qboolean state) {INT = state;}
+
+
+#ifndef BUILDING_MODULE
+
+	static void after_state_readed (Z80 *object, QZ80State *state)
+		{Q_Z80_STATE_R(state) = R_ALL;}
+
+	static void after_state_written(Z80 *object)
+		{R7 = R;}
+
+	#include <Q/ABIs/emulation.h>
+
+	static QEmulatorExport exports[7] = {
+		{Q_EMULATOR_ACTION_POWER,		(QDo)z80_power		},
+		{Q_EMULATOR_ACTION_RESET,		(QDo)z80_reset		},
+		{Q_EMULATOR_ACTION_RUN,			(QDo)z80_run		},
+		{Q_EMULATOR_ACTION_AFTER_STATE_READED,	(QDo)after_state_readed },
+		{Q_EMULATOR_ACTION_AFTER_STATE_WRITTEN, (QDo)after_state_written},
+		{Q_EMULATOR_ACTION_NMI,			(QDo)z80_nmi		},
+		{Q_EMULATOR_ACTION_INT,			(QDo)z80_irq		}
+	};
+
+	#define SLOT_OFFSET(name) Q_OFFSET_OF(Z80, cb.name)
+
+	static QEmulatorSlotLinkage slot_linkages[] = {
+		{Q_EMULATOR_OBJECT_MEMORY,  Q_EMULATOR_ACTION_READ_8BIT,  SLOT_OFFSET(read    )},
+		{Q_EMULATOR_OBJECT_MEMORY,  Q_EMULATOR_ACTION_WRITE_8BIT, SLOT_OFFSET(write   )},
+		{Q_EMULATOR_OBJECT_IO,	    Q_EMULATOR_ACTION_IN_8BIT,	  SLOT_OFFSET(in      )},
+		{Q_EMULATOR_OBJECT_IO,	    Q_EMULATOR_ACTION_OUT_8BIT,   SLOT_OFFSET(out     )},
+		{Q_EMULATOR_OBJECT_MACHINE, Q_EMULATOR_ACTION_INT_DATA,   SLOT_OFFSET(int_data)},
+		{Q_EMULATOR_OBJECT_MACHINE, Q_EMULATOR_ACTION_HALT,	  SLOT_OFFSET(halt    )}
+	};
+
+	QCPUEmulatorABI cpu_emulator_abi = {
+		0, NULL, 7, exports, {sizeof(Z80), Q_OFFSET_OF(Z80, state), 1, slot_linkages}
+	};
+
+#endif
 
 
 /* Z80.c EOF */
