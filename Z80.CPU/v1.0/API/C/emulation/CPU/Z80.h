@@ -37,7 +37,7 @@ typedef struct {
 	quint8	  r7;
 	Q32Bit	  data;
 
-#	ifndef EMULATION_CPU_Z80_NO_SLOTS
+#	ifdef EMULATION_CPU_Z80_NO_SLOTS
 		void* cb_context;
 #	endif
 
