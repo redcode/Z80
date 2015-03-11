@@ -1583,7 +1583,7 @@ Z80_API void z80_irq(Z80 *object, qboolean state) {INT = state;}
 	Q_PRIVATE void after_state_written(Z80 *object)
 		{R7 = R;}
 
-	#include <Q/ABIs/emulation.h>
+#	include <Q/ABIs/emulation.h>
 
 	Q_PRIVATE QEmulatorExport exports[7] = {
 		{Q_EMULATOR_ACTION_POWER,		(QDo)z80_power		},
@@ -1595,7 +1595,7 @@ Z80_API void z80_irq(Z80 *object, qboolean state) {INT = state;}
 		{Q_EMULATOR_ACTION_INT,			(QDo)z80_irq		}
 	};
 
-	#define SLOT_OFFSET(name) Q_OFFSET_OF(Z80, cb.name)
+#	define SLOT_OFFSET(name) Q_OFFSET_OF(Z80, cb.name)
 
 	Q_PRIVATE QEmulatorSlotLinkage slot_linkages[] = {
 		{Q_EMULATOR_OBJECT_MEMORY,  Q_EMULATOR_ACTION_READ_8BIT,  SLOT_OFFSET(read    )},
