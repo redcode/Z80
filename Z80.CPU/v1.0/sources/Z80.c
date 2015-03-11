@@ -1606,7 +1606,7 @@ Z80_API void z80_irq(Z80 *object, qboolean state) {INT = state;}
 		{Q_EMULATOR_OBJECT_MACHINE, Q_EMULATOR_ACTION_HALT,	  SLOT_OFFSET(halt    )}
 	};
 
-	Q_API_EXPORT QCPUEmulatorABI emulation_cpu_z80_abi = {
+	Q_API_EXPORT QCPUEmulatorABI abi_emulation_cpu_z80 = {
 		0, NULL, 7, exports, {sizeof(Z80), Q_OFFSET_OF(Z80, state), 1, slot_linkages}
 	};
 
