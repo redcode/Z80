@@ -1,2 +1,7 @@
 # OS generated files
 .DS_Store
+.directory
+
+# Per-user IDE configuration files
+Z80.CPU/v1.0/development/Xcode/Z80.xcodeproj/project.xcworkspace
+Z80.CPU/v1.0/development/Xcode/Z80.xcodeproj/xcuserdata

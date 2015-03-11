@@ -1,0 +1,358 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6428A5751AAFC6DF00634F5D /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6428A5771AAFC72900634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DBUILDING_DYNAMIC_EMULATION_CPU_Z80"; }; };
+		6428A5801AAFEF1D00634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DBUILDING_STATIC_EMULATION_CPU_Z80"; }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6428A5691AAFC68700634F5D /* libZ80.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libZ80.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		6428A5741AAFC6DF00634F5D /* Z80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Z80.h; sourceTree = "<group>"; };
+		6428A5761AAFC72900634F5D /* Z80.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Z80.c; sourceTree = "<group>"; };
+		6428A57C1AAFEDED00634F5D /* libZ80.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZ80.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6428A5661AAFC68700634F5D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6428A5791AAFEDED00634F5D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6428A5601AAFC68700634F5D = {
+			isa = PBXGroup;
+			children = (
+				6428A5711AAFC69A00634F5D /* API */,
+				6428A5701AAFC69100634F5D /* Sources */,
+				6428A56A1AAFC68700634F5D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6428A56A1AAFC68700634F5D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6428A5691AAFC68700634F5D /* libZ80.dylib */,
+				6428A57C1AAFEDED00634F5D /* libZ80.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6428A5701AAFC69100634F5D /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				6428A5761AAFC72900634F5D /* Z80.c */,
+			);
+			name = Sources;
+			path = ../../sources;
+			sourceTree = "<group>";
+		};
+		6428A5711AAFC69A00634F5D /* API */ = {
+			isa = PBXGroup;
+			children = (
+				6428A5721AAFC6C100634F5D /* emulation */,
+			);
+			name = API;
+			path = ../../API/C;
+			sourceTree = "<group>";
+		};
+		6428A5721AAFC6C100634F5D /* emulation */ = {
+			isa = PBXGroup;
+			children = (
+				6428A5731AAFC6C700634F5D /* CPU */,
+			);
+			path = emulation;
+			sourceTree = "<group>";
+		};
+		6428A5731AAFC6C700634F5D /* CPU */ = {
+			isa = PBXGroup;
+			children = (
+				6428A5741AAFC6DF00634F5D /* Z80.h */,
+			);
+			path = CPU;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6428A5671AAFC68700634F5D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6428A5751AAFC6DF00634F5D /* Z80.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6428A57A1AAFEDED00634F5D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6428A5681AAFC68700634F5D /* Z80 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6428A56D1AAFC68700634F5D /* Build configuration list for PBXNativeTarget "Z80" */;
+			buildPhases = (
+				6428A5651AAFC68700634F5D /* Sources */,
+				6428A5661AAFC68700634F5D /* Frameworks */,
+				6428A5671AAFC68700634F5D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Z80;
+			productName = Z80;
+			productReference = 6428A5691AAFC68700634F5D /* libZ80.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		6428A57B1AAFEDED00634F5D /* Z80 (Static) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6428A57D1AAFEDED00634F5D /* Build configuration list for PBXNativeTarget "Z80 (Static)" */;
+			buildPhases = (
+				6428A5781AAFEDED00634F5D /* Sources */,
+				6428A5791AAFEDED00634F5D /* Frameworks */,
+				6428A57A1AAFEDED00634F5D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Z80 (Static)";
+			productName = "Z80-Static";
+			productReference = 6428A57C1AAFEDED00634F5D /* libZ80.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6428A5611AAFC68700634F5D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = redcode;
+				TargetAttributes = {
+					6428A5681AAFC68700634F5D = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					6428A57B1AAFEDED00634F5D = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 6428A5641AAFC68700634F5D /* Build configuration list for PBXProject "Z80" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6428A5601AAFC68700634F5D;
+			productRefGroup = 6428A56A1AAFC68700634F5D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6428A5681AAFC68700634F5D /* Z80 */,
+				6428A57B1AAFEDED00634F5D /* Z80 (Static) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6428A5651AAFC68700634F5D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6428A5771AAFC72900634F5D /* Z80.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6428A5781AAFEDED00634F5D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6428A5801AAFEF1D00634F5D /* Z80.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6428A56B1AAFC68700634F5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../API/C,
+					/usr/local/include,
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_STYLE = "non-global";
+			};
+			name = Debug;
+		};
+		6428A56C1AAFC68700634F5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../API/C,
+					/usr/local/include,
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				STRIP_STYLE = "non-global";
+			};
+			name = Release;
+		};
+		6428A56E1AAFC68700634F5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				LD_DYLIB_INSTALL_NAME = "$(EXECUTABLE_PATH)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6428A56F1AAFC68700634F5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				LD_DYLIB_INSTALL_NAME = "$(EXECUTABLE_PATH)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6428A57E1AAFEDED00634F5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = Z80;
+			};
+			name = Debug;
+		};
+		6428A57F1AAFEDED00634F5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				PRODUCT_NAME = Z80;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6428A5641AAFC68700634F5D /* Build configuration list for PBXProject "Z80" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6428A56B1AAFC68700634F5D /* Debug */,
+				6428A56C1AAFC68700634F5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6428A56D1AAFC68700634F5D /* Build configuration list for PBXNativeTarget "Z80" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6428A56E1AAFC68700634F5D /* Debug */,
+				6428A56F1AAFC68700634F5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6428A57D1AAFEDED00634F5D /* Build configuration list for PBXNativeTarget "Z80 (Static)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6428A57E1AAFEDED00634F5D /* Debug */,
+				6428A57F1AAFEDED00634F5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6428A5611AAFC68700634F5D /* Project object */;
+}
