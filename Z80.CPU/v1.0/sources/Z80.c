@@ -1597,7 +1597,7 @@ Z80_API void z80_irq(Z80 *object, qboolean state) {INT = state;}
 
 #	define SLOT_OFFSET(name) Q_OFFSET_OF(Z80, cb.name)
 
-	Q_PRIVATE QEmulatorSlotLinkage slot_linkages[] = {
+	Q_PRIVATE QEmulatorSlotLinkage slot_linkages[6] = {
 		{Q_EMULATOR_OBJECT_MEMORY,  Q_EMULATOR_ACTION_READ_8BIT,  SLOT_OFFSET(read    )},
 		{Q_EMULATOR_OBJECT_MEMORY,  Q_EMULATOR_ACTION_WRITE_8BIT, SLOT_OFFSET(write   )},
 		{Q_EMULATOR_OBJECT_IO,	    Q_EMULATOR_ACTION_IN_8BIT,	  SLOT_OFFSET(in      )},
@@ -1607,7 +1607,7 @@ Z80_API void z80_irq(Z80 *object, qboolean state) {INT = state;}
 	};
 
 	Q_API_EXPORT QCPUEmulatorABI abi_emulation_cpu_z80 = {
-		0, NULL, 7, exports, {sizeof(Z80), Q_OFFSET_OF(Z80, state), 1, slot_linkages}
+		0, NULL, 7, exports, {sizeof(Z80), Q_OFFSET_OF(Z80, state), 6, slot_linkages}
 	};
 
 #endif
