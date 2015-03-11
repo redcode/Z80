@@ -12,8 +12,7 @@ Released under the terms of the GNU General Public License v3. */
 
 typedef quint8 (* Instruction)(Z80 *object);
 
-#undef Q_PRIVATE
-#define Q_PRIVATE static
+
 /* MARK: - Macros: External */
 
 #define O(member)  Q_OFFSET_OF(Z80, member)
