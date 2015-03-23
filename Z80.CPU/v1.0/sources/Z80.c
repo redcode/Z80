@@ -1585,7 +1585,7 @@ Z80_API void z80_irq(Z80 *object, qboolean state) {INT = state;}
 
 #	include <Q/ABIs/emulation.h>
 
-	Q_PRIVATE QEmulatorExport exports[7] = {
+	Q_PRIVATE const QEmulatorExport exports[7] = {
 		{Q_EMULATOR_ACTION_POWER,		(QDo)z80_power		},
 		{Q_EMULATOR_ACTION_RESET,		(QDo)z80_reset		},
 		{Q_EMULATOR_ACTION_RUN,			(QDo)z80_run		},
@@ -1597,7 +1597,7 @@ Z80_API void z80_irq(Z80 *object, qboolean state) {INT = state;}
 
 #	define SLOT_OFFSET(name) Q_OFFSET_OF(Z80, cb.name)
 
-	Q_PRIVATE QEmulatorSlotLinkage slot_linkages[6] = {
+	Q_PRIVATE const QEmulatorSlotLinkage slot_linkages[6] = {
 		{Q_EMULATOR_OBJECT_MEMORY,  Q_EMULATOR_ACTION_READ_8BIT,  SLOT_OFFSET(read    )},
 		{Q_EMULATOR_OBJECT_MEMORY,  Q_EMULATOR_ACTION_WRITE_8BIT, SLOT_OFFSET(write   )},
 		{Q_EMULATOR_OBJECT_IO,	    Q_EMULATOR_ACTION_IN_8BIT,	  SLOT_OFFSET(in      )},
@@ -1606,7 +1606,7 @@ Z80_API void z80_irq(Z80 *object, qboolean state) {INT = state;}
 		{Q_EMULATOR_OBJECT_MACHINE, Q_EMULATOR_ACTION_HALT,	  SLOT_OFFSET(halt    )}
 	};
 
-	Q_API_EXPORT QCPUEmulatorABI abi_emulation_cpu_z80 = {
+	Q_API_EXPORT const QCPUEmulatorABI abi_emulation_cpu_z80 = {
 		0, NULL, 7, exports, {sizeof(Z80), Q_OFFSET_OF(Z80, state), 6, slot_linkages}
 	};
 
