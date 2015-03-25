@@ -13,21 +13,18 @@ Released under the terms of the GNU General Public License v3. */
 #include <Q/hardware/CPU/architecture/Z80.h>
 #include <Q/types/generic functions.h>
 
-#ifdef EMULATION_CPU_Z80_NO_SLOTS
-#	define Z80_CB(Type) Type
-#else
+#ifndef EMULATION_CPU_Z80_NO_SLOTS
 #	include <Q/macros/slot.h>
-#	define Z80_CB QSlot
 #endif
 
 #if defined(BUILDING_DYNAMIC_EMULATION_CPU_Z80)
-#	define Z80_API Q_API_EXPORT
+#	define CPU_Z80_API Q_API_EXPORT
 #elif defined(BUILDING_STATIC_EMULATION_CPU_Z80)
-#	define Z80_API Q_PUBLIC
+#	define CPU_Z80_API Q_PUBLIC
 #elif defined(USE_STATIC_EMULATION_CPU_Z80)
-#	define Z80_API
+#	define CPU_Z80_API
 #else
-#	define Z80_API Q_API
+#	define CPU_Z80_API Q_API
 #endif
 
 typedef struct {
@@ -39,31 +36,39 @@ typedef struct {
 
 #	ifdef EMULATION_CPU_Z80_NO_SLOTS
 		void* cb_context;
-#	endif
 
-	struct {Z80_CB(Q16BitAddressRead8Bit ) read;
-		Z80_CB(Q16BitAddressWrite8Bit) write;
-		Z80_CB(Q16BitAddressRead8Bit ) in;
-		Z80_CB(Q16BitAddressWrite8Bit) out;
-		Z80_CB(QRead32Bit	     ) int_data;
-		Z80_CB(QSwitch		     ) halt;
-	} cb;
+		struct {Q16BitAddressRead8Bit  read;
+			Q16BitAddressWrite8Bit write;
+			Q16BitAddressRead8Bit  in;
+			Q16BitAddressWrite8Bit out;
+			QRead32Bit	       int_data;
+			QSwitch		       halt;
+		} cb;
+#	else
+		struct {QSlot(Q16BitAddressRead8Bit ) read;
+			QSlot(Q16BitAddressWrite8Bit) write;
+			QSlot(Q16BitAddressRead8Bit ) in;
+			QSlot(Q16BitAddressWrite8Bit) out;
+			QSlot(QRead32Bit	    ) int_data;
+			QSlot(QSwitch		    ) halt;
+		} cb;
+#	endif
 } Z80;
 
 Q_C_SYMBOLS_BEGIN
 
-Z80_API qsize z80_run	(Z80*	  object,
-			 qsize	  cycles);
+CPU_Z80_API qsize z80_run   (Z80*     object,
+			     qsize    cycles);
 
-Z80_API void  z80_power (Z80*	  object,
-			 qboolean state);
+CPU_Z80_API void  z80_power (Z80*     object,
+			     qboolean state);
 
-Z80_API void  z80_reset (Z80*	  object);
+CPU_Z80_API void  z80_reset (Z80*     object);
 
-Z80_API void  z80_nmi	(Z80*	  object);
+CPU_Z80_API void  z80_nmi   (Z80*     object);
 
-Z80_API void  z80_irq	(Z80*	  object,
-			 qboolean state);
+CPU_Z80_API void  z80_irq   (Z80*     object,
+			     qboolean state);
 
 Q_C_SYMBOLS_END
 

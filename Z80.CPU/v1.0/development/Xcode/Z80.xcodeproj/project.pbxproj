@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6428A5751AAFC6DF00634F5D /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6428A5771AAFC72900634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DBUILDING_DYNAMIC_EMULATION_CPU_Z80"; }; };
-		6428A5801AAFEF1D00634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DBUILDING_STATIC_EMULATION_CPU_Z80"; }; };
+		6428A5771AAFC72900634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DBUILDING_DYNAMIC_EMULATION_CPU_Z80 -DEMULATION_CPU_Z80_NO_SLOTS"; }; };
+		6428A5801AAFEF1D00634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DBUILDING_STATIC_EMULATION_CPU_Z80 -DEMULATION_CPU_Z80_NO_SLOTS"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,26 +67,10 @@
 		6428A5711AAFC69A00634F5D /* API */ = {
 			isa = PBXGroup;
 			children = (
-				6428A5721AAFC6C100634F5D /* emulation */,
-			);
-			name = API;
-			path = ../../API/C;
-			sourceTree = "<group>";
-		};
-		6428A5721AAFC6C100634F5D /* emulation */ = {
-			isa = PBXGroup;
-			children = (
-				6428A5731AAFC6C700634F5D /* CPU */,
-			);
-			path = emulation;
-			sourceTree = "<group>";
-		};
-		6428A5731AAFC6C700634F5D /* CPU */ = {
-			isa = PBXGroup;
-			children = (
 				6428A5741AAFC6DF00634F5D /* Z80.h */,
 			);
-			path = CPU;
+			name = API;
+			path = ../../API/C/emulation/CPU;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -351,6 +335,7 @@
 				6428A57F1AAFEDED00634F5D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
