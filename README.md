@@ -14,4 +14,4 @@ This emulator is very accurate, very fast (there are others faster written in as
 
 In order to compile you must know that it uses my [Q API](http://github.com/redcode/Q), which is header only and provides types, macros, inline functions, and a lot of facilities to detect the particularities of the compiler and the target machine. The included Xcode project expects to find Q in "/usr/local/include/Q". This is a header only dependency. The emulator doesn't depend on anything.
 
-If you want precise details about how the code works, you want to use this emulator in your project (privative software projects too), or you have any doubt about it, please, send me an email.
+If you want precise details about how the code works, you want to use this emulator in your project (privative software projects too), or you have any doubt about it, please, send me an [email](mailto:support@redcodesoftware.com).
