@@ -12,6 +12,6 @@ I will provide instructions to use this emulator in the future, but I think any 
 
 This emulator is very accurate, very fast (there are others faster written in assembly, yes) and what is the most important thing of all IMHO: Its structure is very clear, elegant and it is small. This is not the typical emulator which generates tables in runtime or expands a lot of macros to create one function or piece of code per every instruction's specific case.
 
-In order to compile you must know that it uses my [Q API](http://github.com/redcode/Q), which is header only and provides types, macros, inline functions, and a lot of facilities to detect the particularities of the compiler and the target machine. The included Xcode project expects to find Q in "/usr/local/include/Q". This is a header only dependency. The emulator doesn't depend on anything.
+In order to compile you must know that it uses my [Z API](http://github.com/redcode/Z), which is header only and provides types, macros, inline functions, and a lot of facilities to detect the particularities of the compiler and the target machine. The included Xcode project expects to find Z in "/usr/local/include/Z". This is a header only dependency. The emulator doesn't depend on any library.
 
 If you want precise details about how the code works, you want to use this emulator in your project (privative software projects too), or you have any doubt about it, please, send me an [email](mailto:support@redcodesoftware.com).

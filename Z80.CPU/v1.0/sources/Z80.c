@@ -8,16 +8,16 @@ Copyright © 1999-2015 Manuel Sainz de Baranda y Goñi.
 Released under the terms of the GNU General Public License v3. */
 
 #include <emulation/CPU/Z80.h>
-#include <Q/macros/value.h>
+#include <Z/macros/value.h>
 
-typedef quint8 (* Instruction)(Z80 *object);
+typedef zuint8 (* Instruction)(Z80 *object);
 
 
 /* MARK: - Macros: External */
 
-#define O(member)  Q_OFFSET_OF(Z80, member)
-#define ROL(value) Q_8BIT_ROTATE_LEFT( value, 1)
-#define ROR(value) Q_8BIT_ROTATE_RIGHT(value, 1)
+#define O(member)  Z_OFFSET_OF(Z80, member)
+#define ROL(value) Z_8BIT_ROTATE_LEFT( value, 1)
+#define ROR(value) Z_8BIT_ROTATE_RIGHT(value, 1)
 
 
 /* MARK: - Macros & Functions: Callback */
@@ -35,18 +35,18 @@ typedef quint8 (* Instruction)(Z80 *object);
 #define IN(port)		CB_ACTION(in	  )(CB_OBJECT(in      ), (port   )	   )
 #define OUT(port, value)        CB_ACTION(out	  )(CB_OBJECT(out     ), (port   ), (value))
 #define INT_DATA		CB_ACTION(int_data)(CB_OBJECT(int_data)			   )
-#define READ_OFFSET(address)	(qint8)READ_8(address)
+#define READ_OFFSET(address)	(zint8)READ_8(address)
 #define SET_HALT		if (CB_ACTION(halt) != NULL) CB_ACTION(halt)(CB_OBJECT(halt), TRUE )
 #define CLEAR_HALT		if (CB_ACTION(halt) != NULL) CB_ACTION(halt)(CB_OBJECT(halt), FALSE)
 
 
-Q_INLINE quint16 read_16bit(Z80 *object, quint16 address)
+Z_INLINE zuint16 read_16bit(Z80 *object, zuint16 address)
 	{return (READ_8(address) | READ_8(address + 1) << 8);}
 
 
-Q_INLINE void write_16bit(Z80 *object, quint16 address, quint16 value)
+Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 	{
-	WRITE_8(address, (quint8)value);
+	WRITE_8(address, (zuint8)value);
 	WRITE_8(address + 1, value >> 8);
 	}
 
@@ -57,46 +57,46 @@ Q_INLINE void write_16bit(Z80 *object, quint16 address, quint16 value)
 
 /* MARK: - Macros: Registers */
 
-#define AF    object->state.Q_Z80_STATE_MEMBER_AF
-#define BC    object->state.Q_Z80_STATE_MEMBER_BC
-#define DE    object->state.Q_Z80_STATE_MEMBER_DE
-#define HL    object->state.Q_Z80_STATE_MEMBER_HL
-#define IX    object->state.Q_Z80_STATE_MEMBER_IX
-#define IY    object->state.Q_Z80_STATE_MEMBER_IY
-#define PC    object->state.Q_Z80_STATE_MEMBER_PC
-#define SP    object->state.Q_Z80_STATE_MEMBER_SP
-#define AF_   object->state.Q_Z80_STATE_MEMBER_AF_
-#define BC_   object->state.Q_Z80_STATE_MEMBER_BC_
-#define DE_   object->state.Q_Z80_STATE_MEMBER_DE_
-#define HL_   object->state.Q_Z80_STATE_MEMBER_HL_
+#define AF    object->state.Z_Z80_STATE_MEMBER_AF
+#define BC    object->state.Z_Z80_STATE_MEMBER_BC
+#define DE    object->state.Z_Z80_STATE_MEMBER_DE
+#define HL    object->state.Z_Z80_STATE_MEMBER_HL
+#define IX    object->state.Z_Z80_STATE_MEMBER_IX
+#define IY    object->state.Z_Z80_STATE_MEMBER_IY
+#define PC    object->state.Z_Z80_STATE_MEMBER_PC
+#define SP    object->state.Z_Z80_STATE_MEMBER_SP
+#define AF_   object->state.Z_Z80_STATE_MEMBER_AF_
+#define BC_   object->state.Z_Z80_STATE_MEMBER_BC_
+#define DE_   object->state.Z_Z80_STATE_MEMBER_DE_
+#define HL_   object->state.Z_Z80_STATE_MEMBER_HL_
 
-#define A     object->state.Q_Z80_STATE_MEMBER_A
-#define F     object->state.Q_Z80_STATE_MEMBER_F
-#define B     object->state.Q_Z80_STATE_MEMBER_B
-#define C     object->state.Q_Z80_STATE_MEMBER_C
-#define D     object->state.Q_Z80_STATE_MEMBER_D
-#define E     object->state.Q_Z80_STATE_MEMBER_E
-#define H     object->state.Q_Z80_STATE_MEMBER_H
-#define L     object->state.Q_Z80_STATE_MEMBER_L
-#define IXH   object->state.Q_Z80_STATE_MEMBER_IXH
-#define IXL   object->state.Q_Z80_STATE_MEMBER_IXL
-#define IYH   object->state.Q_Z80_STATE_MEMBER_IYH
-#define IYL   object->state.Q_Z80_STATE_MEMBER_IYL
-#define I     object->state.Q_Z80_STATE_MEMBER_I
-#define R     object->state.Q_Z80_STATE_MEMBER_R
+#define A     object->state.Z_Z80_STATE_MEMBER_A
+#define F     object->state.Z_Z80_STATE_MEMBER_F
+#define B     object->state.Z_Z80_STATE_MEMBER_B
+#define C     object->state.Z_Z80_STATE_MEMBER_C
+#define D     object->state.Z_Z80_STATE_MEMBER_D
+#define E     object->state.Z_Z80_STATE_MEMBER_E
+#define H     object->state.Z_Z80_STATE_MEMBER_H
+#define L     object->state.Z_Z80_STATE_MEMBER_L
+#define IXH   object->state.Z_Z80_STATE_MEMBER_IXH
+#define IXL   object->state.Z_Z80_STATE_MEMBER_IXL
+#define IYH   object->state.Z_Z80_STATE_MEMBER_IYH
+#define IYL   object->state.Z_Z80_STATE_MEMBER_IYL
+#define I     object->state.Z_Z80_STATE_MEMBER_I
+#define R     object->state.Z_Z80_STATE_MEMBER_R
 #define R_ALL (R & 127) | (R7 & 128)
 
 
 /* MARK: - Macros: Internal State */
 
 #define R7    object->r7
-#define HALT  object->state.Q_Z80_STATE_MEMBER_HALT
-#define IFF1  object->state.Q_Z80_STATE_MEMBER_IFF1
-#define IFF2  object->state.Q_Z80_STATE_MEMBER_IFF2
-#define EI    object->state.Q_Z80_STATE_MEMBER_EI
-#define IM    object->state.Q_Z80_STATE_MEMBER_IM
-#define NMI   object->state.Q_Z80_STATE_MEMBER_NMI
-#define INT   object->state.Q_Z80_STATE_MEMBER_IRQ
+#define HALT  object->state.Z_Z80_STATE_MEMBER_HALT
+#define IFF1  object->state.Z_Z80_STATE_MEMBER_IFF1
+#define IFF2  object->state.Z_Z80_STATE_MEMBER_IFF2
+#define EI    object->state.Z_Z80_STATE_MEMBER_EI
+#define IM    object->state.Z_Z80_STATE_MEMBER_IM
+#define NMI   object->state.Z_Z80_STATE_MEMBER_NMI
+#define INT   object->state.Z_Z80_STATE_MEMBER_IRQ
 #define TICKS object->cycles
 
 
@@ -149,7 +149,7 @@ Q_INLINE void write_16bit(Z80 *object, quint16 address, quint16 value)
 
 /* MARK: - P/V Flag Computation */
 
-Q_PRIVATE quint8 const pf_parity_table[256] = {
+Z_PRIVATE zuint8 const pf_parity_table[256] = {
 /*	0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
 /* 0 */ 4, 0, 0, 4, 0, 4, 4, 0, 0, 4, 4, 0, 4, 0, 0, 4,
 /* 1 */ 0, 4, 4, 0, 4, 0, 0, 4, 4, 0, 0, 4, 0, 4, 4, 0,
@@ -172,9 +172,9 @@ Q_PRIVATE quint8 const pf_parity_table[256] = {
 #define PF_PARITY(value) pf_parity_table[value]
 
 #define VF(function, operand)					\
-Q_INLINE quint8 pf_overflow_##function##8(qint8 a, qint8 b)	\
+Z_INLINE zuint8 pf_overflow_##function##8(zint8 a, zint8 b)	\
 	{							\
-	qint16 total = a operand b;				\
+	zint16 total = a operand b;				\
 								\
 	return total < -128 || total > 127 ? PF : 0;		\
 	}
@@ -184,9 +184,9 @@ VF(sub, -)
 
 #undef	VF
 #define VF(function, bits, total_bits, operand, minimum, maximum)			\
-Q_INLINE quint8 pf_overflow_##function##bits(qint##bits a, qint##bits b, quint8 carry)	\
+Z_INLINE zuint8 pf_overflow_##function##bits(zint##bits a, zint##bits b, zuint8 carry)	\
 	{										\
-	qint##total_bits total = a operand b operand carry;				\
+	zint##total_bits total = a operand b operand carry;				\
 											\
 	return total < minimum || total > maximum ? PF : 0;				\
 	}
@@ -211,31 +211,31 @@ VF(sbc, 16, 32, -, -32768, 32767)
    '----------'   | 111 = a |   | 111 = a   |   | 111 = a   |
 		  '---------'   '-----------'   '----------*/
 
-Q_PRIVATE quint8 const x_y_table[8] = {
-	O(state.Q_Z80_STATE_MEMBER_B),
-	O(state.Q_Z80_STATE_MEMBER_C),
-	O(state.Q_Z80_STATE_MEMBER_D),
-	O(state.Q_Z80_STATE_MEMBER_E),
-	O(state.Q_Z80_STATE_MEMBER_H),
-	O(state.Q_Z80_STATE_MEMBER_L),
+Z_PRIVATE zuint8 const x_y_table[8] = {
+	O(state.Z_Z80_STATE_MEMBER_B),
+	O(state.Z_Z80_STATE_MEMBER_C),
+	O(state.Z_Z80_STATE_MEMBER_D),
+	O(state.Z_Z80_STATE_MEMBER_E),
+	O(state.Z_Z80_STATE_MEMBER_H),
+	O(state.Z_Z80_STATE_MEMBER_L),
 	0,
-	O(state.Q_Z80_STATE_MEMBER_A)
+	O(state.Z_Z80_STATE_MEMBER_A)
 };
 
-Q_PRIVATE quint8 const j_k_p_q_table[8] = {
-	O(state.Q_Z80_STATE_MEMBER_B),
-	O(state.Q_Z80_STATE_MEMBER_C),
-	O(state.Q_Z80_STATE_MEMBER_D),
-	O(state.Q_Z80_STATE_MEMBER_E),
+Z_PRIVATE zuint8 const j_k_p_q_table[8] = {
+	O(state.Z_Z80_STATE_MEMBER_B),
+	O(state.Z_Z80_STATE_MEMBER_C),
+	O(state.Z_Z80_STATE_MEMBER_D),
+	O(state.Z_Z80_STATE_MEMBER_E),
 	O(xy.values_uint8.index1    ),
 	O(xy.values_uint8.index0    ),
 	0,
-	O(state.Q_Z80_STATE_MEMBER_A)
+	O(state.Z_Z80_STATE_MEMBER_A)
 };
 
 #define R_8(name, table, offset, mask, shift)					\
-Q_INLINE quint8 *name(Z80 *object)						\
-	{return ((quint8 *)object) + table[(BYTE(offset) & mask) shift];}
+Z_INLINE zuint8 *name(Z80 *object)						\
+	{return ((zuint8 *)object) + table[(BYTE(offset) & mask) shift];}
 
 R_8(__xxx___0,	   x_y_table, 0, 56, >> 3)
 R_8(__xxx___1,	   x_y_table, 1, 56, >> 3)
@@ -257,29 +257,29 @@ R_8(_____kkk , j_k_p_q_table, 1,  7,	 )
 		  | 11 = sp |	| 11 = af |   | 11 = sp |
 		  '---------'	'---------'   '--------*/
 
-Q_PRIVATE quint8 const s_table[4] = {
-	O(state.Q_Z80_STATE_MEMBER_BC),
-	O(state.Q_Z80_STATE_MEMBER_DE),
-	O(state.Q_Z80_STATE_MEMBER_HL),
-	O(state.Q_Z80_STATE_MEMBER_SP)
+Z_PRIVATE zuint8 const s_table[4] = {
+	O(state.Z_Z80_STATE_MEMBER_BC),
+	O(state.Z_Z80_STATE_MEMBER_DE),
+	O(state.Z_Z80_STATE_MEMBER_HL),
+	O(state.Z_Z80_STATE_MEMBER_SP)
 };
 
-Q_PRIVATE quint8 const t_table[4] = {
-	O(state.Q_Z80_STATE_MEMBER_BC),
-	O(state.Q_Z80_STATE_MEMBER_DE),
-	O(state.Q_Z80_STATE_MEMBER_HL),
-	O(state.Q_Z80_STATE_MEMBER_AF)
+Z_PRIVATE zuint8 const t_table[4] = {
+	O(state.Z_Z80_STATE_MEMBER_BC),
+	O(state.Z_Z80_STATE_MEMBER_DE),
+	O(state.Z_Z80_STATE_MEMBER_HL),
+	O(state.Z_Z80_STATE_MEMBER_AF)
 };
 
-Q_PRIVATE quint8 const w_table[4] = {
-	O(state.Q_Z80_STATE_MEMBER_BC),
-	O(state.Q_Z80_STATE_MEMBER_DE),
+Z_PRIVATE zuint8 const w_table[4] = {
+	O(state.Z_Z80_STATE_MEMBER_BC),
+	O(state.Z_Z80_STATE_MEMBER_DE),
 	O(xy			     ),
-	O(state.Q_Z80_STATE_MEMBER_SP)
+	O(state.Z_Z80_STATE_MEMBER_SP)
 };
 
 #define R_16(name, table, offset)					\
-Q_INLINE quint16 *name(Z80 *object)					\
+Z_INLINE zuint16 *name(Z80 *object)					\
 	{return ((void *)object) + table[(BYTE(offset) & 48) >> 4];}
 
 R_16(__ss____0, s_table, 0)
@@ -302,11 +302,11 @@ R_16(__tt____ , t_table, 0)
 		  | 111 = m  |
 		  '---------*/
 
-Q_PRIVATE quint8 const z_table[8] = {ZF, ZF, CF, CF, PF, PF, SF, SF};
+Z_PRIVATE zuint8 const z_table[8] = {ZF, ZF, CF, CF, PF, PF, SF, SF};
 
-Q_INLINE qboolean __zzz___(Z80 *object)
+Z_INLINE zboolean __zzz___(Z80 *object)
 	{
-	quint8 z = (BYTE0 & 56) >> 3;
+	zuint8 z = (BYTE0 & 56) >> 3;
 
 	return (F & (z_table[z]))
 		?  (z & 1)  /* Flag is 1 */
@@ -340,9 +340,9 @@ Q_INLINE qboolean __zzz___(Z80 *object)
 				  | dec | S | Z |v.5| H |v.3| V | 1 | . |
 				  '------------------------------------*/
 
-Q_PRIVATE void __uuu___(Z80 *object, quint8 offset, quint8 value)
+Z_PRIVATE void __uuu___(Z80 *object, zuint8 offset, zuint8 value)
 	{
-	quint8 t;
+	zuint8 t;
 
 	switch ((object->data.array_uint8[offset] >> 3) & 7)
 		{
@@ -420,9 +420,9 @@ Q_PRIVATE void __uuu___(Z80 *object, quint8 offset, quint8 value)
 	}
 
 
-Q_PRIVATE quint8 _____vvv(Z80 *object, quint8 offset, quint8 value)
+Z_PRIVATE zuint8 _____vvv(Z80 *object, zuint8 offset, zuint8 value)
 	{
-	quint8 t, pn;
+	zuint8 t, pn;
 
 	/* DEC */
 	if (object->data.array_uint8[offset] & 1)
@@ -462,9 +462,9 @@ Q_PRIVATE quint8 _____vvv(Z80 *object, quint8 offset, quint8 value)
 		  | 111 = srl |
 		  '----------*/
 
-Q_PRIVATE quint8 __ggg___(Z80 *object, quint8 offset, quint8 value)
+Z_PRIVATE zuint8 __ggg___(Z80 *object, zuint8 offset, zuint8 value)
 	{
-	quint8 c;
+	zuint8 c;
 
 	switch ((object->data.array_uint8[offset] >> 3) & 7)
 		{
@@ -560,9 +560,9 @@ Q_PRIVATE quint8 __ggg___(Z80 *object, quint8 offset, quint8 value)
    '----------'   | 1 = set |
 		  '--------*/
 
-Q_INLINE quint8 _m______(Z80 *object, quint8 offset, quint8 value)
+Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 	{
-	quint8 t = object->data.array_uint8[offset];
+	zuint8 t = object->data.array_uint8[offset];
 
 	return (t & 64)
 		? value |  (1 << ((t & 56) >> 3))  /* SET */
@@ -594,12 +594,12 @@ Q_INLINE quint8 _m______(Z80 *object, quint8 offset, quint8 value)
 #define G3(value)   __ggg___ (object, 3, value)
 #define M1(value)   _m______ (object, 1, value)
 #define M3(value)   _m______ (object, 3, value)
-#define WW	  (*(quint16 *)((void *)object + w_table[(BYTE1 >> 4) & 3]))
+#define WW	  (*(zuint16 *)((void *)object + w_table[(BYTE1 >> 4) & 3]))
 
 
 /* MARK: - Reusable Code */
 
-#define INSTRUCTION(name)	Q_PRIVATE quint8 name(Z80 *object)
+#define INSTRUCTION(name)	Z_PRIVATE zuint8 name(Z80 *object)
 #define CYCLES(cycles)		return cycles;
 #define EXIT_HALT		if (HALT) {PC++; HALT = FALSE; CLEAR_HALT;}
 #define PUSH(value)		WRITE_16(SP -= 2, value)
@@ -616,13 +616,13 @@ Q_INLINE quint8 _m______(Z80 *object, quint8 offset, quint8 value)
 
 
 #define EX_VSP_X(register)		\
-	quint16 tmp = READ_16(SP);	\
+	zuint16 tmp = READ_16(SP);	\
 	WRITE_16(SP, register);		\
 	register = tmp;
 
 
 #define LDX(sign)								\
-	quint8 n = READ_8(HL sign);						\
+	zuint8 n = READ_8(HL sign);						\
 	WRITE_8(DE sign, n);							\
 	n += A;									\
 					/* HF = 0, NF = 0		  */	\
@@ -640,9 +640,9 @@ Q_INLINE quint8 _m______(Z80 *object, quint8 offset, quint8 value)
 
 
 #define CPX(sign)							\
-	quint8 v = READ_8(HL sign);					\
-	quint8 n0 = A - v;						\
-	quint8 n1 = n0 - !!F_H;						\
+	zuint8 v = READ_8(HL sign);					\
+	zuint8 n0 = A - v;						\
+	zuint8 n1 = n0 - !!F_H;						\
 									\
 	F =	(n0 & SF)		/* SF = (A - [HL]).7	  */	\
 		| ZF_ZERO(n0)		/* ZF = !(A - [HL])	  */	\
@@ -661,9 +661,9 @@ Q_INLINE quint8 _m______(Z80 *object, quint8 offset, quint8 value)
 	return 21;
 
 
-Q_INLINE void add_RR_NN(Z80 *object, quint16 *r, quint16 v)
+Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 	{
-	quint16 t = *r + v;
+	zuint16 t = *r + v;
 
 	F =	F_SZP				/* SF, ZF, PF unchanged	  */
 		| ((t >> 8) & YXF)		/* YF = RR.13; XF = RR.11 */
@@ -674,12 +674,12 @@ Q_INLINE void add_RR_NN(Z80 *object, quint16 *r, quint16 v)
 
 
 #define ADD_RR_NN(register, value) \
-	add_RR_NN(object, (quint16 *)&register, value);
+	add_RR_NN(object, (zuint16 *)&register, value);
 
 
 #define ADC_SBC_HL_SS(function, sign, cf_test, set_nf)									\
-	quint8 c = F_C;													\
-	quint16 v = SS1, t = HL sign v sign c;										\
+	zuint8 c = F_C;													\
+	zuint16 v = SS1, t = HL sign v sign c;										\
 															\
 	F =	((t >> 8) & SYXF)					/* SF = HL.15; YF = HL.13; XF = HL.11 */	\
 		| ZF_ZERO(t)						/* ZF = !HL			      */	\
@@ -699,7 +699,7 @@ Q_INLINE void add_RR_NN(Z80 *object, quint16 *r, quint16 v)
 
 
 #define RXD(a, b, c)							\
-	quint8 t = READ_8(HL);						\
+	zuint8 t = READ_8(HL);						\
 									\
 	WRITE_8(HL, (t a 4) | (A b));					\
 	A = (A & 0xF0) | (t c);						\
@@ -712,7 +712,7 @@ Q_INLINE void add_RR_NN(Z80 *object, quint16 *r, quint16 v)
 
 
 #define BIT_N_VALUE(value)							\
-	quint8 n = value & (1 << N1);	/* SF = value.N && N == 7	*/	\
+	zuint8 n = value & (1 << N1);	/* SF = value.N && N == 7	*/	\
 					/* ZF, PF = !value.N		*/	\
 	F =	(n ? n & SYXF : ZPF)	/* YF = value.N && N == 5	*/	\
 		| HF			/* HF = 1; NF = 0; CF unchanged	*/	\
@@ -720,8 +720,8 @@ Q_INLINE void add_RR_NN(Z80 *object, quint16 *r, quint16 v)
 
 
 #define BIT_N_VADDRESS(address)						\
-	Q16Bit a;							\
-	quint8 n = READ_8(a.value_uint16 = address) & (1 << N3);	\
+	Z16Bit a;							\
+	zuint8 n = READ_8(a.value_uint16 = address) & (1 << N3);	\
 									\
 	F =	(n ? (n & SF) : ZPF)					\
 		| (a.values_uint8.index1 & YXF)				\
@@ -730,7 +730,7 @@ Q_INLINE void add_RR_NN(Z80 *object, quint16 *r, quint16 v)
 
 
 #define IN_VC			\
-	quint8 t = IN(BC);	\
+	zuint8 t = IN(BC);	\
 				\
 	F =	(t & SYXF)	\
 		| ZF_ZERO(t)	\
@@ -739,8 +739,8 @@ Q_INLINE void add_RR_NN(Z80 *object, quint16 *r, quint16 v)
 
 
 #define INX(sign)										\
-	quint8 v = IN(BC);									\
-	quint16 t = v + ((C + 1) & 255);							\
+	zuint8 v = IN(BC);									\
+	zuint16 t = v + ((C + 1) & 255);							\
 												\
 	WRITE_8(HL, v);										\
 	HL sign;										\
@@ -758,7 +758,7 @@ Q_INLINE void add_RR_NN(Z80 *object, quint16 *r, quint16 v)
 
 
 #define OUTX(sign)											\
-	quint8 t = READ_8(HL);										\
+	zuint8 t = READ_8(HL);										\
 													\
 	OUT(BC, t);											\
 	HL sign;											\
@@ -895,9 +895,9 @@ INSTRUCTION(pop_XY)	 {PC += 2; XY = READ_16(SP); SP += 2;	 CYCLES(14);}
 |  cpdr			<  ED  ><  B9  >		  ******1.  5,4 / 21,16  |
 '-------------------------------------------------------------------------------*/
 
-INSTRUCTION(ex_de_hl)  {PC++; quint16 EX(DE, HL)			  CYCLES( 4);}
-INSTRUCTION(ex_af_af_) {PC++; quint16 EX(AF, AF_)			  CYCLES( 4);}
-INSTRUCTION(exx)       {PC++; quint16 EX(BC, BC_) EX(DE, DE_) EX(HL, HL_) CYCLES( 4);}
+INSTRUCTION(ex_de_hl)  {PC++; zuint16 EX(DE, HL)			  CYCLES( 4);}
+INSTRUCTION(ex_af_af_) {PC++; zuint16 EX(AF, AF_)			  CYCLES( 4);}
+INSTRUCTION(exx)       {PC++; zuint16 EX(BC, BC_) EX(DE, DE_) EX(HL, HL_) CYCLES( 4);}
 INSTRUCTION(ex_vsp_hl) {PC++; EX_VSP_X(HL)				  CYCLES(19);}
 INSTRUCTION(ex_vsp_XY) {PC += 2; EX_VSP_X(XY)				  CYCLES(23);}
 INSTRUCTION(ldi)       {PC += 2; LDX (++)				  CYCLES(16);}
@@ -935,10 +935,10 @@ INSTRUCTION(U_a_KQ)	   {PC += 2; U1(KQ);							    CYCLES( 8);}
 INSTRUCTION(U_a_BYTE)	   {U0(READ_8((PC += 2) - 1));						    CYCLES( 7);}
 INSTRUCTION(U_a_vhl)	   {PC++; U0(READ_8(HL));						    CYCLES( 7);}
 INSTRUCTION(U_a_vXYOFFSET) {U1(READ_8(XY + READ_OFFSET((PC += 3) - 1)));			    CYCLES(19);}
-INSTRUCTION(V_X)	   {PC++;    quint8 *r = __xxx___0(object); *r = V0(*r);		    CYCLES( 4);}
-INSTRUCTION(V_JP)	   {PC += 2; quint8 *r = __jjj___ (object); *r = V1(*r);		    CYCLES( 8);}
+INSTRUCTION(V_X)	   {PC++;    zuint8 *r = __xxx___0(object); *r = V0(*r);		    CYCLES( 4);}
+INSTRUCTION(V_JP)	   {PC += 2; zuint8 *r = __jjj___ (object); *r = V1(*r);		    CYCLES( 8);}
 INSTRUCTION(V_vhl)	   {PC++; WRITE_8(HL, V0(READ_8(HL)));					    CYCLES(11);}
-INSTRUCTION(V_vXYOFFSET)   {quint16 a = XY + READ_OFFSET((PC += 3) - 1); WRITE_8(a, V1(READ_8(a))); CYCLES(23);}
+INSTRUCTION(V_vXYOFFSET)   {zuint16 a = XY + READ_OFFSET((PC += 3) - 1); WRITE_8(a, V1(READ_8(a))); CYCLES(23);}
 
 
 /* MARK: - Instructions: General-Purpose Arithmetic and CPU Control Group
@@ -983,7 +983,7 @@ INSTRUCTION(im_2) {PC += 2; IM = 2;		     CYCLES(8);}
 
 INSTRUCTION(daa)
 	{
-	quint8 t = A; PC++;
+	zuint8 t = A; PC++;
 
 	if (F & NF)
 		{
@@ -1022,7 +1022,7 @@ INSTRUCTION(cpl)
 
 INSTRUCTION(neg)
 	{
-	quint8 t = -A; PC += 2;
+	zuint8 t = -A; PC += 2;
 
 	F =	(t & SYXF)		/* SF = -A.7; YF = -A.5; XF = -A.3 */
 		| ZF_ZERO(t)		/* ZF = !-A			   */
@@ -1109,13 +1109,13 @@ INSTRUCTION(dec_XY)    {PC += 2; XY--;					    CYCLES(15);}
 '--------------------------------------------------------------------------*/
 
 INSTRUCTION(rlca)	   {PC++; ROL(A); F = F_SZP | (A & YXCF);		    CYCLES( 4);}
-INSTRUCTION(rla)	   {PC++; quint8 c = A >> 7; A = (A << 1) | F_C; RXA	    CYCLES( 4);}
+INSTRUCTION(rla)	   {PC++; zuint8 c = A >> 7; A = (A << 1) | F_C; RXA	    CYCLES( 4);}
 INSTRUCTION(rrca)	   {PC++; ROR(A); F = F_SZP | A_YX | (A >> 7);		    CYCLES( 4);}
-INSTRUCTION(rra)	   {PC++; quint8 c = A & 1; A = (A >> 1) | (F << 7); RXA    CYCLES( 4);}
-INSTRUCTION(G_Y)	   {quint8 *r = _____yyy1(object); *r = G1(*r);		    CYCLES( 8);}
+INSTRUCTION(rra)	   {PC++; zuint8 c = A & 1; A = (A >> 1) | (F << 7); RXA    CYCLES( 4);}
+INSTRUCTION(G_Y)	   {zuint8 *r = _____yyy1(object); *r = G1(*r);		    CYCLES( 8);}
 INSTRUCTION(G_vhl)	   {WRITE_8(HL, G1(READ_8(HL)));			    CYCLES(15);}
-INSTRUCTION(G_vXYOFFSET)   {quint16 a = XY_ADDRESS; WRITE_8(a,	    G3(READ_8(a))); CYCLES(23);}
-INSTRUCTION(G_vXYOFFSET_Y) {quint16 a = XY_ADDRESS; WRITE_8(a, Y3 = G3(READ_8(a))); CYCLES(23);}
+INSTRUCTION(G_vXYOFFSET)   {zuint16 a = XY_ADDRESS; WRITE_8(a,	    G3(READ_8(a))); CYCLES(23);}
+INSTRUCTION(G_vXYOFFSET_Y) {zuint16 a = XY_ADDRESS; WRITE_8(a, Y3 = G3(READ_8(a))); CYCLES(23);}
 INSTRUCTION(rld)	   {PC += 2; RXD(<<, & 0xF, >> 4)			    CYCLES(18);}
 INSTRUCTION(rrd)	   {PC += 2; RXD(>>, << 4, & 0xF)			    CYCLES(18);}
 
@@ -1140,10 +1140,10 @@ INSTRUCTION(rrd)	   {PC += 2; RXD(>>, << 4, & 0xF)			    CYCLES(18);}
 INSTRUCTION(bit_N_Y)	     {BIT_N_VALUE(Y1)					      CYCLES( 8);}
 INSTRUCTION(bit_N_vhl)	     {BIT_N_VALUE(READ_8(HL))				      CYCLES(12);}
 INSTRUCTION(bit_N_vXYOFFSET) {BIT_N_VADDRESS(XY_ADDRESS)			      CYCLES(20);}
-INSTRUCTION(M_N_Y)	     {quint8 *t = _____yyy1(object); *t = M1(*t);	      CYCLES( 8);}
+INSTRUCTION(M_N_Y)	     {zuint8 *t = _____yyy1(object); *t = M1(*t);	      CYCLES( 8);}
 INSTRUCTION(M_N_vhl)	     {WRITE_8(HL, M1(READ_8(HL)));			      CYCLES(15);}
-INSTRUCTION(M_N_vXYOFFSET)   {quint16 a = XY_ADDRESS; WRITE_8(a,      M3(READ_8(a))); CYCLES(23);}
-INSTRUCTION(M_N_vXYOFFSET_Y) {quint16 a = XY_ADDRESS; WRITE_8(a, Y3 = M3(READ_8(a))); CYCLES(23);}
+INSTRUCTION(M_N_vXYOFFSET)   {zuint16 a = XY_ADDRESS; WRITE_8(a,      M3(READ_8(a))); CYCLES(23);}
+INSTRUCTION(M_N_vXYOFFSET_Y) {zuint16 a = XY_ADDRESS; WRITE_8(a, Y3 = M3(READ_8(a))); CYCLES(23);}
 
 
 /* MARK: - Instructions: Jump Group
@@ -1249,7 +1249,7 @@ INSTRUCTION(XY_illegal);
 
 /* MARK: - Instruction Function Tables */
 
-Q_PRIVATE Instruction const instruction_table[256] = {
+Z_PRIVATE Instruction const instruction_table[256] = {
 /*	0	     1		 2	      3		   4		5	  6	       7	 8	      9		 A	      B		 C	      D		 E	    F */
 /* 0 */ nop,	     ld_SS_WORD, ld_vbc_a,    inc_SS,	   V_X,		V_X,	  ld_X_BYTE,   rlca,	 ex_af_af_,   add_hl_SS, ld_a_vbc,    dec_SS,	 V_X,	      V_X,	 ld_X_BYTE, rrca,
 /* 1 */ djnz_OFFSET, ld_SS_WORD, ld_vde_a,    inc_SS,	   V_X,		V_X,	  ld_X_BYTE,   rla,	 jr_OFFSET,   add_hl_SS, ld_a_vde,    dec_SS,	 V_X,	      V_X,	 ld_X_BYTE, rra,
@@ -1269,7 +1269,7 @@ Q_PRIVATE Instruction const instruction_table[256] = {
 /* F */ ret_Z,	     pop_TT,	 jp_Z_WORD,   di,	   call_Z_WORD,	push_TT,  U_a_BYTE,    rst_N,	 ret_Z,	      ld_sp_hl,	 jp_Z_WORD,   ei,	 call_Z_WORD, FD,	 U_a_BYTE,  rst_N
 };
 
-Q_PRIVATE Instruction const instruction_table_CB[256] = {
+Z_PRIVATE Instruction const instruction_table_CB[256] = {
 /*	0	 1	  2	   3	    4	     5	      6		 7	  8	   9	    A	     B	      C	       D	E	   F */
 /* 0 */ G_Y,	 G_Y,	  G_Y,	   G_Y,	    G_Y,     G_Y,     G_vhl,	 G_Y,	  G_Y,	   G_Y,	    G_Y,     G_Y,     G_Y,     G_Y,	G_vhl,	   G_Y,
 /* 1 */ G_Y,	 G_Y,	  G_Y,	   G_Y,	    G_Y,     G_Y,     G_vhl,	 G_Y,	  G_Y,	   G_Y,	    G_Y,     G_Y,     G_Y,     G_Y,	G_vhl,	   G_Y,
@@ -1289,7 +1289,7 @@ Q_PRIVATE Instruction const instruction_table_CB[256] = {
 /* F */ M_N_Y,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_vhl,	 M_N_Y,	  M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,   M_N_Y,	M_N_vhl,   M_N_Y
 };
 
-Q_PRIVATE Instruction const instruction_table_XY_CB[256] = {
+Z_PRIVATE Instruction const instruction_table_XY_CB[256] = {
 /*	0		 1		  2		   3		    4		     5		      6		       7		8		 9		  A		   B		    C		     D		      E		       F */
 /* 0 */ G_vXYOFFSET_Y,	 G_vXYOFFSET_Y,	  G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET,     G_vXYOFFSET_Y,	G_vXYOFFSET_Y,	 G_vXYOFFSET_Y,	  G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET,     G_vXYOFFSET_Y,
 /* 1 */ G_vXYOFFSET_Y,	 G_vXYOFFSET_Y,	  G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET,     G_vXYOFFSET_Y,	G_vXYOFFSET_Y,	 G_vXYOFFSET_Y,	  G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET_Y,   G_vXYOFFSET,     G_vXYOFFSET_Y,
@@ -1309,7 +1309,7 @@ Q_PRIVATE Instruction const instruction_table_XY_CB[256] = {
 /* F */ M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET_Y, M_N_vXYOFFSET,   M_N_vXYOFFSET_Y
 };
 
-Q_PRIVATE Instruction const instruction_table_XY[256] = {
+Z_PRIVATE Instruction const instruction_table_XY[256] = {
 /*	0		1		2		3		4		5		6		   7		   8	       9	   A		B	    C		D	    E		    F */
 /* 0 */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	   XY_illegal,	   XY_illegal, add_XY_WW,  XY_illegal,	XY_illegal, XY_illegal, XY_illegal, XY_illegal,	    XY_illegal,
 /* 1 */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	   XY_illegal,	   XY_illegal, add_XY_WW,  XY_illegal,	XY_illegal, XY_illegal, XY_illegal, XY_illegal,	    XY_illegal,
@@ -1329,7 +1329,7 @@ Q_PRIVATE Instruction const instruction_table_XY[256] = {
 /* F */ XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	XY_illegal,	   XY_illegal,	   XY_illegal, ld_sp_XY,   XY_illegal,	XY_illegal, XY_illegal, XY_illegal, XY_illegal,	    XY_illegal
 };
 
-Q_PRIVATE Instruction const instruction_table_ED[256] = {
+Z_PRIVATE Instruction const instruction_table_ED[256] = {
 /*	0	    1		2	    3		 4	     5		 6	     7		 8	     9		 A	     B		  C	      D		  E	      F */
 /* 0 */ ED_illegal, ED_illegal, ED_illegal, ED_illegal,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal,  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
 /* 1 */ ED_illegal, ED_illegal, ED_illegal, ED_illegal,	 ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal, ED_illegal,  ED_illegal, ED_illegal, ED_illegal, ED_illegal,
@@ -1354,7 +1354,7 @@ Q_PRIVATE Instruction const instruction_table_ED[256] = {
 
 
 #define DD_FD(register)							\
-	quint8 tiks;							\
+	zuint8 tiks;							\
 									\
 	XY = register;							\
 	R++;								\
@@ -1386,9 +1386,9 @@ INSTRUCTION(ED_illegal) {PC += 2; CYCLES(8);}
 /* MARK: - Main Functions */
 
 
-CPU_Z80_API qsize z80_run(Z80 *object, qsize cycles)
+CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 	{
-	quint32 data;
+	zuint32 data;
 
 	/*------------.
 	| Clear ticks |
@@ -1416,7 +1416,7 @@ CPU_Z80_API qsize z80_run(Z80 *object, qsize cycles)
 			/*IFF2 = IFF1;*/		/* Backup IFF1 (it doesn't occur, acording to Sean Young). */
 			IFF1 = 0;			/* Reset IFF1 to don't bother the NMI routine.		   */
 			PUSH(PC);			/* Save return addres in the stack.			   */
-			PC = Q_Z80_ADDRESS_NMI_POINTER;	/* Make PC point to the NMI routine.			   */
+			PC = Z_Z80_ADDRESS_NMI_POINTER;	/* Make PC point to the NMI routine.			   */
 			TICKS += 11;			/* Accepting a NMI consumes 11 ticks.			   */
 			continue;
 			}
@@ -1447,19 +1447,19 @@ CPU_Z80_API qsize z80_run(Z80 *object, qsize cycles)
 				if ((data = INT_DATA)) switch (data & 0xFF0000)
 					{
 					case 0xC30000: /* JP */
-					PC = (quint16)(data & 0xFFFF);
+					PC = (zuint16)(data & 0xFFFF);
 					TICKS += 10;
 					break;
 
 					case 0xCD0000: /* CALL */
 					PUSH(PC);
-					PC = (quint16)(data & 0xFFFF);
+					PC = (zuint16)(data & 0xFFFF);
 					TICKS += 17;
 					break;
 
 					default: /* RST (and possibly others) */
 					PUSH(PC);
-					PC = (quint16)(data & 0x38);
+					PC = (zuint16)(data & 0x38);
 					TICKS += 11;
 					}
 
@@ -1480,7 +1480,7 @@ CPU_Z80_API qsize z80_run(Z80 *object, qsize cycles)
 				'---------------------------*/
 				case 2:
 				PUSH(PC);
-				PC = READ_16((quint16)((I << 8) | (INT_DATA & 0xFF)));
+				PC = READ_16((zuint16)((I << 8) | (INT_DATA & 0xFF)));
 				TICKS += (17 + 2);
 				break;
 				}
@@ -1514,23 +1514,23 @@ CPU_Z80_API qsize z80_run(Z80 *object, qsize cycles)
 
 CPU_Z80_API void z80_reset(Z80 *object)
 	{
-	PC   = Q_Z80_VALUE_AFTER_RESET_PC;
-	SP   = Q_Z80_VALUE_AFTER_RESET_SP;
-	IX   = Q_Z80_VALUE_AFTER_RESET_IX;
-	IY   = Q_Z80_VALUE_AFTER_RESET_IY;
-	AF   = Q_Z80_VALUE_AFTER_RESET_AF;
-	BC   = Q_Z80_VALUE_AFTER_RESET_BC;
-	DE   = Q_Z80_VALUE_AFTER_RESET_DE;
-	HL   = Q_Z80_VALUE_AFTER_RESET_HL;
-	AF_  = Q_Z80_VALUE_AFTER_RESET_AF_;
-	BC_  = Q_Z80_VALUE_AFTER_RESET_BC_;
-	DE_  = Q_Z80_VALUE_AFTER_RESET_DE_;
-	HL_  = Q_Z80_VALUE_AFTER_RESET_HL_;
-	R    = Q_Z80_VALUE_AFTER_RESET_R;
-	I    = Q_Z80_VALUE_AFTER_RESET_I;
-	IFF1 = Q_Z80_VALUE_AFTER_RESET_IFF1;
-	IFF2 = Q_Z80_VALUE_AFTER_RESET_IFF2;
-	IM   = Q_Z80_VALUE_AFTER_RESET_IM;
+	PC   = Z_Z80_VALUE_AFTER_RESET_PC;
+	SP   = Z_Z80_VALUE_AFTER_RESET_SP;
+	IX   = Z_Z80_VALUE_AFTER_RESET_IX;
+	IY   = Z_Z80_VALUE_AFTER_RESET_IY;
+	AF   = Z_Z80_VALUE_AFTER_RESET_AF;
+	BC   = Z_Z80_VALUE_AFTER_RESET_BC;
+	DE   = Z_Z80_VALUE_AFTER_RESET_DE;
+	HL   = Z_Z80_VALUE_AFTER_RESET_HL;
+	AF_  = Z_Z80_VALUE_AFTER_RESET_AF_;
+	BC_  = Z_Z80_VALUE_AFTER_RESET_BC_;
+	DE_  = Z_Z80_VALUE_AFTER_RESET_DE_;
+	HL_  = Z_Z80_VALUE_AFTER_RESET_HL_;
+	R    = Z_Z80_VALUE_AFTER_RESET_R;
+	I    = Z_Z80_VALUE_AFTER_RESET_I;
+	IFF1 = Z_Z80_VALUE_AFTER_RESET_IFF1;
+	IFF2 = Z_Z80_VALUE_AFTER_RESET_IFF2;
+	IM   = Z_Z80_VALUE_AFTER_RESET_IM;
 	EI   = 0;
 	HALT = 0;
 	INT  = 0;
@@ -1538,30 +1538,30 @@ CPU_Z80_API void z80_reset(Z80 *object)
 	}
 
 
-CPU_Z80_API void z80_power(Z80 *object, qboolean state)
+CPU_Z80_API void z80_power(Z80 *object, zboolean state)
 	{
 	if (state)
 		{
-#		ifdef Q_Z80_RESET_IS_EQUAL_TO_POWER_ON
+#		ifdef Z_Z80_RESET_IS_EQUAL_TO_POWER_ON
 			z80_reset(object);
 #		else
-			PC   = Q_Z80_VALUE_AFTER_POWER_ON_PC;
-			SP   = Q_Z80_VALUE_AFTER_POWER_ON_SP;
-			IX   = Q_Z80_VALUE_AFTER_POWER_ON_IX;
-			IY   = Q_Z80_VALUE_AFTER_POWER_ON_IY;
-			AF   = Q_Z80_VALUE_AFTER_POWER_ON_AF;
-			BC   = Q_Z80_VALUE_AFTER_POWER_ON_BC;
-			DE   = Q_Z80_VALUE_AFTER_POWER_ON_DE;
-			HL   = Q_Z80_VALUE_AFTER_POWER_ON_HL;
-			AF_  = Q_Z80_VALUE_AFTER_POWER_ON_AF_;
-			BC_  = Q_Z80_VALUE_AFTER_POWER_ON_BC_;
-			DE_  = Q_Z80_VALUE_AFTER_POWER_ON_DE_;
-			HL_  = Q_Z80_VALUE_AFTER_POWER_ON_HL_;
-			R    = Q_Z80_VALUE_AFTER_POWER_ON_R;
-			I    = Q_Z80_VALUE_AFTER_POWER_ON_I;
-			IFF1 = Q_Z80_VALUE_AFTER_POWER_ON_IFF1;
-			IFF2 = Q_Z80_VALUE_AFTER_POWER_ON_IFF2;
-			IM   = Q_Z80_VALUE_AFTER_POWER_ON_IM;
+			PC   = Z_Z80_VALUE_AFTER_POWER_ON_PC;
+			SP   = Z_Z80_VALUE_AFTER_POWER_ON_SP;
+			IX   = Z_Z80_VALUE_AFTER_POWER_ON_IX;
+			IY   = Z_Z80_VALUE_AFTER_POWER_ON_IY;
+			AF   = Z_Z80_VALUE_AFTER_POWER_ON_AF;
+			BC   = Z_Z80_VALUE_AFTER_POWER_ON_BC;
+			DE   = Z_Z80_VALUE_AFTER_POWER_ON_DE;
+			HL   = Z_Z80_VALUE_AFTER_POWER_ON_HL;
+			AF_  = Z_Z80_VALUE_AFTER_POWER_ON_AF_;
+			BC_  = Z_Z80_VALUE_AFTER_POWER_ON_BC_;
+			DE_  = Z_Z80_VALUE_AFTER_POWER_ON_DE_;
+			HL_  = Z_Z80_VALUE_AFTER_POWER_ON_HL_;
+			R    = Z_Z80_VALUE_AFTER_POWER_ON_R;
+			I    = Z_Z80_VALUE_AFTER_POWER_ON_I;
+			IFF1 = Z_Z80_VALUE_AFTER_POWER_ON_IFF1;
+			IFF2 = Z_Z80_VALUE_AFTER_POWER_ON_IFF2;
+			IM   = Z_Z80_VALUE_AFTER_POWER_ON_IM;
 			EI   = 0;
 			HALT = 0;
 			INT  = 0;
@@ -1572,42 +1572,42 @@ CPU_Z80_API void z80_power(Z80 *object, qboolean state)
 
 
 CPU_Z80_API void z80_nmi(Z80 *object)		      {NMI = TRUE ;}
-CPU_Z80_API void z80_irq(Z80 *object, qboolean state) {INT = state;}
+CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 
 
 #ifdef BUILDING_MODULE_EMULATION_CPU_Z80
 
-	Q_PRIVATE void after_state_readed (Z80 *object, QZ80State *state)
-		{Q_Z80_STATE_R(state) = R_ALL;}
+	Z_PRIVATE void after_state_readed (Z80 *object, ZZ80State *state)
+		{Z_Z80_STATE_R(state) = R_ALL;}
 
-	Q_PRIVATE void after_state_written(Z80 *object)
+	Z_PRIVATE void after_state_written(Z80 *object)
 		{R7 = R;}
 
-#	include <Q/ABIs/emulation.h>
+#	include <Z/ABIs/emulation.h>
 
-	Q_PRIVATE QEmulatorExport const exports[7] = {
-		{Q_EMULATOR_ACTION_POWER,		(QDo)z80_power		},
-		{Q_EMULATOR_ACTION_RESET,		(QDo)z80_reset		},
-		{Q_EMULATOR_ACTION_RUN,			(QDo)z80_run		},
-		{Q_EMULATOR_ACTION_AFTER_STATE_READED,	(QDo)after_state_readed },
-		{Q_EMULATOR_ACTION_AFTER_STATE_WRITTEN, (QDo)after_state_written},
-		{Q_EMULATOR_ACTION_NMI,			(QDo)z80_nmi		},
-		{Q_EMULATOR_ACTION_INT,			(QDo)z80_irq		}
+	Z_PRIVATE ZEmulatorExport const exports[7] = {
+		{Z_EMULATOR_ACTION_POWER,		(ZDo)z80_power		},
+		{Z_EMULATOR_ACTION_RESET,		(ZDo)z80_reset		},
+		{Z_EMULATOR_ACTION_RUN,			(ZDo)z80_run		},
+		{Z_EMULATOR_ACTION_AFTER_STATE_READED,	(ZDo)after_state_readed },
+		{Z_EMULATOR_ACTION_AFTER_STATE_WRITTEN, (ZDo)after_state_written},
+		{Z_EMULATOR_ACTION_NMI,			(ZDo)z80_nmi		},
+		{Z_EMULATOR_ACTION_INT,			(ZDo)z80_irq		}
 	};
 
-#	define SLOT_OFFSET(name) Q_OFFSET_OF(Z80, cb.name)
+#	define SLOT_OFFSET(name) Z_OFFSET_OF(Z80, cb.name)
 
-	Q_PRIVATE QEmulatorSlotLinkage const slot_linkages[6] = {
-		{Q_EMULATOR_OBJECT_MEMORY,  Q_EMULATOR_ACTION_READ_8BIT,  SLOT_OFFSET(read    )},
-		{Q_EMULATOR_OBJECT_MEMORY,  Q_EMULATOR_ACTION_WRITE_8BIT, SLOT_OFFSET(write   )},
-		{Q_EMULATOR_OBJECT_IO,	    Q_EMULATOR_ACTION_IN_8BIT,	  SLOT_OFFSET(in      )},
-		{Q_EMULATOR_OBJECT_IO,	    Q_EMULATOR_ACTION_OUT_8BIT,   SLOT_OFFSET(out     )},
-		{Q_EMULATOR_OBJECT_MACHINE, Q_EMULATOR_ACTION_INT_DATA,   SLOT_OFFSET(int_data)},
-		{Q_EMULATOR_OBJECT_MACHINE, Q_EMULATOR_ACTION_HALT,	  SLOT_OFFSET(halt    )}
+	Z_PRIVATE ZEmulatorSlotLinkage const slot_linkages[6] = {
+		{Z_EMULATOR_OBJECT_MEMORY,  Z_EMULATOR_ACTION_READ_8BIT,  SLOT_OFFSET(read    )},
+		{Z_EMULATOR_OBJECT_MEMORY,  Z_EMULATOR_ACTION_WRITE_8BIT, SLOT_OFFSET(write   )},
+		{Z_EMULATOR_OBJECT_IO,	    Z_EMULATOR_ACTION_IN_8BIT,	  SLOT_OFFSET(in      )},
+		{Z_EMULATOR_OBJECT_IO,	    Z_EMULATOR_ACTION_OUT_8BIT,   SLOT_OFFSET(out     )},
+		{Z_EMULATOR_OBJECT_MACHINE, Z_EMULATOR_ACTION_INT_DATA,   SLOT_OFFSET(int_data)},
+		{Z_EMULATOR_OBJECT_MACHINE, Z_EMULATOR_ACTION_HALT,	  SLOT_OFFSET(halt    )}
 	};
 
-	Q_API_EXPORT QCPUEmulatorABI const abi_emulation_cpu_z80 = {
-		0, NULL, 7, exports, {sizeof(Z80), Q_OFFSET_OF(Z80, state), 6, slot_linkages}
+	Z_API_EXPORT ZCPUEmulatorABI const abi_emulation_cpu_z80 = {
+		0, NULL, 7, exports, {sizeof(Z80), Z_OFFSET_OF(Z80, state), 6, slot_linkages}
 	};
 
 #endif
