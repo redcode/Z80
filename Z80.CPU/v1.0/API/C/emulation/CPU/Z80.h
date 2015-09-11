@@ -13,15 +13,15 @@ Released under the terms of the GNU General Public License v3. */
 #include <Z/hardware/CPU/architecture/Z80.h>
 #include <Z/types/generic functions.h>
 
-#ifndef EMULATION_CPU_Z80_NO_SLOTS
+#ifndef CPU_Z80_NO_SLOTS
 #	include <Z/macros/slot.h>
 #endif
 
-#if defined(BUILDING_DYNAMIC_EMULATION_CPU_Z80)
+#if defined(CPU_Z80_BUILDING_DYNAMIC)
 #	define CPU_Z80_API Z_API_EXPORT
-#elif defined(BUILDING_STATIC_EMULATION_CPU_Z80)
+#elif defined(CPU_Z80_BUILDING_STATIC)
 #	define CPU_Z80_API Z_PUBLIC
-#elif defined(USE_STATIC_EMULATION_CPU_Z80)
+#elif defined(CPU_Z80_USE_STATIC)
 #	define CPU_Z80_API
 #else
 #	define CPU_Z80_API Z_API
@@ -34,7 +34,7 @@ typedef struct {
 	zuint8	  r7;
 	Z32Bit	  data;
 
-#	ifdef EMULATION_CPU_Z80_NO_SLOTS
+#	ifdef CPU_Z80_NO_SLOTS
 		void* cb_context;
 
 		struct {Z16BitAddressRead8Bit  read;

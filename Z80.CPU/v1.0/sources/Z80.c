@@ -22,7 +22,7 @@ typedef zuint8 (* Instruction)(Z80 *object);
 
 /* MARK: - Macros & Functions: Callback */
 
-#ifdef EMULATION_CPU_Z80_NO_SLOTS
+#ifdef CPU_Z80_NO_SLOTS
 #	define CB_ACTION(name) object->cb.name
 #	define CB_OBJECT(name) object->cb_context
 #else
@@ -1575,7 +1575,7 @@ CPU_Z80_API void z80_nmi(Z80 *object)		      {NMI = TRUE ;}
 CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 
 
-#ifdef BUILDING_MODULE_EMULATION_CPU_Z80
+#ifdef CPU_Z80_BUILDING_MODULE
 
 	Z_PRIVATE void after_state_readed (Z80 *object, ZZ80State *state)
 		{Z_Z80_STATE_R(state) = R_ALL;}
