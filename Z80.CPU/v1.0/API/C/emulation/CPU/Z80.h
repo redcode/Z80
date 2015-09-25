@@ -17,16 +17,6 @@ Released under the terms of the GNU General Public License v3. */
 #	include <Z/macros/slot.h>
 #endif
 
-#if defined(CPU_Z80_BUILDING_DYNAMIC)
-#	define CPU_Z80_API Z_API_EXPORT
-#elif defined(CPU_Z80_BUILDING_STATIC)
-#	define CPU_Z80_API Z_PUBLIC
-#elif defined(CPU_Z80_USE_STATIC)
-#	define CPU_Z80_API
-#else
-#	define CPU_Z80_API Z_API
-#endif
-
 typedef struct {
 	zsize	  cycles;
 	ZZ80State state;
@@ -55,21 +45,31 @@ typedef struct {
 #	endif
 } Z80;
 
-Z_C_SYMBOLS_BEGIN
+#if !defined(CPU_Z80_BUILDING_DYNAMIC) && !defined(CPU_Z80_BUILDING_STATIC)
 
-CPU_Z80_API zsize z80_run   (Z80*     object,
-			     zsize    cycles);
+#	if defined(CPU_Z80_USE_STATIC)
+#		define CPU_Z80_API
+#	else
+#		define CPU_Z80_API Z_API
+#	endif
 
-CPU_Z80_API void  z80_power (Z80*     object,
-			     zboolean state);
+	Z_C_SYMBOLS_BEGIN
 
-CPU_Z80_API void  z80_reset (Z80*     object);
+	CPU_Z80_API zsize z80_run   (Z80*     object,
+				     zsize    cycles);
 
-CPU_Z80_API void  z80_nmi   (Z80*     object);
+	CPU_Z80_API void  z80_power (Z80*     object,
+				     zboolean state);
 
-CPU_Z80_API void  z80_irq   (Z80*     object,
-			     zboolean state);
+	CPU_Z80_API void  z80_reset (Z80*     object);
 
-Z_C_SYMBOLS_END
+	CPU_Z80_API void  z80_nmi   (Z80*     object);
+
+	CPU_Z80_API void  z80_irq   (Z80*     object,
+				     zboolean state);
+
+	Z_C_SYMBOLS_END
+
+#endif
 
 #endif /* __emulation_CPU_Z80_H__ */
