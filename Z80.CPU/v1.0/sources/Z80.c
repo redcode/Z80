@@ -1439,7 +1439,7 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 			R++;		 /* Consume memory refresh.	*/
 			IFF1 = IFF2 = 0; /* Clear interrupt flip-flops.	*/
 
-#			ifdef EMULATION_CPU_Z80_AUTOCLEARS_INT_LINE
+#			ifdef CPU_Z80_AUTOCLEARS_INT_LINE
 				INT = FALSE;
 #			endif
 
