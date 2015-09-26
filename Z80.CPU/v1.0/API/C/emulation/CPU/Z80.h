@@ -53,7 +53,11 @@ typedef struct {
 #		define CPU_Z80_API Z_API
 #	endif
 
+#	include <Z/ABIs/emulation.h>
+
 	Z_C_SYMBOLS_BEGIN
+
+	CPU_Z80_API extern ZCPUEmulatorABI const abi_cpu_z80;
 
 	CPU_Z80_API zsize z80_run   (Z80*     object,
 				     zsize    cycles);

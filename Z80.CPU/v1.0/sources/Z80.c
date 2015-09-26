@@ -11,9 +11,9 @@ Released under the terms of the GNU General Public License v3. */
 #include <Z/macros/value.h>
 
 #if defined(CPU_Z80_BUILDING_DYNAMIC)
-#	define CPU_Z80_API Z_API_EXPORT
+#	define API Z_API_EXPORT
 #else
-#	define CPU_Z80_API
+#	define API
 #endif
 
 
@@ -1395,7 +1395,7 @@ INSTRUCTION(ED_illegal) {PC += 2; CYCLES(8);}
 /* MARK: - Main Functions */
 
 
-CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
+API zsize z80_run(Z80 *object, zsize cycles)
 	{
 	zuint32 data;
 
@@ -1439,7 +1439,7 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 			R++;		 /* Consume memory refresh.	*/
 			IFF1 = IFF2 = 0; /* Clear interrupt flip-flops.	*/
 
-#			ifdef CPU_Z80_AUTOCLEARS_INT_LINE
+#			ifdef CPU_Z80_AUTOCLEAR_INT_LINE
 				INT = FALSE;
 #			endif
 
@@ -1521,7 +1521,7 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 	}
 
 
-CPU_Z80_API void z80_reset(Z80 *object)
+API void z80_reset(Z80 *object)
 	{
 	PC   = Z_Z80_VALUE_AFTER_RESET_PC;
 	SP   = Z_Z80_VALUE_AFTER_RESET_SP;
@@ -1547,7 +1547,7 @@ CPU_Z80_API void z80_reset(Z80 *object)
 	}
 
 
-CPU_Z80_API void z80_power(Z80 *object, zboolean state)
+API void z80_power(Z80 *object, zboolean state)
 	{
 	if (state)
 		{
@@ -1580,8 +1580,8 @@ CPU_Z80_API void z80_power(Z80 *object, zboolean state)
 	}
 
 
-CPU_Z80_API void z80_nmi(Z80 *object)		      {NMI = TRUE ;}
-CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
+API void z80_nmi(Z80 *object)		      {NMI = TRUE ;}
+API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 
 
 #ifdef CPU_Z80_BUILDING_MODULE
@@ -1615,7 +1615,7 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 		{Z_EMULATOR_OBJECT_MACHINE, Z_EMULATOR_ACTION_HALT,	  SLOT_OFFSET(halt    )}
 	};
 
-	Z_API_EXPORT ZCPUEmulatorABI const abi_emulation_cpu_z80 = {
+	API ZCPUEmulatorABI const abi_cpu_z80 = {
 		0, NULL, 7, exports, {sizeof(Z80), Z_OFFSET_OF(Z80, state), 6, slot_linkages}
 	};
 
