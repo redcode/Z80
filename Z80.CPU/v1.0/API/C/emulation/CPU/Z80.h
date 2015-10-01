@@ -1,4 +1,4 @@
-/* Zilog Z80 CPU Emulator C API v1.0
+/* Zilog Z80 CPU Emulator C API
   ____    ____    ___ ___     ___
  / __ \  / ___\  / __` __`\  / __`\
 /\ \/  \/\ \__/_/\ \/\ \/\ \/\  __/
@@ -11,10 +11,18 @@ Released under the terms of the GNU General Public License v3. */
 #define __emulation_CPU_Z80_H__
 
 #include <Z/hardware/CPU/architecture/Z80.h>
-#include <Z/types/generic functions.h>
+#include <Z/ABIs/emulation.h>
 
-#ifndef CPU_Z80_NO_SLOTS
+#ifdef CPU_Z80_USE_SLOTS
 #	include <Z/macros/slot.h>
+#endif
+
+#ifndef CPU_Z80_API
+#	if defined(CPU_Z80_USE_STATIC)
+#		define CPU_Z80_API
+#	else
+#		define CPU_Z80_API Z_API
+#	endif
 #endif
 
 typedef struct {
@@ -24,7 +32,15 @@ typedef struct {
 	zuint8	  r7;
 	Z32Bit	  data;
 
-#	ifdef CPU_Z80_NO_SLOTS
+#	ifdef CPU_Z80_USE_SLOTS
+		struct {ZSlot(Z16BitAddressRead8Bit ) read;
+			ZSlot(Z16BitAddressWrite8Bit) write;
+			ZSlot(Z16BitAddressRead8Bit ) in;
+			ZSlot(Z16BitAddressWrite8Bit) out;
+			ZSlot(ZRead32Bit	    ) int_data;
+			ZSlot(ZSwitch		    ) halt;
+		} cb;
+#	else
 		void* cb_context;
 
 		struct {Z16BitAddressRead8Bit  read;
@@ -34,46 +50,26 @@ typedef struct {
 			ZRead32Bit	       int_data;
 			ZSwitch		       halt;
 		} cb;
-#	else
-		struct {ZSlot(Z16BitAddressRead8Bit ) read;
-			ZSlot(Z16BitAddressWrite8Bit) write;
-			ZSlot(Z16BitAddressRead8Bit ) in;
-			ZSlot(Z16BitAddressWrite8Bit) out;
-			ZSlot(ZRead32Bit	    ) int_data;
-			ZSlot(ZSwitch		    ) halt;
-		} cb;
 #	endif
 } Z80;
 
-#if !defined(CPU_Z80_BUILDING_DYNAMIC) && !defined(CPU_Z80_BUILDING_STATIC)
+Z_C_SYMBOLS_BEGIN
 
-#	if defined(CPU_Z80_USE_STATIC)
-#		define CPU_Z80_API
-#	else
-#		define CPU_Z80_API Z_API
-#	endif
+CPU_Z80_API extern ZCPUEmulatorABI const abi_cpu_z80;
 
-#	include <Z/ABIs/emulation.h>
+CPU_Z80_API zsize z80_run   (Z80*     object,
+			     zsize    cycles);
 
-	Z_C_SYMBOLS_BEGIN
+CPU_Z80_API void  z80_power (Z80*     object,
+			     zboolean state);
 
-	CPU_Z80_API extern ZCPUEmulatorABI const abi_cpu_z80;
+CPU_Z80_API void  z80_reset (Z80*     object);
 
-	CPU_Z80_API zsize z80_run   (Z80*     object,
-				     zsize    cycles);
+CPU_Z80_API void  z80_nmi   (Z80*     object);
 
-	CPU_Z80_API void  z80_power (Z80*     object,
-				     zboolean state);
+CPU_Z80_API void  z80_irq   (Z80*     object,
+			     zboolean state);
 
-	CPU_Z80_API void  z80_reset (Z80*     object);
-
-	CPU_Z80_API void  z80_nmi   (Z80*     object);
-
-	CPU_Z80_API void  z80_irq   (Z80*     object,
-				     zboolean state);
-
-	Z_C_SYMBOLS_END
-
-#endif
+Z_C_SYMBOLS_END
 
 #endif /* __emulation_CPU_Z80_H__ */

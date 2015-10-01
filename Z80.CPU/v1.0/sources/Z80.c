@@ -1,4 +1,4 @@
-/* Zilog Z80 CPU Emulator v1.0
+/* Zilog Z80 CPU Emulator
   ____    ____    ___ ___     ___
  / __ \  / ___\  / __` __`\  / __`\
 /\ \/  \/\ \__/_/\ \/\ \/\ \/\  __/
@@ -7,13 +7,18 @@
 Copyright © 1999-2015 Manuel Sainz de Baranda y Goñi.
 Released under the terms of the GNU General Public License v3. */
 
-#include <emulation/CPU/Z80.h>
 #include <Z/macros/value.h>
 
 #if defined(CPU_Z80_BUILDING_DYNAMIC)
-#	define API Z_API_EXPORT
+#	define CPU_Z80_API Z_API_EXPORT
 #else
-#	define API
+#	define CPU_Z80_API
+#endif
+
+#ifdef CPU_Z80_USE_LOCAL_HEADER
+#	include "Z80.h"
+#else
+#	include <emulation/CPU/Z80.h>
 #endif
 
 
@@ -31,12 +36,12 @@ typedef zuint8 (* Instruction)(Z80 *object);
 
 /* MARK: - Macros & Functions: Callback */
 
-#ifdef CPU_Z80_NO_SLOTS
-#	define CB_ACTION(name) object->cb.name
-#	define CB_OBJECT(name) object->cb_context
-#else
+#ifdef CPU_Z80_USE_SLOTS
 #	define CB_ACTION(name) object->cb.name.action
 #	define CB_OBJECT(name) object->cb.name.object
+#else
+#	define CB_ACTION(name) object->cb.name
+#	define CB_OBJECT(name) object->cb_context
 #endif
 
 #define READ_8(address)		CB_ACTION(read	  )(CB_OBJECT(read    ), (address)	   )
@@ -1395,7 +1400,7 @@ INSTRUCTION(ED_illegal) {PC += 2; CYCLES(8);}
 /* MARK: - Main Functions */
 
 
-API zsize z80_run(Z80 *object, zsize cycles)
+CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 	{
 	zuint32 data;
 
@@ -1521,7 +1526,7 @@ API zsize z80_run(Z80 *object, zsize cycles)
 	}
 
 
-API void z80_reset(Z80 *object)
+CPU_Z80_API void z80_reset(Z80 *object)
 	{
 	PC   = Z_Z80_VALUE_AFTER_RESET_PC;
 	SP   = Z_Z80_VALUE_AFTER_RESET_SP;
@@ -1547,7 +1552,7 @@ API void z80_reset(Z80 *object)
 	}
 
 
-API void z80_power(Z80 *object, zboolean state)
+CPU_Z80_API void z80_power(Z80 *object, zboolean state)
 	{
 	if (state)
 		{
@@ -1580,8 +1585,8 @@ API void z80_power(Z80 *object, zboolean state)
 	}
 
 
-API void z80_nmi(Z80 *object)		      {NMI = TRUE ;}
-API void z80_irq(Z80 *object, zboolean state) {INT = state;}
+CPU_Z80_API void z80_nmi(Z80 *object)		      {NMI = TRUE ;}
+CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 
 
 #ifdef CPU_Z80_BUILDING_MODULE
@@ -1615,7 +1620,7 @@ API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 		{Z_EMULATOR_OBJECT_MACHINE, Z_EMULATOR_ACTION_HALT,	  SLOT_OFFSET(halt    )}
 	};
 
-	API ZCPUEmulatorABI const abi_cpu_z80 = {
+	CPU_Z80_API ZCPUEmulatorABI const abi_cpu_z80 = {
 		0, NULL, 7, exports, {sizeof(Z80), Z_OFFSET_OF(Z80, state), 6, slot_linkages}
 	};
 
