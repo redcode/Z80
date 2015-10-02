@@ -9,7 +9,7 @@ Released under the terms of the GNU General Public License v3. */
 
 #include <Z/macros/value.h>
 
-#if defined(CPU_Z80_BUILDING_DYNAMIC)
+#ifdef CPU_Z80_BUILDING_DYNAMIC
 #	define CPU_Z80_API Z_API_EXPORT
 #else
 #	define CPU_Z80_API

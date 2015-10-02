@@ -18,7 +18,7 @@ Released under the terms of the GNU General Public License v3. */
 #endif
 
 #ifndef CPU_Z80_API
-#	if defined(CPU_Z80_USE_STATIC)
+#	ifdef CPU_Z80_USE_STATIC
 #		define CPU_Z80_API
 #	else
 #		define CPU_Z80_API Z_API
