@@ -215,10 +215,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../API/C,
-					/usr/local/include,
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+					../../API/C,
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				LLVM_LTO = YES;
@@ -256,10 +255,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../API/C,
-					/usr/local/include,
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+					../../API/C,
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				LLVM_LTO = YES;
