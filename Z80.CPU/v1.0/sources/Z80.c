@@ -1591,7 +1591,7 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 
 #ifdef CPU_Z80_BUILDING_MODULE
 
-	static void after_state_readed (Z80 *object, ZZ80State *state)
+	static void after_state_read(Z80 *object, ZZ80State *state)
 		{Z_Z80_STATE_R(state) = R_ALL;}
 
 	static void after_state_written(Z80 *object)
@@ -1603,7 +1603,7 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 		{Z_EMULATOR_ACTION_POWER,		(ZDo)z80_power		},
 		{Z_EMULATOR_ACTION_RESET,		(ZDo)z80_reset		},
 		{Z_EMULATOR_ACTION_RUN,			(ZDo)z80_run		},
-		{Z_EMULATOR_ACTION_AFTER_STATE_READED,	(ZDo)after_state_readed },
+		{Z_EMULATOR_ACTION_AFTER_STATE_READ,	(ZDo)after_state_read	},
 		{Z_EMULATOR_ACTION_AFTER_STATE_WRITTEN, (ZDo)after_state_written},
 		{Z_EMULATOR_ACTION_NMI,			(ZDo)z80_nmi		},
 		{Z_EMULATOR_ACTION_INT,			(ZDo)z80_irq		}
