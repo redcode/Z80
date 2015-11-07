@@ -587,8 +587,6 @@ Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 /* MARK: - Abreviation Macros */
 
 #define N(x)	  ((BYTE##x & 56) >> 3)
-#define N1	  N(1)
-#define N3	  N(3)
 #define X0	  (*__xxx___0(object))
 #define X1	  (*__xxx___1(object))
 #define Y0	  (*_____yyy0(object))
@@ -726,7 +724,7 @@ Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 
 
 #define BIT_N_VALUE(value)							\
-	zuint8 n = value & (1 << N1);	/* SF = value.N && N == 7	*/	\
+	zuint8 n = value & (1 << N(1));	/* SF = value.N && N == 7	*/	\
 					/* ZF, PF = !value.N		*/	\
 	F =	(n ? n & SYXF : ZPF)	/* YF = value.N && N == 5	*/	\
 		| HF			/* HF = 1; NF = 0; CF unchanged	*/	\
@@ -735,7 +733,7 @@ Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 
 #define BIT_N_VADDRESS(address)						\
 	Z16Bit a;							\
-	zuint8 n = READ_8(a.value_uint16 = address) & (1 << N3);	\
+	zuint8 n = READ_8(a.value_uint16 = address) & (1 << N(3));	\
 									\
 	F =	(n ? (n & SF) : ZPF)					\
 		| (a.values_uint8.index1 & YXF)				\
