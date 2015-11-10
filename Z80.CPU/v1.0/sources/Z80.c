@@ -584,7 +584,7 @@ Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 	}
 
 
-/* MARK: - Abreviation Macros */
+/* MARK: - Macros: Shortening */
 
 #define N(x)	  ((BYTE##x & 56) >> 3)
 #define X0	  (*__xxx___0(object))
@@ -609,7 +609,7 @@ Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 #define WW	  (*(zuint16 *)((void *)object + w_table[(BYTE1 >> 4) & 3]))
 
 
-/* MARK: - Reusable Code */
+/* MARK: - Macros & Functions: Reusable Code */
 
 #define INSTRUCTION(name) static zuint8 name(Z80 *object)
 #define CYCLES(cycles)	  return cycles;
