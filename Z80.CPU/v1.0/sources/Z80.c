@@ -1363,7 +1363,6 @@ static Instruction const instruction_table_ED[256] = {
 
 /* MARK: - Prefixed Instruction Set Selection and Execution */
 
-
 #define DD_FD(register)						       \
 	zuint8 cycles;						       \
 								       \
@@ -1395,7 +1394,6 @@ INSTRUCTION(ED_illegal) {PC += 2; return 8;}
 
 
 /* MARK: - Main Functions */
-
 
 CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 	{
@@ -1585,6 +1583,8 @@ CPU_Z80_API void z80_power(Z80 *object, zboolean state)
 CPU_Z80_API void z80_nmi(Z80 *object)		      {NMI = TRUE ;}
 CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 
+
+/* MARK: - ABI */
 
 #ifdef CPU_Z80_BUILDING_MODULE
 
