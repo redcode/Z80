@@ -103,15 +103,15 @@ Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 
 /* MARK: - Macros: Internal State */
 
-#define R7    object->r7
-#define HALT  object->state.Z_Z80_STATE_MEMBER_HALT
-#define IFF1  object->state.Z_Z80_STATE_MEMBER_IFF1
-#define IFF2  object->state.Z_Z80_STATE_MEMBER_IFF2
-#define EI    object->state.Z_Z80_STATE_MEMBER_EI
-#define IM    object->state.Z_Z80_STATE_MEMBER_IM
-#define NMI   object->state.Z_Z80_STATE_MEMBER_NMI
-#define INT   object->state.Z_Z80_STATE_MEMBER_IRQ
-#define TICKS object->cycles
+#define R7     object->r7
+#define HALT   object->state.Z_Z80_STATE_MEMBER_HALT
+#define IFF1   object->state.Z_Z80_STATE_MEMBER_IFF1
+#define IFF2   object->state.Z_Z80_STATE_MEMBER_IFF2
+#define EI     object->state.Z_Z80_STATE_MEMBER_EI
+#define IM     object->state.Z_Z80_STATE_MEMBER_IM
+#define NMI    object->state.Z_Z80_STATE_MEMBER_NMI
+#define INT    object->state.Z_Z80_STATE_MEMBER_IRQ
+#define CYCLES object->cycles
 
 
 /* MARK: - Macros: Cached Instruction Data */
@@ -612,7 +612,6 @@ Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 /* MARK: - Macros & Functions: Reusable Code */
 
 #define INSTRUCTION(name) static zuint8 name(Z80 *object)
-#define CYCLES(cycles)	  return cycles;
 #define EXIT_HALT	  if (HALT) {PC++; HALT = FALSE; CLEAR_HALT;}
 #define PUSH(value)	  WRITE_16(SP -= 2, value)
 
@@ -701,7 +700,7 @@ Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 		set_nf;						       /* ADC: NF = 0; SBC: NF = 1	     */	\
 														\
 	HL = t;													\
-	CYCLES(15);
+	return 15;
 
 
 #define RXA						  \
@@ -821,26 +820,26 @@ Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 |  ld r,a		<  ED  ><  4F  >		  ........  2 / 9   |
 '--------------------------------------------------------------------------*/
 
-INSTRUCTION(ld_X_Y)	       {PC++; X0 = Y0;						    CYCLES( 4);}
-INSTRUCTION(ld_JP_KQ)	       {PC += 2; JP = KQ;					    CYCLES( 8);}
-INSTRUCTION(ld_X_BYTE)	       {X0 = READ_8((PC += 2) - 1);				    CYCLES( 7);}
-INSTRUCTION(ld_JP_BYTE)	       {JP = READ_8((PC += 3) - 1);				    CYCLES(11);}
-INSTRUCTION(ld_X_vhl)	       {PC++; X0 = READ_8(HL);					    CYCLES( 7);}
-INSTRUCTION(ld_X_vXYOFFSET)    {X1 = READ_8(XY + READ_OFFSET((PC += 3) - 1));		    CYCLES(19);}
-INSTRUCTION(ld_vhl_Y)	       {PC++; WRITE_8(HL, Y0);					    CYCLES( 7);}
-INSTRUCTION(ld_vXYOFFSET_Y)    {WRITE_8(XY + READ_OFFSET((PC += 3) - 1), Y1);		    CYCLES(19);}
-INSTRUCTION(ld_vhl_BYTE)       {WRITE_8(HL, READ_8((PC += 2) - 1));			    CYCLES(10);}
-INSTRUCTION(ld_vXYOFFSET_BYTE) {PC += 4; WRITE_8(XY + READ_OFFSET(PC - 2), READ_8(PC - 1)); CYCLES(19);}
-INSTRUCTION(ld_a_vbc)	       {PC++; A = READ_8(BC);					    CYCLES( 7);}
-INSTRUCTION(ld_a_vde)	       {PC++; A = READ_8(DE);					    CYCLES( 7);}
-INSTRUCTION(ld_a_vWORD)	       {A = READ_8(READ_16((PC += 3) - 2));			    CYCLES(13);}
-INSTRUCTION(ld_vbc_a)	       {PC++; WRITE_8(BC, A);					    CYCLES( 7);}
-INSTRUCTION(ld_vde_a)	       {PC++; WRITE_8(DE, A);					    CYCLES( 7);}
-INSTRUCTION(ld_vWORD_a)	       {WRITE_8(READ_16((PC += 3) - 2), A);			    CYCLES(13);}
-INSTRUCTION(ld_a_i)	       {PC += 2; A = I; LD_A_I_LD_A_R;				    CYCLES( 9);}
-INSTRUCTION(ld_a_r)	       {PC += 2; A = R_ALL; LD_A_I_LD_A_R;			    CYCLES( 9);}
-INSTRUCTION(ld_i_a)	       {PC += 2; I = A;						    CYCLES( 9);}
-INSTRUCTION(ld_r_a)	       {PC += 2; R = R7 = A;					    CYCLES( 9);}
+INSTRUCTION(ld_X_Y)	       {PC++; X0 = Y0;						    return  4;}
+INSTRUCTION(ld_JP_KQ)	       {PC += 2; JP = KQ;					    return  8;}
+INSTRUCTION(ld_X_BYTE)	       {X0 = READ_8((PC += 2) - 1);				    return  7;}
+INSTRUCTION(ld_JP_BYTE)	       {JP = READ_8((PC += 3) - 1);				    return 11;}
+INSTRUCTION(ld_X_vhl)	       {PC++; X0 = READ_8(HL);					    return  7;}
+INSTRUCTION(ld_X_vXYOFFSET)    {X1 = READ_8(XY + READ_OFFSET((PC += 3) - 1));		    return 19;}
+INSTRUCTION(ld_vhl_Y)	       {PC++; WRITE_8(HL, Y0);					    return  7;}
+INSTRUCTION(ld_vXYOFFSET_Y)    {WRITE_8(XY + READ_OFFSET((PC += 3) - 1), Y1);		    return 19;}
+INSTRUCTION(ld_vhl_BYTE)       {WRITE_8(HL, READ_8((PC += 2) - 1));			    return 10;}
+INSTRUCTION(ld_vXYOFFSET_BYTE) {PC += 4; WRITE_8(XY + READ_OFFSET(PC - 2), READ_8(PC - 1)); return 19;}
+INSTRUCTION(ld_a_vbc)	       {PC++; A = READ_8(BC);					    return  7;}
+INSTRUCTION(ld_a_vde)	       {PC++; A = READ_8(DE);					    return  7;}
+INSTRUCTION(ld_a_vWORD)	       {A = READ_8(READ_16((PC += 3) - 2));			    return 13;}
+INSTRUCTION(ld_vbc_a)	       {PC++; WRITE_8(BC, A);					    return  7;}
+INSTRUCTION(ld_vde_a)	       {PC++; WRITE_8(DE, A);					    return  7;}
+INSTRUCTION(ld_vWORD_a)	       {WRITE_8(READ_16((PC += 3) - 2), A);			    return 13;}
+INSTRUCTION(ld_a_i)	       {PC += 2; A = I; LD_A_I_LD_A_R;				    return  9;}
+INSTRUCTION(ld_a_r)	       {PC += 2; A = R_ALL; LD_A_I_LD_A_R;			    return  9;}
+INSTRUCTION(ld_i_a)	       {PC += 2; I = A;						    return  9;}
+INSTRUCTION(ld_r_a)	       {PC += 2; R = R7 = A;					    return  9;}
 
 
 /* MARK: - Instructions: 16 Bit Load Group
@@ -870,20 +869,20 @@ INSTRUCTION(ld_r_a)	       {PC += 2; R = R7 = A;					    CYCLES( 9);}
 |  pop iy		<  FD  ><  E1  >		  ........  4 / 14  |
 '--------------------------------------------------------------------------*/
 
-INSTRUCTION(ld_SS_WORD)	 {SS0 = READ_16((PC += 3) - 2);		 CYCLES(10);}
-INSTRUCTION(ld_XY_WORD)	 {XY  = READ_16((PC += 4) - 2);		 CYCLES(14);}
-INSTRUCTION(ld_hl_vWORD) {HL  = READ_16(READ_16((PC += 3) - 2)); CYCLES(16);}
-INSTRUCTION(ld_SS_vWORD) {SS1 = READ_16(READ_16((PC += 4) - 2)); CYCLES(20);}
-INSTRUCTION(ld_XY_vWORD) {XY  = READ_16(READ_16((PC += 4) - 2)); CYCLES(20);}
-INSTRUCTION(ld_vWORD_hl) {WRITE_16(READ_16((PC += 3) - 2), HL);	 CYCLES(16);}
-INSTRUCTION(ld_vWORD_SS) {WRITE_16(READ_16((PC += 4) - 2), SS1); CYCLES(20);}
-INSTRUCTION(ld_vWORD_XY) {WRITE_16(READ_16((PC += 4) - 2), XY);	 CYCLES(20);}
-INSTRUCTION(ld_sp_hl)	 {PC++; SP = HL;			 CYCLES( 6);}
-INSTRUCTION(ld_sp_XY)	 {PC += 2; SP = XY;			 CYCLES(10);}
-INSTRUCTION(push_TT)	 {PC++; WRITE_16(SP -= 2, TT);		 CYCLES(11);}
-INSTRUCTION(push_XY)	 {PC += 2; WRITE_16(SP -= 2, XY);	 CYCLES(15);}
-INSTRUCTION(pop_TT)	 {PC++; TT = READ_16(SP); SP += 2;	 CYCLES(10);}
-INSTRUCTION(pop_XY)	 {PC += 2; XY = READ_16(SP); SP += 2;	 CYCLES(14);}
+INSTRUCTION(ld_SS_WORD)	 {SS0 = READ_16((PC += 3) - 2);		 return 10;}
+INSTRUCTION(ld_XY_WORD)	 {XY  = READ_16((PC += 4) - 2);		 return 14;}
+INSTRUCTION(ld_hl_vWORD) {HL  = READ_16(READ_16((PC += 3) - 2)); return 16;}
+INSTRUCTION(ld_SS_vWORD) {SS1 = READ_16(READ_16((PC += 4) - 2)); return 20;}
+INSTRUCTION(ld_XY_vWORD) {XY  = READ_16(READ_16((PC += 4) - 2)); return 20;}
+INSTRUCTION(ld_vWORD_hl) {WRITE_16(READ_16((PC += 3) - 2), HL);	 return 16;}
+INSTRUCTION(ld_vWORD_SS) {WRITE_16(READ_16((PC += 4) - 2), SS1); return 20;}
+INSTRUCTION(ld_vWORD_XY) {WRITE_16(READ_16((PC += 4) - 2), XY);	 return 20;}
+INSTRUCTION(ld_sp_hl)	 {PC++; SP = HL;			 return  6;}
+INSTRUCTION(ld_sp_XY)	 {PC += 2; SP = XY;			 return 10;}
+INSTRUCTION(push_TT)	 {PC++; WRITE_16(SP -= 2, TT);		 return 11;}
+INSTRUCTION(push_XY)	 {PC += 2; WRITE_16(SP -= 2, XY);	 return 15;}
+INSTRUCTION(pop_TT)	 {PC++; TT = READ_16(SP); SP += 2;	 return 10;}
+INSTRUCTION(pop_XY)	 {PC += 2; XY = READ_16(SP); SP += 2;	 return 14;}
 
 
 /* MARK: - Instructions: Exchange, Block Transfer and Search Groups
@@ -907,19 +906,19 @@ INSTRUCTION(pop_XY)	 {PC += 2; XY = READ_16(SP); SP += 2;	 CYCLES(14);}
 |  cpdr			<  ED  ><  B9  >		  ******1.  5,4 / 21,16  |
 '-------------------------------------------------------------------------------*/
 
-INSTRUCTION(ex_de_hl)  {PC++; zuint16 EX(DE, HL)			  CYCLES( 4);}
-INSTRUCTION(ex_af_af_) {PC++; zuint16 EX(AF, AF_)			  CYCLES( 4);}
-INSTRUCTION(exx)       {PC++; zuint16 EX(BC, BC_) EX(DE, DE_) EX(HL, HL_) CYCLES( 4);}
-INSTRUCTION(ex_vsp_hl) {PC++; EX_VSP_X(HL)				  CYCLES(19);}
-INSTRUCTION(ex_vsp_XY) {PC += 2; EX_VSP_X(XY)				  CYCLES(23);}
-INSTRUCTION(ldi)       {PC += 2; LDX (++)				  CYCLES(16);}
-INSTRUCTION(ldir)      {PC += 2; LDXR(++)					     }
-INSTRUCTION(ldd)       {PC += 2; LDX (--)				  CYCLES(16);}
-INSTRUCTION(lddr)      {PC += 2; LDXR(--)					     }
-INSTRUCTION(cpi)       {PC += 2; CPX (++)				  CYCLES(16);}
-INSTRUCTION(cpir)      {PC += 2; CPXR(++)					     }
-INSTRUCTION(cpd)       {PC += 2; CPX (--)				  CYCLES(16);}
-INSTRUCTION(cpdr)      {PC += 2; CPXR(--)					     }
+INSTRUCTION(ex_de_hl)  {PC++; zuint16 EX(DE, HL)			  return  4;}
+INSTRUCTION(ex_af_af_) {PC++; zuint16 EX(AF, AF_)			  return  4;}
+INSTRUCTION(exx)       {PC++; zuint16 EX(BC, BC_) EX(DE, DE_) EX(HL, HL_) return  4;}
+INSTRUCTION(ex_vsp_hl) {PC++; EX_VSP_X(HL)				  return 19;}
+INSTRUCTION(ex_vsp_XY) {PC += 2; EX_VSP_X(XY)				  return 23;}
+INSTRUCTION(ldi)       {PC += 2; LDX (++)				  return 16;}
+INSTRUCTION(ldir)      {PC += 2; LDXR(++)					    }
+INSTRUCTION(ldd)       {PC += 2; LDX (--)				  return 16;}
+INSTRUCTION(lddr)      {PC += 2; LDXR(--)					    }
+INSTRUCTION(cpi)       {PC += 2; CPX (++)				  return 16;}
+INSTRUCTION(cpir)      {PC += 2; CPXR(++)					    }
+INSTRUCTION(cpd)       {PC += 2; CPX (--)				  return 16;}
+INSTRUCTION(cpdr)      {PC += 2; CPXR(--)					    }
 
 
 /* MARK: - Instructions: 8 Bit Arithmetic and Logical Group
@@ -942,15 +941,15 @@ INSTRUCTION(cpdr)      {PC += 2; CPXR(--)					     }
 |  V (iy+OFFSET)	<  FD  >00110vvv<OFFSET>	  sz5h3v*.  6 / 23  |
 '--------------------------------------------------------------------------*/
 
-INSTRUCTION(U_a_Y)	   {PC++; U0(Y0);							    CYCLES( 4);}
-INSTRUCTION(U_a_KQ)	   {PC += 2; U1(KQ);							    CYCLES( 8);}
-INSTRUCTION(U_a_BYTE)	   {U0(READ_8((PC += 2) - 1));						    CYCLES( 7);}
-INSTRUCTION(U_a_vhl)	   {PC++; U0(READ_8(HL));						    CYCLES( 7);}
-INSTRUCTION(U_a_vXYOFFSET) {U1(READ_8(XY + READ_OFFSET((PC += 3) - 1)));			    CYCLES(19);}
-INSTRUCTION(V_X)	   {PC++;    zuint8 *r = __xxx___0(object); *r = V0(*r);		    CYCLES( 4);}
-INSTRUCTION(V_JP)	   {PC += 2; zuint8 *r = __jjj___ (object); *r = V1(*r);		    CYCLES( 8);}
-INSTRUCTION(V_vhl)	   {PC++; WRITE_8(HL, V0(READ_8(HL)));					    CYCLES(11);}
-INSTRUCTION(V_vXYOFFSET)   {zuint16 a = XY + READ_OFFSET((PC += 3) - 1); WRITE_8(a, V1(READ_8(a))); CYCLES(23);}
+INSTRUCTION(U_a_Y)	   {PC++; U0(Y0);							    return  4;}
+INSTRUCTION(U_a_KQ)	   {PC += 2; U1(KQ);							    return  8;}
+INSTRUCTION(U_a_BYTE)	   {U0(READ_8((PC += 2) - 1));						    return  7;}
+INSTRUCTION(U_a_vhl)	   {PC++; U0(READ_8(HL));						    return  7;}
+INSTRUCTION(U_a_vXYOFFSET) {U1(READ_8(XY + READ_OFFSET((PC += 3) - 1)));			    return 19;}
+INSTRUCTION(V_X)	   {PC++;    zuint8 *r = __xxx___0(object); *r = V0(*r);		    return  4;}
+INSTRUCTION(V_JP)	   {PC += 2; zuint8 *r = __jjj___ (object); *r = V1(*r);		    return  8;}
+INSTRUCTION(V_vhl)	   {PC++; WRITE_8(HL, V0(READ_8(HL)));					    return 11;}
+INSTRUCTION(V_vXYOFFSET)   {zuint16 a = XY + READ_OFFSET((PC += 3) - 1); WRITE_8(a, V1(READ_8(a))); return 23;}
 
 
 /* MARK: - Instructions: General-Purpose Arithmetic and CPU Control Group
@@ -984,13 +983,13 @@ INSTRUCTION(V_vXYOFFSET)   {zuint16 a = XY + READ_OFFSET((PC += 3) - 1); WRITE_8
 |  scf			<  37  >			  ..*0*.01  1 / 4   |
 '--------------------------------------------------------------------------*/
 
-INSTRUCTION(nop)  {PC++;			     CYCLES(4);}
-INSTRUCTION(halt) {HALT = 1; SET_HALT;		     CYCLES(4);}
-INSTRUCTION(di)	  {PC++; IFF1 = IFF2 = 0; EI = TRUE; CYCLES(4);}
-INSTRUCTION(ei)	  {PC++; IFF1 = IFF2 = 1; EI = TRUE; CYCLES(4);}
-INSTRUCTION(im_0) {PC += 2; IM = 0;		     CYCLES(8);}
-INSTRUCTION(im_1) {PC += 2; IM = 1;		     CYCLES(8);}
-INSTRUCTION(im_2) {PC += 2; IM = 2;		     CYCLES(8);}
+INSTRUCTION(nop)  {PC++;			     return 4;}
+INSTRUCTION(halt) {HALT = 1; SET_HALT;		     return 4;}
+INSTRUCTION(di)	  {PC++; IFF1 = IFF2 = 0; EI = TRUE; return 4;}
+INSTRUCTION(ei)	  {PC++; IFF1 = IFF2 = 1; EI = TRUE; return 4;}
+INSTRUCTION(im_0) {PC += 2; IM = 0;		     return 8;}
+INSTRUCTION(im_1) {PC += 2; IM = 1;		     return 8;}
+INSTRUCTION(im_2) {PC += 2; IM = 2;		     return 8;}
 
 
 INSTRUCTION(daa)
@@ -1015,7 +1014,7 @@ INSTRUCTION(daa)
 		| (F_C | (A > 0x99));	/* CF = CF | (pA > 0x99)	*/
 
 	A = t;
-	CYCLES(4);
+	return 4;
 	}
 
 
@@ -1028,7 +1027,7 @@ INSTRUCTION(cpl)
 		| NF			  /* NF = 1		      */
 		| A_YX;			  /* YF = A.5; XF = A.3	      */
 
-	CYCLES(4);
+	return 4;
 	}
 
 
@@ -1044,7 +1043,7 @@ INSTRUCTION(neg)
 		| !!A;		     /* CF = !!A			*/
 
 	A = t;
-	CYCLES(8);
+	return 8;
 	}
 
 
@@ -1057,7 +1056,7 @@ INSTRUCTION(ccf)
 		| (F_C << 4) /* HF = CF		     */
 		| (~F & CF); /* CF = ~CF	     */
 			     /* NF = 0		     */
-	CYCLES(4);
+	return 4;
 	}
 
 
@@ -1069,7 +1068,7 @@ INSTRUCTION(scf)
 		| A_YX /* YF = A.5; XF = A.3   */
 		| CF;  /* CF = 1	       */
 		       /* HF = 0; NF = 0       */
-	CYCLES(4);
+	return 4;
 	}
 
 
@@ -1091,14 +1090,14 @@ INSTRUCTION(scf)
 |  dec iy		<  FD  ><  2B  >		  ........  2 / 10  |
 '--------------------------------------------------------------------------*/
 
-INSTRUCTION(add_hl_SS) {PC++;	 ADD_RR_NN(HL, SS0)			    CYCLES(11);}
-INSTRUCTION(adc_hl_SS) {PC += 2; ADC_SBC_HL_SS(adc, +, HL + v + c > 65535,)	       }
-INSTRUCTION(sbc_hl_SS) {PC += 2; ADC_SBC_HL_SS(sbc, -, HL < v + c, | NF)	       }
-INSTRUCTION(add_XY_WW) {PC += 2; ADD_RR_NN(XY, WW)			    CYCLES(15);}
-INSTRUCTION(inc_SS)    {PC++;	 SS0++;					    CYCLES( 6);}
-INSTRUCTION(inc_XY)    {PC += 2; XY++;					    CYCLES(10);}
-INSTRUCTION(dec_SS)    {PC++;	 SS0--;					    CYCLES( 6);}
-INSTRUCTION(dec_XY)    {PC += 2; XY--;					    CYCLES(15);}
+INSTRUCTION(add_hl_SS) {PC++;	 ADD_RR_NN(HL, SS0)			    return 11;}
+INSTRUCTION(adc_hl_SS) {PC += 2; ADC_SBC_HL_SS(adc, +, HL + v + c > 65535,)	      }
+INSTRUCTION(sbc_hl_SS) {PC += 2; ADC_SBC_HL_SS(sbc, -, HL < v + c, | NF)	      }
+INSTRUCTION(add_XY_WW) {PC += 2; ADD_RR_NN(XY, WW)			    return 15;}
+INSTRUCTION(inc_SS)    {PC++;	 SS0++;					    return  6;}
+INSTRUCTION(inc_XY)    {PC += 2; XY++;					    return 10;}
+INSTRUCTION(dec_SS)    {PC++;	 SS0--;					    return  6;}
+INSTRUCTION(dec_XY)    {PC += 2; XY--;					    return 15;}
 
 
 /* MARK: - Instructions: Rotate and Shift Group
@@ -1120,16 +1119,16 @@ INSTRUCTION(dec_XY)    {PC += 2; XY--;					    CYCLES(15);}
 |  rrd			<  ED  ><  67  >		  szy0xp0.  5 / 18  |
 '--------------------------------------------------------------------------*/
 
-INSTRUCTION(rlca)	   {PC++; ROL(A); F = F_SZP | (A & YXCF);		    CYCLES( 4);}
-INSTRUCTION(rla)	   {PC++; zuint8 c = A >> 7; A = (A << 1) | F_C; RXA	    CYCLES( 4);}
-INSTRUCTION(rrca)	   {PC++; ROR(A); F = F_SZP | A_YX | (A >> 7);		    CYCLES( 4);}
-INSTRUCTION(rra)	   {PC++; zuint8 c = A & 1; A = (A >> 1) | (F << 7); RXA    CYCLES( 4);}
-INSTRUCTION(G_Y)	   {zuint8 *r = _____yyy1(object); *r = G1(*r);		    CYCLES( 8);}
-INSTRUCTION(G_vhl)	   {WRITE_8(HL, G1(READ_8(HL)));			    CYCLES(15);}
-INSTRUCTION(G_vXYOFFSET)   {zuint16 a = XY_ADDRESS; WRITE_8(a,	    G3(READ_8(a))); CYCLES(23);}
-INSTRUCTION(G_vXYOFFSET_Y) {zuint16 a = XY_ADDRESS; WRITE_8(a, Y3 = G3(READ_8(a))); CYCLES(23);}
-INSTRUCTION(rld)	   {PC += 2; RXD(<<, & 0xF, >> 4)			    CYCLES(18);}
-INSTRUCTION(rrd)	   {PC += 2; RXD(>>, << 4, & 0xF)			    CYCLES(18);}
+INSTRUCTION(rlca)	   {PC++; ROL(A); F = F_SZP | (A & YXCF);		    return  4;}
+INSTRUCTION(rla)	   {PC++; zuint8 c = A >> 7; A = (A << 1) | F_C; RXA	    return  4;}
+INSTRUCTION(rrca)	   {PC++; ROR(A); F = F_SZP | A_YX | (A >> 7);		    return  4;}
+INSTRUCTION(rra)	   {PC++; zuint8 c = A & 1; A = (A >> 1) | (F << 7); RXA    return  4;}
+INSTRUCTION(G_Y)	   {zuint8 *r = _____yyy1(object); *r = G1(*r);		    return  8;}
+INSTRUCTION(G_vhl)	   {WRITE_8(HL, G1(READ_8(HL)));			    return 15;}
+INSTRUCTION(G_vXYOFFSET)   {zuint16 a = XY_ADDRESS; WRITE_8(a,	    G3(READ_8(a))); return 23;}
+INSTRUCTION(G_vXYOFFSET_Y) {zuint16 a = XY_ADDRESS; WRITE_8(a, Y3 = G3(READ_8(a))); return 23;}
+INSTRUCTION(rld)	   {PC += 2; RXD(<<, & 0xF, >> 4)			    return 18;}
+INSTRUCTION(rrd)	   {PC += 2; RXD(>>, << 4, & 0xF)			    return 18;}
 
 
 /* MARK: - Instructions: Bit Set, Reset and Test Group
@@ -1149,13 +1148,13 @@ INSTRUCTION(rrd)	   {PC += 2; RXD(>>, << 4, & 0xF)			    CYCLES(18);}
 |  M N,(iy+OFFSET),Y	<  FD  ><  CB  ><OFFSET>1mnnnyyy  ........  6 / 23  |
 '--------------------------------------------------------------------------*/
 
-INSTRUCTION(bit_N_Y)	     {BIT_N_VALUE(Y1)					      CYCLES( 8);}
-INSTRUCTION(bit_N_vhl)	     {BIT_N_VALUE(READ_8(HL))				      CYCLES(12);}
-INSTRUCTION(bit_N_vXYOFFSET) {BIT_N_VADDRESS(XY_ADDRESS)			      CYCLES(20);}
-INSTRUCTION(M_N_Y)	     {zuint8 *t = _____yyy1(object); *t = M1(*t);	      CYCLES( 8);}
-INSTRUCTION(M_N_vhl)	     {WRITE_8(HL, M1(READ_8(HL)));			      CYCLES(15);}
-INSTRUCTION(M_N_vXYOFFSET)   {zuint16 a = XY_ADDRESS; WRITE_8(a,      M3(READ_8(a))); CYCLES(23);}
-INSTRUCTION(M_N_vXYOFFSET_Y) {zuint16 a = XY_ADDRESS; WRITE_8(a, Y3 = M3(READ_8(a))); CYCLES(23);}
+INSTRUCTION(bit_N_Y)	     {BIT_N_VALUE(Y1)					      return  8;}
+INSTRUCTION(bit_N_vhl)	     {BIT_N_VALUE(READ_8(HL))				      return 12;}
+INSTRUCTION(bit_N_vXYOFFSET) {BIT_N_VADDRESS(XY_ADDRESS)			      return 20;}
+INSTRUCTION(M_N_Y)	     {zuint8 *t = _____yyy1(object); *t = M1(*t);	      return  8;}
+INSTRUCTION(M_N_vhl)	     {WRITE_8(HL, M1(READ_8(HL)));			      return 15;}
+INSTRUCTION(M_N_vXYOFFSET)   {zuint16 a = XY_ADDRESS; WRITE_8(a,      M3(READ_8(a))); return 23;}
+INSTRUCTION(M_N_vXYOFFSET_Y) {zuint16 a = XY_ADDRESS; WRITE_8(a, Y3 = M3(READ_8(a))); return 23;}
 
 
 /* MARK: - Instructions: Jump Group
@@ -1173,13 +1172,13 @@ INSTRUCTION(M_N_vXYOFFSET_Y) {zuint16 a = XY_ADDRESS; WRITE_8(a, Y3 = M3(READ_8(
 |  djnz OFFSET		<  10  ><OFFSET>		  ........  3,2 / 13,8	|
 '------------------------------------------------------------------------------*/
 
-INSTRUCTION(jp_WORD)	 {PC = READ_16(PC + 1);							 CYCLES(10);}
-INSTRUCTION(jp_Z_WORD)	 {PC = Z ? READ_16(PC + 1) : PC + 3;					 CYCLES(10);}
-INSTRUCTION(jr_OFFSET)	 {PC += (2 + READ_OFFSET(PC + 1));					 CYCLES(12);}
-INSTRUCTION(jr_Z_OFFSET) {BYTE0 &= 223; PC += 2; if (Z) {PC += READ_OFFSET(PC - 1); CYCLES(12);} CYCLES( 7);}
-INSTRUCTION(jp_hl)	 {PC = HL;								 CYCLES( 4);}
-INSTRUCTION(jp_XY)	 {PC = XY;								 CYCLES( 8);}
-INSTRUCTION(djnz_OFFSET) {PC += 2; if (--B) {PC += READ_OFFSET(PC - 1); CYCLES(13);}		 CYCLES( 8);}
+INSTRUCTION(jp_WORD)	 {PC = READ_16(PC + 1);							return 10;}
+INSTRUCTION(jp_Z_WORD)	 {PC = Z ? READ_16(PC + 1) : PC + 3;					return 10;}
+INSTRUCTION(jr_OFFSET)	 {PC += (2 + READ_OFFSET(PC + 1));					return 12;}
+INSTRUCTION(jr_Z_OFFSET) {BYTE0 &= 223; PC += 2; if (Z) {PC += READ_OFFSET(PC - 1); return 12;} return	7;}
+INSTRUCTION(jp_hl)	 {PC = HL;								return	4;}
+INSTRUCTION(jp_XY)	 {PC = XY;								return	8;}
+INSTRUCTION(djnz_OFFSET) {PC += 2; if (--B) {PC += READ_OFFSET(PC - 1); return 13;}		return	8;}
 
 
 /* MARK: - Instructions: Call and Return Group
@@ -1202,13 +1201,13 @@ INSTRUCTION(djnz_OFFSET) {PC += 2; if (--B) {PC += READ_OFFSET(PC - 1); CYCLES(1
 |  rst N		11nnn111			  ........  3 / 11	 |
 '-------------------------------------------------------------------------------*/
 
-INSTRUCTION(call_WORD)	 {PUSH(PC + 3); PC = READ_16(PC + 1);	     CYCLES(17);}
-INSTRUCTION(call_Z_WORD) {if (Z) CYCLES(call_WORD(object)); PC += 3; CYCLES(10);}
-INSTRUCTION(ret)	 {RET;					     CYCLES(10);}
-INSTRUCTION(ret_Z)	 {if (Z) {RET; CYCLES(11);} PC++;	     CYCLES( 5);}
-INSTRUCTION(reti)	 {IFF1 = IFF2; RET;			     CYCLES(14);}
-INSTRUCTION(retn)	 {IFF1 = IFF2; RET;			     CYCLES(14);}
-INSTRUCTION(rst_N)	 {PUSH(PC + 1); PC = BYTE0 & 56;	     CYCLES(11);}
+INSTRUCTION(call_WORD)	 {PUSH(PC + 3); PC = READ_16(PC + 1);	    return 17;}
+INSTRUCTION(call_Z_WORD) {if (Z) return call_WORD(object); PC += 3; return 10;}
+INSTRUCTION(ret)	 {RET;					    return 10;}
+INSTRUCTION(ret_Z)	 {if (Z) {RET; return 11;} PC++;	    return  5;}
+INSTRUCTION(reti)	 {IFF1 = IFF2; RET;			    return 14;}
+INSTRUCTION(retn)	 {IFF1 = IFF2; RET;			    return 14;}
+INSTRUCTION(rst_N)	 {PUSH(PC + 1); PC = BYTE0 & 56;	    return 11;}
 
 
 /* MARK: - Instructions: Input and Output Group
@@ -1232,20 +1231,20 @@ INSTRUCTION(rst_N)	 {PUSH(PC + 1); PC = BYTE0 & 56;	     CYCLES(11);}
 |  otdr			<  ED  ><  BB  >		  010*0***  5,4 / 21,16	 |
 '-------------------------------------------------------------------------------*/
 
-INSTRUCTION(in_a_BYTE)	 {A = IN((A << 8) | READ_8((PC += 2) - 1)); CYCLES(11);}
-INSTRUCTION(in_X_vc)	 {PC += 2; IN_VC; X1 = t;		    CYCLES(12);}
-INSTRUCTION(in_0_vc)	 {PC += 2; IN_VC;			    CYCLES(16);}
-INSTRUCTION(ini)	 {PC += 2; INX(++)			    CYCLES(16);}
-INSTRUCTION(inir)	 {PC += 2; INXR(++)				       }
-INSTRUCTION(ind)	 {PC += 2; INX(--)			    CYCLES(16);}
-INSTRUCTION(indr)	 {PC += 2; INXR(--)				       }
-INSTRUCTION(out_vBYTE_a) {OUT((A << 8) | READ_8((PC += 2) - 1), A); CYCLES(11);}
-INSTRUCTION(out_vc_X)	 {PC += 2; OUT(BC, X1);			    CYCLES(12);}
-INSTRUCTION(out_vc_0)	 {PC += 2; OUT(BC, 0);			    CYCLES(12);}
-INSTRUCTION(outi)	 {PC += 2; OUTX(++)			    CYCLES(16);}
-INSTRUCTION(otir)	 {PC += 2; OTXR(++)				       }
-INSTRUCTION(outd)	 {PC += 2; OUTX(--)			    CYCLES(16);}
-INSTRUCTION(otdr)	 {PC += 2; OTXR(--)				       }
+INSTRUCTION(in_a_BYTE)	 {A = IN((A << 8) | READ_8((PC += 2) - 1)); return 11;}
+INSTRUCTION(in_X_vc)	 {PC += 2; IN_VC; X1 = t;		    return 12;}
+INSTRUCTION(in_0_vc)	 {PC += 2; IN_VC;			    return 16;}
+INSTRUCTION(ini)	 {PC += 2; INX(++)			    return 16;}
+INSTRUCTION(inir)	 {PC += 2; INXR(++)				      }
+INSTRUCTION(ind)	 {PC += 2; INX(--)			    return 16;}
+INSTRUCTION(indr)	 {PC += 2; INXR(--)				      }
+INSTRUCTION(out_vBYTE_a) {OUT((A << 8) | READ_8((PC += 2) - 1), A); return 11;}
+INSTRUCTION(out_vc_X)	 {PC += 2; OUT(BC, X1);			    return 12;}
+INSTRUCTION(out_vc_0)	 {PC += 2; OUT(BC, 0);			    return 12;}
+INSTRUCTION(outi)	 {PC += 2; OUTX(++)			    return 16;}
+INSTRUCTION(otir)	 {PC += 2; OTXR(++)				      }
+INSTRUCTION(outd)	 {PC += 2; OUTX(--)			    return 16;}
+INSTRUCTION(otdr)	 {PC += 2; OTXR(--)				      }
 
 
 /* MARK: - Opcode Selector Prototypes */
@@ -1365,14 +1364,14 @@ static Instruction const instruction_table_ED[256] = {
 /* MARK: - Prefixed Instruction Set Selection and Execution */
 
 
-#define DD_FD(register)						     \
-	zuint8 tiks;						     \
-								     \
-	XY = register;						     \
-	R++;							     \
-	tiks = instruction_table_XY[BYTE1 = READ_8(PC + 1)](object); \
-	register = XY;						     \
-	return tiks;
+#define DD_FD(register)						       \
+	zuint8 cycles;						       \
+								       \
+	XY = register;						       \
+	R++;							       \
+	cycles = instruction_table_XY[BYTE1 = READ_8(PC + 1)](object); \
+	register = XY;						       \
+	return cycles;
 
 
 INSTRUCTION(DD) {DD_FD(IX)}
@@ -1391,8 +1390,8 @@ INSTRUCTION(XY_CB)
 
 /* MARK: - Illegal Instruction Handling */
 
-INSTRUCTION(XY_illegal) {PC += 1; CYCLES(instruction_table[BYTE0 = BYTE1](object) + 4);}
-INSTRUCTION(ED_illegal) {PC += 2; CYCLES(8);}
+INSTRUCTION(XY_illegal) {PC += 1; return instruction_table[BYTE0 = BYTE1](object) + 4;}
+INSTRUCTION(ED_illegal) {PC += 2; return 8;}
 
 
 /* MARK: - Main Functions */
@@ -1402,10 +1401,10 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 	{
 	zuint32 data;
 
-	/*------------.
-	| Clear ticks |
-	'------------*/
-	TICKS = 0;
+	/*-------------.
+	| Clear cycles |
+	'-------------*/
+	CYCLES = 0;
 
 	/*--------------.
 	| Backup R7 bit |
@@ -1415,7 +1414,7 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 	/*------------------------------.
 	| Execute until cycles consumed |
 	'------------------------------*/
-	while (TICKS < cycles)
+	while (CYCLES < cycles)
 		{
 		/*--------------------------------------.
 		| Jump to NMI handler if NMI pending... |
@@ -1429,7 +1428,7 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 			IFF1 = 0;			/* Reset IFF1 to don't bother the NMI routine.		   */
 			PUSH(PC);			/* Save return addres in the stack.			   */
 			PC = Z_Z80_ADDRESS_NMI_POINTER;	/* Make PC point to the NMI routine.			   */
-			TICKS += 11;			/* Accepting a NMI consumes 11 ticks.			   */
+			CYCLES += 11;			/* Accepting a NMI consumes 11 cycles.			   */
 			continue;
 			}
 
@@ -1460,22 +1459,22 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 					{
 					case 0xC30000: /* JP */
 					PC = (zuint16)(data & 0xFFFF);
-					TICKS += 10;
+					CYCLES += 10;
 					break;
 
 					case 0xCD0000: /* CALL */
 					PUSH(PC);
 					PC = (zuint16)(data & 0xFFFF);
-					TICKS += 17;
+					CYCLES += 17;
 					break;
 
 					default: /* RST (and possibly others) */
 					PUSH(PC);
 					PC = (zuint16)(data & 0x38);
-					TICKS += 11;
+					CYCLES += 11;
 					}
 
-				TICKS += 2;
+				CYCLES += 2;
 				break;
 
 				/*----------------------.
@@ -1484,7 +1483,7 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 				case 1:
 				PUSH(PC);
 				PC = 0x38;
-				TICKS += (11 + 2);
+				CYCLES += (11 + 2);
 				break;
 
 				/*---------------------------.
@@ -1493,7 +1492,7 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 				case 2:
 				PUSH(PC);
 				PC = READ_16((zuint16)((I << 8) | (INT_DATA & 0xFF)));
-				TICKS += (17 + 2);
+				CYCLES += (17 + 2);
 				break;
 				}
 
@@ -1509,7 +1508,7 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 		/*-----------------------------------------------.
 		| Execute instruction and update consumed cycles |
 		'-----------------------------------------------*/
-		TICKS += instruction_table[BYTE0 = READ_8(PC)](object);
+		CYCLES += instruction_table[BYTE0 = READ_8(PC)](object);
 		}
 
 	/*---------------.
@@ -1520,7 +1519,7 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 	/*-----------------------.
 	| Return consumed cycles |
 	'-----------------------*/
-	return TICKS;
+	return CYCLES;
 	}
 
 
