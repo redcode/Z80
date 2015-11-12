@@ -792,7 +792,7 @@ Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 /* MARK: - Instructions: 8 Bit Load Group
 .---------------------------------------------------------------------------.
 |			0	1	2	3	  Flags		    |
-|  Instruction		76543210765432107654321076543210  szyhxpnc  Cycles  |
+|  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles  |
 |  -----------------------------------------------------------------------  |
 |  ld X,Y		01xxxyyy			  ........  1 / 4   |
 |  ld J,K		<  DD  >01jjjkkk		  ........  2 / 8   |
@@ -846,7 +846,7 @@ INSTRUCTION(ld_r_a)	       {PC += 2; R = R7 = A;					    CYCLES( 9);}
 /* MARK: - Instructions: 16 Bit Load Group
 .---------------------------------------------------------------------------.
 |			0	1	2	3	  Flags		    |
-|  Instruction		76543210765432107654321076543210  szyhxpnc  Cycles  |
+|  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles  |
 |  -----------------------------------------------------------------------  |
 |  ld SS,WORD		00ss0001<     WORD     >	  ........  3 / 10  |
 |  ld ix,WORD		<  DD  ><  21  ><     WORD     >  ........  4 / 14  |
@@ -889,7 +889,7 @@ INSTRUCTION(pop_XY)	 {PC += 2; XY = READ_16(SP); SP += 2;	 CYCLES(14);}
 /* MARK: - Instructions: Exchange, Block Transfer and Search Groups
 .--------------------------------------------------------------------------------.
 |			0	1	2	3	  Flags			 |
-|  Instruction		76543210765432107654321076543210  szyhxpnc  Cycles	 |
+|  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles	 |
 |  ----------------------------------------------------------------------------	 |
 |  ex de,hl		<  EB  >			  ........  1 / 4	 |
 |  ex af,af'		<  08  >			  ........  1 / 4	 |
@@ -925,7 +925,7 @@ INSTRUCTION(cpdr)      {PC += 2; CPXR(--)					     }
 /* MARK: - Instructions: 8 Bit Arithmetic and Logical Group
 .---------------------------------------------------------------------------.
 |			0	1	2	3	  Flags		    |
-|  Instruction		76543210765432107654321076543210  szyhxpnc  Cycles  |
+|  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles  |
 |  -----------------------------------------------------------------------  |
 |  U [a,]Y		10uuuyyy			  sz5h3***  1 / 4   |
 |  U [a,]K		<  DD  >10uuukkk		  sz5h3***  2 / 8   |
@@ -956,7 +956,7 @@ INSTRUCTION(V_vXYOFFSET)   {zuint16 a = XY + READ_OFFSET((PC += 3) - 1); WRITE_8
 /* MARK: - Instructions: General-Purpose Arithmetic and CPU Control Group
 .---------------------------------------------------------------------------.
 |			0	1	2	3	  Flags		    |
-|  Instruction		76543210765432107654321076543210  szyhxpnc  Cycles  |
+|  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles  |
 |  -----------------------------------------------------------------------  |
 |  nop			<  00  >			  ........  1 / 4   |
 |  halt			<  76  >			  ........  1 / 4   |
@@ -1076,7 +1076,7 @@ INSTRUCTION(scf)
 /* MARK: - Instructions: 16 Bit Arithmetic Group
 .---------------------------------------------------------------------------.
 |			0	1	2	3	  Flags		    |
-|  Instruction		76543210765432107654321076543210  szyhxpnc  Cycles  |
+|  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles  |
 |  -----------------------------------------------------------------------  |
 |  add hl,SS		00ss1001			  ..***.0*  3 / 11  |
 |  adc hl,SS		<  ED  >01ss1010		  *****v0*  4 / 15  |
@@ -1104,7 +1104,7 @@ INSTRUCTION(dec_XY)    {PC += 2; XY--;					    CYCLES(15);}
 /* MARK: - Instructions: Rotate and Shift Group
 .---------------------------------------------------------------------------.
 |			0	1	2	3	  Flags		    |
-|  Instruction		76543210765432107654321076543210  szyhxpnc  Cycles  |
+|  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles  |
 |  -----------------------------------------------------------------------  |
 |  rlca			<  07  >			  ..y0x.0c  1 / 4   |
 |  rla			<  17  >			  ..y0x.0c  1 / 4   |
@@ -1135,7 +1135,7 @@ INSTRUCTION(rrd)	   {PC += 2; RXD(>>, << 4, & 0xF)			    CYCLES(18);}
 /* MARK: - Instructions: Bit Set, Reset and Test Group
 .---------------------------------------------------------------------------.
 |			0	1	2	3	  Flags		    |
-|  Instruction		76543210765432107654321076543210  szyhxpnc  Cycles  |
+|  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles  |
 |  -----------------------------------------------------------------------  |
 |  bit N,Y		<  CB  >01nnnyyy		  szy1xz0.  2 / 8   |
 |  bit N,(hl)		<  CB  >01nnn110		  sz?1?z0.  3 / 12  |
@@ -1161,7 +1161,7 @@ INSTRUCTION(M_N_vXYOFFSET_Y) {zuint16 a = XY_ADDRESS; WRITE_8(a, Y3 = M3(READ_8(
 /* MARK: - Instructions: Jump Group
 .-------------------------------------------------------------------------------.
 |			0	1	2	3	  Flags			|
-|  Instruction		76543210765432107654321076543210  szyhxpnc  Cycles	|
+|  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles	|
 |  ---------------------------------------------------------------------------	|
 |  jp WORD		<  C3  ><     WORD     >	  ........  3 / 10	|
 |  jp Z,WORD		11zzz010<     WORD     >	  ........  3 / 10	|
@@ -1185,7 +1185,7 @@ INSTRUCTION(djnz_OFFSET) {PC += 2; if (--B) {PC += READ_OFFSET(PC - 1); CYCLES(1
 /* MARK: - Instructions: Call and Return Group
 .--------------------------------------------------------------------------------.
 |			0	1	2	3	  Flags			 |
-|  Instruction		76543210765432107654321076543210  szyhxpnc  Cycles	 |
+|  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles	 |
 |  ----------------------------------------------------------------------------	 |
 |  call WORD		<  CD  ><     WORD     >	  ........  5 / 17	 |
 |  call Z,WORD		11zzz100<     WORD     >	  ........  3,5 / 10,17	 |
@@ -1214,7 +1214,7 @@ INSTRUCTION(rst_N)	 {PUSH(PC + 1); PC = BYTE0 & 56;	     CYCLES(11);}
 /* MARK: - Instructions: Input and Output Group
 .--------------------------------------------------------------------------------.
 |			0	1	2	3	  Flags			 |
-|  Instruction		76543210765432107654321076543210  szyhxpnc  Cycles	 |
+|  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles	 |
 |  ----------------------------------------------------------------------------	 |
 |  in a,(BYTE)		<  DB  >< BYTE >		  ........  3 / 11	 |
 |  in X,(c)		<  ED  >01xxx000		  szy0xp0.  3 / 12	 |
