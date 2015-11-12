@@ -1589,22 +1589,19 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 
 #ifdef CPU_Z80_BUILDING_MODULE
 
-	static void after_state_read(Z80 *object, ZZ80State *state)
-		{Z_Z80_STATE_R(state) = R_ALL;}
-
-	static void after_state_written(Z80 *object)
-		{R7 = R;}
+	static void will_read_state(Z80 *object) {R  = R_ALL;}
+	static void did_write_state(Z80 *object) {R7 = R;    }
 
 #	include <Z/ABIs/emulation.h>
 
-	static ZEmulatorExport const exports[7] = {
-		{Z_EMULATOR_ACTION_POWER,		(ZDo)z80_power		},
-		{Z_EMULATOR_ACTION_RESET,		(ZDo)z80_reset		},
-		{Z_EMULATOR_ACTION_RUN,			(ZDo)z80_run		},
-		{Z_EMULATOR_ACTION_AFTER_STATE_READ,	(ZDo)after_state_read	},
-		{Z_EMULATOR_ACTION_AFTER_STATE_WRITTEN, (ZDo)after_state_written},
-		{Z_EMULATOR_ACTION_NMI,			(ZDo)z80_nmi		},
-		{Z_EMULATOR_ACTION_INT,			(ZDo)z80_irq		}
+	static ZEmulatorFunctionExport const exports[7] = {
+		{Z_EMULATOR_ACTION_POWER,	    (ZEmulatorFunction)z80_power      },
+		{Z_EMULATOR_ACTION_RESET,	    (ZEmulatorFunction)z80_reset      },
+		{Z_EMULATOR_ACTION_RUN,		    (ZEmulatorFunction)z80_run	      },
+		{Z_EMULATOR_ACTION_WILL_READ_STATE, (ZEmulatorFunction)will_read_state},
+		{Z_EMULATOR_ACTION_DID_WRITE_STATE, (ZEmulatorFunction)did_write_state},
+		{Z_EMULATOR_ACTION_NMI,		    (ZEmulatorFunction)z80_nmi	      },
+		{Z_EMULATOR_ACTION_INT,		    (ZEmulatorFunction)z80_irq	      }
 	};
 
 #	define SLOT_OFFSET(name) Z_OFFSET_OF(Z80, cb.name)
@@ -1619,7 +1616,15 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 	};
 
 	CPU_Z80_API ZCPUEmulatorABI const abi_cpu_z80 = {
-		0, NULL, 7, exports, {sizeof(Z80), Z_OFFSET_OF(Z80, state), 6, slot_linkages}
+		/* dependency_count	       */ 0,
+		/* dependencies		       */ NULL,
+		/* function_export_count       */ 7,
+		/* function_exports	       */ exports,
+		/* instance_size	       */ sizeof(Z80),
+		/* instance_state_offset       */ Z_OFFSET_OF(Z80, state),
+		/* instance_state_size	       */ sizeof(ZZ80State),
+		/* instance_slot_linkage_count */ 6,
+		/* instance_slot_linkages      */ slot_linkages
 	};
 
 #endif
