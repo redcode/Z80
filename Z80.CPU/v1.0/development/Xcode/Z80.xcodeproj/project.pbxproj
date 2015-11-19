@@ -135,7 +135,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0610;
-				ORGANIZATIONNAME = redcode;
+				ORGANIZATIONNAME = "Manuel Sainz de Baranda y Goñi";
 				TargetAttributes = {
 					6428A5681AAFC68700634F5D = {
 						CreatedOnToolsVersion = 6.1.1;
