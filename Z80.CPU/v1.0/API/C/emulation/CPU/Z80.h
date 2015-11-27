@@ -11,7 +11,7 @@ Released under the terms of the GNU General Public License v3. */
 #define __emulation_CPU_Z80_H__
 
 #include <Z/hardware/CPU/architecture/Z80.h>
-#include <Z/ABIs/emulation.h>
+#include <Z/ABIs/generic/emulation.h>
 
 #ifdef CPU_Z80_USE_SLOTS
 #	include <Z/macros/slot.h>
