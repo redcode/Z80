@@ -33,22 +33,22 @@ typedef struct {
 	Z32Bit	  data;
 
 #	ifdef CPU_Z80_USE_SLOTS
-		struct {ZSlot(Z16BitAddressRead8Bit ) read;
-			ZSlot(Z16BitAddressWrite8Bit) write;
-			ZSlot(Z16BitAddressRead8Bit ) in;
-			ZSlot(Z16BitAddressWrite8Bit) out;
-			ZSlot(ZRead32Bit	    ) int_data;
-			ZSlot(ZSwitch		    ) halt;
+		struct {ZSlot(ZContext16BitAddressRead8Bit ) read;
+			ZSlot(ZContext16BitAddressWrite8Bit) write;
+			ZSlot(ZContext16BitAddressRead8Bit ) in;
+			ZSlot(ZContext16BitAddressWrite8Bit) out;
+			ZSlot(ZContextRead32Bit		   ) int_data;
+			ZSlot(ZContextSwitch		   ) halt;
 		} cb;
 #	else
 		void* cb_context;
 
-		struct {Z16BitAddressRead8Bit  read;
-			Z16BitAddressWrite8Bit write;
-			Z16BitAddressRead8Bit  in;
-			Z16BitAddressWrite8Bit out;
-			ZRead32Bit	       int_data;
-			ZSwitch		       halt;
+		struct {ZContext16BitAddressRead8Bit  read;
+			ZContext16BitAddressWrite8Bit write;
+			ZContext16BitAddressRead8Bit  in;
+			ZContext16BitAddressWrite8Bit out;
+			ZContextRead32Bit	      int_data;
+			ZContextSwitch		      halt;
 		} cb;
 #	endif
 } Z80;
