@@ -8,6 +8,7 @@ Copyright © 1999-2015 Manuel Sainz de Baranda y Goñi.
 Released under the terms of the GNU General Public License v3. */
 
 #include <Z/macros/value.h>
+#include <Z/macros/pointer.h>
 
 #ifdef CPU_Z80_BUILDING_DYNAMIC
 #	define CPU_Z80_API Z_API_EXPORT
@@ -294,7 +295,7 @@ static zuint8 const w_table[4] = {
 
 #define R_16(name, table, offset)   \
 Z_INLINE zuint16 *name(Z80 *object) \
-	{return ((void *)object) + table[(BYTE(offset) & 48) >> 4];}
+	{return Z_BOP(zuint16 *, object, table[(BYTE(offset) & 48) >> 4]);}
 
 R_16(__ss____0, s_table, 0)
 R_16(__ss____1, s_table, 1)
@@ -606,7 +607,7 @@ Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 #define G3(value)   __ggg___ (object, 3, value)
 #define M1(value)   _m______ (object, 1, value)
 #define M3(value)   _m______ (object, 3, value)
-#define WW	  (*(zuint16 *)((void *)object + w_table[(BYTE1 >> 4) & 3]))
+#define WW	  (*Z_BOP(zuint16 *, object, w_table[(BYTE1 >> 4) & 3]))
 
 
 /* MARK: - Macros & Functions: Reusable Code */
