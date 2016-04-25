@@ -1623,7 +1623,7 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 		{Z_EMULATOR_OBJECT_MACHINE, Z_EMULATOR_ACTION_HALT,	  SLOT_OFFSET(halt    )}
 	};
 
-	CPU_Z80_ABI ZCPUEmulatorABI const cpu_abi_z80 = {
+	CPU_Z80_ABI ZCPUEmulatorABI const abi_emulation_cpu_z80 = {
 		/* dependency_count	       */ 0,
 		/* dependencies		       */ NULL,
 		/* function_export_count       */ 7,
@@ -1645,7 +1645,7 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 		"C2011-2016 Manuel Sainz de Baranda y Goñi\n"
 		"LLGPLv3";
 
-	static ZModuleUnit const unit = {"Z80", Z_VERSION(1, 0, 0), information, &cpu_abi_z80};
+	static ZModuleUnit const unit = {"Z80", Z_VERSION(1, 0, 0), information, &abi_emulation_cpu_z80};
 	static ZModuleDomain const domain = {"emulation/CPU", Z_VERSION(1, 0, 0), 1, &unit};
 	Z_API_WEAK_EXPORT ZModuleABI const __module_abi__ = {1, &domain};
 

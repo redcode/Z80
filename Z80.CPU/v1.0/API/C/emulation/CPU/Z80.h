@@ -55,7 +55,7 @@ Z_C_SYMBOLS_BEGIN
 #	endif
 #endif
 
-CPU_Z80_ABI extern ZCPUEmulatorABI const abi_cpu_z80;
+CPU_Z80_ABI extern ZCPUEmulatorABI const abi_emulation_cpu_z80;
 
 #ifndef CPU_Z80_API
 #	ifdef CPU_Z80_AS_STATIC
