@@ -19,7 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6428A5691AAFC68700634F5D /* libZ80 (dynamic).dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libZ80 (dynamic).dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6428A5691AAFC68700634F5D /* libZ80.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libZ80.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		6428A5741AAFC6DF00634F5D /* Z80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Z80.h; sourceTree = "<group>"; };
 		6428A5761AAFC72900634F5D /* Z80.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Z80.c; sourceTree = "<group>"; };
 		6428A57C1AAFEDED00634F5D /* libZ80.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZ80.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,7 +87,7 @@
 		6428A56A1AAFC68700634F5D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6428A5691AAFC68700634F5D /* libZ80 (dynamic).dylib */,
+				6428A5691AAFC68700634F5D /* libZ80.dylib */,
 				6428A57C1AAFEDED00634F5D /* libZ80.a */,
 				648C13B61CCDFA8D00C8DCE1 /* Z80.CPU */,
 				648C13C91CCDFBEF00C8DCE1 /* libZ80.a */,
@@ -180,7 +180,7 @@
 			);
 			name = "Z80 (dynamic)";
 			productName = Z80;
-			productReference = 6428A5691AAFC68700634F5D /* libZ80 (dynamic).dylib */;
+			productReference = 6428A5691AAFC68700634F5D /* libZ80.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		6428A57B1AAFEDED00634F5D /* Z80 (static) */ = {
