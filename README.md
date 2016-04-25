@@ -1,5 +1,5 @@
 # Zilog Z80 CPU Emulator
-Copyright © 1999-2015 Manuel Sainz de Baranda y Goñi.  
+Copyright © 1999-2016 Manuel Sainz de Baranda y Goñi.  
 Released under the terms of the [GNU General Public License v3](http://www.gnu.org/copyleft/gpl.html).
 
 This is a very accurate Z80 emulator I developed many years ago. I did not test it nor use it until recently. Some "friends" of mine used it in their computer and console emulators but I lost contact with them and they did not provide me any feedback.
