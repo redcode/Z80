@@ -17,14 +17,6 @@ Released under the terms of the GNU General Public License v3. */
 #	include <Z/macros/slot.h>
 #endif
 
-#ifndef CPU_Z80_API
-#	ifdef CPU_Z80_USE_STATIC
-#		define CPU_Z80_API
-#	else
-#		define CPU_Z80_API Z_API
-#	endif
-#endif
-
 typedef struct {
 	zsize	  cycles;
 	ZZ80State state;
@@ -55,7 +47,23 @@ typedef struct {
 
 Z_C_SYMBOLS_BEGIN
 
-CPU_Z80_API extern ZCPUEmulatorABI const abi_cpu_z80;
+#ifndef CPU_Z80_ABI
+#	ifdef CPU_Z80_AS_STATIC
+#		define CPU_Z80_ABI
+#	else
+#		define CPU_Z80_ABI Z_API
+#	endif
+#endif
+
+CPU_Z80_ABI extern ZCPUEmulatorABI const abi_cpu_z80;
+
+#ifndef CPU_Z80_API
+#	ifdef CPU_Z80_AS_STATIC
+#		define CPU_Z80_API
+#	else
+#		define CPU_Z80_API Z_API
+#	endif
+#endif
 
 CPU_Z80_API zsize z80_run   (Z80*     object,
 			     zsize    cycles);

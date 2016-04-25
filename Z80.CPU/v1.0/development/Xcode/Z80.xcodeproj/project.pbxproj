@@ -8,15 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		6428A5751AAFC6DF00634F5D /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6428A5771AAFC72900634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_BUILDING_DYNAMIC"; }; };
-		6428A5801AAFEF1D00634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_BUILDING_STATIC"; }; };
+		6428A5771AAFC72900634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_AS_DYNAMIC"; }; };
+		6428A5801AAFEF1D00634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; };
+		648C13AF1CCDFA8D00C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_AS_DYNAMIC -DCPU_Z80_BUILD_MODULE_ABI"; }; };
+		648C13B21CCDFA8D00C8DCE1 /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		648C13C31CCDFBEF00C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_BUILD_ABI"; }; };
+		648C13CC1CCDFC7700C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_BUILD_ABI -DCPU_Z80_HIDE_API"; }; };
+		648C13D51CCE11CE00C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_AS_DYNAMIC -DCPU_Z80_BUILD_ABI"; }; };
+		648C13D81CCE11CE00C8DCE1 /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6428A5691AAFC68700634F5D /* libZ80.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libZ80.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		6428A5691AAFC68700634F5D /* libZ80 (dynamic).dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libZ80 (dynamic).dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6428A5741AAFC6DF00634F5D /* Z80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Z80.h; sourceTree = "<group>"; };
 		6428A5761AAFC72900634F5D /* Z80.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Z80.c; sourceTree = "<group>"; };
 		6428A57C1AAFEDED00634F5D /* libZ80.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZ80.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		648C13B61CCDFA8D00C8DCE1 /* libZ80 (module).dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libZ80 (module).dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
+		648C13C91CCDFBEF00C8DCE1 /* libZ80 (static +ABI).a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libZ80 (static +ABI).a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		648C13D21CCDFC7700C8DCE1 /* libZ80 (static +ABI -API).a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libZ80 (static +ABI -API).a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		648C13DC1CCE11CE00C8DCE1 /* libZ80 (dynamic +ABI).dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libZ80 (dynamic +ABI).dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,6 +38,34 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6428A5791AAFEDED00634F5D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		648C13B01CCDFA8D00C8DCE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		648C13C41CCDFBEF00C8DCE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		648C13CD1CCDFC7700C8DCE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		648C13D61CCE11CE00C8DCE1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -49,8 +87,12 @@
 		6428A56A1AAFC68700634F5D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6428A5691AAFC68700634F5D /* libZ80.dylib */,
+				6428A5691AAFC68700634F5D /* libZ80 (dynamic).dylib */,
 				6428A57C1AAFEDED00634F5D /* libZ80.a */,
+				648C13B61CCDFA8D00C8DCE1 /* libZ80 (module).dylib */,
+				648C13C91CCDFBEF00C8DCE1 /* libZ80 (static +ABI).a */,
+				648C13D21CCDFC7700C8DCE1 /* libZ80 (static +ABI -API).a */,
+				648C13DC1CCE11CE00C8DCE1 /* libZ80 (dynamic +ABI).dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -91,12 +133,42 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		648C13B11CCDFA8D00C8DCE1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				648C13B21CCDFA8D00C8DCE1 /* Z80.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		648C13C51CCDFBEF00C8DCE1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		648C13CE1CCDFC7700C8DCE1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		648C13D71CCE11CE00C8DCE1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				648C13D81CCE11CE00C8DCE1 /* Z80.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6428A5681AAFC68700634F5D /* Z80 */ = {
+		6428A5681AAFC68700634F5D /* Z80 (dynamic) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6428A56D1AAFC68700634F5D /* Build configuration list for PBXNativeTarget "Z80" */;
+			buildConfigurationList = 6428A56D1AAFC68700634F5D /* Build configuration list for PBXNativeTarget "Z80 (dynamic)" */;
 			buildPhases = (
 				6428A5651AAFC68700634F5D /* Sources */,
 				6428A5661AAFC68700634F5D /* Frameworks */,
@@ -106,14 +178,14 @@
 			);
 			dependencies = (
 			);
-			name = Z80;
+			name = "Z80 (dynamic)";
 			productName = Z80;
-			productReference = 6428A5691AAFC68700634F5D /* libZ80.dylib */;
+			productReference = 6428A5691AAFC68700634F5D /* libZ80 (dynamic).dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		6428A57B1AAFEDED00634F5D /* Z80 (Static) */ = {
+		6428A57B1AAFEDED00634F5D /* Z80 (static) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6428A57D1AAFEDED00634F5D /* Build configuration list for PBXNativeTarget "Z80 (Static)" */;
+			buildConfigurationList = 6428A57D1AAFEDED00634F5D /* Build configuration list for PBXNativeTarget "Z80 (static)" */;
 			buildPhases = (
 				6428A5781AAFEDED00634F5D /* Sources */,
 				6428A5791AAFEDED00634F5D /* Frameworks */,
@@ -123,10 +195,78 @@
 			);
 			dependencies = (
 			);
-			name = "Z80 (Static)";
+			name = "Z80 (static)";
 			productName = "Z80-Static";
 			productReference = 6428A57C1AAFEDED00634F5D /* libZ80.a */;
 			productType = "com.apple.product-type.library.static";
+		};
+		648C13AD1CCDFA8D00C8DCE1 /* Z80 (module) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 648C13B31CCDFA8D00C8DCE1 /* Build configuration list for PBXNativeTarget "Z80 (module)" */;
+			buildPhases = (
+				648C13AE1CCDFA8D00C8DCE1 /* Sources */,
+				648C13B01CCDFA8D00C8DCE1 /* Frameworks */,
+				648C13B11CCDFA8D00C8DCE1 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Z80 (module)";
+			productName = Z80;
+			productReference = 648C13B61CCDFA8D00C8DCE1 /* libZ80 (module).dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		648C13C11CCDFBEF00C8DCE1 /* Z80 (static +ABI) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 648C13C61CCDFBEF00C8DCE1 /* Build configuration list for PBXNativeTarget "Z80 (static +ABI)" */;
+			buildPhases = (
+				648C13C21CCDFBEF00C8DCE1 /* Sources */,
+				648C13C41CCDFBEF00C8DCE1 /* Frameworks */,
+				648C13C51CCDFBEF00C8DCE1 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Z80 (static +ABI)";
+			productName = "Z80-Static";
+			productReference = 648C13C91CCDFBEF00C8DCE1 /* libZ80 (static +ABI).a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		648C13CA1CCDFC7700C8DCE1 /* Z80 (static +ABI -API) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 648C13CF1CCDFC7700C8DCE1 /* Build configuration list for PBXNativeTarget "Z80 (static +ABI -API)" */;
+			buildPhases = (
+				648C13CB1CCDFC7700C8DCE1 /* Sources */,
+				648C13CD1CCDFC7700C8DCE1 /* Frameworks */,
+				648C13CE1CCDFC7700C8DCE1 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Z80 (static +ABI -API)";
+			productName = "Z80-Static";
+			productReference = 648C13D21CCDFC7700C8DCE1 /* libZ80 (static +ABI -API).a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		648C13D31CCE11CE00C8DCE1 /* Z80 (dynamic +ABI) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 648C13D91CCE11CE00C8DCE1 /* Build configuration list for PBXNativeTarget "Z80 (dynamic +ABI)" */;
+			buildPhases = (
+				648C13D41CCE11CE00C8DCE1 /* Sources */,
+				648C13D61CCE11CE00C8DCE1 /* Frameworks */,
+				648C13D71CCE11CE00C8DCE1 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Z80 (dynamic +ABI)";
+			productName = Z80;
+			productReference = 648C13DC1CCE11CE00C8DCE1 /* libZ80 (dynamic +ABI).dylib */;
+			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
 
@@ -157,8 +297,12 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6428A5681AAFC68700634F5D /* Z80 */,
-				6428A57B1AAFEDED00634F5D /* Z80 (Static) */,
+				6428A5681AAFC68700634F5D /* Z80 (dynamic) */,
+				648C13D31CCE11CE00C8DCE1 /* Z80 (dynamic +ABI) */,
+				648C13AD1CCDFA8D00C8DCE1 /* Z80 (module) */,
+				6428A57B1AAFEDED00634F5D /* Z80 (static) */,
+				648C13C11CCDFBEF00C8DCE1 /* Z80 (static +ABI) */,
+				648C13CA1CCDFC7700C8DCE1 /* Z80 (static +ABI -API) */,
 			);
 		};
 /* End PBXProject section */
@@ -177,6 +321,38 @@
 			buildActionMask = 2147483647;
 			files = (
 				6428A5801AAFEF1D00634F5D /* Z80.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		648C13AE1CCDFA8D00C8DCE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				648C13AF1CCDFA8D00C8DCE1 /* Z80.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		648C13C21CCDFBEF00C8DCE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				648C13C31CCDFBEF00C8DCE1 /* Z80.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		648C13CB1CCDFC7700C8DCE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				648C13CC1CCDFC7700C8DCE1 /* Z80.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		648C13D41CCE11CE00C8DCE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				648C13D51CCE11CE00C8DCE1 /* Z80.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +468,78 @@
 			};
 			name = Release;
 		};
+		648C13B41CCDFA8D00C8DCE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1.0;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/emulation/CPU;
+			};
+			name = Debug;
+		};
+		648C13B51CCDFA8D00C8DCE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1.0;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/emulation/CPU;
+			};
+			name = Release;
+		};
+		648C13C71CCDFBEF00C8DCE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		648C13C81CCDFBEF00C8DCE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		648C13D01CCDFC7700C8DCE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		648C13D11CCDFC7700C8DCE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		648C13DA1CCE11CE00C8DCE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1.0;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/emulation/CPU;
+			};
+			name = Debug;
+		};
+		648C13DB1CCE11CE00C8DCE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1.0;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/emulation/CPU;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -304,7 +552,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6428A56D1AAFC68700634F5D /* Build configuration list for PBXNativeTarget "Z80" */ = {
+		6428A56D1AAFC68700634F5D /* Build configuration list for PBXNativeTarget "Z80 (dynamic)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6428A56E1AAFC68700634F5D /* Debug */,
@@ -313,11 +561,47 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6428A57D1AAFEDED00634F5D /* Build configuration list for PBXNativeTarget "Z80 (Static)" */ = {
+		6428A57D1AAFEDED00634F5D /* Build configuration list for PBXNativeTarget "Z80 (static)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6428A57E1AAFEDED00634F5D /* Debug */,
 				6428A57F1AAFEDED00634F5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		648C13B31CCDFA8D00C8DCE1 /* Build configuration list for PBXNativeTarget "Z80 (module)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				648C13B41CCDFA8D00C8DCE1 /* Debug */,
+				648C13B51CCDFA8D00C8DCE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		648C13C61CCDFBEF00C8DCE1 /* Build configuration list for PBXNativeTarget "Z80 (static +ABI)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				648C13C71CCDFBEF00C8DCE1 /* Debug */,
+				648C13C81CCDFBEF00C8DCE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		648C13CF1CCDFC7700C8DCE1 /* Build configuration list for PBXNativeTarget "Z80 (static +ABI -API)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				648C13D01CCDFC7700C8DCE1 /* Debug */,
+				648C13D11CCDFC7700C8DCE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		648C13D91CCE11CE00C8DCE1 /* Build configuration list for PBXNativeTarget "Z80 (dynamic +ABI)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				648C13DA1CCE11CE00C8DCE1 /* Debug */,
+				648C13DB1CCE11CE00C8DCE1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -10,10 +10,20 @@ Released under the terms of the GNU General Public License v3. */
 #include <Z/macros/value.h>
 #include <Z/macros/pointer.h>
 
-#ifdef CPU_Z80_BUILDING_DYNAMIC
+#if defined(CPU_Z80_HIDE_API)
+#	define CPU_Z80_API static
+#elif defined(CPU_Z80_AS_DYNAMIC)
 #	define CPU_Z80_API Z_API_EXPORT
 #else
 #	define CPU_Z80_API
+#endif
+
+#if defined(CPU_Z80_HIDE_ABI)
+#	define CPU_Z80_ABI static
+#elif defined(CPU_Z80_AS_DYNAMIC)
+#	define CPU_Z80_ABI Z_API_EXPORT
+#else
+#	define CPU_Z80_ABI
 #endif
 
 #ifdef CPU_Z80_USE_LOCAL_HEADER
@@ -1587,12 +1597,10 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 
 /* MARK: - ABI */
 
-#ifdef CPU_Z80_BUILDING_MODULE
+#if defined(CPU_Z80_BUILD_ABI) || defined(CPU_Z80_BUILD_MODULE_ABI) 
 
 	static void will_read_state(Z80 *object) {R  = R_ALL;}
 	static void did_write_state(Z80 *object) {R7 = R;    }
-
-#	include <Z/ABIs/emulation.h>
 
 	static ZEmulatorFunctionExport const exports[7] = {
 		{Z_EMULATOR_ACTION_POWER,	    (ZEmulatorFunction)z80_power      },
@@ -1615,7 +1623,7 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 		{Z_EMULATOR_OBJECT_MACHINE, Z_EMULATOR_ACTION_HALT,	  SLOT_OFFSET(halt    )}
 	};
 
-	CPU_Z80_API ZCPUEmulatorABI const abi_cpu_z80 = {
+	CPU_Z80_ABI ZCPUEmulatorABI const cpu_abi_z80 = {
 		/* dependency_count	       */ 0,
 		/* dependencies		       */ NULL,
 		/* function_export_count       */ 7,
@@ -1626,6 +1634,20 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 		/* instance_slot_linkage_count */ 6,
 		/* instance_slot_linkages      */ slot_linkages
 	};
+
+#endif
+
+#ifdef CPU_Z80_BUILD_MODULE_ABI
+
+#	include <Z/ABIs/generic/module.h>
+
+	static zcharacter const information[] =
+		"C2011-2016 Manuel Sainz de Baranda y Goñi\n"
+		"LLGPLv3";
+
+	static ZModuleUnit const unit = {"Z80", Z_VERSION(1, 0, 0), information, &cpu_abi_z80};
+	static ZModuleDomain const domain = {"emulation/CPU", Z_VERSION(1, 0, 0), 1, &unit};
+	Z_API_WEAK_EXPORT ZModuleABI const __module_abi__ = {1, &domain};
 
 #endif
 
