@@ -4,7 +4,7 @@
 /\ \/  \/\ \__/_/\ \/\ \/\ \/\  __/
 \ \__/\_\ \_____\ \_\ \_\ \_\ \____\
  \/_/\/_/\/_____/\/_/\/_/\/_/\/____/
-Copyright © 1999-2015 Manuel Sainz de Baranda y Goñi.
+Copyright © 1999-2016 Manuel Sainz de Baranda y Goñi.
 Released under the terms of the GNU General Public License v3. */
 
 #ifndef __emulation_CPU_Z80_H__

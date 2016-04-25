@@ -4,7 +4,7 @@
 /\ \/  \/\ \__/_/\ \/\ \/\ \/\  __/
 \ \__/\_\ \_____\ \_\ \_\ \_\ \____\
  \/_/\/_/\/_____/\/_/\/_/\/_/\/____/
-Copyright © 1999-2015 Manuel Sainz de Baranda y Goñi.
+Copyright © 1999-2016 Manuel Sainz de Baranda y Goñi.
 Released under the terms of the GNU General Public License v3. */
 
 #include <Z/macros/value.h>
@@ -1642,7 +1642,7 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 #	include <Z/ABIs/generic/module.h>
 
 	static zcharacter const information[] =
-		"C2011-2016 Manuel Sainz de Baranda y Goñi\n"
+		"C1999-2016 Manuel Sainz de Baranda y Goñi\n"
 		"LLGPLv3";
 
 	static ZModuleUnit const unit = {"Z80", Z_VERSION(1, 0, 0), information, &abi_emulation_cpu_z80};
