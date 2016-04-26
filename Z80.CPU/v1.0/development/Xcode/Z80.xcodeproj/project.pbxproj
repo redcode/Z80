@@ -436,7 +436,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.0;
+				DYLIB_CURRENT_VERSION = 1.0.0;
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Z80;
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/emulation/CPU;
@@ -447,7 +447,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.0;
+				DYLIB_CURRENT_VERSION = 1.0.0;
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Z80;
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/emulation/CPU;
@@ -472,7 +472,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.0;
+				DYLIB_CURRENT_VERSION = 1.0.0;
 				DYLIB_INSTALL_NAME_BASE = "";
 				EXECUTABLE_EXTENSION = CPU;
 				INSTALL_PATH = /usr/local/lib/modules/emulation/CPU;
@@ -486,7 +486,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.0;
+				DYLIB_CURRENT_VERSION = 1.0.0;
 				DYLIB_INSTALL_NAME_BASE = "";
 				EXECUTABLE_EXTENSION = CPU;
 				INSTALL_PATH = /usr/local/lib/modules/emulation/CPU;
@@ -528,7 +528,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.0;
+				DYLIB_CURRENT_VERSION = 1.0.0;
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Z80;
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/emulation/CPU;
@@ -539,7 +539,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.0;
+				DYLIB_CURRENT_VERSION = 1.0.0;
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Z80;
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/emulation/CPU;
