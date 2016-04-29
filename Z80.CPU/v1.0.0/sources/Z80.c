@@ -41,8 +41,8 @@ typedef zuint8 (* Instruction)(Z80 *object);
 /* MARK: - Macros: External */
 
 #define O(member)  Z_OFFSET_OF(Z80, member)
-#define ROL(value) Z_8BIT_ROTATE_LEFT( value, 1)
-#define ROR(value) Z_8BIT_ROTATE_RIGHT(value, 1)
+#define ROL(value) value = Z_8BIT_ROTATE_LEFT( value, 1)
+#define ROR(value) value = Z_8BIT_ROTATE_RIGHT(value, 1)
 
 
 /* MARK: - Macros & Functions: Callback */
