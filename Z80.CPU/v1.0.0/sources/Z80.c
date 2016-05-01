@@ -1643,7 +1643,7 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 
 	static zcharacter const information[] =
 		"C1999-2016 Manuel Sainz de Baranda y Goñi\n"
-		"LLGPLv3";
+		"LGPLv3";
 
 	static ZModuleUnit const unit = {"Z80", "Z80", Z_VERSION(1, 0, 0), information, &abi_emulation_cpu_z80};
 	static ZModuleDomain const domain = {"Emulation.CPU", Z_VERSION(1, 0, 0), 1, &unit};
