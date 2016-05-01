@@ -34,6 +34,7 @@ Switchs the core power status.
 zsize z80_run(Z80 *object, zsize cycles)
 ```
 ***Parameters***   
+
 Name | Description
 --- | ---
 object | A pointer to an emulator instance.
