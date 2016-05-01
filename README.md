@@ -11,39 +11,41 @@ In order to compile you must install [Z](http://github.com/redcode/Z), its only 
 ## API
 
 
-### power
-***Declaration***   
+> ### power
+
+***Declaration***  
 ```C
 void z80_power(Z80 *object, zboolean state)
 ```
-***Parameters***   
+***Parameters***  
 
 Name | Description
 --- | ---
 object | A pointer to an emulator instance.
 state  | ```ON``` / ```OFF```
-***Return value***   
+***Return value***  
 none.   
-***Description***   
+***Description***  
 Switchs the core power status.   
 
 
-### run
-***Declaration***   
+> ### run
+
+***Declaration***  
 ```C
 zsize z80_run(Z80 *object, zsize cycles)
 ```
-***Parameters***   
+***Parameters***  
 
 Name | Description
 --- | ---
 object | A pointer to an emulator instance.
 cycles | The number of cycles to be executed.
-***Return value***   
+***Return value***  
 The actual number of cycles executed.   
-***Description***   
+***Description***  
 Runs the core for the given amount of ```cycles```.   
-***Discusion***   
+***Discusion***  
 Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the core the exact number of cycles specfified.   
 
 
