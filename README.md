@@ -10,24 +10,23 @@ In order to compile you must install [Z](http://github.com/redcode/Z), its only 
 
 ### API
 
-**Declaration**  
 ```C
 void z80_power(Z80 *object, zboolean state)
 ```
-**Parameters**  
+***Parameters***   
 
 Name | Description
 --- | ---
 object | A pointer to an emulator instance.
 state  | ```ON``` / ```OFF```
 
-**Return value**  
-none.
+***Return value***   
+none.   
 
-**Description**
-Switchs the core power status.
+***Description***   
+Switchs the core power status.   
 
-**Declaration**  
+ 
 ```C
 zsize z80_run(Z80 *object, zsize cycles)
 ```
