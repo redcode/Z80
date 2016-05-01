@@ -11,89 +11,89 @@ In order to compile you must install [Z](http://github.com/redcode/Z), its only 
 
 ## API
 
-> ### z80_run
+### z80_run
 
 ***Description***  
 Runs the core for the given amount of ```cycles```.   
 
-**Declaration**  
+***Declaration***  
 ```C
 zsize z80_run(Z80 *object, zsize cycles);
 ```
 
-**Parameters**  
+***Parameters***  
 
 Name | Description
 --- | ---
 object | A pointer to an emulator instance.
 cycles | The number of cycles to be executed.
 
-**Return value**  
+***Return value***  
 The actual number of cycles executed.   
 
-**Discusion**  
+***Discusion***  
 Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the core the exact number of cycles specfified.   
 
-> ### z80_power
+### z80_power
 
-**Description**  
+***Description***  
 Switchs the core power status.   
 
-**Declaration**  
+***Declaration***  
 ```C
 void z80_power(Z80 *object, zboolean state);
 ```
-**Parameters**  
+***Parameters***  
 
 Name | Description
 --- | ---
 object | A pointer to an emulator instance.
 state  | `ON` / `OFF`
 
-**Return value**  
+***Return value***  
 none.   
 
-> ### z80_reset
+### z80_reset
 
-**Description**  
+***Description***  
 Resets the core by reinitializing its variables and sets its registers to the state they would be in a real Z80 CPU after a pulse in the `RESET` line.   
 
-**Declaration**
+***Declaration***
 ```C
 void z80_reset(Z80 *object);
 ```
-**Parameters**  
+***Parameters***  
 
 Name | Description
 --- | ---
 object | A pointer to an emulator instance.
 
-**Return value**  
+***Return value***  
 none.   
 
-> ### z80_nmi
+### z80_nmi
 
-**Description**  
+***Description***  
 Performs a non-maskable interrupt. This is equivalent to a pulse in the `NMI` line of a real Z80 CPU.   
 
-**Declaration**  
+***Declaration***  
 ```C
 void z80_nmi(Z80 *object);
 ```
 
-**Parameters**  
+***Parameters***  
 
 Name | Description
 --- | ---
 object | A pointer to an emulator instance.
 
-**Return value**  
+***Return value***  
 none.   
 
 
-> ### z80_int
+### z80_int
 
-**Description**  
+***Description***  
 Switchs the state of the maskable interrupt. This is equivalent to a change in the `INT` line of a real Z80 CPU.   
 
 **Declaration**  
@@ -101,14 +101,14 @@ Switchs the state of the maskable interrupt. This is equivalent to a change in t
 void z80_int(Z80 *object, zboolean state);
 ```
 
-**Parameters**  
+***Parameters***  
 
 Name | Description
 --- | ---
 object | A pointer to an emulator instance.
 state  | `ON` = set line high, `OFF` = set line low
 
-**Return value**  
+***Return value***  
 none.   
 
 
