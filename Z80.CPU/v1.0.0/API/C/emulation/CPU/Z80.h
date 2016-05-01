@@ -48,7 +48,7 @@ typedef struct {
 Z_C_SYMBOLS_BEGIN
 
 #ifndef CPU_Z80_ABI
-#	ifdef CPU_Z80_AS_STATIC
+#	ifdef CPU_Z80_STATIC
 #		define CPU_Z80_ABI
 #	else
 #		define CPU_Z80_ABI Z_API
@@ -58,7 +58,7 @@ Z_C_SYMBOLS_BEGIN
 CPU_Z80_ABI extern ZCPUEmulatorABI const abi_emulation_cpu_z80;
 
 #ifndef CPU_Z80_API
-#	ifdef CPU_Z80_AS_STATIC
+#	ifdef CPU_Z80_STATIC
 #		define CPU_Z80_API
 #	else
 #		define CPU_Z80_API Z_API
