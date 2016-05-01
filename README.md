@@ -2,16 +2,37 @@
 Copyright © 1999-2016 Manuel Sainz de Baranda y Goñi.  
 Released under the terms of the [GNU General Public License v3](http://www.gnu.org/copyleft/gpl.html).
 
-This is a very accurate Z80 emulator I developed many years ago. I did not test it nor use it until recently. Some "friends" of mine used it in their computer and console emulators but I lost contact with them and they did not provide me any feedback.
+This is a very accurate Z80 emulator I wrote many years ago. It has been used in several machine emulators by other people and has been extensivelly tested. It is very fast and small (although there are faster ones written in assembly), its structure is very clear and the code is commented.
 
-In 2013 I thought it was a shame to let this code untested so I replaced the FBZX emulator's core of [Sergio Costas Rodríguez](http://www.rastersoft.com/fbzx.html) with this and... it worked great at the first try without any error!!! As a result of this I started to scream and ran out of the house like possesed shaking my arms up. After the neighbours started to get out looking at me annoyed I decided to return to home and I ate two tablets of chocolate and drank a glass of natural orange juice to celebrate, in a more private manner, that this long forgotten masterpiece of programming was born pure, without original sin.
+If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe you have found the correct one. I use this core in the [ZX Spectrum](http://github.com/redcode/mZX) emulator I started as hobby.
 
-I use this core in the [ZX Spectrum](http://github.com/redcode/mZX) emulator I started as hobby.
+In order to compile you must install [Z](http://github.com/redcode/Z), its only dependency, a **header only** library which provides types, macros, inline functions, and a lot of facilities to detect the particularities of the compiler and the target system.
 
-I will provide instructions to use this emulator in the future, but I think any decent C programmer can understand how to use it in its project.
+### API
 
-This emulator is very accurate, very fast (there are others faster written in assembly, yes) and what is the most important thing of all IMHO: Its structure is very clear, elegant and it is small. This is not the typical emulator which generates tables in runtime or expands a lot of macros to create one function or piece of code per every instruction's specific case.
+```
+void z80_power(Z80 *object, zboolean state)
+```
+**Parameters:**   
+```object```: A pointer to an emulator instance.   
+```state```: ```ON``` / ```OFF```   
+***Return value***:   
+none   
+**Description:**   
+Switchs the core power status.
 
-In order to compile you must know that it uses my [Z API](http://github.com/redcode/Z), which is header only and provides types, macros, inline functions, and a lot of facilities to detect the particularities of the compiler and the target machine. The included Xcode project expects to find Z in "/usr/local/include/Z". This is a header only dependency. The emulator doesn't depend on any library.
+```
+zsize z80_run(Z80 *object, zsize cycles)
+```
+**Return value**:   
+The actual number of cycles executed.   
+**Description:**   
+Runs the core for the given amount of ```cycles```.   
+**Discusion:**   
+Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the core the exact number of cycles specfified.   
 
-If you want precise details about how the code works, you want to use this emulator in your project (privative software projects too), or you have any doubt about it, please, send me an [email](mailto:support@redcodesoftware.com).
+
+### History
+
+* __[v1.0.0](http://github.com/Z80/releases/tag/v1.0.0)__ _(2016-05-01)_
+    * Initial release.
