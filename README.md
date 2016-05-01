@@ -16,11 +16,11 @@ void z80_power(Z80 *object, zboolean state)
 **Parameters:**   
 ```object```: A pointer to an emulator instance.   
 ```state```: ```ON``` / ```OFF```   
-***Return value***:   
+**Return value**:   
 none   
 **Description:**   
-Switchs the core power status.
-
+Switchs the core power status.   
+   
 ```
 zsize z80_run(Z80 *object, zsize cycles)
 ```
