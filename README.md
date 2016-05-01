@@ -16,7 +16,7 @@ void z80_power(Z80 *object, zboolean state)
 ```
 **Parameters**  
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | object | A pointer to an emulator instance. |
 | state  | ```ON``` / ```OFF``` |
 
