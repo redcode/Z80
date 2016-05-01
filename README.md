@@ -8,45 +8,108 @@ If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe
 
 In order to compile you must install [Z](http://github.com/redcode/Z), its only dependency, a **header only** library which provides types, macros, inline functions, and a lot of facilities to detect the particularities of the compiler and the target system.
 
+
 ## API
 
+> ### z80_run
 
-> ### power
-
-***Declaration***  
-```C
-void z80_power(Z80 *object, zboolean state)
-```
-***Parameters***  
-
-Name | Description
---- | ---
-object | A pointer to an emulator instance.
-state  | ```ON``` / ```OFF```
-***Return value***  
-none.   
 ***Description***  
-Switchs the core power status.   
+Runs the core for the given amount of ```cycles```.   
 
-
-> ### run
-
-***Declaration***  
+**Declaration**  
 ```C
-zsize z80_run(Z80 *object, zsize cycles)
+zsize z80_run(Z80 *object, zsize cycles);
 ```
-***Parameters***  
+
+**Parameters**  
 
 Name | Description
 --- | ---
 object | A pointer to an emulator instance.
 cycles | The number of cycles to be executed.
-***Return value***  
+
+**Return value**  
 The actual number of cycles executed.   
-***Description***  
-Runs the core for the given amount of ```cycles```.   
-***Discusion***  
+
+**Discusion**  
 Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the core the exact number of cycles specfified.   
+
+> ### z80_power
+
+**Description**  
+Switchs the core power status.   
+
+**Declaration**  
+```C
+void z80_power(Z80 *object, zboolean state);
+```
+**Parameters**  
+
+Name | Description
+--- | ---
+object | A pointer to an emulator instance.
+state  | `ON` / `OFF`
+
+**Return value**  
+none.   
+
+> ### z80_reset
+
+**Description**  
+Resets the core by reinitializing its variables and sets its registers to the state they would be in a real Z80 CPU after a pulse in the `RESET` line.   
+
+**Declaration**
+```C
+void z80_reset(Z80 *object);
+```
+**Parameters**  
+
+Name | Description
+--- | ---
+object | A pointer to an emulator instance.
+
+**Return value**  
+none.   
+
+> ### z80_nmi
+
+**Description**  
+Performs a non-maskable interrupt. This is equivalent to a pulse in the `NMI` line of a real Z80 CPU.   
+
+**Declaration**  
+```C
+void z80_nmi(Z80 *object);
+```
+
+**Parameters**  
+
+Name | Description
+--- | ---
+object | A pointer to an emulator instance.
+
+**Return value**  
+none.   
+
+
+> ### z80_int
+
+**Description**  
+Switchs the state of the maskable interrupt. This is equivalent to a change in the `INT` line of a real Z80 CPU.   
+
+**Declaration**  
+```C
+void z80_int(Z80 *object, zboolean state);
+```
+
+**Parameters**  
+
+Name | Description
+--- | ---
+object | A pointer to an emulator instance.
+state  | `ON` = set line high, `OFF` = set line low
+
+**Return value**  
+none.   
 
 
 ## History

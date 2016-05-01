@@ -1592,7 +1592,7 @@ CPU_Z80_API void z80_power(Z80 *object, zboolean state)
 
 
 CPU_Z80_API void z80_nmi(Z80 *object)		      {NMI = TRUE ;}
-CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
+CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 
 
 /* MARK: - ABI */
@@ -1609,7 +1609,7 @@ CPU_Z80_API void z80_irq(Z80 *object, zboolean state) {INT = state;}
 		{Z_EMULATOR_FUNCTION_WILL_READ_STATE, (ZEmulatorFunction)will_read_state},
 		{Z_EMULATOR_FUNCTION_DID_WRITE_STATE, (ZEmulatorFunction)did_write_state},
 		{Z_EMULATOR_FUNCTION_NMI,	      (ZEmulatorFunction)z80_nmi	},
-		{Z_EMULATOR_FUNCTION_INT,	      (ZEmulatorFunction)z80_irq	}
+		{Z_EMULATOR_FUNCTION_INT,	      (ZEmulatorFunction)z80_int	}
 	};
 
 #	define SLOT_OFFSET(name) Z_OFFSET_OF(Z80, cb.name)

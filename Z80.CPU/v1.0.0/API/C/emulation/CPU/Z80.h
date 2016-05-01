@@ -75,7 +75,7 @@ CPU_Z80_API void  z80_reset (Z80*     object);
 
 CPU_Z80_API void  z80_nmi   (Z80*     object);
 
-CPU_Z80_API void  z80_irq   (Z80*     object,
+CPU_Z80_API void  z80_int   (Z80*     object,
 			     zboolean state);
 
 Z_C_SYMBOLS_END
