@@ -9,7 +9,7 @@ If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe
 In order to compile you must install [Z](http://github.com/redcode/Z), its only dependency, a **header only** library which provides types, macros, inline functions, and a lot of facilities to detect the particularities of the compiler and the target system.
 
 ## API
-<br>
+
 
 ### power
 ***Declaration***   
@@ -26,7 +26,7 @@ state  | ```ON``` / ```OFF```
 none.   
 ***Description***   
 Switchs the core power status.   
-<br>
+
 
 ### run
 ***Declaration***   
@@ -45,7 +45,7 @@ The actual number of cycles executed.
 Runs the core for the given amount of ```cycles```.   
 ***Discusion***   
 Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the core the exact number of cycles specfified.   
-<br>
+
 
 ## History
 
