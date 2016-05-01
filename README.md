@@ -13,13 +13,15 @@ In order to compile you must install [Z](http://github.com/redcode/Z), its only 
 ```C
 void z80_power(Z80 *object, zboolean state)
 ```
-Parameters:
-  ```object```: A pointer to an emulator instance.
-  ```state```: ```ON``` / ```OFF```
-Return value:
-  none.
-Description:
-  Switchs the core power status.
+Parameters
+  : ```object```: A pointer to an emulator instance.
+  : ```state```: ```ON``` / ```OFF```
+
+Return value
+  : none.
+
+Description
+  : Switchs the core power status.
    
 ```C
 zsize z80_run(Z80 *object, zsize cycles)
