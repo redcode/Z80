@@ -10,7 +10,7 @@ In order to compile you must install [Z](http://github.com/redcode/Z), its only 
 
 ### API
 
-```
+```C
 void z80_power(Z80 *object, zboolean state)
 ```
 **Parameters:**   
@@ -21,7 +21,7 @@ none
 **Description:**   
 Switchs the core power status.   
    
-```
+```C
 zsize z80_run(Z80 *object, zsize cycles)
 ```
 **Return value**:   
