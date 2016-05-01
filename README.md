@@ -17,6 +17,7 @@ In order to compile you must install [Z](http://github.com/redcode/Z), its only 
 void z80_power(Z80 *object, zboolean state)
 ```
 ***Parameters***   
+
 Name | Description
 --- | ---
 object | A pointer to an emulator instance.
