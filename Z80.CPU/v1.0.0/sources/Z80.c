@@ -10,23 +10,29 @@ Released under the terms of the GNU General Public License v3. */
 #include <Z/macros/value.h>
 #include <Z/macros/pointer.h>
 
-#if defined(CPU_Z80_HIDE_API)
+#define DEFINED(what) (defined CPU_Z80_##what)
+
+#if !DEFINED(USE_SLOTS) && (DEFINED(BUILD_ABI) || DEFINED(BUILD_MODULE_ABI))
+#	define CPU_Z80_USE_SLOTS
+#endif
+
+#if DEFINED(HIDE_API)
 #	define CPU_Z80_API static
-#elif defined(CPU_Z80_DYNAMIC)
+#elif DEFINED(DYNAMIC)
 #	define CPU_Z80_API Z_API_EXPORT
 #else
 #	define CPU_Z80_API
 #endif
 
-#if defined(CPU_Z80_HIDE_ABI)
+#if DEFINED(HIDE_ABI)
 #	define CPU_Z80_ABI static
-#elif defined(CPU_Z80_DYNAMIC)
+#elif DEFINED(DYNAMIC)
 #	define CPU_Z80_ABI Z_API_EXPORT
 #else
 #	define CPU_Z80_ABI
 #endif
 
-#ifdef CPU_Z80_USE_LOCAL_HEADER
+#if DEFINED(USE_LOCAL_HEADER)
 #	include "Z80.h"
 #else
 #	include <emulation/CPU/Z80.h>
@@ -47,7 +53,7 @@ typedef zuint8 (* Instruction)(Z80 *object);
 
 /* MARK: - Macros & Functions: Callback */
 
-#ifdef CPU_Z80_USE_SLOTS
+#if DEFINED(USE_SLOTS)
 #	define CB_ACTION(name) object->cb.name.action
 #	define CB_OBJECT(name) object->cb.name.object
 #else
@@ -1450,12 +1456,9 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 			R++;		 /* Consume memory refresh.	*/
 			IFF1 = IFF2 = 0; /* Clear interrupt flip-flops.	*/
 
-#			ifdef CPU_Z80_AUTOCLEAR_INT_LINE
+#			if DEFINED(AUTOCLEAR_INT_LINE)
 				INT = FALSE;
 #			endif
-
-			/*if (DAISY) pointer = object->daisy.call_requester_device();
-			else;*/
 
 			switch (IM)
 				{
@@ -1551,10 +1554,8 @@ CPU_Z80_API void z80_reset(Z80 *object)
 	IFF1 = Z_Z80_VALUE_AFTER_RESET_IFF1;
 	IFF2 = Z_Z80_VALUE_AFTER_RESET_IFF2;
 	IM   = Z_Z80_VALUE_AFTER_RESET_IM;
-	EI   = 0;
-	HALT = 0;
-	INT  = 0;
-	NMI  = 0;
+
+	EI = HALT = INT = NMI = 0;
 	}
 
 
@@ -1582,11 +1583,14 @@ CPU_Z80_API void z80_power(Z80 *object, zboolean state)
 			IFF1 = Z_Z80_VALUE_AFTER_POWER_ON_IFF1;
 			IFF2 = Z_Z80_VALUE_AFTER_POWER_ON_IFF2;
 			IM   = Z_Z80_VALUE_AFTER_POWER_ON_IM;
-			EI   = 0;
-			HALT = 0;
-			INT  = 0;
-			NMI  = 0;
+
+			EI = HALT = INT = NMI = 0;
 #		endif
+		}
+
+	else	{
+		PC = SP = IX = IY = AF = BC = DE = HL = AF_ = BC_ = DE_ = HL_ = I = R =
+		IFF1 = IFF2 = IM = EI = HALT = INT = NMI = 0;
 		}
 	}
 
@@ -1597,7 +1601,7 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 
 /* MARK: - ABI */
 
-#if defined(CPU_Z80_BUILD_ABI) || defined(CPU_Z80_BUILD_MODULE_ABI)
+#if DEFINED(BUILD_ABI) || DEFINED(MODULE_ABI)
 
 	static void will_read_state(Z80 *object) {R  = R_ALL;}
 	static void did_write_state(Z80 *object) {R7 = R;    }
@@ -1637,7 +1641,7 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 
 #endif
 
-#ifdef CPU_Z80_BUILD_MODULE_ABI
+#if DEFINED(BUILD_MODULE_ABI)
 
 #	include <Z/ABIs/generic/module.h>
 

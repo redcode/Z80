@@ -12,8 +12,8 @@
 		6428A5801AAFEF1D00634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; };
 		648C13AF1CCDFA8D00C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_DYNAMIC -DCPU_Z80_BUILD_MODULE_ABI -DCPU_Z80_USE_SLOTS"; }; };
 		648C13B21CCDFA8D00C8DCE1 /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		648C13C31CCDFBEF00C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_BUILD_ABI -DCPU_Z80_USE_SLOTS"; }; };
-		648C13CC1CCDFC7700C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_BUILD_ABI -DCPU_Z80_HIDE_API -DCPU_Z80_USE_SLOTS"; }; };
+		648C13C31CCDFBEF00C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_BUILD_ABI"; }; };
+		648C13CC1CCDFC7700C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_BUILD_ABI -DCPU_Z80_HIDE_API"; }; };
 		64F8E3361CD656DA0083A613 /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		64F8E3371CD656DB0083A613 /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		64F8E3381CD656DB0083A613 /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
