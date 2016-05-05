@@ -9,7 +9,7 @@ If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe
 
 ## Building
 
-In order to compile you must install [Z](http://github.com/redcode/Z), a **header only** library which provides types, macros, inline functions, and a lot of facilities to detect the particularities of the compiler and the target system. This is the only dependency, the standard C library and its headers are not used and the emulator doesn't need to be dynamically linked with any library.
+In order to compile you must install [Z](http://github.com/redcode/Z), a **header only** library which provides types, macros, inline functions, and a lot of utilities to detect the particularities of the compiler and the target system. This is the only dependency, the standard C library and its headers are not used and the emulator doesn't need to be dynamically linked with any library.
 
 A Xcode project file is provided to build the emulator. It has the following targets:
 
@@ -53,11 +53,8 @@ zsize z80_run(Z80 *object, zsize cycles);
 ```
 
 ***Parameters***  
-
-Name | Description
---- | ---
-object | A pointer to an emulator instance.
-cycles | The number of cycles to be executed.
+`object`: A pointer to an emulator instance.  
+`cycles`: The number of cycles to be executed.  
 
 ***Return value***  
 The actual number of cycles executed.   
@@ -75,11 +72,8 @@ Switchs the core power status.
 void z80_power(Z80 *object, zboolean state);
 ```
 ***Parameters***  
-
-Name | Description
---- | ---
-object | A pointer to an emulator instance.
-state  | `ON` / `OFF`
+`object`: A pointer to an emulator instance.  
+`state`: `ON` / `OFF`  
 
 ***Return value***  
 none.   
@@ -93,11 +87,9 @@ Resets the core by reinitializing its variables and sets its registers to the st
 ```C
 void z80_reset(Z80 *object);
 ```
-***Parameters***  
 
-Name | Description
---- | ---
-object | A pointer to an emulator instance.
+***Parameters***  
+`object`: A pointer to an emulator instance.  
 
 ***Return value***  
 none.   
@@ -113,14 +105,10 @@ void z80_nmi(Z80 *object);
 ```
 
 ***Parameters***  
-
-Name | Description
---- | ---
-object | A pointer to an emulator instance.
+`object`: A pointer to an emulator instance.  
 
 ***Return value***  
 none.   
-
 
 ### `z80_int`
 
@@ -133,15 +121,11 @@ void z80_int(Z80 *object, zboolean state);
 ```
 
 ***Parameters***  
-
-Name | Description
---- | ---
-object | A pointer to an emulator instance.
-state  | `ON` = set line high, `OFF` = set line low
+`object`: A pointer to an emulator instance.  
+`state`: `ON` = set line high, `OFF` = set line low  
 
 ***Return value***  
 none.   
-
 
 ## History
 
