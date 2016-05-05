@@ -38,7 +38,10 @@ CPU_Z80_BUILD_ABI | Builds the ABI of type `ZCPUEmulatorABI` declared in the hea
 CPU_Z80_BUILD_MODULE_ABI | Builds a generic module ABI of type `ZModuleABI`. This constant enables `CPU_Z80_BUILD_ABI` automatically so `abi_emulation_cpu_z80` will be build too. This option is intended to be used when building a true module loadable at runtime with `dlopen()`, `LoadLibrary()` or similar. The module ABI can be accessed retrieving the **weak** symbol `__module_abi__`.
 CPU_Z80_HIDE_API | Makes the API functions private.
 CPU_Z80_HIDE_ABI | Makes the `abi_emulation_cpu_z80` private.
-CPU_Z80_USE_LOCAL_HEADER | Use this if you have imported _Z80.h_ and _Z80.c_ to your project. _Z80.c_ will include `"Z80.h"` instead of `<emulation/CPU/Z80.h>`
+CPU_Z80_USE_LOCAL_HEADER | Use this if you have imported _Z80.h_ and _Z80.c_ to your project. _Z80.c_ will include `"Z80.h"` instead of `<emulation/CPU/Z80.h>`.
+
+
+## Callbacks
 
 
 ## API
@@ -128,10 +131,7 @@ void z80_int(Z80 *object, zboolean state);
 ***Return value***  
 none.   
 
-## Callbacks
-
-
 ## History
 
-* __[v1.0.0](http://github.com/Z80/releases/tag/v1.0.0)__ _(2016-05-05)_
+* __[v1.0.0](http://github.com/Z80/releases/tag/v1.0.0)__ _(2016-05-02)_
     * Initial release.
