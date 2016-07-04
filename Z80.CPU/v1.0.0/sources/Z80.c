@@ -1467,22 +1467,22 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 				'------------------------------*/
 				case 0:
 
-				if ((data = INT_DATA)) switch (data & Z_UINT32(0xFF0000))
+				if ((data = INT_DATA)) switch (data & Z_UINT32(0xFF000000))
 					{
-					case Z_UINT32(0xC30000): /* JP */
-					PC = (zuint16)data;
+					case Z_UINT32(0xC3000000): /* JP */
+					PC = (zuint16)(data >> 8);
 					CYCLES += 10;
 					break;
 
-					case Z_UINT32(0xCD0000): /* CALL */
+					case Z_UINT32(0xCD000000): /* CALL */
 					PUSH(PC);
-					PC = (zuint16)data;
+					PC = (zuint16)(data >> 8);
 					CYCLES += 17;
 					break;
 
 					default: /* RST (and possibly others) */
 					PUSH(PC);
-					PC = (zuint16)(data & 0x38);
+					PC = (zuint16)((data >> 8) & 0x38);
 					CYCLES += 11;
 					}
 

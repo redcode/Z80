@@ -46,7 +46,7 @@ CPU_Z80_USE_LOCAL_HEADER | Use this if you have imported _Z80.h_ and _Z80.c_ to 
 ### `z80_run`
 
 **Description**  
-Runs the core for the given amount of ```cycles```.   
+Runs the CPU for the given amount of ```cycles```.   
 
 **Prototype**  
 ```C
@@ -54,27 +54,27 @@ zsize z80_run(Z80 *object, zsize cycles);
 ```
 
 **Parameters**  
-`object`: A pointer to an emulator instance.  
-`cycles`: The number of cycles to be executed.  
+`object` → A pointer to an emulator instance.  
+`cycles` → The number of cycles to be executed.  
 
 **Return value**  
 The number of cycles executed.   
 
 **Discusion**  
-Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the core the exact number of cycles specfified.   
+Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the CPU the exact number of cycles specfified.   
 
 ### `z80_power`
 
 **Description**  
-Switchs the core power status.   
+Switchs the CPU power status.   
 
 **Prototype**  
 ```C
 void z80_power(Z80 *object, zboolean state);
 ```
 **Parameters**  
-`object`: A pointer to an emulator instance.  
-`state`: `ON` / `OFF`  
+`object` → A pointer to an emulator instance.  
+`state` → `ON` / `OFF`  
 
 **Return value**  
 None.   
@@ -82,7 +82,7 @@ None.
 ### `z80_reset`
 
 **Description**  
-Resets the core by reinitializing its variables and sets its registers to the state they would be in a real Z80 CPU after a pulse in the `RESET` line.   
+Resets the CPU by reinitializing its variables and sets its registers to the state they would be in a real Z80 CPU after a pulse in the `RESET` line.   
 
 **Prototype**
 ```C
@@ -90,7 +90,7 @@ void z80_reset(Z80 *object);
 ```
 
 **Parameters**  
-`object`: A pointer to an emulator instance.  
+`object` → A pointer to an emulator instance.  
 
 **Return value**  
 None.   
@@ -106,7 +106,7 @@ void z80_nmi(Z80 *object);
 ```
 
 **Parameters**  
-`object`: A pointer to an emulator instance.  
+`object` → A pointer to an emulator instance.  
 
 **Return value**  
 None.   
@@ -122,8 +122,8 @@ void z80_int(Z80 *object, zboolean state);
 ```
 
 **Parameters**  
-`object`: A pointer to an emulator instance.  
-`state`: `ON` = set line high, `OFF` = set line low  
+`object` → A pointer to an emulator instance.  
+`state` → `ON` = set line high, `OFF` = set line low  
 
 **Return value**  
 None.   
@@ -131,10 +131,12 @@ None.
 
 ## Callbacks
 
-### `read`
+Before using an instance of the Z80 emulator, its `cb` structure must be initialized with the pointers to the callbacks that your program must provide in order to make possible for the CPU to access the emulated machine's resources. All the callbacks are mandatory except `halt`, which is optional and should be initialized to `NULL` if not used.
+
+### `read` 
 
 **Description**  
-Called when the CPU needs to read 8 bits from memory.
+Called when the CPU needs to read 8 bits from memory.   
 
 **Prototype**  
 ```C
@@ -143,8 +145,8 @@ ZContext16BitAddressRead8Bit read;
 ```
 
 **Parameters**  
-`context`: A pointer to the calling emulator instance.  
-`address`: The memory address to read.  
+`context` → A pointer to the calling emulator instance.  
+`address` → The memory address to read.  
 
 **Return value**  
 The 8 bits read from memory.   
@@ -152,7 +154,7 @@ The 8 bits read from memory.
 ### `write`
 
 **Description**  
-Called when the CPU needs to write 8 bits to memory.
+Called when the CPU needs to write 8 bits to memory.   
 
 **Prototype**  
 ```C
@@ -161,23 +163,87 @@ ZContext16BitAddressWrite8Bit write;
 ```
 
 **Parameters**  
-`context`: A pointer to the emulator instance.  
-`address`: The memory address to write.  
-`value`: The value to write in `address`.  
+`context` → A pointer to the calling emulator instance.  
+`address` → The memory address to write.  
+`value` → The value to write in `address`.  
 
 **Return value**  
 None.   
 
 ### `in`
 
+**Description**  
+Called when the CPU needs to read 8 bits from an I/O port.   
+
+**Prototype**  
+```C
+typedef zuint8 (* ZContext16BitAddressRead8Bit)(void *context, zuint16 address);
+ZContext16BitAddressRead8Bit in;
+```
+
+**Parameters**  
+`context` → A pointer to the calling emulator instance.  
+`address` → The number of the I/O port to read.  
+
+**Return value**  
+The 8 bits read from the I/O port.   
+
 ### `out`
+
+**Description**  
+Called when the CPU needs to write 8 bits to an I/O port.   
+
+**Prototype**  
+```C
+typedef void (* ZContext16BitAddressWrite8Bit)(void *context, zuint16 address, zuint8 value);
+ZContext16BitAddressWrite8Bit out;
+```
+
+**Parameters**  
+`context` → A pointer to the calling emulator instance.  
+`address` → The number of the I/O port to write.  
+`value` → The value to write.  
+
+**Return value**  
+None.   
 
 ### `int_data`
 
+**Description**  
+Called when the CPU starts executing a maskable interrupt and the interruption mode is 0. This callback must return the instruction that the CPU would read from the data bus in this case.   
+
+**Prototype**  
+```C
+typedef zuint32 (* ZContextRead32Bit)(void *context);
+ZContextRead32Bit int_data;
+```
+
+**Parameters**  
+`context` → A pointer to the calling emulator instance.  
+
+**Return value**  
+A 32-bit value containing the bytes of an instruction. The instruction must begin at the most significant byte of the value.   
+
 ### `halt`
+
+**Description**  
+Called when the CPU enters or exits the halt state.   
+
+**Prototype**  
+```C
+typedef void (* ZContextSwitch)(void *context, zboolean state);
+ZContextSwitch halt;
+```
+
+**Parameters**  
+`context` → A pointer to the calling emulator instance.  
+`state` →  `ON` if halted, `OFF` otherwise.  
+
+**Return value**  
+None.   
 
 
 ## History
 
-* __[v1.0.0](http://github.com/Z80/releases/tag/v1.0.0)__ _(2016-05-02)_
+* __[v1.0.0](http://github.com/Z80/releases/tag/v1.0.0)__ _(2016-07-06)_
     * Initial release.
