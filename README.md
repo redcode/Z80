@@ -76,9 +76,6 @@ void z80_power(Z80 *object, zboolean state);
 `object` → A pointer to an emulator instance.  
 `state` → `ON` / `OFF`  
 
-**Return value**  
-None.   
-
 #### `z80_reset`
 
 **Description**  
@@ -91,9 +88,6 @@ void z80_reset(Z80 *object);
 
 **Parameters**  
 `object` → A pointer to an emulator instance.  
-
-**Return value**  
-None.   
 
 #### `z80_nmi`
 
@@ -108,9 +102,6 @@ void z80_nmi(Z80 *object);
 **Parameters**  
 `object` → A pointer to an emulator instance.  
 
-**Return value**  
-None.   
-
 #### `z80_int`
 
 **Description**  
@@ -124,9 +115,6 @@ void z80_int(Z80 *object, zboolean state);
 **Parameters**  
 `object` → A pointer to an emulator instance.  
 `state` → `ON` = set line high, `OFF` = set line low  
-
-**Return value**  
-None.   
 
 
 ## Callbacks
@@ -167,9 +155,6 @@ ZContext16BitAddressWrite8Bit write;
 `address` → The memory address to write.  
 `value` → The value to write in `address`.  
 
-**Return value**  
-None.   
-
 #### `in`
 
 **Description**  
@@ -204,9 +189,6 @@ ZContext16BitAddressWrite8Bit out;
 `address` → The number of the I/O port to write.  
 `value` → The value to write.  
 
-**Return value**  
-None.   
-
 #### `int_data`
 
 **Description**  
@@ -238,9 +220,6 @@ ZContextSwitch halt;
 **Parameters**  
 `context` → A pointer to the calling emulator instance.  
 `state` →  `ON` if halted, `OFF` otherwise.  
-
-**Return value**  
-None.   
 
 
 ## History
