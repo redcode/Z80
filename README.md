@@ -2,7 +2,7 @@
 Copyright © 1999-2016 Manuel Sainz de Baranda y Goñi.  
 Released under the terms of the [GNU General Public License v3](http://www.gnu.org/copyleft/gpl.html).
 
-This is a very accurate [Z80](http://en.wikipedia.org/wiki/Zilog_Z80) [emulator](http://en.wikipedia.org/wiki/Emulator) I wrote many years ago. It has been used in several machine emulators by other people and has been extensivelly tested. It is very fast and small (although there are faster ones written in assembly), its structure is very clear and the code is commented.
+This is a very accurate [Z80](http://en.wikipedia.org/wiki/Zilog_Z80) [emulator](http://en.wikipedia.org/wiki/Emulator) I wrote many years ago. It has been used in several machine emulators by other people and it has been extensivelly tested. It's very fast and small (although there are faster ones written in assembly), its structure is very clear and the code is commented.
 
 If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe you have found the correct one. I use this core in the [ZX Spectrum emulator](http://github.com/redcode/mZX) I started as hobby.
 
@@ -41,95 +41,141 @@ CPU_Z80_HIDE_ABI | Makes the `abi_emulation_cpu_z80` private.
 CPU_Z80_USE_LOCAL_HEADER | Use this if you have imported _Z80.h_ and _Z80.c_ to your project. _Z80.c_ will include `"Z80.h"` instead of `<emulation/CPU/Z80.h>`.
 
 
-## Callbacks
-
-
 ## API
 
 ### `z80_run`
 
-***Description***  
+**Description**  
 Runs the core for the given amount of ```cycles```.   
 
-***Declaration***  
+**Prototype**  
 ```C
 zsize z80_run(Z80 *object, zsize cycles);
 ```
 
-***Parameters***  
+**Parameters**  
 `object`: A pointer to an emulator instance.  
 `cycles`: The number of cycles to be executed.  
 
-***Return value***  
-The actual number of cycles executed.   
+**Return value**  
+The number of cycles executed.   
 
-***Discusion***  
+**Discusion**  
 Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the core the exact number of cycles specfified.   
 
 ### `z80_power`
 
-***Description***  
+**Description**  
 Switchs the core power status.   
 
-***Declaration***  
+**Prototype**  
 ```C
 void z80_power(Z80 *object, zboolean state);
 ```
-***Parameters***  
+**Parameters**  
 `object`: A pointer to an emulator instance.  
 `state`: `ON` / `OFF`  
 
-***Return value***  
-none.   
+**Return value**  
+None.   
 
 ### `z80_reset`
 
-***Description***  
+**Description**  
 Resets the core by reinitializing its variables and sets its registers to the state they would be in a real Z80 CPU after a pulse in the `RESET` line.   
 
-***Declaration***
+**Prototype**
 ```C
 void z80_reset(Z80 *object);
 ```
 
-***Parameters***  
+**Parameters**  
 `object`: A pointer to an emulator instance.  
 
-***Return value***  
-none.   
+**Return value**  
+None.   
 
 ### `z80_nmi`
 
-***Description***  
+**Description**  
 Performs a non-maskable interrupt. This is equivalent to a pulse in the `NMI` line of a real Z80 CPU.   
 
-***Declaration***  
+**Prototype**  
 ```C
 void z80_nmi(Z80 *object);
 ```
 
-***Parameters***  
+**Parameters**  
 `object`: A pointer to an emulator instance.  
 
-***Return value***  
-none.   
+**Return value**  
+None.   
 
 ### `z80_int`
 
-***Description***  
+**Description**  
 Switchs the state of the maskable interrupt. This is equivalent to a change in the `INT` line of a real Z80 CPU.   
 
-***Declaration***  
+**Prototype**  
 ```C
 void z80_int(Z80 *object, zboolean state);
 ```
 
-***Parameters***  
+**Parameters**  
 `object`: A pointer to an emulator instance.  
 `state`: `ON` = set line high, `OFF` = set line low  
 
-***Return value***  
-none.   
+**Return value**  
+None.   
+
+
+## Callbacks
+
+### `read`
+
+**Description**  
+Called when the CPU needs to read 8 bits from memory.
+
+**Prototype**  
+```C
+typedef zuint8 (* ZContext16BitAddressRead8Bit)(void *context, zuint16 address);
+ZContext16BitAddressRead8Bit read;
+```
+
+**Parameters**  
+`context`: A pointer to the calling emulator instance.  
+`address`: The memory address to read.  
+
+**Return value**  
+The 8 bits read from memory.   
+
+### `write`
+
+**Description**  
+Called when the CPU needs to write 8 bits to memory.
+
+**Prototype**  
+```C
+typedef void (* ZContext16BitAddressWrite8Bit)(void *context, zuint16 address, zuint8 value);
+ZContext16BitAddressWrite8Bit write;
+```
+
+**Parameters**  
+`context`: A pointer to the emulator instance.  
+`address`: The memory address to write.  
+`value`: The value to write in `address`.  
+
+**Return value**  
+None.   
+
+### `in`
+
+### `out`
+
+### `int_data`
+
+### `halt`
+
 
 ## History
 

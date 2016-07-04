@@ -10,7 +10,7 @@ Released under the terms of the GNU General Public License v3. */
 #include <Z/macros/value.h>
 #include <Z/macros/pointer.h>
 
-#define DEFINED(what) (defined CPU_Z80_##what)
+#define DEFINED(WHAT) (defined CPU_Z80_##WHAT)
 
 #if !DEFINED(USE_SLOTS) && (DEFINED(BUILD_ABI) || DEFINED(BUILD_MODULE_ABI))
 #	define CPU_Z80_USE_SLOTS
@@ -1601,7 +1601,7 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 
 /* MARK: - ABI */
 
-#if DEFINED(BUILD_ABI) || DEFINED(MODULE_ABI)
+#if DEFINED(BUILD_ABI) || DEFINED(BUILD_MODULE_ABI)
 
 	static void will_read_state(Z80 *object) {R  = R_ALL;}
 	static void did_write_state(Z80 *object) {R7 = R;    }
