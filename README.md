@@ -11,7 +11,7 @@ If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe
 
 In order to compile you must install [Z](http://github.com/redcode/Z), a **header only** library which provides types, macros, inline functions, and a lot of utilities to detect the particularities of the compiler and the target system. This is the only dependency, the standard C library and its headers are not used and the emulator doesn't need to be dynamically linked with any library.
 
-A Xcode project file is provided to build the emulator. It has the following targets:
+A Xcode project is provided to build the emulator. It has the following targets:
 
 #### Targets
 
@@ -46,7 +46,7 @@ CPU_Z80_USE_LOCAL_HEADER | Use this if you have imported _Z80.h_ and _Z80.c_ to 
 #### `z80_run`
 
 **Description**  
-Runs the CPU for the given amount of ```cycles```.   
+Runs the CPU for the given number of ```cycles```.   
 
 **Prototype**  
 ```C
@@ -168,7 +168,7 @@ ZContext16BitAddressRead8Bit in;
 
 **Parameters**  
 `context` → A pointer to the calling emulator instance.  
-`address` → The number of the I/O port to read.  
+`address` → The number of the I/O port.  
 
 **Return value**  
 The 8 bits read from the I/O port.   
@@ -186,7 +186,7 @@ ZContext16BitAddressWrite8Bit out;
 
 **Parameters**  
 `context` → A pointer to the calling emulator instance.  
-`address` → The number of the I/O port to write.  
+`address` → The number of the I/O port.  
 `value` → The value to write.  
 
 #### `int_data`
