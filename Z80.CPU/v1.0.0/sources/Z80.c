@@ -1588,10 +1588,8 @@ CPU_Z80_API void z80_power(Z80 *object, zboolean state)
 #		endif
 		}
 
-	else	{
-		PC = SP = IX = IY = AF = BC = DE = HL = AF_ = BC_ = DE_ = HL_ = I = R =
+	else	PC = SP = IX = IY = AF = BC = DE = HL = AF_ = BC_ = DE_ = HL_ = I = R =
 		IFF1 = IFF2 = IM = EI = HALT = INT = NMI = 0;
-		}
 	}
 
 
