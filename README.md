@@ -224,5 +224,5 @@ ZContextSwitch halt;
 
 ## History
 
-* __[v1.0.0](http://github.com/redcode/Z80/releases/tag/v1.0.0)__ _(2016-07-05)_
+* __[v1.0.0](http://github.com/redcode/Z80/releases/tag/v1.0.0)__ _(2016-09-30)_
     * Initial release.

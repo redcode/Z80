@@ -10,29 +10,27 @@ Released under the terms of the GNU General Public License v3. */
 #include <Z/macros/value.h>
 #include <Z/macros/pointer.h>
 
-#define DEFINED(WHAT) (defined CPU_Z80_##WHAT)
-
-#if !DEFINED(USE_SLOTS) && (DEFINED(BUILD_ABI) || DEFINED(BUILD_MODULE_ABI))
+#if !defined(CPU_Z80_USE_SLOTS) && (defined(CPU_Z80_BUILD_ABI) || defined(CPU_Z80_BUILD_MODULE_ABI))
 #	define CPU_Z80_USE_SLOTS
 #endif
 
-#if DEFINED(HIDE_API)
+#if defined(CPU_Z80_HIDE_API)
 #	define CPU_Z80_API static
-#elif DEFINED(DYNAMIC)
+#elif defined(CPU_Z80_DYNAMIC)
 #	define CPU_Z80_API Z_API_EXPORT
 #else
 #	define CPU_Z80_API
 #endif
 
-#if DEFINED(HIDE_ABI)
+#if defined(CPU_Z80_HIDE_ABI)
 #	define CPU_Z80_ABI static
-#elif DEFINED(DYNAMIC)
+#elif defined(CPU_Z80_DYNAMIC)
 #	define CPU_Z80_ABI Z_API_EXPORT
 #else
 #	define CPU_Z80_ABI
 #endif
 
-#if DEFINED(USE_LOCAL_HEADER)
+#if defined(CPU_Z80_USE_LOCAL_HEADER)
 #	include "Z80.h"
 #else
 #	include <emulation/CPU/Z80.h>
@@ -53,7 +51,7 @@ typedef zuint8 (* Instruction)(Z80 *object);
 
 /* MARK: - Macros & Functions: Callback */
 
-#if DEFINED(USE_SLOTS)
+#if defined(CPU_Z80_USE_SLOTS)
 #	define CB_ACTION(name) object->cb.name.action
 #	define CB_OBJECT(name) object->cb.name.object
 #else
@@ -1456,7 +1454,7 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 			R++;		 /* Consume memory refresh.	*/
 			IFF1 = IFF2 = 0; /* Clear interrupt flip-flops.	*/
 
-#			if DEFINED(AUTOCLEAR_INT_LINE)
+#			if defined(CPU_Z80_AUTOCLEAR_INT_LINE)
 				INT = FALSE;
 #			endif
 
@@ -1599,7 +1597,7 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 
 /* MARK: - ABI */
 
-#if DEFINED(BUILD_ABI) || DEFINED(BUILD_MODULE_ABI)
+#if defined(CPU_Z80_BUILD_ABI) || defined(CPU_Z80_BUILD_MODULE_ABI)
 
 	static void will_read_state(Z80 *object) {R  = R_ALL;}
 	static void did_write_state(Z80 *object) {R7 = R;    }
@@ -1611,7 +1609,7 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 		{Z_EMULATOR_FUNCTION_WILL_READ_STATE, (ZEmulatorFunction)will_read_state},
 		{Z_EMULATOR_FUNCTION_DID_WRITE_STATE, (ZEmulatorFunction)did_write_state},
 		{Z_EMULATOR_FUNCTION_NMI,	      (ZEmulatorFunction)z80_nmi	},
-		{Z_EMULATOR_FUNCTION_INT,	      (ZEmulatorFunction)z80_int	}
+		{Z_EMULATOR_FUNCTION_IRQ,	      (ZEmulatorFunction)z80_int	}
 	};
 
 #	define SLOT_OFFSET(name) Z_OFFSET_OF(Z80, cb.name)
@@ -1621,7 +1619,7 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 		{Z_EMULATOR_FUNCTION_WRITE_8BIT, SLOT_OFFSET(write   )},
 		{Z_EMULATOR_FUNCTION_IN_8BIT,	 SLOT_OFFSET(in      )},
 		{Z_EMULATOR_FUNCTION_OUT_8BIT,	 SLOT_OFFSET(out     )},
-		{Z_EMULATOR_FUNCTION_INT_DATA,	 SLOT_OFFSET(int_data)},
+		{Z_EMULATOR_FUNCTION_IRQ_DATA,	 SLOT_OFFSET(int_data)},
 		{Z_EMULATOR_FUNCTION_HALT,	 SLOT_OFFSET(halt    )}
 	};
 
@@ -1639,7 +1637,7 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 
 #endif
 
-#if DEFINED(BUILD_MODULE_ABI)
+#if defined(CPU_Z80_BUILD_MODULE_ABI)
 
 #	include <Z/ABIs/generic/module.h>
 
