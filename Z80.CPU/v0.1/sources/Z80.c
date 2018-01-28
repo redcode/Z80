@@ -254,13 +254,13 @@ static zuint8 const j_k_p_q_table[8] = {
 Z_INLINE zuint8 *name(Z80 *object)	      \
 	{return ((zuint8 *)object) + table[(BYTE(offset) & mask) shift];}
 
-R_8(__xxx___0,	   x_y_table, 0, 56, >> 3)
-R_8(__xxx___1,	   x_y_table, 1, 56, >> 3)
-R_8(_____yyy0,	   x_y_table, 0,  7,	 )
-R_8(_____yyy1,	   x_y_table, 1,  7,	 )
-R_8(_____yyy3,	   x_y_table, 3,  7,	 )
-R_8(__jjj___ , j_k_p_q_table, 1, 56, >> 3)
-R_8(_____kkk , j_k_p_q_table, 1,  7,	 )
+R_8(__xxx___0,	   x_y_table, 0, 56, >> 3   )
+R_8(__xxx___1,	   x_y_table, 1, 56, >> 3   )
+R_8(_____yyy0,	   x_y_table, 0,  7, Z_EMPTY)
+R_8(_____yyy1,	   x_y_table, 1,  7, Z_EMPTY)
+R_8(_____yyy3,	   x_y_table, 3,  7, Z_EMPTY)
+R_8(__jjj___ , j_k_p_q_table, 1, 56, >> 3   )
+R_8(_____kkk , j_k_p_q_table, 1,  7, Z_EMPTY)
 
 
 /* MARK: - 16-Bit Register Resolution
@@ -629,15 +629,17 @@ Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 #define EX(a, b) t = a; a = b; b = t;
 
 
-#define EX_VSP_X(register)	   \
-	zuint16 tmp = READ_16(SP); \
-	WRITE_16(SP, register);	   \
-	register = tmp;
+#define EX_VSP_X(register)	\
+	t = READ_16(SP);	\
+	WRITE_16(SP, register);	\
+	register = t;
 
 
 #define LDX(sign)							  \
-	zuint8 n = READ_8(HL sign);					  \
-	WRITE_8(DE sign, n);						  \
+	zuint8 n;							  \
+									  \
+	PC += 2;							  \
+	WRITE_8(DE sign, n = READ_8(HL sign));				  \
 	n += A;								  \
 				     /* HF = 0, NF = 0		       */ \
 	F =	(F & (SF | ZF | CF)) /* SF, ZF, CF unchanged	       */ \
@@ -654,9 +656,10 @@ Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 
 
 #define CPX(sign)						   \
-	zuint8 v = READ_8(HL sign);				   \
-	zuint8 n0 = A - v;					   \
-	zuint8 n1 = n0 - !!F_H;					   \
+	zuint8 v, n0, n1;					   \
+								   \
+	PC += 2;						   \
+	n1 = (n0 = A - (v = READ_8(HL sign))) - !!F_H;		   \
 								   \
 	F =	(n0 & SF)	      /* SF = (A - [HL]).7	*/ \
 		| ZF_ZERO(n0)	      /* ZF = !(A - [HL])	*/ \
@@ -703,6 +706,7 @@ Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 		set_nf;						       /* ADC: NF = 0; SBC: NF = 1	     */	\
 														\
 	HL = t;													\
+	PC += 2;												\
 	return 15;
 
 
@@ -713,9 +717,10 @@ Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 
 
 #define RXD(a, b, c)						  \
-	zuint8 t = READ_8(HL);					  \
+	zuint8 t;						  \
 								  \
-	WRITE_8(HL, (t a 4) | (A b));				  \
+	PC += 2;						  \
+	WRITE_8(HL, ((t = READ_8(HL)) a 4) | (A b));		  \
 	A = (A & 0xF0) | (t c);					  \
 								  \
 	F =	A_SYX	       /* SF = A.7; YF = A.5; XF = A.3 */ \
@@ -744,7 +749,10 @@ Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 
 
 #define IN_VC		       \
-	zuint8 t = IN(BC);     \
+	zuint8 t;	       \
+			       \
+	PC += 2;	       \
+	t = IN(BC);	       \
 			       \
 	F =	(t & SYXF)     \
 		| ZF_ZERO(t)   \
@@ -753,9 +761,11 @@ Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 
 
 #define INX(sign)									      \
-	zuint8 v = IN(BC);								      \
-	zuint16 t = v + ((C + 1) & 255);						      \
+	zuint8 v;									      \
+	zuint16 t;									      \
 											      \
+	PC += 2;									      \
+	t = (zuint16)(v = IN(BC)) + ((C + 1) & 255);					      \
 	WRITE_8(HL, v);									      \
 	HL sign;									      \
 	B--;										      \
@@ -772,9 +782,10 @@ Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 
 
 #define OUTX(sign)										    \
-	zuint8 t = READ_8(HL);									    \
+	zuint8 t;										    \
 												    \
-	OUT(BC, t);										    \
+	PC += 2;										    \
+	OUT(BC, t = READ_8(HL));								    \
 	HL sign;										    \
 	B--;											    \
 												    \
@@ -909,19 +920,19 @@ INSTRUCTION(pop_XY)	 {PC += 2; XY = READ_16(SP); SP += 2;	 return 14;}
 |  cpdr			<  ED  ><  B9  >		  ******1.  5,4 / 21,16  |
 '-------------------------------------------------------------------------------*/
 
-INSTRUCTION(ex_de_hl)  {PC++; zuint16 EX(DE, HL)			  return  4;}
-INSTRUCTION(ex_af_af_) {PC++; zuint16 EX(AF, AF_)			  return  4;}
-INSTRUCTION(exx)       {PC++; zuint16 EX(BC, BC_) EX(DE, DE_) EX(HL, HL_) return  4;}
-INSTRUCTION(ex_vsp_hl) {PC++; EX_VSP_X(HL)				  return 19;}
-INSTRUCTION(ex_vsp_XY) {PC += 2; EX_VSP_X(XY)				  return 23;}
-INSTRUCTION(ldi)       {PC += 2; LDX (++)				  return 16;}
-INSTRUCTION(ldir)      {PC += 2; LDXR(++)					    }
-INSTRUCTION(ldd)       {PC += 2; LDX (--)				  return 16;}
-INSTRUCTION(lddr)      {PC += 2; LDXR(--)					    }
-INSTRUCTION(cpi)       {PC += 2; CPX (++)				  return 16;}
-INSTRUCTION(cpir)      {PC += 2; CPXR(++)					    }
-INSTRUCTION(cpd)       {PC += 2; CPX (--)				  return 16;}
-INSTRUCTION(cpdr)      {PC += 2; CPXR(--)					    }
+INSTRUCTION(ex_de_hl)  {zuint16 t; PC++; EX(DE, HL)			     return  4;}
+INSTRUCTION(ex_af_af_) {zuint16 t; PC++; EX(AF, AF_)			     return  4;}
+INSTRUCTION(exx)       {zuint16 t; PC++; EX(BC, BC_) EX(DE, DE_) EX(HL, HL_) return  4;}
+INSTRUCTION(ex_vsp_hl) {zuint16 t; PC++; EX_VSP_X(HL)			     return 19;}
+INSTRUCTION(ex_vsp_XY) {zuint16 t; PC += 2; EX_VSP_X(XY)		     return 23;}
+INSTRUCTION(ldi)       {LDX (++)					     return 16;}
+INSTRUCTION(ldir)      {LDXR(++)						       }
+INSTRUCTION(ldd)       {LDX (--)					     return 16;}
+INSTRUCTION(lddr)      {LDXR(--)						       }
+INSTRUCTION(cpi)       {CPX (++)					     return 16;}
+INSTRUCTION(cpir)      {CPXR(++)						       }
+INSTRUCTION(cpd)       {CPX (--)					     return 16;}
+INSTRUCTION(cpdr)      {CPXR(--)						       }
 
 
 /* MARK: - Instructions: 8-Bit Arithmetic and Logical Group
@@ -949,8 +960,8 @@ INSTRUCTION(U_a_KQ)	   {PC += 2; U1(KQ);							    return  8;}
 INSTRUCTION(U_a_BYTE)	   {U0(READ_8((PC += 2) - 1));						    return  7;}
 INSTRUCTION(U_a_vhl)	   {PC++; U0(READ_8(HL));						    return  7;}
 INSTRUCTION(U_a_vXYOFFSET) {U1(READ_8(XY + READ_OFFSET((PC += 3) - 1)));			    return 19;}
-INSTRUCTION(V_X)	   {PC++;    zuint8 *r = __xxx___0(object); *r = V0(*r);		    return  4;}
-INSTRUCTION(V_JP)	   {PC += 2; zuint8 *r = __jjj___ (object); *r = V1(*r);		    return  8;}
+INSTRUCTION(V_X)	   {zuint8 *r; PC++;    r = __xxx___0(object); *r = V0(*r);		    return  4;}
+INSTRUCTION(V_JP)	   {zuint8 *r; PC += 2; r = __jjj___ (object); *r = V1(*r);		    return  8;}
 INSTRUCTION(V_vhl)	   {PC++; WRITE_8(HL, V0(READ_8(HL)));					    return 11;}
 INSTRUCTION(V_vXYOFFSET)   {zuint16 a = XY + READ_OFFSET((PC += 3) - 1); WRITE_8(a, V1(READ_8(a))); return 23;}
 
@@ -1093,14 +1104,14 @@ INSTRUCTION(scf)
 |  dec iy		<  FD  ><  2B  >		  ........  2 / 10  |
 '--------------------------------------------------------------------------*/
 
-INSTRUCTION(add_hl_SS) {PC++;	 ADD_RR_NN(HL, SS0)			    return 11;}
-INSTRUCTION(adc_hl_SS) {PC += 2; ADC_SBC_HL_SS(adc, +, HL + v + c > 65535,)	      }
-INSTRUCTION(sbc_hl_SS) {PC += 2; ADC_SBC_HL_SS(sbc, -, HL < v + c, | NF)	      }
-INSTRUCTION(add_XY_WW) {PC += 2; ADD_RR_NN(XY, WW)			    return 15;}
-INSTRUCTION(inc_SS)    {PC++;	 SS0++;					    return  6;}
-INSTRUCTION(inc_XY)    {PC += 2; XY++;					    return 10;}
-INSTRUCTION(dec_SS)    {PC++;	 SS0--;					    return  6;}
-INSTRUCTION(dec_XY)    {PC += 2; XY--;					    return 15;}
+INSTRUCTION(add_hl_SS) {PC++;	 ADD_RR_NN(HL, SS0)			   return 11;}
+INSTRUCTION(adc_hl_SS) {ADC_SBC_HL_SS(adc, +, HL + v + c > 65535, Z_EMPTY)	     }
+INSTRUCTION(sbc_hl_SS) {ADC_SBC_HL_SS(sbc, -, HL < v + c, | NF)			     }
+INSTRUCTION(add_XY_WW) {PC += 2; ADD_RR_NN(XY, WW)			   return 15;}
+INSTRUCTION(inc_SS)    {PC++;	 SS0++;					   return  6;}
+INSTRUCTION(inc_XY)    {PC += 2; XY++;					   return 10;}
+INSTRUCTION(dec_SS)    {PC++;	 SS0--;					   return  6;}
+INSTRUCTION(dec_XY)    {PC += 2; XY--;					   return 15;}
 
 
 /* MARK: - Instructions: Rotate and Shift Group
@@ -1123,15 +1134,15 @@ INSTRUCTION(dec_XY)    {PC += 2; XY--;					    return 15;}
 '--------------------------------------------------------------------------*/
 
 INSTRUCTION(rlca)	   {PC++; ROL(A); F = F_SZP | (A & YXCF);		    return  4;}
-INSTRUCTION(rla)	   {PC++; zuint8 c = A >> 7; A = (A << 1) | F_C; RXA	    return  4;}
+INSTRUCTION(rla)	   {zuint8 c; PC++; c = A >> 7; A = (A << 1) | F_C; RXA	    return  4;}
 INSTRUCTION(rrca)	   {PC++; ROR(A); F = F_SZP | A_YX | (A >> 7);		    return  4;}
-INSTRUCTION(rra)	   {PC++; zuint8 c = A & 1; A = (A >> 1) | (F << 7); RXA    return  4;}
+INSTRUCTION(rra)	   {zuint8 c; PC++; c = A & 1; A = (A >> 1) | (F << 7); RXA return  4;}
 INSTRUCTION(G_Y)	   {zuint8 *r = _____yyy1(object); *r = G1(*r);		    return  8;}
 INSTRUCTION(G_vhl)	   {WRITE_8(HL, G1(READ_8(HL)));			    return 15;}
 INSTRUCTION(G_vXYOFFSET)   {zuint16 a = XY_ADDRESS; WRITE_8(a,	    G3(READ_8(a))); return 23;}
 INSTRUCTION(G_vXYOFFSET_Y) {zuint16 a = XY_ADDRESS; WRITE_8(a, Y3 = G3(READ_8(a))); return 23;}
-INSTRUCTION(rld)	   {PC += 2; RXD(<<, & 0xF, >> 4)			    return 18;}
-INSTRUCTION(rrd)	   {PC += 2; RXD(>>, << 4, & 0xF)			    return 18;}
+INSTRUCTION(rld)	   {RXD(<<, & 0xF, >> 4)				    return 18;}
+INSTRUCTION(rrd)	   {RXD(>>, << 4, & 0xF)				    return 18;}
 
 
 /* MARK: - Instructions: Bit Set, Reset and Test Group
@@ -1235,19 +1246,19 @@ INSTRUCTION(rst_N)	 {PUSH(PC + 1); PC = BYTE0 & 56;	    return 11;}
 '-------------------------------------------------------------------------------*/
 
 INSTRUCTION(in_a_BYTE)	 {A = IN((A << 8) | READ_8((PC += 2) - 1)); return 11;}
-INSTRUCTION(in_X_vc)	 {PC += 2; IN_VC; X1 = t;		    return 12;}
-INSTRUCTION(in_0_vc)	 {PC += 2; IN_VC;			    return 16;}
-INSTRUCTION(ini)	 {PC += 2; INX(++)			    return 16;}
-INSTRUCTION(inir)	 {PC += 2; INXR(++)				      }
-INSTRUCTION(ind)	 {PC += 2; INX(--)			    return 16;}
-INSTRUCTION(indr)	 {PC += 2; INXR(--)				      }
+INSTRUCTION(in_X_vc)	 {IN_VC; X1 = t;			    return 12;}
+INSTRUCTION(in_0_vc)	 {IN_VC;				    return 16;}
+INSTRUCTION(ini)	 {INX(++)				    return 16;}
+INSTRUCTION(inir)	 {INXR(++)					      }
+INSTRUCTION(ind)	 {INX(--)				    return 16;}
+INSTRUCTION(indr)	 {INXR(--)					      }
 INSTRUCTION(out_vBYTE_a) {OUT((A << 8) | READ_8((PC += 2) - 1), A); return 11;}
 INSTRUCTION(out_vc_X)	 {PC += 2; OUT(BC, X1);			    return 12;}
 INSTRUCTION(out_vc_0)	 {PC += 2; OUT(BC, 0);			    return 12;}
-INSTRUCTION(outi)	 {PC += 2; OUTX(++)			    return 16;}
-INSTRUCTION(otir)	 {PC += 2; OTXR(++)				      }
-INSTRUCTION(outd)	 {PC += 2; OUTX(--)			    return 16;}
-INSTRUCTION(otdr)	 {PC += 2; OTXR(--)				      }
+INSTRUCTION(outi)	 {OUTX(++)				    return 16;}
+INSTRUCTION(otir)	 {OTXR(++)					      }
+INSTRUCTION(outd)	 {OUTX(--)				    return 16;}
+INSTRUCTION(otdr)	 {OTXR(--)					      }
 
 
 /* MARK: - Opcode Selector Prototypes */
