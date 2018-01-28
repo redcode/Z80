@@ -4,30 +4,26 @@
 /\ \/  \/\ \__/_/\ \/\ \/\ \/\  __/
 \ \__/\_\ \_____\ \_\ \_\ \_\ \____\
  \/_/\/_/\/_____/\/_/\/_/\/_/\/____/
-Copyright © 1999-2016 Manuel Sainz de Baranda y Goñi.
+Copyright (C) 1999-2018 Manuel Sainz de Baranda y Goñi.
 Released under the terms of the GNU General Public License v3. */
 
 #include <Z/macros/value.h>
 #include <Z/macros/pointer.h>
 
-#if !defined(CPU_Z80_USE_SLOTS) && (defined(CPU_Z80_BUILD_ABI) || defined(CPU_Z80_BUILD_MODULE_ABI))
-#	define CPU_Z80_USE_SLOTS
-#endif
-
 #if defined(CPU_Z80_HIDE_API)
 #	define CPU_Z80_API static
-#elif defined(CPU_Z80_DYNAMIC)
-#	define CPU_Z80_API Z_API_EXPORT
-#else
+#elif defined(CPU_Z80_STATIC)
 #	define CPU_Z80_API
+#else
+#	define CPU_Z80_API Z_API_EXPORT
 #endif
 
 #if defined(CPU_Z80_HIDE_ABI)
 #	define CPU_Z80_ABI static
-#elif defined(CPU_Z80_DYNAMIC)
-#	define CPU_Z80_ABI Z_API_EXPORT
-#else
+#elif defined(CPU_Z80_STATIC)
 #	define CPU_Z80_ABI
+#else
+#	define CPU_Z80_ABI Z_API_EXPORT
 #endif
 
 #if defined(CPU_Z80_USE_LOCAL_HEADER)
@@ -51,22 +47,14 @@ typedef zuint8 (* Instruction)(Z80 *object);
 
 /* MARK: - Macros & Functions: Callback */
 
-#if defined(CPU_Z80_USE_SLOTS)
-#	define CB_ACTION(name) object->cb.name.action
-#	define CB_OBJECT(name) object->cb.name.object
-#else
-#	define CB_ACTION(name) object->cb.name
-#	define CB_OBJECT(name) object->cb_context
-#endif
-
-#define READ_8(address)		CB_ACTION(read	  )(CB_OBJECT(read    ), (address)	   )
-#define WRITE_8(address, value) CB_ACTION(write   )(CB_OBJECT(write   ), (address), (value))
-#define IN(port)		CB_ACTION(in	  )(CB_OBJECT(in      ), (port   )	   )
-#define OUT(port, value)        CB_ACTION(out	  )(CB_OBJECT(out     ), (port   ), (value))
-#define INT_DATA		CB_ACTION(int_data)(CB_OBJECT(int_data)			   )
-#define READ_OFFSET(address)	(zint8)READ_8(address)
-#define SET_HALT		if (CB_ACTION(halt) != NULL) CB_ACTION(halt)(CB_OBJECT(halt), TRUE )
-#define CLEAR_HALT		if (CB_ACTION(halt) != NULL) CB_ACTION(halt)(CB_OBJECT(halt), FALSE)
+#define READ_8(address)		object->read	(object->callback_context, (address))
+#define WRITE_8(address, value) object->write	(object->callback_context, (address), (value))
+#define IN(port)		object->in	(object->callback_context, (port))
+#define OUT(port, value)        object->out	(object->callback_context, (port), (value))
+#define INT_DATA		object->int_data(object->callback_context)
+#define READ_OFFSET(address)	(zsint8)READ_8(address)
+#define SET_HALT		if (object->halt != NULL) object->halt(object->callback_context, TRUE )
+#define CLEAR_HALT		if (object->halt != NULL) object->halt(object->callback_context, FALSE)
 
 
 Z_INLINE zuint16 read_16bit(Z80 *object, zuint16 address)
@@ -113,7 +101,7 @@ Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 #define IYL   object->state.Z_Z80_STATE_MEMBER_IYL
 #define I     object->state.Z_Z80_STATE_MEMBER_I
 #define R     object->state.Z_Z80_STATE_MEMBER_R
-#define R_ALL (R & 127) | (R7 & 128)
+#define R_ALL ((R & 127) | (R7 & 128))
 
 
 /* MARK: - Macros: Internal State */
@@ -141,7 +129,7 @@ Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 /* MARK: - Macros: Memory Addressing */
 
 #define XY	   object->xy.value_uint16
-#define XY_ADDRESS XY + object->data.array_int8[2]
+#define XY_ADDRESS (XY + object->data.array_sint8[2])
 
 
 /* MARK: - Macros: Flags */
@@ -200,24 +188,24 @@ static zuint8 const pf_parity_table[256] = {
 
 #define PF_PARITY(value) pf_parity_table[value]
 
-#define VF(function, operand)				    \
-Z_INLINE zuint8 pf_overflow_##function##8(zint8 a, zint8 b) \
-	{						    \
-	zint16 total = a operand b;			    \
-							    \
-	return total < -128 || total > 127 ? PF : 0;	    \
+#define VF(function, operand)				      \
+Z_INLINE zuint8 pf_overflow_##function##8(zsint8 a, zsint8 b) \
+	{						      \
+	zsint16 total = a operand b;			      \
+							      \
+	return total < -128 || total > 127 ? PF : 0;	      \
 	}
 
 VF(add, +)
 VF(sub, -)
 
 #undef	VF
-#define VF(function, bits, total_bits, operand, minimum, maximum)		       \
-Z_INLINE zuint8 pf_overflow_##function##bits(zint##bits a, zint##bits b, zuint8 carry) \
-	{									       \
-	zint##total_bits total = a operand b operand carry;			       \
-										       \
-	return total < minimum || total > maximum ? PF : 0;			       \
+#define VF(function, bits, total_bits, operand, minimum, maximum)			 \
+Z_INLINE zuint8 pf_overflow_##function##bits(zsint##bits a, zsint##bits b, zuint8 carry) \
+	{										 \
+	zsint##total_bits total = a operand b operand carry;				 \
+											 \
+	return total < minimum || total > maximum ? PF : 0;				 \
 	}
 
 VF(adc,  8, 16, +,   -128,   127)
@@ -226,7 +214,7 @@ VF(adc, 16, 32, +, -32768, 32767)
 VF(sbc, 16, 32, -, -32768, 32767)
 
 
-/* MARK: - 8 Bit Register Resolution
+/* MARK: - 8-Bit Register Resolution
 
    .----------.   .---------.   .-----------.   .-----------.
    | 76543210 |   |  X / Y  |   |   J / K   |   |   P / Q   |
@@ -275,7 +263,7 @@ R_8(__jjj___ , j_k_p_q_table, 1, 56, >> 3)
 R_8(_____kkk , j_k_p_q_table, 1,  7,	 )
 
 
-/* MARK: - 16 Bit Register Resolution
+/* MARK: - 16-Bit Register Resolution
 
    .----------.   .---------.	.---------.   .---------.
    | 76543210 |   |    S    |	|    T    |   |    W    |
@@ -343,7 +331,7 @@ Z_INLINE zboolean __zzz___(Z80 *object)
 	}
 
 
-/* MARK: - 8 Bit Arithmetic and Logical Operation Resolution and Execution
+/* MARK: - 8-Bit Arithmetic and Logical Operation Resolution and Execution
 
    .----------.   .-----------.		.-------------------------------.
    | 76543210 |   |     U     |		| S | Z | Y | H | X | P | N | C |
@@ -803,7 +791,7 @@ Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 #define RET PC = READ_16(SP); SP += 2;
 
 
-/* MARK: - Instructions: 8 Bit Load Group
+/* MARK: - Instructions: 8-Bit Load Group
 .---------------------------------------------------------------------------.
 |			0	1	2	3	  Flags		    |
 |  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles  |
@@ -857,7 +845,7 @@ INSTRUCTION(ld_i_a)	       {PC += 2; I = A;						    return  9;}
 INSTRUCTION(ld_r_a)	       {PC += 2; R = R7 = A;					    return  9;}
 
 
-/* MARK: - Instructions: 16 Bit Load Group
+/* MARK: - Instructions: 16-Bit Load Group
 .---------------------------------------------------------------------------.
 |			0	1	2	3	  Flags		    |
 |  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles  |
@@ -936,7 +924,7 @@ INSTRUCTION(cpd)       {PC += 2; CPX (--)				  return 16;}
 INSTRUCTION(cpdr)      {PC += 2; CPXR(--)					    }
 
 
-/* MARK: - Instructions: 8 Bit Arithmetic and Logical Group
+/* MARK: - Instructions: 8-Bit Arithmetic and Logical Group
 .---------------------------------------------------------------------------.
 |			0	1	2	3	  Flags		    |
 |  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles  |
@@ -1087,7 +1075,7 @@ INSTRUCTION(scf)
 	}
 
 
-/* MARK: - Instructions: 16 Bit Arithmetic Group
+/* MARK: - Instructions: 16-Bit Arithmetic Group
 .---------------------------------------------------------------------------.
 |			0	1	2	3	  Flags		    |
 |  Assembly		76543210765432107654321076543210  szyhxpnc  Cycles  |
@@ -1410,7 +1398,65 @@ INSTRUCTION(ED_illegal) {PC += 2; return 8;}
 
 /* MARK: - Main Functions */
 
-CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
+CPU_Z80_API void z80_power(Z80 *object, zboolean state)
+	{
+	if (state)
+		{
+#		ifdef Z_Z80_RESET_IS_EQUAL_TO_POWER_ON
+			z80_reset(object);
+#		else
+			PC   = Z_Z80_VALUE_AFTER_POWER_ON_PC;
+			SP   = Z_Z80_VALUE_AFTER_POWER_ON_SP;
+			IX   = Z_Z80_VALUE_AFTER_POWER_ON_IX;
+			IY   = Z_Z80_VALUE_AFTER_POWER_ON_IY;
+			AF   = Z_Z80_VALUE_AFTER_POWER_ON_AF;
+			BC   = Z_Z80_VALUE_AFTER_POWER_ON_BC;
+			DE   = Z_Z80_VALUE_AFTER_POWER_ON_DE;
+			HL   = Z_Z80_VALUE_AFTER_POWER_ON_HL;
+			AF_  = Z_Z80_VALUE_AFTER_POWER_ON_AF_;
+			BC_  = Z_Z80_VALUE_AFTER_POWER_ON_BC_;
+			DE_  = Z_Z80_VALUE_AFTER_POWER_ON_DE_;
+			HL_  = Z_Z80_VALUE_AFTER_POWER_ON_HL_;
+			R    = Z_Z80_VALUE_AFTER_POWER_ON_R;
+			I    = Z_Z80_VALUE_AFTER_POWER_ON_I;
+			IFF1 = Z_Z80_VALUE_AFTER_POWER_ON_IFF1;
+			IFF2 = Z_Z80_VALUE_AFTER_POWER_ON_IFF2;
+			IM   = Z_Z80_VALUE_AFTER_POWER_ON_IM;
+
+			EI = HALT = INT = NMI = 0;
+#		endif
+		}
+
+	else	PC = SP = IX = IY = AF = BC = DE = HL = AF_ = BC_ = DE_ = HL_ = I = R =
+		IFF1 = IFF2 = IM = EI = HALT = INT = NMI = 0;
+	}
+
+
+CPU_Z80_API void z80_reset(Z80 *object)
+	{
+	PC   = Z_Z80_VALUE_AFTER_RESET_PC;
+	SP   = Z_Z80_VALUE_AFTER_RESET_SP;
+	IX   = Z_Z80_VALUE_AFTER_RESET_IX;
+	IY   = Z_Z80_VALUE_AFTER_RESET_IY;
+	AF   = Z_Z80_VALUE_AFTER_RESET_AF;
+	BC   = Z_Z80_VALUE_AFTER_RESET_BC;
+	DE   = Z_Z80_VALUE_AFTER_RESET_DE;
+	HL   = Z_Z80_VALUE_AFTER_RESET_HL;
+	AF_  = Z_Z80_VALUE_AFTER_RESET_AF_;
+	BC_  = Z_Z80_VALUE_AFTER_RESET_BC_;
+	DE_  = Z_Z80_VALUE_AFTER_RESET_DE_;
+	HL_  = Z_Z80_VALUE_AFTER_RESET_HL_;
+	R    = Z_Z80_VALUE_AFTER_RESET_R;
+	I    = Z_Z80_VALUE_AFTER_RESET_I;
+	IFF1 = Z_Z80_VALUE_AFTER_RESET_IFF1;
+	IFF2 = Z_Z80_VALUE_AFTER_RESET_IFF2;
+	IM   = Z_Z80_VALUE_AFTER_RESET_IM;
+
+	EI = HALT = INT = NMI = 0;
+	}
+
+
+CPU_Z80_API zusize z80_run(Z80 *object, zusize cycles)
 	{
 	zuint32 data;
 
@@ -1533,64 +1579,6 @@ CPU_Z80_API zsize z80_run(Z80 *object, zsize cycles)
 	}
 
 
-CPU_Z80_API void z80_reset(Z80 *object)
-	{
-	PC   = Z_Z80_VALUE_AFTER_RESET_PC;
-	SP   = Z_Z80_VALUE_AFTER_RESET_SP;
-	IX   = Z_Z80_VALUE_AFTER_RESET_IX;
-	IY   = Z_Z80_VALUE_AFTER_RESET_IY;
-	AF   = Z_Z80_VALUE_AFTER_RESET_AF;
-	BC   = Z_Z80_VALUE_AFTER_RESET_BC;
-	DE   = Z_Z80_VALUE_AFTER_RESET_DE;
-	HL   = Z_Z80_VALUE_AFTER_RESET_HL;
-	AF_  = Z_Z80_VALUE_AFTER_RESET_AF_;
-	BC_  = Z_Z80_VALUE_AFTER_RESET_BC_;
-	DE_  = Z_Z80_VALUE_AFTER_RESET_DE_;
-	HL_  = Z_Z80_VALUE_AFTER_RESET_HL_;
-	R    = Z_Z80_VALUE_AFTER_RESET_R;
-	I    = Z_Z80_VALUE_AFTER_RESET_I;
-	IFF1 = Z_Z80_VALUE_AFTER_RESET_IFF1;
-	IFF2 = Z_Z80_VALUE_AFTER_RESET_IFF2;
-	IM   = Z_Z80_VALUE_AFTER_RESET_IM;
-
-	EI = HALT = INT = NMI = 0;
-	}
-
-
-CPU_Z80_API void z80_power(Z80 *object, zboolean state)
-	{
-	if (state)
-		{
-#		ifdef Z_Z80_RESET_IS_EQUAL_TO_POWER_ON
-			z80_reset(object);
-#		else
-			PC   = Z_Z80_VALUE_AFTER_POWER_ON_PC;
-			SP   = Z_Z80_VALUE_AFTER_POWER_ON_SP;
-			IX   = Z_Z80_VALUE_AFTER_POWER_ON_IX;
-			IY   = Z_Z80_VALUE_AFTER_POWER_ON_IY;
-			AF   = Z_Z80_VALUE_AFTER_POWER_ON_AF;
-			BC   = Z_Z80_VALUE_AFTER_POWER_ON_BC;
-			DE   = Z_Z80_VALUE_AFTER_POWER_ON_DE;
-			HL   = Z_Z80_VALUE_AFTER_POWER_ON_HL;
-			AF_  = Z_Z80_VALUE_AFTER_POWER_ON_AF_;
-			BC_  = Z_Z80_VALUE_AFTER_POWER_ON_BC_;
-			DE_  = Z_Z80_VALUE_AFTER_POWER_ON_DE_;
-			HL_  = Z_Z80_VALUE_AFTER_POWER_ON_HL_;
-			R    = Z_Z80_VALUE_AFTER_POWER_ON_R;
-			I    = Z_Z80_VALUE_AFTER_POWER_ON_I;
-			IFF1 = Z_Z80_VALUE_AFTER_POWER_ON_IFF1;
-			IFF2 = Z_Z80_VALUE_AFTER_POWER_ON_IFF2;
-			IM   = Z_Z80_VALUE_AFTER_POWER_ON_IM;
-
-			EI = HALT = INT = NMI = 0;
-#		endif
-		}
-
-	else	PC = SP = IX = IY = AF = BC = DE = HL = AF_ = BC_ = DE_ = HL_ = I = R =
-		IFF1 = IFF2 = IM = EI = HALT = INT = NMI = 0;
-	}
-
-
 CPU_Z80_API void z80_nmi(Z80 *object)		      {NMI = TRUE ;}
 CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 
@@ -1612,15 +1600,13 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 		{Z_EMULATOR_FUNCTION_IRQ,	      (ZEmulatorFunction)z80_int	}
 	};
 
-#	define SLOT_OFFSET(name) Z_OFFSET_OF(Z80, cb.name)
-
 	static ZCPUEmulatorInstanceImport const instance_imports[6] = {
-		{Z_EMULATOR_FUNCTION_READ_8BIT,	 SLOT_OFFSET(read    )},
-		{Z_EMULATOR_FUNCTION_WRITE_8BIT, SLOT_OFFSET(write   )},
-		{Z_EMULATOR_FUNCTION_IN_8BIT,	 SLOT_OFFSET(in      )},
-		{Z_EMULATOR_FUNCTION_OUT_8BIT,	 SLOT_OFFSET(out     )},
-		{Z_EMULATOR_FUNCTION_IRQ_DATA,	 SLOT_OFFSET(int_data)},
-		{Z_EMULATOR_FUNCTION_HALT,	 SLOT_OFFSET(halt    )}
+		{Z_EMULATOR_FUNCTION_READ_8BIT,	 O(read	   )},
+		{Z_EMULATOR_FUNCTION_WRITE_8BIT, O(write   )},
+		{Z_EMULATOR_FUNCTION_IN_8BIT,	 O(in	   )},
+		{Z_EMULATOR_FUNCTION_OUT_8BIT,	 O(out	   )},
+		{Z_EMULATOR_FUNCTION_IRQ_DATA,	 O(int_data)},
+		{Z_EMULATOR_FUNCTION_HALT,	 O(halt	   )}
 	};
 
 	CPU_Z80_ABI ZCPUEmulatorABI const abi_emulation_cpu_z80 = {
@@ -1629,7 +1615,7 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 		/* export_count		 */ 7,
 		/* exports		 */ exports,
 		/* instance_size	 */ sizeof(Z80),
-		/* instance_state_offset */ Z_OFFSET_OF(Z80, state),
+		/* instance_state_offset */ O(state),
 		/* instance_state_size	 */ sizeof(ZZ80State),
 		/* instance_import_count */ 6,
 		/* instance_imports	 */ instance_imports
@@ -1641,11 +1627,7 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 
 #	include <Z/ABIs/generic/module.h>
 
-	static zcharacter const information[] =
-		"C1999-2016 Manuel Sainz de Baranda y Goñi\n"
-		"LGPLv3";
-
-	static ZModuleUnit const unit = {"Z80", "Z80", Z_VERSION(1, 0, 0), information, &abi_emulation_cpu_z80};
+	static ZModuleUnit const unit = {"Z80", "Z80", Z_VERSION(0, 1, 0), &abi_emulation_cpu_z80};
 	static ZModuleDomain const domain = {"Emulation.CPU", Z_VERSION(1, 0, 0), 1, &unit};
 	Z_API_WEAK_EXPORT ZModuleABI const __module_abi__ = {1, &domain};
 

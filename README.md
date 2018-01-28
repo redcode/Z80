@@ -1,5 +1,5 @@
 # Zilog Z80 CPU Emulator
-Copyright © 1999-2016 Manuel Sainz de Baranda y Goñi.  
+Copyright © 1999-2018 Manuel Sainz de Baranda y Goñi.  
 Released under the terms of the [GNU General Public License v3](http://www.gnu.org/copyleft/gpl.html).
 
 This is a very accurate [Z80](http://en.wikipedia.org/wiki/Zilog_Z80) [emulator](http://en.wikipedia.org/wiki/Emulator) I wrote many years ago. It has been used in several machine emulators by other people and it has been extensivelly tested. It's very fast and small (although there are faster ones written in assembly), its structure is very clear and the code is commented.
@@ -9,7 +9,7 @@ If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe
 
 ## Building
 
-In order to compile you must install [Z](http://github.com/redcode/Z), a **header only** library which provides types, macros, inline functions, and a lot of utilities to detect the particularities of the compiler and the target system. This is the only dependency, the standard C library and its headers are not used and the emulator doesn't need to be dynamically linked with any library.
+In order to compile you must install [Z](http://github.com/redcode/Z), a **header only** library which provides types, macros, inline functions, and a lot of utilities to detect the particularities of the compiler and the target system at compile time. This is the only dependency, the standard C library and its headers are not used and the emulator doesn't need to be dynamically linked with any library.
 
 A Xcode project is provided to build the emulator. It has the following targets:
 
@@ -18,22 +18,19 @@ A Xcode project is provided to build the emulator. It has the following targets:
 Name | Description
 --- | ---
 dynamic | Shared library.
-module  | Module for A.C.M.E.
+dynamic module  | Shared library with a module ABI to be used in modular multi-machine emulators.
 static | Static library.
-static+ABI | Static library with a descriptive ABI to be used in modular multi-machine emulators. Building the ABI implies callback pointers with slots enabled.
-static+ABI-API | The same as above but exposing only the symbol of the ABI, the API functions will be private.
+static module | Static library with a descriptive ABI to be used in monolithic multi-machine emulators.
 
 #### Constants used in Z80.h
 
 Name | Description
 --- | ---
 CPU_Z80_STATIC | You need to define this if you are using the emulator as a static library or if you have added its sources to your project.
-CPU_Z80_USE_SLOTS | Always needed when using the ABI. Each callback function will have its own context pointer, which should store the address of the object assigned to the call.
 
 #### Constants used in Z80.c
 Name | Description
 --- | ---
-CPU_Z80_DYNAMIC | Needed to build a shared library. Exports the public symbols.
 CPU_Z80_BUILD_ABI | Builds the ABI of type `ZCPUEmulatorABI` declared in the header with the identifier `abi_emulation_cpu_z80`.
 CPU_Z80_BUILD_MODULE_ABI | Builds a generic module ABI of type `ZModuleABI`. This constant enables `CPU_Z80_BUILD_ABI` automatically so `abi_emulation_cpu_z80` will be build too. This option is intended to be used when building a true module loadable at runtime with `dlopen()`, `LoadLibrary()` or similar. The module ABI can be accessed retrieving the **weak** symbol `__module_abi__`.
 CPU_Z80_HIDE_API | Makes the API functions private.
@@ -42,26 +39,6 @@ CPU_Z80_USE_LOCAL_HEADER | Use this if you have imported _Z80.h_ and _Z80.c_ to 
 
 
 ## API
-
-#### `z80_run`
-
-**Description**  
-Runs the CPU for the given number of ```cycles```.   
-
-**Prototype**  
-```C
-zsize z80_run(Z80 *object, zsize cycles);
-```
-
-**Parameters**  
-`object` → A pointer to an emulator instance.  
-`cycles` → The number of cycles to be executed.  
-
-**Return value**  
-The number of cycles executed.   
-
-**Discusion**  
-Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the CPU the exact number of cycles specfified.   
 
 #### `z80_power`
 
@@ -88,6 +65,26 @@ void z80_reset(Z80 *object);
 
 **Parameters**  
 `object` → A pointer to an emulator instance.  
+
+#### `z80_run`
+
+**Description**  
+Runs the CPU for the given number of ```cycles```.   
+
+**Prototype**  
+```C
+zusize z80_run(Z80 *object, zusize cycles);
+```
+
+**Parameters**  
+`object` → A pointer to an emulator instance.  
+`cycles` → The number of cycles to be executed.  
+
+**Return value**  
+The number of cycles executed.   
+
+**Discusion**  
+Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the CPU the exact number of cycles specfified.   
 
 #### `z80_nmi`
 
@@ -220,9 +217,3 @@ ZContextSwitch halt;
 **Parameters**  
 `context` → A pointer to the calling emulator instance.  
 `state` →  `ON` if halted, `OFF` otherwise.  
-
-
-## History
-
-* __[v1.0.0](http://github.com/redcode/Z80/releases/tag/v1.0.0)__ _(2016-09-30)_
-    * Initial release.
