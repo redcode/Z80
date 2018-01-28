@@ -116,7 +116,7 @@ void z80_int(Z80 *object, zboolean state);
 
 ## Callbacks
 
-Before using an instance of the Z80 emulator, its `cb` structure must be initialized with the pointers to the callbacks that your program must provide in order to make possible for the CPU to access the emulated machine's resources. All the callbacks are mandatory except `halt`, which is optional and should be initialized to `NULL` if not used.
+Before using an instance of the Z80 emulator, its callback pointers must be initialized with the pointers to the functions that your program must provide in order to make possible for the CPU to access the emulated machine's resources. All the callbacks are mandatory except `halt`, which is optional and should be initialized to `NULL` if not used.
 
 #### `read` 
 
