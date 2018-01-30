@@ -9,7 +9,7 @@ If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe
 
 ## Building
 
-In order to compile you must install [Z](http://github.com/redcode/Z), a **header only** library which provides types, macros, inline functions, and a lot of utilities to detect the particularities of the compiler and the target system at compile time. This is the only dependency, the standard C library and its headers are not used and the emulator doesn't need to be dynamically linked with any library.
+In order to compile you must install [Z](http://github.com/redcode/Z), a **header only** library which provides types, macros, inline functions, and a lot of utilities to detect the particularities of the compiler and the target system at compile time. This is the only dependency, the standard C library and its headers are not used and the emulator doesn't need to be dynamically linked against any library.
 
 A Xcode project is provided to build the emulator. It has the following targets:
 
