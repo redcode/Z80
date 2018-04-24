@@ -52,16 +52,16 @@ typedef zuint8 (* Instruction)(Z80 *object);
 #define IN(port)		object->in	(object->callback_context, (port))
 #define OUT(port, value)        object->out	(object->callback_context, (port), (value))
 #define INT_DATA		object->int_data(object->callback_context)
-#define READ_OFFSET(address)	(zsint8)READ_8(address)
+#define READ_OFFSET(address)	(zsint8)READ_8  (address)
 #define SET_HALT		if (object->halt != NULL) object->halt(object->callback_context, TRUE )
 #define CLEAR_HALT		if (object->halt != NULL) object->halt(object->callback_context, FALSE)
 
 
-Z_INLINE zuint16 read_16bit(Z80 *object, zuint16 address)
+static Z_INLINE zuint16 read_16bit(Z80 *object, zuint16 address)
 	{return (READ_8(address) | READ_8(address + 1) << 8);}
 
 
-Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
+static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 	{
 	WRITE_8(address, (zuint8)value);
 	WRITE_8(address + 1, value >> 8);
@@ -188,24 +188,24 @@ static zuint8 const pf_parity_table[256] = {
 
 #define PF_PARITY(value) pf_parity_table[value]
 
-#define VF(function, operand)				      \
-Z_INLINE zuint8 pf_overflow_##function##8(zsint8 a, zsint8 b) \
-	{						      \
-	zsint16 total = a operand b;			      \
-							      \
-	return total < -128 || total > 127 ? PF : 0;	      \
+#define VF(function, operand)					     \
+static Z_INLINE zuint8 pf_overflow_##function##8(zsint8 a, zsint8 b) \
+	{							     \
+	zsint16 total = a operand b;				     \
+								     \
+	return total < -128 || total > 127 ? PF : 0;		     \
 	}
 
 VF(add, +)
 VF(sub, -)
 
 #undef	VF
-#define VF(function, bits, total_bits, operand, minimum, maximum)			 \
-Z_INLINE zuint8 pf_overflow_##function##bits(zsint##bits a, zsint##bits b, zuint8 carry) \
-	{										 \
-	zsint##total_bits total = a operand b operand carry;				 \
-											 \
-	return total < minimum || total > maximum ? PF : 0;				 \
+#define VF(function, bits, total_bits, operand, minimum, maximum)				\
+static Z_INLINE zuint8 pf_overflow_##function##bits(zsint##bits a, zsint##bits b, zuint8 carry) \
+	{											\
+	zsint##total_bits total = a operand b operand carry;					\
+												\
+	return total < minimum || total > maximum ? PF : 0;					\
 	}
 
 VF(adc,  8, 16, +,   -128,   127)
@@ -251,7 +251,7 @@ static zuint8 const j_k_p_q_table[8] = {
 };
 
 #define R_8(name, table, offset, mask, shift) \
-Z_INLINE zuint8 *name(Z80 *object)	      \
+static Z_INLINE zuint8 *name(Z80 *object)     \
 	{return ((zuint8 *)object) + table[(BYTE(offset) & mask) shift];}
 
 R_8(__xxx___0,	   x_y_table, 0, 56, >> 3   )
@@ -295,8 +295,8 @@ static zuint8 const w_table[4] = {
 	O(state.Z_Z80_STATE_MEMBER_SP)
 };
 
-#define R_16(name, table, offset)   \
-Z_INLINE zuint16 *name(Z80 *object) \
+#define R_16(name, table, offset)	   \
+static Z_INLINE zuint16 *name(Z80 *object) \
 	{return Z_BOP(zuint16 *, object, table[(BYTE(offset) & 48) >> 4]);}
 
 R_16(__ss____0, s_table, 0)
@@ -321,7 +321,7 @@ R_16(__tt____ , t_table, 0)
 
 static zuint8 const z_table[8] = {ZF, ZF, CF, CF, PF, PF, SF, SF};
 
-Z_INLINE zboolean __zzz___(Z80 *object)
+static Z_INLINE zboolean __zzz___(Z80 *object)
 	{
 	zuint8 z = (BYTE0 & 56) >> 3;
 
@@ -577,7 +577,7 @@ static zuint8 __ggg___(Z80 *object, zuint8 offset, zuint8 value)
    '----------'   | 1 = set |
 		  '--------*/
 
-Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
+static Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 	{
 	zuint8 t = object->data.array_uint8[offset];
 
@@ -678,7 +678,7 @@ Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 	return 21;
 
 
-Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
+static Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 	{
 	zuint16 t = *r + v;
 
