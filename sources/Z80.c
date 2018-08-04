@@ -387,7 +387,7 @@ static void __uuu___(Z80 *object, zuint8 offset, zuint8 value)
 
 		F =	(A < value)		     /* CF = Borrow	 */
 			| NF			     /* NF = 1		 */
-			| pf_overflow_sub8(A, value) /* PF = Overflow    */
+			| pf_overflow_sub8(A, value) /* PF = Overflow	 */
 			| ((A ^ value ^ t) & HF);    /* HF = Half-Borrow */
 		A = t;
 		break;
@@ -958,15 +958,16 @@ INSTRUCTION(cpdr)      {CPXR(--)						       }
 |  V (iy+OFFSET)	<  FD  >00110vvv<OFFSET>	  sz5h3v*.  6 / 23  |
 '--------------------------------------------------------------------------*/
 
-INSTRUCTION(U_a_Y)	   {PC++; U0(Y0);								       return  4;}
-INSTRUCTION(U_a_KQ)	   {PC += 2; U1(KQ);								       return  8;}
-INSTRUCTION(U_a_BYTE)	   {U0(READ_8((PC += 2) - 1));							       return  7;}
-INSTRUCTION(U_a_vhl)	   {PC++; U0(READ_8(HL));							       return  7;}
-INSTRUCTION(U_a_vXYOFFSET) {U1(READ_8(XY + READ_OFFSET((PC += 3) - 1)));				       return 19;}
-INSTRUCTION(V_X)	   {zuint8 *r; PC++;    r = __xxx___0(object); *r = V0(*r);			       return  4;}
-INSTRUCTION(V_JP)	   {zuint8 *r; PC += 2; r = __jjj___ (object); *r = V1(*r);			       return  8;}
-INSTRUCTION(V_vhl)	   {PC++; WRITE_8(HL, V0(READ_8(HL)));						       return 11;}
-INSTRUCTION(V_vXYOFFSET)   {zuint16 a = (zuint16)(XY + READ_OFFSET((PC += 3) - 1)); WRITE_8(a, V1(READ_8(a))); return 23;}
+INSTRUCTION(U_a_Y)	   {PC++; U0(Y0);					    return  4;}
+INSTRUCTION(U_a_KQ)	   {PC += 2; U1(KQ);					    return  8;}
+INSTRUCTION(U_a_BYTE)	   {U0(READ_8((PC += 2) - 1));				    return  7;}
+INSTRUCTION(U_a_vhl)	   {PC++; U0(READ_8(HL));				    return  7;}
+INSTRUCTION(U_a_vXYOFFSET) {U1(READ_8(XY + READ_OFFSET((PC += 3) - 1)));	    return 19;}
+INSTRUCTION(V_X)	   {zuint8 *r; PC++;    r = __xxx___0(object); *r = V0(*r); return  4;}
+INSTRUCTION(V_JP)	   {zuint8 *r; PC += 2; r = __jjj___ (object); *r = V1(*r); return  8;}
+INSTRUCTION(V_vhl)	   {PC++; WRITE_8(HL, V0(READ_8(HL)));			    return 11;}
+INSTRUCTION(V_vXYOFFSET)   {zuint16 a = (zuint16)(XY + READ_OFFSET((PC += 3) - 1));
+			    WRITE_8(a, V1(READ_8(a)));				    return 23;}
 
 
 /* MARK: - Instructions: General-Purpose Arithmetic and CPU Control Group
@@ -1607,8 +1608,8 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 	static void did_write_state(Z80 *object) {R7 = R;    }
 
 	static ZCPUEmulatorExport const exports[7] = {
-		{Z_EMULATOR_FUNCTION_POWER,	      (ZEmulatorFunction)z80_power      },
-		{Z_EMULATOR_FUNCTION_RESET,	      (ZEmulatorFunction)z80_reset      },
+		{Z_EMULATOR_FUNCTION_POWER,	      (ZEmulatorFunction)z80_power	},
+		{Z_EMULATOR_FUNCTION_RESET,	      (ZEmulatorFunction)z80_reset	},
 		{Z_EMULATOR_FUNCTION_RUN,	      (ZEmulatorFunction)z80_run	},
 		{Z_EMULATOR_FUNCTION_WILL_READ_STATE, (ZEmulatorFunction)will_read_state},
 		{Z_EMULATOR_FUNCTION_DID_WRITE_STATE, (ZEmulatorFunction)did_write_state},
