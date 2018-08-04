@@ -47,18 +47,18 @@ typedef zuint8 (* Instruction)(Z80 *object);
 
 /* MARK: - Macros & Functions: Callback */
 
-#define READ_8(address)		object->read	(object->callback_context, (address))
-#define WRITE_8(address, value) object->write	(object->callback_context, (address), (value))
-#define IN(port)		object->in	(object->callback_context, (port))
-#define OUT(port, value)        object->out	(object->callback_context, (port), (value))
+#define READ_8(address)		object->read	(object->callback_context, (zuint16)(address))
+#define WRITE_8(address, value) object->write	(object->callback_context, (zuint16)(address), (zuint8)(value))
+#define IN(port)		object->in	(object->callback_context, (zuint16)(port   ))
+#define OUT(port, value)        object->out	(object->callback_context, (zuint16)(port   ), (zuint8)(value))
 #define INT_DATA		object->int_data(object->callback_context)
-#define READ_OFFSET(address)	(zsint8)READ_8  (address)
+#define READ_OFFSET(address)	((zsint8)READ_8(address))
 #define SET_HALT		if (object->halt != NULL) object->halt(object->callback_context, TRUE )
 #define CLEAR_HALT		if (object->halt != NULL) object->halt(object->callback_context, FALSE)
 
 
 static Z_INLINE zuint16 read_16bit(Z80 *object, zuint16 address)
-	{return (READ_8(address) | READ_8(address + 1) << 8);}
+	{return (zuint16)(READ_8(address) | (zuint16)READ_8(address + 1) << 8);}
 
 
 static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
@@ -68,8 +68,8 @@ static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 	}
 
 
-#define READ_16( address)	 read_16bit (object, address)
-#define WRITE_16(address, value) write_16bit(object, address, value)
+#define READ_16( address)	 read_16bit (object, (zuint16)(address))
+#define WRITE_16(address, value) write_16bit(object, (zuint16)(address), (zuint16)(value))
 
 
 /* MARK: - Macros: Registers */
@@ -129,7 +129,7 @@ static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 /* MARK: - Macros: Memory Addressing */
 
 #define XY	   object->xy.value_uint16
-#define XY_ADDRESS (XY + object->data.array_sint8[2])
+#define XY_ADDRESS ((zuint16)(XY + object->data.array_sint8[2]))
 
 
 /* MARK: - Macros: Flags */
@@ -161,7 +161,7 @@ static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 #define A_SYX (A & SYXF)
 #define A_YX  (A &  YXF)
 
-#define ZF_ZERO(value) (!(value) << 6)
+#define ZF_ZERO(value) ((zuint8)(!(value) << 6))
 
 
 /* MARK: - P/V Flag Computation */
@@ -189,9 +189,9 @@ static zuint8 const pf_parity_table[256] = {
 #define PF_PARITY(value) pf_parity_table[value]
 
 #define VF(function, operand)					     \
-static Z_INLINE zuint8 pf_overflow_##function##8(zsint8 a, zsint8 b) \
+static Z_INLINE zuint8 pf_overflow_##function##8(zuint8 a, zuint8 b) \
 	{							     \
-	zsint16 total = a operand b;				     \
+	zsint16 total = ((zsint8)a) operand ((zsint8)b);	     \
 								     \
 	return total < -128 || total > 127 ? PF : 0;		     \
 	}
@@ -201,9 +201,9 @@ VF(sub, -)
 
 #undef	VF
 #define VF(function, bits, total_bits, operand, minimum, maximum)				\
-static Z_INLINE zuint8 pf_overflow_##function##bits(zsint##bits a, zsint##bits b, zuint8 carry) \
+static Z_INLINE zuint8 pf_overflow_##function##bits(zuint##bits a, zuint##bits b, zuint8 carry) \
 	{											\
-	zsint##total_bits total = a operand b operand carry;					\
+	zsint##total_bits total = ((zsint##bits)a) operand ((zsint##bits)b) operand carry;	\
 												\
 	return total < minimum || total > maximum ? PF : 0;					\
 	}
@@ -509,7 +509,7 @@ static zuint8 __ggg___(Z80 *object, zuint8 offset, zuint8 value)
 			   '----'   '--------*/
 		case 2:
 		c = value >> 7;
-		value = (value << 1) | F_C;
+		value = (zuint8)((value << 1) | F_C);
 		break;
 
 		/* RR	.-------------------------.
@@ -518,7 +518,7 @@ static zuint8 __ggg___(Z80 *object, zuint8 offset, zuint8 value)
 			    '---------'   '---*/
 		case 3:
 		c = value & CF;
-		value = (value >> 1) | (F_C << 7);
+		value = (zuint8)((value >> 1) | (F_C << 7));
 		break;
 
 		/* SLA	.----.	 .---------.
@@ -582,8 +582,8 @@ static Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 	zuint8 t = object->data.array_uint8[offset];
 
 	return (t & 64)
-		? value |  (1 << ((t & 56) >> 3))  /* SET */
-		: value & ~(1 << ((t & 56) >> 3)); /* RES */
+		? value |   (zuint8)(1 << ((t & 56) >> 3))  /* SET */
+		: value & ~((zuint8)(1 << ((t & 56) >> 3))); /* RES */
 	}
 
 
@@ -619,11 +619,12 @@ static Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 #define PUSH(value)	  WRITE_16(SP -= 2, value)
 
 
-#define LD_A_I_LD_A_R	      /* HF = 0 / NF = 0	      */ \
-	F =	A_SYX	      /* SF = A.7; YF = A.5; XF = A.3 */ \
-		| ZF_ZERO(A)  /* ZF = !A		      */ \
-		| (IFF2 << 2) /* PF = IFF2		      */ \
-		| F_C;	      /* CF unchanged		      */
+#define LD_A_I_LD_A_R						  \
+	F = (zuint8)	       /* HF = 0 / NF = 0	       */ \
+		(A_SYX	       /* SF = A.7; YF = A.5; XF = A.3 */ \
+		 | ZF_ZERO(A)  /* ZF = !A		       */ \
+		 | (IFF2 << 2) /* PF = IFF2		       */ \
+		 | F_C);       /* CF unchanged		       */
 
 
 #define EX(a, b) t = a; a = b; b = t;
@@ -635,17 +636,18 @@ static Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 	register = t;
 
 
-#define LDX(sign)							  \
-	zuint8 n;							  \
-									  \
-	PC += 2;							  \
-	WRITE_8(DE sign, n = READ_8(HL sign));				  \
-	n += A;								  \
-				     /* HF = 0, NF = 0		       */ \
-	F =	(F & (SF | ZF | CF)) /* SF, ZF, CF unchanged	       */ \
-		| ((n & 2) << 4)     /* YF = ([HL] + A).1	       */ \
-		| (n & XF)	     /* XF = ([HL] + A).3	       */ \
-		| (!!(--BC) << 2);   /* PF = 1 if BC != 0, else PF = 0 */
+#define LDX(sign)							   \
+	zuint8 n;							   \
+									   \
+	PC += 2;							   \
+	WRITE_8(DE sign, n = READ_8(HL sign));				   \
+	n += A;								   \
+									   \
+	F = (zuint8)		      /* HF = 0, NF = 0			*/ \
+		((F & (SF | ZF | CF)) /* SF, ZF, CF unchanged		*/ \
+		 | ((n & 2) << 4)     /* YF = ([HL] + A).1		*/ \
+		 | (n & XF)	      /* XF = ([HL] + A).3		*/ \
+		 | (!!(--BC) << 2));  /* PF = 1 if BC != 0, else PF = 0 */
 
 
 #define LDXR(sign)	    \
@@ -655,20 +657,21 @@ static Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 	return 21;
 
 
-#define CPX(sign)						   \
-	zuint8 v, n0, n1;					   \
-								   \
-	PC += 2;						   \
-	n1 = (n0 = A - (v = READ_8(HL sign))) - !!F_H;		   \
-								   \
-	F =	(n0 & SF)	      /* SF = (A - [HL]).7	*/ \
-		| ZF_ZERO(n0)	      /* ZF = !(A - [HL])	*/ \
-		| ((A ^ v ^ n0) & HF) /* HF = borrow from bit 5 */ \
-		| ((n1 & 2) << 4)     /* YF = (A - [HL] - HF).1 */ \
-		| (n1 & XF)	      /* XF = (A - [HL] - HF).3 */ \
-		| (!!(--BC) << 2)     /* PF = !!BC		*/ \
-		| NF		      /* NF = 1			*/ \
-		| F_C;		      /* CF unchanged		*/
+#define CPX(sign)						    \
+	zuint8 v, n0, n1;					    \
+								    \
+	PC += 2;						    \
+	n1 = (n0 = A - (v = READ_8(HL sign))) - !!F_H;		    \
+								    \
+	F = (zuint8)						    \
+		((n0 & SF)	       /* SF = (A - [HL]).7	 */ \
+		 | ZF_ZERO(n0)	       /* ZF = !(A - [HL])	 */ \
+		 | ((A ^ v ^ n0) & HF) /* HF = borrow from bit 5 */ \
+		 | ((n1 & 2) << 4)     /* YF = (A - [HL] - HF).1 */ \
+		 | (n1 & XF)	       /* XF = (A - [HL] - HF).3 */ \
+		 | (!!(--BC) << 2)     /* PF = !!BC		 */ \
+		 | NF		       /* NF = 1		 */ \
+		 | F_C);	       /* CF unchanged		 */
 
 
 #define CPXR(sign)		   \
@@ -955,15 +958,15 @@ INSTRUCTION(cpdr)      {CPXR(--)						       }
 |  V (iy+OFFSET)	<  FD  >00110vvv<OFFSET>	  sz5h3v*.  6 / 23  |
 '--------------------------------------------------------------------------*/
 
-INSTRUCTION(U_a_Y)	   {PC++; U0(Y0);							    return  4;}
-INSTRUCTION(U_a_KQ)	   {PC += 2; U1(KQ);							    return  8;}
-INSTRUCTION(U_a_BYTE)	   {U0(READ_8((PC += 2) - 1));						    return  7;}
-INSTRUCTION(U_a_vhl)	   {PC++; U0(READ_8(HL));						    return  7;}
-INSTRUCTION(U_a_vXYOFFSET) {U1(READ_8(XY + READ_OFFSET((PC += 3) - 1)));			    return 19;}
-INSTRUCTION(V_X)	   {zuint8 *r; PC++;    r = __xxx___0(object); *r = V0(*r);		    return  4;}
-INSTRUCTION(V_JP)	   {zuint8 *r; PC += 2; r = __jjj___ (object); *r = V1(*r);		    return  8;}
-INSTRUCTION(V_vhl)	   {PC++; WRITE_8(HL, V0(READ_8(HL)));					    return 11;}
-INSTRUCTION(V_vXYOFFSET)   {zuint16 a = XY + READ_OFFSET((PC += 3) - 1); WRITE_8(a, V1(READ_8(a))); return 23;}
+INSTRUCTION(U_a_Y)	   {PC++; U0(Y0);								       return  4;}
+INSTRUCTION(U_a_KQ)	   {PC += 2; U1(KQ);								       return  8;}
+INSTRUCTION(U_a_BYTE)	   {U0(READ_8((PC += 2) - 1));							       return  7;}
+INSTRUCTION(U_a_vhl)	   {PC++; U0(READ_8(HL));							       return  7;}
+INSTRUCTION(U_a_vXYOFFSET) {U1(READ_8(XY + READ_OFFSET((PC += 3) - 1)));				       return 19;}
+INSTRUCTION(V_X)	   {zuint8 *r; PC++;    r = __xxx___0(object); *r = V0(*r);			       return  4;}
+INSTRUCTION(V_JP)	   {zuint8 *r; PC += 2; r = __jjj___ (object); *r = V1(*r);			       return  8;}
+INSTRUCTION(V_vhl)	   {PC++; WRITE_8(HL, V0(READ_8(HL)));						       return 11;}
+INSTRUCTION(V_vXYOFFSET)   {zuint16 a = (zuint16)(XY + READ_OFFSET((PC += 3) - 1)); WRITE_8(a, V1(READ_8(a))); return 23;}
 
 
 /* MARK: - Instructions: General-Purpose Arithmetic and CPU Control Group
@@ -1049,12 +1052,13 @@ INSTRUCTION(neg)
 	{
 	zuint8 t = -A; PC += 2;
 
-	F =	(t & SYXF)	     /* SF = -A.7; YF = -A.5; XF = -A.3 */
-		| ZF_ZERO(t)	     /* ZF = !-A			*/
-		| ((0 ^ A ^ t) & HF) /* HF = Half-borrow		*/
-		| ((t == 128) << 2)  /* PF = Overflow			*/
-		| NF		     /* NF = 1				*/
-		| !!A;		     /* CF = !!A			*/
+	F = (zuint8)
+		((t & SYXF)	      /* SF = -A.7; YF = -A.5; XF = -A.3 */
+		 | ZF_ZERO(t)	      /* ZF = !-A			 */
+		 | ((0 ^ A ^ t) & HF) /* HF = Half-borrow		 */
+		 | ((t == 128) << 2)  /* PF = Overflow			 */
+		 | NF		      /* NF = 1				 */
+		 | !!A);	      /* CF = !!A			 */
 
 	A = t;
 	return 8;
@@ -1065,11 +1069,12 @@ INSTRUCTION(ccf)
 	{
 	PC++;
 
-	F =	F_SZP	     /* SF, ZF, PF unchanged */
-		| A_YX	     /* YF = A.5; XF = A.3   */
-		| (F_C << 4) /* HF = CF		     */
-		| (~F & CF); /* CF = ~CF	     */
-			     /* NF = 0		     */
+	F = (zuint8)
+		(F_SZP	       /* SF, ZF, PF unchanged */
+		 | A_YX	       /* YF = A.5; XF = A.3   */
+		 | (F_C << 4)  /* HF = CF	       */
+		 | (~F & CF)); /* CF = ~CF	       */
+			       /* NF = 0	       */
 	return 4;
 	}
 
@@ -1133,16 +1138,16 @@ INSTRUCTION(dec_XY)    {PC += 2; XY--;					   return 15;}
 |  rrd			<  ED  ><  67  >		  szy0xp0.  5 / 18  |
 '--------------------------------------------------------------------------*/
 
-INSTRUCTION(rlca)	   {PC++; ROL(A); F = F_SZP | (A & YXCF);		    return  4;}
-INSTRUCTION(rla)	   {zuint8 c; PC++; c = A >> 7; A = (A << 1) | F_C; RXA	    return  4;}
-INSTRUCTION(rrca)	   {PC++; ROR(A); F = F_SZP | A_YX | (A >> 7);		    return  4;}
-INSTRUCTION(rra)	   {zuint8 c; PC++; c = A & 1; A = (A >> 1) | (F << 7); RXA return  4;}
-INSTRUCTION(G_Y)	   {zuint8 *r = _____yyy1(object); *r = G1(*r);		    return  8;}
-INSTRUCTION(G_vhl)	   {WRITE_8(HL, G1(READ_8(HL)));			    return 15;}
-INSTRUCTION(G_vXYOFFSET)   {zuint16 a = XY_ADDRESS; WRITE_8(a,	    G3(READ_8(a))); return 23;}
-INSTRUCTION(G_vXYOFFSET_Y) {zuint16 a = XY_ADDRESS; WRITE_8(a, Y3 = G3(READ_8(a))); return 23;}
-INSTRUCTION(rld)	   {RXD(<<, & 0xF, >> 4)				    return 18;}
-INSTRUCTION(rrd)	   {RXD(>>, << 4, & 0xF)				    return 18;}
+INSTRUCTION(rlca)	   {PC++; ROL(A); F = F_SZP | (A & YXCF);			      return  4;}
+INSTRUCTION(rla)	   {zuint8 c; PC++; c = A >> 7; A = (zuint8)((A << 1) | F_C); RXA     return  4;}
+INSTRUCTION(rrca)	   {PC++; ROR(A); F = F_SZP | A_YX | (A >> 7);			      return  4;}
+INSTRUCTION(rra)	   {zuint8 c; PC++; c = A & 1; A = (zuint8)((A >> 1) | (F << 7)); RXA return  4;}
+INSTRUCTION(G_Y)	   {zuint8 *r = _____yyy1(object); *r = G1(*r);			      return  8;}
+INSTRUCTION(G_vhl)	   {WRITE_8(HL, G1(READ_8(HL)));				      return 15;}
+INSTRUCTION(G_vXYOFFSET)   {zuint16 a = XY_ADDRESS; WRITE_8(a,	    G3(READ_8(a)));	      return 23;}
+INSTRUCTION(G_vXYOFFSET_Y) {zuint16 a = XY_ADDRESS; WRITE_8(a, Y3 = G3(READ_8(a)));	      return 23;}
+INSTRUCTION(rld)	   {RXD(<<, & 0xF, >> 4)					      return 18;}
+INSTRUCTION(rrd)	   {RXD(>>, << 4, & 0xF)					      return 18;}
 
 
 /* MARK: - Instructions: Bit Set, Reset and Test Group
@@ -1558,7 +1563,7 @@ CPU_Z80_API zusize z80_run(Z80 *object, zusize cycles)
 				'---------------------------*/
 				case 2:
 				PUSH(PC);
-				PC = READ_16((zuint16)((I << 8) | (INT_DATA & 0xFF)));
+				PC = READ_16(((zuint16)(I << 8)) | (INT_DATA & 0xFF));
 				CYCLES += (17 + 2);
 				break;
 				}
