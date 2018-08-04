@@ -50,7 +50,7 @@ typedef zuint8 (* Instruction)(Z80 *object);
 #define READ_8(address)		object->read	(object->callback_context, (zuint16)(address))
 #define WRITE_8(address, value) object->write	(object->callback_context, (zuint16)(address), (zuint8)(value))
 #define IN(port)		object->in	(object->callback_context, (zuint16)(port   ))
-#define OUT(port, value)        object->out	(object->callback_context, (zuint16)(port   ), (zuint8)(value))
+#define OUT(port, value)	object->out	(object->callback_context, (zuint16)(port   ), (zuint8)(value))
 #define INT_DATA		object->int_data(object->callback_context)
 #define READ_OFFSET(address)	((zsint8)READ_8(address))
 #define SET_HALT		if (object->halt != NULL) object->halt(object->callback_context, TRUE )
@@ -147,10 +147,10 @@ static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 #define SYXF (SF | YF | XF)
 #define ZPF  (ZF | PF     )
 #define YXCF (YF | XF | CF)
-#define YXF  (YF | XF     )
-#define PNF  (PF | NF     )
-#define HCF  (HF | CF     )
-#define NCF  (NF | CF     )
+#define YXF  (YF | XF	  )
+#define PNF  (PF | NF	  )
+#define HCF  (HF | CF	  )
+#define NCF  (NF | CF	  )
 
 #define F_S   (F &   SF)
 #define F_Z   (F &   ZF)
@@ -216,17 +216,17 @@ VF(sbc, 16, 32, -, -32768, 32767)
 
 /* MARK: - 8-Bit Register Resolution
 
-   .----------.   .---------.   .-----------.   .-----------.
-   | 76543210 |   |  X / Y  |   |   J / K   |   |   P / Q   |
-   |----------|   |---------|   |-----------|   |-----------|
-   | __xxx___ |   | 000 = b |   | 000 = b   |   | 000 = b   |
-   | _____yyy |   | 001 = c |   | 001 = c   |   | 001 = c   |
-   | __jjj___ |   | 010 = d |   | 010 = d   |   | 010 = d   |
-   | _____kkk |   | 011 = e |   | 011 = e   |   | 011 = e   |
-   | __ppp___ |   | 100 = h |   | 100 = ixh |   | 100 = iyh |
-   | _____qqq |   | 101 = l |   | 101 = ixl |   | 101 = iyl |
-   '----------'   | 111 = a |   | 111 = a   |   | 111 = a   |
-		  '---------'   '-----------'   '----------*/
+   .----------.   .---------.   .-----------.	.-----------.
+   | 76543210 |   |  X / Y  |   |   J / K   |	|   P / Q   |
+   |----------|   |---------|   |-----------|	|-----------|
+   | __xxx___ |   | 000 = b |   | 000 = b   |	| 000 = b   |
+   | _____yyy |   | 001 = c |   | 001 = c   |	| 001 = c   |
+   | __jjj___ |   | 010 = d |   | 010 = d   |	| 010 = d   |
+   | _____kkk |   | 011 = e |   | 011 = e   |	| 011 = e   |
+   | __ppp___ |   | 100 = h |   | 100 = ixh |	| 100 = iyh |
+   | _____qqq |   | 101 = l |   | 101 = ixl |	| 101 = iyl |
+   '----------'   | 111 = a |   | 111 = a   |	| 111 = a   |
+		  '---------'   '-----------'	'----------*/
 
 static zuint8 const x_y_table[8] = {
 	O(state.Z_Z80_STATE_MEMBER_B),
@@ -266,7 +266,7 @@ R_8(_____kkk , j_k_p_q_table, 1,  7, Z_EMPTY)
 /* MARK: - 16-Bit Register Resolution
 
    .----------.   .---------.	.---------.   .---------.
-   | 76543210 |   |    S    |	|    T    |   |    W    |
+   | 76543210 |   |    S    |	|    T    |   |    W	|
    |----------|   |---------|	|---------|   |---------|
    | __ss____ |   | 00 = bc |	| 00 = bc |   | 00 = bc |
    | __tt____ |   | 01 = de |	| 01 = de |   | 01 = de |
@@ -307,7 +307,7 @@ R_16(__tt____ , t_table, 0)
 /* MARK: - Condition Resolution
 
    .----------.   .----------.
-   | 76543210 |   |     Z    |
+   | 76543210 |   |	Z    |
    |----------|   |----------|
    | __zzz___ |   | 000 = nz |
    | ___zz___ |   | 001 = z  |
@@ -334,7 +334,7 @@ static Z_INLINE zboolean __zzz___(Z80 *object)
 /* MARK: - 8-Bit Arithmetic and Logical Operation Resolution and Execution
 
    .----------.   .-----------.		.-------------------------------.
-   | 76543210 |   |     U     |		| S | Z | Y | H | X | P | N | C |
+   | 76543210 |   |	U     |		| S | Z | Y | H | X | P | N | C |
    |----------|   |-----------|   .-----+---+---+---+---+---+---+---+---|
    | __uuu___ |   | 000 = add |   | add | S | Z | 5 | H | 3 | V | 0 | C |
    | _____vvv |   | 001 = adc |   |-----+---+---+---+---+---+---+---+---|
@@ -345,7 +345,7 @@ static Z_INLINE zboolean __zzz___(Z80 *object)
 		  | 110 = or  |   | sbc | S | Z | 5 | H | 3 | V | 1 | C |
 		  | 111 = cp  |   |-----+---+---+---+---+---+---+---+---|
 		  |-----------|   | and | S | Z | 5 | 1 | 3 | P | 0 | 0 |
-		  |     V     |   |-----+---+---+---+---+---+---+---+---|
+		  |	V     |   |-----+---+---+---+---+---+---+---+---|
 		  |-----------|   | xor | S | Z | 5 | 0 | 3 | P | 0 | 0 |
 		  | 100 = inc |   |-----+---+---+---+---+---+---+---+---|
 		  | 101 = dec |   | or  | S | Z | 5 | 0 | 3 | P | 0 | 0 |
@@ -446,7 +446,7 @@ static zuint8 _____vvv(Z80 *object, zuint8 offset, zuint8 value)
 	/* DEC */
 	if (object->data.array_uint8[offset] & 1)
 		{			      /* PF = Overflow */
-		pn = value == 128 ? PNF : NF; /* NF = 1	       */
+		pn = value == 128 ? PNF : NF; /* NF = 1        */
 		t = value - 1;
 		}
 
@@ -470,7 +470,7 @@ static zuint8 _____vvv(Z80 *object, zuint8 offset, zuint8 value)
 /* MARK: - Rotation and Shift Operation Resolution and Execution
 
    .----------.   .-----------.
-   | 76543210 |   |     G     |
+   | 76543210 |   |	G     |
    |----------|   |-----------|
    | __ggg___ |   | 000 = rlc |
    '----------'   | 001 = rrc |
