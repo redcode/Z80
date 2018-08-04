@@ -581,9 +581,9 @@ static Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 	{
 	zuint8 t = object->data.array_uint8[offset];
 
-	return (t & 64)
-		? value |   (zuint8)(1 << ((t & 56) >> 3))  /* SET */
-		: value & ~((zuint8)(1 << ((t & 56) >> 3))); /* RES */
+	return (zuint8)((t & 64)
+		? value |  (1 << ((t & 56) >> 3))   /* SET */
+		: value & ~(1 << ((t & 56) >> 3))); /* RES */
 	}
 
 
