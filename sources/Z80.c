@@ -366,19 +366,19 @@ static void __uuu___(Z80 *object, zuint8 offset, zuint8 value)
 		case 0:	/* ADD */
 		t = A + value;
 
-		F =	((zuint)A + (zuint)value > 255) /* CF = Carry	   */
-			| pf_overflow_add8(A, value)	/* PF = Overflow   */
-			| ((A ^ value ^ t) & HF);	/* HF = Half-carry */
-		A = t;					/* NF = 0	   */
+		F =	((zuint)A + value > 255)     /* CF = Carry	*/
+			| pf_overflow_add8(A, value) /* PF = Overflow	*/
+			| ((A ^ value ^ t) & HF);    /* HF = Half-carry */
+		A = t;				     /* NF = 0		*/
 		break;
 
 		case 1:	/* ADC */
 		t = F_C;
 
-		F =	((zuint)A + (zuint)value + (zuint)t > 255) /* CF = Carry      */
-			| pf_overflow_adc8(A, value, t)		   /* PF = Overflow   */
-			| (((A & 0xF) + (value & 0xF) + t) & HF);  /* HF = Half-carry */
-								   /* NF = 0	      */
+		F =	((zuint)A + value + t > 255)		  /* CF = Carry	     */
+			| pf_overflow_adc8(A, value, t)		  /* PF = Overflow   */
+			| (((A & 0xF) + (value & 0xF) + t) & HF); /* HF = Half-carry */
+								  /* NF = 0	     */
 		A += value + t;
 		break;
 
@@ -682,11 +682,11 @@ static Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 	{
 	zuint16 t = *r + v;
 
-	F =	F_SZP				      /* SF, ZF, PF unchanged	*/
-		| ((t >> 8) & YXF)		      /* YF = RR.13; XF = RR.11 */
-		| (((*r ^ v ^ t) >> 8) & HF)	      /* HF = RRh half-carry	*/
-		| ((zuint32)*r + (zuint32)v > 65535); /* CF = Carry		*/
-	*r = t;					      /* NF = 0			*/
+	F =	F_SZP			     /* SF, ZF, PF unchanged   */
+		| ((t >> 8) & YXF)	     /* YF = RR.13; XF = RR.11 */
+		| (((*r ^ v ^ t) >> 8) & HF) /* HF = RRh half-carry    */
+		| ((zuint32)*r + v > 65535); /* CF = Carry	       */
+	*r = t;				     /* NF = 0		       */
 	}
 
 
