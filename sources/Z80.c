@@ -191,7 +191,7 @@ static zuint8 const pf_parity_table[256] = {
 #define VF(function, operand)					     \
 static Z_INLINE zuint8 pf_overflow_##function##8(zuint8 a, zuint8 b) \
 	{							     \
-	zsint16 total = ((zsint8)a) operand ((zsint8)b);	     \
+	zsint total = ((zsint)a) operand ((zsint)b);		     \
 								     \
 	return total < -128 || total > 127 ? PF : 0;		     \
 	}
@@ -200,18 +200,18 @@ VF(add, +)
 VF(sub, -)
 
 #undef	VF
-#define VF(function, bits, total_bits, operand, minimum, maximum)				\
+#define VF(function, bits, type, operand, minimum, maximum)					\
 static Z_INLINE zuint8 pf_overflow_##function##bits(zuint##bits a, zuint##bits b, zuint8 carry) \
 	{											\
-	zsint##total_bits total = ((zsint##bits)a) operand ((zsint##bits)b) operand carry;	\
+	type total = ((type)a) operand ((type)b) operand carry;					\
 												\
 	return total < minimum || total > maximum ? PF : 0;					\
 	}
 
-VF(adc,  8, 16, +,   -128,   127)
-VF(sbc,  8, 16, -,   -128,   127)
-VF(adc, 16, 32, +, -32768, 32767)
-VF(sbc, 16, 32, -, -32768, 32767)
+VF(adc,  8, zsint,   +,   -128,   127)
+VF(sbc,  8, zsint,   -,   -128,   127)
+VF(adc, 16, zsint32, +, -32768, 32767)
+VF(sbc, 16, zsint32, -, -32768, 32767)
 
 
 /* MARK: - 8-Bit Register Resolution
@@ -366,19 +366,19 @@ static void __uuu___(Z80 *object, zuint8 offset, zuint8 value)
 		case 0:	/* ADD */
 		t = A + value;
 
-		F =	(A + value > 255)	     /* CF = Carry	*/
-			| pf_overflow_add8(A, value) /* PF = Overflow	*/
-			| ((A ^ value ^ t) & HF);    /* HF = Half-carry */
-		A = t;				     /* NF = 0		*/
+		F =	((zuint)A + (zuint)value > 255) /* CF = Carry	   */
+			| pf_overflow_add8(A, value)	/* PF = Overflow   */
+			| ((A ^ value ^ t) & HF);	/* HF = Half-carry */
+		A = t;					/* NF = 0	   */
 		break;
 
 		case 1:	/* ADC */
 		t = F_C;
 
-		F =	(A + value + t > 255)			  /* CF = Carry	     */
-			| pf_overflow_adc8(A, value, t)		  /* PF = Overflow   */
-			| (((A & 0xF) + (value & 0xF) + t) & HF); /* HF = Half-carry */
-								  /* NF = 0	     */
+		F =	((zuint)A + (zuint)value + (zuint)t > 255) /* CF = Carry      */
+			| pf_overflow_adc8(A, value, t)		   /* PF = Overflow   */
+			| (((A & 0xF) + (value & 0xF) + t) & HF);  /* HF = Half-carry */
+								   /* NF = 0	      */
 		A += value + t;
 		break;
 
@@ -395,7 +395,7 @@ static void __uuu___(Z80 *object, zuint8 offset, zuint8 value)
 		case 3: /* SBC */
 		t = F_C;
 
-		F =	(A - value - t < 0)			  /* CF = Borrow      */
+		F =	((zsint)A - (zsint)value - (zsint)t < 0)  /* CF = Borrow      */
 			| NF					  /* NF = 1	      */
 			| pf_overflow_sbc8(A, value, t)		  /* PF = Overflow    */
 			| (((A & 0xF) - (value & 0xF) - t) & HF); /* HF = Half-Borrow */
@@ -635,11 +635,11 @@ static Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 	register = t;
 
 
-#define LDX(sign)							   \
+#define LDX(operator)							   \
 	zuint8 n;							   \
 									   \
 	PC += 2;							   \
-	WRITE_8(DE sign, n = READ_8(HL sign));				   \
+	WRITE_8(DE operator, n = READ_8(HL operator));			   \
 	n += A;								   \
 									   \
 	F = (zuint8)		      /* HF = 0, NF = 0			*/ \
@@ -649,18 +649,17 @@ static Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 		 | (!!(--BC) << 2));  /* PF = 1 if BC != 0, else PF = 0 */
 
 
-#define LDXR(sign)	    \
-	LDX(sign)	    \
+#define LDXR(operator)	    \
+	LDX(operator)	    \
 	if (!BC) return 16; \
-	PC -= 2;	    \
-	return 21;
+	PC -= 2; return 21;
 
 
-#define CPX(sign)						    \
+#define CPX(operator)						    \
 	zuint8 v, n0, n1;					    \
 								    \
 	PC += 2;						    \
-	n1 = (n0 = A - (v = READ_8(HL sign))) - !!F_H;		    \
+	n1 = (n0 = A - (v = READ_8(HL operator))) - !!F_H;	    \
 								    \
 	F = (zuint8)						    \
 		((n0 & SF)	       /* SF = (A - [HL]).7	 */ \
@@ -673,22 +672,21 @@ static Z_INLINE zuint8 _m______(Z80 *object, zuint8 offset, zuint8 value)
 		 | F_C);	       /* CF unchanged		 */
 
 
-#define CPXR(sign)		   \
-	CPX(sign)		   \
+#define CPXR(operator)		   \
+	CPX(operator)		   \
 	if (!BC || !n0) return 16; \
-	PC -= 2;		   \
-	return 21;
+	PC -= 2;	return 21;
 
 
 static Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 	{
 	zuint16 t = *r + v;
 
-	F =	F_SZP			     /* SF, ZF, PF unchanged   */
-		| ((t >> 8) & YXF)	     /* YF = RR.13; XF = RR.11 */
-		| (((*r ^ v ^ t) >> 8) & HF) /* HF = RRh half-carry    */
-		| (*r + v > 65535);	     /* CF = Carry	       */
-	*r = t;				     /* NF = 0		       */
+	F =	F_SZP				      /* SF, ZF, PF unchanged	*/
+		| ((t >> 8) & YXF)		      /* YF = RR.13; XF = RR.11 */
+		| (((*r ^ v ^ t) >> 8) & HF)	      /* HF = RRh half-carry	*/
+		| ((zuint32)*r + (zuint32)v > 65535); /* CF = Carry		*/
+	*r = t;					      /* NF = 0			*/
 	}
 
 
@@ -765,47 +763,54 @@ static Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 		 | F_C);
 
 
-#define INX(sign)									       \
-	zuint8 v;									       \
-	zuint16 t;									       \
-											       \
-	PC += 2;									       \
-	t = (zuint16)(v = IN(BC)) + ((C + 1) & 255);					       \
-	WRITE_8(HL, v);									       \
-	HL sign;									       \
-	B--;										       \
-											       \
-	F = (zuint8)									       \
-		((B & SYXF)		  /* SF = (B - 1).7; YF = (B - 1).5; XF = (B - 1).3 */ \
-		 | ZF_ZERO(B)		  /* ZF = !(B - 1)				    */ \
-		 | PF_PARITY((t & 7) ^ B) /*						    */ \
-		 | (v & 128));		  /* NF = IN(BC).7				    */ \
-											       \
-	if (t > 255) F |= HCF;
+#define INX(hl_operator, c_operator)									  \
+	zuint8 v;											  \
+	zuint t;											  \
+													  \
+	PC += 2;											  \
+	t = (zuint)(v = IN(BC)) + ((C c_operator 1) & 255);						  \
+	WRITE_8(HL, v);											  \
+	HL hl_operator;											  \
+	B--;												  \
+													  \
+	F = (zuint8)											  \
+		((B & SYXF)		  /* SF = (B - 1).7; YF = (B - 1).5; XF = (B - 1).3	       */ \
+		 | ZF_ZERO(B)		  /* ZF = !(B - 1)					       */ \
+		 | PF_PARITY((t & 7) ^ B) /* PF = Parity of (([HL] + ((C +/- 1) & 255)) and 7) xor B   */ \
+		 | (v & 128));		  /* NF = IN(BC).7					       */ \
+					  /* if (([HL] + ((C +/- 1) & 255)) > 255) HF = 1; else HF = 0 */ \
+	if (t > 255) F |= HCF;		  /* if (([HL] + ((C +/- 1) & 255)) > 255) HF = 1; else HF = 0 */
 
 
-#define INXR(sign) INX(sign); if (!B) return 16; PC -= 2; return 21;
+#define INXR(hl_operator, c_operator) \
+	INX(hl_operator, c_operator); \
+	if (!B)	 return 16;	      \
+	PC -= 2; return 21;
 
 
-#define OUTX(sign)										     \
+#define OUTX(operator)										     \
 	zuint8 t;										     \
 												     \
 	PC += 2;										     \
 	OUT(BC, t = READ_8(HL));								     \
-	HL sign;										     \
+	HL operator;										     \
 	B--;											     \
 												     \
 	F = (zuint8)										     \
 		((B & SYXF)			/* SF = (B - 1).7; YF = (B - 1).5; XF = (B - 1).3 */ \
 		 | ZF_ZERO(B)			/* ZF = !(B - 1)				  */ \
-		 | PF_PARITY(((L + t) & 7) ^ B) /* PF = Parity of ((L + (HL)) and 7) xor B	  */ \
+		 | PF_PARITY(((L + t) & 7) ^ B) /* PF = Parity of ((L + [HL]) and 7) xor B	  */ \
 		 | (t & 128));			/* NF = IN(BC).7				  */ \
-						/*						  */ \
-	if (L + t > 255) F |= HCF;		/* if (L + (HL) > 255) HF = 1; else HF = 0	  */ \
-						/* if (L + (HL) > 255) CF = 1; else CF = 0	  */
+						/* if (L + [HL] > 255) HF = 1; else HF = 0	  */ \
+	if ((zuint)t + L > 255) F |= HCF;	/* if (L + [HL] > 255) CF = 1; else CF = 0	  */
 
 
-#define OTXR(sign) OUTX(sign); if (!B) return 16; PC -= 2; return 21;
+#define OTXR(operator)	    \
+	OUTX(operator);	    \
+	if (!B)	 return 16; \
+	PC -= 2; return 21;
+
+
 #define RET PC = READ_16(SP); SP += 2;
 
 
@@ -1115,14 +1120,14 @@ INSTRUCTION(scf)
 |  dec iy		<  FD  ><  2B  >		  ........  2 / 10  |
 '--------------------------------------------------------------------------*/
 
-INSTRUCTION(add_hl_SS) {PC++;	 ADD_RR_NN(HL, SS0)			   return 11;}
-INSTRUCTION(adc_hl_SS) {ADC_SBC_HL_SS(adc, +, HL + v + c > 65535, Z_EMPTY)	     }
-INSTRUCTION(sbc_hl_SS) {ADC_SBC_HL_SS(sbc, -, HL < v + c, | NF)			     }
-INSTRUCTION(add_XY_WW) {PC += 2; ADD_RR_NN(XY, WW)			   return 15;}
-INSTRUCTION(inc_SS)    {PC++;	 SS0++;					   return  6;}
-INSTRUCTION(inc_XY)    {PC += 2; XY++;					   return 10;}
-INSTRUCTION(dec_SS)    {PC++;	 SS0--;					   return  6;}
-INSTRUCTION(dec_XY)    {PC += 2; XY--;					   return 15;}
+INSTRUCTION(add_hl_SS) {PC++;	 ADD_RR_NN(HL, SS0)			 return 11;}
+INSTRUCTION(adc_hl_SS) {ADC_SBC_HL_SS(adc, +, (zuint32)v + c + HL > 65535, Z_EMPTY)}
+INSTRUCTION(sbc_hl_SS) {ADC_SBC_HL_SS(sbc, -, (zuint32)v + c > HL, | NF)	   }
+INSTRUCTION(add_XY_WW) {PC += 2; ADD_RR_NN(XY, WW)			 return 15;}
+INSTRUCTION(inc_SS)    {PC++;	 SS0++;					 return  6;}
+INSTRUCTION(inc_XY)    {PC += 2; XY++;					 return 10;}
+INSTRUCTION(dec_SS)    {PC++;	 SS0--;					 return  6;}
+INSTRUCTION(dec_XY)    {PC += 2; XY--;					 return 15;}
 
 
 /* MARK: - Instructions: Rotate and Shift Group
@@ -1259,10 +1264,10 @@ INSTRUCTION(rst_N)	 {PUSH(PC + 1); PC = BYTE0 & 56;	    return 11;}
 INSTRUCTION(in_a_BYTE)	 {A = IN((A << 8) | READ_8((PC += 2) - 1)); return 11;}
 INSTRUCTION(in_X_vc)	 {IN_VC; X1 = t;			    return 12;}
 INSTRUCTION(in_0_vc)	 {IN_VC;				    return 16;}
-INSTRUCTION(ini)	 {INX(++)				    return 16;}
-INSTRUCTION(inir)	 {INXR(++)					      }
-INSTRUCTION(ind)	 {INX(--)				    return 16;}
-INSTRUCTION(indr)	 {INXR(--)					      }
+INSTRUCTION(ini)	 {INX (++, +)				    return 16;}
+INSTRUCTION(inir)	 {INXR(++, +)					      }
+INSTRUCTION(ind)	 {INX (--, -)				    return 16;}
+INSTRUCTION(indr)	 {INXR(--, -)					      }
 INSTRUCTION(out_vBYTE_a) {OUT((A << 8) | READ_8((PC += 2) - 1), A); return 11;}
 INSTRUCTION(out_vc_X)	 {PC += 2; OUT(BC, X1);			    return 12;}
 INSTRUCTION(out_vc_0)	 {PC += 2; OUT(BC, 0);			    return 12;}
