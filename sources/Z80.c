@@ -703,7 +703,7 @@ static Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 		 | ZF_ZERO(t)						/* ZF = !HL			      */ \
 		 | ((((HL & 0xFFF) sign (v & 0xFFF) sign c) >> 8) & HF) /* HF = Half-carry of H		      */ \
 		 | pf_overflow_##function##16(HL, v, c)			/* PF = Overflow		      */ \
-		 | (cf_test)						/* CF = Carry			      */ \
+		 | !!(cf_test)						/* CF = Carry			      */ \
 		 set_nf);						/* ADC: NF = 0; SBC: NF = 1	      */ \
 														 \
 	HL = t;													 \
