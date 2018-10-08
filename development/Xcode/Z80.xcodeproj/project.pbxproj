@@ -93,7 +93,7 @@
 				6428A5741AAFC6DF00634F5D /* Z80.h */,
 			);
 			name = API;
-			path = ../../API/C/emulation/CPU;
+			path = ../../API/emulation/CPU;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,7 +326,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/include,
-					../../API/C,
+					../../API,
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				LLVM_LTO = YES;
@@ -381,7 +381,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/include,
-					../../API/C,
+					../../API,
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				LLVM_LTO = YES;
