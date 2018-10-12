@@ -7,8 +7,8 @@
 Copyright (C) 1999-2018 Manuel Sainz de Baranda y Goñi.
 Released under the terms of the GNU General Public License v3. */
 
-#ifndef __emulation_CPU_Z80_H__
-#define __emulation_CPU_Z80_H__
+#ifndef _emulation_CPU_Z80_H_
+#define _emulation_CPU_Z80_H_
 
 #include <Z/hardware/CPU/architecture/Z80.h>
 #include <Z/ABIs/generic/emulation.h>
@@ -57,4 +57,4 @@ CPU_Z80_API void   z80_int  (Z80 *object, zboolean state);
 
 Z_C_SYMBOLS_END
 
-#endif /* __emulation_CPU_Z80_H__ */
+#endif /* _emulation_CPU_Z80_H_ */
