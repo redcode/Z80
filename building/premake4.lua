@@ -9,7 +9,7 @@ solution "Z80"
 		flags {"ExtraWarnings"}
 		files {"../sources/**.c"}
 		includedirs {"../API"}
-		--buildoptions {"-std=c89 -pedantic -Wall"}
+		--buildoptions {"-std=c89 -pedantic -Wall -Weverything"}
 
 		configuration "Release*"
 			targetdir "lib/release"
