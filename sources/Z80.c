@@ -91,14 +91,7 @@ static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 #define F     object->state.Z_Z80_STATE_MEMBER_F
 #define B     object->state.Z_Z80_STATE_MEMBER_B
 #define C     object->state.Z_Z80_STATE_MEMBER_C
-#define D     object->state.Z_Z80_STATE_MEMBER_D
-#define E     object->state.Z_Z80_STATE_MEMBER_E
-#define H     object->state.Z_Z80_STATE_MEMBER_H
 #define L     object->state.Z_Z80_STATE_MEMBER_L
-#define IXH   object->state.Z_Z80_STATE_MEMBER_IXH
-#define IXL   object->state.Z_Z80_STATE_MEMBER_IXL
-#define IYH   object->state.Z_Z80_STATE_MEMBER_IYH
-#define IYL   object->state.Z_Z80_STATE_MEMBER_IYL
 #define I     object->state.Z_Z80_STATE_MEMBER_I
 #define R     object->state.Z_Z80_STATE_MEMBER_R
 #define R_ALL ((R & 127) | (R7 & 128))
@@ -150,11 +143,7 @@ static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 #define YXF  (YF | XF	  )
 #define PNF  (PF | NF	  )
 #define HCF  (HF | CF	  )
-#define NCF  (NF | CF	  )
 
-#define F_S   (F &   SF)
-#define F_Z   (F &   ZF)
-#define F_P   (F &   PF)
 #define F_H   (F &   HF)
 #define F_C   (F &   CF)
 #define F_SZP (F & SZPF)
