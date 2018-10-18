@@ -178,12 +178,12 @@ static zuint8 const pf_parity_table[256] = {
 
 #define PF_PARITY(value) pf_parity_table[value]
 
-#define VF(function, operand)					     \
-static Z_INLINE zuint8 pf_overflow_##function##8(zsint8 a, zsint8 b) \
-	{							     \
-	zsint total = ((zsint)a) operand ((zsint)b);		     \
-								     \
-	return total < -128 || total > 127 ? PF : 0;		     \
+#define VF(function, operand)						 \
+static Z_INLINE zuint8 pf_overflow_##function##8(zuint8 a, zuint8 b)	 \
+	{								 \
+	zsint total = ((zsint)((zsint8)a)) operand ((zsint)((zsint8)b)); \
+									 \
+	return total < -128 || total > 127 ? PF : 0;			 \
 	}
 
 VF(add, +)
@@ -191,9 +191,9 @@ VF(sub, -)
 
 #undef	VF
 #define VF(function, bits, type, operand, minimum, maximum)					\
-static Z_INLINE zuint8 pf_overflow_##function##bits(zsint##bits a, zsint##bits b, zuint8 carry) \
+static Z_INLINE zuint8 pf_overflow_##function##bits(zuint##bits a, zuint##bits b, zuint8 carry) \
 	{											\
-	type total = ((type)a) operand ((type)b) operand carry;					\
+	type total = ((type)((zsint##bits)a)) operand ((type)((zsint##bits)b)) operand carry;	\
 												\
 	return total < minimum || total > maximum ? PF : 0;					\
 	}
