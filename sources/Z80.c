@@ -1011,12 +1011,11 @@ INSTRUCTION(im_2) {PC += 2; IM = 2;		     return 8;}
 
 INSTRUCTION(daa)
 	{
-	zuint8 t = 0; PC++;
+	zuint8 t = (F_H || (A & 0xF ) > 9) ? 6 : 0;
 
-	if (F_H || (A & 0xF ) > 9) t = 6;
-	if (F_C ||  A > 0x99)	   t |= 0x60;
-
+	if (F_C || A > 0x99) t |= 0x60;
 	t = (F_N) ? A - t : A + t;
+	PC++;
 
 	F = (zuint8)
 		((F_N)			 /* NF unchanged		 */
