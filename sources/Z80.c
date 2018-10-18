@@ -145,6 +145,7 @@ static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 #define HCF  (HF | CF	  )
 
 #define F_H   (F &   HF)
+#define F_N   (F &   NF)
 #define F_C   (F &   CF)
 #define F_SZP (F & SZPF)
 #define A_SYX (A & SYXF)
@@ -1010,25 +1011,20 @@ INSTRUCTION(im_2) {PC += 2; IM = 2;		     return 8;}
 
 INSTRUCTION(daa)
 	{
-	zuint8 t = A; PC++;
+	zuint8 t = 0; PC++;
 
-	if (F & NF)
-		{
-		if (F_H || (A & 0xF ) > 9) t -= 6;
-		if (F_C ||  A > 0x99)	   t -= 0x60;
-		}
+	if (F_H || (A & 0xF ) > 9) t = 6;
+	if (F_C ||  A > 0x99)	   t |= 0x60;
 
-	else	{
-		if (F_H || (A & 0xF ) > 9) t += 6;
-		if (F_C ||  A > 0x99)	   t += 0x60;
-		}
+	t = (F_N) ? A - t : A + t;
 
 	F = (zuint8)
-		((F & NF)		 /* NF unchanged		 */
+		((F_N)			 /* NF unchanged		 */
 		 | (t & SYXF)		 /* SF = A.7; YF = A.5; XF = A.3 */
-		 | ZF_ZERO(t)		 /* ZF = !A			 */
-		 | ((A & HF) ^ (t & HF)) /* HF = pA.4 xor A.4		 */
-		 | (F_C | (A > 0x99)));	 /* CF = CF | (pA > 0x99)	 */
+		 | ZF_ZERO(t)		 /* ZF = !Af			 */
+		 | ((A & HF) ^ (t & HF)) /* HF = Ai.4 xor Af.4		 */
+		 | PF_PARITY(t)		 /* PF = Parity of Af		 */
+		 | (F_C | (A > 0x99)));	 /* CF = CF | (Ai > 0x99)	 */
 
 	A = t;
 	return 4;
