@@ -704,7 +704,7 @@ static Z_INLINE void add_RR_NN(Z80 *object, zuint16 *r, zuint16 v)
 #define RXA						  \
 	F =	F_SZP  /* SF, ZF, PF unchanged	       */ \
 		| A_YX /* YF = A.5; XF = A.3	       */ \
-		| c;   /* CF = pA.7 (rla) / pA.0 (rra) */
+		| c;   /* CF = Ai.7 (rla) / Ai.0 (rra) */
 
 
 #define RXD(a, b, c)						   \
