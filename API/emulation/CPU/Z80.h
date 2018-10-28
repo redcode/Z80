@@ -1,4 +1,4 @@
-/* Zilog Z80 CPU Emulator C API
+/* Zilog Z80 CPU Emulator API
   ____    ____    ___ ___     ___
  / __ \  / ___\  / __` __`\  / __`\
 /\ \/  \/\ \__/_/\ \/\ \/\ \/\  __/
@@ -21,12 +21,12 @@ typedef struct {
 	Z32Bit	  data;
 	void*	  callback_context;
 
-	ZContext16BitAddressRead8Bit  read;
-	ZContext16BitAddressWrite8Bit write;
-	ZContext16BitAddressRead8Bit  in;
-	ZContext16BitAddressWrite8Bit out;
-	ZContextRead32Bit	      int_data;
-	ZContextSwitch		      halt;
+	zuint8	(* read    )(void *context, zuint16 address);
+	void	(* write   )(void *context, zuint16 address, zuint8 value);
+	zuint8	(* in	   )(void *context, zuint16 port);
+	void	(* out	   )(void *context, zuint16 port, zuint8 value);
+	zuint32 (* int_data)(void *context);
+	void	(* halt    )(void *context, zboolean state);
 } Z80;
 
 Z_C_SYMBOLS_BEGIN
