@@ -51,7 +51,7 @@ void z80_power(Z80 *object, zboolean state);
 ```
 **Parameters**  
 `object` → A pointer to an emulator instance.  
-`state` → `ON` / `OFF`  
+`state` → `TRUE` for power ON, `FALSE` otherwise.  
 
 #### `z80_reset`
 
@@ -111,7 +111,7 @@ void z80_int(Z80 *object, zboolean state);
 
 **Parameters**  
 `object` → A pointer to an emulator instance.  
-`state` → `ON` = set line high, `OFF` = set line low  
+`state` → `TRUE` = set line high, `FALSE` = set line low  
 
 
 ## Callbacks
@@ -125,8 +125,7 @@ Called when the CPU needs to read 8 bits from memory.
 
 **Prototype**  
 ```C
-typedef zuint8 (* ZContext16BitAddressRead8Bit)(void *context, zuint16 address);
-ZContext16BitAddressRead8Bit read;
+zuint8 (* read)(void *context, zuint16 address);
 ```
 
 **Parameters**  
@@ -143,8 +142,7 @@ Called when the CPU needs to write 8 bits to memory.
 
 **Prototype**  
 ```C
-typedef void (* ZContext16BitAddressWrite8Bit)(void *context, zuint16 address, zuint8 value);
-ZContext16BitAddressWrite8Bit write;
+void (* write)(void *context, zuint16 address, zuint8 value);
 ```
 
 **Parameters**  
@@ -159,13 +157,12 @@ Called when the CPU needs to read 8 bits from an I/O port.
 
 **Prototype**  
 ```C
-typedef zuint8 (* ZContext16BitAddressRead8Bit)(void *context, zuint16 address);
-ZContext16BitAddressRead8Bit in;
+zuint8 (* in)(void *context, zuint16 port);
 ```
 
 **Parameters**  
 `context` → A pointer to the calling emulator instance.  
-`address` → The number of the I/O port.  
+`port` → The number of the I/O port.  
 
 **Return value**  
 The 8 bits read from the I/O port.   
@@ -177,13 +174,12 @@ Called when the CPU needs to write 8 bits to an I/O port.
 
 **Prototype**  
 ```C
-typedef void (* ZContext16BitAddressWrite8Bit)(void *context, zuint16 address, zuint8 value);
-ZContext16BitAddressWrite8Bit out;
+void (* out)(void *context, zuint16 port, zuint8 value);
 ```
 
 **Parameters**  
 `context` → A pointer to the calling emulator instance.  
-`address` → The number of the I/O port.  
+`port` → The number of the I/O port.  
 `value` → The value to write.  
 
 #### `int_data`
@@ -193,8 +189,7 @@ Called when the CPU starts executing a maskable interrupt and the interruption m
 
 **Prototype**  
 ```C
-typedef zuint32 (* ZContextRead32Bit)(void *context);
-ZContextRead32Bit int_data;
+zuint32 (* int_data)(void *context);
 ```
 
 **Parameters**  
@@ -210,10 +205,9 @@ Called when the CPU enters or exits the halt state.
 
 **Prototype**  
 ```C
-typedef void (* ZContextSwitch)(void *context, zboolean state);
-ZContextSwitch halt;
+void (* halt)(void *context, zboolean state);
 ```
 
 **Parameters**  
 `context` → A pointer to the calling emulator instance.  
-`state` →  `ON` if halted, `OFF` otherwise.  
+`state` →  `TRUE` if halted, `FALSE` otherwise.  
