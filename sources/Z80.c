@@ -1602,13 +1602,13 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 	static void did_write_state(Z80 *object) {R7 = R;    }
 
 	static ZCPUEmulatorExport const exports[7] = {
-		{Z_EMULATOR_FUNCTION_POWER,	      (ZEmulatorFunction)z80_power	},
-		{Z_EMULATOR_FUNCTION_RESET,	      (ZEmulatorFunction)z80_reset	},
-		{Z_EMULATOR_FUNCTION_RUN,	      (ZEmulatorFunction)z80_run	},
-		{Z_EMULATOR_FUNCTION_WILL_READ_STATE, (ZEmulatorFunction)will_read_state},
-		{Z_EMULATOR_FUNCTION_DID_WRITE_STATE, (ZEmulatorFunction)did_write_state},
-		{Z_EMULATOR_FUNCTION_NMI,	      (ZEmulatorFunction)z80_nmi	},
-		{Z_EMULATOR_FUNCTION_IRQ,	      (ZEmulatorFunction)z80_int	}
+		{Z_EMULATOR_FUNCTION_POWER,	      {(void (*)(void))z80_power      }},
+		{Z_EMULATOR_FUNCTION_RESET,	      {(void (*)(void))z80_reset      }},
+		{Z_EMULATOR_FUNCTION_RUN,	      {(void (*)(void))z80_run	      }},
+		{Z_EMULATOR_FUNCTION_WILL_READ_STATE, {(void (*)(void))will_read_state}},
+		{Z_EMULATOR_FUNCTION_DID_WRITE_STATE, {(void (*)(void))did_write_state}},
+		{Z_EMULATOR_FUNCTION_NMI,	      {(void (*)(void))z80_nmi	      }},
+		{Z_EMULATOR_FUNCTION_IRQ,	      {(void (*)(void))z80_int	      }}
 	};
 
 	static ZCPUEmulatorInstanceImport const instance_imports[6] = {
