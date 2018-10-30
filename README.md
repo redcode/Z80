@@ -42,7 +42,6 @@ CPU_Z80_USE_LOCAL_HEADER | Use this if you have imported _Z80.h_ and _Z80.c_ to 
 
 ### `z80_power`
 
-**Description**  
 Changes the CPU power status.   
 
 **Prototype**  
@@ -55,7 +54,6 @@ void z80_power(Z80 *object, zboolean state);
 
 ### `z80_reset`
 
-**Description**  
 Resets the CPU by reinitializing its variables and sets its registers to the state they would be in a real Z80 CPU after a pulse in the `RESET` line.   
 
 **Prototype**
@@ -68,7 +66,6 @@ void z80_reset(Z80 *object);
 
 ### `z80_run`
 
-**Description**  
 Runs the CPU for a given number of ```cycles```.   
 
 **Prototype**  
@@ -88,7 +85,6 @@ Given the fact that one Z80 instruction needs between 4 and 23 cycles to be exec
 
 ### `z80_nmi`
 
-**Description**  
 Performs a non-maskable interrupt. This is equivalent to a pulse in the `NMI` line of a real Z80 CPU.   
 
 **Prototype**  
@@ -101,7 +97,6 @@ void z80_nmi(Z80 *object);
 
 ### `z80_int`
 
-**Description**  
 Changes the state of the maskable interrupt. This is equivalent to a change in the `INT` line of a real Z80 CPU.   
 
 **Prototype**  
@@ -120,7 +115,6 @@ Before using an instance of the Z80 emulator, its callback pointers must be init
 
 ### `read` 
 
-**Description**  
 Called when the CPU needs to read 8 bits from memory.   
 
 **Prototype**  
@@ -137,7 +131,6 @@ The 8 bits read from memory.
 
 ### `write`
 
-**Description**  
 Called when the CPU needs to write 8 bits to memory.   
 
 **Prototype**  
@@ -152,7 +145,6 @@ void (* write)(void *context, zuint16 address, zuint8 value);
 
 ### `in`
 
-**Description**  
 Called when the CPU needs to read 8 bits from an I/O port.   
 
 **Prototype**  
@@ -169,7 +161,6 @@ The 8 bits read from the I/O port.
 
 ### `out`
 
-**Description**  
 Called when the CPU needs to write 8 bits to an I/O port.   
 
 **Prototype**  
@@ -184,7 +175,6 @@ void (* out)(void *context, zuint16 port, zuint8 value);
 
 ### `int_data`
 
-**Description**  
 Called when the CPU starts executing a maskable interrupt and the interruption mode is 0. This callback must return the instruction that the CPU would read from the data bus in this case.   
 
 **Prototype**  
@@ -200,7 +190,6 @@ A 32-bit value containing the bytes of an instruction. The instruction must begi
 
 ### `halt`
 
-**Description**  
 Called when the CPU enters or exits the halt state.   
 
 **Prototype**  
