@@ -7,7 +7,7 @@ This is a very accurate [Z80](http://en.wikipedia.org/wiki/Zilog_Z80) [emulator]
 If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe you have found the correct one. I use this core in the [ZX Spectrum emulator](http://github.com/redcode/mZX) I started as hobby.
 
 
-# Building
+## Building
 
 In order to compile you must install [Z](http://github.com/redcode/Z), a **header only** library which provides types, macros, inline functions, and a lot of utilities to detect the particularities of the compiler and the target system at compile time. This is the only dependency, the standard C library and its headers are not used and the emulator doesn't need to be dynamically linked against any library.
 
@@ -38,7 +38,7 @@ CPU_Z80_HIDE_ABI | Makes the `abi_emulation_cpu_z80` private.
 CPU_Z80_USE_LOCAL_HEADER | Use this if you have imported _Z80.h_ and _Z80.c_ to your project. _Z80.c_ will include `"Z80.h"` instead of `<emulation/CPU/Z80.h>`.
 
 
-# API
+## API
 
 ### `z80_power`
 Changes the CPU power status.
@@ -104,7 +104,7 @@ void z80_int(Z80 *object, zboolean state);
 * `state` → `TRUE` = set line high, `FALSE` = set line low.
 
 
-# Callbacks
+## Callbacks
 Before using an instance of the Z80 emulator, its callback pointers must be initialized with the pointers to the functions that your program must provide in order to make possible for the CPU to access the emulated machine's resources. All callbacks are mandatory except `halt`, which is optional and must be set to `NULL` if not used.
 
 ### `read` 
