@@ -76,7 +76,7 @@ zusize z80_run(Z80 *object, zusize cycles);
 **Return value**
 The number of cycles executed.
 
-**Discusion**
+**Discusion**  
 Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the CPU the exact number of cycles specfified.
 
 ### `z80_nmi`
