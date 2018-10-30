@@ -41,162 +41,150 @@ CPU_Z80_USE_LOCAL_HEADER | Use this if you have imported _Z80.h_ and _Z80.c_ to 
 ## API
 
 ### `z80_power`
+Changes the CPU power status.
 
-Changes the CPU power status.   
-
-**Prototype**  
+**Prototype**
 ```C
 void z80_power(Z80 *object, zboolean state);
 ```
-**Parameters**  
-`object` → A pointer to a Z80 emulator instance object.  
-`state` → `TRUE` for power ON, `FALSE` otherwise.  
+**Parameters**
+* `object` → A pointer to a Z80 emulator instance object.
+* `state` → `TRUE` for power ON, `FALSE` otherwise.
 
 ### `z80_reset`
-
-Resets the CPU by reinitializing its variables and sets its registers to the state they would be in a real Z80 CPU after a pulse in the `RESET` line.   
+Resets the CPU by reinitializing its variables and sets its registers to the state they would be in a real Z80 CPU after a pulse in the `RESET` line.
 
 **Prototype**
 ```C
 void z80_reset(Z80 *object);
 ```
 
-**Parameters**  
-`object` → A pointer to a Z80 emulator instance object.  
+**Parameters**
+* `object` → A pointer to a Z80 emulator instance object.
 
 ### `z80_run`
+Runs the CPU for a given number of ```cycles```.
 
-Runs the CPU for a given number of ```cycles```.   
-
-**Prototype**  
+**Prototype**
 ```C
 zusize z80_run(Z80 *object, zusize cycles);
 ```
 
-**Parameters**  
-`object` → A pointer to a Z80 emulator instance object.  
-`cycles` → The number of cycles to be executed.  
+**Parameters**
+* `object` → A pointer to a Z80 emulator instance object.
+* `cycles` → The number of cycles to be executed.
 
-**Return value**  
-The number of cycles executed.   
+**Return value**
+The number of cycles executed.
 
-**Discusion**  
-Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the CPU the exact number of cycles specfified.   
+**Discusion**
+Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it is not always possible to run the CPU the exact number of cycles specfified.
 
 ### `z80_nmi`
+Performs a non-maskable interrupt. This is equivalent to a pulse in the `NMI` line of a real Z80 CPU.
 
-Performs a non-maskable interrupt. This is equivalent to a pulse in the `NMI` line of a real Z80 CPU.   
-
-**Prototype**  
+**Prototype**
 ```C
 void z80_nmi(Z80 *object);
 ```
 
-**Parameters**  
-`object` → A pointer to a Z80 emulator instance object.  
+**Parameters**
+* `object` → A pointer to a Z80 emulator instance object.
 
 ### `z80_int`
+Changes the state of the maskable interrupt. This is equivalent to a change in the `INT` line of a real Z80 CPU.
 
-Changes the state of the maskable interrupt. This is equivalent to a change in the `INT` line of a real Z80 CPU.   
-
-**Prototype**  
+**Prototype**
 ```C
 void z80_int(Z80 *object, zboolean state);
 ```
 
-**Parameters**  
-`object` → A pointer to a Z80 emulator instance object.  
-`state` → `TRUE` = set line high, `FALSE` = set line low  
+**Parameters**
+* `object` → A pointer to a Z80 emulator instance object.
+* `state` → `TRUE` = set line high, `FALSE` = set line low.
 
 
 ## Callbacks
-
 Before using an instance of the Z80 emulator, its callback pointers must be initialized with the pointers to the functions that your program must provide in order to make possible for the CPU to access the emulated machine's resources. All callbacks are mandatory except `halt`, which is optional and must be set to `NULL` if not used.
 
 ### `read` 
+Called when the CPU needs to read 8 bits from memory.
 
-Called when the CPU needs to read 8 bits from memory.   
-
-**Prototype**  
+**Prototype**
 ```C
 zuint8 (* read)(void *context, zuint16 address);
 ```
 
-**Parameters**  
-`context` → A pointer to the calling emulator instance.  
-`address` → The memory address to read.  
+**Parameters**
+* `context` → A pointer to the calling emulator instance.
+* `address` → The memory address to read.
 
-**Return value**  
-The 8 bits read from memory.   
+**Return value**
+The 8 bits read from memory.
 
 ### `write`
+Called when the CPU needs to write 8 bits to memory.
 
-Called when the CPU needs to write 8 bits to memory.   
-
-**Prototype**  
+**Prototype**
 ```C
 void (* write)(void *context, zuint16 address, zuint8 value);
 ```
 
-**Parameters**  
-`context` → A pointer to the calling emulator instance.  
-`address` → The memory address to write.  
-`value` → The value to write in `address`.  
+**Parameters**
+* `context` → A pointer to the calling emulator instance.
+* `address` → The memory address to write.
+* `value` → The value to write in `address`.
 
 ### `in`
+Called when the CPU needs to read 8 bits from an I/O port.
 
-Called when the CPU needs to read 8 bits from an I/O port.   
-
-**Prototype**  
+**Prototype**
 ```C
 zuint8 (* in)(void *context, zuint16 port);
 ```
 
-**Parameters**  
-`context` → A pointer to the calling emulator instance.  
-`port` → The number of the I/O port.  
+**Parameters**
+* `context` → A pointer to the calling emulator instance.
+* `port` → The number of the I/O port.
 
-**Return value**  
-The 8 bits read from the I/O port.   
+**Return value**
+The 8 bits read from the I/O port.
 
 ### `out`
+Called when the CPU needs to write 8 bits to an I/O port.
 
-Called when the CPU needs to write 8 bits to an I/O port.   
-
-**Prototype**  
+**Prototype**
 ```C
 void (* out)(void *context, zuint16 port, zuint8 value);
 ```
 
-**Parameters**  
-`context` → A pointer to the calling emulator instance.  
-`port` → The number of the I/O port.  
-`value` → The value to write.  
+**Parameters**
+* `context` → A pointer to the calling emulator instance.
+* `port` → The number of the I/O port.
+* `value` → The value to write.
 
 ### `int_data`
+Called when the CPU starts executing a maskable interrupt and the interruption mode is 0. This callback must return the instruction that the CPU would read from the data bus in this case.
 
-Called when the CPU starts executing a maskable interrupt and the interruption mode is 0. This callback must return the instruction that the CPU would read from the data bus in this case.   
-
-**Prototype**  
+**Prototype**
 ```C
 zuint32 (* int_data)(void *context);
 ```
 
-**Parameters**  
-`context` → A pointer to the calling emulator instance.  
+**Parameters**
+* `context` → A pointer to the calling emulator instance.
 
-**Return value**  
-A 32-bit value containing the bytes of an instruction. The instruction must begin at the most significant byte of the value.   
+**Return value**
+A 32-bit value containing the bytes of an instruction. The instruction must begin at the most significant byte of the value.
 
 ### `halt`
+Called when the CPU enters or exits the halt state.
 
-Called when the CPU enters or exits the halt state.   
-
-**Prototype**  
+**Prototype**
 ```C
 void (* halt)(void *context, zboolean state);
 ```
 
-**Parameters**  
-`context` → A pointer to the calling emulator instance.  
-`state` →  `TRUE` if halted, `FALSE` otherwise.  
+**Parameters**
+* `context` → A pointer to the calling emulator instance.
+* `state` →  `TRUE` if halted, `FALSE` otherwise.
