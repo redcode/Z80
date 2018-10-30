@@ -50,7 +50,7 @@ Changes the CPU power status.
 void z80_power(Z80 *object, zboolean state);
 ```
 **Parameters**  
-`object` → A pointer to an emulator instance.  
+`object` → A pointer to a Z80 emulator instance object.  
 `state` → `TRUE` for power ON, `FALSE` otherwise.  
 
 #### `z80_reset`
@@ -64,7 +64,7 @@ void z80_reset(Z80 *object);
 ```
 
 **Parameters**  
-`object` → A pointer to an emulator instance.  
+`object` → A pointer to a Z80 emulator instance object.  
 
 #### `z80_run`
 
@@ -77,7 +77,7 @@ zusize z80_run(Z80 *object, zusize cycles);
 ```
 
 **Parameters**  
-`object` → A pointer to an emulator instance.  
+`object` → A pointer to a Z80 emulator instance object.  
 `cycles` → The number of cycles to be executed.  
 
 **Return value**  
@@ -97,7 +97,7 @@ void z80_nmi(Z80 *object);
 ```
 
 **Parameters**  
-`object` → A pointer to an emulator instance.  
+`object` → A pointer to a Z80 emulator instance object.  
 
 #### `z80_int`
 
@@ -110,7 +110,7 @@ void z80_int(Z80 *object, zboolean state);
 ```
 
 **Parameters**  
-`object` → A pointer to an emulator instance.  
+`object` → A pointer to a Z80 emulator instance object.  
 `state` → `TRUE` = set line high, `FALSE` = set line low  
 
 
