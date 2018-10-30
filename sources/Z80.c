@@ -47,14 +47,14 @@ typedef zuint8 (* Instruction)(Z80 *object);
 
 /* MARK: - Macros & Functions: Callback */
 
-#define READ_8(address)		object->read	(object->callback_context, (zuint16)(address))
-#define WRITE_8(address, value) object->write	(object->callback_context, (zuint16)(address), (zuint8)(value))
-#define IN(port)		object->in	(object->callback_context, (zuint16)(port   ))
-#define OUT(port, value)	object->out	(object->callback_context, (zuint16)(port   ), (zuint8)(value))
-#define INT_DATA		object->int_data(object->callback_context)
+#define READ_8(address)		object->read	(object->context, (zuint16)(address))
+#define WRITE_8(address, value) object->write	(object->context, (zuint16)(address), (zuint8)(value))
+#define IN(port)		object->in	(object->context, (zuint16)(port   ))
+#define OUT(port, value)	object->out	(object->context, (zuint16)(port   ), (zuint8)(value))
+#define INT_DATA		object->int_data(object->context)
 #define READ_OFFSET(address)	((zsint8)READ_8(address))
-#define SET_HALT		if (object->halt != NULL) object->halt(object->callback_context, TRUE )
-#define CLEAR_HALT		if (object->halt != NULL) object->halt(object->callback_context, FALSE)
+#define SET_HALT		if (object->halt != NULL) object->halt(object->context, TRUE )
+#define CLEAR_HALT		if (object->halt != NULL) object->halt(object->context, FALSE)
 
 
 static Z_INLINE zuint16 read_16bit(Z80 *object, zuint16 address)

@@ -22,7 +22,7 @@ typedef struct {
 	Z16Bit	  xy;
 	zuint8	  r7;
 	Z32Bit	  data;
-	void*	  callback_context;
+	void*	  context;
 
 	zuint8	(* read    )(void *context, zuint16 address);
 	void	(* write   )(void *context, zuint16 address, zuint8 value);
