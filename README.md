@@ -43,7 +43,7 @@ CPU_Z80_USE_LOCAL_HEADER | Use this if you have imported _Z80.h_ and _Z80.c_ to 
 #### `z80_power`
 
 **Description**  
-Switchs the CPU power status.   
+Changes the CPU power status.   
 
 **Prototype**  
 ```C
@@ -69,7 +69,7 @@ void z80_reset(Z80 *object);
 #### `z80_run`
 
 **Description**  
-Runs the CPU for the given number of ```cycles```.   
+Runs the CPU for a given number of ```cycles```.   
 
 **Prototype**  
 ```C
@@ -102,7 +102,7 @@ void z80_nmi(Z80 *object);
 #### `z80_int`
 
 **Description**  
-Switchs the state of the maskable interrupt. This is equivalent to a change in the `INT` line of a real Z80 CPU.   
+Changes the state of the maskable interrupt. This is equivalent to a change in the `INT` line of a real Z80 CPU.   
 
 **Prototype**  
 ```C
