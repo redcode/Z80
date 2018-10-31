@@ -30,47 +30,83 @@ this library. If not, see <http://www.gnu.org/licenses/>. */
 /** Z80 emulator instance object. */
 
 typedef struct {
-	zusize	  cycles;  /**< Cycles executed in the last call to z80_run. */
-	void*	  context; /**< Callback functions' @c context argument.     */
-	ZZ80State state;   /**< CPU registers and internal bits.	     */
-	Z16Bit	  xy;	   /**< Temporaty IX/IY register for DD/FD prefixes. */
-	zuint8	  r7;	   /**< Backup of the 7th bit of the R register.     */
-	Z32Bit	  data;	   /**< Temporary cache of the current instruction.  */
 
-	/** Called when the CPU needs to read 8 bits from memory.
+	/** Number of cycles executed in the current call to @c z80_run.
+	  * @details @c z80run sets this variable to 0 before starting to
+	  * execute instructions and its value persists after returning.
+	  * A callback can use this variable to know in which cycle it is
+	  * being called. */
+
+	zusize cycles;
+
+	/** The value of the first argument used when calling a callback.
+	  * @details This variable should be initialized before using the
+	  * emulator and can be used to reference the context or instance
+	  * of the machine being emulated. */
+
+	void *context;
+
+	/** CPU registers and internal bits.
+	  * @details It contains the values of the CPU registers, as well as
+	  * the interruption flip-flops, variables related to interruptions and
+	  * other necessary flags. This is where a debugger should look for its
+	  * data source. */
+
+	ZZ80State state;
+
+	/** Temporay IX or IY register for the emulation of instructions with
+	  * DDh or FDh prefix. */
+
+	Z16Bit xy;
+
+	/** Backup of the 7th bit of the R register.
+	  * @details The value of the R register is incremented as instructions
+	  * are executed, but its most significant bit remains unchanged. For
+	  * optimization reasons, this bit is saved at the beginning of the
+	  * execution of @c z80_run and restored before returning. If an
+	  * instruction directly affects the R register, this variable is also
+	  * updated accordingly. */
+
+	zuint8 r7;
+
+	/** Temporary fetching cache for the instruction being emulated. */
+
+	Z32Bit data;
+
+	/** Callback called when the CPU needs to read 8 bits from memory.
 	  * @param context The value of the member @c context.
 	  * @param address The memory address to read.
 	  * @return The 8 bits read from memory. */
 
 	zuint8 (* read)(void *context, zuint16 address);
 
-	/** Called when the CPU needs to write 8 bits to memory.
+	/** Callback called when the CPU needs to write 8 bits to memory.
 	  * @param context The value of the member @c context.
 	  * @param address The memory address to write.
 	  * @param value The value to write in address. */
 
 	void (* write)(void *context, zuint16 address, zuint8 value);
 
-	/** Called when the CPU needs to read 8 bits from an I/O port.
+	/** Callback called when the CPU needs to read 8 bits from an I/O port.
 	  * @param context The value of the member @c context.
 	  * @param port The number of the I/O port.
 	  * @return The 8 bits read from the I/O port. */
 
 	zuint8 (* in)(void *context, zuint16 port);
 
-	/** Called when the CPU needs to write 8 bits to an I/O port.
+	/** Callback called when the CPU needs to write 8 bits to an I/O port.
 	  * @param context The value of the member @c context.
 	  * @param port The number of the I/O port.
 	  * @param value The value to write. */
 
 	void (* out)(void *context, zuint16 port, zuint8 value);
 
-	/** Called when the CPU starts executing a maskable interrupt and the
-	  * interruption mode is 0. This callback must return the instruction
-	  * that the CPU would read from the data bus in this case.
+	/** Callback Called when the CPU starts executing a maskable interrupt
+	  * and the interruption mode is 0. This callback must return the
+	  * instruction that the CPU would read from the data bus in this case.
 	  * @param context The value of the member @c context.
 	  * @return A 32-bit value containing the bytes of an instruction. The
-	  * instruction must begin at the most significant byte of the value. */
+	  * instruction must begin at the most significant byte (big endian). */
 
 	zuint32 (* int_data)(void *context);
 
