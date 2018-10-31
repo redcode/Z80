@@ -77,7 +77,7 @@ typedef struct {
 	/** Temporary storage for opcode fetching.
 	  * @details It is used during the opcode fetching in an opportunistic
 	  * way to store the bytes of the instruction. It is an internal private
-	  * variable.*/
+	  * variable. */
 
 	Z32Bit data;
 
