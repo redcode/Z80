@@ -1,9 +1,9 @@
 /* Zilog Z80 CPU Emulator API
-  ____    ____    ___ ___     ___
- / __ \  / ___\  / __` __`\  / __`\
-/\ \/  \/\ \__/_/\ \/\ \/\ \/\  __/
-\ \__/\_\ \_____\ \_\ \_\ \_\ \____\
- \/_/\/_/\/_____/\/_/\/_/\/_/\/____/
+ ______    ______   ______
+/\___  \  /\  __ \ /\     \
+\/__/  /__\ \  __ \\ \  \  \
+   /\_____\\ \_____\\ \_____\
+   \/_____/ \/_____/ \/_____/
 Copyright (C) 1999-2018 Manuel Sainz de Baranda y Goñi.
 
 This library  is free software: you  can redistribute it and/or  modify it under
