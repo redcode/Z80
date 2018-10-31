@@ -1,12 +1,3 @@
-/**
- * @file Z80.h
- *
- * Interfaces to Data Buffer.
- *
- * This header define the interfaces of general purpose dynamic data buffer that
- * implemented by Equinox.
- */
-
 /* Zilog Z80 CPU Emulator API
   ____    ____    ___ ___     ___
  / __ \  / ___\  / __` __`\  / __`\
