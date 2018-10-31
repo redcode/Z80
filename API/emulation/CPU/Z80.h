@@ -34,12 +34,12 @@ typedef struct {
 	/** Number of cycles executed in the current call to @c z80_run.
 	  * @details @c z80run sets this variable to 0 before starting to
 	  * execute instructions and its value persists after returning.
-	  * A callback can use this variable to know in which cycle it is
-	  * being called. */
+	  * The callbacks can use this variable to know during what cycle
+	  * they are being called. */
 
 	zusize cycles;
 
-	/** The value of the first argument used when calling a callback.
+	/** The value used as the first argument when calling a callback.
 	  * @details This variable should be initialized before using the
 	  * emulator and can be used to reference the context or instance
 	  * of the machine being emulated. */
@@ -75,36 +75,34 @@ typedef struct {
 	zuint8 r7;
 
 	/** Temporary storage for opcode fetching.
-	  * @details It is used during the opcode fetching in an opportunistic
-	  * way to store the bytes of the instruction. It is an internal private
-	  * variable. */
+	  * @details This is an internal private variable. */
 
 	Z32Bit data;
 
 	/** Callback: Called when the CPU needs to read 8 bits from memory.
 	  * @param context The value of the member @c context.
-	  * @param address The memory address to read.
+	  * @param address The memory address to read from.
 	  * @return The 8 bits read from memory. */
 
 	zuint8 (* read)(void *context, zuint16 address);
 
 	/** Callback: Called when the CPU needs to write 8 bits to memory.
 	  * @param context The value of the member @c context.
-	  * @param address The memory address to write.
-	  * @param value The value to write in address. */
+	  * @param address The memory address to write to.
+	  * @param value The value to write. */
 
 	void (* write)(void *context, zuint16 address, zuint8 value);
 
 	/** Callback: Called when the CPU needs to read 8 bits from an I/O port.
 	  * @param context The value of the member @c context.
-	  * @param port The number of the I/O port.
+	  * @param port The number of the I/O port to read from.
 	  * @return The 8 bits read from the I/O port. */
 
 	zuint8 (* in)(void *context, zuint16 port);
 
 	/** Callback: Called when the CPU needs to write 8 bits to an I/O port.
 	  * @param context The value of the member @c context.
-	  * @param port The number of the I/O port.
+	  * @param port The number of the I/O port to write to.
 	  * @param value The value to write. */
 
 	void (* out)(void *context, zuint16 port, zuint8 value);
