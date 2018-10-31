@@ -74,39 +74,42 @@ typedef struct {
 
 	zuint8 r7;
 
-	/** Temporary opcode fetching storage. */
+	/** Temporary opcode fetching storage.
+	  * @details It is used during the opcode fetching in an opportunistic
+	  * way to store the bytes of the instruction. It is an internal private
+	  * variable.*/
 
 	Z32Bit data;
 
-	/** Callback called when the CPU needs to read 8 bits from memory.
+	/** Callback: Called when the CPU needs to read 8 bits from memory.
 	  * @param context The value of the member @c context.
 	  * @param address The memory address to read.
 	  * @return The 8 bits read from memory. */
 
 	zuint8 (* read)(void *context, zuint16 address);
 
-	/** Callback called when the CPU needs to write 8 bits to memory.
+	/** Callback: Called when the CPU needs to write 8 bits to memory.
 	  * @param context The value of the member @c context.
 	  * @param address The memory address to write.
 	  * @param value The value to write in address. */
 
 	void (* write)(void *context, zuint16 address, zuint8 value);
 
-	/** Callback called when the CPU needs to read 8 bits from an I/O port.
+	/** Callback: Called when the CPU needs to read 8 bits from an I/O port.
 	  * @param context The value of the member @c context.
 	  * @param port The number of the I/O port.
 	  * @return The 8 bits read from the I/O port. */
 
 	zuint8 (* in)(void *context, zuint16 port);
 
-	/** Callback called when the CPU needs to write 8 bits to an I/O port.
+	/** Callback: Called when the CPU needs to write 8 bits to an I/O port.
 	  * @param context The value of the member @c context.
 	  * @param port The number of the I/O port.
 	  * @param value The value to write. */
 
 	void (* out)(void *context, zuint16 port, zuint8 value);
 
-	/** Callback Called when the CPU starts executing a maskable interrupt
+	/** Callback: Called when the CPU starts executing a maskable interrupt
 	  * and the interruption mode is 0. This callback must return the
 	  * instruction that the CPU would read from the data bus in this case.
 	  * @param context The value of the member @c context.
@@ -115,7 +118,7 @@ typedef struct {
 
 	zuint32 (* int_data)(void *context);
 
-	/** Called when the CPU enters or exits the halt state.
+	/** Callback: Called when the CPU enters or exits the halt state.
 	  * @param context The value of the member @c context.
 	  * @param state @c TRUE if halted; @c FALSE otherwise. */
 
