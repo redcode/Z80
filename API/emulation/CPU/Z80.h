@@ -47,15 +47,20 @@ typedef struct {
 	void *context;
 
 	/** CPU registers and internal bits.
-	  * @details It contains the values of the CPU registers, as well as
-	  * the interruption flip-flops, variables related to interruptions and
-	  * other necessary flags. This is where a debugger should look for its
+	  * @details It contains the values of the registers, as well as the
+	  * interruption flip-flops, variables related to interruptions and
+	  * other necessary flags. This is what a debugger should use as its
 	  * data source. */
 
 	ZZ80State state;
 
-	/** Temporay IX or IY register for the emulation of instructions with
-	  * DDh or FDh prefix. */
+	/** Temporay IX/IY register for instructions with DDh/FDh prefix.
+	  * @details Since instructions with prefix DD and FD behave similarly,
+	  * differing only in the use of register IX or IY, for reasons of size
+	  * optimization, a single register is used that acts as both. During
+	  * opcode analysis, the IX or IY register is copied to this variable
+	  * and, once the instruction emulation is complete, its contents are
+	  * copied back to the appropriate register. */
 
 	Z16Bit xy;
 
@@ -69,7 +74,7 @@ typedef struct {
 
 	zuint8 r7;
 
-	/** Temporary fetching cache for the instruction being emulated. */
+	/** Temporary opcode fetching storage. */
 
 	Z32Bit data;
 
@@ -112,7 +117,7 @@ typedef struct {
 
 	/** Called when the CPU enters or exits the halt state.
 	  * @param context The value of the member @c context.
-	  * @param state @c TRUE if halted, @c FALSE otherwise. */
+	  * @param state @c TRUE if halted; @c FALSE otherwise. */
 
 	void (* halt)(void *context, zboolean state);
 } Z80;
@@ -129,7 +134,7 @@ Z_C_SYMBOLS_BEGIN
 
 /** Changes the CPU power status.
   * @param object A pointer to a Z80 emulator instance object.
-  * @param state @c TRUE = power ON, @c FALSE = power OFF. */
+  * @param state @c TRUE = power ON; @c FALSE = power OFF. */
 
 CPU_Z80_API void z80_power(Z80 *object, zboolean state);
 
@@ -158,7 +163,7 @@ CPU_Z80_API void z80_nmi(Z80 *object);
 /** Changes the state of the maskable interrupt.
   * @details This is equivalent to a change in the INT line of a real Z80 CPU.
   * @param object A pointer to a Z80 emulator instance object.
-  * @param state @c TRUE = line high, @c FALSE = line low. */
+  * @param state @c TRUE = line high; @c FALSE = line low. */
 
 CPU_Z80_API void z80_int(Z80 *object, zboolean state);
 
