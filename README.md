@@ -14,9 +14,9 @@ If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe
 
 ## Building
 
-To build the emulator you must install [Z](https://github.com/redcode/Z), a **header only** library that provides types and macros. This is the only dependency, the standard C library and its headers are not used and the emulator doesn't need to be dynamically linked against any library.
+To build the emulator you must install [Z](https://zeta.st), a **header only** library that provides types and macros. This is the only dependency, the standard C library and its headers are not used and the emulator doesn't need to be dynamically linked against any library.
 
-A [premake4](https://premake.github.io) file and a Xcode project and are provided to build the emulator. They have the following targets:
+A [premake4](https://premake.github.io) file and a Xcode project and are provided to build the emulator. They include the following targets:
 
 Name | Description
 --- | ---
