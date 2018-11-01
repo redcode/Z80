@@ -18,8 +18,6 @@ To build the emulator you must install [Z](https://github.com/redcode/Z), a **he
 
 A [premake4](https://premake.github.io) file and a Xcode project and are provided to build the emulator. They have the following targets:
 
-#### Targets
-
 Name | Description
 --- | ---
 dynamic | Shared library.
