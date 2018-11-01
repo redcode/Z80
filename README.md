@@ -160,7 +160,7 @@ void (* halt)(void *context, zboolean state);
 **Description**  
 Callback: Called when the CPU enters or exits the halt state.  
 **Note**  
-This callback is **optional**, it must be set to `NULL` if not used.  
+This callback is **optional** and must be set to `NULL` if not used.  
 **Parameters**  
 `context` → The value of the member `context`.  
 `state` → `TRUE` if halted; `FALSE` otherwise.
