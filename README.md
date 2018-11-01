@@ -48,7 +48,7 @@ Name | Description
 
 ### The `Z80` emulator instance object
 
-This structure contains the state of the emulated CPU and callback pointers necessary to interconnect the emulator with external logic. There is no constructor function, so, before using a structure of this type, some of its members must have been initialized, in particular the following: `context`, `read`, `write`, `in`, `out`, `int_data` and `halt`.  
+This structure contains the state of the emulated CPU and callback pointers necessary to interconnect the emulator with external logic. There is no constructor function, so, before using an object of this type, some of its members must have been initialized, in particular the following: `context`, `read`, `write`, `in`, `out`, `int_data` and `halt`.  
 
 Descriptions of each member follow:  
 <br>
