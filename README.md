@@ -44,16 +44,9 @@ Name | Description
 
 ### The `Z80` emulator instance object
 
-This structure holds, among other things, the state of the CPU and the pointers to the callback functions needed to connect the emulator with your code. There is no constructor function, so you need to initialize some of its members before using it. Specifically the following:
-* context
-* read
-* write
-* in
-* out
-* int_data
-* halt
+This structure holds, among other things, the state of the CPU and the pointers to the callback functions needed to connect the emulator with your code. There is no constructor function, so you need to initialize some of its members before using it. Specifically the following: `context`, `read`, `write`, `in`, `out`, `int_data` and `halt`.  
 
-Descriptions of each member follow:
+Descriptions of each member follow:  
 
 ```C
 zusize cycles;
@@ -77,7 +70,7 @@ ZZ80State state;
 **Description**  
 CPU registers and internal bits.  
 **Details**  
-It contains the values of the registers, as well as the interruption flip-flops, variables related to interruptions and other necessary flags. This is what a debugger should use as its data source.  
+It contains the values of the registers, as well as the interruption flip-flops, variables related to interruptions and other necessary flags. This is what a debugger should use as data source.  
 
 ```C
 Z16Bit xy;
