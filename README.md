@@ -1,5 +1,7 @@
 ![al-tag](https://upload.wikimedia.org/wikipedia/commons/1/19/Zilog_Z80.jpg)
 
+<br>
+
 # Zilog Z80 CPU Emulator
 Copyright © 1999-2018 Manuel Sainz de Baranda y Goñi.  
 Released under the terms of the [GNU General Public License v3](https://www.gnu.org/copyleft/gpl.html).
@@ -7,6 +9,8 @@ Released under the terms of the [GNU General Public License v3](https://www.gnu.
 This is a very accurate [Z80](https://en.wikipedia.org/wiki/Zilog_Z80) [emulator](http://en.wikipedia.org/wiki/Emulator) I wrote many years ago. It has been used in several machine emulators by other people and it has been extensivelly tested. It's fast, small (33 KB when compiled as a x86-64 dynamic library), its structure is very clear and the code is **profusely commented**.
 
 If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe you have found the correct one. I use this core in the [ZX Spectrum emulator](https://github.com/redcode/mZX) I started as hobby.
+
+<br>
 
 ## Building
 
@@ -40,6 +44,8 @@ Name | Description
 `CPU_Z80_HIDE_ABI` | Makes `abi_emulation_cpu_z80` private.
 `CPU_Z80_USE_LOCAL_HEADER` | Use this if you have imported _Z80.h_ and _Z80.c_ to your project. _Z80.c_ will include `"Z80.h"` instead of `<emulation/CPU/Z80.h>`.
 
+<br>
+
 ## API
 
 ### The `Z80` emulator instance object
@@ -47,7 +53,7 @@ Name | Description
 This structure holds, among other things, the state of the CPU and the pointers to the callback functions needed to connect the emulator with your code. There is no constructor function, so you need to initialize some of its members before using it. Specifically the following: `context`, `read`, `write`, `in`, `out`, `int_data` and `halt`.  
 
 Descriptions of each member follow:  
-
+<br>
 ```C
 zusize cycles;
 ```
@@ -55,7 +61,7 @@ zusize cycles;
 Number of cycles executed in the current call to `z80_run`.  
 **Details**  
 `z80run` sets this variable to 0 before starting to execute instructions and its value persists after returning. The callbacks can use this variable to know during what cycle they are being called.  
-
+<br>
 ```C
 void *context;
 ```
@@ -63,7 +69,7 @@ void *context;
 The value used as the first argument when calling a callback.  
 **Details**  
 This variable should be initialized before using the emulator and can be used to reference the context or instance of the machine being emulated.  
-
+<br>
 ```C
 ZZ80State state;
 ```
@@ -71,7 +77,7 @@ ZZ80State state;
 CPU registers and internal bits.  
 **Details**  
 It contains the values of the registers, as well as the interruption flip-flops, variables related to interruptions and other necessary flags. This is what a debugger should use as data source.  
-
+<br>
 ```C
 Z16Bit xy;
 ```
@@ -79,7 +85,7 @@ Z16Bit xy;
 Temporay IX/IY register for instructions with DDh/FDh prefix.  
 **Details**  
 Since instructions with prefix DD and FD behave similarly, differing only in the use of register IX or IY, for reasons of size optimization, a single register is used that acts as both. During opcode analysis, the IX or IY register is copied to this variable and, once the instruction emulation is complete, its contents are copied back to the appropriate register.  
-
+<br>
 ```C
 zuint8 r7;
 ```
@@ -87,7 +93,7 @@ zuint8 r7;
 Backup of the 7th bit of the R register.  
 **Details**  
 The value of the R register is incremented as instructions are executed, but its most significant bit remains unchanged. For optimization reasons, this bit is saved at the beginning of the execution of `z80_run` and restored before returning. If an instruction directly affects the R register, this variable is also updated accordingly.  
-
+<br>
 ```C
 Z32Bit data;
 ```
@@ -95,7 +101,7 @@ Z32Bit data;
 Temporary storage for opcode fetching.  
 **Details**  
 This is an internal private variable.  
-
+<br>
 ```C
 zuint8 (* read)(void *context, zuint16 address);
 ```
@@ -106,7 +112,7 @@ Callback: Called when the CPU needs to read 8 bits from memory.
 `address` → The memory address to read from.  
 **Returns**  
 The 8 bits read from memory.  
-
+<br>
 ```C
 void (* write)(void *context, zuint16 address, zuint8 value);
 ```
@@ -116,7 +122,7 @@ Callback: Called when the CPU needs to write 8 bits to memory.
 `context` → The value of the member `context`.  
 `address` → The memory address to write to.  
 `value` → The value to write.
-
+<br>
 ```C
 zuint8 (* in)(void *context, zuint16 port);
 ```
@@ -127,7 +133,7 @@ Callback: Called when the CPU needs to read 8 bits from an I/O port.
 `port` → The number of the I/O port to read from.  
 **Returns**  
 The 8 bits read from the I/O port.  
-
+<br>
 ```C
 void (* out)(void *context, zuint16 port, zuint8 value);
 ```
@@ -137,7 +143,7 @@ Callback: Called when the CPU needs to write 8 bits to an I/O port.
 `context` → The value of the member `context`.  
 `port` → The number of the I/O port to write to.  
 `value` → The value to write.  
-
+<br>
 ```C
 zuint32 (* int_data)(void *context);
 ```
@@ -147,7 +153,7 @@ Callback: Called when the CPU starts executing a maskable interrupt and the inte
 `context` → The value of the member `context`.  
 **Returns**  
 A 32-bit value containing the bytes of an instruction. The instruction must begin at the most significant byte (big endian).  
-
+<br>
 ```C
 void (* halt)(void *context, zboolean state);
 ```
@@ -156,7 +162,7 @@ Callback: Called when the CPU enters or exits the halt state.
 **Parameters**  
 `context` → The value of the member `context`.  
 `state` → `TRUE` if halted; `FALSE` otherwise.
-
+<br>
 
 ### Functions
 
@@ -168,7 +174,7 @@ Changes the CPU power status.
 **Parameters**  
 `object` → A pointer to a `Z80` emulator instance object.  
 `state` → `TRUE` = power ON; `FALSE` = power OFF.  
-
+<br>
 ```C
 void z80_reset(Z80 *object);
 ```
@@ -176,7 +182,7 @@ void z80_reset(Z80 *object);
 Resets the CPU by reinitializing its variables and sets its registers to the state they would be in a real Z80 CPU after a pulse in the `RESET` line.  
 **Parameters**  
 `object` → A pointer to a `Z80` emulator instance object.  
-
+<br>
 ```C
 zusize z80_run(Z80 *object, zusize cycles);
 ```
@@ -189,7 +195,7 @@ Given the fact that one Z80 instruction needs between 4 and 23 cycles to be exec
 `cycles` → The number of `cycles` to be executed.  
 **Returns**  
 The number of cycles executed.  
-
+<br>
 ```C
 void z80_nmi(Z80 *object);
 ```
@@ -199,7 +205,7 @@ Performs a non-maskable interrupt.
 This is equivalent to a pulse in the `NMI` line of a real Z80 CPU.  
 **Parameters**  
 `object` → A pointer to a `Z80` emulator instance object.  
-
+<br>
 ```C
 void z80_int(Z80 *object, zboolean state);
 ```
