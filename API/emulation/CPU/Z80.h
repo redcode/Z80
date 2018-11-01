@@ -117,7 +117,9 @@ typedef struct {
 
 	/** Callback: Called when the CPU enters or exits the halt state.
 	  * @param context The value of the member @c context.
-	  * @param state @c TRUE if halted; @c FALSE otherwise. */
+	  * @param state @c TRUE if halted; @c FALSE otherwise.
+	  * @note This callback is optional and must be set to @c NULL if not
+	  * used. */
 
 	void (* halt)(void *context, zboolean state);
 } Z80;
