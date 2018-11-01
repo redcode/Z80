@@ -27,11 +27,11 @@ this library. If not, see <http://www.gnu.org/licenses/>. */
 #endif
 
 /** Z80 emulator instance object.
-  * @details This structure holds, among other things, the state of the CPU and
-  * the pointers to the callback functions needed to connect the emulator with
-  * your code. There is no constructor function, so you need to initialize some
-  * of its members before using it. Specifically the following: @c context, @c
-  * read, @c write, @c in, @c out, @c int_data and @c halt. */
+  * @details This structure contains the state of the emulated CPU and callback
+  * pointers necessary to interconnect the emulator with external logic. There
+  * is no constructor function, so, before using a structure of this type, some
+  * of its members must have been initialized, in particular the following:
+  * @c context, @c read, @c write, @c in, @c out, @c int_data and @c halt. */
 
 typedef struct {
 
