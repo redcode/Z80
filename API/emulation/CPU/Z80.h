@@ -29,7 +29,7 @@ this library. If not, see <http://www.gnu.org/licenses/>. */
 /** Z80 emulator instance object.
   * @details This structure contains the state of the emulated CPU and callback
   * pointers necessary to interconnect the emulator with external logic. There
-  * is no constructor function, so, before using a structure of this type, some
+  * is no constructor function, so, before using an object of this type, some
   * of its members must have been initialized, in particular the following:
   * @c context, @c read, @c write, @c in, @c out, @c int_data and @c halt. */
 
