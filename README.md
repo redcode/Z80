@@ -6,7 +6,7 @@
 Copyright © 1999-2018 Manuel Sainz de Baranda y Goñi.  
 Released under the terms of the [GNU General Public License v3](https://www.gnu.org/copyleft/gpl.html).
 
-This is a very accurate [Z80](https://en.wikipedia.org/wiki/Zilog_Z80) [emulator](http://en.wikipedia.org/wiki/Emulator) I wrote many years ago. It has been used in several machine emulators by other people and it has been extensivelly tested. It's fast, small (33 KB when compiled as a x86-64 dynamic library), its structure is very clear and the code is **profusely commented**.
+This is a very accurate [Z80](https://en.wikipedia.org/wiki/Zilog_Z80) [emulator](http://en.wikipedia.org/wiki/Emulator) I wrote many years ago. It has been used in several machine emulators by other people and it has been extensivelly tested. It's fast, small (33 KB when compiled as a x86-64 dynamic library), its structure is clear and the code is **profusely commented**.
 
 If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe you have found the correct one. I use this core in the [ZX Spectrum emulator](https://github.com/redcode/mZX) I started as hobby.
 
@@ -16,9 +16,9 @@ If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe
 
 To build the emulator you must install [Z](https://zeta.st), a **header only** library that provides types and macros. This is the only dependency, the standard C library and its headers are not used and the emulator doesn't need to be dynamically linked against any library.
 
-A [premake4](https://premake.github.io) file and a Xcode project and are provided to build the emulator. They include the following targets:
+A [premake4](https://premake.github.io) file and a Xcode project and are included to build the emulator. They include the following targets:
 
-Name | Description
+Target | Description
 --- | ---
 dynamic | Shared library.
 dynamic module  | Shared library with a module ABI to be used in modular multi-machine emulators.
@@ -48,7 +48,7 @@ Name | Description
 
 ### The `Z80` emulator instance object
 
-This structure holds, among other things, the state of the CPU and the pointers to the callback functions needed to connect the emulator with your code. There is no constructor function, so you need to initialize some of its members before using it. Specifically the following: `context`, `read`, `write`, `in`, `out`, `int_data` and `halt`.  
+This structure contains the state of the emulated CPU and callback pointers necessary to interconnect the emulator with external logic. There is no constructor function, so, before using a structure of this type, some of its members must have been initialized, in particular the following: `context`, `read`, `write`, `in`, `out`, `int_data` and `halt`.  
 
 Descriptions of each member follow:  
 <br>
