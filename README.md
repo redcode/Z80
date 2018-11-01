@@ -218,3 +218,8 @@ This is equivalent to a change in the `INT` line of a real Z80 CPU.
 **Parameters**  
 `object` → A pointer to a `Z80` emulator instance object.  
 `state` → `TRUE` = line high; `FALSE` = line low.  
+
+<br>
+
+## Use in Non-Free / Proprietary Software
+This library is released under the terms of the [GNU General Public License v3](https://www.gnu.org/copyleft/gpl.html), but I can license it for non-free projects if you contact [me](mailto:contact@zxe.io?subject=Z80%20non-free%20licensing).
