@@ -162,7 +162,7 @@ Callback: Called when the CPU enters or exits the halt state.
 **Parameters**  
 `context` → The value of the member `context`.  
 `state` → `TRUE` if halted; `FALSE` otherwise.
-<br>
+<br><br>
 
 ### Functions
 
