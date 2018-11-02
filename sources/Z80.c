@@ -21,6 +21,9 @@ this library. If not, see <http://www.gnu.org/licenses/>. */
 #include <Z/macros/pointer.h>
 
 #if defined(CPU_Z80_BUILD_ABI) || defined(CPU_Z80_BUILD_MODULE_ABI)
+#	ifndef CPU_Z80_USE_ABI
+#		define CPU_Z80_USE_ABI
+#	endif
 
 #	if defined(CPU_Z80_HIDE_ABI)
 #		define CPU_Z80_ABI static
@@ -29,11 +32,6 @@ this library. If not, see <http://www.gnu.org/licenses/>. */
 #	else
 #		define CPU_Z80_ABI Z_API_EXPORT
 #	endif
-
-#	ifndef CPU_Z80_USE_ABI
-#		define CPU_Z80_USE_ABI
-#	endif
-
 #endif
 
 #if defined(CPU_Z80_HIDE_API)
