@@ -45,8 +45,8 @@ typedef struct {
 
 	/** The value used as the first argument when calling a callback.
 	  * @details This variable should be initialized before using the
-	  * emulator and can be used to reference the context or instance
-	  * of the machine being emulated. */
+	  * emulator and can be used to reference the context/instance of
+	  * the machine being emulated. */
 
 	void *context;
 
