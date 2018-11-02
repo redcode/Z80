@@ -176,7 +176,7 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state);
 
 Z_C_SYMBOLS_END
 
-#ifndef CPU_Z80_OMIT_ABI_PROTOTYPE
+#ifdef CPU_Z80_USE_ABI
 
 #	ifndef CPU_Z80_DEPENDENCIES_H
 #		include <Z/ABIs/generic/emulation.h>

@@ -2,7 +2,7 @@
    /\___  \  /\  __ \ /\     \
    \/__/  /__\ \  __ \\ \  \  \
       /\_____\\ \_____\\ \_____\
-Zilog \/_____/ \/_____/ \/_____/ CPU Emulator
+Zilog \/_____/ \/_____/ \/_____/ CPU Emulator v0.1
 Copyright (C) 1999-2018 Manuel Sainz de Baranda y Goñi.
 
 This library  is free software: you  can redistribute it and/or  modify it under
@@ -20,20 +20,28 @@ this library. If not, see <http://www.gnu.org/licenses/>. */
 #include <Z/macros/value.h>
 #include <Z/macros/pointer.h>
 
+#if defined(CPU_Z80_BUILD_ABI) || defined(CPU_Z80_BUILD_MODULE_ABI)
+
+#	if defined(CPU_Z80_HIDE_ABI)
+#		define CPU_Z80_ABI static
+#	elif defined(CPU_Z80_STATIC)
+#		define CPU_Z80_ABI
+#	else
+#		define CPU_Z80_ABI Z_API_EXPORT
+#	endif
+
+#	ifndef CPU_Z80_USE_ABI
+#		define CPU_Z80_USE_ABI
+#	endif
+
+#endif
+
 #if defined(CPU_Z80_HIDE_API)
 #	define CPU_Z80_API static
 #elif defined(CPU_Z80_STATIC)
 #	define CPU_Z80_API
 #else
 #	define CPU_Z80_API Z_API_EXPORT
-#endif
-
-#if defined(CPU_Z80_HIDE_ABI)
-#	define CPU_Z80_ABI static
-#elif defined(CPU_Z80_STATIC)
-#	define CPU_Z80_ABI
-#else
-#	define CPU_Z80_ABI Z_API_EXPORT
 #endif
 
 #if defined(CPU_Z80_USE_LOCAL_HEADER)
@@ -1520,10 +1528,6 @@ CPU_Z80_API zusize z80_run(Z80 *object, zusize cycles)
 			EXIT_HALT;	 /* Resume CPU on halt.		*/
 			R++;		 /* Consume memory refresh.	*/
 			IFF1 = IFF2 = 0; /* Clear interrupt flip-flops.	*/
-
-#			if defined(CPU_Z80_AUTOCLEAR_INT_LINE)
-				INT = FALSE;
-#			endif
 
 			switch (IM)
 				{

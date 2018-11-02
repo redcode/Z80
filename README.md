@@ -6,7 +6,7 @@
 Copyright © 1999-2018 Manuel Sainz de Baranda y Goñi.  
 Released under the terms of the [GNU General Public License v3](https://www.gnu.org/copyleft/gpl.html).
 
-This is a very accurate [Z80](https://en.wikipedia.org/wiki/Zilog_Z80) [emulator](http://en.wikipedia.org/wiki/Emulator) I wrote many years ago. It has been used in several machine emulators by other people and it has been extensivelly tested. It's fast, small (33 KB when compiled as a x86-64 dynamic library), its structure is clear and the code is **profusely commented**.
+This is a very accurate [Z80](https://en.wikipedia.org/wiki/Zilog_Z80) [emulator](http://en.wikipedia.org/wiki/Emulator) I wrote many years ago. It has been used in several machine emulators by other people and it has been extensivelly tested. It's fast and small (33 KB when compiled as a x86-64 dynamic library), its structure is clear and the code is **profusely commented**.
 
 If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe you have found the correct one. I use this core in the [ZX Spectrum emulator](https://github.com/redcode/mZX) I started as hobby.
 
@@ -14,33 +14,41 @@ If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe
 
 ## Building
 
-To build the emulator you must install [Z](https://zeta.st), a **header only** library that provides types and macros. This is the only dependency, the standard C library and its headers are not used and the emulator doesn't need to be dynamically linked against any library.
+You must first install [Z](https://zeta.st), a **header-only** library that provides types and macros. This is the only dependency, the emulator does not use the standard C library or its headers, nor does it need to be dynamically linked against any library. Then add `Z80.h` and `Z80.c` to your project and configure your build system so that the compiler predefines the `CPU_Z80_STATIC` and `CPU_Z80_USE_LOCAL_HEADER` macros when compiling your sources.
 
-A [premake4](https://premake.github.io) file and a Xcode project and are included to build the emulator. They include the following targets:
+If you preffer to compile the emulator as a library, you can use premake4:
+```console
+$ cd building
+$ premake4 gmake                         # generate Makefile
+$ make help                              # list available targets
+$ make [config=<configuration>] <target> # build the emulator
+```
+
+There is also an Xcode project in `development/Xcode` with several targets:
 
 Target | Description
 --- | ---
 dynamic | Shared library.
-dynamic module  | Shared library with a module ABI to be used in modular multi-machine emulators.
+dynamic-module  | Shared library with a generic module ABI to be used in modular multi-machine emulators.
 static | Static library.
-static module | Static library with a descriptive ABI to be used in monolithic multi-machine emulators.
+static-module | Static library with a generic CPU emulator ABI to be used in monolithic multi-machine emulators.
 
-#### Prefefined macros used in Z80.h
+<br>
+
+## Code configuration
+
+There are some predefined macros that control the compilation:
 
 Name | Description
 --- | ---
-`CPU_Z80_DEPENDENCIES_H` | If defined, it will be used as the only header to include. If you don't want to use _Z_, you can provide your own header with the types and macros used by the emulator.
-`CPU_Z80_OMIT_ABI_PROTOTYPE` | Avoids including `<Z/ABIs/generic/emulation.h>` and declaring the prototype of the global variable `abi_emulation_cpu_z80`. If your code does not use ABI you can declare this to make the emulator less dependant on _Z_.
-`CPU_Z80_STATIC` | You need to define this if you are using the emulator as a static library or if you have added its sources to your project.
-
-#### Predefined macros used in Z80.c
-Name | Description
---- | ---
-`CPU_Z80_BUILD_ABI` | Builds the ABI of type `ZCPUEmulatorABI` declared in the header with the identifier `abi_emulation_cpu_z80`.
-`CPU_Z80_BUILD_MODULE_ABI` | Builds a generic module ABI of type `ZModuleABI`. This constant enables `CPU_Z80_BUILD_ABI` automatically so `abi_emulation_cpu_z80` will be build too. This option is intended to be used when building a true module loadable at runtime with `dlopen()`, `LoadLibrary()` or similar. The module ABI can be accessed retrieving the [weak symbol](https://en.wikipedia.org/wiki/Weak_symbol) `__module_abi__`.
-`CPU_Z80_HIDE_API` | Makes the API functions private.
-`CPU_Z80_HIDE_ABI` | Makes `abi_emulation_cpu_z80` private.
-`CPU_Z80_USE_LOCAL_HEADER` | Use this if you have imported _Z80.h_ and _Z80.c_ to your project. _Z80.c_ will include `"Z80.h"` instead of `<emulation/CPU/Z80.h>`.
+`CPU_Z80_DEPENDENCIES_H` | If defined, `Z80.h` will `#include` only this header as dependency. If you don't want to use Z, you can provide your own header with the types and macros used by the emulator.
+`CPU_Z80_BUILD_ABI` | Builds the generic CPU emulator ABI.
+`CPU_Z80_BUILD_MODULE_ABI` | Builds the generic module ABI. This macro also enables CPU_Z80_BUILD_ABI, so the generic CPU emulator ABI will be built too. This option is intended to be used when building a true module loadable at runtime with `dlopen()`, `LoadLibrary()` or similar. The ABI module can be accessed via the [weak symbol](https://en.wikipedia.org/wiki/Weak_symbol) `__module_abi__`.
+`CPU_Z80_HIDE_ABI` | Makes the generic CPU emulator ABI private.
+`CPU_Z80_HIDE_API` | Makes the public functions private.
+`CPU_Z80_STATIC` | You need to define this to compile or use the emulator as a static library or if you have added `Z80.h` and `Z80.c` to your project.
+`CPU_Z80_USE_ABI` | Tells `Z80.h` to declare the prototype of the CPU emulator ABI.
+`CPU_Z80_USE_LOCAL_HEADER` | Use this if you have imported `Z80.h` and `Z80.c` to your project. `Z80.c` will `#include "Z80.h"` instead of `<emulation/CPU/Z80.h>`.
 
 <br>
 

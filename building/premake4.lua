@@ -23,8 +23,6 @@ solution "Z80"
 
 		configuration "*Dynamic-Module"
 			defines {"CPU_Z80_BUILD_MODULE_ABI"}
-			targetprefix ""
-			targetextension ".CPU"
 
 		configuration "*Static*"
 			kind "StaticLib"
