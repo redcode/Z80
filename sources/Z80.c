@@ -20,6 +20,14 @@ this library. If not, see <http://www.gnu.org/licenses/>. */
 #include <Z/macros/value.h>
 #include <Z/macros/pointer.h>
 
+#if defined(CPU_Z80_HIDE_API)
+#	define CPU_Z80_API static
+#elif defined(CPU_Z80_STATIC)
+#	define CPU_Z80_API
+#else
+#	define CPU_Z80_API Z_API_EXPORT
+#endif
+
 #if defined(CPU_Z80_BUILD_ABI) || defined(CPU_Z80_BUILD_MODULE_ABI)
 #	ifndef CPU_Z80_USE_ABI
 #		define CPU_Z80_USE_ABI
@@ -32,14 +40,6 @@ this library. If not, see <http://www.gnu.org/licenses/>. */
 #	else
 #		define CPU_Z80_ABI Z_API_EXPORT
 #	endif
-#endif
-
-#if defined(CPU_Z80_HIDE_API)
-#	define CPU_Z80_API static
-#elif defined(CPU_Z80_STATIC)
-#	define CPU_Z80_API
-#else
-#	define CPU_Z80_API Z_API_EXPORT
 #endif
 
 #if defined(CPU_Z80_USE_LOCAL_HEADER)
