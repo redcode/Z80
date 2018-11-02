@@ -74,7 +74,7 @@ void *context;
 **Description**  
 The value used as the first argument when calling a callback.  
 **Details**  
-This variable should be initialized before using the emulator and can be used to reference the context or instance of the machine being emulated.  
+This variable should be initialized before using the emulator and can be used to reference the context/instance of the machine being emulated.  
 <br>
 ```C
 ZZ80State state;
