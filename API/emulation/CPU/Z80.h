@@ -145,8 +145,8 @@ Z_C_SYMBOLS_BEGIN
 
 CPU_Z80_API void z80_power(Z80 *object, zboolean state);
 
-/** Resets the CPU by reinitializing its variables and sets its registers to
-  * the state they would be in a real Z80 CPU after a pulse in the RESET line.
+/** Resets the CPU.
+  * @details This is equivalent to a pulse in the RESET line of a real Z80.
   * @param object A pointer to a Z80 emulator instance object. */
 
 CPU_Z80_API void z80_reset(Z80 *object);
@@ -155,20 +155,20 @@ CPU_Z80_API void z80_reset(Z80 *object);
   * @param object A pointer to a Z80 emulator instance object.
   * @param cycles The number of cycles to be executed.
   * @return The number of cycles executed.
-  * @note Given the fact that one Z80 instruction needs between 4 and 23
-  * cycles to be executed, it's not always possible to run the CPU the exact
-  * number of @p cycles specfified. */
+  * @note Given the fact that one Z80 instruction needs between 4 and 23 cycles
+  * to be executed, it's not always possible to run the CPU the exact number of
+  * @p cycles specfified. */
 
 CPU_Z80_API zusize z80_run(Z80 *object, zusize cycles);
 
 /** Performs a non-maskable interrupt.
-  * @details This is equivalent to a pulse in the NMI line of a real Z80 CPU.
+  * @details This is equivalent to a pulse in the NMI line of a real Z80.
   * @param object A pointer to a Z80 emulator instance object. */
 
 CPU_Z80_API void z80_nmi(Z80 *object);
 
 /** Changes the state of the maskable interrupt.
-  * @details This is equivalent to a change in the INT line of a real Z80 CPU.
+  * @details This is equivalent to a change in the INT line of a real Z80.
   * @param object A pointer to a Z80 emulator instance object.
   * @param state @c TRUE = line high; @c FALSE = line low. */
 
