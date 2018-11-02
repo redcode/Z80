@@ -14,9 +14,9 @@ If you are looking for a Zilog Z80 CPU emulator for your project maybe you have 
 
 ## Building
 
-You must first install [Z](https://zeta.st), a **header-only** library that provides types and macros. This is the only dependency, the emulator does not use the standard C library or its headers, nor does it need to be dynamically linked against any library. Then add `Z80.h` and `Z80.c` to your project and configure your build system so that the compiler predefines the `CPU_Z80_STATIC` and `CPU_Z80_USE_LOCAL_HEADER` macros when compiling your sources.
+You must first install [Z](https://zeta.st), a **header-only** library that provides types and macros. This is the only dependency, the emulator does not use the C standard library or its headers. Then add `Z80.h` and `Z80.c` to your project and configure its build system so that `CPU_Z80_STATIC` and `CPU_Z80_USE_LOCAL_HEADER` are predefined when compiling the sources.
 
-If you preffer to compile the emulator as a library, you can use premake4:
+If you preffer to build the emulator as a library, you can use [premake4](https://premake.github.io):
 ```console
 $ cd building
 $ premake4 gmake                         # generate Makefile
