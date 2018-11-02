@@ -8,7 +8,7 @@ Released under the terms of the [GNU General Public License v3](https://www.gnu.
 
 This is a very accurate [Z80](https://en.wikipedia.org/wiki/Zilog_Z80) [emulator](http://en.wikipedia.org/wiki/Emulator) I wrote many years ago. It has been used in several machine emulators by other people and it has been extensivelly tested. It is fast, small (33 KB when compiled as a x86-64 dynamic library), easy to understand, and the code is **profusely commented**.
 
-If you are looking for an accurate Zilog Z80 CPU emulator for your project maybe you have found the correct one. I use this core in the [ZX Spectrum emulator](https://github.com/redcode/mZX) I started as hobby.
+If you are looking for a Zilog Z80 CPU emulator for your project maybe you have found the correct one. I use this core in the [ZX Spectrum emulator](https://github.com/redcode/mZX) I started as hobby.
 
 <br>
 
