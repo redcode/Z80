@@ -82,7 +82,7 @@ ZZ80State state;
 **Description**  
 CPU registers and internal bits.  
 **Details**  
-It contains the values of the registers, as well as the interruption flip-flops, variables related to interruptions and other necessary flags. This is what a debugger should use as data source.  
+It contains the state of the registers, as well as the interruption flip-flops, variables related to interruptions and other necessary flags. This is what a debugger should use as data source.  
 <br>
 ```C
 Z16Bit xy;
