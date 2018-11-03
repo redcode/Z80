@@ -1,8 +1,8 @@
-/*  ______    ______   ______
-   /\___  \  /\  __ \ /\     \
-   \/__/  /__\ \  __ \\ \  \  \
-      /\_____\\ \_____\\ \_____\
-Zilog \/_____/ \/_____/ \/_____/ CPU Emulator v0.1
+/*  ______   ______  ______
+   /\___  \ /\  __ \/\     \
+   \/__/  /_\ \  __ \ \  \  \
+      /\_____\ \_____\ \_____\
+Zilog \/_____/\/_____/\/_____/ CPU Emulator
 Copyright (C) 1999-2018 Manuel Sainz de Baranda y Goñi.
 
 This library  is free software: you  can redistribute it and/or  modify it under
