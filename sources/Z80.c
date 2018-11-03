@@ -84,7 +84,7 @@ static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 	}
 
 
-#define READ_16( address)	 read_16bit (object, (zuint16)(address))
+#define READ_16(address)	 read_16bit (object, (zuint16)(address))
 #define WRITE_16(address, value) write_16bit(object, (zuint16)(address), (zuint16)(value))
 
 
@@ -102,7 +102,6 @@ static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 #define BC_   object->state.Z_Z80_STATE_MEMBER_BC_
 #define DE_   object->state.Z_Z80_STATE_MEMBER_DE_
 #define HL_   object->state.Z_Z80_STATE_MEMBER_HL_
-
 #define A     object->state.Z_Z80_STATE_MEMBER_A
 #define F     object->state.Z_Z80_STATE_MEMBER_F
 #define B     object->state.Z_Z80_STATE_MEMBER_B
@@ -113,32 +112,28 @@ static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 #define R_ALL ((R & 127) | (R7 & 128))
 
 
-/* MARK: - Macros: Internal State */
+/* MARK: - Macros: Internal Bits */
 
-#define R7     object->r7
-#define HALT   object->state.Z_Z80_STATE_MEMBER_HALT
-#define IFF1   object->state.Z_Z80_STATE_MEMBER_IFF1
-#define IFF2   object->state.Z_Z80_STATE_MEMBER_IFF2
-#define EI     object->state.Z_Z80_STATE_MEMBER_EI
-#define IM     object->state.Z_Z80_STATE_MEMBER_IM
-#define NMI    object->state.Z_Z80_STATE_MEMBER_NMI
-#define INT    object->state.Z_Z80_STATE_MEMBER_IRQ
-#define CYCLES object->cycles
+#define HALT object->state.Z_Z80_STATE_MEMBER_HALT
+#define IFF1 object->state.Z_Z80_STATE_MEMBER_IFF1
+#define IFF2 object->state.Z_Z80_STATE_MEMBER_IFF2
+#define EI   object->state.Z_Z80_STATE_MEMBER_EI
+#define IM   object->state.Z_Z80_STATE_MEMBER_IM
+#define NMI  object->state.Z_Z80_STATE_MEMBER_NMI
+#define INT  object->state.Z_Z80_STATE_MEMBER_IRQ
 
 
-/* MARK: - Macros: Cached Instruction Data */
+/* MARK: - Macros: Temporal Data */
 
+#define CYCLES	    object->cycles
+#define R7	    object->r7
 #define BYTE(index) object->data.array_uint8[index]
 #define BYTE0	    BYTE(0)
 #define BYTE1	    BYTE(1)
 #define BYTE2	    BYTE(2)
 #define BYTE3	    BYTE(3)
-
-
-/* MARK: - Macros: Memory Addressing */
-
-#define XY	   object->xy.value_uint16
-#define XY_ADDRESS ((zuint16)(XY + object->data.array_sint8[2]))
+#define XY	    object->xy.value_uint16
+#define XY_ADDRESS  ((zuint16)(XY + object->data.array_sint8[2]))
 
 
 /* MARK: - Macros: Flags */
