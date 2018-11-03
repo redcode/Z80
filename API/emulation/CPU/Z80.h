@@ -52,9 +52,9 @@ typedef struct {
 
 	/** CPU registers and internal bits.
 	  * @details It contains the state of the registers, as well as the
-	  * interruption flip-flops, variables related to interruptions and
-	  * other necessary flags. This is what a debugger should use as its
-	  * data source. */
+	  * interrupt flip-flops, variables related to interrupts and other
+	  * necessary flags. This is what a debugger should use as its data
+	  * source. */
 
 	ZZ80State state;
 
@@ -112,8 +112,8 @@ typedef struct {
 	void (* out)(void *context, zuint16 port, zuint8 value);
 
 	/** Callback: Called when the CPU starts executing a maskable interrupt
-	  * and the interruption mode is 0. This callback must return the
-	  * instruction that the CPU would read from the data bus in this case.
+	  * and the interrupt mode is 0. This callback must return the bytes of
+	  * the instruction that the CPU would read from the data bus in this case.
 	  * @param context The value of the member @c context.
 	  * @return A 32-bit value containing the bytes of an instruction. The
 	  * instruction must begin at the most significant byte (big endian). */
