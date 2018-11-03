@@ -82,7 +82,7 @@ ZZ80State state;
 **Description**  
 CPU registers and internal bits.  
 **Details**  
-It contains the state of the registers, as well as the interruption flip-flops, variables related to interruptions and other necessary flags. This is what a debugger should use as data source.  
+It contains the state of the registers, as well as the interrupt flip-flops, variables related to interrupts and other necessary flags. This is what a debugger should use as data source.  
 <br>
 ```C
 Z16Bit xy;
@@ -154,7 +154,7 @@ Callback: Called when the CPU needs to write 8 bits to an I/O port.
 zuint32 (* int_data)(void *context);
 ```
 **Description**  
-Callback: Called when the CPU starts executing a maskable interrupt and the interruption mode is 0. This callback must return the instruction that the CPU would read from the data bus in this case.  
+Callback: Called when the CPU starts executing a maskable interrupt and the interrupt mode is 0. This callback must return the bytes of the instruction that the CPU would read from the data bus in this case.  
 **Parameters**  
 `context` → The value of the member `context`.  
 **Returns**  
