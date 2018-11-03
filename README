@@ -73,7 +73,7 @@ Code configuration
     or if you have added Z80.h and Z80.c to your project.
 
   CPU_Z80_USE_ABI
-    Tells Z80.h to declare the prototype of the CPU emulator ABI.
+    Tells Z80.h to declare the prototype of the generic CPU emulator ABI.
 
   CPU_Z80_USE_LOCAL_HEADER
     Use this if  you have imported Z80.h  and Z80.c to your  project. Z80.c will

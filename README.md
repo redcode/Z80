@@ -47,7 +47,7 @@ Name | Description
 `CPU_Z80_HIDE_ABI` | Makes the generic CPU emulator ABI private.
 `CPU_Z80_HIDE_API` | Makes the public functions private.
 `CPU_Z80_STATIC` | You need to define this to compile or use the emulator as a static library or if you have added `Z80.h` and `Z80.c` to your project.
-`CPU_Z80_USE_ABI` | Tells `Z80.h` to declare the prototype of the CPU emulator ABI.
+`CPU_Z80_USE_ABI` | Tells `Z80.h` to declare the prototype of the generic CPU emulator ABI.
 `CPU_Z80_USE_LOCAL_HEADER` | Use this if you have imported `Z80.h` and `Z80.c` to your project. `Z80.c` will `#include "Z80.h"` instead of `<emulation/CPU/Z80.h>`.
 
 <br>
