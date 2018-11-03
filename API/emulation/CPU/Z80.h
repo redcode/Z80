@@ -51,7 +51,7 @@ typedef struct {
 	void *context;
 
 	/** CPU registers and internal bits.
-	  * @details It contains the values of the registers, as well as the
+	  * @details It contains the state of the registers, as well as the
 	  * interruption flip-flops, variables related to interruptions and
 	  * other necessary flags. This is what a debugger should use as its
 	  * data source. */
