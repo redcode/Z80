@@ -1,7 +1,7 @@
 solution "Z80"
 	configurations {
-		"Release-Dynamic", "Release-Dynamic-Module", "Release-Static", "Release-Static-Module",
-		"Debug-Dynamic", "Debug-Dynamic-Module", "Debug-Static", "Debug-Static-Module"
+		"release-dynamic", "release-dynamic-module", "release-static", "release-static-module",
+		"debug-dynamic", "debug-dynamic-module", "debug-static", "debug-static-module"
 	}
 
 	project "Z80"
@@ -11,22 +11,22 @@ solution "Z80"
 		includedirs {"../API"}
 		--buildoptions {"-std=c89 -pedantic -Wall -Weverything"}
 
-		configuration "Release*"
+		configuration "release*"
 			targetdir "lib/release"
 
-		configuration "Debug*"
+		configuration "debug*"
 			flags {"Symbols"}
 			targetdir "lib/debug"
 
-		configuration "*Dynamic*"
+		configuration "*dynamic*"
 			kind "SharedLib"
 
-		configuration "*Dynamic-Module"
+		configuration "*dynamic-module"
 			defines {"CPU_Z80_BUILD_MODULE_ABI"}
 
-		configuration "*Static*"
+		configuration "*static*"
 			kind "StaticLib"
 			defines {"CPU_Z80_STATIC"}
 
-		configuration "*Static-Module"
+		configuration "*static-module"
 			defines {"CPU_Z80_BUILD_ABI"}
