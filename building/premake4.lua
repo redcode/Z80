@@ -13,10 +13,11 @@ solution "Z80"
 
 		configuration "release*"
 			targetdir "lib/release"
+			flags {"Optimize"}
 
 		configuration "debug*"
-			flags {"Symbols"}
 			targetdir "lib/debug"
+			flags {"Symbols"}
 
 		configuration "*dynamic*"
 			kind "SharedLib"
