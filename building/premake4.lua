@@ -23,11 +23,11 @@ solution "Z80"
 			kind "SharedLib"
 
 		configuration "*dynamic-module"
-			defines {"CPU_Z80_BUILD_MODULE_ABI"}
+			defines {"CPU_Z80_WITH_MODULE_ABI"}
 
 		configuration "*static*"
 			kind "StaticLib"
 			defines {"CPU_Z80_STATIC"}
 
 		configuration "*static-module"
-			defines {"CPU_Z80_BUILD_ABI"}
+			defines {"CPU_Z80_WITH_ABI"}

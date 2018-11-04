@@ -28,11 +28,11 @@ this library. If not, see <http://www.gnu.org/licenses/>. */
 #	define CPU_Z80_API Z_API_EXPORT
 #endif
 
-#if defined(CPU_Z80_BUILD_ABI) || defined(CPU_Z80_BUILD_MODULE_ABI)
-#	ifndef CPU_Z80_USE_ABI
-#		define CPU_Z80_USE_ABI
-#	endif
+#if defined(CPU_Z80_WITH_MODULE_ABI) && !defined(CPU_Z80_WITH_ABI)
+#	define CPU_Z80_WITH_ABI
+#endif
 
+#ifdef CPU_Z80_WITH_ABI
 #	if defined(CPU_Z80_HIDE_ABI)
 #		define CPU_Z80_ABI static
 #	elif defined(CPU_Z80_STATIC)
@@ -1603,7 +1603,7 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 
 /* MARK: - ABI */
 
-#if defined(CPU_Z80_BUILD_ABI) || defined(CPU_Z80_BUILD_MODULE_ABI)
+#ifdef CPU_Z80_WITH_ABI
 
 	static void will_read_state(Z80 *object) {R  = R_ALL;}
 	static void did_write_state(Z80 *object) {R7 = R;    }
@@ -1641,7 +1641,7 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 
 #endif
 
-#if defined(CPU_Z80_BUILD_MODULE_ABI)
+#ifdef CPU_Z80_WITH_MODULE_ABI
 
 #	include <Z/ABIs/generic/module.h>
 

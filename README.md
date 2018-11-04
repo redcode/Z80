@@ -42,13 +42,12 @@ There are some predefined macros that control the compilation:
 Name | Description
 --- | ---
 `CPU_Z80_DEPENDENCIES_H` | If defined, `Z80.h` will `#include` only this header as dependency. If you don't want to use Z, you can provide your own header with the types and macros used by the emulator.
-`CPU_Z80_BUILD_ABI` | Builds the generic CPU emulator ABI.
-`CPU_Z80_BUILD_MODULE_ABI` | Builds the generic module ABI. This macro also enables CPU_Z80_BUILD_ABI, so the generic CPU emulator ABI will be built too. This option is intended to be used when building a true module loadable at runtime with `dlopen()`, `LoadLibrary()` or similar. The ABI module can be accessed via the [weak symbol](https://en.wikipedia.org/wiki/Weak_symbol) `__module_abi__`.
 `CPU_Z80_HIDE_ABI` | Makes the generic CPU emulator ABI private.
 `CPU_Z80_HIDE_API` | Makes the public functions private.
 `CPU_Z80_STATIC` | You need to define this to compile or use the emulator as a static library or if you have added `Z80.h` and `Z80.c` to your project.
-`CPU_Z80_USE_ABI` | Tells `Z80.h` to declare the prototype of the generic CPU emulator ABI.
 `CPU_Z80_USE_LOCAL_HEADER` | Use this if you have imported `Z80.h` and `Z80.c` to your project. `Z80.c` will `#include "Z80.h"` instead of `<emulation/CPU/Z80.h>`.
+`CPU_Z80_WITH_ABI` | Builds the generic CPU emulator ABI and declares its prototype in `Z80.h`.
+`CPU_Z80_WITH_MODULE_ABI` | Builds the generic module ABI. This macro also enables CPU_Z80_BUILD_ABI, so the generic CPU emulator ABI will be built too. This option is intended to be used when building a true module loadable at runtime with `dlopen()`, `LoadLibrary()` or similar. The ABI module can be accessed via the [weak symbol](https://en.wikipedia.org/wiki/Weak_symbol) `__module_abi__`.
 
 <br>
 
