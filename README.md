@@ -28,10 +28,10 @@ There is also an Xcode project in `development/Xcode` with several targets:
 
 Target | Description
 --- | ---
-dynamic | Shared library.
-dynamic-module  | Shared library with a generic module ABI to be used in modular multi-machine emulators.
-static | Static library.
-static-module | Static library with a generic CPU emulator ABI to be used in monolithic multi-machine emulators.
+Z80 (dynamic) | Shared library.
+Z80 (dynamic module)  | Shared library with a generic module ABI to be used in modular multi-machine emulators.
+Z80 (static) | Static library.
+Z80 (static module) | Static library with a generic CPU emulator ABI to be used in monolithic multi-machine emulators.
 
 <br>
 
