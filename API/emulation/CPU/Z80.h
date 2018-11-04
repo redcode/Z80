@@ -50,39 +50,6 @@ typedef struct {
 
 	void *context;
 
-	/** CPU registers and internal bits.
-	  * @details It contains the state of the registers, as well as the
-	  * interrupt flip-flops, variables related to interrupts and other
-	  * necessary flags. This is what a debugger should use as its data
-	  * source. */
-
-	ZZ80State state;
-
-	/** Temporay IX/IY register for instructions with DDh/FDh prefix.
-	  * @details Since instructions with prefix DD and FD behave similarly,
-	  * differing only in the use of register IX or IY, for reasons of size
-	  * optimization, a single register is used that acts as both. During
-	  * opcode analysis, the IX or IY register is copied to this variable
-	  * and, once the instruction emulation is complete, its contents are
-	  * copied back to the appropriate register. */
-
-	Z16Bit xy;
-
-	/** Backup of the 7th bit of the R register.
-	  * @details The value of the R register is incremented as instructions
-	  * are executed, but its most significant bit remains unchanged. For
-	  * optimization reasons, this bit is saved at the beginning of the
-	  * execution of @c z80_run and restored before returning. If an
-	  * instruction directly affects the R register, this variable is also
-	  * updated accordingly. */
-
-	zuint8 r7;
-
-	/** Temporary storage for opcode fetching.
-	  * @details This is an internal private variable. */
-
-	Z32Bit data;
-
 	/** Callback: Called when the CPU needs to read 8 bits from memory.
 	  * @param context The value of the member @c context.
 	  * @param address The memory address to read from.
@@ -126,6 +93,39 @@ typedef struct {
 	  * used. */
 
 	void (* halt)(void *context, zboolean state);
+
+	/** CPU registers and internal bits.
+	  * @details It contains the state of the registers, as well as the
+	  * interrupt flip-flops, variables related to interrupts and other
+	  * necessary flags. This is what a debugger should use as its data
+	  * source. */
+
+	ZZ80State state;
+
+	/** Backup of the 7th bit of the R register.
+	  * @details The value of the R register is incremented as instructions
+	  * are executed, but its most significant bit remains unchanged. For
+	  * optimization reasons, this bit is saved at the beginning of the
+	  * execution of @c z80_run and restored before returning. If an
+	  * instruction directly affects the R register, this variable is also
+	  * updated accordingly. */
+
+	zuint8 r7;
+
+	/** Temporay IX/IY register for instructions with DDh/FDh prefix.
+	  * @details Since instructions with prefix DD and FD behave similarly,
+	  * differing only in the use of register IX or IY, for reasons of size
+	  * optimization, a single register is used that acts as both. During
+	  * opcode analysis, the IX or IY register is copied to this variable
+	  * and, once the instruction emulation is complete, its contents are
+	  * copied back to the appropriate register. */
+
+	Z16Bit xy;
+
+	/** Temporary storage for opcode fetching.
+	  * @details This is an internal private variable. */
+
+	Z32Bit data;
 } Z80;
 
 Z_C_SYMBOLS_BEGIN
