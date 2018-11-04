@@ -77,38 +77,6 @@ The value used as the first argument when calling a callback.
 This variable should be initialized before using the emulator and can be used to reference the context/instance of the machine being emulated.  
 <br>
 ```C
-ZZ80State state;
-```
-**Description**  
-CPU registers and internal bits.  
-**Details**  
-It contains the state of the registers, as well as the interrupt flip-flops, variables related to interrupts and other necessary flags. This is what a debugger should use as data source.  
-<br>
-```C
-Z16Bit xy;
-```
-**Description**  
-Temporay IX/IY register for instructions with DDh/FDh prefix.  
-**Details**  
-Since instructions with prefix DD and FD behave similarly, differing only in the use of register IX or IY, for reasons of size optimization, a single register is used that acts as both. During opcode analysis, the IX or IY register is copied to this variable and, once the instruction emulation is complete, its contents are copied back to the appropriate register.  
-<br>
-```C
-zuint8 r7;
-```
-**Description**  
-Backup of the 7th bit of the R register.  
-**Details**  
-The value of the R register is incremented as instructions are executed, but its most significant bit remains unchanged. For optimization reasons, this bit is saved at the beginning of the execution of `z80_run` and restored before returning. If an instruction directly affects the R register, this variable is also updated accordingly.  
-<br>
-```C
-Z32Bit data;
-```
-**Description**  
-Temporary storage for opcode fetching.  
-**Details**  
-This is an internal private variable.  
-<br>
-```C
 zuint8 (* read)(void *context, zuint16 address);
 ```
 **Description**  
@@ -169,7 +137,39 @@ Callback: Called when the CPU enters or exits the halt state.
 This callback is **optional** and must be set to `NULL` if not used.  
 **Parameters**  
 `context` → The value of the member `context`.  
-`state` → `TRUE` if halted; `FALSE` otherwise.
+`state` → `TRUE` if halted; `FALSE` otherwise.  
+<br>
+```C
+ZZ80State state;
+```
+**Description**  
+CPU registers and internal bits.  
+**Details**  
+It contains the state of the registers, as well as the interrupt flip-flops, variables related to interrupts and other necessary flags. This is what a debugger should use as data source.  
+<br>
+```C
+zuint8 r7;
+```
+**Description**  
+Backup of the 7th bit of the R register.  
+**Details**  
+The value of the R register is incremented as instructions are executed, but its most significant bit remains unchanged. For optimization reasons, this bit is saved at the beginning of the execution of `z80_run` and restored before returning. If an instruction directly affects the R register, this variable is also updated accordingly.  
+<br>
+```C
+Z16Bit xy;
+```
+**Description**  
+Temporay IX/IY register for instructions with DDh/FDh prefix.  
+**Details**  
+Since instructions with prefix DD and FD behave similarly, differing only in the use of register IX or IY, for reasons of size optimization, a single register is used that acts as both. During opcode analysis, the IX or IY register is copied to this variable and, once the instruction emulation is complete, its contents are copied back to the appropriate register.  
+<br>
+```C
+Z32Bit data;
+```
+**Description**  
+Temporary storage for opcode fetching.  
+**Details**  
+This is an internal private variable.  
 <br><br>
 
 ### Public Functions
