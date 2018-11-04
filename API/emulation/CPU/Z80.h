@@ -111,11 +111,10 @@ typedef struct {
 
 	void (* out)(void *context, zuint16 port, zuint8 value);
 
-	/** Callback: Called when the CPU starts executing a maskable interrupt
-	  * and the interrupt mode is 0. This callback must return the bytes of
-	  * the instruction that the CPU would read from the data bus in this case.
+	/** Callback: Called when the CPU needs to read one instruction from
+	  * the data bus to service a maskable interrupt (INT) in mode 0.
 	  * @param context The value of the member @c context.
-	  * @return A 32-bit value containing the bytes of an instruction. The
+	  * @return A 32-bit value containing the bytes of one instruction. The
 	  * instruction must begin at the most significant byte (big endian). */
 
 	zuint32 (* int_data)(void *context);
@@ -161,13 +160,13 @@ CPU_Z80_API void z80_reset(Z80 *object);
 
 CPU_Z80_API zusize z80_run(Z80 *object, zusize cycles);
 
-/** Performs a non-maskable interrupt.
+/** Performs a non-maskable interrupt (NMI).
   * @details This is equivalent to a pulse in the NMI line of a real Z80.
   * @param object A pointer to a Z80 emulator instance object. */
 
 CPU_Z80_API void z80_nmi(Z80 *object);
 
-/** Changes the state of the maskable interrupt.
+/** Changes the state of the maskable interrupt (INT).
   * @details This is equivalent to a change in the INT line of a real Z80.
   * @param object A pointer to a Z80 emulator instance object.
   * @param state @c TRUE = line high; @c FALSE = line low. */
