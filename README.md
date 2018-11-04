@@ -21,7 +21,7 @@ If you preffer to build the emulator as a library, you can use [premake4](https:
 $ cd building
 $ premake4 gmake                         # generate Makefile
 $ make help                              # list available targets
-$ make [config=<configuration>] <target> # build the emulator
+$ make [config=<configuration>] [target] # build the emulator
 ```
 
 There is also an Xcode project in `development/Xcode` with several targets:
