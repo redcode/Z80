@@ -10,9 +10,9 @@
 		6428A5751AAFC6DF00634F5D /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6428A5771AAFC72900634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; };
 		6428A5801AAFEF1D00634F5D /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_STATIC"; }; };
-		648C13AF1CCDFA8D00C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_BUILD_MODULE_ABI"; }; };
+		648C13AF1CCDFA8D00C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_WITH_MODULE_ABI"; }; };
 		648C13B21CCDFA8D00C8DCE1 /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		648C13C31CCDFBEF00C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_STATIC -DCPU_Z80_BUILD_ABI"; }; };
+		648C13C31CCDFBEF00C8DCE1 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 6428A5761AAFC72900634F5D /* Z80.c */; settings = {COMPILER_FLAGS = "-DCPU_Z80_STATIC -DCPU_Z80_WITH_ABI"; }; };
 		64F8E3361CD656DA0083A613 /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		64F8E3371CD656DB0083A613 /* Z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 6428A5741AAFC6DF00634F5D /* Z80.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -22,7 +22,7 @@
 		6428A5741AAFC6DF00634F5D /* Z80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Z80.h; sourceTree = "<group>"; };
 		6428A5761AAFC72900634F5D /* Z80.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Z80.c; sourceTree = "<group>"; };
 		6428A57C1AAFEDED00634F5D /* libZ80.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZ80.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		648C13B61CCDFA8D00C8DCE1 /* Z80.CPU */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = Z80.CPU; sourceTree = BUILT_PRODUCTS_DIR; };
+		648C13B61CCDFA8D00C8DCE1 /* libZ80.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libZ80.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		648C13C91CCDFBEF00C8DCE1 /* libZ80.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZ80.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -72,7 +72,7 @@
 			children = (
 				6428A5691AAFC68700634F5D /* libZ80.dylib */,
 				6428A57C1AAFEDED00634F5D /* libZ80.a */,
-				648C13B61CCDFA8D00C8DCE1 /* Z80.CPU */,
+				648C13B61CCDFA8D00C8DCE1 /* libZ80.dylib */,
 				648C13C91CCDFBEF00C8DCE1 /* libZ80.a */,
 			);
 			name = Products;
@@ -182,7 +182,7 @@
 			);
 			name = "Z80 (dynamic module)";
 			productName = Z80;
-			productReference = 648C13B61CCDFA8D00C8DCE1 /* Z80.CPU */;
+			productReference = 648C13B61CCDFA8D00C8DCE1 /* libZ80.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		648C13C11CCDFBEF00C8DCE1 /* Z80 (static module) */ = {
@@ -393,8 +393,8 @@
 		6428A56E1AAFC68700634F5D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.0.0;
+				DYLIB_COMPATIBILITY_VERSION = 0;
+				DYLIB_CURRENT_VERSION = 0.1.0;
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Z80;
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/emulation/CPU;
@@ -404,8 +404,8 @@
 		6428A56F1AAFC68700634F5D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.0.0;
+				DYLIB_COMPATIBILITY_VERSION = 0;
+				DYLIB_CURRENT_VERSION = 0.1.0;
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Z80;
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/emulation/CPU;
@@ -431,12 +431,9 @@
 		648C13B41CCDFA8D00C8DCE1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.0.0;
-				DYLIB_INSTALL_NAME_BASE = "";
-				EXECUTABLE_EXTENSION = CPU;
-				INSTALL_PATH = /usr/local/lib/modules/emulation/CPU;
-				LD_DYLIB_INSTALL_NAME = "$(EXECUTABLE_PATH)";
+				DYLIB_COMPATIBILITY_VERSION = 0;
+				DYLIB_CURRENT_VERSION = 0.1.0;
+				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Z80;
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/emulation/CPU;
 			};
@@ -445,12 +442,9 @@
 		648C13B51CCDFA8D00C8DCE1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.0.0;
-				DYLIB_INSTALL_NAME_BASE = "";
-				EXECUTABLE_EXTENSION = CPU;
-				INSTALL_PATH = /usr/local/lib/modules/emulation/CPU;
-				LD_DYLIB_INSTALL_NAME = "$(EXECUTABLE_PATH)";
+				DYLIB_COMPATIBILITY_VERSION = 0;
+				DYLIB_CURRENT_VERSION = 0.1.0;
+				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Z80;
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/emulation/CPU;
 			};
