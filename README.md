@@ -95,7 +95,7 @@ Callback: Called when the CPU needs to write 8 bits to memory.
 **Parameters**  
 `context` → The value of the member `context`.  
 `address` → The memory address to write to.  
-`value` → The value to write.
+`value` → The value to write.  
 <br>
 ```C
 zuint8 (* in)(void *context, zuint16 port);
@@ -170,7 +170,7 @@ Z32Bit data;
 Temporary storage for opcode fetching.  
 **Details**  
 This is an internal private variable.  
-<br><br>
+<br>
 
 ### Public Functions
 
