@@ -172,7 +172,7 @@ This callback is **optional** and must be set to `NULL` if not used.
 `state` → `TRUE` if halted; `FALSE` otherwise.
 <br><br>
 
-### Functions
+### Public Functions
 
 ```C
 void z80_power(Z80 *object, zboolean state);
