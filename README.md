@@ -58,7 +58,7 @@ Name | Description
 
 This structure contains the state of the emulated CPU and callback pointers necessary to interconnect the emulator with external logic. There is no constructor function, so, before using an object of this type, some of its members must be initialized, in particular the following: `context`, `read`, `write`, `in`, `out`, `int_data` and `halt`.  
 
-Descriptions of each member follow:  
+Member descriptions:  
 <br>
 ```C
 zusize cycles;
@@ -154,7 +154,7 @@ Callback: Called when the CPU needs to write 8 bits to an I/O port.
 zuint32 (* int_data)(void *context);
 ```
 **Description**  
-Callback: Called when the CPU starts executing a maskable interrupt and the interrupt mode is 0. This callback must return the bytes of the instruction that the CPU would read from the data bus in this case.  
+Callback: Called when the CPU needs to read one instruction from the data bus to service a maskable interrupt (`INT`) in mode 0.  
 **Parameters**  
 `context` → The value of the member `context`.  
 **Returns**  
@@ -229,5 +229,5 @@ This is equivalent to a change in the `INT` line of a real Z80.
 
 <br>
 
-## Use in Non-Free / Proprietary Software
-This library is released under the terms of the [GNU General Public License v3](https://www.gnu.org/copyleft/gpl.html), but I can license it for non-free projects if you contact [me](mailto:contact@zxe.io?subject=Z80%20non-free%20licensing).
+## Use in Proprietary Software
+This library is released under the terms of the [GNU General Public License v3](https://www.gnu.org/copyleft/gpl.html), but I can license it for non-free/propietary projects if you contact [me](mailto:contact@zxe.io?subject=Z80%20non-free%20licensing).

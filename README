@@ -27,17 +27,17 @@ Building
 
   There is also an Xcode project in "development/Xcode" with several targets:
 
-  dynamic
+  Z80 (dynamic)
     Shared library.
 
-  dynamic-module
+  Z80 (dynamic module)
     Shared library with a generic module ABI to be used in modular multi-machine
     emulators.
 
-  static
+  Z80 (static)
     Static library.
 
-  static-module
+  Z80 (static module)
     Static library  with a  generic CPU  emulator ABI to  be used  in monolithic
     multi-machine emulators.
 
@@ -80,8 +80,8 @@ Code configuration
     #include "Z80.h" instead of <emulation/CPU/Z80.h>.
 
 
-Use in Non-Free / Proprietary Software
-======================================
+Use in Proprietary Software
+===========================
 
   This library is released under the terms of the GNU General Public License v3,
-  but I can license it for non-free projects if you contact me.
+  but I can license it for non-free/propietary projects if you contact me.
