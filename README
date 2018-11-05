@@ -5,8 +5,8 @@
 Zilog \/_____/\/_____/\/_____/ CPU Emulator v0.1
 Copyright (C) 1999-2018 Manuel Sainz de Baranda y Goñi <manuel@zxe.io>
 
-This is a  very accurate Z80 emulator  that I wrote many years ago.  It is fast,
-small, easy to understand, and the code is profusely commented.
+This is a Zilog Z80 CPU emulator that I wrote many years ago. It is fast, small,
+easy to understand, and the code is profusely commented.
 
 
 Building
