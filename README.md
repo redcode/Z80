@@ -206,7 +206,7 @@ The number of cycles executed.
 void z80_nmi(Z80 *object);
 ```
 **Description**  
-Performs a non-maskable interrupt.  
+Performs a non-maskable interrupt (NMI).  
 **Details**  
 This is equivalent to a pulse in the `NMI` line of a real Z80.  
 **Parameters**  
@@ -216,7 +216,7 @@ This is equivalent to a pulse in the `NMI` line of a real Z80.
 void z80_int(Z80 *object, zboolean state);
 ```
 **Description**  
-Changes the state of the maskable interrupt.  
+Changes the state of the maskable interrupt (INT).  
 **Details**  
 This is equivalent to a change in the `INT` line of a real Z80.  
 **Parameters**  
