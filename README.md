@@ -185,7 +185,7 @@ void z80_reset(Z80 *object);
 **Description**  
 Resets the CPU.  
 **Details**  
-This is equivalent to a pulse in the `RESET` line of a real Z80.  
+This is equivalent to a pulse on the `RESET` line of a real Z80.  
 **Parameters**  
 `object` → A pointer to a Z80 emulator instance.  
 
@@ -208,7 +208,7 @@ void z80_nmi(Z80 *object);
 **Description**  
 Performs a non-maskable interrupt (NMI).  
 **Details**  
-This is equivalent to a pulse in the `NMI` line of a real Z80.  
+This is equivalent to a pulse on the `NMI` line of a real Z80.  
 **Parameters**  
 `object` → A pointer to a Z80 emulator instance.  
 
@@ -218,7 +218,7 @@ void z80_int(Z80 *object, zboolean state);
 **Description**  
 Changes the state of the maskable interrupt (INT).  
 **Details**  
-This is equivalent to a change in the `INT` line of a real Z80.  
+This is equivalent to a change on the `INT` line of a real Z80.  
 **Parameters**  
 `object` → A pointer to a Z80 emulator instance.  
 `state` → `TRUE` = line high; `FALSE` = line low.  
