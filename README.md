@@ -53,7 +53,7 @@ Name | Description
 
 ## API
 
-### The `Z80` emulator instance object
+### `Z80` emulator instance
 
 This structure contains the state of the emulated CPU and callback pointers necessary to interconnect the emulator with external logic. There is no constructor function, so, before using an object of this type, some of its members must be initialized, in particular the following: `context`, `read`, `write`, `in`, `out`, `int_data` and `halt`.  
 <br>
@@ -177,7 +177,7 @@ void z80_power(Z80 *object, zboolean state);
 **Description**  
 Changes the CPU power status.  
 **Parameters**  
-`object` → A pointer to a `Z80` emulator instance object.  
+`object` → A pointer to a Z80 emulator instance.  
 `state` → `TRUE` = power ON; `FALSE` = power OFF.  
 <br>
 ```C
@@ -188,7 +188,7 @@ Resets the CPU.
 **Details**  
 This is equivalent to a pulse in the `RESET` line of a real Z80.  
 **Parameters**  
-`object` → A pointer to a `Z80` emulator instance object.  
+`object` → A pointer to a Z80 emulator instance.  
 <br>
 ```C
 zusize z80_run(Z80 *object, zusize cycles);
@@ -198,7 +198,7 @@ Runs the CPU for a given number of `cycles`.
 **Note**  
 Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it's not always possible to run the CPU the exact number of `cycles` specfified.  
 **Parameters**  
-`object` → A pointer to a `Z80` emulator instance object.  
+`object` → A pointer to a Z80 emulator instance.  
 `cycles` → The number of `cycles` to be executed.  
 **Returns**  
 The number of cycles executed.  
@@ -211,7 +211,7 @@ Performs a non-maskable interrupt.
 **Details**  
 This is equivalent to a pulse in the `NMI` line of a real Z80.  
 **Parameters**  
-`object` → A pointer to a `Z80` emulator instance object.  
+`object` → A pointer to a Z80 emulator instance.  
 <br>
 ```C
 void z80_int(Z80 *object, zboolean state);
@@ -221,7 +221,7 @@ Changes the state of the maskable interrupt.
 **Details**  
 This is equivalent to a change in the `INT` line of a real Z80.  
 **Parameters**  
-`object` → A pointer to a `Z80` emulator instance object.  
+`object` → A pointer to a Z80 emulator instance.  
 `state` → `TRUE` = line high; `FALSE` = line low.  
 
 <br>
