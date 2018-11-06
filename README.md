@@ -166,6 +166,7 @@ Temporary storage for opcode fetching.
 **Details**  
 This is an internal private variable.  
 
+<br>
 
 ## API: Public Functions
 
