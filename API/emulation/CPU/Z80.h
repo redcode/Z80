@@ -146,7 +146,7 @@ CPU_Z80_API void z80_power(Z80 *object, zboolean state);
 
 /** Resets the CPU.
   * @details This is equivalent to a pulse in the RESET line of a real Z80.
-  * @param object A pointer to a Z80 emulator instance object. */
+  * @param object A pointer to a Z80 emulator instance. */
 
 CPU_Z80_API void z80_reset(Z80 *object);
 
