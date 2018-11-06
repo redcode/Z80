@@ -36,8 +36,8 @@ this emulator. If not, see <http://www.gnu.org/licenses/>. */
 typedef struct {
 
 	/** Number of cycles executed in the current call to @c z80_run.
-	  * @details @c z80run sets this variable to 0 before starting to
-	  * execute instructions and its value persists after returning.
+	  * @details @c z80run sets this variable to @c 0 before starting
+	  * to execute instructions and its value persists after returning.
 	  * The callbacks can use this variable to know during what cycle
 	  * they are being called. */
 
@@ -112,13 +112,13 @@ typedef struct {
 
 	zuint8 r7;
 
-	/** Temporay IX/IY register for instructions with DDh/FDh prefix.
-	  * @details Since instructions with prefix DD and FD behave similarly,
-	  * differing only in the use of register IX or IY, for reasons of size
-	  * optimization, a single register is used that acts as both. During
-	  * opcode analysis, the IX or IY register is copied to this variable
-	  * and, once the instruction emulation is complete, its contents are
-	  * copied back to the appropriate register. */
+	/** Temporay IX/IY register for instructions with @c DDh/FDh prefix.
+	  * @details Since instructions with prefix @c DDh and @c FDh behave
+	  * similarly, differing only in the use of register IX or IY, for
+	  * reasons of size optimization, a single register is used that acts
+	  * as both. During opcode analysis, the IX or IY register is copied
+	  * to this variable and, once the instruction emulation is complete,
+	  * its contents are copied back to the appropriate register. */
 
 	Z16Bit xy;
 
