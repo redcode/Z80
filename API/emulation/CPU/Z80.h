@@ -26,7 +26,7 @@ this emulator. If not, see <http://www.gnu.org/licenses/>. */
 #	include <Z/hardware/CPU/architecture/Z80.h>
 #endif
 
-/** Z80 emulator instance object.
+/** Z80 emulator instance.
   * @details This structure contains the state of the emulated CPU and callback
   * pointers necessary to interconnect the emulator with external logic. There
   * is no constructor function, so, before using an object of this type, some
@@ -139,7 +139,7 @@ Z_C_SYMBOLS_BEGIN
 #endif
 
 /** Changes the CPU power status.
-  * @param object A pointer to a Z80 emulator instance object.
+  * @param object A pointer to a Z80 emulator instance.
   * @param state @c TRUE = power ON; @c FALSE = power OFF. */
 
 CPU_Z80_API void z80_power(Z80 *object, zboolean state);
@@ -151,7 +151,7 @@ CPU_Z80_API void z80_power(Z80 *object, zboolean state);
 CPU_Z80_API void z80_reset(Z80 *object);
 
 /** Runs the CPU for a given number of @p cycles.
-  * @param object A pointer to a Z80 emulator instance object.
+  * @param object A pointer to a Z80 emulator instance.
   * @param cycles The number of cycles to be executed.
   * @return The number of cycles executed.
   * @note Given the fact that one Z80 instruction needs between 4 and 23 cycles
@@ -162,13 +162,13 @@ CPU_Z80_API zusize z80_run(Z80 *object, zusize cycles);
 
 /** Performs a non-maskable interrupt (NMI).
   * @details This is equivalent to a pulse in the NMI line of a real Z80.
-  * @param object A pointer to a Z80 emulator instance object. */
+  * @param object A pointer to a Z80 emulator instance. */
 
 CPU_Z80_API void z80_nmi(Z80 *object);
 
 /** Changes the state of the maskable interrupt (INT).
   * @details This is equivalent to a change in the INT line of a real Z80.
-  * @param object A pointer to a Z80 emulator instance object.
+  * @param object A pointer to a Z80 emulator instance.
   * @param state @c TRUE = line high; @c FALSE = line low. */
 
 CPU_Z80_API void z80_int(Z80 *object, zboolean state);
