@@ -149,7 +149,7 @@ static Z_INLINE void write_16bit(Z80 *object, zuint16 address, zuint16 value)
 
 #define SZPF (SF | ZF | PF)
 #define SYXF (SF | YF | XF)
-#define ZPF  (ZF | PF     )
+#define ZPF  (ZF | PF	  )
 #define YXCF (YF | XF | CF)
 #define YXF  (YF | XF	  )
 #define PNF  (PF | NF	  )
