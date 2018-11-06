@@ -198,7 +198,7 @@ Runs the CPU for a given number of `cycles`.
 Given the fact that one Z80 instruction needs between 4 and 23 cycles to be executed, it's not always possible to run the CPU the exact number of `cycles` specfified.  
 **Parameters**  
 `object` → A pointer to a Z80 emulator instance.  
-`cycles` → The number of `cycles` to be executed.  
+`cycles` → The number of cycles to be executed.  
 **Returns**  
 The number of cycles executed.  
 
