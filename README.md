@@ -51,9 +51,7 @@ Name | Description
 
 <br>
 
-## API
-
-### `Z80` emulator instance
+## API: `Z80` emulator instance
 
 This structure contains the state of the emulated CPU and callback pointers necessary to interconnect the emulator with external logic. There is no constructor function, so, before using an object of this type, some of its members must be initialized, in particular the following: `context`, `read`, `write`, `in`, `out`, `int_data` and `halt`.  
 
@@ -169,7 +167,7 @@ Temporary storage for opcode fetching.
 This is an internal private variable.  
 
 
-### Public Functions
+## API: Public Functions
 
 ```C
 void z80_power(Z80 *object, zboolean state);
