@@ -17,8 +17,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received  a copy of the GNU General Public License  along with
 this emulator. If not, see <http://www.gnu.org/licenses/>. */
 
-#include <Z/macros/value.h>
-#include <Z/macros/pointer.h>
+#ifndef CPU_Z80_DEPENDENCIES_H
+#	include <Z/macros/value.h>
+#	include <Z/macros/pointer.h>
+#endif
 
 #if defined(CPU_Z80_HIDE_API)
 #	define CPU_Z80_API static
@@ -42,7 +44,7 @@ this emulator. If not, see <http://www.gnu.org/licenses/>. */
 #	endif
 #endif
 
-#if defined(CPU_Z80_USE_LOCAL_HEADER)
+#ifdef CPU_Z80_USE_LOCAL_HEADER
 #	include "Z80.h"
 #else
 #	include <emulation/CPU/Z80.h>
@@ -1643,7 +1645,9 @@ CPU_Z80_API void z80_int(Z80 *object, zboolean state) {INT = state;}
 
 #ifdef CPU_Z80_WITH_MODULE_ABI
 
-#	include <Z/ABIs/generic/module.h>
+#	ifndef CPU_Z80_DEPENDENCIES_H
+#		include <Z/ABIs/generic/module.h>
+#	endif
 
 	static ZModuleUnit const unit = {"Z80", "Z80", Z_VERSION(0, 1, 0), &abi_emulation_cpu_z80};
 	static ZModuleDomain const domain = {"Emulation.CPU", Z_VERSION(1, 0, 0), 1, &unit};
