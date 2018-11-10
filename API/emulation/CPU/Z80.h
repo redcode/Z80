@@ -1,8 +1,8 @@
 /*  ______   ______  ______
-   /\___  \ /\  __ \/\     \
-   \/__/  /_\ \  __ \ \  \  \
+   /\___  \ /\  __ \/\  __ \
+   \/__/  /_\ \  __ \ \ \/\ \
       /\_____\ \_____\ \_____\
-Zilog \/_____/\/_____/\/_____/ CPU Emulator
+Zilog \/_____/\/_____/\/_____/ CPU Emulator ----------------------------------
 Copyright (C) 1999-2018 Manuel Sainz de Baranda y Goñi.
 
 This emulator is free software: you can redistribute it and/or modify it under
@@ -15,7 +15,8 @@ ANY WARRANTY; without even the  implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received  a copy of the GNU General Public License  along with
-this emulator. If not, see <http://www.gnu.org/licenses/>. */
+this emulator. If not, see <http://www.gnu.org/licenses/>.
+--------------------------------------------------------------------------- */
 
 #ifndef _emulation_CPU_Z80_H_
 #define _emulation_CPU_Z80_H_
