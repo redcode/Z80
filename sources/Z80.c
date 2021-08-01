@@ -1118,10 +1118,19 @@ INSTRUCTION(scf)
 |  dec iy		<  FD  ><  2B  >		  ........  2 / 10  |
 '--------------------------------------------------------------------------*/
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Waddress-of-packed-member"
 INSTRUCTION(add_hl_SS) {PC++;	 ADD_RR_NN(HL, SS0)			 return 11;}
+#pragma GCC diagnostic pop
+
 INSTRUCTION(adc_hl_SS) {ADC_SBC_HL_SS(adc, +, (zuint32)v + c + HL > 65535, Z_EMPTY)}
 INSTRUCTION(sbc_hl_SS) {ADC_SBC_HL_SS(sbc, -, (zuint32)v + c > HL, | NF)	   }
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Waddress-of-packed-member"
 INSTRUCTION(add_XY_WW) {PC += 2; ADD_RR_NN(XY, WW)			 return 15;}
+#pragma GCC diagnostic pop
+
 INSTRUCTION(inc_SS)    {PC++;	 SS0++;					 return  6;}
 INSTRUCTION(inc_XY)    {PC += 2; XY++;					 return 10;}
 INSTRUCTION(dec_SS)    {PC++;	 SS0--;					 return  6;}
