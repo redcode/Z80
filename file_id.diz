@@ -1,0 +1,5 @@
+Z80 v0.2 - Fast, small and accurate emulator
+of the Zilog Z80. Version 0.2 implements all
+that is known to date about this CPU, passes
+all test suites and is carefully designed to
+fit most use cases.

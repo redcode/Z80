@@ -1,0 +1,72 @@
+name: Documentation CI
+
+on:
+  push:
+    paths:
+    - '.github/**'
+    - 'API/**'
+    - 'CMake/FindBreathe.cmake'
+    - 'CMake/FindSphinx.cmake'
+    - 'documentation/**'
+    - 'CMakeLists.txt'
+  pull_request:
+    paths:
+    - '.github/**'
+    - 'API/**'
+    - 'CMake/FindBreathe.cmake'
+    - 'CMake/FindSphinx.cmake'
+    - 'documentation/**'
+    - 'CMakeLists.txt'
+
+env:
+  BUILD_SHARED_LIBS: NO
+  CMAKE_BUILD_TYPE: Release
+  CMAKE_VERBOSE_MAKEFILE: YES
+  Z80_DOWNLOAD_TEST_FILES: NO
+  Z80_WITH_CMAKE_SUPPORT: NO
+  Z80_WITH_HTML_DOCUMENTATION: YES
+  Z80_WITH_PDF_DOCUMENTATION: YES
+  Z80_WITH_PKGCONFIG_SUPPORT: NO
+  Z80_WITH_STANDARD_DOCUMENTS: NO
+  Z80_WITH_TESTS: NO
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Build Tools
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install doxygen
+        sudo apt-get -y install python3-pip
+        sudo apt-get -y install texlive-full
+        pip3 install --user sphinx
+        pip3 install --user breathe
+
+    - name: Install Dependencies
+      run: |
+        mkdir -p ${{github.workspace}}/build
+        curl -L http://zeta.st/downloads/Zeta-latest.tar.xz | xz -cd | tar -C ${{github.workspace}}/build --strip-components=2 -xvf - Zeta/API/Z
+
+    - name: Configure CMake
+      run: >
+        cmake -B ${{github.workspace}}/build
+        -DBUILD_SHARED_LIBS=${{env.BUILD_SHARED_LIBS}}
+        -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}}
+        -DCMAKE_VERBOSE_MAKEFILE=${{env.CMAKE_VERBOSE_MAKEFILE}}
+        -DZ80_DOWNLOAD_TEST_FILES=${{env.Z80_DOWNLOAD_TEST_FILES}}
+        -DZ80_WITH_CMAKE_SUPPORT=${{env.Z80_WITH_CMAKE_SUPPORT}}
+        -DZ80_WITH_HTML_DOCUMENTATION=${{env.Z80_WITH_HTML_DOCUMENTATION}}
+        -DZ80_WITH_PDF_DOCUMENTATION=${{env.Z80_WITH_PDF_DOCUMENTATION}}
+        -DZ80_WITH_PKGCONFIG_SUPPORT=${{env.Z80_WITH_PKGCONFIG_SUPPORT}}
+        -DZ80_WITH_STANDARD_DOCUMENTS=${{env.Z80_WITH_STANDARD_DOCUMENTS}}
+        -DZ80_WITH_TESTS=${{env.Z80_WITH_TESTS}}
+
+    - name: Build HTML Documentation
+      run: cmake --build ${{github.workspace}}/build --config ${{env.CMAKE_BUILD_TYPE}} --target Documentation-HTML
+
+    - name: Build PDF Documentation
+      run: cmake --build ${{github.workspace}}/build --config ${{env.CMAKE_BUILD_TYPE}} --target Documentation-PDF

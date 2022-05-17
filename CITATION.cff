@@ -1,0 +1,22 @@
+abstract: "Zilog Z80 CPU emulator."
+authors:
+  - family-names: "Sainz de Baranda y Goñi"
+    given-names: "Manuel"
+    orcid: "https://orcid.org/0000-0001-6326-3519"
+    email: "manuel@zxe.io"
+    website: "https://zxe.io"
+cff-version: 1.2.0
+date-released: "2022-05-29"
+keywords:
+  - CPU
+  - LLE
+  - Z80
+  - Zilog
+  - emulator
+license: LGPL-3.0-or-later
+message: "If you use this software, please cite it using these metadata."
+repository-code: "https://github.com/redcode/Z80"
+title: "Z80"
+type: software
+version: 0.2
+url: "https://zxe.io/software/Z80"

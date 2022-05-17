@@ -1,0 +1,92 @@
+name: Library CI
+
+on:
+  push:
+    paths:
+    - '.github/**'
+    - 'API/**'
+    - 'CMake/FindZeta.cmake'
+    - 'sources/**'
+    - 'support/*.sha512sum'
+    - 'CMakeLists.txt'
+  pull_request:
+    paths:
+    - '.github/**'
+    - 'API/**'
+    - 'CMake/FindZeta.cmake'
+    - 'sources/**'
+    - 'support/*.sha512sum'
+    - 'CMakeLists.txt'
+
+env:
+  BUILD_SHARED_LIBS: YES
+  CMAKE_BUILD_TYPE: Release
+  CMAKE_VERBOSE_MAKEFILE: YES
+  Z80_DOWNLOAD_TEST_FILES: YES
+  Z80_NOSTDLIB_FLAGS: Auto
+  Z80_WITH_CMAKE_SUPPORT: NO
+  Z80_WITH_HTML_DOCUMENTATION: NO
+  Z80_WITH_PDF_DOCUMENTATION: NO
+  Z80_WITH_PKGCONFIG_SUPPORT: NO
+  Z80_WITH_STANDARD_DOCUMENTS: NO
+  Z80_WITH_TESTS: YES
+  Z80_WITH_EXECUTE: YES
+  Z80_WITH_FULL_IM0: YES
+  Z80_WITH_Q: YES
+  Z80_WITH_RESET_SIGNAL: YES
+  Z80_WITH_SPECIAL_RESET_SIGNAL: NO
+  Z80_WITH_UNOFFICIAL_RETI: NO
+  Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG: YES
+
+jobs:
+  build:
+    runs-on: ${{matrix.os}}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Dependencies (POSIX)
+      if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
+      run: |
+        mkdir -p ${{github.workspace}}/build
+        curl -L http://zeta.st/downloads/Zeta-latest.tar.xz | xz -cd | tar -C ${{github.workspace}}/build --strip-components=2 -xvf - Zeta/API/Z
+
+    - name: Install Dependencies (Windows)
+      if: startsWith(matrix.os, 'windows')
+      shell: cmd
+      run: |
+        mkdir ${{github.workspace}}\build
+        curl -L http://zeta.st/downloads/Zeta-latest.tar.xz | 7z x -txz -si -so | 7z x -si -ttar -o${{github.workspace}}\build Zeta/API/Z
+
+    - name: Configure CMake
+      run: >
+        cmake -B ${{github.workspace}}/build
+        -DBUILD_SHARED_LIBS=${{env.BUILD_SHARED_LIBS}}
+        -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}}
+        -DCMAKE_VERBOSE_MAKEFILE=${{env.CMAKE_VERBOSE_MAKEFILE}}
+        -DZ80_DOWNLOAD_TEST_FILES=${{env.Z80_DOWNLOAD_TEST_FILES}}
+        -DZ80_NOSTDLIB_FLAGS=${{env.Z80_NOSTDLIB_FLAGS}}
+        -DZ80_WITH_CMAKE_SUPPORT=${{env.Z80_WITH_CMAKE_SUPPORT}}
+        -DZ80_WITH_HTML_DOCUMENTATION=${{env.Z80_WITH_HTML_DOCUMENTATION}}
+        -DZ80_WITH_PDF_DOCUMENTATION=${{env.Z80_WITH_PDF_DOCUMENTATION}}
+        -DZ80_WITH_PKGCONFIG_SUPPORT=${{env.Z80_WITH_PKGCONFIG_SUPPORT}}
+        -DZ80_WITH_STANDARD_DOCUMENTS=${{env.Z80_WITH_STANDARD_DOCUMENTS}}
+        -DZ80_WITH_TESTS=${{env.Z80_WITH_TESTS}}
+        -DZ80_WITH_EXECUTE=${{env.Z80_WITH_EXECUTE}}
+        -DZ80_WITH_FULL_IM0=${{env.Z80_WITH_FULL_IM0}}
+        -DZ80_WITH_Q=${{env.Z80_WITH_Q}}
+        -DZ80_WITH_RESET_SIGNAL=${{env.Z80_WITH_RESET_SIGNAL}}
+        -DZ80_WITH_SPECIAL_RESET_SIGNAL=${{env.Z80_WITH_SPECIAL_RESET_SIGNAL}}
+        -DZ80_WITH_UNOFFICIAL_RETI=${{env.Z80_WITH_UNOFFICIAL_RETI}}
+        -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=${{env.Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG}}
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.CMAKE_BUILD_TYPE}}
+
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      run: ctest --output-on-failure -C ${{env.CMAKE_BUILD_TYPE}}

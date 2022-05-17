@@ -6,3 +6,13 @@ end_of_line = lf
 indent_size = 8
 indent_style = tab
 trim_trailing_whitespace = true
+
+[*.{md,rst}]
+trim_trailing_whitespace = false
+
+[*.rc]
+charset = utf-8-bom
+
+[*.{cff,yml}]
+indent_size = 2
+indent_style = space

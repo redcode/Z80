@@ -1,3 +1,4 @@
-.directory
 .DS_Store
+.directory
 Thumbs.db
+build/
