@@ -2241,12 +2241,6 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 #				ifdef Z80_WITH_SPECIAL_RESET_SIGNAL
 					PC >>= REQUEST & Z80_REQUEST_CLEAR_PC;
-
-					/*----------------------------.
-					| RESET         -> RESET      |
-					| NMI           -> REJECT_NMI |
-					| SPECIAL_RESET -> CLEAR_PC   |
-					'----------------------------*/
 					REQUEST = (REQUEST & (Z80_REQUEST_ANY_RESET | Z80_REQUEST_NMI)) >> 1;
 #				else
 					REQUEST =
@@ -2272,19 +2266,6 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| following "ei" is executed. This is so that ISRs can return without the  |
 			| danger of being interrupted immediately after re-enabling interrupts if  |
 			| the /INT line is still active, which could cause a stack overflow.	   |
-			|									   |
-			| This behavior is also present in all forms of the the "reti" and "retn"
-			| instructions.
-			| interrupt acceptance for one instruction, but this only occurs when IFF1 |
-			| and IFF2 have different states prior to the execution of either of these |
-			| instructions. This was first documented by Andre Weissflog (AKA Floh) in |
-			| 2021 [1], and was later rediscovered by Manuel Sainz de Baranda y Goñi   |
-			| (AKA ZjoyKiLer) in 2022 [2,3].					   |
-			|									   |
-			| References:								   |
-			| 1. https://floooh.github.io/2021/12/17/cycle-stepped-z80.html
-			| 2. https://spectrumcomputing.co.uk/forums/viewtopic.php?p=91342#p91342   |
-			| 3. https://stardot.org.uk/forums/viewtopic.php?t=24662		   |
 			'=========================================================================*/
 			else if (
 #				ifdef Z80_WITH_SPECIAL_RESET_SIGNAL
