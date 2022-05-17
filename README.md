@@ -3,11 +3,11 @@
 	<b>Zilog Z80 CPU Emulator</b>
 </h1>
 <p align="center">
-  <a href="https://github.com/redcode/Z80-mainline/actions/workflows/library-ci.yml">
-    <img src="https://github.com/redcode/Z80-mainline/actions/workflows/library-ci.yml/badge.svg">
+  <a href="https://github.com/redcode/Z80/actions/workflows/library-ci.yml">
+    <img src="https://github.com/redcode/Z80/actions/workflows/library-ci.yml/badge.svg">
   </a>
-  <a href="https://github.com/redcode/Z80-mainline/actions/workflows/documentation-ci.yml">
-    <img src="https://github.com/redcode/Z80-mainline/actions/workflows/documentation-ci.yml/badge.svg">
+  <a href="https://github.com/redcode/Z80/actions/workflows/documentation-ci.yml">
+    <img src="https://github.com/redcode/Z80/actions/workflows/documentation-ci.yml/badge.svg">
   </a>
   <a href="https://discord.gg/zU4dkzp8Mv"><img alt="Discord" src="https://img.shields.io/discord/848534208129138738?color=5865F2&label=Discord&logo=discord&logoColor=white"/></a>
 </p>
