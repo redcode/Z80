@@ -1,5 +1,5 @@
 <h1 align="center">
-	<img src="http://zxe.io/software/Z80/images/Z80.svg"><br>
+	<img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Zilog_Z80.jpg"><br>
 	<b>Zilog Z80 CPU Emulator</b>
 </h1>
 <p align="center">
