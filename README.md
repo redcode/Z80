@@ -414,7 +414,6 @@ This emulator has been used by the following projects (listed in alphabetical or
 * [tihle: a unique TI calculator emulator](https://www.taricorp.net/2020/introducing-tihle/), _by [Peter Marheine](https://www.taricorp.net/about/)_ - [GitHub](https://github.com/tari/tihle), [GitLab](https://gitlab.com/taricorp/tihle)
 * [TileMap](https://simonowen.com/spectrum/tilemap/), _by [Simon Owen](https://simonowen.com/)_ - [GitHub](https://github.com/simonowen/tilemap)
 * [Zemu](https://github.com/jayvalentine/zemu), _by [Jay Valentine](https://jayvalentine.github.io/)_ - [GitHub](https://github.com/jayvalentine/zemu), [RubyGems](https://rubygems.org/gems/zemu)
-* Others...
 
 # Thanks
 
