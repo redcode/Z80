@@ -586,35 +586,6 @@ Many thanks to the following individuals (in alphabetical order):
 	* http://www.myquest.nl/z80undocumented
 	* http://www.myquest.nl/z80undocumented/z80-documented-v0.91.pdf
 
-# Thanks
-
-Alexander Molodtsov,
-boo_boo,
-CHRV,
-Dave Stevenson,
-Frank D. Cringle,
-goodboy,
-Goran Devic,
-[Ian Greenway](http://www.lasernet.plus.com),
-icebear,
-Manuel Sainz de Baranda y Romero,
-[Mario Rodríguez Palomino](https://github.com/r-lyeh),
-Mark Woodmass,
-[Miguel Ángel Rodríguez Jódar](https://github.com/mcleod-ideafix),
-[Patrik Rak](https://github.com/raxoft),
-[Pedro Gimeno Fortea](http://www.formauri.es/personal/pgimeno/),
-Sean Young,
-Simon Conway,
-Simon Cooke,
-Simon Owen,
-[Sofía Ortega Sosa](https://github.com/agaxia),
-Stuart Brady,
-Tony Brewer,
-Vladimir Kladov,
-Wlodek
-
-Read the [THANKS](THANKS) file for details.
-
 # License
 
 Copyright © 1999-2022 Manuel Sainz de Baranda y Goñi.
