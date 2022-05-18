@@ -422,69 +422,69 @@ Many thanks to the following individuals (in alphabetical order):
 * **Akimov, Vadim (lvd)**
 	* For testing the library on many different platforms and CPU architectures.
 * **azesmbog**
-	1. For validating tests on real hardware.<sup>[1](#r1)</sup>
+	1. For validating tests on real hardware. <sup>[1](#r1)</sup>
 	2. For his research on the unstable flag behavior of the `ccf/scf` instructions.
 	3. For his invaluable help.
 * **Banks, David (hoglet)**
-	1. For cracking the flag behavior of the block instructions.<sup>[2](#r2), [3](#r3)</sup>
-	2. For his research on the flag behavior of the `ccf/scf` instructions.<sup>[3](#r3)</sup>
+	1. For cracking the flag behavior of the block instructions. <sup>[2](#r2), [3](#r3)</sup>
+	2. For his research on the flag behavior of the `ccf/scf` instructions. <sup>[3](#r3)</sup>
 * **Beliansky, Anatoly (Tolik_Trek)**
-	* For validating tests on real hardware.<sup>[4](#r4)</sup>
+	* For validating tests on real hardware. <sup>[4](#r4)</sup>
 * **Bobrowski, Jan**  
-	* For fixing the _"Z80 Full Instruction Set Exerciser for Spectrum"_.<sup>[5](#r5)</sup>
+	* For fixing the _"Z80 Full Instruction Set Exerciser for Spectrum"_. <sup>[5](#r5)</sup>
 * **boo_boo**
-	* For cracking the behavior of the MEMPTR register.<sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
+	* For cracking the behavior of the MEMPTR register. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Brady, Stuart**
-	* For his research on the flag behavior of the `ccf/scf` instructions.<sup>[10](#r10)</sup>
+	* For his research on the flag behavior of the `ccf/scf` instructions. <sup>[10](#r10)</sup>
 * **Brewer, Tony**
-	1. For his research on the special RESET.<sup>[11](#r11)</sup>
-	2. For sharing information about the RESET signal.<sup>[12](#r12)</sup>
-	3. For helping to crack the flag behavior of the block instructions.<sup>[2](#r2)</sup>
-	4. For performing low-level tests on real hardware.<sup>[2](#r2)</sup>
+	1. For his research on the special RESET. <sup>[11](#r11)</sup>
+	2. For sharing information about the RESET signal. <sup>[12](#r12)</sup>
+	3. For helping to crack the flag behavior of the block instructions. <sup>[2](#r2)</sup>
+	4. For performing low-level tests on real hardware. <sup>[2](#r2)</sup>
 	5. For helping me to test different undocumented behaviors of the Zilog Z80.
 * **Bystrov, Dmitry (Alone Coder)**
-	* For validating tests on real hardware.<sup>[4](#r4)</sup>
+	* For validating tests on real hardware. <sup>[4](#r4)</sup>
 * **Chunin, Roman (CHRV)**
-	* For testing the behavior of the MEMPTR register on real Z80 chips.<sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
+	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Conway, Simon (BadBeard)**
-	* For validating the _"Z80 Test Suite"_ on several Z80 clones.<sup>[13](#r13)</sup>
+	* For validating the _"Z80 Test Suite"_ on several Z80 clones. <sup>[13](#r13)</sup>
 * **Cooke, Simon**
-	* For finding out how the `out (c),0` instruction behaves on the Zilog Z80 CMOS.<sup>[14](#r14)</sup>
+	* For finding out how the `out (c),0` instruction behaves on the Zilog Z80 CMOS. <sup>[14](#r14)</sup>
 * **Cringle, Frank D.**
-	* For writing the _"Z80 Instruction Set Exerciser"_.<sup>[15](#r15)</sup>
+	* For writing the _"Z80 Instruction Set Exerciser"_. <sup>[15](#r15)</sup>
 * **Devic, Goran**
-	* For his research on undocumented behaviors of the Z80 CPU.<sup>[16](#r16)</sup>
+	* For his research on undocumented behaviors of the Z80 CPU. <sup>[16](#r16)</sup>
 * **Flammenkamp, Achim**
-	* For his article on Z80 interrupts.<sup>[17](#r17)</sup>
+	* For his article on Z80 interrupts. <sup>[17](#r17)</sup>
 * **Gimeno Fortea, Pedro**
-	1. For his research work.<sup>[18](#r18)</sup>
-	2. For writing the first-ever ZX Spectrum emulator.<sup>[19](#r19), [20](#r20)</sup>
+	1. For his research work. <sup>[18](#r18)</sup>
+	2. For writing the first-ever ZX Spectrum emulator. <sup>[19](#r19), [20](#r20)</sup>
 * **goodboy**
-	* For testing the behavior of the MEMPTR register on real Z80 chips.<sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
+	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Greenway, Ian**
-	* For testing the flag behavior of the `ccf/scf` instructions on real hardware.<sup>[10](#r10), [21](#r21)</sup>
+	* For testing the flag behavior of the `ccf/scf` instructions on real hardware. <sup>[10](#r10), [21](#r21)</sup>
 * **Harston, Jonathan Graham**
-	1. For his technical documents about the Zilog Z80.<sup>[22](#r22), [23](#r23), [24](#r24)</sup>
-	2. For porting the _"Z80 Instruction Set Exerciser"_ to the ZX Spectrum.<sup>[25](#r25)</sup>
+	1. For his technical documents about the Zilog Z80. <sup>[22](#r22), [23](#r23), [24](#r24)</sup>
+	2. For porting the _"Z80 Instruction Set Exerciser"_ to the ZX Spectrum. <sup>[25](#r25)</sup>
 * **Helcmanovsky, Peter (Ped7g)**
 	1. For helping me to write the _"IN-MEMPTR"_ test.
-	2. For writing the _"Z80 Block Flags Test"_.<sup>[26](#r26), [27](#r27)</sup>
-	3. For writing the _"Z80 CCF SCF Outcome Stability"_ test.<sup>[27](#r27)</sup>
-	4. For writing the _"Z80 INT Skip"_ test.<sup>[27](#r27)</sup>
+	2. For writing the _"Z80 Block Flags Test"_. <sup>[26](#r26), [27](#r27)</sup>
+	3. For writing the _"Z80 CCF SCF Outcome Stability"_ test. <sup>[27](#r27)</sup>
+	4. For writing the _"Z80 INT Skip"_ test. <sup>[27](#r27)</sup>
 	5. For his research on the unstable flag behavior of the `ccf/scf` instructions.
 	6. For his invaluable help.
 * **icebear**
-	* For testing the behavior of the MEMPTR register on real Z80 chips.<sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
+	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Kladov, Vladimir**
-	* For cracking the behavior of the MEMPTR register.<sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
+	* For cracking the behavior of the MEMPTR register. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Krook, Magnus**
-	* For validating tests on real hardware.<sup>[28](#r28)</sup>
+	* For validating tests on real hardware. <sup>[28](#r28)</sup>
 * **London, Matthew**
 	* For validating tests on real hardware.
 * **Molodtsov, Aleksandr**
-	* For testing the behavior of the MEMPTR register on real Z80 chips.<sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
+	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Nair, Arjun**
-	* For validating tests on real hardware.<sup>[26](#r26)</sup>
+	* For validating tests on real hardware. <sup>[26](#r26)</sup>
 * **Nicolás-González, César**
 	* For helping me to research the unstable flag behavior of the `ccf/scf` instructions.
 * **Ortega Sosa, Sofía**
@@ -492,37 +492,37 @@ Many thanks to the following individuals (in alphabetical order):
 * **Owen, Simon**
 	* For the idea of the hooking method used in this emulator.
 * **Rak, Patrik**
-	1. For improving the _"Z80 Instruction Set Exerciser for Spectrum"_.<sup>[29](#r29)</sup>
-	2. For cracking the flag behavior of the `ccf/scf` instructions.<sup>[13](#r13), [29](#r29)</sup>
-	3. For writing the _"Zilog Z80 CPU Test Suite"_.<sup>[29](#r29), [30](#r30)</sup>
+	1. For improving the _"Z80 Instruction Set Exerciser for Spectrum"_. <sup>[29](#r29)</sup>
+	2. For cracking the flag behavior of the `ccf/scf` instructions. <sup>[13](#r13), [29](#r29)</sup>
+	3. For writing the _"Zilog Z80 CPU Test Suite"_. <sup>[29](#r29), [30](#r30)</sup>
 	4. For his research on the unstable flag behavior of the `ccf/scf` instructions.
 * **Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)**
-	* For his reseach on the state of the registers after POWER/RESET.<sup>[31](#r31)</sup>
+	* For his reseach on the state of the registers after POWER/RESET. <sup>[31](#r31)</sup>
 * **Rodríguez Palomino, Mario (r-lyeh)**
 	* For teaching me how emulators work.
 * **Sainz de Baranda y Romero, Manuel**
 	* For teaching me programming and giving me my first computer.
 * **Sánchez Ordiñana, José Ismael (Vaporatorius)**
-	* For validating tests on real hardware.<sup>[32](#r32), [33](#r33)</sup>
+	* For validating tests on real hardware. <sup>[32](#r32), [33](#r33)</sup>
 * **Stevenson, Dave**
-	1. For testing the special RESET on real hardware.<sup>[11](#r11)</sup>
-	2. For performing low-level tests on real hardware.<sup>[34](#r34)</sup>
+	1. For testing the special RESET on real hardware. <sup>[11](#r11)</sup>
+	2. For performing low-level tests on real hardware. <sup>[34](#r34)</sup>
 * **Weissflog, Andre (Floh)**
-	1. For finding out that the `reti/retn` instructions defer the acceptance of the maskable interrupt.<sup>[35](#r35)</sup>
-	2. For writing the _"Visual Z80 Remix"_ simulator.<sup>[36](#r36)</sup>
+	1. For finding out that the `reti/retn` instructions defer the acceptance of the maskable interrupt. <sup>[35](#r35)</sup>
+	2. For writing the _"Visual Z80 Remix"_ simulator. <sup>[36](#r36)</sup>
 * **Wilkinson, Oli (evolutional)**
-	* For validating tests on real hardware.<sup>[26](#r26)</sup>
+	* For validating tests on real hardware. <sup>[26](#r26)</sup>
 * **Wlodek**
-	* For testing the behavior of the MEMPTR register on real Z80 chips.<sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
+	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Woodmass, Mark (Woody)**
 	1. For his invaluable contributions to the emuscene.
-	2. For writing the _"Z80 Test Suite"_.<sup>[13](#r13)</sup>
-	3. For his research on the flag behavior of the `ccf/scf` instructions.<sup>[37](#r37)</sup>
+	2. For writing the _"Z80 Test Suite"_. <sup>[13](#r13)</sup>
+	3. For his research on the flag behavior of the `ccf/scf` instructions. <sup>[37](#r37)</sup>
 	4. For writing the _"HALT2INT"_ test.
 	5. For writing the _"EIHALT"_ test.
 * **Young, Sean**
 	1. For his research work.
-	2. For his technical documents about the Zilog Z80.<sup>[18](#r18), [38](#r38)</sup>
+	2. For his technical documents about the Zilog Z80. <sup>[18](#r18), [38](#r38)</sup>
 * **ZXGuesser**
 	* For validating tests on real hardware.
 
