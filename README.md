@@ -293,33 +293,33 @@ Package-specific options are prefixed with `Z80_` and can be divided into two gr
 	Build the testing tool.  
 	The default is `NO`.
 
-The second group of package-specific options configures the source code of the library by predefining macros that enable optional implementations:
+<span id="cmake-source-code-options">The second group of package-specific options</span> configures the source code of the library by predefining macros that enable optional implementations:
 
-* **`-DZ80_WITH_EXECUTE=(YES|NO)`**  
+* <span id="z80_with_execute">**`-DZ80_WITH_EXECUTE=(YES|NO)`**</span>  
 	Build the implementation of the `z80_execute` function.  
 	The default is `NO`.
 
-* **`-DZ80_WITH_FULL_IM0=(YES|NO)`**  
+* <span id="z80_with_full_im0">**`-DZ80_WITH_FULL_IM0=(YES|NO)`**</span>  
 	Build the full implementation of the interrupt mode 0 rather than the reduced one.  
 	The default is `NO`.
 
-* **`-DZ80_WITH_Q=(YES|NO)`**  
+* <span id="z80_with_q">**`-DZ80_WITH_Q=(YES|NO)`**</span>  
 	Build the implementation of the [Q "register"](https://worldofspectrum.org/forums/discussion/41704).  
 	The default is `NO`.
 
-* **`-DZ80_WITH_RESET_SIGNAL=(YES|NO)`**  
+* <span id="z80_with_reset_signal">**`-DZ80_WITH_RESET_SIGNAL=(YES|NO)`**</span>  
 	Build the implementation of the normal RESET signal.  
 	The default is `NO`.
 
-* **`-DZ80_WITH_SPECIAL_RESET_SIGNAL=(YES|NO)`**  
+* <span id="z80_with_special_reset_signal">**`-DZ80_WITH_SPECIAL_RESET_SIGNAL=(YES|NO)`**</span>  
 	Build the implementation of the [special RESET](http://www.primrosebank.net/computers/z80/z80_special_reset.htm) signal.  
 	The default is `NO`.
 
-* **`-DZ80_WITH_UNOFFICIAL_RETI=(YES|NO)`**  
+* <span id="z80_with_unofficial_reti">**`-DZ80_WITH_UNOFFICIAL_RETI=(YES|NO)`**</span>  
         Configure the `ED5Dh`, `ED6Dh` and `ED7Dh` undocumented instructions as `reti` instead of `retn`.  
         The default is `NO`.
 
-* **`-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=(YES|NO)`**  
+* <span id="z80_with_zilog_nmos_ld_a_ir_bug">**`-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=(YES|NO)`**</span>  
 	Build the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the `ld a,{i|r}` instructions.  
 	The default is `NO`.
 
@@ -391,15 +391,15 @@ There are several macros that can be used to configure the source code of the li
 * **`#define Z80_WITH_LOCAL_HEADER`**  
 	Tells `Z80.c` to `#include "Z80.h"` instead of `<Z80.h>`.
 
-The second group of package-specific options, explained in the "Installation" section of this document, activates various optional implementations in the source code by predefining the following macros:
+[The second group of package-specific options](#cmake-source-code-options), explained in the _[Installation](#installation)_ section of this document, activates various optional implementations in the source code by predefining the following macros:
 
-* **`#define Z80_WITH_EXECUTE`**
-* **`#define Z80_WITH_FULL_IM0`**
-* **`#define Z80_WITH_Q`**
-* **`#define Z80_WITH_RESET_SIGNAL`**
-* **`#define Z80_WITH_SPECIAL_RESET_SIGNAL`**
-* **`#define Z80_WITH_UNOFFICIAL_RETI`**
-* **`#define Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG`**
+* **[`#define Z80_WITH_EXECUTE`](#z80_with_execute)**
+* **[`#define Z80_WITH_FULL_IM0`](#z80_with_full_im0)**
+* **[`#define Z80_WITH_Q`](#z80_with_q)**
+* **[`#define Z80_WITH_RESET_SIGNAL`](#z80_with_reset_signal)**
+* **[`#define Z80_WITH_SPECIAL_RESET_SIGNAL`](#z80_with_special_reset_signal)**
+* **[`#define Z80_WITH_UNOFFICIAL_RETI`](#z80_with_unofficial_reti)**
+* **[`#define Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG`](#z80_with_zilog_nmos_ld_a_ir_bug)**
 
 Please note that the activation of some these optional implementations affects the speed of the emulator due to various factors (read the documentation for more details).
 
