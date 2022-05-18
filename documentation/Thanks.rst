@@ -275,7 +275,7 @@ References
 
    .. _r9:
 
-   boo_boo; Kladov, Vladimir (2006-03-29). *"MEMPTR: esoteric register of the Zilog Z80 CPU"*.
+   boo_boo; Kladov, Vladimir (2006-03-29). *"MEMPTR, Esoteric Register of the Zilog Z80 CPU"*.
 
    * http://zx.pk.ru/showpost.php?p=43688
    * http://zx.pk.ru/attachment.php?attachmentid=2984

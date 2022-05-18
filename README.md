@@ -540,7 +540,7 @@ Many thanks to the following individuals (in alphabetical order):
 6. <span id="r6">https://zxpress.ru/zxnet/zxnet.pc/5909</span>
 7. <span id="r7">https://zx-pk.ru/threads/2506-komanda-bit-n-(hl).html</span>
 8. <span id="r8">https://zx-pk.ru/threads/2586-prosba-realshchikam-ot-emulyatorshchikov.html</span>
-9. <span id="r9">boo_boo; Kladov, Vladimir (2006-03-29). _"MEMPTR: esoteric register of the Zilog Z80 CPU"_.</span>
+9. <span id="r9">boo_boo; Kladov, Vladimir (2006-03-29). _"MEMPTR, Esoteric Register of the Zilog Z80 CPU"_.</span>
 	* http://zx.pk.ru/showpost.php?p=43688
 	* http://zx.pk.ru/attachment.php?attachmentid=2984
 	* http://zx.pk.ru/showpost.php?p=43800
