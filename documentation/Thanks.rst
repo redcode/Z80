@@ -107,8 +107,9 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Harston, Jonathan Graham**
 
-  1. For his technical documents about the Zilog Z80. |re| |fe| :ref:`22<r22>`, :ref:`23<r23>`, :ref:`24<r24>` |ren| |ces|
-  2. For porting the *"Z80 Instruction Set Exerciser"* to the ZX Spectrum. |re| |fe| :ref:`25<r25>` |ren| |ces|
+  1. For his research work.
+  2. For his technical documents about the Zilog Z80. |re| |fe| :ref:`22<r22>`, :ref:`23<r23>`, :ref:`24<r24>` |ren| |ces|
+  3. For porting the *"Z80 Instruction Set Exerciser"* to the ZX Spectrum. |re| |fe| :ref:`25<r25>` |ren| |ces|
 
 * **Helcmanovsky, Peter (Ped7g)**
 
@@ -379,7 +380,7 @@ References
 
     .. _r24:
 
-    Harston, Jonathan Graham (1998-04-15). *"Full Z80 Opcode List Including Undocumented Opcodes"*.
+    Harston, Jonathan Graham (1998-04-15). *"Full Z80 Opcode List Including Undocumented Opcodes"* v0.11.
 
     * https://mdfs.net/Docs/Comp/Z80/OpList
 

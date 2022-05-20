@@ -464,8 +464,9 @@ Many thanks to the following individuals (in alphabetical order):
 * **Greenway, Ian**
 	* For testing the flag behavior of the `ccf/scf` instructions on real hardware. <sup>[10](#r10), [21](#r21)</sup>
 * **Harston, Jonathan Graham**
-	1. For his technical documents about the Zilog Z80. <sup>[22](#r22), [23](#r23), [24](#r24)</sup>
-	2. For porting the _"Z80 Instruction Set Exerciser"_ to the ZX Spectrum. <sup>[25](#r25)</sup>
+	1. For his research work.
+	2. For his technical documents about the Zilog Z80. <sup>[22](#r22), [23](#r23), [24](#r24)</sup>
+	3. For porting the _"Z80 Instruction Set Exerciser"_ to the ZX Spectrum. <sup>[25](#r25)</sup>
 * **Helcmanovsky, Peter (Ped7g)**
 	1. For helping me to write the _"IN-MEMPTR"_ test.
 	2. For writing the _"Z80 Block Flags Test"_. <sup>[26](#r26), [27](#r27)</sup>
@@ -564,7 +565,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* https://mdfs.net/Docs/Comp/Z80/OpCodeMap
 23. <span id="r23">Harston, Jonathan Graham (1997-12-18). _"Z80 Microprocessor Undocumented Instructions"_.</span>
 	* https://mdfs.net/Docs/Comp/Z80/UnDocOps
-24. <span id="r24">Harston, Jonathan Graham (1998-04-15). _"Full Z80 Opcode List Including Undocumented Opcodes"_.</span>
+24. <span id="r24">Harston, Jonathan Graham (1998-04-15). _"Full Z80 Opcode List Including Undocumented Opcodes"_ v0.11.</span>
 	* https://mdfs.net/Docs/Comp/Z80/OpList
 25. <span id="r25">https://mdfs.net/Software/Z80/Exerciser/Spectrum</span>
 26. <span id="r26">https://spectrumcomputing.co.uk/forums/viewtopic.php?t=6102</span>
