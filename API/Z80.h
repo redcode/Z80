@@ -132,7 +132,7 @@ typedef zusize (* Z80Reset)(void *context, zuint16 address);
   * @ref Z80.context, @ref Z80.fetch, @ref Z80.fetch_opcode, @ref Z80.halt_nop,
   * @ref Z80.in, @ref Z80.out, @ref Z80.read, @ref Z80.write, @ref Z80.read_bus,
   * @ref Z80.halt, @ref Z80.inta, @ref Z80.reti @ref Z80.hook and @ref
-  * Z80.model.
+  * Z80.options.
   *
   * Callback              | Mandatory
   * --------------------- | ---------
