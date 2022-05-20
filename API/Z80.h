@@ -501,17 +501,19 @@ typedef struct {
 #define Z80_OPTION_HALT_SKIP    16
 #define Z80_OPTION_YQ		32
 
-/** @brief Zilog Z80 NMOS version. */
+/** @brief Zilog Z80 NMOS emulation. */
 #define Z80_MODEL_ZILOG_NMOS \
 	(Z80_OPTION_LD_A_IR_BUG | Z80_OPTION_XQ | Z80_OPTION_YQ)
 
-/** @brief Zilog Z80 CMOS version. */
+/** @brief Zilog Z80 CMOS emulation. */
 #define Z80_MODEL_ZILOG_CMOS \
 	(Z80_OPTION_OUT_VC_255 | Z80_OPTION_XQ | Z80_OPTION_YQ)
 
+/** @brief NEC NMOS emulation. */
 #define Z80_MODEL_NEC_NMOS \
 	Z80_OPTION_LD_A_IR_BUG
 
+/** @brief SGS-Thomson NMOS emulation. */
 #define Z80_MODEL_ST_CMOS \
 	(Z80_OPTION_LD_A_IR_BUG | Z80_OPTION_YQ)
 
