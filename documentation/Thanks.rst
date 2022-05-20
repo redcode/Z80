@@ -380,7 +380,7 @@ References
 
     .. _r24:
 
-    Harston, Jonathan Graham (1998-04-15). *"Full Z80 Opcode List Including Undocumented Opcodes"* v0.11.
+    Harston, Jonathan Graham (1998-04-15). *"Full Z80 Opcode List Including Undocumented Opcodes"*.
 
     * https://mdfs.net/Docs/Comp/Z80/OpList
 

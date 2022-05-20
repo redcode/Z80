@@ -565,7 +565,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* https://mdfs.net/Docs/Comp/Z80/OpCodeMap
 23. <span id="r23">Harston, Jonathan Graham (1997-12-18). _"Z80 Microprocessor Undocumented Instructions"_.</span>
 	* https://mdfs.net/Docs/Comp/Z80/UnDocOps
-24. <span id="r24">Harston, Jonathan Graham (1998-04-15). _"Full Z80 Opcode List Including Undocumented Opcodes"_ v0.11.</span>
+24. <span id="r24">Harston, Jonathan Graham (1998-04-15). _"Full Z80 Opcode List Including Undocumented Opcodes"_.</span>
 	* https://mdfs.net/Docs/Comp/Z80/OpList
 25. <span id="r25">https://mdfs.net/Software/Z80/Exerciser/Spectrum</span>
 26. <span id="r26">https://spectrumcomputing.co.uk/forums/viewtopic.php?t=6102</span>
