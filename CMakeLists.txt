@@ -335,12 +335,12 @@ if(${PROJECT_NAME}_WITH_TESTS)
 
 		_download_files(
 			"${CMAKE_CURRENT_SOURCE_DIR}/support/firmware.sha512sum"
-			"http://zxe.io/downloads/support/firmware"
+			"http://zxe.io/depot/firmware"
 			"${CMAKE_CURRENT_BINARY_DIR}/downloads/firmware")
 
 		_download_files(
 			"${CMAKE_CURRENT_SOURCE_DIR}/support/software.sha512sum"
-			"http://zxe.io/downloads/support/software"
+			"http://zxe.io/depot/software"
 			"${CMAKE_CURRENT_BINARY_DIR}/downloads/software")
 
 		if (	"${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 3.18 AND
