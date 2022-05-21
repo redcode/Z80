@@ -523,7 +523,7 @@ Many thanks to the following individuals (in alphabetical order):
 	5. For writing the _"EIHALT"_ test.
 * **Young, Sean**
 	1. For his research work.
-	2. For his technical documents about the Zilog Z80. <sup>[18](#r18), [38](#r38)</sup>
+	2. For his technical documents about the Zilog Z80. <sup>[18](#r18), [38](#r38), [39](#r39)</sup>
 * **ZXGuesser**
 	* For validating tests on real hardware.
 
@@ -533,7 +533,7 @@ Many thanks to the following individuals (in alphabetical order):
 2. <span id="r2">https://stardot.org.uk/forums/viewtopic.php?t=15464</span>
 	* https://stardot.org.uk/forums/viewtopic.php?p=211042#p211042
 	* https://stardot.org.uk/forums/viewtopic.php?p=212021#p212021
-3. <span id="r3">Banks, David (2018-08-21). _"Undocumented Z80 Flags"_.</span>
+3. <span id="r3">Banks, David (2018-08-21). _"Undocumented Z80 Flags"_  revision 1.0.</span>
 	* https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags
 	* https://stardot.org.uk/forums/download/file.php?id=39831
 4. <span id="r4">https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83041#p83041</span>
@@ -557,16 +557,17 @@ Many thanks to the following individuals (in alphabetical order):
 16. <span id="r16">https://baltazarstudios.com/zilog-z80-undocumented-behavior</span>
 17. <span id="r17">Flammenkamp, Achim. _"Interrupt Behaviour of the Z80 CPU"_.</span>
 	* http://z80.info/interrup.htm
-18. <span id="r18">Young, Sean (1998-10). _"Z80 Undocumented Features (in Software Behaviour)"_.</span>
+18. <span id="r18">Young, Sean (1998-10). _"Z80 Undocumented Features (in Software Behaviour)"_ v0.3.</span>
+	* http://www.msxnet.org/tech/Z80/z80undoc.txt
 19. <span id="r19">https://elmundodelspectrum.com/desenterrando-el-primer-emulador-de-spectrum</span>
 20. <span id="r20">https://elmundodelspectrum.com/con-vosotros-el-emulador-de-pedro-gimeno-1989</span>
 21. <span id="r21">https://sourceforge.net/p/fuse-emulator/mailman/message/4502844</span>
-22. <span id="r22">Harston, Jonathan Graham (1997-09-09). _"Z80 Opcode Map"_.</span>
-	* https://mdfs.net/Docs/Comp/Z80/OpCodeMap
-23. <span id="r23">Harston, Jonathan Graham (1997-12-18). _"Z80 Microprocessor Undocumented Instructions"_.</span>
-	* https://mdfs.net/Docs/Comp/Z80/UnDocOps
-24. <span id="r24">Harston, Jonathan Graham (1998-04-15). _"Full Z80 Opcode List Including Undocumented Opcodes"_.</span>
+22. <span id="r22">Harston, Jonathan Graham (2008). _"Full Z80 Opcode List Including Undocumented Opcodes"_ v0.11 (revised).</span>
 	* https://mdfs.net/Docs/Comp/Z80/OpList
+23. <span id="r23">Harston, Jonathan Graham (2012). _"Z80 Microprocessor Undocumented Instructions"_ v0.15.</span>
+	* https://mdfs.net/Docs/Comp/Z80/UnDocOps
+24. <span id="r24">Harston, Jonathan Graham (2014). _"Z80 Opcode Map"_ v0.10 (revised).</span>
+	* https://mdfs.net/Docs/Comp/Z80/OpCodeMap
 25. <span id="r25">https://mdfs.net/Software/Z80/Exerciser/Spectrum</span>
 26. <span id="r26">https://spectrumcomputing.co.uk/forums/viewtopic.php?t=6102</span>
 27. <span id="r27">https://github.com/MrKWatkins/ZXSpectrumNextTests</span>
@@ -583,7 +584,9 @@ Many thanks to the following individuals (in alphabetical order):
 35. <span id="r35">https://floooh.github.io/2021/12/17/cycle-stepped-z80.html</span>
 36. <span id="r36">https://github.com/floooh/v6502r</span>
 37. <span id="r37">http://groups.google.co.uk/group/comp.sys.sinclair/msg/56dd1fd4ccb5fb3b</span>
-38. <span id="r38">Young, Sean (2005-09-18). _"Undocumented Z80 Documented, The"_.</span>
+38. <span id="r38">Young, Sean (1997-09-21). _"Zilog Z80 CPU Specifications"_.
+	* http://www.msxnet.org/tech/Z80/z80.zip
+39. <span id="r39">Young, Sean (2005-09-18). _"Undocumented Z80 Documented, The"_ v0.91.</span>
 	* http://www.myquest.nl/z80undocumented
 	* http://www.myquest.nl/z80undocumented/z80-documented-v0.91.pdf
 

@@ -208,7 +208,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Young, Sean**
 
   1. For his research work.
-  2. For his technical documents about the Zilog Z80. |re| |fe| :ref:`18<r18>`, :ref:`38<r38>` |ren| |ces|
+  2. For his technical documents about the Zilog Z80. |re| |fe| :ref:`18<r18>`, :ref:`38<r38>`, :ref:`39<r39>` |ren| |ces|
 
 * **ZXGuesser**
 
@@ -237,7 +237,7 @@ References
 
    .. _r3:
   
-   Banks, David (2018-08-21). *"Undocumented Z80 Flags"*.
+   Banks, David (2018-08-21). *"Undocumented Z80 Flags"* revision 1.0.
 
    * https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags
    * https://stardot.org.uk/forums/download/file.php?id=39831
@@ -340,7 +340,9 @@ References
 
     .. _r18:
 
-    Young, Sean (1998-10). *"Z80 Undocumented Features (in Software Behaviour)"*.
+    Young, Sean (1998-10). *"Z80 Undocumented Features (in Software Behaviour)"* v0.3.
+
+    * http://www.msxnet.org/tech/Z80/z80undoc.txt
 
 19.
 
@@ -364,15 +366,15 @@ References
 
     .. _r22:
 
-    Harston, Jonathan Graham (1997-09-09). *"Z80 Opcode Map"*.
+    Harston, Jonathan Graham (2008). *"Full Z80 Opcode List Including Undocumented Opcodes"* v0.11 (revised).
 
-    * https://mdfs.net/Docs/Comp/Z80/OpCodeMap
+    * https://mdfs.net/Docs/Comp/Z80/OpList
 
 23.
 
     .. _r23:
 
-    Harston, Jonathan Graham (1997-12-18). *"Z80 Microprocessor Undocumented Instructions"*.
+    Harston, Jonathan Graham (2012). *"Z80 Microprocessor Undocumented Instructions"* v0.15.
 
     * https://mdfs.net/Docs/Comp/Z80/UnDocOps
 
@@ -380,9 +382,9 @@ References
 
     .. _r24:
 
-    Harston, Jonathan Graham (1998-04-15). *"Full Z80 Opcode List Including Undocumented Opcodes"*.
+    Harston, Jonathan Graham (2014). *"Z80 Opcode Map"* v0.10 (revised).
 
-    * https://mdfs.net/Docs/Comp/Z80/OpList
+    * https://mdfs.net/Docs/Comp/Z80/OpCodeMap
 
 25.
 
@@ -471,8 +473,15 @@ References
 
     .. _r38:
 
-    Young, Sean (2005-09-18). *"Undocumented Z80 Documented, The"*.
+    Young, Sean (1997-09-21). *"Zilog Z80 CPU Specifications"*.
 
+    * http://www.msxnet.org/tech/Z80/z80.zip
+
+39.
+
+    .. _r39:
+
+    Young, Sean (2005-09-18). *"Undocumented Z80 Documented, The"* v0.91.
 
     * http://www.myquest.nl/z80undocumented
     * http://www.myquest.nl/z80undocumented/z80-documented-v0.91.pdf

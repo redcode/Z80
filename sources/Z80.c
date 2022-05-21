@@ -1234,7 +1234,7 @@ INSTRUCTION(neg)
 | References:								     |
 | 1. https://worldofspectrum.org/forums/discussion/20345		     |
 | 2. https://worldofspectrum.org/forums/discussion/41704		     |
-| 3. Banks, David (2018-08-21). "Undocumented Z80 Flags".		     |
+| 3. Banks, David (2018-08-21). "Undocumented Z80 Flags" revision 1.0.	     |
 |     * https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags	     |
 |     * https://stardot.org.uk/forums/download/file.php?id=39831	     |
 '===========================================================================*/
@@ -1434,8 +1434,8 @@ INSTRUCTION(rrd		  ) {RXD(>> 4, << 4, & 0xF);					  }
 | (+) Some forms of the instruction are undocumented.			     |
 | (*) Undocumented instruction.						     |
 |----------------------------------------------------------------------------|
-| 1. All versions of Zilog's "Z80 Family: CPU User Manual" contain a typo in |
-|    the M-cycles of this instruction: an additional M-cycle of 4 T-states.  |
+| 1. All versions of Zilog's "Z80 CPU User Manual" contain a typo in the     |
+|    M-cycles of this instruction: an additional M-cycle of 4 T-states.      |
 '===========================================================================*/
 
 INSTRUCTION(M_N_K	    ) {zuint8 *k = &K1; *k = M1(*k);			  return  8;}
@@ -1595,9 +1595,9 @@ INSTRUCTION(call_Z_WORD)
 |---------------------------------------------------------------|
 | (*) Undocumented instruction.					|
 |---------------------------------------------------------------|
-| 1. All versions of Zilog's "Z80 Family: CPU User Manual" have |
-|    the same typo in the M-cycles of these instructions: the   |
-|    T-states of the 3rd and 4th M-cycles are swapped.		|
+| 1. All versions of Zilog's "Z80 CPU User Manual" have a typo  |
+|    in the M-cycles of these instructions: the T-states of the |
+|    3rd and 4th M-cycles are swapped.		                |
 '==============================================================*/
 
 INSTRUCTION(in_J_vc ) {IN_VC; J1 = t;			 PC += 2; return 12;}
@@ -2159,14 +2159,15 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| resuming normal processing operation at address 0000h [2,4,6,7].	   |
 			|									   |
 			| References:								   |
-			| 1. Zilog (2005-02). "Z80 Family: CPU User Manual" v5. pp. 9,10.	   |
+			| 1. Zilog (2016-09). "Z80 CPU User Manual" revision 11. p. 6.		   |
 			| 2. Flammenkamp, Achim. "Interrupt Behaviour of the Z80 CPU".		   |
 			|     * http://z80.info/interrup.htm					   |
 			| 3. https://worldofspectrum.org/forums/discussion/34574		   |
 			| 4. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm	   |
 			| 5. Brewer, Tony (2014-12). "Z80 Special Reset".			   |
 			|     * http://primrosebank.net/computers/z80/z80_special_reset.htm	   |
-			| 6. SGS-Thomson (1990-01). "Z80 Microprocessor Family Databook". p. 40.   |
+			| 6. SGS-Thomson (1990-01). "Z80 Microprocessor Family" 1st edition.	   |
+			|    p. 40.								   |
 			'=========================================================================*/
 #			ifdef Z80_WITH_RESET_SIGNAL
 				if (REQUEST & Z80_REQUEST_RESET)
@@ -2206,7 +2207,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| by electronic simulations [1].					   |
 			|									   |
 			| References:								   |
-			| 1. Tested on "Visual Z80 Remix"					   |
+			| 1. Checked with "Visual Z80 Remix"					   |
 			|     * https://floooh.github.io/visualz80remix				   |
 			|     * https://github.com/floooh/v6502r				   |
 			'=========================================================================*/
@@ -2355,7 +2356,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| incremented as a result of the instruction fetch [1,2].		   |
 					|									   |
 					| References:								   |
-					| 1. Tested on "Visual Z80 Remix"					   |
+					| 1. Checked with "Visual Z80 Remix"					   |
 					|     * https://floooh.github.io/visualz80remix				   |
 					|     * https://github.com/floooh/v6502r				   |
 					| 2. Zilog (1978-05). "Z80 Family Program Interrupt Structure, The".	   |
@@ -2555,7 +2556,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| odd or even.							       |
 					|								       |
 					| References:							       |
-					| 1. Zilog (2005-02). Z80 "Family: CPU User Manual" v5. pp. 25,26.     |
+					| 1. Zilog (2005-03). "Z80 CPU User Manual" revision 5. pp. 25,26.     |
 					| 2. Young, Sean (2005-09-18). "Undocumented Z80 Documented, The".     |
 					|    v0.91 p. 20.						       |
 					'=====================================================================*/
