@@ -443,7 +443,7 @@ Many thanks to the following individuals (in alphabetical order):
 	1. For validating tests on real hardware. <sup>[1](#r1)</sup>
 	2. For his research on the unstable flag behavior of the `ccf/scf` instructions.
 	3. For his invaluable help.
-* [**Banks, David (hoglet)**](https://github.com/hoglet67)
+* **Banks, David (hoglet)**
 	1. For cracking the flag behavior of the block instructions. <sup>[2](#r2), [3](#r3)</sup>
 	2. For his research on the flag behavior of the `ccf/scf` instructions. <sup>[3](#r3)</sup>
 * **Beliansky, Anatoly (Tolik_Trek)**
@@ -470,7 +470,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For finding out how the `out (c),0` instruction behaves on the Zilog Z80 CMOS. <sup>[14](#r14)</sup>
 * **Cringle, Frank D.**
 	* For writing the _"Z80 Instruction Set Exerciser"_. <sup>[15](#r15)</sup>
-* [**Devic, Goran**](https://github.com/gdevic)
+* **Devic, Goran**
 	* For his research on undocumented behaviors of the Z80 CPU. <sup>[16](#r16)</sup>
 * **Flammenkamp, Achim**
 	* For his article on Z80 interrupts. <sup>[17](#r17)</sup>
@@ -481,11 +481,11 @@ Many thanks to the following individuals (in alphabetical order):
 	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Greenway, Ian**
 	* For testing the flag behavior of the `ccf/scf` instructions on real hardware. <sup>[10](#r10), [21](#r21)</sup>
-* [**Harston, Jonathan Graham**](https://mdfs.net/User/JGH/)
+* **Harston, Jonathan Graham**
 	1. For his research work.
 	2. For his technical documents about the Zilog Z80. <sup>[22](#r22), [23](#r23), [24](#r24)</sup>
 	3. For porting the _"Z80 Instruction Set Exerciser"_ to the ZX Spectrum. <sup>[25](#r25)</sup>
-* [**Helcmanovsky, Peter (Ped7g)**](https://github.com/ped7g)
+* **Helcmanovsky, Peter (Ped7g)**
 	1. For helping me to write the _"IN-MEMPTR"_ test.
 	2. For writing the _"Z80 Block Flags Test"_. <sup>[26](#r26), [27](#r27)</sup>
 	3. For writing the _"Z80 CCF SCF Outcome Stability"_ test. <sup>[27](#r27)</sup>
@@ -502,34 +502,34 @@ Many thanks to the following individuals (in alphabetical order):
 	* For validating tests on real hardware.
 * **Molodtsov, Aleksandr**
 	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
-* [**Nair, Arjun**](https://github.com/ArjunNair)
+* **Nair, Arjun**
 	* For validating tests on real hardware. <sup>[26](#r26)</sup>
-* [**Nicolás-González, César**](http://cngsoft.no-ip.org)
+* **Nicolás-González, César**
 	* For helping me to research the unstable flag behavior of the `ccf/scf` instructions.
-* [**Ortega Sosa, Sofía**](https://github.com/Agaxia)
+* **Ortega Sosa, Sofía**
 	* For her support.
-* [**Owen, Simon**](https://simonowen.com)
+* **Owen, Simon**
 	* For the idea of the hooking method used in this emulator.
-* [**Rak, Patrik**](https://github.com/raxoft)
+* **Rak, Patrik**
 	1. For improving the _"Z80 Instruction Set Exerciser for Spectrum"_. <sup>[29](#r29)</sup>
 	2. For cracking the flag behavior of the `ccf/scf` instructions. <sup>[13](#r13), [29](#r29)</sup>
 	3. For writing the _"Zilog Z80 CPU Test Suite"_. <sup>[29](#r29), [30](#r30)</sup>
 	4. For his research on the unstable flag behavior of the `ccf/scf` instructions.
-* [**Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)**](https://github.com/mcleod-ideafix)
+* **Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)**
 	* For his reseach on the state of the registers after POWER/RESET. <sup>[31](#r31)</sup>
-* [**Rodríguez Palomino, Mario (r-lyeh)**](https://github.com/r-lyeh)
+* **Rodríguez Palomino, Mario (r-lyeh)**
 	* For teaching me how emulators work.
 * **Sainz de Baranda y Romero, Manuel**
 	* For teaching me programming and giving me my first computer.
-* [**Sánchez Ordiñana, José Ismael (Vaporatorius)**](https://jisanchez.com)
+* **Sánchez Ordiñana, José Ismael (Vaporatorius)**
 	* For validating tests on real hardware. <sup>[32](#r32), [33](#r33)</sup>
-* [**Stevenson, Dave**](http://www.primrosebank.net/about.htm)
+* **Stevenson, Dave**
 	1. For testing the special RESET on real hardware. <sup>[11](#r11)</sup>
 	2. For performing low-level tests on real hardware. <sup>[34](#r34)</sup>
-* [**Weissflog, Andre (Floh)**](https://github.com/floooh)
+* **Weissflog, Andre (Floh)**
 	1. For finding out that the `reti/retn` instructions defer the acceptance of the maskable interrupt. <sup>[35](#r35)</sup>
 	2. For writing the _"Visual Z80 Remix"_ simulator. <sup>[36](#r36)</sup>
-* [**Wilkinson, Oli (evolutional)**](https://github.com/evolutional)
+* **Wilkinson, Oli (evolutional)**
 	* For validating tests on real hardware. <sup>[26](#r26)</sup>
 * **Wlodek**
 	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
@@ -542,7 +542,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Young, Sean**
 	1. For his research work.
 	2. For his technical documents about the Zilog Z80. <sup>[18](#r18), [38](#r38), [39](#r39)</sup>
-* [**ZXGuesser**](https://github.com/ZXGuesser)
+* **ZXGuesser**
 	* For validating tests on real hardware.
 
 ### References
