@@ -28,8 +28,7 @@
   *
   * @details The Z80 library implements a fast, small and accurate emulator
   * of the Zilog Z80. It emulates all that is known to date about this CPU,
-  * including the undocumented flags and instructions, MEMPTR, Q, and the
-  * special RESET.
+  * including the undocumented behaviour, MEMPTR, Q and the special RESET.
   *
   * @version 0.2
   * @date 2022-05-29
@@ -52,72 +51,89 @@
 #	endif
 #endif
 
-/** @brief The major version number of the Z80 library. */
+/** @brief Major version number of the Z80 library. */
 
 #define Z80_LIBRARY_VERSION_MAJOR 0
 
-/** @brief The minor version number of the Z80 library. */
+/** @brief Minor version number of the Z80 library. */
 
 #define Z80_LIBRARY_VERSION_MINOR 2
 
-/** @brief The micro version number of the Z80 library. */
+/** @brief Micro version number of the Z80 library. */
 
 #define Z80_LIBRARY_VERSION_MICRO 0
 
-/** @brief A string literal with the version number of the Z80 library. */
+/** @brief String literal with the version number of the Z80 library. */
 
 #define Z80_LIBRARY_VERSION_STRING "0.2"
 
-/** @brief The maximum number of clock cycles that the @ref z80_run and @ref
+/** @brief Maximum number of clock cycles that the @ref z80_run and @ref
   * z80_execute functions can emulate per call. */
 
 #define Z80_CYCLE_LIMIT (Z_USIZE_MAXIMUM - Z_USIZE(30))
 #define Z80_CYCLES_PER_RESET 5
 
-/** @brief The 8-bit value interpreted as a hook by the Z80 emulator, which
-  * corresponds to the <tt>ld h,h</tt> opcode in the Z80 ISA. */
+/** @brief Opcode interpreted as a hook by the Z80 emulator, which
+  * corresponds to the <tt>ld h,h</tt> instruction of the Z80 ISA. */
 
 #define Z80_HOOK Z_UINT8(0x64)
 
-/** @brief Defines a pointer to a callback function used by the Z80 emulator
-  * to read a byte.
+/** @brief Defines a pointer to a @ref Z80 callback function invoked to perform
+  * a read operation.
   *
-  * @param context The value of the @ref Z80.context member variable of the
-  * object invoking the callback.
+  * @param context The value of the @ref Z80.context member of the calling
+  * object.
   * @param address The memory address or I/O port to read from.
   * @return The byte read. */
 
 typedef zuint8 (* Z80Read)(void *context, zuint16 address);
 
-/** @brief Defines a pointer to a callback function used by the Z80 emulator
-  * to write a byte.
+/** @brief Defines a pointer to a @ref Z80 callback function invoked to perform
+  * a write operation.
   *
-  * @param context The value of the @ref Z80.context member variable of the
-  * object invoking the callback.
+  * @param context The value of the @ref Z80.context member of the calling
+  * object.
   * @param address The memory address or I/O port to write to.
   * @param value The byte to write. */
 
 typedef void (* Z80Write)(void *context, zuint16 address, zuint8 value);
 
-/** @brief Defines a pointer to a callback function used by the Z80 emulator
-  * to notify the change of state of the HALT line.
+/** @brief Defines a pointer to a @ref Z80 callback function invoked to notify
+  * a signal change on the HALT line.
   *
-  * @param context The value of the @ref Z80.context member variable of the
-  * object invoking the callback.
+  * @param context The value of the @ref Z80.context member of the calling
+  * object.
   * @param state
   *     @c TRUE  if the HALT line goes low  (the CPU enters the HALT state);
   *     @c FALSE if the HALT line goes high (the CPU exits the HALT state). */
 
 typedef void (* Z80HALT)(void *context, zboolean state);
 
-/** @brief Defines a pointer to a callback function used by the Z80 emulator
-  * to notify an event.
+/** @brief Defines a pointer to a @ref Z80 callback function invoked to notify
+  * an event.
   *
-  * @param context The value of the @ref Z80.context member variable of the
-  * object invoking the callback. */
+  * @param context The value of the @ref Z80.context member of the calling
+  * object. */
 
 typedef void (* Z80Notify)(void *context);
 
+/** @brief Defines a pointer to a @ref Z80 callback function invoked to delegate
+  * the emulation of an illegal instruction.
+  *
+  * @param context The value of the @ref Z80.context member variable of the
+  * calling object.
+  * @param opcode The illegal opcode.
+  * @return The number of clock cycles consumed by the instruction. */
+
+typedef zuint8 (* Z80Illegal)(void *context, zuint8 opcode);
+
+/** @brief Defines a pointer to a @ref Z80 callback function invoked to obtain
+  * the duration of a RESET signal.
+  *
+  * @param context The value of the @ref Z80.context member of the calling
+  * object.
+  * @param address The value in the address bus when the RESET signal begins.
+  * @return The number of clock cycles that the RESET signal lasts. */
 
 typedef zusize (* Z80Reset)(void *context, zuint16 address);
 
@@ -125,280 +141,183 @@ typedef zusize (* Z80Reset)(void *context, zuint16 address);
   *
   * @brief A Z80 CPU emulator.
   *
-  * @details @c Z80 contains the state of an emulated Z80 CPU
-  * and the callback pointers needed to interconnect it with the external logic.
-  * Before using an object of this type, some of its members
-  * must be initialized. In particular the following (in alphabetical order):
-  * @ref Z80.context, @ref Z80.fetch, @ref Z80.fetch_opcode, @ref Z80.halt_nop,
-  * @ref Z80.in, @ref Z80.out, @ref Z80.read, @ref Z80.write, @ref Z80.read_bus,
-  * @ref Z80.halt, @ref Z80.inta, @ref Z80.reti @ref Z80.hook and @ref
-  * Z80.options.
-  *
-  * Callback              | Mandatory
-  * --------------------- | ---------
-  * @ref Z80.fetch_opcode | yes
-  * @ref Z80.fetch        | yes
-  * @ref Z80.read         | yes
-  * @ref Z80.write        | yes
-  * @ref Z80.in           | yes
-  * @ref Z80.out          | yes
-  * @ref Z80.halt         | no
-  * @ref Z80.halt_nop     | no
-  * @ref Z80.nmia         | yes
-  * @ref Z80.inta         | yes
-  * @ref Z80.int_fetch    | no
-  * @ref Z80.ld_i_a       | no
-  * @ref Z80.ld_r_a       | no
-  * @ref Z80.reti         | no
-  * @ref Z80.retn         | no
-  * @ref Z80.hook         | no
-  */
+  * @details @c Z80 contains the state of an emulated Z80 CPU and the callback
+  * pointers needed to interconnect it with the external logic. */
 
 typedef struct {
 
-	/** @brief Clock cycle counter.
-	  *
-	  * This clock cycle counter is updated as the emulator executes
-	  * instructions and responds to different signals. */
+	/** @brief Number of clock cycles executed. */
 
 	zusize cycles;
 
-	/** @brief Maximum number of clock cycles to be executed in the current
-	  * invokation of @ref z80_run. */
+	/** @brief Maximum number of clock cycles to be executed. */
 
 	zusize cycle_limit;
 
-	/** @brief Pointer passed as the first argument to the callbacks.
+	/** @brief Pointer to pass as first argument to callbacks.
 	  *
-	  * @details This member variable can be used to maintain a reference to
-	  * the object or context to which the Z80 emulator object belongs. */
+	  * @details This member is intended to maintain a reference to the
+	  * context to which the object belongs. */
 
 	void *context;
 
-	/** @brief Callback used to perform opcode fetch operations.
-	  *
-	  * @details This type of operation is used by the CPU to read the first
-	  * byte of an instruction or an instruction prefix. A succession of
-	  * @c DDh and/or @c FDh prefixes will cause multiple consecutive such
-	  * operations until an opcode is fetched. In the instructions with
-	  * double prefix (@c CBDDh or @c CBFDh), only the prefixes are fetched
-	  * with this operation, the remaining 2 bytes are accessed by using
-	  * normal memory read operations.
-	  *
-	  * The emulator always incrementents the R register @b before calling
-	  * this callback, but the value of its most-significant bit (R7) is not
-	  * preserved for speed optimization reasons. In the rare case that the
-	  * callback function needs to access that register, it must take R7
-	  * from the 7th bit of the @c r7 member variable.
-	  *
-	  * Implementations that do not distinguish between opcode fetch and
-	  * memory read operations should use the same callback function for
-	  * both.
+	/** @brief Callback invoked to perform an opcode fetch.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
 	  * will cause the emulator to crash. */
 
 	Z80Read fetch_opcode;
 
-	/** @brief Callback used to perform memory read operations on instruction data.
+	/** @brief Callback invoked to perform a memory read on instruction
+	  * data.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
 	  * will cause the emulator to crash. */
 
 	Z80Read fetch;
 
-	/** @brief Callback used to perform a memory read operation.
-	  *
-	  * @details This type of operation is used by the CPU to read a byte
-	  * from a memory address.
+	/** @brief Callback invoked to perform a memory read.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
 	  * will cause the emulator to crash. */
 
 	Z80Read read;
 
-	/** @brief Callback used to perform a memory write operation.
-	  *
-	  * @details This type of operation is used by the CPU to write a byte
-	  * to a memory address.
+	/** @brief Callback invoked to peform a memory write.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
 	  * will cause the emulator to crash. */
 
 	Z80Write write;
 
-	/** @brief Callback used to perform an I/O read operation.
-	  *
-	  * @details This type of operation is used by the CPU to read a byte
-	  * from an I/O port.
+	/** @brief Callback invoked to perform an I/O read.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
 	  * will cause the emulator to crash. */
 
 	Z80Read in;
 
-	/** @brief Callback used to perform an I/O write operation.
-	  *
-	  * @details This type of operation is used by the CPU to write a byte
-	  * to an I/O port.
+	/** @brief Callback invoked to perform an I/O write.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
 	  * will cause the emulator to crash. */
 
 	Z80Write out;
 
-	/** @brief Callback used to notify that the state of the HALT output
-	  * line has changed.
+	/** @brief Callback invoked when the state of the HALT line changes.
 	  *
-	  * @details The @c HALT instruction halts the CPU by not incrementing
-	  * the PC register, so the instruction is re-executed until an
-	  * interrupt is accepted. Only then the PC register is incremented
-	  * again and the next instruction is executed. The HALT output line is
-	  * active (low) during the HALT state.
-	  *
-	  * The emulator invokes this callback after changing the value of the
-	  * @c halt_line member variable and, when exiting the HALT state,
-	  * immediately before executing the interrupt response.
-	  *
-	  * @attention This callback is optional and @b must be initialized to
+ 	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80HALT halt;
 
-	/** @brief Callback invoked... */
+	/** @brief Callback invoked to perform the disregarded opcode fetch of
+	  * an internal NOP operation.
+	  *
+ 	  * @attention This callback is optional and must be initialized to
+	  * @c Z_NULL if not used. */
 
 	Z80Read nop;
 
-	/** @brief Callback invoked... */
+	/** @brief Callback invoked to perform the disregarded opcode fetch of
+	  * a non-maskable interrupt acknowledge.
+	  *
+ 	  * @attention This callback is optional and must be initialized to
+	  * @c Z_NULL if not used. */
 
 	Z80Read nmia;
 
-	/** @brief Callback used to notify a maskable interrupt acknowledge
-	  * (INTA).
+	/** @brief Callback invoked to perform the data bus read of a maskable
+	  * interrupt acknowledge.
 	  *
-	  * @details When a maskable interrupt (INT) is accepted, the CPU
-	  * generates a special M1 cycle to indicate that the interrupting I/O
-	  * device can write to the data bus. Two wait clock cycles are added
-	  * to this M1 cycle, allowing sufficient time to identify which device
-	  * must insert the data.
-	  *
-	  * The emulator invokes this callback during the execution of the INT
-	  * response. It should be used to identify and prepare the context of
-	  * the interrupting device, so that subsequent invocations of the @c
-	  * read_bus callback can read the interrupt response vector or the
-	  * instruction to be executed.
-	  *
-	  * @note This callback is optional and @b must be initialized to @c
-	  * Z_NULL if not used.
-
-	  * @details When a maskable interrupt (INT) is accepted, the CPU reads
-	  * the interrupt response data provided by the interrupting device via
-	  * the data bus. Usually only one data bus read operation is performed
-	  * during the INT acknowledge cycle, but when the CPU responds to the
-	  * interrupt in mode 0, it will perform as many such operations as
-	  * needed to read the byte sequence of the instruction to be executed.
-	  *
-	  * The emulator invokes this callback during the execution of the INT
-	  * response. The return value is ignored in interrupt mode 1. In mode
-	  * 0, the emulator invokes this callback as many times as needed to
-	  * read a complete instruction. Illegal instructions and instruction
-	  * prefix sequences are fully supported.
-	  *
-	  * @attention This callback is optional and @b must be initialized to
-	  * @c Z_NULL if not used, in which case the emulator will assume that
-	  * the byte read from the data bus is always @c FFh. */
+ 	  * @attention This callback is optional and must be initialized to
+	  * @c Z_NULL if not used. */
 
 	Z80Read inta;
 
-	/** @brief Callback used to perform a data bus read operation during a
-	  * maskable interrupt (INT) response.
-	  **/
+	/** @brief Callback invoked to perform a memory read on instruction data
+	  * during a maskable interrupt response in mode 0.
+	  *
+ 	  * @attention This callback becomes mandatory when the @c Z80.inta
+	  * callback is used. Initializing it to @c Z_NULL will cause the
+	  * emulator to crash. */
 
 	Z80Read int_fetch;
 
+	/* @brief Callback invoked to query the duration of a reset signal.
+	  *
+ 	  * @attention This callback is optional and must be initialized to
+	  * @c Z_NULL if not used. */
+
 	Z80Reset reset;
 
-	/** @brief Callback invoked before executing the <tt>ld i,a</tt>
-	  * instruction. */
+	/** @brief Callback invoked when an <tt>ld i,a</tt> instruction is
+	  * fetched.
+	  *
+ 	  * @attention This callback is optional and must be initialized to
+	  * @c Z_NULL if not used. */
 
 	Z80Notify ld_i_a;
 
-	/** @brief Callback invoked before executing the <tt>ld r,a</tt>
-	  * instruction.
+	/** @brief Callback invoked when an <tt>ld r,a</tt> instruction is
+	  * fetched.
 	  *
- 	  * @attention This callback is optional and @b must be initialized to
+ 	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80Notify ld_r_a;
 
-	/** @brief Callback invoked before executing the @c reti instruction.
+	/** @brief Callback invoked when a @c reti instruction is fetched.
 	  *
-	  * The Z80 Counter/Timer Circuit (CTC) detects the two-byte @c reti
-	  * opcode when it is fetched by the CPU. This instruction is used to
-	  * return from an ISR and signal that the computer should initialize
-	  * the daisy-chain enable lines for control of nested priority
-	  * interrupt handling.
-	  *
-	  * Although the Z80 CTC is not part of the CPU, the emulator can signal
-	  * the execution of a @c reti instruction by invoking this callback in
-	  * order to simplify the emulation of machines that use daisy-chain
-	  * interrupt servicing, thus avoiding having to implement the detection
-	  * of this instruction externally, which is not optimal and would cause
-	  * a speed penalty.
-	  *
- 	  * @attention This callback is optional and @b must be initialized to
+ 	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80Notify reti;
 
-	/** @brief Callback invoked before executing the @c retn instruction.
-
- 	  * @attention This callback is optional and @b must be initialized to
+	/** @brief Callback invoked when a @c retn instruction is fetched.
+	  *
+ 	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80Notify retn;
 
-	/** @brief Callback invoked...
+	/** @brief Callback invoked when a trap is fecthed.
 	  *
- 	  * @attention This callback is optional and @b must be initialized to
+ 	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80Read hook;
+
+	/** @brief Callback invoked to delegate the emulation of an illegal
+	  * opcode.
+	  *
+ 	  * @attention This callback is optional and must be initialized to
+	  * @c Z_NULL if not used. */
+
+	Z80Illegal illegal;
 
 	/** @brief Temporary storage used for instruction fetch. */
 
 	ZInt32 data;
 
-	/** @brief Temporay IX/IY register. */
+	ZInt16 xy;      /**< @brief Temporay IX/IY register. */
+	ZInt16 memptr; 	/**< @brief MEMPTR register.         */
+	ZInt16 pc;      /**< @brief PC register.             */
+	ZInt16 sp;      /**< @brief SP register.             */
+	ZInt16 ix;      /**< @brief IX register.             */
+	ZInt16 iy;      /**< @brief IY register.             */
+	ZInt16 af;      /**< @brief AF register.             */
+	ZInt16 bc;      /**< @brief BC register.             */
+	ZInt16 de;      /**< @brief DE register.             */
+	ZInt16 hl;      /**< @brief HL register.             */
+	ZInt16 af_;     /**< @brief AF' register.            */
+	ZInt16 bc_;     /**< @brief BC' register.            */
+	ZInt16 de_;     /**< @brief DE' register.            */
+	ZInt16 hl_;     /**< @brief HL' register.            */
+	zuint8 r;       /**< @brief R register.              */
+	zuint8 i;       /**< @brief I register.              */
 
-	ZInt16 xy;
-
-	ZInt16 memptr; 	/**< @brief MEMPTR register. */
-	ZInt16 pc;      /**< @brief PC register.     */
-	ZInt16 sp;      /**< @brief SP register.     */
-	ZInt16 ix;      /**< @brief IX register.     */
-	ZInt16 iy;      /**< @brief IY register.     */
-	ZInt16 af;      /**< @brief AF register.     */
-	ZInt16 bc;      /**< @brief BC register.     */
-	ZInt16 de;      /**< @brief DE register.     */
-	ZInt16 hl;      /**< @brief HL register.     */
-	ZInt16 af_;     /**< @brief AF' register.    */
-	ZInt16 bc_;     /**< @brief BC' register.    */
-	ZInt16 de_;     /**< @brief DE' register.    */
-	ZInt16 hl_;     /**< @brief HL' register.    */
-	zuint8 r;       /**< @brief R register.      */
-	zuint8 i;       /**< @brief I register.      */
-
-	/** @brief The most significant bit of the R register (R7).
-	  *
-	  * @details The R register is incremented during each M1 cycle, but its
-	  * most significant bit (R7) is not affected. For optimization reasons,
-	  * this behavior is not emulated in every M1 cycle, so successive
-	  * increments of R corrupt R7. @c z80_run keeps the value of R7 in this
-	  * temporary member variable while executing operations and copies it
-	  * back to R before returning. Since this variable is a snapshot of the
-	  * R register at a given time, the value of the 7 least significant
-	  * bits must be considered garbage. */
+	/** @brief The most significant bit of the R register. */
 
 	zuint8 r7;
 
@@ -409,21 +328,19 @@ typedef struct {
 
 	zuint8 im;
 
-	/** @brief Number of signals pending to be processed. */
+	/** @brief Requests pending to be responded. */
 
 	zuint8 request;
 
-	/** @brief TODO */
+	/** @brief Type of unfinished operation to be resumed. */
 
 	zuint8 resume;
 
-	zuint8 iff1;  /**< @brief Interrupt flip-flop 1 (IFF1). */
-	zuint8 iff2;  /**< @brief Interrupt flip-flop 2 (IFF2). */
-	zuint8 q;     /**< @brief Q register.                   */
+	zuint8 iff1;  /**< @brief Interrupt enable flip-flop 1 (IFF1). */
+	zuint8 iff2;  /**< @brief Interrupt enable flip-flop 2 (IFF2). */
+	zuint8 q;     /**< @brief Q register. */
 
-	/** @brief CPU model.
-	  *
-	  * @details todo... */
+	/** @brief Emulation options. */
 
 	zuint8 options;
 
@@ -443,49 +360,6 @@ typedef struct {
 	zuint8 halt_line;
 } Z80;
 
-#define Z80_MEMPTR(self)  (self).memptr.uint16_value
-#define Z80_MEMPTRH(self) (self).memptr.uint8_values.at_1
-#define Z80_MEMPTRL(self) (self).memptr.uint8_values.at_0
-#define Z80_PC(self)	  (self).pc.uint16_value
-#define Z80_SP(self)	  (self).sp.uint16_value
-#define Z80_XY(self)	  (self).xy.uint16_value
-#define Z80_IX(self)	  (self).ix.uint16_value
-#define Z80_IY(self)	  (self).iy.uint16_value
-#define Z80_AF(self)	  (self).af.uint16_value
-#define Z80_BC(self)	  (self).bc.uint16_value
-#define Z80_DE(self)	  (self).de.uint16_value
-#define Z80_HL(self)	  (self).hl.uint16_value
-#define Z80_AF_(self)	  (self).af_.uint16_value
-#define Z80_BC_(self)	  (self).bc_.uint16_value
-#define Z80_DE_(self)	  (self).de_.uint16_value
-#define Z80_HL_(self)	  (self).hl_.uint16_value
-#define Z80_PCH(self)	  (self).pc.uint8_values.at_1
-#define Z80_PCL(self)	  (self).pc.uint8_values.at_0
-#define Z80_SPH(self)	  (self).sp.uint8_values.at_1
-#define Z80_SPL(self)	  (self).sp.uint8_values.at_0
-#define Z80_XYH(self)	  (self).xy.uint8_values.at_1
-#define Z80_XYL(self)	  (self).xy.uint8_values.at_0
-#define Z80_IXH(self)	  (self).ix.uint8_values.at_1
-#define Z80_IXL(self)	  (self).ix.uint8_values.at_0
-#define Z80_IYH(self)	  (self).iy.uint8_values.at_1
-#define Z80_IYL(self)	  (self).iy.uint8_values.at_0
-#define Z80_A(self)	  (self).af.uint8_values.at_1
-#define Z80_F(self)	  (self).af.uint8_values.at_0
-#define Z80_B(self)	  (self).bc.uint8_values.at_1
-#define Z80_C(self)	  (self).bc.uint8_values.at_0
-#define Z80_D(self)	  (self).de.uint8_values.at_1
-#define Z80_E(self)	  (self).de.uint8_values.at_0
-#define Z80_H(self)	  (self).hl.uint8_values.at_1
-#define Z80_L(self)	  (self).hl.uint8_values.at_0
-#define Z80_A_(self)	  (self).af_.uint8_values.at_1
-#define Z80_F_(self)	  (self).af_.uint8_values.at_0
-#define Z80_B_(self)	  (self).bc_.uint8_values.at_1
-#define Z80_C_(self)	  (self).bc_.uint8_values.at_0
-#define Z80_D_(self)	  (self).de_.uint8_values.at_1
-#define Z80_E_(self)	  (self).de_.uint8_values.at_0
-#define Z80_H_(self)	  (self).hl_.uint8_values.at_1
-#define Z80_L_(self)	  (self).hl_.uint8_values.at_0
-
 #define Z80_SF 128
 #define Z80_ZF  64
 #define Z80_YF  32
@@ -495,28 +369,54 @@ typedef struct {
 #define Z80_NF   2
 #define Z80_CF   1
 
-#define Z80_OPTION_LD_A_IR_BUG   1
-#define Z80_OPTION_OUT_VC_255    2
-#define Z80_OPTION_XQ		 8
-#define Z80_OPTION_HALT_SKIP    16
-#define Z80_OPTION_YQ		32
+/** @brief @ref Z80 option that enables the HALTskip optimization. */
 
-/** @brief Zilog Z80 NMOS emulation. */
+#define Z80_OPTION_HALT_SKIP 16
+
+/** @brief @ref Z80 option that enables emulation of the bug affecting the Zilog
+  * Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is
+  * accepted during the execution of the <tt>ld a,{i|r}</tt> instructions. */
+
+#define Z80_OPTION_LD_A_IR_BUG 1
+
+/** @brief @ref Z80 option that enables emulation of the <tt>out (c),255</tt>
+  * instruction, specific to the Zilog Z80 CMOS. */
+
+#define Z80_OPTION_OUT_VC_255 2
+
+/** @brief @ref Z80 option that enables the XQ factor in the emulation of the
+  * <tt>ccf/scf</tt> instructions. */
+
+#define Z80_OPTION_XQ 8
+
+/** @brief @ref Z80 option that enables the YQ factor in the emulation of the
+  * <tt>ccf/scf</tt> instructions. */
+
+#define Z80_OPTION_YQ 32
+
+/** @brief @ref Z80 option that enables all the options required to fully
+  * emulate a Zilog NMOS CPU. */
+
 #define Z80_MODEL_ZILOG_NMOS \
 	(Z80_OPTION_LD_A_IR_BUG | Z80_OPTION_XQ | Z80_OPTION_YQ)
 
-/** @brief Zilog Z80 CMOS emulation. */
+/** @brief @ref Z80 option that enables all the options required to fully
+  * emulate a Zilog CMOS CPU. */
+
 #define Z80_MODEL_ZILOG_CMOS \
 	(Z80_OPTION_OUT_VC_255 | Z80_OPTION_XQ | Z80_OPTION_YQ)
 
-/** @brief NEC NMOS emulation. */
+/** @brief @ref Z80 option that enables all the options required to fully
+  * emulate a NEC NMOS CPU. */
+
 #define Z80_MODEL_NEC_NMOS \
 	Z80_OPTION_LD_A_IR_BUG
 
-/** @brief SGS-Thomson NMOS emulation. */
+/** @brief @ref Z80 option that enables all the options required to fully
+  * emulate a SGS-Thomson CMOS CPU. */
+
 #define Z80_MODEL_ST_CMOS \
 	(Z80_OPTION_LD_A_IR_BUG | Z80_OPTION_YQ)
-
 
 #define Z80_REQUEST_RESET	     3
 #define Z80_REQUEST_REJECT_NMI	     4
@@ -537,9 +437,180 @@ typedef struct {
 #define Z80_RESUME_SPECIAL_RESET_XY  5
 #define Z80_RESUME_SPECIAL_RESET_NOP 6
 
+
+/** @brief Accesses the MEMPTR register of a @ref Z80 @c object. */
+
+#define Z80_MEMPTR(object) (object).memptr.uint16_value
+
+/** @brief Accesses the PC register of a @ref Z80 @c object. */
+
+#define Z80_PC(object) (object).pc.uint16_value
+
+/** @brief Accesses the SP register of a @ref Z80 @c object. */
+
+#define Z80_SP(object) (object).sp.uint16_value
+
+/** @brief Accesses the temporary IX/IY register of a @ref Z80 @c object */
+
+#define Z80_XY(object) (object).xy.uint16_value
+
+/** @brief Accesses the IX register of a @ref Z80 @c object. */
+
+#define Z80_IX(object) (object).ix.uint16_value
+
+/** @brief Accesses the IY register of a @ref Z80 @c object. */
+
+#define Z80_IY(object) (object).iy.uint16_value
+
+/** @brief Accesses the AF register of a @ref Z80 @c object. */
+
+#define Z80_AF(object) (object).af.uint16_value
+
+/** @brief Accesses the BC register of a @ref Z80 @c object. */
+
+#define Z80_BC(object) (object).bc.uint16_value
+
+/** @brief Accesses the DE register of a @ref Z80 @c object. */
+
+#define Z80_DE(object) (object).de.uint16_value
+
+/** @brief Accesses the HL register of a @ref Z80 @c object. */
+
+#define Z80_HL(object) (object).hl.uint16_value
+
+/** @brief Accesses the AF' register of a @ref Z80 @c object. */
+
+#define Z80_AF_(object) (object).af_.uint16_value
+
+/** @brief Accesses the BC' register of a @ref Z80 @c object. */
+
+#define Z80_BC_(object) (object).bc_.uint16_value
+
+/** @brief Accesses the DE' register of a @ref Z80 @c object. */
+
+#define Z80_DE_(object) (object).de_.uint16_value
+
+/** @brief Accesses the HL' register of a @ref Z80 @c object. */
+
+#define Z80_HL_(object) (object).hl_.uint16_value
+
+/** @brief Accesses the high byte of the MEMPTR register of a @ref Z80
+  *  @c object. */
+
+#define Z80_MEMPTRH(object) (object).memptr.uint8_values.at_1
+
+/** @brief Accesses the low byte of the MEMPTR register of a @ref Z80
+  * @c object. */
+
+#define Z80_MEMPTRL(object) (object).memptr.uint8_values.at_0
+
+/** @brief Accesses the high byte of the PC register of a @ref Z80 @c object. */
+
+#define Z80_PCH(object) (object).pc.uint8_values.at_1
+
+/** @brief Accesses the low byte of the PC register of a @ref Z80 @c object. */
+
+#define Z80_PCL(object) (object).pc.uint8_values.at_0
+
+/** @brief Accesses the high byte of the SP register of a @ref Z80 @c object. */
+
+#define Z80_SPH(object) (object).sp.uint8_values.at_1
+
+/** @brief Accesses the low byte of the SP register of a @ref Z80 @c object. */
+
+#define Z80_SPL(object) (object).sp.uint8_values.at_0
+
+/** @brief Accesses the temporary IXH/IYH register of a @ref Z80 @c object. */
+
+#define Z80_XYH(object) (object).xy.uint8_values.at_1
+
+/** @brief Accesses the temporary IXL/IYL register of a @ref Z80 @c object. */
+
+#define Z80_XYL(object) (object).xy.uint8_values.at_0
+
+/** @brief Accesses the IXH register of a @ref Z80 @c object. */
+
+#define Z80_IXH(object) (object).ix.uint8_values.at_1
+
+/** @brief Accesses the IXL register of a @ref Z80 @c object. */
+
+#define Z80_IXL(object) (object).ix.uint8_values.at_0
+
+/** @brief Accesses the IYH register of a @ref Z80 @c object. */
+
+#define Z80_IYH(object) (object).iy.uint8_values.at_1
+
+/** @brief Accesses the IYL register of a @ref Z80 @c object. */
+
+#define Z80_IYL(object) (object).iy.uint8_values.at_0
+
+/** @brief Accesses the A register of a @ref Z80 @c object. */
+
+#define Z80_A(object) (object).af.uint8_values.at_1
+
+/** @brief Accesses the F register of a @ref Z80 @c object. */
+
+#define Z80_F(object) (object).af.uint8_values.at_0
+
+/** @brief Accesses the B register of a @ref Z80 @c object. */
+
+#define Z80_B(object) (object).bc.uint8_values.at_1
+
+/** @brief Accesses the C register of a @ref Z80 @c object. */
+
+#define Z80_C(object) (object).bc.uint8_values.at_0
+
+/** @brief Accesses the D register of a @ref Z80 @c object. */
+
+#define Z80_D(object) (object).de.uint8_values.at_1
+
+/** @brief Accesses the E register of a @ref Z80 @c object. */
+
+#define Z80_E(object) (object).de.uint8_values.at_0
+
+/** @brief Accesses the H register of a @ref Z80 @c object. */
+
+#define Z80_H(object) (object).hl.uint8_values.at_1
+
+/** @brief Accesses the L register of a @ref Z80 @c object. */
+
+#define Z80_L(object) (object).hl.uint8_values.at_0
+
+/** @brief Accesses the A' register of a @ref Z80 @c object. */
+
+#define Z80_A_(object) (object).af_.uint8_values.at_1
+
+/** @brief Accesses the F' register of a @ref Z80 @c object. */
+
+#define Z80_F_(object) (object).af_.uint8_values.at_0
+
+/** @brief Accesses the B' register of a @ref Z80 @c object. */
+
+#define Z80_B_(object) (object).bc_.uint8_values.at_1
+
+/** @brief Accesses the C' register of a @ref Z80 @c object. */
+
+#define Z80_C_(object) (object).bc_.uint8_values.at_0
+
+/** @brief Accesses the D' register of a @ref Z80 @c object. */
+
+#define Z80_D_(object) (object).de_.uint8_values.at_1
+
+/** @brief Accesses the E' register of a @ref Z80 @c object. */
+
+#define Z80_E_(object) (object).de_.uint8_values.at_0
+
+/** @brief Accesses the H' register of a @ref Z80 @c object. */
+
+#define Z80_H_(object) (object).hl_.uint8_values.at_1
+
+/** @brief Accesses the L' register of a @ref Z80 @c object. */
+
+#define Z80_L_(object) (object).hl_.uint8_values.at_0
+
 Z_EXTERN_C_BEGIN
 
-/** @brief Sets the power state of a Z80 emulator.
+/** @brief Sets the power state of a @ref Z80 object.
   *
   * @param self Pointer to the object on which the function is called.
   * @param state
@@ -554,7 +625,7 @@ Z80_API void z80_power(Z80 *self, zboolean state);
 
 Z80_API void z80_instant_reset(Z80 *self);
 
-/** @brief Sends a normal RESET signal to a Z80 emulator.
+/** @brief Sends a normal RESET signal to a @ref Z80 object.
   *
   * @details todo
   *
@@ -574,16 +645,16 @@ Z80_API void z80_reset(Z80 *self);
 
 Z80_API void z80_special_reset(Z80 *self);
 
-/** @brief Sets the state of the INT line of a Z80 emulator.
+/** @brief Sets the state of the INT line of a @ref Z80 object.
   *
   * @param self Pointer to the object on which the function is called.
   * @param state
-  *   @c TRUE  = ON  (line low);
-  *   @c FALSE = OFF (line high). */
+  *   @c TRUE  = set line low;
+  *   @c FALSE = set line high. */
 
 Z80_API void z80_int(Z80 *self, zboolean state);
 
-/** @brief Sends a NMI signal to a Z80 emulator.
+/** @brief Triggers the NMI line of a @ref Z80 object.
   *
   * @param self Pointer to the object on which the function is called. */
 

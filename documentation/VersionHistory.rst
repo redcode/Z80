@@ -33,7 +33,7 @@ Changes:
 22. Fixed the clock cycles of the ``dec XY`` and ``in (c)`` instructions.
 23. Fixed the ``read_16`` function so that the order in which the compiler evaluates expressions does not affect the order of the memory read operations.
 24. Fixed the order in which the memory write operations are performed when the SP register is involved. This affects the NMI response, the INT response in modes 1 and 2, and the following instructions: ``ex (sp),{hl|XY}``, ``push TT``, ``push XY``, ``call WORD``, ``call Z,WORD`` and ``rst N``.
-25. Fixed the handling of illegal instructions to avoid stack overflows in long sequences of ``DDh`` / ``FDh`` prefixes.
+25. Fixed the handling of illegal instructions to avoid stack overflows in long sequences of ``DDh/FDh`` prefixes.
 26. Fixed several implicit conversions to avoid warnings about loss of sign and precision.
 27. Fixed some bitwise operations to avoid undefined behavior and arithmetic right shifts on signed integers.
 28. Fixed violations of the C standard in several identifiers.
@@ -43,27 +43,28 @@ Changes:
 32. Replaced all ``ld {J,K|O,P}`` instructions that have the same destination and source register with NOPs.
 33. Reimplemented the HALT state. The emulation should now be fully accurate. HALTskip is also supported.
 34. Added optional emulation of the normal and special RESET signals, along with the new ``z80_reset`` and ``z80_special_reset`` functions to emit them. The old ``z80_reset`` function is now called ``z80_instant_reset``.
-35. Added emulation of the NMI acknowledge M-cycle through the new ``Z80::nmia`` callback.
-36. Added emulation of the INT acknowledge M-cycle through the new ``Z80::inta`` callback, which replaces ``Z80::int_data``.
-37. Added optional full emulation of the interrupt mode 0, along with the new ``Z80::int_fetch`` callback to perform bus read operations on instruction data. If not enabled at compile-time, the old simplified emulation is built, which supports only the most typical instructions.
-38. Added accurate flag behavior in the following instructions: ``ldir``, ``lddr``, ``cpir``, ``cpdr``, ``inir``, ``indr``, ``otir`` and ``otdr``.
-39. Added emulation of the interrupt acceptance deferral that occurs during the ``reti`` and ``retn`` instructions.
-40. Added MEMPTR emulation. The ``bit N,(hl)`` instruction now produces a correct value of F.
-41. Added optional emulation of the Q "register". If enabled at compile-time, the ``ccf`` and ``scf`` instructions produce a correct value of F.
-42. Added emulation options that can be configured at runtime.
-43. Added emulation of the ``out (c),255`` instruction (Zilog Z80 CMOS).
-44. Added optional emulation of the bug affecting the ``ld a,{i|r}`` instructions (Zilog Z80 NMOS). If enabled at compile-time, the P/V flag is reset when an INT is accepted during the execution of these instructions.
-45. Added the ``Z80::fetch_opcode`` and ``Z80::fetch`` callbacks to perform opcode fetch operations and memory read operations on instruction data respectively.
-46. Added hooking functionality through the ``ld h,h`` instruction and the new ``Z80::hook`` callback.
-47. Added the ``Z80::nop`` callback to perform disregarded opcode fetch operations during internal NOP M-cycles.
-48. Added four callbacks to notify the execution of important instructions: ``Z80::ld_i_a``, ``Z80::ld_r_a``, ``Z80::reti`` and ``Z80::retn``.
-49. Removed ``Z80::state``. Replaced with individual members for the registers, the interrupt enable flip-flops and the interrupt mode.
-50. Removed the superfluous EI flag. The previous opcode is checked instead, which is faster and makes the ``Z80`` object smaller.
-51. Removed all module-related stuff.
-52. Optimizations in flag computation and condition evaluation.
-53. New source code comments and improvements to existing ones.
-54. Improved code aesthetics.
-55. Other improvements, optimizations and minor changes.
+35. Added the ``Z80::fetch_opcode`` and ``Z80::fetch`` callbacks to perform opcode fetch operations and memory read operations on instruction data respectively.
+36. Added the ``Z80::nop callback`` to perform disregarded opcode fetch operations during internal NOP M-cycles.
+37. Added emulation of the NMI acknowledge M-cycle through the new ``Z80::nmia`` callback.
+38. Added emulation of the INT acknowledge M-cycle through the new ``Z80::inta`` callback, which replaces ``Z80::int_data``.
+39. Added optional full emulation of the interrupt mode 0, along with the new ``Z80::int_fetch`` callback to perform bus read operations on instruction data. If not enabled at compile-time, the old simplified emulation is built, which supports only the most typical instructions.
+40. Added four callbacks to notify the execution of important instructions: ``Z80::ld_i_a``, ``Z80::ld_r_a``, ``Z80::reti`` and ``Z80::retn``.
+41. Added hooking functionality through the ``ld h,h`` instruction and the new ``Z80::hook`` callback.
+42. Added the ``Z80::illegal`` callback to delegate the emulation of illegal instructions.
+43. Added accurate flag behavior in the following instructions: ``ldir``, ``lddr``, ``cpir``, ``cpdr``, ``inir``, ``indr``, ``otir`` and ``otdr``.
+44. Added emulation of the interrupt acceptance deferral that occurs during the ``reti`` and ``retn`` instructions.
+45. Added MEMPTR emulation. The ``bit N,(hl)`` instruction now produces a correct value of F.
+46. Added optional emulation of the Q "register". If enabled at compile-time, the ``ccf`` and ``scf`` instructions produce a correct value of F.
+47. Added emulation options that can be configured at runtime.
+48. Added emulation of the ``out (c),255`` instruction (Zilog Z80 CMOS).
+49. Added optional emulation of the bug affecting the ``ld a,{i|r}`` instructions (Zilog Z80 NMOS). If enabled at compile-time, the P/V flag is reset when an INT is accepted during the execution of these instructions.
+50. Removed ``Z80::state``. Replaced with individual members for the registers, the interrupt enable flip-flops and the interrupt mode.
+51. Removed the superfluous EI flag. The previous opcode is checked instead, which is faster and makes the ``Z80`` object smaller.
+52. Removed all module-related stuff.
+53. Optimizations in flag computation and condition evaluation.
+54. New source code comments and improvements to existing ones.
+55. Improved code aesthetics.
+56. Other improvements, optimizations and minor changes.
 
 v0.1 (2018-11-10)
 =================

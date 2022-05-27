@@ -764,6 +764,7 @@ int main(int argc, char **argv)
 	cpu.ld_r_a    =
 	cpu.reti      =
 	cpu.retn      = Z_NULL;
+	cpu.illegal   = Z_NULL;
 
 	/* Ensure that all specified test numbers are valid. */
 	for (ii = i; i < argc; i++)

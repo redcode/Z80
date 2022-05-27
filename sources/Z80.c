@@ -1890,6 +1890,7 @@ INSTRUCTION(xy_xy)
 
 INSTRUCTION(ed_illegal)
 	{
+	if (self->illegal != Z_NULL) return self->illegal(CONTEXT, DATA[0]);
 	Q_0
 	PC += 2;
 	return 8;
@@ -1898,7 +1899,7 @@ INSTRUCTION(ed_illegal)
 
 /*------------------------------------------------------------------------.
 | Illegal instructions with DDh or FDh prefix cause the CPU to ignore the |
-| prefix, that is, the byte immediately following the prefix is treated	  |
+| prefix, i.e., the byte immediately following the prefix is interpreted  |
 | as the first byte of a new instruction. The prefix consumes 4 T-states. |
 '========================================================================*/
 
@@ -1907,13 +1908,11 @@ INSTRUCTION(xy_illegal)
 	PC++;
 	DATA[0] = DATA[1];
 
-	if ((self->cycles += 4) >= self->cycle_limit)
-		{
-		RESUME = Z80_RESUME_XY;
-		return 0;
-		}
+	if ((self->cycles += 4) < self->cycle_limit)
+		return instruction_table[DATA[0]](self);
 
-	return instruction_table[DATA[0]](self);
+	RESUME = Z80_RESUME_XY;
+	return 0;
 	}
 
 
