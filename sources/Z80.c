@@ -1988,8 +1988,8 @@ INSTRUCTION(hook)
 
 	static void im0_ld_i_a(IM0 *self) {NOTIFY(ld_i_a);}
 	static void im0_ld_r_a(IM0 *self) {NOTIFY(ld_r_a);}
-	static void im0_reti  (IM0 *self) {NOTIFY(reti  );}
-	static void im0_retn  (IM0 *self) {NOTIFY(retn  );}
+	static void im0_reti  (IM0 *self) {NOTIFY(reti	);}
+	static void im0_retn  (IM0 *self) {NOTIFY(retn	);}
 #endif
 
 
@@ -2405,27 +2405,37 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						/* instructions with EDh prefix */
 						else if (byte == 0xED)
 							{
-							im0.ld_i_a   = self->ld_i_a;
-							im0.ld_r_a   = self->ld_r_a;
-							im0.reti     = self->reti;
-							im0.retn     = self->retn;
-							self->ld_i_a = (Z80Notify)im0_ld_i_a;
-							self->ld_r_a = (Z80Notify)im0_ld_r_a;
-							self->reti   = (Z80Notify)im0_reti;
-							self->retn   = (Z80Notify)im0_retn;
+							Instruction instruction;
 
 							R++;
-							self->cycles += 4 + ed_instruction_table[DATA[1] = INTA](self);
 
-							self->ld_i_a = im0.ld_i_a;
-							self->ld_r_a = im0.ld_r_a;
-							self->reti   = im0.reti;
-							self->retn   = im0.retn;
+							if ((instruction = ed_instruction_table[DATA[1] = byte = INTA]) == ed_illegal)
+								self->cycles += (self->illegal == Z_NULL)
+									? 4 + 8
+									: 4 + self->illegal(CONTEXT, byte);
 
-							/* All except: reti / retn */
-							if ((DATA[1] & 0xC7) != 0x45) PC -= ((DATA[1] & 0xC7) == 0x43)
-								? 4 /* ld SS,(WORD) / ld (WORD),SS */
-								: 2 /* all others		   */;
+							else	{
+								im0.ld_i_a   = self->ld_i_a;
+								im0.ld_r_a   = self->ld_r_a;
+								im0.reti     = self->reti;
+								im0.retn     = self->retn;
+								self->ld_i_a = (Z80Notify)im0_ld_i_a;
+								self->ld_r_a = (Z80Notify)im0_ld_r_a;
+								self->reti   = (Z80Notify)im0_reti;
+								self->retn   = (Z80Notify)im0_retn;
+
+								self->cycles += 4 + instruction(self);
+
+								self->ld_i_a = im0.ld_i_a;
+								self->ld_r_a = im0.ld_r_a;
+								self->reti   = im0.reti;
+								self->retn   = im0.retn;
+
+								/* All except: reti / retn */
+								if ((byte & 0xC7) != 0x45) PC -= ((byte & 0xC7) == 0x43)
+									? 4 /* ld SS,(WORD) / ld (WORD),SS */
+									: 2 /* all others		   */;
+								}
 							}
 
 						/* instructions with DDh, FDh, DDCBh or FDCBh prefix */
