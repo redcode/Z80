@@ -360,16 +360,16 @@ typedef struct {
 	zuint8 halt_line;
 } Z80;
 
-#define Z80_SF 128
-#define Z80_ZF  64
-#define Z80_YF  32
-#define Z80_HF  16
-#define Z80_XF   8
-#define Z80_PF   4
-#define Z80_NF   2
-#define Z80_CF   1
+#define Z80_SF 128 /**< @brief Bitmask of the @ref Z80 S   flag. */
+#define Z80_ZF  64 /**< @brief Bitmask of the @ref Z80 Z   flag. */
+#define Z80_YF  32 /**< @brief Bitmask of the @ref Z80 Y   flag. */
+#define Z80_HF  16 /**< @brief Bitmask of the @ref Z80 H   flag. */
+#define Z80_XF   8 /**< @brief Bitmask of the @ref Z80 X   flag. */
+#define Z80_PF   4 /**< @brief Bitmask of the @ref Z80 P/V flag. */
+#define Z80_NF   2 /**< @brief Bitmask of the @ref Z80 N   flag. */
+#define Z80_CF   1 /**< @brief Bitmask of the @ref Z80 C   flag. */
 
-/** @brief @ref Z80 option that enables the HALTskip optimization. */
+/** @brief @ref Z80 option that enables HALTskip. */
 
 #define Z80_OPTION_HALT_SKIP 16
 
@@ -394,49 +394,80 @@ typedef struct {
 
 #define Z80_OPTION_YQ 32
 
-/** @brief @ref Z80 option that enables all the options required to fully
-  * emulate a Zilog NMOS CPU. */
+/** @brief @ref Z80 meta-option that enables full emulation of the Zilog NMOS
+  * models. */
 
 #define Z80_MODEL_ZILOG_NMOS \
 	(Z80_OPTION_LD_A_IR_BUG | Z80_OPTION_XQ | Z80_OPTION_YQ)
 
-/** @brief @ref Z80 option that enables all the options required to fully
-  * emulate a Zilog CMOS CPU. */
+/** @brief @ref Z80 meta-option that enables full emulation of the Zilog CMOS
+  * models. */
 
 #define Z80_MODEL_ZILOG_CMOS \
 	(Z80_OPTION_OUT_VC_255 | Z80_OPTION_XQ | Z80_OPTION_YQ)
 
-/** @brief @ref Z80 option that enables all the options required to fully
-  * emulate a NEC NMOS CPU. */
+/** @brief @ref Z80 meta-option that enables full emulation of the NEC NMOS
+  * models. */
 
 #define Z80_MODEL_NEC_NMOS \
 	Z80_OPTION_LD_A_IR_BUG
 
-/** @brief @ref Z80 option that enables all the options required to fully
-  * emulate a SGS-Thomson CMOS CPU. */
+/** @brief @ref Z80 meta-option that enables full emulation of the ST CMOS
+  * models. */
 
 #define Z80_MODEL_ST_CMOS \
 	(Z80_OPTION_LD_A_IR_BUG | Z80_OPTION_YQ)
 
-#define Z80_REQUEST_RESET	     3
-#define Z80_REQUEST_REJECT_NMI	     4
-#define Z80_REQUEST_NMI		     8 /**< NMI pending. */
-#define Z80_REQUEST_CLEAR_PC	    16
-#define Z80_REQUEST_SPECIAL_RESET   32
-#define Z80_REQUEST_INT		    64 /**< INT pending. */
-#define Z80_REQUEST_ANY_RESET       35
+/** @brief @ref Z80 request flag anouncing an incoming RESET signal. */
+
+#define Z80_REQUEST_RESET 3
+
+/** @brief @ref Z80 request flag that prevents NMI signals from being accepted.
+  * */
+
+#define Z80_REQUEST_REJECT_NMI 4
+
+/** @brief @ref Z80 request flag anouncing that a non-maskable interrupt signal
+  * has been detected.*/
+
+#define Z80_REQUEST_NMI 8
+
+/** @brief @ref Z80 request flag indicating that... */
+
+#define Z80_REQUEST_CLEAR_PC 16
+
+/** @brief @ref Z80 request flag anouncing an incoming special RESET signal. */
+
+#define Z80_REQUEST_SPECIAL_RESET 32
 
 
-#define Z80_REQUEST_RESET	  3
-#define Z80_REQUEST_INTERRUPT	  5
+#define Z80_REQUEST_INT 64
+#define Z80_REQUEST_ANY_RESET 35
 
-#define Z80_RESUME_HALT		     1 /**< Resume the execution of the HALT state. */
-#define Z80_RESUME_XY		     2 /**< Resume at opcode decode stage in INT mode 0. */
-#define Z80_RESUME_IM0_XY	     3 /**< Resume at opcode decode stage. */
-#define Z80_RESUME_NORMAL_RESET	     4
+
+#define Z80_REQUEST_RESET 3
+
+#define Z80_REQUEST_INTERRUPT 5
+
+/** @brief @ref Z80 resume code that is set when the emulator runs out of clock
+  * cycles during the HALT state. */
+
+#define Z80_RESUME_HALT 1
+
+/** @brief @ref Z80 resume code that is set when the emulator runs out of clock
+  * cycles by fetching a prefix sequence or an illegal instruction with @c DDh
+  * or @c FDh prefix. */
+
+#define Z80_RESUME_XY 2
+
+/** @brief @ref Z80 resume code that is set when the emulator runs out of clock
+  * cycles during a maskable interrupt response in mode 0, by fetching a prefix
+  * sequence or an illegal instruction with @c DDh or @c FDh prefix. */
+
+#define Z80_RESUME_IM0_XY 3
+
 #define Z80_RESUME_SPECIAL_RESET_XY  5
 #define Z80_RESUME_SPECIAL_RESET_NOP 6
-
 
 /** @brief Accesses the MEMPTR register of a @ref Z80 @c object. */
 

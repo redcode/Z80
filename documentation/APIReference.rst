@@ -10,8 +10,8 @@ Library version macros
 .. doxygendefine:: Z80_LIBRARY_VERSION_MICRO
 .. doxygendefine:: Z80_LIBRARY_VERSION_STRING
 
-Callback types
---------------
+Types
+-----
 
 .. doxygentypedef:: Z80Read
 .. doxygentypedef:: Z80Write
@@ -19,15 +19,11 @@ Callback types
 .. doxygentypedef:: Z80Notify
 .. doxygentypedef:: Z80Illegal
 .. doxygentypedef:: Z80Reset
-
-Emulator object
----------------
-
 .. doxygenstruct:: Z80
    :members:
 
-Emulation options
------------------
+Configuration options
+---------------------
 
 .. doxygendefine:: Z80_OPTION_HALT_SKIP
 .. doxygendefine:: Z80_OPTION_LD_A_IR_BUG
@@ -38,6 +34,18 @@ Emulation options
 .. doxygendefine:: Z80_MODEL_ZILOG_CMOS
 .. doxygendefine:: Z80_MODEL_NEC_NMOS
 .. doxygendefine:: Z80_MODEL_ST_CMOS
+
+Flag bitmasks
+-------------
+
+.. doxygendefine:: Z80_SF
+.. doxygendefine:: Z80_ZF
+.. doxygendefine:: Z80_YF
+.. doxygendefine:: Z80_HF
+.. doxygendefine:: Z80_XF
+.. doxygendefine:: Z80_PF
+.. doxygendefine:: Z80_NF
+.. doxygendefine:: Z80_CF
 
 Register accessors
 ------------------

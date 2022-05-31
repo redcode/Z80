@@ -103,8 +103,8 @@ typedef zuint8 (* Instruction)(Z80 *self);
 /* MARK: - External Macros */
 
 #define REGISTER_OFFSET(member) (zusize)Z_MEMBER_OFFSET(Z80, member)
-#define ROL(value)		value = (zuint8)Z_UINT8_ROTATE_LEFT( value, 1)
-#define ROR(value)		value = (zuint8)Z_UINT8_ROTATE_RIGHT(value, 1)
+#define ROL(value)		value = Z_UINT8_ROTATE_LEFT( value, 1)
+#define ROR(value)		value = Z_UINT8_ROTATE_RIGHT(value, 1)
 
 
 /* MARK: - Instance Variable and Callback Shortcuts */
@@ -2219,7 +2219,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 			else if (REQUEST & Z80_REQUEST_NMI)
 				{
-				DATA[0] = IFF1 = 0;
+				IFF1 = 0;
 
 				if (HALT_LINE)
 					{
@@ -2237,7 +2237,6 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 				R++; /* M1 */
 				if (self->nmia != Z_NULL) (void)self->nmia(CONTEXT, PC);
-				Q_0
 
 #				ifdef Z80_WITH_SPECIAL_RESET_SIGNAL
 					PC >>= REQUEST & Z80_REQUEST_CLEAR_PC;
@@ -2250,6 +2249,8 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						Z80_REQUEST_REJECT_NMI;
 #				endif
 
+				DATA[0] = 0;
+				Q_0
 				PUSH(PC);
 				MEMPTR = PC = 0x66;
 				self->cycles += 11;
@@ -2284,7 +2285,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #				endif
 				zuint8 byte;
 
-				DATA[0] = IFF1 = IFF2 = 0;
+				IFF1 = IFF2 = 0;
 
 				if (HALT_LINE)
 					{
@@ -2305,7 +2306,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				| is accepted during the execution of "ld a,{i|r}".    |
 				'=====================================================*/
 #				ifdef Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
-					else if (
+					if (
 						(OPTIONS & Z80_OPTION_LD_A_IR_BUG) &&
 						(self->data.uint16_array[0] & Z_UINT16_BIG_ENDIAN(Z_UINT16(0xFFF7)))
 						==			      Z_UINT16_BIG_ENDIAN(Z_UINT16(0xED57))
@@ -2409,12 +2410,8 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 							R++;
 
-							if ((instruction = ed_instruction_table[DATA[1] = byte = INTA]) == ed_illegal)
-								self->cycles += (self->illegal == Z_NULL)
-									? 4 + 8
-									: 4 + self->illegal(CONTEXT, byte);
-
-							else	{
+							if ((instruction = ed_instruction_table[DATA[1] = byte = INTA]) != ed_illegal)
+								{
 								im0.ld_i_a   = self->ld_i_a;
 								im0.ld_r_a   = self->ld_r_a;
 								im0.reti     = self->reti;
@@ -2436,6 +2433,10 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 									? 4 /* ld SS,(WORD) / ld (WORD),SS */
 									: 2 /* all others		   */;
 								}
+
+							else self->cycles += (self->illegal == Z_NULL)
+								? 4 + 8
+								: 4 + self->illegal(CONTEXT, byte);
 							}
 
 						/* instructions with DDh, FDh, DDCBh or FDCBh prefix */
@@ -2542,6 +2543,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| data read from the data bus is disregarded.		    |
 					'==========================================================*/
 					case 1:
+					DATA[0] = 0;
 					Q_0
 					PUSH(PC);
 					MEMPTR = PC = 0x38;
@@ -2570,6 +2572,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					|    v0.91 p. 20.						       |
 					'=====================================================================*/
 					case 2:
+					DATA[0] = 0;
 					Q_0
 					PUSH(PC);
 					MEMPTR = PC = READ_16((zuint16)(((zuint16)I << 8) | byte));
