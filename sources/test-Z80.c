@@ -648,7 +648,7 @@ int main(int argc, char **argv)
 			puts(	"Usage: test-Z80 [options] (--all | <test>...)\n"
 				"\n"
 				"Options:\n"
-				"  -V, --verbosity (0..4)  Set the verbosity level (default is 3).\n"
+				"  -V, --verbosity (0..4)  Set the verbosity level (4 by default).\n"
 				"  -0, --in-even <value>   Set the 8-bit value to be read from even I/O ports.\n"
 				"  -1, --in-odd <value>    Set the 8-bit value to be read from odd I/O ports.\n"
 				"  -a, --all               Run all tests.\n"
