@@ -127,18 +127,11 @@ static Test const tests[22] = {
 	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								 5573, 120,  5452, 0x8049, 0x80E6, TEST_FORMAT_WOODMASS,  61}
 };
 
-static char const *const cpu_model_identifiers[4] = {
-	"zilog-nmos",
-	"zilog-cmos",
-	"nec-nmos",
-	"st-cmos"
-};
-
-static char const cpu_model_keys[4] = {
-	Z80_MODEL_ZILOG_NMOS,
-	Z80_MODEL_ZILOG_CMOS,
-	Z80_MODEL_NEC_NMOS,
-	Z80_MODEL_ST_CMOS
+static struct {char const *key; zuint8 options;} const cpu_models[4] = {
+	{"zilog-nmos", Z80_MODEL_ZILOG_NMOS},
+	{"zilog-cmos", Z80_MODEL_ZILOG_CMOS},
+	{"nec-nmos",   Z80_MODEL_NEC_NMOS  },
+	{"st-cmos",    Z80_MODEL_ST_CMOS   }
 };
 
 /* Instance of the Z80 CPU emulator and 64 KB of memory. */
@@ -606,18 +599,11 @@ static zuint8 run_test(zuint test_index)
 	}
 
 
-static zboolean is_option(
-	char const* string,
-	char const* short_option,
-	char const* long_option
-)
-	{
-	return	!strcmp(string, short_option) ||
-		!strcmp(string, long_option);
-	}
+static zboolean is_option(char const* string, char const* short_option, char const* long_option)
+	{return !strcmp(string, short_option) || !strcmp(string, long_option);}
 
 
-static zboolean string_to_uint8(char const* string, zuint8 maximum_value, zuint8 *byte)
+static zboolean to_uint8(char const* string, zuint8 maximum_value, zuint8 *byte)
 	{
 	char *end;
 	zulong value = strtoul(string, &end, 0);
@@ -711,7 +697,7 @@ int main(int argc, char **argv)
 			{
 			if (++i == argc) goto incomplete_option;
 
-			if (!string_to_uint8(argv[i], 4, &verbosity))
+			if (!to_uint8(argv[i], 4, &verbosity))
 				{
 				invalid = "verbosity level";
 				goto invalid_argument;
@@ -721,19 +707,19 @@ int main(int argc, char **argv)
 		else if (is_option(argv[i], "-0", "--in-even"))
 			{
 			if (++i == argc) goto incomplete_option;
-			if (!string_to_uint8(argv[i], 255, &in_values[0])) goto invalid_io_value;
+			if (!to_uint8(argv[i], 255, &in_values[0])) goto invalid_io_value;
 			}
 
 		else if (is_option(argv[i], "-1", "--in-odd"))
 			{
 			if (++i == argc) goto incomplete_option;
-			if (!string_to_uint8(argv[i], 255, &in_values[1])) goto invalid_io_value;
+			if (!to_uint8(argv[i], 255, &in_values[1])) goto invalid_io_value;
 			}
 
 		else if (is_option(argv[i], "-m", "--model"))
 			{
 			if (++i == argc) goto incomplete_option;
-			for (ii = 0; ii < 4; ii++) if (!strcmp(argv[i], cpu_model_identifiers[ii])) break;
+			for (ii = 0; ii < 4; ii++) if (!strcmp(argv[i], cpu_models[ii].key)) break;
 
 			if (ii == 4)
 				{
@@ -741,7 +727,7 @@ int main(int argc, char **argv)
 				goto invalid_argument;
 				}
 
-			cpu.options = cpu_model_keys[ii];
+			cpu.options = cpu_models[ii].options;
 			}
 
 		else if (is_option(argv[i], "-p", "--path"))
