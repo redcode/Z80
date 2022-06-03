@@ -141,34 +141,51 @@ static char const cpu_model_keys[4] = {
 	Z80_MODEL_ST_CMOS
 };
 
-/* Instance of the Z80 Emulator. */
+/* Instance of the Z80 CPU emulator and 64 KB of memory. */
 static Z80 cpu;
-
-/* 64 KB of memory needed by the emulator. */
 static zuint8 memory[65536];
 
-/* TRUE if the test is completed, or FALSE otherwise. */
+/* Whether or not the current test has been completed. */
 static zboolean test_completed;
 
+/* Whether or not the last character printed was a TAB.
+ * Only used in ZX Spectrum tests. */
 static zboolean zx_spectrum_tab;
 
-/* X position of the cursor inside ZX Spectrum screen paper
- * (in characters). */
+/* X position of the cursor inside screen paper (in characters).
+ * Only used in ZX Spectrum tests. */
 static zuint zx_spectrum_column;
 
-/* Number of text lines printed by the current/latest test.
- * It is used to know whether the test passed or produced errors. */
+/* Number of text lines printed by the current test program. It is used
+ * to know whether the test has been passed or has produced errors. */
 static zuint lines;
 
-/* Address where to place a CPU trap to intercept the PRINT */
+/* Address where to place a trap to intercept the PRINT routine used by
+ * the test program. */
 static zuint16 print_hook_address;
 
-/* */
+/* [0] = Value read from even I/O ports.
+ * [1] = Value read from odd I/O ports. */
 static zuint8 in_values[2];
+
+/* Verbosity level. */
+static zuint8 verbosity = 4;
+
+/* Wheter or not to print the output of the test program being run. This is
+ * TRUE only if the verbosity level is 4. It is used to simplify the code. */
+static zboolean show_test_output;
 
 static char*  path_buffer	= Z_NULL;
 static char** search_paths	= Z_NULL;
 static zuint  search_path_count = 0;
+
+/* [0] = Number of failed tests.
+ * [1] = Number of passed tests. */
+static zuint results[2];
+
+/* String containing what has been detected as invalid
+ * when parsing the command line. */
+static const char *invalid;
 
 
 /* MARK: - CPU Callbacks: Common */
@@ -212,22 +229,19 @@ static void cpm_cpu_write(void *context, zuint16 address, zuint8 value)
 
 static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 	{
-	Z_UNUSED(context)
+	zuint8 character;
 
+	Z_UNUSED(context)
 	if (address != 5) return OPCODE_NOP;
 
-	if (Z80_C(cpu) == 2) switch (Z80_E(cpu))
+	if (Z80_C(cpu) == 2) switch ((character = Z80_E(cpu)))
 		{
-		case 0x0D:
-		break;
-
-		case 0x0A:
-		putchar('\n');
-		lines++;
-		break;
+		case 0x0D: break;
+		case 0x0A: character = '\n';
+		case 0x3A: lines++;
 
 		default:
-		putchar(Z80_E(cpu));
+		if (show_test_output) putchar(character);
 		}
 
 	else if (Z80_C(cpu) == 9)
@@ -237,27 +251,21 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 
 		while (memory[i] != '$')
 			{
-			zuint8 character;
-
 			if (c++ > 100)
 				{
 				putchar('\n');
-				fputs("Error: String to print is too long!\n", stderr);
+				fputs("FATAL ERROR: String to print is too long!\n", stderr);
 				exit(EXIT_FAILURE);
 				}
 
 			switch ((character = memory[i++]))
 				{
-				case 0x0D:
-				break;
-
-				case 0x0A:
-				putchar('\n');
-				lines++;
-				break;
+				case 0x0D: break;
+				case 0x0A: character = '\n';
+				case 0x3A: lines++;
 
 				default:
-				putchar(character);
+				if (show_test_output) putchar(character);
 				}
 			}
 		}
@@ -279,27 +287,30 @@ static void zx_spectrum_cpu_write(void *context, zuint16 address, zuint8 value)
 static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 	{
 	Z_UNUSED(context)
-
 	if (address != print_hook_address) return OPCODE_NOP;
 
 	if (zx_spectrum_tab)
 		{
-		zuint c = (Z80_A(cpu) % 32) - (zx_spectrum_column % 32);
+		if (show_test_output)
+			{
+			zuint c = (Z80_A(cpu) % 32) - (zx_spectrum_column % 32);
 
-		while (c--) putchar(' ');
+			while (c--) putchar(' ');
+			}
+
 		zx_spectrum_tab = FALSE;
 		}
 
 	else switch (Z80_A(cpu))
 		{
 		case 0x0D: /* CR */
-		putchar('\n');
+		if (show_test_output) putchar('\n');
 		lines++;
 		zx_spectrum_column = 0;
 		break;
 
 		case 0x7F: /* © */
-		printf("©");
+		if (show_test_output) printf("©");
 		zx_spectrum_column++;
 		break;
 
@@ -310,8 +321,8 @@ static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 		default:
 		if (Z80_A(cpu) >= 32 && Z80_A(cpu) < 127)
 			{
-			putchar(Z80_A(cpu));
-			zx_spectrum_column++;
+			if (show_test_output) putchar(Z80_A(cpu));
+			lines += ++zx_spectrum_column > 32;
 			}
 		}
 
@@ -460,19 +471,25 @@ static zboolean load_test(const char *path, Test const *test, void *buffer)
 	}
 
 
-static zboolean run_test(zuint test_index)
+static zuint8 run_test(zuint test_index)
 	{
 	Test const *test = &tests[test_index];
 	zuint16 start_address = test->start_address;
 	zuint i = 0;
 
-	if (test->archive_name == Z_NULL) printf(
-		"[%02u] %s\n* Loading program...",
-		test_index, test->file_path);
+	if (verbosity)
+		{
+		printf(verbosity == 1 ? "%02u" : "[%02u] ", test_index);
 
-	else printf(
-		"[%02u] %s/%s\n* Loading program...",
-		test_index, test->archive_name, test->file_path);
+		if (verbosity >= 2)
+			{
+			if (test->archive_name == Z_NULL) printf("%s", test->file_path);
+			else printf("%s/%s", test->archive_name, test->file_path);
+			if (verbosity >= 3) printf("\n* Loading program");
+			}
+
+		printf("...");
+		}
 
 	memset(memory, 0, 65536);
 
@@ -485,11 +502,11 @@ static zboolean run_test(zuint test_index)
 		!load_test(Z_NULL, test, memory + (start_address & 0xFF00))
 	)
 		{
-		puts(" ERROR\nTest skipped.\n");
+		if (verbosity) puts(" ERROR (test skipped)\n");
 		return FALSE;
 		}
 
-	puts(" OK");
+	if (verbosity >= 3) puts(" OK");
 	z80_power(&cpu, TRUE);
 
 	if (test->format == TEST_FORMAT_CPM)
@@ -509,7 +526,7 @@ static zboolean run_test(zuint test_index)
 
 		if (test->format == TEST_FORMAT_WOODMASS)
 			{
-			printf("* Loading firmware...");
+			if (verbosity >= 3) printf("* Loading firmware...");
 
 			for (	i = 0;
 				i < search_path_count &&
@@ -521,11 +538,11 @@ static zboolean run_test(zuint test_index)
 				!load_file(Z_NULL, "ZX Spectrum.rom", 16384, 0, 16384, memory)
 			)
 				{
-				puts(" ERROR\nTest skipped.\n");
+				if (verbosity) puts(" ERROR (test skipped)\n");
 				return FALSE;
 				}
 
-			puts(" OK");
+			if (verbosity >= 3) puts(" OK");
 			Z80_SP(cpu) = 0x7FE8;
 			Z80_AF(cpu) = 0x3222;
 
@@ -571,7 +588,7 @@ static zboolean run_test(zuint test_index)
 	zx_spectrum_tab		   = FALSE;
 	test_completed		   = FALSE;
 
-	puts("* Running program...\n");
+	if (verbosity >= 3) printf("* Running program...%s", show_test_output ? "\n\n" : "");
 
 	do
 #	ifdef TEST_Z80_WITH_EXECUTE
@@ -581,7 +598,10 @@ static zboolean run_test(zuint test_index)
 #	endif
 	while (!test_completed);
 
-	puts(test->format == TEST_FORMAT_RAK ? "" : "\n");
+	if (verbosity) puts(show_test_output
+		? (test->format == TEST_FORMAT_RAK ? "" : "\n")
+		: (lines == test->lines_expected ? " OK" : " FAILED"));
+
 	return lines == test->lines_expected;
 	}
 
@@ -597,7 +617,7 @@ static zboolean is_option(
 	}
 
 
-static zboolean byte_value(char const* string, zuint8 maximum_value, zuint8 *byte)
+static zboolean string_to_uint8(char const* string, zuint8 maximum_value, zuint8 *byte)
 	{
 	char *end;
 	zulong value = strtoul(string, &end, 0);
@@ -613,11 +633,13 @@ int main(int argc, char **argv)
 	zboolean all = FALSE;
 	zuint32 tests_run = 0;
 	zusize longest_search_path_size = 0;
-	int ii, i = 0, status = 0;
+	int ii, i = 0;
 
 	cpu.options  = Z80_MODEL_ZILOG_NMOS;
 	in_values[0] = 191;
 	in_values[1] = 255;
+	results  [1] =
+	results  [0] = 0;
 
 	while (++i < argc && *argv[i] == '-')
 		{
@@ -626,13 +648,14 @@ int main(int argc, char **argv)
 			puts(	"Usage: test-Z80 [options] (--all | <test>...)\n"
 				"\n"
 				"Options:\n"
-				"  -a, --all              Run all tests.\n"
-				"  -h, --help             Show this help message.\n"
-				"  -e, --in-even <value>  Set the 8-bit value to be read from even I/O ports.\n"
-				"  -o, --in-odd <value>   Set the 8-bit value to be read from odd I/O ports.\n"
-				"  -m, --model <model>    Specify the CPU model to emulate.\n"
-				"  -p, --path <path>      Specify a directory where to look for test files.\n"
-				"  -v, --version          Show version and copyright.\n"
+				"  -V, --verbosity (0..4)  Set the verbosity level (default is 3).\n"
+				"  -0, --in-even <value>   Set the 8-bit value to be read from even I/O ports.\n"
+				"  -1, --in-odd <value>    Set the 8-bit value to be read from odd I/O ports.\n"
+				"  -a, --all               Run all tests.\n"
+				"  -h, --help              Show this help message.\n"
+				"  -m, --model <model>     Specify the CPU model to emulate.\n"
+				"  -p, --path <path>       Add a path where to look for the required files.\n"
+				"  -v, --version           Show version and copyright.\n"
 				"\n"
 				"CPU models:\n"
 				"  zilog-nmos  Zilog NMOS (default)\n"
@@ -684,16 +707,27 @@ int main(int argc, char **argv)
 			goto exit_without_error;
 			}
 
-		else if (is_option(argv[i], "-e", "--in-even"))
+		else if (is_option(argv[i], "-V", "--verbosity"))
 			{
 			if (++i == argc) goto incomplete_option;
-			if (!byte_value(argv[i], 255, &in_values[0])) goto invalid_io_value;
+
+			if (!string_to_uint8(argv[i], 4, &verbosity))
+				{
+				invalid = "verbosity level";
+				goto invalid_argument;
+				}
 			}
 
-		else if (is_option(argv[i], "-o", "--in-odd"))
+		else if (is_option(argv[i], "-0", "--in-even"))
 			{
 			if (++i == argc) goto incomplete_option;
-			if (!byte_value(argv[i], 255, &in_values[1])) goto invalid_io_value;
+			if (!string_to_uint8(argv[i], 255, &in_values[0])) goto invalid_io_value;
+			}
+
+		else if (is_option(argv[i], "-1", "--in-odd"))
+			{
+			if (++i == argc) goto incomplete_option;
+			if (!string_to_uint8(argv[i], 255, &in_values[1])) goto invalid_io_value;
 			}
 
 		else if (is_option(argv[i], "-m", "--model"))
@@ -703,8 +737,8 @@ int main(int argc, char **argv)
 
 			if (ii == 4)
 				{
-				fprintf(stderr, "Invalid CPU model: '%s'\n", argv[i]);
-				goto bad_syntax;
+				invalid = "CPU model";
+				goto invalid_argument;
 				}
 
 			cpu.options = cpu_model_keys[ii];
@@ -732,8 +766,8 @@ int main(int argc, char **argv)
 			all = TRUE;
 
 		else	{
-			fprintf(stderr, "Invalid option: '%s'\n", argv[i]);
-			goto bad_syntax;
+			invalid = "option";
+			goto invalid_argument;
 			}
 		}
 
@@ -774,31 +808,42 @@ int main(int argc, char **argv)
 
 		if (strtoul(string, &end, 10) >= Z_ARRAY_SIZE(tests) || end == string || *end)
 			{
-			fprintf(stderr, "Invalid test number: '%s'\n", string);
-			goto bad_syntax;
+			invalid = "test number";
+			goto invalid_argument;
 			}
 		}
+
+	show_test_output = verbosity == 4;
 
 	while (ii < argc)
 		{
 		tests_run |= Z_UINT32(1) << (i = atoi(argv[ii++]));
-		if (!run_test(i)) status = -1;
+		results[run_test(i)]++;
 		}
 
 	if (all) for (i = 0; i < Z_ARRAY_SIZE(tests); i++)
-		if (!(tests_run & (Z_UINT32(1) << i)) && !run_test(i)) status = -1;
+		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test(i)]++;
+
+	printf(	"%sResults: %u test%s passed, %u failed\n",
+		(verbosity && verbosity < 4) ? "\n" : "",
+		results[1],
+		results[1] == 1 ? "" : "s",
+		results[0]);
 
 	exit_without_error:
 	free(search_paths);
 	free(path_buffer);
-	return status;
+	return results[0] ? -1 : 0;
 
 	incomplete_option:
 	fprintf(stderr, "Incomplete option: '%s'\n", argv[i - 1]);
 	goto bad_syntax;
 
 	invalid_io_value:
-	fprintf(stderr, "Invalid I/O value: '%s'\n", argv[i]);
+	invalid = "I/O value";
+
+	invalid_argument:
+	fprintf(stderr, "Invalid %s: '%s'\n", invalid, argv[i]);
 
 	bad_syntax:
 	fputs("Type 'test-Z80 -h' for help.\n", stderr);
