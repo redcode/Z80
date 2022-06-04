@@ -25,10 +25,8 @@
 #	include <zip.h>
 #	include <zlib.h>
 
-	/*-----------------------------------------.
-	| Z_NULL is also defined by Zeta, so it is |
-	| undefined to avoid conflicts with zlib.  |
-	'=========================================*/
+	/* Z_NULL is also defined by Zeta, so it is
+	** undefined to avoid conflicts with zlib. */
 #	ifdef Z_NULL
 #		undef Z_NULL
 #	endif
@@ -56,11 +54,11 @@
 #define TEST_FORMAT_CPM 0
 
 /* ZX Spectrum TAP image. Different versions of the Z80 Instruction Set
- * Exerciser adapted and improved by Jonathan Graham Harston and others. */
+** Exerciser adapted and improved by Jonathan Graham Harston and others. */
 #define TEST_FORMAT_HARSTON 1
 
 /* ZX Spectrum TAP image. Tapes of the Zilog Z80 CPU Test Suite written by
- * Patrik Rak. */
+** Patrik Rak. */
 #define TEST_FORMAT_RAK 2
 
 /* ZX Spectrum TAP image. Z80 Test Suite, written by Mark Woodmass. */
@@ -74,7 +72,7 @@ typedef struct {
 	char const* archive_name;
 
 	/* Name of the test program file, or the path to the file inside the
-	 * archive if the file is compressed. */
+	** archive if the file is compressed. */
 	char const* file_path;
 
 	/* Size of the program file. */
@@ -142,15 +140,15 @@ static zuint8 memory[65536];
 static zboolean test_completed;
 
 /* Whether or not the last character printed was a TAB.
- * Only used in ZX Spectrum tests. */
+** Only used in ZX Spectrum tests. */
 static zboolean zx_spectrum_tab;
 
 /* X position of the cursor inside screen paper (in characters).
- * Only used in ZX Spectrum tests. */
+** Only used in ZX Spectrum tests. */
 static zuint zx_spectrum_column;
 
 /* Number of text lines printed by the current test program. It is used
- * to know whether the test has been passed or has produced errors. */
+** to know whether the test has been passed or has produced errors. */
 static zuint lines;
 
 /* Address where to place a trap to intercept the PRINT routine used by
@@ -158,14 +156,14 @@ static zuint lines;
 static zuint16 print_hook_address;
 
 /* [0] = Value read from even I/O ports.
- * [1] = Value read from odd I/O ports. */
+** [1] = Value read from odd I/O ports. */
 static zuint8 in_values[2];
 
 /* Verbosity level. */
 static zuint8 verbosity = 4;
 
 /* Wheter or not to print the output of the test program being run. This is
- * TRUE only if the verbosity level is 4. It is used to simplify the code. */
+** TRUE only if the verbosity level is 4. It is used to simplify the code. */
 static zboolean show_test_output;
 
 static char*  path_buffer	= Z_NULL;
@@ -173,11 +171,11 @@ static char** search_paths	= Z_NULL;
 static zuint  search_path_count = 0;
 
 /* [0] = Number of failed tests.
- * [1] = Number of passed tests. */
+** [1] = Number of passed tests. */
 static zuint results[2];
 
 /* String containing what has been detected as invalid
- * when parsing the command line. */
+** when parsing the command line. */
 static const char *invalid;
 
 
@@ -624,11 +622,11 @@ int main(int argc, char **argv)
 	results[1] = results[0] = 0;
 
 	/* If no CPU model is specified in the command line,
-	 * the Z80 CPU emulator will behave as a Zilog NMOS. */
+	** the Z80 CPU emulator will behave as a Zilog NMOS. */
 	cpu.options  = Z80_MODEL_ZILOG_NMOS;
 
 	/* If no I/O port read values are specified in the command line,
-	 * the normal values for a ZX Spectrum will be used. */
+	** the normal values for a ZX Spectrum will be used. */
 	in_values[0] = 191;
 	in_values[1] = 255;
 
@@ -794,25 +792,30 @@ int main(int argc, char **argv)
 		setvbuf(stdout, Z_NULL, _IONBF, 0);
 
 		/* The output of the test programs must only be printed
-		 * when using the maximum verbosity level. */
+		** when using the maximum verbosity level. */
 		show_test_output = verbosity == 4;
 		}
 
-	/* Configure the Z80 CPU emulator. No context is needed, as the object
-	 * is a global variable. There is no need to distinguish between memory
-	 * read on instruction data, memory read on non-instruction data and
-	 * internal NOP opcode fetch. Entering the HALT state will mean that
-	 * the test program has completed. */
-	cpu.context   = Z_NULL;
-	cpu.fetch     =
-	cpu.read      =
-	cpu.nop       = cpu_read;
-	cpu.in	      = cpu_in;
-	cpu.out       = cpu_out;
-	cpu.halt      = cpu_halt;
+	/* Configure the Z80 CPU emulator. */
+
+	/* No context is needed, as the object is a global variable. */
+	cpu.context = Z_NULL;
+
+	/* There is no need to distinguish between memory read on instruction
+	** data, memory read on non-instruction data and internal NOP opcode
+	** fetch. */
+	cpu.fetch =
+	cpu.read  =
+	cpu.nop   = cpu_read;
+	cpu.in	  = cpu_in;
+	cpu.out   = cpu_out;
+
+	/* Entering the HALT state will mean that the test program has
+	** completed. */
+	cpu.halt = cpu_halt;
 
 	/* The following callbacks of the Z80 CPU emulator
-	 * are not required by the test programs: */
+	** are not required by the test programs: */
 	cpu.nmia      =
 	cpu.inta      =
 	cpu.int_fetch = Z_NULL;
@@ -824,7 +827,7 @@ int main(int argc, char **argv)
 	cpu.illegal   = Z_NULL;
 
 	/* First run the tests whose numbers are explicitly
-	 * specified in the command line. */
+	** specified in the command line. */
 	while (ii < argc)
 		{
 		tests_run |= Z_UINT32(1) << (i = atoi(argv[ii++]));
@@ -832,7 +835,7 @@ int main(int argc, char **argv)
 		}
 
 	/* If all tests must be run, do so without repeating
-	 * those already run. */
+	** those already run. */
 	if (all) for (i = 0; i < (int)Z_ARRAY_SIZE(tests); i++)
 		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test(i)]++;
 
