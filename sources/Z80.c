@@ -1840,7 +1840,7 @@ INSTRUCTION(xy_cb_prefix)
 | and the final instruction is executed. Each prefix consumes 4 T-states.      |
 '=============================================================================*/
 
-// TODO: RESET
+/* TODO: RESET */
 
 INSTRUCTION(xy_xy)
 	{
