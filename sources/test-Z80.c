@@ -52,6 +52,20 @@
 #define OPCODE_CALL_WORD 0xCD
 #define OPCODE_JP_WORD	 0xC3
 
+/* CP/M program in COM format. */
+#define TEST_FORMAT_CPM 0
+
+/* ZX Spectrum TAP image. Different versions of the Z80 Instruction Set
+ * Exerciser adapted and improved by Jonathan Graham Harston and others. */
+#define TEST_FORMAT_HARSTON 1
+
+/* ZX Spectrum TAP image. Tapes of the Zilog Z80 CPU Test Suite written by
+ * Patrik Rak. */
+#define TEST_FORMAT_RAK 2
+
+/* ZX Spectrum TAP image. Z80 Test Suite, written by Mark Woodmass. */
+#define TEST_FORMAT_WOODMASS 3
+
 
 /* MARK: - Types */
 
@@ -84,20 +98,6 @@ typedef struct {
 	/* Total number of lines printed by the test when it passes. */
 	zuint8 lines_expected;
 } Test;
-
-/* CP/M program in COM format. */
-#define TEST_FORMAT_CPM 0
-
-/* ZX Spectrum TAP image. Different versions of the Z80 Instruction Set
- * Exerciser adapted and improved by Jonathan Graham Harston and others. */
-#define TEST_FORMAT_HARSTON 1
-
-/* ZX Spectrum TAP image. Tapes of the Zilog Z80 CPU Test Suite written by
- * Patrik Rak. */
-#define TEST_FORMAT_RAK 2
-
-/* ZX Spectrum TAP image. Z80 Test Suite, written by Mark Woodmass. */
-#define TEST_FORMAT_WOODMASS 3
 
 
 /* MARK: - Global Variables */
@@ -766,7 +766,7 @@ int main(int argc, char **argv)
 	if (search_path_count) path_buffer = malloc(longest_search_path_size + 110);
 
 	/* Configure stdout as unbuffered. */
-	setvbuf(stdout, Z_NULL, _IONBF, 0);
+	if (verbosity) setvbuf(stdout, Z_NULL, _IONBF, 0);
 
 	/* Configure the Z80 emulator */
 	cpu.context   = Z_NULL;
