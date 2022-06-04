@@ -156,8 +156,9 @@ static zuint lines;
 static zuint16 print_hook_address;
 
 /* [0] = Value read from even I/O ports.
-** [1] = Value read from odd I/O ports. */
-static zuint8 in_values[2];
+** [1] = Value read from odd I/O ports.
+** The default values are those of the ZX Spectrum. */
+static zuint8 in_values[2] = {191, 255};
 
 /* Verbosity level. */
 static zuint8 verbosity = 4;
@@ -169,10 +170,6 @@ static zboolean show_test_output;
 static char*  path_buffer	= Z_NULL;
 static char** search_paths	= Z_NULL;
 static zuint  search_path_count = 0;
-
-/* [0] = Number of failed tests.
-** [1] = Number of passed tests. */
-static zuint results[2];
 
 /* String containing what has been detected as invalid
 ** when parsing the command line. */
@@ -611,6 +608,7 @@ static zboolean to_uint8(char const* string, zuint8 maximum_value, zuint8 *byte)
 	return TRUE;
 	}
 
+typedef struct {int a, b;} AB;
 
 int main(int argc, char **argv)
 	{
@@ -618,17 +616,15 @@ int main(int argc, char **argv)
 	zuint32 tests_run = 0;
 	zusize longest_search_path_size = 0;
 	int ii, i = 0;
+	AB ab = {1, 2};
 
-	results[1] = results[0] = 0;
+	/* [0] = Number of tests failed.
+	** [1] = Number of tests passed. */
+	zuint results[2] = {0, 0};
 
 	/* If no CPU model is specified in the command line,
 	** the Z80 CPU emulator will behave as a Zilog NMOS. */
-	cpu.options  = Z80_MODEL_ZILOG_NMOS;
-
-	/* If no I/O port read values are specified in the command line,
-	** the normal values for a ZX Spectrum will be used. */
-	in_values[0] = 191;
-	in_values[1] = 255;
+	cpu.options  = Z80_MODEL_ZILOG_NMOS + !!ab.a;
 
 	while (++i < argc && *argv[i] == '-')
 		{
@@ -806,6 +802,7 @@ int main(int argc, char **argv)
 	** fetch. */
 	cpu.fetch =
 	cpu.read  =
+
 	cpu.nop   = cpu_read;
 	cpu.in	  = cpu_in;
 	cpu.out   = cpu_out;
@@ -831,13 +828,13 @@ int main(int argc, char **argv)
 	while (ii < argc)
 		{
 		tests_run |= Z_UINT32(1) << (i = atoi(argv[ii++]));
-		results[run_test(i)]++;
+		results[run_test((zuint)i)]++;
 		}
 
 	/* If all tests must be run, do so without repeating
 	** those already run. */
 	if (all) for (i = 0; i < (int)Z_ARRAY_SIZE(tests); i++)
-		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test(i)]++;
+		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test((zuint)i)]++;
 
 	/* Print the summary of the results. */
 	printf(	"%sResults: %u test%s passed, %u failed\n",
