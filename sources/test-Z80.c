@@ -807,7 +807,7 @@ int main(int argc, char **argv)
 		results[run_test(i)]++;
 		}
 
-	if (all) for (i = 0; i < Z_ARRAY_SIZE(tests); i++)
+	if (all) for (i = 0; i < (int)Z_ARRAY_SIZE(tests); i++)
 		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test(i)]++;
 
 	printf(	"%sResults: %u test%s passed, %u failed\n",
