@@ -608,7 +608,6 @@ static zboolean to_uint8(char const* string, zuint8 maximum_value, zuint8 *byte)
 	return TRUE;
 	}
 
-typedef struct {int a, b;} AB;
 
 int main(int argc, char **argv)
 	{
@@ -616,7 +615,6 @@ int main(int argc, char **argv)
 	zuint32 tests_run = 0;
 	zusize longest_search_path_size = 0;
 	int ii, i = 0;
-	AB ab = {1, 2};
 
 	/* [0] = Number of tests failed.
 	** [1] = Number of tests passed. */
@@ -624,7 +622,7 @@ int main(int argc, char **argv)
 
 	/* If no CPU model is specified in the command line,
 	** the Z80 CPU emulator will behave as a Zilog NMOS. */
-	cpu.options  = Z80_MODEL_ZILOG_NMOS + !!ab.a;
+	cpu.options  = Z80_MODEL_ZILOG_NMOS;
 
 	while (++i < argc && *argv[i] == '-')
 		{
