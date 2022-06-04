@@ -621,11 +621,16 @@ int main(int argc, char **argv)
 	zusize longest_search_path_size = 0;
 	int ii, i = 0;
 
+	results[1] = results[0] = 0;
+
+	/* If no CPU model is specified in the command line,
+	 * the Z80 CPU emulator will behave as a Zilog NMOS. */
 	cpu.options  = Z80_MODEL_ZILOG_NMOS;
+
+	/* If no I/O port read values are specified in the command line,
+	 * the normal values for a ZX Spectrum will be used. */
 	in_values[0] = 191;
 	in_values[1] = 255;
-	results  [1] =
-	results  [0] = 0;
 
 	while (++i < argc && *argv[i] == '-')
 		{
@@ -739,10 +744,7 @@ int main(int argc, char **argv)
 			if (s > longest_search_path_size) longest_search_path_size = s;
 
 			if ((p = realloc(search_paths, (search_path_count + 1) * sizeof(char *))) == Z_NULL)
-				{
-				fputs("Error: Not enough memory available.", stderr);
-				goto exit_with_error;
-				}
+				goto not_enough_memory_available;
 
 			search_paths = p;
 			search_paths[search_path_count++] = argv[i];
@@ -757,36 +759,14 @@ int main(int argc, char **argv)
 			}
 		}
 
+	/* It is mandatory to specify at least one test number in */
 	if (i == argc && !all)
 		{
 		fputs("No test specified.\n", stderr);
 		goto bad_syntax;
 		}
 
-	if (search_path_count) path_buffer = malloc(longest_search_path_size + 110);
-
-	/* Configure stdout as unbuffered. */
-	if (verbosity) setvbuf(stdout, Z_NULL, _IONBF, 0);
-
-	/* Configure the Z80 emulator */
-	cpu.context   = Z_NULL;
-	cpu.fetch     =
-	cpu.read      =
-	cpu.nop	      = cpu_read;
-	cpu.in	      = cpu_in;
-	cpu.out	      = cpu_out;
-	cpu.halt      = cpu_halt;
-	cpu.nmia      =
-	cpu.inta      =
-	cpu.int_fetch = Z_NULL;
-	cpu.reset     = Z_NULL;
-	cpu.ld_i_a    =
-	cpu.ld_r_a    =
-	cpu.reti      =
-	cpu.retn      = Z_NULL;
-	cpu.illegal   = Z_NULL;
-
-	/* Ensure that all specified test numbers are valid. */
+	/* All test numbers specified in the command line must be valid. */
 	for (ii = i; i < argc; i++)
 		{
 		char const *string = argv[i];
@@ -799,17 +779,64 @@ int main(int argc, char **argv)
 			}
 		}
 
-	show_test_output = verbosity == 4;
+	if (	search_path_count &&
+		(path_buffer = malloc(longest_search_path_size + 110)) == Z_NULL
+	)
+		{
+		not_enough_memory_available:
+		fputs("Error: Not enough memory available.", stderr);
+		goto exit_with_error;
+		}
 
+	if (verbosity)
+		{
+		/* Configure stdout as unbuffered. */
+		setvbuf(stdout, Z_NULL, _IONBF, 0);
+
+		/* The output of the test programs must only be printed
+		 * when using the maximum verbosity level. */
+		show_test_output = verbosity == 4;
+		}
+
+	/* Configure the Z80 CPU emulator. No context is needed, as the object
+	 * is a global variable. There is no need to distinguish between memory
+	 * read on instruction data, memory read on non-instruction data and
+	 * internal NOP opcode fetch. Entering the HALT state will mean that
+	 * the test program has completed. */
+	cpu.context   = Z_NULL;
+	cpu.fetch     =
+	cpu.read      =
+	cpu.nop       = cpu_read;
+	cpu.in	      = cpu_in;
+	cpu.out       = cpu_out;
+	cpu.halt      = cpu_halt;
+
+	/* The following callbacks of the Z80 CPU emulator
+	 * are not required by the test programs: */
+	cpu.nmia      =
+	cpu.inta      =
+	cpu.int_fetch = Z_NULL;
+	cpu.reset     = Z_NULL;
+	cpu.ld_i_a    =
+	cpu.ld_r_a    =
+	cpu.reti      =
+	cpu.retn      = Z_NULL;
+	cpu.illegal   = Z_NULL;
+
+	/* First run the tests whose numbers are explicitly
+	 * specified in the command line. */
 	while (ii < argc)
 		{
 		tests_run |= Z_UINT32(1) << (i = atoi(argv[ii++]));
 		results[run_test(i)]++;
 		}
 
+	/* If all tests must be run, do so without repeating
+	 * those already run. */
 	if (all) for (i = 0; i < (int)Z_ARRAY_SIZE(tests); i++)
 		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test(i)]++;
 
+	/* Print the summary of the results. */
 	printf(	"%sResults: %u test%s passed, %u failed\n",
 		(verbosity && verbosity < 4) ? "\n" : "",
 		results[1],
