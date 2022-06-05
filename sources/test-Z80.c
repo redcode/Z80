@@ -157,7 +157,8 @@ static zuint16 print_hook_address;
 
 /* [0] = Value read from even I/O ports.
 ** [1] = Value read from odd I/O ports.
-** The default values are those of the ZX Spectrum. */
+** The default values are those of a Sinclair ZX Spectrum 16K/48K with no
+** devives attached. */
 static zuint8 in_values[2] = {191, 255};
 
 /* Verbosity level. */
@@ -490,7 +491,11 @@ static zuint8 run_test(zuint test_index)
 		!load_test(Z_NULL, test, memory + (start_address & 0xFF00))
 	)
 		{
-		if (verbosity) puts(" ERROR (test skipped)\n");
+		error_loading_file:
+		if (verbosity) puts(show_test_output
+			? " error! (test skipped)\n"
+			: " error! (test skipped)");
+
 		return FALSE;
 		}
 
@@ -525,10 +530,7 @@ static zuint8 run_test(zuint test_index)
 			if (	i == search_path_count &&
 				!load_file(Z_NULL, "ZX Spectrum.rom", 16384, 0, 16384, memory)
 			)
-				{
-				if (verbosity) puts(" ERROR (test skipped)\n");
-				return FALSE;
-				}
+				goto error_loading_file;
 
 			if (verbosity >= 3) puts(" OK");
 			Z80_SP(cpu) = 0x7FE8;
@@ -588,7 +590,7 @@ static zuint8 run_test(zuint test_index)
 
 	if (verbosity) puts(show_test_output
 		? (test->format == TEST_FORMAT_RAK ? "" : "\n")
-		: (lines == test->lines_expected ? " OK" : " FAILED"));
+		: (lines == test->lines_expected ? " passed" : " failed"));
 
 	return lines == test->lines_expected;
 	}
@@ -614,17 +616,17 @@ int main(int argc, char **argv)
 	zboolean all = FALSE;
 	zuint32 tests_run = 0;
 	zusize longest_search_path_size = 0;
-	int ii, i = 0;
+	zuint ii, i = 0;
 
 	/* [0] = Number of tests failed.
 	** [1] = Number of tests passed. */
 	zuint results[2] = {0, 0};
 
-	/* If no CPU model is specified in the command line,
-	** the Z80 CPU emulator will behave as a Zilog NMOS. */
+	/* The Z80 CPU emulator will behave as a Zilog NMOS
+	 * if the user does not specify a CPU model. */
 	cpu.options  = Z80_MODEL_ZILOG_NMOS;
 
-	while (++i < argc && *argv[i] == '-')
+	while (++i < (zuint)argc && *argv[i] == '-')
 		{
 		if (is_option(argv[i], "-h", "--help"))
 			{
@@ -751,7 +753,8 @@ int main(int argc, char **argv)
 			}
 		}
 
-	/* It is mandatory to specify at least one test number in */
+	/* It is mandatory to specify at least one test number in
+	** the command line, or the "-a" option in its absence. */
 	if (i == argc && !all)
 		{
 		fputs("No test specified.\n", stderr);
@@ -826,17 +829,17 @@ int main(int argc, char **argv)
 	while (ii < argc)
 		{
 		tests_run |= Z_UINT32(1) << (i = atoi(argv[ii++]));
-		results[run_test((zuint)i)]++;
+		results[run_test(i)]++;
 		}
 
 	/* If all tests must be run, do so without repeating
 	** those already run. */
 	if (all) for (i = 0; i < (int)Z_ARRAY_SIZE(tests); i++)
-		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test((zuint)i)]++;
+		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test(i)]++;
 
 	/* Print the summary of the results. */
 	printf(	"%sResults: %u test%s passed, %u failed\n",
-		(verbosity && verbosity < 4) ? "\n" : "",
+		verbosity && !show_test_output ? "\n" : "",
 		results[1],
 		results[1] == 1 ? "" : "s",
 		results[0]);
