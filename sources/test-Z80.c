@@ -460,7 +460,7 @@ static zboolean load_test(const char *path, Test const *test, void *buffer)
 	}
 
 
-static zuint8 run_test(zuint test_index)
+static zuint8 run_test(int test_index)
 	{
 	Test const *test = &tests[test_index];
 	zuint16 start_address = test->start_address;
@@ -468,7 +468,7 @@ static zuint8 run_test(zuint test_index)
 
 	if (verbosity)
 		{
-		printf(verbosity == 1 ? "%02u" : "[%02u] ", test_index);
+		printf(verbosity == 1 ? "%02d" : "[%02d] ", test_index);
 
 		if (verbosity >= 2)
 			{
@@ -616,7 +616,7 @@ int main(int argc, char **argv)
 	zboolean all = FALSE;
 	zuint32 tests_run = 0;
 	zusize longest_search_path_size = 0;
-	zuint ii, i = 0;
+	int ii, i = 0;
 
 	/* [0] = Number of tests failed.
 	** [1] = Number of tests passed. */
@@ -626,7 +626,7 @@ int main(int argc, char **argv)
 	 * if the user does not specify a CPU model. */
 	cpu.options  = Z80_MODEL_ZILOG_NMOS;
 
-	while (++i < (zuint)argc && *argv[i] == '-')
+	while (++i < argc && *argv[i] == '-')
 		{
 		if (is_option(argv[i], "-h", "--help"))
 			{
