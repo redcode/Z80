@@ -459,7 +459,7 @@ Many thanks to the following individuals (in alphabetical order):
 	1. For his research on the special RESET. <sup>[11](#r11)</sup>
 	2. For sharing information about the RESET signal. <sup>[12](#r12)</sup>
 	3. For helping to crack the flag behavior of the block instructions. <sup>[2](#r2)</sup>
-	4. For performing low-level tests on real hardware. <sup>[2](#r2)</sup>
+	4. For conducting low-level tests on real hardware. <sup>[2](#r2)</sup>
 	5. For helping me to test different undocumented behaviors of the Zilog Z80.
 * **Bystrov, Dmitry (Alone Coder)**
 	* For validating tests on real hardware. <sup>[4](#r4)</sup>
@@ -501,6 +501,8 @@ Many thanks to the following individuals (in alphabetical order):
 	* For validating tests on real hardware. <sup>[28](#r28)</sup>
 * **London, Matthew**
 	* For validating tests on real hardware.
+* **Martínez Cantero, Ricardo**
+	* For conducting tests on real hardware.
 * **Molodtsov, Aleksandr**
 	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Nair, Arjun**
@@ -526,7 +528,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For validating tests on real hardware. <sup>[32](#r32), [33](#r33)</sup>
 * **Stevenson, Dave**
 	1. For testing the special RESET on real hardware. <sup>[11](#r11)</sup>
-	2. For performing low-level tests on real hardware. <sup>[34](#r34)</sup>
+	2. For conducting low-level tests on real hardware. <sup>[34](#r34)</sup>
 * **Weissflog, Andre (Floh)**
 	1. For finding out that the `reti/retn` instructions defer the acceptance of the maskable interrupt. <sup>[35](#r35)</sup>
 	2. For writing the _"Visual Z80 Remix"_ simulator. <sup>[36](#r36)</sup>

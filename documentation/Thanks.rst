@@ -61,7 +61,7 @@ Many thanks to the following individuals (in alphabetical order):
   1. For his research on the special RESET. |re| |fe| :ref:`11<r11>` |ren| |ces|
   2. For sharing information about the RESET signal. |re| |fe| :ref:`12<r12>` |ren| |ces|
   3. For helping to crack the flag behavior of the block instructions. |re| |fe| :ref:`2<r2>` |ren| |ces|
-  4. For performing low-level tests on real hardware. |re| |fe| :ref:`2<r2>` |ren| |ces|
+  4. For conducting low-level tests on real hardware. |re| |fe| :ref:`2<r2>` |ren| |ces|
   5. For helping me to test different undocumented behaviors of the Zilog Z80.
 
 * **Bystrov, Dmitry (Alone Coder)**
@@ -136,6 +136,10 @@ Many thanks to the following individuals (in alphabetical order):
 
   * For validating tests on real hardware.
 
+* **Martínez Cantero, Ricardo**
+
+  * For conducting tests on real hardware.
+
 * **Molodtsov, Aleksandr**
 
   * For testing the behavior of the MEMPTR register on real Z80 chips. |re| |fe| :ref:`6<r6>`, :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>` |ren| |ces|
@@ -182,7 +186,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Stevenson, Dave**
 
   1. For testing the special RESET on real hardware. |re| |fe| :ref:`11<r11>` |ren| |ces|
-  2. For performing low-level tests on real hardware. |re| |fe| :ref:`34<r34>` |ren| |ces|
+  2. For conducting low-level tests on real hardware. |re| |fe| :ref:`34<r34>` |ren| |ces|
 
 * **Weissflog, Andre (Floh)**
 

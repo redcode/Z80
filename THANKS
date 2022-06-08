@@ -22,7 +22,7 @@ Many thanks to the following individuals (in alphabetical order):
     1. For his research on the special RESET [11].
     2. For sharing information about the RESET signal [12].
     3. For helping to crack the flag behavior of the block instructions [2].
-    4. For performing low-level tests on real hardware [2].
+    4. For conducting low-level tests on real hardware [2].
     5. For helping me to test different undocumented behaviors of the Zilog Z80.
 * Bystrov, Dmitry (Alone Coder)
     For validating tests on real hardware [4].
@@ -67,6 +67,8 @@ Many thanks to the following individuals (in alphabetical order):
     For validating tests on real hardware [28].
 * London, Matthew
     For validating tests on real hardware.
+* Martínez Cantero, Ricardo
+    For conducting tests on real hardware.
 * Molodtsov, Aleksandr
     For testing the behavior of the MEMPTR register on real Z80 chips [6,7,8,9].
 * Nair, Arjun
@@ -94,7 +96,7 @@ Many thanks to the following individuals (in alphabetical order):
     For validating tests on real hardware [32,33].
 * Stevenson, Dave
     1. For testing the special RESET on real hardware [11].
-    2. For performing low-level tests on real hardware [34].
+    2. For conducting low-level tests on real hardware [34].
 * Weissflog, Andre (Floh)
     1. For finding out that the "reti/retn" instructions defer the acceptance of
        the maskable interrupt [35].
