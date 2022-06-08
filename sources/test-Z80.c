@@ -3,7 +3,7 @@
       /\___  \/\  __ \\  __ \
  ____ \/__/  /\_\  __ \\ \/\ \ ________________________________________________
 |        /\_____\\_____\\_____\                                                |
-|  Zilog \/_____//_____//_____/ CPU Emulator Test                              |
+|  Zilog \/_____//_____//_____/ CPU Emulator Test Tool                         |
 |  Copyright (C) 2021-2022 Manuel Sainz de Baranda y Goñi.                     |
 |                                                                              |
 |  This program is free software: you can redistribute it and/or modify it     |
@@ -624,7 +624,7 @@ int main(int argc, char **argv)
 
 	/* The Z80 CPU emulator will behave as a Zilog NMOS
 	 * if the user does not specify a CPU model. */
-	cpu.options  = Z80_MODEL_ZILOG_NMOS;
+	cpu.options = Z80_MODEL_ZILOG_NMOS;
 
 	while (++i < argc && *argv[i] == '-')
 		{
@@ -761,7 +761,7 @@ int main(int argc, char **argv)
 		goto bad_syntax;
 		}
 
-	/* All test numbers specified in the command line must be valid. */
+	/* All test numbers specified by the user must be valid. */
 	for (ii = i; i < argc; i++)
 		{
 		char const *string = argv[i];
