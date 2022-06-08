@@ -138,7 +138,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Martínez Cantero, Ricardo (Kyp)**
 
-  * For conducting tests on real hardware.
+  * For validating tests on real hardware.
 
 * **Molodtsov, Aleksandr**
 
