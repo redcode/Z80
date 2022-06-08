@@ -501,7 +501,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For validating tests on real hardware. <sup>[28](#r28)</sup>
 * **London, Matthew**
 	* For validating tests on real hardware.
-* **Martínez Cantero, Ricardo**
+* **Martínez Cantero, Ricardo (Kyp)**
 	* For conducting tests on real hardware.
 * **Molodtsov, Aleksandr**
 	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
