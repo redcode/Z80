@@ -345,7 +345,7 @@ static char const *compose_path(char const *base_path, const char *file_path)
 
 
 static zboolean load_file(
-	char const* path,
+	char const* search_path,
 	char const* file_path,
 	zuint32     file_size,
 	zuint16	    offset,
@@ -354,7 +354,7 @@ static zboolean load_file(
 )
 	{
 	zboolean status = FALSE;
-	FILE *file = fopen(compose_path(path, file_path), "rb");
+	FILE *file = fopen(compose_path(search_path, file_path), "rb");
 
 	if (file != Z_NULL)
 		{
@@ -373,22 +373,22 @@ static zboolean load_file(
 	}
 
 
-static zboolean load_test(const char *path, Test const *test, void *buffer)
+static zboolean load_test(const char *search_path, Test const *test, void *buffer)
 	{
 #	ifdef TEST_Z80_WITH_ARCHIVE_EXTRACTION
 		zboolean status = load_file(
-			path, test->file_path, test->file_size,
+			search_path, test->file_path, test->file_size,
 			test->code_offset, test->code_size, buffer);
 
 		if (!status && test->archive_name != Z_NULL)
 			{
-			path = compose_path(path, test->archive_name);
+			search_path = compose_path(search_path, test->archive_name);
 
 			/* .tar.gz */
 			if (strrchr(test->archive_name, '.')[1] == 'g')
 				{
 				union {zuint8 data[Z_TAR_BLOCK_SIZE]; Z_TARHeader fields;} header;
-				gzFile gz = gzopen(path, "rb");
+				gzFile gz = gzopen(search_path, "rb");
 
 				if (gz != Z_NULL)
 					{
@@ -425,7 +425,7 @@ static zboolean load_test(const char *path, Test const *test, void *buffer)
 			/* .zip */
 			else	{
 				int error;
-				zip_t *zip = zip_open(path, ZIP_RDONLY | ZIP_CHECKCONS, &error);
+				zip_t *zip = zip_open(search_path, ZIP_RDONLY | ZIP_CHECKCONS, &error);
 
 				if (zip != Z_NULL)
 					{
@@ -454,7 +454,7 @@ static zboolean load_test(const char *path, Test const *test, void *buffer)
 
 #	else
 		return load_file(
-			path, test->file_path, test->file_size,
+			search_path, test->file_path, test->file_size,
 			test->code_offset, test->code_size, buffer);
 #	endif
 	}
