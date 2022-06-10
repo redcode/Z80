@@ -372,22 +372,4 @@ if(${PROJECT_NAME}_WITH_TESTS)
 		WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 endif()
 
-string(TOLOWER ${PROJECT_NAME} _lowercase_project_name)
-string(TOUPPER ${PROJECT_NAME} _uppercase_project_name)
-
-set(CPACK_GENERATOR "DEB")
-set(CPACK_DEBIAN_PACKAGE_NAME "lib${_lowercase_project_name}")
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER ${${PROJECT_NAME}_PACKAGE_MAINTAINER})
-set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
-set(CPACK_DEB_COMPONENT_INSTALL YES)
-set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/packages")
-set(CPACK_DEBIAN_Z80_RUNTIME_PACKAGE_NAME "lib${_lowercase_project_name}")
-set(CPACK_DEBIAN_Z80_DEVELOPMENT_PACKAGE_NAME "lib${_lowercase_project_name}-dev")
-set(CPACK_DEBIAN_Z80_DOCUMENTATION_PACKAGE_NAME "lib${_lowercase_project_name}-doc")
-
-unset(_lowercase_project_name)
-unset(_uppercase_project_name)
-
-include(CPack)
-
 # CMakeLists.txt EOF
