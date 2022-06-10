@@ -199,13 +199,13 @@ endif()
 install(TARGETS ${PROJECT_NAME}
 	EXPORT "${PROJECT_NAME}_Targets"
 	RUNTIME COMPONENT "${PROJECT_NAME}_Runtime"
-	LIBRARY COMPONENT "${PROJECT_NAME}_Runtime"
-		DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+	LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+		COMPONENT "${PROJECT_NAME}_Runtime"
 		NAMELINK_COMPONENT "${PROJECT_NAME}_Development"
 	ARCHIVE COMPONENT "${PROJECT_NAME}_Development"
 	PUBLIC_HEADER
-		COMPONENT "${PROJECT_NAME}_Development"
-		DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+		DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+		COMPONENT "${PROJECT_NAME}_Development")
 
 if(${PROJECT_NAME}_WITH_CMAKE_SUPPORT OR ${PROJECT_NAME}_WITH_PKGCONFIG_SUPPORT)
 	include(CMakePackageConfigHelpers)
@@ -260,7 +260,8 @@ if(${PROJECT_NAME}_WITH_STANDARD_DOCUMENTS)
 			"${CMAKE_CURRENT_SOURCE_DIR}/HISTORY"
 			"${CMAKE_CURRENT_SOURCE_DIR}/README"
 			"${CMAKE_CURRENT_SOURCE_DIR}/THANKS"
-		DESTINATION ${CMAKE_INSTALL_DOCDIR})
+		DESTINATION ${CMAKE_INSTALL_DOCDIR}
+		COMPONENT "${PROJECT_NAME}_Runtime")
 endif()
 
 if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION OR ${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
@@ -296,13 +297,14 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				get_filename_component(_file_full_name ${_file_path} NAME)
 
 				set(_file_url "${base_url}/${_file_path}")
-				message(STATUS "Downloading \"${_file_full_name}\"")
 				string(REPLACE " " "%20" _file_url ${_file_url})
 				string(REPLACE "!" "%21" _file_url ${_file_url})
 				string(REPLACE "(" "%28" _file_url ${_file_url})
 				string(REPLACE ")" "%29" _file_url ${_file_url})
 				string(REPLACE "[" "%5B" _file_url ${_file_url})
 				string(REPLACE "]" "%5D" _file_url ${_file_url})
+
+				message(STATUS "Downloading \"${_file_full_name}\"")
 
 				file(	DOWNLOAD
 					"${_file_url}"
@@ -369,5 +371,23 @@ if(${PROJECT_NAME}_WITH_TESTS)
 			--all
 		WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 endif()
+
+string(TOLOWER ${PROJECT_NAME} _lowercase_project_name)
+string(TOUPPER ${PROJECT_NAME} _uppercase_project_name)
+
+set(CPACK_GENERATOR "DEB")
+set(CPACK_DEBIAN_PACKAGE_NAME "lib${_lowercase_project_name}")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER ${${PROJECT_NAME}_PACKAGE_MAINTAINER})
+set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
+set(CPACK_DEB_COMPONENT_INSTALL YES)
+set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/packages")
+set(CPACK_DEBIAN_Z80_RUNTIME_PACKAGE_NAME "lib${_lowercase_project_name}")
+set(CPACK_DEBIAN_Z80_DEVELOPMENT_PACKAGE_NAME "lib${_lowercase_project_name}-dev")
+set(CPACK_DEBIAN_Z80_DOCUMENTATION_PACKAGE_NAME "lib${_lowercase_project_name}-doc")
+
+unset(_lowercase_project_name)
+unset(_uppercase_project_name)
+
+include(CPack)
 
 # CMakeLists.txt EOF
