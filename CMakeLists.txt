@@ -357,8 +357,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				"does not support archive extraction.\n"
 				"To fix this, extract all files with \".tar.gz\" or \".zip\" "
 				"extension located in "
-				"\"${CMAKE_CURRENT_BINARY_DIR}/downloads/software/**\" "
-				"to the same directory.")
+				"\"${CMAKE_CURRENT_BINARY_DIR}/downloads/software/**/\"")
 		endif()
 	endif()
 
