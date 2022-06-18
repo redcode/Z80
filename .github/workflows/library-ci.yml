@@ -3,7 +3,7 @@ name: Library CI
 on:
   push:
     paths:
-    - '.github/**'
+    - '.github/library-ci.yml'
     - 'API/**'
     - 'CMake/FindZeta.cmake'
     - 'sources/**'
@@ -11,7 +11,7 @@ on:
     - 'CMakeLists.txt'
   pull_request:
     paths:
-    - '.github/**'
+    - '.github/library-ci.yml'
     - 'API/**'
     - 'CMake/FindZeta.cmake'
     - 'sources/**'
