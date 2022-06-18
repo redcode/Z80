@@ -66,7 +66,7 @@ jobs:
         -DZ80_WITH_TESTS=${{env.Z80_WITH_TESTS}}
 
     - name: Build HTML Documentation
-      run: cmake --build ${{github.workspace}}/build --config ${{env.CMAKE_BUILD_TYPE}} --target Documentation-HTML
+      run: cmake --build ${{github.workspace}}/build --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-HTML
 
     - name: Build PDF Documentation
-      run: cmake --build ${{github.workspace}}/build --config ${{env.CMAKE_BUILD_TYPE}} --target Documentation-PDF
+      run: cmake --build ${{github.workspace}}/build --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-PDF
