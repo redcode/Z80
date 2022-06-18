@@ -3,7 +3,7 @@ name: Documentation CI
 on:
   push:
     paths:
-    - '.github/documentation-ci.yml'
+    - '.github/workflows/documentation-ci.yml'
     - 'API/**'
     - 'CMake/FindBreathe.cmake'
     - 'CMake/FindSphinx.cmake'
@@ -11,7 +11,7 @@ on:
     - 'CMakeLists.txt'
   pull_request:
     paths:
-    - '.github/documentation-ci.yml'
+    - '.github/workflows/documentation-ci.yml'
     - 'API/**'
     - 'CMake/FindBreathe.cmake'
     - 'CMake/FindSphinx.cmake'
