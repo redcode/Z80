@@ -30,7 +30,9 @@ add_custom_command(
 	MAIN_DEPENDENCY ${_doxyfile}
 	COMMENT "Extracting API reference")
 
-add_custom_target(API-XML ALL DEPENDS ${_api_xml_output})
+add_custom_target(
+	${PROJECT_NAME}-API-XML ALL
+	DEPENDS ${_api_xml_output})
 
 if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION)
 	set(_html_documentation_output "${CMAKE_CURRENT_BINARY_DIR}/HTML")
@@ -53,8 +55,11 @@ if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION)
 		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 		COMMENT "Generating documentation in HTML format")
 
-	add_custom_target(Documentation-HTML ALL DEPENDS ${_html_documentation_output})
-	add_dependencies(Documentation-HTML API-XML)
+	add_custom_target(
+		${PROJECT_NAME}-Documentation-HTML ALL
+		DEPENDS ${_html_documentation_output})
+
+	add_dependencies(${PROJECT_NAME}-Documentation-HTML ${PROJECT_NAME}-API-XML)
 
 	install(DIRECTORY "${_html_documentation_output}/"
 		DESTINATION "${CMAKE_INSTALL_DOCDIR}/documentation"
@@ -77,8 +82,11 @@ if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
 		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 		COMMENT "Generating documentation in LaTeX format")
 
-	add_custom_target(Documentation-LaTeX ALL DEPENDS ${_latex_documentation_output})
-	add_dependencies(Documentation-LaTeX API-XML)
+	add_custom_target(
+		${PROJECT_NAME}-Documentation-LaTeX ALL
+		DEPENDS ${_latex_documentation_output})
+
+	add_dependencies(${PROJECT_NAME}-Documentation-LaTeX ${PROJECT_NAME}-API-XML)
 
 	string(TOLOWER ${PROJECT_NAME} _pdf_documentation_output)
 	set(_pdf_documentation_output "${_latex_documentation_output}/${_pdf_documentation_output}.pdf")
@@ -90,8 +98,11 @@ if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
 		WORKING_DIRECTORY ${_latex_documentation_output}
 		COMMENT "Converting documentation to PDF format")
 
-	add_custom_target(Documentation-PDF ALL DEPENDS ${_pdf_documentation_output})
-	add_dependencies(Documentation-PDF Documentation-LaTeX)
+	add_custom_target(
+		${PROJECT_NAME}-Documentation-PDF ALL
+		DEPENDS ${_pdf_documentation_output})
+
+	add_dependencies(${PROJECT_NAME}-Documentation-PDF ${PROJECT_NAME}-Documentation-LaTeX)
 
 	install(FILES ${_pdf_documentation_output}
 		DESTINATION ${CMAKE_INSTALL_DOCDIR}
