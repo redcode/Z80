@@ -204,8 +204,30 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 	</table>
 </details>
 
-
 # Installation
+
+### Debian/Ubuntu
+
+First add the ZXE APT repository:
+
+```shell
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv FE214A38D6A0C01D9AF514EE841EA3BD3A7E1487
+add-apt-repository 'deb [arch=amd64] https://zxe.io/repos/apt stable main'
+```
+
+Next, install the Z80 library package:
+
+```shell
+apt install libz80
+```
+
+In case you need to build software that requires the Z80 library, install the development package too:
+
+```shell
+apt install libz80-dev
+````
+
+# Installation from sources
 
 You will need [CMake](https://cmake.org) v3.14 or later to build the package and, optionally, recent versions of [Doxygen](https://www.doxygen.nl), [Sphinx](https://www.sphinx-doc.org) and [Breathe](https://github.com/michaeljones/breathe) to compile the documentation. Also make sure you have [LaTeX](https://www.latex-project.org) with PDF support installed on your system in case you want to generate the documentation in PDF format.
 
