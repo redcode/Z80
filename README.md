@@ -380,7 +380,7 @@ Omitting the linking method will select the `Shared` version of the library or, 
 
 To embed the library as a CMake subproject, just place its entire source tree into a subdirectory of your project.
 
-It is advisable to configure the library in the CMakeLists.txt of your project. This will prevent the user from having to specify configuration options of the Z80 subproject through the CMake command line when building the main project. As noted in the _[Installation](#installation)_ section of this document, all package-specific options are prefixed with `Z80_`, so, in a normal scenario, there should be no risk of name collision with the options and variables of the parent project.
+It is advisable to configure the library in the CMakeLists.txt of your project. This will prevent the user from having to specify configuration options for the Z80 subproject through the CMake command line when building the main project. As noted in the _[Installation](#installation)_ section of this document, all package-specific options are prefixed with `Z80_`, so, in a normal scenario, there should be no risk of name collision with the options and variables of the parent project.
 
 Example:
 
