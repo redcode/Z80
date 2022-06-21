@@ -253,7 +253,7 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 	Build the project as a shared library rather than a static one.  
 	The default is `NO`.
 
-* <span id="option_cmake_build_type">**`-DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo)`**</span>  
+* <span id="option_cmake_build_type">**`-DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo|MinSizeRel)`**</span>  
 	Choose the type of build (configuration) to generate.  
 	The default is `Release`.
 

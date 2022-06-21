@@ -95,7 +95,7 @@ options. The following are some of the most relevant standard options of CMake:
         Build the project as a shared library rather than a static one.
         The default is NO.
 
-    -DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo)
+    -DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo|MinSizeRel)
         Choose the type of build (configuration) to generate.
         The default is Release.
 

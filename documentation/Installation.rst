@@ -40,7 +40,7 @@ If in doubt, read the `CMake documentation <https://cmake.org/documentation/>`_ 
 	Build the project as a shared library rather than a static one. |br| |nl|
 	The default is ``NO``.
 
-.. option:: -DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo)
+.. option:: -DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo|MinSizeRel)
 
 	Choose the type of build (configuration) to generate. |br| |nl|
 	The default is ``Release``.
