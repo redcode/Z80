@@ -208,7 +208,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 
 ### Debian/Ubuntu
 
-First add the ZXE APT repository:
+First add the ZXE repository:
 
 ```shell
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv FE214A38D6A0C01D9AF514EE841EA3BD3A7E1487
@@ -226,6 +226,21 @@ In case you need to build software that requires the Z80 library, install the de
 ```shell
 apt install libz80-dev
 ````
+
+### Gentoo Linux
+
+First add the ZXE overlay:
+
+```
+eselect repository add zxe git https://github.com/redcode/zxe-gentoo-overlay.git
+emaint sync --repo zxe
+```
+
+Next, install the Z80 library:
+
+```
+emerge z80
+```
 
 # Installation from sources
 
