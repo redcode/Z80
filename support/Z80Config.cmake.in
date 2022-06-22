@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.3) # IN_LIST
 
 set(@PROJECT_NAME@_known_components Static Shared)
 set(@PROJECT_NAME@_component_Static NO)
