@@ -311,7 +311,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 					"${downloads_dir}/${_file_path}"
 					EXPECTED_HASH SHA512=${_sha512})
 
-				if (	NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 3.18 AND
+				if (	NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
 					(NOT ZLIB_FOUND OR NOT libzip_FOUND)
 				)
 					get_filename_component(_file_extension ${_file_full_name} LAST_EXT)
@@ -345,7 +345,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 			"http://zxe.io/depot/software"
 			"${CMAKE_CURRENT_BINARY_DIR}/downloads/software")
 
-		if (	"${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 3.18 AND
+		if (	"${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
 			(NOT ZLIB_FOUND OR NOT libzip_FOUND)
 		)
 			message(WARNING
