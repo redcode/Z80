@@ -9,7 +9,7 @@
 
 include(FindPackageHandleStandardArgs)
 
-if(NOT Zeta_FIND_PACKAGE_NO_RELATIVE_SEARCH)
+if(NOT FindZeta_NO_RELATIVE_SEARCH)
 	find_path(
 		Zeta_INCLUDE_DIR "Z/version.h"
 		PATHS	"${PROJECT_BINARY_DIR}/Zeta/API"
