@@ -1,5 +1,5 @@
 # FindBreathe.cmake
-# Copyright (C) 2021 Manuel Sainz de Baranda y Goñi.
+# Copyright (C) 2021-2022 Manuel Sainz de Baranda y Goñi.
 # This "find module" is DISTRIBUTED AS PUBLIC DOMAIN. No restrictions apply.
 
 include(FindPackageHandleStandardArgs)
@@ -17,6 +17,8 @@ if(BREATHE_APIDOC_EXECUTABLE)
 	if("${_output}" MATCHES ".* ([^\n]+)\n")
 		set(BREATHE_APIDOC_VERSION "${CMAKE_MATCH_1}")
 	endif()
+
+	unset(_output)
 endif()
 
 find_package_handle_standard_args(
