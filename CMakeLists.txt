@@ -136,6 +136,10 @@ target_include_directories(
 
 if(BUILD_SHARED_LIBS)
 	if(WIN32)
+		if(PROJECT_VERSION_PATCH STREQUAL "")
+			set(PROJECT_VERSION_PATCH 0)
+		endif()
+
 		configure_file(
 			"${CMAKE_CURRENT_SOURCE_DIR}/sources/Z80.rc.in"
 			"${PROJECT_BINARY_DIR}/Z80.rc"
