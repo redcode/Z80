@@ -45,6 +45,17 @@ if(Zeta_INCLUDE_DIR AND EXISTS "${Zeta_INCLUDE_DIR}/Z/version.h")
 
 	if(_ MATCHES ".*Z_LIBRARY_VERSION_STRING \"([^\n]*)\".*")
 		set(Zeta_VERSION ${CMAKE_MATCH_1})
+
+		if(Zeta_VERSION MATCHES "^([0-9]+)\\.([0-9]+)")
+			set(Zeta_VERSION_MAJOR ${CMAKE_MATCH_1})
+			set(Zeta_VERSION_MINOR ${CMAKE_MATCH_2})
+
+			if(Zeta_VERSION MATCHES "^([0-9]+)\\.([0-9]+)\\.([0-9]+)")
+				set(Zeta_VERSION_PATCH ${CMAKE_MATCH_3})
+			else()
+				set(Zeta_VERSION_PATCH 0)
+			endif()
+		endif()
 	endif()
 
 	unset(_)
