@@ -14,7 +14,7 @@ Installation
 
 		\newline
 
-You will need `CMake <https://cmake.org>`_ v3.14 or later to build the package and, optionally, recent versions of `Doxygen <https://www.doxygen.nl>`_, `Sphinx <https://www.sphinx-doc.org>`_ and `Breathe <https://github.com/michaeljones/breathe>`_ to compile the documentation. Also make sure you have `LaTeX <https://www.latex-project.org>`_ with PDF support installed on your system in case you want to generate the documentation in PDF format.
+You will need `CMake <https://cmake.org>`_ v3.14 or later to build the package and, optionally, recent versions of `Doxygen <https://www.doxygen.nl>`_, `Sphinx <https://www.sphinx-doc.org>`_ and `Breathe <https://github.com/michaeljones/breathe>`_ to compile the documentation. Also make sure you have `LaTeX <https://www.latex-project.org>`_ with PDF support installed on your system if you want to generate the documentation in PDF format.
 
 The emulator requires some types and macros included in `Zeta <https://zeta.st>`_, a dependency-free, `header-only <https://en.wikipedia.org/wiki/Header-only>`_ library used to retain compatibility with most C compilers. Install Zeta or extract its official source code package to the directory of the Z80 project or its parent directory. Zeta is the sole dependency; the emulator is a freestanding implementation and as such does not depend on the
 `C standard library <https://en.wikipedia.org/wiki/C_standard_library>`_.
@@ -152,7 +152,7 @@ The second group of package-specific options configures the source code of the l
 	Build the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the ``ld a,{i|r}`` instructions. |br| |nl|
 	The default is ``NO``.
 
-Package maintainers should use at least the following options for both shared and static library targets:
+Package maintainers should use at least the following options for the shared library:
 
 .. code-block:: sh
 

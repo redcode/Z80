@@ -1,2 +1,0 @@
-ST CMOS Z80 no se comporta igual en los flags de las instrucciones de bloque?
-https://stardot.org.uk/forums/viewtopic.php?p=212100#p212100

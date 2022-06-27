@@ -17,9 +17,7 @@ Integration
 As an external dependency in CMake-based projects
 -------------------------------------------------
 
-The Z80 library includes find-modules and a config-file package for integration into CMake-based projects. It is recommended to always copy the ``FindZ80.cmake`` and ``FindZeta.cmake`` files into the CMake modules directory of projects that use the library as an external dependency. This will allow CMake to find the library if the necessary config-file packages are not installed on the system.
-
-Both the config-file package and the find-module support dual installations of the shared and static versions of the Z80 library. You can specify the linking method by using the component mechanism of ``find_package``.
+The Z80 library includes a `config-file package <https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages>`_ for integration into CMake-based projects, which should be installed on development environments. As usual, just call ``find_package`` to find the library. This creates the imported ``Z80`` target carrying the necessary transitive link dependencies. The linking method can optionally be selected by specifying the ``Shared`` or ``Static`` component of the ``Z80`` package.
 
 Example:
 
@@ -28,7 +26,7 @@ Example:
 	find_package(Z80 REQUIRED [Shared|Static])
 	target_link_libraries(your-target Z80)
 
-Omitting the linking method will select the ``Shared`` version of the library or, if not installed, the ``Static`` version instead.
+When not specified as a component, the linking method is selected according to ``Z80_SHARED_LIBS``. If this option is not defined, the config-file package uses the type of library that is installed on the system and, if it finds both the shared and the static versions, ``BUILD_SHARED_LIBS`` determines which one to link against.
 
 As a CMake subproject
 ---------------------
