@@ -405,8 +405,8 @@ The Z80 library [includes](#option_z80_with_cmake_support) a [config-file packag
 Example:
 
 ```cmake
-    find_package(Z80 REQUIRED [Shared|Static])
-    target_link_libraries(your-target Z80)
+find_package(Z80 REQUIRED [Shared|Static])
+target_link_libraries(your-target Z80)
 ```
 
 When not specified as a component, the linking method is selected according to [`Z80_SHARED_LIBS`](#option_z80_shared_libs). If this option is not defined, the config-file package uses the type of library that is installed on the system and, if it finds both the shared and the static versions, [`BUILD_SHARED_LIBS`](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html) determines which one to link against.
