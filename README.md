@@ -413,9 +413,9 @@ When not specified as a component, the linking method is selected according to [
 
 ### As a CMake subproject
 
-To embed the library as a CMake subproject, just place its entire source tree into a subdirectory of your project.
+To embed the Z80 library as a CMake subproject, place its entire source tree into a subdirectory of another project and use [`add_subdirectory`](https://cmake.org/cmake/help/latest/command/add_subdirectory.html) in the parent project to add this subdirectory to the build process.
 
-It is advisable to configure the library in the CMakeLists.txt of your project. This will prevent the user from having to specify configuration options for the Z80 subproject through the CMake command line when building the main project. As noted in the _[Installation](#installation)_ section of this document, all package-specific options are prefixed with `Z80_`, so, in a normal scenario, there should be no risk of name collision with the options and variables of the parent project.
+It is advisable to configure the library in the `CMakeLists.txt` of the parent project. This will prevent the user from having to specify configuration options for the Z80 subproject through the command line when building the main project.
 
 Example:
 
@@ -428,7 +428,7 @@ add_subdirectory(dependencies/Z80)
 target_link_libraries(your-target Z80)
 ```
 
-It is important to set the `Z80_SHARED_LIBS` option. Otherwise CMake will build the library type indicated by `BUILD_SHARED_LIBS`, which may not be the desired one.
+It is important to set the [`Z80_SHARED_LIBS`](#option_z80_shared_libs) option. Otherwise CMake will build the library type indicated by [`BUILD_SHARED_LIBS`](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html), which may not be the desired one.
 
 ### Manual integration
 

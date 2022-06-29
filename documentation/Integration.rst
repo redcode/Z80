@@ -31,9 +31,9 @@ When not specified as a component, the linking method is selected according to `
 As a CMake subproject
 ---------------------
 
-To embed the library as a CMake subproject, just place its entire source tree into a subdirectory of your project.
+To embed the Z80 library as a CMake subproject, place its entire source tree into a subdirectory of another project and use ``add_subdirectory`` in the parent project to add this subdirectory to the build process.
 
-It is advisable to configure the library in the ``CMakeLists.txt`` of your project. This will prevent the user from having to specify configuration options of the Z80 subproject through the CMake command line when building the main project. As noted in the Installation section of this document, all package-specific options are prefixed with ``Z80_``, so, in a normal scenario, there should be no risk of name collision with the options and variables of the parent project.
+It is advisable to configure the library in the ``CMakeLists.txt`` of the parent project. This will prevent the user from having to specify configuration options for the Z80 subproject through the command line when building the main project.
 
 Example:
 
