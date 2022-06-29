@@ -376,24 +376,6 @@ make
 make install/strip
 ```
 
-Full example:
-
-```
-git clone https://github.com/redcode/Zeta.git
-git clone https://github.com/redcode/Z80.git
-mkdir build && cd build
-cmake ../Z80 \
-	-DBUILD_SHARED_LIBS=YES \
-	-DZ80_WITH_CMAKE_SUPPORT=YES \
-	-DZ80_WITH_EXECUTE=YES \
-	-DZ80_WITH_FULL_IM0=YES \
-	-DZ80_WITH_Q=YES \
-	-DZ80_WITH_RESET_SIGNAL=YES \
-	-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
-make
-make install/strip
-```
-
 # Running the tests
 
 The package includes a tool called `test-Z80` capable of running all [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of [the major test suites](#major_test_suites). Configure the build system with [`-DZ80_WITH_TESTS=YES`](#option_z80_with_tests) to enable its compilation and [`-DZ80_DOWNLOAD_TEST_FILES=YES`](#option_z80_download_test_files) to download the firmware and software required. Also note that the Z80 library must be built with [`-DZ80_WITH_Q=YES`](#option_z80_with_q) to be able to pass Patrik Rak's tests.
