@@ -93,107 +93,107 @@ options. The following are some of the most relevant standard options of CMake:
 
     -DBUILD_SHARED_LIBS=(YES|NO)
         Build the project as a shared library rather than a static one.
-        The default is NO.
+        The default is `NO`.
 
     -DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo|MinSizeRel)
         Choose the type of build (configuration) to generate.
-        The default is Release.
+        The default is `Release`.
 
     -DCMAKE_INSTALL_PREFIX="<path>"
         Specify the installation prefix on UNIX and UNIX-like operating systems.
-        The default is "/usr/local".
+        The default is `/usr/local`.
 
-Package-specific options are prefixed with "Z80_" and can be divided into two
+Package-specific options are prefixed with `Z80_` and can be divided into two
 groups. The first one controls aspects not related to the source code of the
 library:
 
     -DZ80_DOWNLOAD_TEST_FILES=(YES|NO)
         Download the firmware and software used by the testing tool.
-        The default is NO.
+        The default is `NO`.
 
     -DZ80_INSTALL_CMAKEDIR="<path>"
         Specify the directory in which to install the CMake config-file package.
-        The default is "${CMAKE_INSTALL_LIBDIR}/cmake/Z80".
+        The default is `"${CMAKE_INSTALL_LIBDIR}/cmake/Z80"`.
 
     -DZ80_INSTALL_PKGCONFIGDIR="<path>"
         Specify the directory in which to install the pkg-config file.
-        The default is "${CMAKE_INSTALL_LIBDIR}/pkgconfig".
+        The default is `"${CMAKE_INSTALL_LIBDIR}/pkgconfig"`.
 
     -DZ80_NOSTDLIB_FLAGS=(Auto|[<flag>[;<flag>...]])
         Specify the linker flags used to avoid linking against system libraries.
         The default is Auto (autoconfigure flags). If you get linker errors, set
-        this option to "".
+        this option to `""`.
 
     -DZ80_SHARED_LIBS=(YES|NO)
         Build the project as a shared library rather than a static one.
-        This option takes precedence over "BUILD_SHARED_LIBS".
+        This option takes precedence over `BUILD_SHARED_LIBS`.
         Not defined by default.
 
     -DZ80_SPHINX_HTML_THEME="[<name>]"
         Specify the Sphinx theme for the documentation in HTML format.
-        The default is "" (use the default theme).
+        The default is `""` (use the default theme).
 
     -DZ80_WITH_CMAKE_SUPPORT=(YES|NO)
         Generate and install the CMake config-file package.
-        The default is NO.
+        The default is `NO`.
 
     -DZ80_WITH_HTML_DOCUMENTATION=(YES|NO)
         Build and install the documentation in HTML format.
         It requires Doxygen, Sphinx and Breathe.
-        The default is NO.
+        The default is `NO`.
 
     -DZ80_WITH_PDF_DOCUMENTATION=(YES|NO)
         Build and install the documentation in PDF format.
         It requires Doxygen, Sphinx, Breathe and LaTeX with PDF support.
-        The default is NO.
+        The default is `NO`.
 
     -DZ80_WITH_PKGCONFIG_SUPPORT=(YES|NO)
         Generate and install the pkg-config file.
-        The default is NO.
+        The default is `NO`.
 
     -DZ80_WITH_STANDARD_DOCUMENTS=(YES|NO)
         Install the standard text documents distributed with the package:
         AUTHORS, COPYING, COPYING.LESSER, HISTORY, README and THANKS.
-        The default is NO.
+        The default is `NO`.
 
     -DZ80_WITH_TESTS=(YES|NO)
         Build the testing tool.
-        The default is NO.
+        The default is `NO`.
 
 The second group of package-specific options configures the source code of the
 library by predefining macros that enable optional implementations:
 
     -DZ80_WITH_EXECUTE=(YES|NO)
-        Build the implementation of the z80_execute function.
-        The default is NO.
+        Build the implementation of the `z80_execute` function.
+        The default is `NO`.
 
     -DZ80_WITH_FULL_IM0=(YES|NO)
         Build the full implementation of the interrupt mode 0 rather than the
         reduced one.
-        The default is NO.
+        The default is `NO`.
 
     -DZ80_WITH_Q=(YES|NO)
         Build the implementation of the Q "register".
-        The default is NO.
+        The default is `NO`.
 
     -DZ80_WITH_RESET_SIGNAL=(YES|NO)
         Build the implementation of the normal RESET signal.
-        The default is NO.
+        The default is `NO`.
 
     -DZ80_WITH_SPECIAL_RESET_SIGNAL=(YES|NO)
         Build the implementation of the special RESET signal.
-        The default is NO.
+        The default is `NO`.
 
     -DZ80_WITH_UNOFFICIAL_RETI=(YES|NO)
-        Configure the ED5Dh, ED6Dh and ED7Dh undocumented instructions as "reti"
-        instead of "retn".
-        The default is NO.
+        Configure the ED5Dh, ED6Dh and ED7Dh undocumented instructions as `reti`
+        instead of `retn`.
+        The default is `NO`.
 
     -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=(YES|NO)
         Build the implementation of the bug affecting the Zilog Z80 NMOS, which
         causes the P/V flag to be reset when a maskable interrupt is accepted
-        during the execution of the "ld a,{i|r}" instructions.
-        The default is NO.
+        during the execution of the `ld a,{i|r}` instructions.
+        The default is `NO`.
 
 Package maintainers should use at least the following options for the shared
 library:
@@ -217,10 +217,10 @@ install the package:
 4.1.  As an external dependency in CMake-based projects
 
 The Z80 library includes a config-file package for integration into CMake-based
-projects, which should be installed for development. Use "find_package" to find
-the "Z80" package. This creates the "Z80" imported library target that carries
+projects, which should be installed for development. Use `find_package` to find
+the `Z80` package. This creates the `Z80` imported library target that carries
 the necessary transitive link dependencies. The linking method can optionally be
-selected by specifying the "Shared" or the "Static" component.
+selected by specifying the `Shared` or the `Static` component.
 
 Example:
 
@@ -228,14 +228,14 @@ Example:
     target_link_libraries(your-target Z80)
 
 When not specified as a component, the linking method is selected according to
-"Z80_SHARED_LIBS". If this option is not defined, the config-file uses the type
+`Z80_SHARED_LIBS`. If this option is not defined, the config-file uses the type
 of library that is installed on the system and, if it finds both the shared and
-the static versions, "BUILD_SHARED_LIBS" determines which one to link against.
+the static versions, `BUILD_SHARED_LIBS` determines which one to link against.
 
 4.2.  As a CMake subproject
 
 To embed the Z80 library as a CMake subproject, place its entire source tree
-into a subdirectory of another project and use "add_subdirectory" in the parent
+into a subdirectory of another project and use `add_subdirectory` in the parent
 project to add this subdirectory to the build process.
 
 It is advisable to configure the library in the CMakeLists.txt of the parent
@@ -251,8 +251,8 @@ Example:
     add_subdirectory(dependencies/Z80)
     target_link_libraries(your-target Z80)
 
-It is important to set the "Z80_SHARED_LIBS" option. Otherwise CMake will build
-the library type indicated by "BUILD_SHARED_LIBS", which may not be the desired
+It is important to set the `Z80_SHARED_LIBS` option. Otherwise CMake will build
+the library type indicated by `BUILD_SHARED_LIBS`, which may not be the desired
 one.
 
 4.3.  Manual integration
@@ -263,7 +263,8 @@ of the Z80.c file. The following ones allow you to configure the integration of
 Z80.h and Z80.c into the project:
 
     #define Z80_DEPENDENCIES_HEADER "header name.h"
-        Specifies the only external header to #include, replacing those of Zeta.
+        Specifies the only external header to `#include`, replacing those of
+        Zeta.
         If used, it must also be defined before including the Z80.h header.
 
     #define Z80_STATIC
@@ -272,7 +273,7 @@ Z80.h and Z80.c into the project:
         If used, it must also be defined before including the Z80.h header.
 
     #define Z80_WITH_LOCAL_HEADER
-        Tells Z80.c to #include "Z80.h" instead of <Z80.h>.
+        Tells Z80.c to `#include "Z80.h"` instead of `<Z80.h>`.
 
 The second group of package-specific options, explained in the "Installation"
 section of this document, activates various optional implementations in the
@@ -290,7 +291,7 @@ Please note that the activation of some these optional implementations affects
 the speed of the emulator due to various factors (read the documentation for
 more details).
 
-As a final note, except for "Z80_DEPENDENCIES_HEADER", the above macros do not
+As a final note, except for `Z80_DEPENDENCIES_HEADER`, the above macros do not
 need to be set to a particular token when used, as the source code only checks
 whether or not they are defined.
 
