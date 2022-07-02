@@ -152,7 +152,7 @@ This suite performs a series of tests to verify the MEMPTR documents <sub>_([Eng
 Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 opcode, putting them through a cycle of tests and comparing the results to actual results from running the code on a real Z80. The exerciser is supplied with Frank's [YAZE](ftp://ftp.ping.de/pub/misc/emulators/yaze-1.10.tar.gz) (Yet Another Z80 Emulator). It is often difficult to track down, so [Jonathan Graham Harston](http://mdfs.net/User/JGH/) put it together [here](http://mdfs.net/Software/Z80/Exerciser/), as well as [some conversions](http://mdfs.net/Software/Z80/Exerciser/Spectrum/). The latest release of YAZE is available at [Andreas Gerlich's website](http://www.mathematik.uni-ulm.de/users/ag/yaze-ag/).
 
 <details>
-	<summary>Results</summary>
+	<summary>Results (Jonathan Graham Harston's version)</summary>
 	<table>
 		<tr>
 			<td align="center" valign="top">
@@ -183,6 +183,11 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282018%29%28Harston,%20Jonathan%20Graham%29.gif"/>
 			</td>
 		</tr>
+	</table>
+</details>
+<details>
+	<summary>Results (Patrik Rak's version)</summary>
+	<table>
 		<tr>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/zexall2.zip">
@@ -190,16 +195,12 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 					<br>
 					<b>zexall2.tap</b>
 				</a>
-				<br>
-				Patrik Rak's modification with MEMPTR testing.
 			</td>
-			<td></td>
 		</tr>
 		<tr>
 			<td align="center" valign="top">
 				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Instruction%20Set%20Exerciser%20for%20Spectrum%202%20v0.1%20%282012-11-27%29%28Rak,%20Patrik%29.gif"/>
 			</td>
-			<td></td>
 		</tr>
 	</table>
 </details>
