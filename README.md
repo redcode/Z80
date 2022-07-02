@@ -138,10 +138,10 @@ This suite performs a series of tests to verify the MEMPTR documents <sub>_([Eng
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/z80tests-flags.gif"/>
+				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Test%20Suite%20%282008%29%28Woodmass,%20Mark%29%20-%20Flags.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/z80tests-memptr.gif"/>
+				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Test%20Suite%20%282008%29%28Woodmass,%20Mark%29%20-%20MEMPTR.gif"/>
 			</td>
 		</tr>
 	</table>
@@ -177,10 +177,10 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/zexdoc.gif"/>
+				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Documented%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282018%29%28Harston,%20Jonathan%20Graham%29.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/zexall.gif"/>
+				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282018%29%28Harston,%20Jonathan%20Graham%29.gif"/>
 			</td>
 		</tr>
 		<tr>
@@ -197,7 +197,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/zexall2.gif"/>
+				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Instruction%20Set%20Exerciser%20for%20Spectrum%202%20v0.1%20%282012-11-27%29%28Rak,%20Patrik%29.gif"/>
 			</td>
 			<td></td>
 		</tr>
