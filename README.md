@@ -27,12 +27,12 @@ Instruction-level granularity implies that, except in a few well-defined cases, 
 
 That said, instructions, flags, memory accesses, interrupt and reset responses, clock cycles, etc. are accurately emulated as far as is known, according to the technical documentation available, the findings made after decades of research on the Z80 and electronic simulations. And, of course, the emulator passes the most exhaustive tests written to date:
 
-### <span id="major_test_suites">Zilog Z80 CPU Test Suite, by [Patrik Rak](https://github.com/raxoft)</span>
+### <span id="major_test_suites">[Zilog Z80 CPU Test Suite](https://github.com/raxoft/z80test), by [Patrik Rak](https://github.com/raxoft)</span>
 
 [This set of programs](https://github.com/raxoft/z80test) is intended to help the emulator authors to reach the desired level of the CPU emulation authenticity. Each of the included programs performs an exhaustive computation using each of the tested Z80 instructions, compares the results with values obtained from a real [Sinclair ZX Spectrum 48K](https://en.wikipedia.org/wiki/ZX_Spectrum) with Zilog Z80 CPU, and reports any deviations detected.
 
 <details>
-	<summary>Results</summary>
+	<summary>Results (v1.0)</summary>
 	<table>
 		<tr>
 			<td align="center" valign="top" align="center">
@@ -56,10 +56,10 @@ That said, instructions, flags, memory accesses, interrupt and reset responses, 
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/z80full.gif"/>
+				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Full.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/z80doc.gif"/>
+				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Doc.gif"/>
 			</td>
 		</tr>
 		<tr>
@@ -83,10 +83,10 @@ That said, instructions, flags, memory accesses, interrupt and reset responses, 
 			</td>
 		</tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/z80flags.gif"/>
+				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Flags.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/z80docflags.gif"/>
+				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif"/>
 			</td>
 		</tr>
 		<tr>
@@ -111,10 +111,10 @@ That said, instructions, flags, memory accesses, interrupt and reset responses, 
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/z80ccf.gif"/>
+				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20CCF.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/z80memptr.gif"/>
+				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif"/>
 			</td>
 		</tr>
 	</table>
