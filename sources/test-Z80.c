@@ -109,6 +109,8 @@ static Test const tests[22] = {
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2017-0x)(Harston, Jonathan Graham)[!].tap",			 8704,  91,  8612, 0x8000, 0x803D, TEST_FORMAT_HARSTON,	  69},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",			 8716,  91,  8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,	  69},
 	{"Z80 Instruction Set Exerciser for Spectrum 2 v0.1 (2012-11-27)(Rak, Patrik)[!].zip", "zexall2-0.1/zexall2.tap",	 9316,  87,  9228, 0x8000, 0x8040, TEST_FORMAT_HARSTON,	  76},
+	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								 5573, 120,  5452, 0x8057, 0x80E6, TEST_FORMAT_WOODMASS,  50},
+	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								 5573, 120,  5452, 0x8049, 0x80E6, TEST_FORMAT_WOODMASS,  61},
 	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80full.tap",				13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	 156},
 	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80doc.tap",				13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	 156},
 	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80flags.tap",				13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	 156},
@@ -120,9 +122,7 @@ static Test const tests[22] = {
 	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80flags.tap",				14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	 164},
 	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80docflags.tap",			14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	 164},
 	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80ccf.tap",				14875,  91, 14783, 0x8000, 0x7003, TEST_FORMAT_RAK,	 164},
-	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80memptr.tap",				14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	 164},
-	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								 5573, 120,  5452, 0x8057, 0x80E6, TEST_FORMAT_WOODMASS,  50},
-	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								 5573, 120,  5452, 0x8049, 0x80E6, TEST_FORMAT_WOODMASS,  61}
+	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80memptr.tap",				14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	 164}
 };
 
 static struct {char const *key; zuint8 options;} const cpu_models[4] = {
@@ -659,23 +659,23 @@ int main(int argc, char **argv)
 				"    05  ZX Spectrum ~ Harston, Jonathan Graham (2017).\n"
 				"    06  ZX Spectrum ~ Harston, Jonathan Graham (2018).\n"
 				"    07  ZX Spectrum ~ Rak, Patrik (2012-11-27).\n"
-				"  Zilog Z80 CPU Test Suite v1.0 ~ ZX Spectrum ~ Rak, Patrik (2012-12-08):\n"
-				"    08  Tests all flags and registers.\n"
-				"    09  Tests all registers, but only officially documented flags.\n"
-				"    10  Tests all flags, ignores registers.\n"
-				"    11  Tests documented flags only, ignores registers.\n"
-				"    12  Tests all flags after executing CCF after each instruction tested.\n"
-				"    13  Tests all flags after executing BIT N,(HL) after each instruction tested.\n"
-				"  Zilog Z80 CPU Test Suite v1.2 ~ ZX Spectrum ~ Rak, Patrik (2022-01-26):\n"
-				"    14  Tests all flags and registers.\n"
-				"    15  Tests all registers, but only officially documented flags.\n"
-				"    16  Tests all flags, ignores registers.\n"
-				"    17  Tests documented flags only, ignores registers.\n"
-				"    18  Tests all flags after executing CCF after each instruction tested.\n"
-				"    19  Tests all flags after executing BIT N,(HL) after each instruction tested.\n"
 				"  Z80 Test Suite ~ ZX Spectrum ~ Woodmass, Mark (2008):\n"
-				"    20  Tests flags.\n"
-				"    21  Tests MEMPTR.\n"
+				"    08  Tests flags.\n"
+				"    09  Tests MEMPTR.\n"
+				"  Zilog Z80 CPU Test Suite v1.0 ~ ZX Spectrum ~ Rak, Patrik (2012-12-08):\n"
+				"    10  Tests all flags and registers.\n"
+				"    11  Tests all registers, but only officially documented flags.\n"
+				"    12  Tests all flags, ignores registers.\n"
+				"    13  Tests documented flags only, ignores registers.\n"
+				"    14  Tests all flags after executing CCF after each instruction tested.\n"
+				"    15  Tests all flags after executing BIT N,(HL) after each instruction tested.\n"
+				"  Zilog Z80 CPU Test Suite v1.2 ~ ZX Spectrum ~ Rak, Patrik (2022-01-26):\n"
+				"    16  Tests all flags and registers.\n"
+				"    17  Tests all registers, but only officially documented flags.\n"
+				"    18  Tests all flags, ignores registers.\n"
+				"    19  Tests documented flags only, ignores registers.\n"
+				"    20  Tests all flags after executing CCF after each instruction tested.\n"
+				"    21  Tests all flags after executing BIT N,(HL) after each instruction tested.\n"
 				"\n"
 				"Email bug reports and questions to <manuel@zxe.io>\n"
 				"Open issues at <https://github.com/redcode/Z80>");
