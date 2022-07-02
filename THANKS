@@ -4,12 +4,12 @@ Many thanks to the following individuals (in alphabetical order):
     For testing the library on many different platforms and CPU architectures.
 * azesmbog
     1. For validating tests on real hardware [1].
-    2. For his research on the unstable flag behavior of the "ccf/scf"
+    2. For his research on the unstable flag behavior of the `ccf/scf`
        instructions.
     3. For his invaluable help.
 * Banks, David (hoglet)
     1. For cracking the flag behavior of the block instructions [2,3].
-    2. For his research on the flag behavior of the "ccf/scf" instructions [3].
+    2. For his research on the flag behavior of the `ccf/scf` instructions [3].
 * Beliansky, Anatoly (Tolik_Trek)
     For validating tests on real hardware [4].
 * Bobrowski, Jan
@@ -17,7 +17,7 @@ Many thanks to the following individuals (in alphabetical order):
 * boo_boo
     For cracking the behavior of the MEMPTR register [6,7,8,9].
 * Brady, Stuart
-    For his research on the flag behavior of the "ccf/scf" instructions [10].
+    For his research on the flag behavior of the `ccf/scf` instructions [10].
 * Brewer, Tony
     1. For his research on the special RESET [11].
     2. For sharing information about the RESET signal [12].
@@ -31,7 +31,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Conway, Simon (BadBeard)
     For validating the "Z80 Test Suite" on several Z80 clones [13].
 * Cooke, Simon
-    For finding out how the "out (c),0" instruction behaves on the Zilog Z80
+    For finding out how the `out (c),0` instruction behaves on the Zilog Z80
     CMOS [14].
 * Cringle, Frank D.
     For writing the "Z80 Instruction Set Exerciser" [15].
@@ -45,7 +45,7 @@ Many thanks to the following individuals (in alphabetical order):
 * goodboy
     For testing the behavior of the MEMPTR register on real Z80 chips [6,7,8,9].
 * Greenway, Ian
-    For testing the flag behavior of the "ccf/scf" instructions on real hardware
+    For testing the flag behavior of the `ccf/scf` instructions on real hardware
     [10,21].
 * Harston, Jonathan Graham
     1. For his research work.
@@ -56,7 +56,7 @@ Many thanks to the following individuals (in alphabetical order):
     2. For writing the "Z80 Block Flags Test" [26,27].
     3. For writing the "Z80 CCF SCF Outcome Stability" test [27].
     4. For writing the "Z80 INT Skip" test [27].
-    5. For his research on the unstable flag behavior of the "ccf/scf"
+    5. For his research on the unstable flag behavior of the `ccf/scf`
        instructions.
     6. For his invaluable help.
 * icebear
@@ -74,7 +74,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Nair, Arjun
     For validating tests on real hardware [26].
 * Nicolás-González, César
-    For helping me to research the unstable flag behavior of the "ccf/scf"
+    For helping me to research the unstable flag behavior of the `ccf/scf`
     instructions.
 * Ortega Sosa, Sofía
     For her support.
@@ -82,9 +82,9 @@ Many thanks to the following individuals (in alphabetical order):
     For the idea of the hooking method used in this emulator.
 * Rak, Patrik
     1. For improving the "Z80 Instruction Set Exerciser for Spectrum" [29].
-    2. For cracking the flag behavior of the "ccf/scf" instructions [13,29].
+    2. For cracking the flag behavior of the `ccf/scf` instructions [13,29].
     3. For writing the "Zilog Z80 CPU Test Suite" [29,30].
-    4. For his research on the unstable flag behavior of the "ccf/scf"
+    4. For his research on the unstable flag behavior of the `ccf/scf`
        instructions.
 * Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)
     For his reseach on the state of the registers after POWER/RESET [31].
@@ -98,7 +98,7 @@ Many thanks to the following individuals (in alphabetical order):
     1. For testing the special RESET on real hardware [11].
     2. For conducting low-level tests on real hardware [34].
 * Weissflog, Andre (Floh)
-    1. For finding out that the "reti/retn" instructions defer the acceptance of
+    1. For finding out that the `reti/retn` instructions defer the acceptance of
        the maskable interrupt [35].
     2. For writing the "Visual Z80 Remix" simulator [36].
 * Wilkinson, Oli (evolutional)
@@ -108,7 +108,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Woodmass, Mark (Woody)
     1. For his invaluable contributions to the emuscene.
     2. For writing the "Z80 Test Suite" [13].
-    3. For his research on the flag behavior of the "ccf/scf" instructions [37].
+    3. For his research on the flag behavior of the `ccf/scf` instructions [37].
     4. For writing the "HALT2INT" test.
     5. For writing the "EIHALT" test.
 * Young, Sean
