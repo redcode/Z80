@@ -446,7 +446,7 @@ There are several macros that can be used to configure the source code of the li
 * **`#define Z80_WITH_LOCAL_HEADER`**  
 	Tells `Z80.c` to `#include "Z80.h"` instead of `<Z80.h>`.
 
-[The second group of package-specific options](#cmake_source_code_options), explained in the _[Installation](#installation)_ section of this document, activates various optional implementations in the source code by predefining the following macros:
+[The second group of package-specific options](#cmake_source_code_options), explained in the _[Installation from sources](#installation-from-sources)_ section of this document, activates various optional implementations in the source code by predefining the following macros:
 
 * **[`#define Z80_WITH_EXECUTE`](#option_z80_with_execute)**
 * **[`#define Z80_WITH_FULL_IM0`](#option_z80_with_full_im0)**
