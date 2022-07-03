@@ -456,7 +456,7 @@ There are several macros that can be used to configure the source code of the li
 * **[`#define Z80_WITH_UNOFFICIAL_RETI`](#option_z80_with_unofficial_reti)**
 * **[`#define Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG`](#option_z80_with_zilog_nmos_ld_a_ir_bug)**
 
-Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as a boolean value; the source code only checks whether or not they are defined.
+Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as any value; the source code only checks whether or not they are defined.
 
 Please note that the activation of some these optional implementations affects the speed of the emulator due to various factors (read the documentation for more details).
 
