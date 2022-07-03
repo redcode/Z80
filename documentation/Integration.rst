@@ -48,8 +48,8 @@ Example:
 
 It is important to set the ``Z80_SHARED_LIBS`` option. Otherwise CMake will build the library type indicated by ``BUILD_SHARED_LIBS``, which may not be the desired one.
 
-Manual integration
-------------------
+Integrating the source code
+---------------------------
 
 There are several macros that can be used to configure the source code of the library. You can define those you need in your build system or at the beginning of the ``Z80.c`` file. The following ones allow you to configure the integration of ``Z80.h`` and ``Z80.c`` into the project:
 
@@ -60,7 +60,7 @@ There are several macros that can be used to configure the source code of the li
 
 .. c:macro:: Z80_STATIC
 
-	Needed for compiling and/or using the emulator as a static library or as an internal part of other project. |br| |nl|
+	Required to compile and/or use the emulator as a static library or as an internal part of another project. |br| |nl|
 	If used, it must also be defined before including the ``Z80.h`` header.
 
 .. c:macro:: Z80_WITH_LOCAL_HEADER
@@ -77,4 +77,4 @@ The second group of package-specific options, explained in the "Installation" se
 .. c:macro:: Z80_WITH_UNOFFICIAL_RETI
 .. c:macro:: Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 
-Except for ``Z80_DEPENDENCIES_HEADER``, the above macros do not need to be set to a particular token when used, as the source code only checks whether or not they are defined.
+Except for ``Z80_DEPENDENCIES_HEADER``, the above macros do not need to be defined as a boolean value; the source code only checks whether or not they are defined.

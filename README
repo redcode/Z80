@@ -255,7 +255,7 @@ It is important to set the `Z80_SHARED_LIBS` option. Otherwise CMake will build
 the library type indicated by `BUILD_SHARED_LIBS`, which may not be the desired
 one.
 
-4.3.  Manual integration
+4.3.  Integrating the source code
 
 There are several macros that can be used to configure the source code of the
 library. You can define those you need in your build system or at the beginning
@@ -268,8 +268,8 @@ Z80.h and Z80.c into the project:
         If used, it must also be defined before including the Z80.h header.
 
     #define Z80_STATIC
-        Needed for compiling and/or using the emulator as a static library or as
-        an internal part of other project.
+        Required to compile and/or use the emulator as a static library or as an
+        internal part of another project.
         If used, it must also be defined before including the Z80.h header.
 
     #define Z80_WITH_LOCAL_HEADER
@@ -287,13 +287,12 @@ source code by predefining the following macros:
     #define Z80_WITH_UNOFFICIAL_RETI
     #define Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 
+Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined
+as a boolean value; the source code only checks whether or not they are defined.
+
 Please note that the activation of some these optional implementations affects
 the speed of the emulator due to various factors (read the documentation for
 more details).
-
-As a final note, except for `Z80_DEPENDENCIES_HEADER`, the above macros do not
-need to be set to a particular token when used, as the source code only checks
-whether or not they are defined.
 
 
 5.  License
@@ -313,4 +312,4 @@ with this library. If not, see <http://www.gnu.org/licenses/>.
 
 
 --------------------------------------------------------------------------------
-Last update: 2022-06-29                                               README EOF
+Last update: 2022-07-03                                               README EOF

@@ -431,7 +431,7 @@ target_link_libraries(your-target Z80)
 
 It is important to set the [`Z80_SHARED_LIBS`](#option_z80_shared_libs) option. Otherwise CMake will build the library type indicated by [`BUILD_SHARED_LIBS`](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html), which may not be the desired one.
 
-### Manual integration
+### Integrating the source code
 
 There are several macros that can be used to configure the source code of the library. You can define those you need in your build system or at the beginning of the `Z80.c` file. The following ones allow you to configure the integration of `Z80.h` and `Z80.c` into the project:
 
@@ -440,7 +440,7 @@ There are several macros that can be used to configure the source code of the li
 	If used, it must also be defined before including the `Z80.h` header.
 
 * **`#define Z80_STATIC`**  
-	Needed for compiling and/or using the emulator as a static library or as an internal part of other project.  
+	Required to compile and/or use the emulator as a static library or as an internal part of another project.  
 	If used, it must also be defined before including the `Z80.h` header.
 
 * **`#define Z80_WITH_LOCAL_HEADER`**  
@@ -456,9 +456,9 @@ There are several macros that can be used to configure the source code of the li
 * **[`#define Z80_WITH_UNOFFICIAL_RETI`](#option_z80_with_unofficial_reti)**
 * **[`#define Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG`](#option_z80_with_zilog_nmos_ld_a_ir_bug)**
 
-Please note that the activation of some these optional implementations affects the speed of the emulator due to various factors (read the documentation for more details).
+Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as a boolean value; the source code only checks whether or not they are defined.
 
-As a final note, except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be set to a particular token when used, as the source code only checks whether or not they are defined.
+Please note that the activation of some these optional implementations affects the speed of the emulator due to various factors (read the documentation for more details).
 
 # Showcase
 
