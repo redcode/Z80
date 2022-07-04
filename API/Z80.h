@@ -71,9 +71,10 @@
   * z80_execute functions can emulate per call. */
 
 #define Z80_CYCLE_LIMIT (Z_USIZE_MAXIMUM - Z_USIZE(30))
+
 #define Z80_CYCLES_PER_RESET 5
 
-/** @brief Opcode interpreted as a hook by the Z80 emulator, which
+/** @brief Opcode interpreted as a hook by the Z80 library, which
   * corresponds to the <tt>ld h,h</tt> instruction of the Z80 ISA. */
 
 #define Z80_HOOK Z_UINT8(0x64)
@@ -146,7 +147,7 @@ typedef zusize (* Z80Reset)(void *context, zuint16 address);
 
 typedef struct {
 
-	/** @brief Number of clock cycles executed. */
+	/** @brief Number of clock cycles already executed. */
 
 	zusize cycles;
 
@@ -154,7 +155,7 @@ typedef struct {
 
 	zusize cycle_limit;
 
-	/** @brief Pointer to pass as first argument to callbacks.
+	/** @brief Pointer to pass as first argument to callback functions.
 	  *
 	  * @details This member is intended to maintain a reference to the
 	  * context to which the object belongs. */
@@ -190,14 +191,14 @@ typedef struct {
 
 	Z80Write write;
 
-	/** @brief Callback invoked to perform an I/O read.
+	/** @brief Callback invoked to perform an I/O port read.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
 	  * will cause the emulator to crash. */
 
 	Z80Read in;
 
-	/** @brief Callback invoked to perform an I/O write.
+	/** @brief Callback invoked to perform an I/O port write.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
 	  * will cause the emulator to crash. */
@@ -244,7 +245,7 @@ typedef struct {
 
 	Z80Read int_fetch;
 
-	/* @brief Callback invoked to query the duration of a reset signal.
+	/* @brief Callback invoked to query the duration of a RESET signal.
 	  *
  	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
@@ -338,7 +339,7 @@ typedef struct {
 
 	zuint8 iff1;  /**< @brief Interrupt enable flip-flop 1 (IFF1). */
 	zuint8 iff2;  /**< @brief Interrupt enable flip-flop 2 (IFF2). */
-	zuint8 q;     /**< @brief Q register. */
+	zuint8 q;     /**< @brief Q "register". */
 
 	/** @brief Emulation options. */
 
@@ -369,7 +370,7 @@ typedef struct {
 #define Z80_NF   2 /**< @brief Bitmask of the @ref Z80 N   flag. */
 #define Z80_CF   1 /**< @brief Bitmask of the @ref Z80 C   flag. */
 
-/** @brief @ref Z80 option that enables HALTskip. */
+/** @brief @ref Z80 option that enables the HALTskip optimization. */
 
 #define Z80_OPTION_HALT_SKIP 16
 
@@ -385,12 +386,12 @@ typedef struct {
 #define Z80_OPTION_OUT_VC_255 2
 
 /** @brief @ref Z80 option that enables the XQ factor in the emulation of the
-  * <tt>ccf/scf</tt> instructions. */
+  * @c ccf and @c scf instructions. */
 
 #define Z80_OPTION_XQ 8
 
 /** @brief @ref Z80 option that enables the YQ factor in the emulation of the
-  * <tt>ccf/scf</tt> instructions. */
+  * @c ccf and @c scf instructions. */
 
 #define Z80_OPTION_YQ 32
 
@@ -422,17 +423,15 @@ typedef struct {
 
 #define Z80_REQUEST_RESET 3
 
-/** @brief @ref Z80 request flag that prevents NMI signals from being accepted.
-  * */
+/** @brief @ref Z80 request flag that prevents the NMI signal from being
+  * accepted. */
 
 #define Z80_REQUEST_REJECT_NMI 4
 
-/** @brief @ref Z80 request flag anouncing that a non-maskable interrupt signal
-  * has been detected.*/
+/** @brief @ref Z80 request flag indicating that an NMI signal has been
+  * detected. */
 
 #define Z80_REQUEST_NMI 8
-
-/** @brief @ref Z80 request flag indicating that... */
 
 #define Z80_REQUEST_CLEAR_PC 16
 
@@ -440,13 +439,9 @@ typedef struct {
 
 #define Z80_REQUEST_SPECIAL_RESET 32
 
-
 #define Z80_REQUEST_INT 64
 #define Z80_REQUEST_ANY_RESET 35
-
-
 #define Z80_REQUEST_RESET 3
-
 #define Z80_REQUEST_INTERRUPT 5
 
 /** @brief @ref Z80 resume code that is set when the emulator runs out of clock
@@ -525,29 +520,27 @@ typedef struct {
 
 #define Z80_HL_(object) (object).hl_.uint16_value
 
-/** @brief Accesses the high byte of the MEMPTR register of a @ref Z80
-  *  @c object. */
+/** @brief Accesses the MEMPTRH register of a @ref Z80 @c object. */
 
 #define Z80_MEMPTRH(object) (object).memptr.uint8_values.at_1
 
-/** @brief Accesses the low byte of the MEMPTR register of a @ref Z80
-  * @c object. */
+/** @brief Accesses the MEMPTRL register of a @ref Z80 @c object. */
 
 #define Z80_MEMPTRL(object) (object).memptr.uint8_values.at_0
 
-/** @brief Accesses the high byte of the PC register of a @ref Z80 @c object. */
+/** @brief Accesses the PCH register of a @ref Z80 @c object. */
 
 #define Z80_PCH(object) (object).pc.uint8_values.at_1
 
-/** @brief Accesses the low byte of the PC register of a @ref Z80 @c object. */
+/** @brief Accesses the PCL register of a @ref Z80 @c object. */
 
 #define Z80_PCL(object) (object).pc.uint8_values.at_0
 
-/** @brief Accesses the high byte of the SP register of a @ref Z80 @c object. */
+/** @brief Accesses the SPH register of a @ref Z80 @c object. */
 
 #define Z80_SPH(object) (object).sp.uint8_values.at_1
 
-/** @brief Accesses the low byte of the SP register of a @ref Z80 @c object. */
+/** @brief Accesses the SPL register of a @ref Z80 @c object. */
 
 #define Z80_SPL(object) (object).sp.uint8_values.at_0
 
@@ -645,12 +638,12 @@ Z_EXTERN_C_BEGIN
   *
   * @param self Pointer to the object on which the function is called.
   * @param state
-  *   @c TRUE  = power ON;
-  *   @c FALSE = power OFF. */
+  *   @c TRUE  = power on;
+  *   @c FALSE = power off. */
 
 Z80_API void z80_power(Z80 *self, zboolean state);
 
-/** @brief Performs a normal RESET on a Z80 emulator.
+/** @brief Performs an instantaneous normal RESET on a @ref Z80 object.
   *
   * @param self Pointer to the object on which the function is called. */
 
@@ -658,15 +651,11 @@ Z80_API void z80_instant_reset(Z80 *self);
 
 /** @brief Sends a normal RESET signal to a @ref Z80 object.
   *
-  * @details todo
-  *
   * @param self Pointer to the object on which the function is called. */
 
 Z80_API void z80_reset(Z80 *self);
 
-/** @brief Sends a special RESET signal to a Z80 emulator.
-  *
-  * @details todo
+/** @brief Sends a special RESET signal to a @ref Z80 object.
   *
   * @sa
   * - http://www.primrosebank.net/computers/z80/z80_special_reset.htm
@@ -693,8 +682,8 @@ Z80_API void z80_nmi(Z80 *self);
 
 Z80_API void z80_busreq(Z80 *self, zboolean state);
 
-/** @brief Runs a Z80 emulator for a given number of clock @p cycles, executing
-  * only instructions without responding to signals.
+/** @brief Runs a @ref Z80 object for a given number of clock @p cycles,
+  * executing only instructions without responding to signals.
   *
   * @details Given the fact that one Z80 instruction takes between 4 and 23
   * cycles to be executed, it is not always possible to run the CPU the exact
@@ -706,7 +695,7 @@ Z80_API void z80_busreq(Z80 *self, zboolean state);
 
 Z80_API zusize z80_execute(Z80 *self, zusize cycles);
 
-/** @brief Runs a Z80 emulator for a given number of clock @p cycles.
+/** @brief Runs a @ref Z80 object for a given number of clock @p cycles.
   *
   * @details Given the fact that one Z80 instruction takes between 4 and 23
   * cycles to be executed, it is not always possible to run the CPU the exact
@@ -719,10 +708,8 @@ Z80_API zusize z80_execute(Z80 *self, zusize cycles);
 Z80_API zusize z80_run(Z80 *self, zusize cycles);
 
 
-/** @brief Obtains the refresh address of the M1 cycle being executed by a Z80
-  * emulator.
-  *
-  * @details todo
+/** @brief Obtains the refresh address of the M1 cycle being executed by a @ref
+  * Z80 object.
   *
   * @param self Pointer to the object on which the function is called.
   * @return todo */
@@ -731,13 +718,11 @@ static Z_INLINE zuint16 z80_refresh_address(Z80 *self)
 	{return ((zuint16)self->i << 8) | ((self->r - 1) & 127);}
 
 
-/** @brief Computes the clock cycle, relative to the start of the instruction,
-  * at which the I/O read M-cycle being executed by a Z80 emulator begins.
-  *
-  * @details todo
+/** @brief Obtains the clock cycle, relative to the start of the instruction, at
+  * which the I/O read M-cycle being executed by a @ref Z80 object begins.
   *
   * @param self Pointer to the object on which the function is called.
-  * @return todo */
+  * @return The clock cyle at which the I/O read M-cycle begins. */
 
 static Z_INLINE zuint8 z80_in_cycle(Z80 *self)
 	{
@@ -751,13 +736,11 @@ static Z_INLINE zuint8 z80_in_cycle(Z80 *self)
 	}
 
 
-/** @brief Computes the clock cycle, relative to the start of the instruction,
-  * at which the I/O write M-cycle being executed by a Z80 emulator begins.
-  *
-  * @details todo
+/** @brief Obtains the clock cycle, relative to the start of the instruction, at
+  * which the I/O write M-cycle being executed by a @ref Z80 object begins.
   *
   * @param self Pointer to the object on which the function is called.
-  * @return todo */
+  * @return The clock cyle at which the I/O write M-cycle begins. */
 
 static Z_INLINE zuint8 z80_out_cycle(Z80 *self)
 	{
