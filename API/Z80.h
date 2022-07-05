@@ -337,7 +337,10 @@ typedef struct {
 	  * without altering its most significant bit, commonly known as R7, but
 	  * the Z80 library does not emulate this behavior for speed reasons.
 	  * This member is used to preserve a copy of R7 while the emulation is
-	  * running. */
+	  * running.
+	  *
+	  * Since this member contains a copy of the R register at a given time,
+	  * the value of the 7 least significant bits must be considered garbage.*/
 
 	zuint8 r7;
 
@@ -727,11 +730,20 @@ Z80_API zusize z80_execute(Z80 *self, zusize cycles);
 Z80_API zusize z80_run(Z80 *self, zusize cycles);
 
 
+/** @brief Gets the value of the R register of a @ref Z80 object.
+  *
+  * @param self Pointer to the object on which the function is called.
+  * @return The value of the R register. */
+
+static Z_INLINE zuint8 z80_r(Z80 *self)
+	{return (self->r & 127) | (self->r7 & 128);}
+
+
 /** @brief Obtains the refresh address of the M1 cycle being executed by a @ref
   * Z80 object.
   *
   * @param self Pointer to the object on which the function is called.
-  * @return todo */
+  * @return The refresh address. */
 
 static Z_INLINE zuint16 z80_refresh_address(Z80 *self)
 	{return ((zuint16)self->i << 8) | ((self->r - 1) & 127);}

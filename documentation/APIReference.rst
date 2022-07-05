@@ -114,6 +114,7 @@ Functions
 .. doxygenfunction:: z80_int
 .. doxygenfunction:: z80_nmi
 .. doxygenfunction:: z80_power
+.. doxygenfunction:: z80_r
 .. doxygenfunction:: z80_refresh_address
 .. doxygenfunction:: z80_reset
 .. doxygenfunction:: z80_run
