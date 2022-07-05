@@ -305,14 +305,13 @@ typedef struct {
 	  *
 	  * All instructions with @c DDh prefix behave in exactly the same way
 	  * as their counterparts with @c FDh prefix, differing only in which
-	  * index register is used. This member allows optimizing the size of
-	  * the Z80 library by acting as a temporary index register, thus making
-	  * it unnecessary to duplicate code in order to emulate these two
-	  * groups of instructions.
+	  * index register is used. This allows optimizing the size of the Z80
+	  * library by using a temporary index register, making it unnecessary
+	  * to duplicate code to emulate these two groups of instructions.
 	  *
-	  * After a @c DDh or @c FDh prefix is fetched, the index register is
-	  * copied into this member, next the instruction is executed and finaly
-	  * this member is copied back into the index register. */
+	  * When a @c DDh or @c FDh prefix is fetched, the index register
+	  * corresponding to the prefix is copied into this member, which is
+	  * copied back into the index register at the end of the instruction.
 
 	ZInt16 xy;
 
@@ -340,8 +339,7 @@ typedef struct {
 	  * eventually corrupts R7.
 	  *
 	  * This member is used to preserve a copy of R7 while the emulation is
-	  * running, since the emulator performs normal increments for speed
-	  * reasons. Only the most significant bit is used, the others must be
+	  * running. Only the most significant bit is used, the others must be
 	  * considered garbage. */
 
 	zuint8 r7;
