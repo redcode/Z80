@@ -311,7 +311,8 @@ typedef struct {
 	  *
 	  * When a @c DDh or @c FDh prefix is fetched, the index register
 	  * corresponding to the prefix is copied into this member, which is
-	  * copied back into the index register at the end of the instruction.
+	  * copied back into the index register once the instruction is
+	  * executed. */
 
 	ZInt16 xy;
 
