@@ -303,15 +303,15 @@ typedef struct {
 
 	/** @brief Temporay IX/IY register.
 	  *
-	  * @details Instructions with @c DDh prefix behave in exactly the same
-	  * way as their counterparts with @c FDh prefix, differing only in
-	  * which index register is used. This member allows to optimize the
-	  * size of the library by not duplicating the code that emulates these
-	  * two groups instructions.
-	  *
-	  * After a @c DDh or @c FDh prefix is fetched, the index register is
-	  * is copied into this member, next the instruction is executed and
-	  * finaly this member is copied back into the index register. */
+	  * @details All instructions with @c DDh prefix behave in exactly the
+	  * same way as their counterparts with @c FDh prefix, differing only in
+	  * which index register is used. This member allows optimizing the size
+	  * of the Z80 library by acting as a temporary index register, thus
+	  * making it unnecessary to duplicate code to emulate these two groups
+	  * of instructions. After a @c DDh or @c FDh prefix is fetched, the
+	  * index register is copied into this member, next the instruction is
+	  * executed and finaly this member is copied back into the index
+	  * register. */
 
 	ZInt16 xy;
 
@@ -331,7 +331,13 @@ typedef struct {
 	zuint8 r;      /**< @brief R register.      */
 	zuint8 i;      /**< @brief I register.      */
 
-	/** @brief The most significant bit of the R register. */
+	/** @brief The most significant bit of the R register.
+	  *
+	  * @details The Z80 CPU increments the R register during each M1 cycle
+	  * without altering its most significant bit, commonly known as R7, but
+	  * the Z80 library does not emulate this behavior for speed reasons.
+	  * This member is used to preserve a copy of R7 while the emulation is
+	  * running. */
 
 	zuint8 r7;
 
