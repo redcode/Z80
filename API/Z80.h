@@ -157,8 +157,8 @@ typedef struct {
 
 	/** @brief Pointer to pass as first argument to callback functions.
 	  *
-	  * @details This member is intended to maintain a reference to the
-	  * context to which the object belongs. */
+	  * This member is intended to maintain a reference to the context to
+	  * which the object belongs. */
 
 	void *context;
 
@@ -303,15 +303,16 @@ typedef struct {
 
 	/** @brief Temporay IX/IY register.
 	  *
-	  * @details All instructions with @c DDh prefix behave in exactly the
-	  * same way as their counterparts with @c FDh prefix, differing only in
-	  * which index register is used. This member allows optimizing the size
-	  * of the Z80 library by acting as a temporary index register, thus
-	  * making it unnecessary to duplicate code to emulate these two groups
-	  * of instructions. After a @c DDh or @c FDh prefix is fetched, the
-	  * index register is copied into this member, next the instruction is
-	  * executed and finaly this member is copied back into the index
-	  * register. */
+	  * All instructions with @c DDh prefix behave in exactly the same way
+	  * as their counterparts with @c FDh prefix, differing only in which
+	  * index register is used. This member allows optimizing the size of
+	  * the Z80 library by acting as a temporary index register, thus making
+	  * it unnecessary to duplicate code in order to emulate these two
+	  * groups of instructions.
+	  *
+	  * After a @c DDh or @c FDh prefix is fetched, the index register is
+	  * copied into this member, next the instruction is executed and finaly
+	  * this member is copied back into the index register. */
 
 	ZInt16 xy;
 
@@ -333,21 +334,22 @@ typedef struct {
 
 	/** @brief The most significant bit of the R register.
 	  *
-	  * @details The Z80 CPU increments the R register during each M1 cycle
-	  * without altering its most significant bit, commonly known as R7, but
-	  * the Z80 library does not emulate this behavior for speed reasons.
-	  * This member is used to preserve a copy of R7 while the emulation is
-	  * running.
+	  * The Z80 CPU increments the R register during each M1 cycle without
+	  * altering its most significant bit, commonly known as R7. However, 
+	  * the Z80 library performs normal increments for speed reasons, which
+	  * eventually corrupts R7.
 	  *
-	  * Since this member contains a copy of the R register at a given time,
-	  * the value of the 7 least significant bits must be considered garbage.*/
+	  * This member is used to preserve a copy of R7 while the emulation is
+	  * running, since the emulator performs normal increments for speed
+	  * reasons. Only the most significant bit is used, the others must be
+	  * considered garbage. */
 
 	zuint8 r7;
 
 	/** @brief Maskable interrup mode.
 	  *
-	  * @details Contains the number of the maskable interrupt mode in use:
-	  * `0`, `1` or `2`. */
+	  * Contains the number of the maskable interrupt mode in use: `0`, `1`
+	  * or `2`. */
 
 	zuint8 im;
 
@@ -369,16 +371,16 @@ typedef struct {
 
 	/** @brief State of the INT line.
 	  *
-	  * @details Contains @c TRUE if the INT line is active (low), or @c
-	  * FALSE otherwise (high). */
+	  * Contains @c TRUE if the INT line is active (low), or @c FALSE
+	  * otherwise (high). */
 
 	zuint8 int_line;
 
 	/** @brief State of the HALT line.
 	  *
-	  * @details Contains @c TRUE if the HALT line is active (low), or @c
-	  * FALSE otherwise (high). The emulator always modifies this variable
-	  * @b before invoking the @ref Z80.halt callback. */
+	  * Contains @c TRUE if the HALT line is active (low), or @c FALSE
+	  * otherwise (high). The emulator always modifies this variable @b
+	  * before invoking the @ref Z80.halt callback. */
 
 	zuint8 halt_line;
 } Z80;
@@ -707,9 +709,9 @@ Z80_API void z80_busreq(Z80 *self, zboolean state);
 /** @brief Runs a @ref Z80 object for a given number of clock @p cycles,
   * executing only instructions without responding to signals.
   *
-  * @details Given the fact that one Z80 instruction takes between 4 and 23
-  * cycles to be executed, it is not always possible to run the CPU the exact
-  * number of @p cycles specfified.
+  * Given the fact that one Z80 instruction takes between 4 and 23 cycles to be
+  * executed, it is not always possible to run the CPU the exact number of @p
+  * cycles specfified.
   *
   * @param self Pointer to the object on which the function is called.
   * @param cycles Number of clock cycles to be emulated.
@@ -719,9 +721,9 @@ Z80_API zusize z80_execute(Z80 *self, zusize cycles);
 
 /** @brief Runs a @ref Z80 object for a given number of clock @p cycles.
   *
-  * @details Given the fact that one Z80 instruction takes between 4 and 23
-  * cycles to be executed, it is not always possible to run the CPU the exact
-  * number of @p cycles specfified.
+  * Given the fact that one Z80 instruction takes between 4 and 23 cycles to be
+  * executed, it is not always possible to run the CPU the exact number of @p
+  * cycles specfified.
   *
   * @param self Pointer to the object on which the function is called.
   * @param cycles Number of clock cycles to be emulated.
