@@ -301,22 +301,35 @@ typedef struct {
 
 	ZInt32 data;
 
-	ZInt16 xy;      /**< @brief Temporay IX/IY register. */
-	ZInt16 memptr; 	/**< @brief MEMPTR register.         */
-	ZInt16 pc;      /**< @brief PC register.             */
-	ZInt16 sp;      /**< @brief SP register.             */
-	ZInt16 ix;      /**< @brief IX register.             */
-	ZInt16 iy;      /**< @brief IY register.             */
-	ZInt16 af;      /**< @brief AF register.             */
-	ZInt16 bc;      /**< @brief BC register.             */
-	ZInt16 de;      /**< @brief DE register.             */
-	ZInt16 hl;      /**< @brief HL register.             */
-	ZInt16 af_;     /**< @brief AF' register.            */
-	ZInt16 bc_;     /**< @brief BC' register.            */
-	ZInt16 de_;     /**< @brief DE' register.            */
-	ZInt16 hl_;     /**< @brief HL' register.            */
-	zuint8 r;       /**< @brief R register.              */
-	zuint8 i;       /**< @brief I register.              */
+	/** @brief Temporay IX/IY register.
+	  *
+	  * @details Instructions with @c DDh prefix behave in exactly the same
+	  * way as their counterparts with @c FDh prefix, differing only in
+	  * which index register is used. This member allows to optimize the
+	  * size of the library by not duplicating the code that emulates these
+	  * two groups instructions.
+	  *
+	  * After a @c DDh or @c FDh prefix is fetched, the index register is
+	  * is copied into this member, next the instruction is executed and
+	  * finaly this member is copied back into the index register. */
+
+	ZInt16 xy;
+
+	ZInt16 memptr; /**< @brief MEMPTR register. */
+	ZInt16 pc;     /**< @brief PC register.     */
+	ZInt16 sp;     /**< @brief SP register.     */
+	ZInt16 ix;     /**< @brief IX register.     */
+	ZInt16 iy;     /**< @brief IY register.     */
+	ZInt16 af;     /**< @brief AF register.     */
+	ZInt16 bc;     /**< @brief BC register.     */
+	ZInt16 de;     /**< @brief DE register.     */
+	ZInt16 hl;     /**< @brief HL register.     */
+	ZInt16 af_;    /**< @brief AF' register.    */
+	ZInt16 bc_;    /**< @brief BC' register.    */
+	ZInt16 de_;    /**< @brief DE' register.    */
+	ZInt16 hl_;    /**< @brief HL' register.    */
+	zuint8 r;      /**< @brief R register.      */
+	zuint8 i;      /**< @brief I register.      */
 
 	/** @brief The most significant bit of the R register. */
 
@@ -347,16 +360,16 @@ typedef struct {
 
 	/** @brief State of the INT line.
 	  *
-	  * @details Contains @c TRUE if the INT line is active, or @c FALSE
-	  * otherwise. */
+	  * @details Contains @c TRUE if the INT line is active (low), or @c
+	  * FALSE otherwise (high). */
 
 	zuint8 int_line;
 
 	/** @brief State of the HALT line.
 	  *
-	  * @details Contains @c TRUE if the HALT line is active, or @c FALSE
-	  * otherwise. The emulator always modifies this variable before
-	  * invoking the @ref Z80.halt callback. */
+	  * @details Contains @c TRUE if the HALT line is active (low), or @c
+	  * FALSE otherwise (high). The emulator always modifies this variable
+	  * @b before invoking the @ref Z80.halt callback. */
 
 	zuint8 halt_line;
 } Z80;
