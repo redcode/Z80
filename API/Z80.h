@@ -306,13 +306,13 @@ typedef struct {
 	  * All instructions with @c DDh prefix behave in exactly the same way
 	  * as their counterparts with @c FDh prefix, differing only in which
 	  * index register is used. This allows optimizing the size of the Z80
-	  * library by using a temporary index register, making it unnecessary
-	  * to duplicate code to emulate these two groups of instructions.
+	  * library by using a temporary index register, which avoids duplicate
+	  * code.
 	  *
-	  * When a @c DDh or @c FDh prefix is fetched, the index register
-	  * corresponding to the prefix is copied into this member, which is
-	  * copied back into the index register once the instruction is
-	  * executed. */
+	  * When a @c DDh or @c FDh prefix is fetched, the corresponding index
+	  * register is copied into this member. The instruction logic is then
+	  * executed and finally this member is copied back into the index
+	  * register. */
 
 	ZInt16 xy;
 
@@ -339,16 +339,18 @@ typedef struct {
 	  * the Z80 library performs normal increments for speed reasons, which
 	  * eventually corrupts R7.
 	  *
-	  * This member is used to preserve a copy of R7 while the emulation is
-	  * running. Only the most significant bit is used, the others must be
-	  * considered garbage. */
+	  * Before entering the execution loop, the @ref z80_execute and @ref
+	  * z80_run functions copy @ref Z80.r into this member to preserve the
+	  * value of R7, so that it can be restored before returning. The
+	  * emulation of the <tt>ld r, a</tt> instruction also updates the value
+	  * of this member. */
 
 	zuint8 r7;
 
 	/** @brief Maskable interrup mode.
 	  *
-	  * Contains the number of the maskable interrupt mode in use: `0`, `1`
-	  * or `2`. */
+	  * Contains the number of the maskable interrupt mode in use: @c 0,
+	  * @c 1 or @c 2. */
 
 	zuint8 im;
 
