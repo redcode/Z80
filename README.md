@@ -29,7 +29,7 @@ That said, instructions, flags, memory accesses, interrupt and reset responses, 
 
 ### <span id="major_test_suites">[Zilog Z80 CPU Test Suite](https://github.com/raxoft/z80test), by [Patrik Rak](https://github.com/raxoft)</span>
 
-[This set of programs](https://github.com/raxoft/z80test) is intended to help the emulator authors to reach the desired level of the CPU emulation authenticity. Each of the included programs performs an exhaustive computation using each of the tested Z80 instructions, compares the results with values obtained from a real [Sinclair ZX Spectrum 48K](https://en.wikipedia.org/wiki/ZX_Spectrum) with Zilog Z80 CPU, and reports any deviations detected.
+This set of programs is intended to help the emulator authors to reach the desired level of the CPU emulation authenticity. Each of the included programs performs an exhaustive computation using each of the tested Z80 instructions, compares the results with values obtained from a real [Sinclair ZX Spectrum 48K](https://en.wikipedia.org/wiki/ZX_Spectrum) with Zilog Z80 CPU, and reports any deviations detected.
 
 <details>
 	<summary>Results (v1.0)</summary>
