@@ -119,6 +119,94 @@ That said, instructions, flags, memory accesses, interrupt and reset responses, 
 		</tr>
 	</table>
 </details>
+<details>
+	<summary>Results (v1.2)</summary>
+	<table>
+		<tr>
+			<td align="center" valign="top" align="center">
+				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
+					<br>
+					<b>z80full.tap</b>
+				</a>
+				<br>
+				Tests all flags and registers.
+			</td>
+			<td align="center" valign="top">
+				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
+					<br>
+					<b>z80doc.tap</b>
+				</a>
+				<br>
+				Tests all registers, but only officially documented flags.
+			</td>
+		</tr>
+		<tr>
+			<td align="center" valign="top">
+				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Full.gif"/>
+			</td>
+			<td align="center" valign="top">
+				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Doc.gif"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="center" valign="top">
+				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
+					<br>
+					<b>z80flags.tap</b>
+				</a>
+				<br>
+				Tests all flags, ignores registers.
+			</td>
+			<td align="center" valign="top">
+				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
+					<br>
+					<b>z80docflags.tap</b>
+				</a>
+				<br>
+				Tests documented flags only, ignores registers.
+			</td>
+		</tr>
+			<td align="center" valign="top">
+				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Flags.gif"/>
+			</td>
+			<td align="center" valign="top">
+				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="center" valign="top">
+				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
+					<br>
+					<b>z80ccf.tap</b>
+				</a>
+				<br>
+				Tests all flags after executing <code>ccf</code> after each instruction tested.
+			</td>
+			<td align="center" valign="top">
+				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
+					<br>
+					<b>z80memptr.tap</b>
+				</a>
+				<br>
+				Tests all flags after executing <code>bit n,(hl)</code> after each instruction tested.
+			</td>
+		</tr>
+		<tr>
+			<td align="center" valign="top">
+				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20CCF.gif"/>
+			</td>
+			<td align="center" valign="top">
+				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif"/>
+			</td>
+		</tr>
+	</table>
+</details>
 
 ### Z80 Test Suite, by Mark Woodmass
 
