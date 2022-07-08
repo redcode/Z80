@@ -155,22 +155,34 @@ typedef struct {
 
 	zusize cycle_limit;
 
-	/** @brief Pointer to pass as first argument to callback functions.
+	/** @brief Pointer to pass as first argument to the callback functions.
 	  *
-	  * This member is intended to maintain a reference to the context to
-	  * which the object belongs. */
+	  * This member is intended to hold a reference to the context to which
+	  * the object belongs. It is safe not to initialize it when this is not
+	  * necessary. */
 
 	void *context;
 
 	/** @brief Callback invoked to perform an opcode fetch.
 	  *
+	  * The invokation of this callback indicates the beginning of an opcode
+	  * fetch M-cycle. The function must return the byte located at the
+	  * memory address specified by the 2nd parameter.
+	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
-	  * will cause the emulator to crash. */
+	  * will cause the program to crash. */
 
 	Z80Read fetch_opcode;
 
 	/** @brief Callback invoked to perform a memory read on instruction
 	  * data.
+	  *
+	  * The invokation of this callback indicates the beginning of a memory
+	  * read M-cycle, during which the CPU fetches one byte of instruction
+	  * data, i.e., one byte of the instruction that is neither a prefix nor
+	  * an opcode, but a pseudo-opcode, an immediate operand or part of an
+	  * immediate operand. The function must return the byte located at the
+	  * memory address specified by the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
 	  * will cause the emulator to crash. */
@@ -179,12 +191,20 @@ typedef struct {
 
 	/** @brief Callback invoked to perform a memory read.
 	  *
+	  * The invokation of this callback indicates the beginning of a memory
+	  * read M-cycle. The function must return the byte located at the
+	  * memory address specified by the 2nd parameter.
+	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
 	  * will cause the emulator to crash. */
 
 	Z80Read read;
 
 	/** @brief Callback invoked to peform a memory write.
+	  *
+	  * The invokation of this callback indicates the beginning of a memory
+	  * write M-cycle. The function must write the value of the 3rd
+	  * parameter into the memory location specified by the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
 	  * will cause the emulator to crash. */
@@ -207,7 +227,7 @@ typedef struct {
 
 	/** @brief Callback invoked when the state of the HALT line changes.
 	  *
- 	  * @attention This callback is optional and must be initialized to
+	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80HALT halt;
@@ -231,7 +251,7 @@ typedef struct {
 	/** @brief Callback invoked to perform the data bus read of a maskable
 	  * interrupt acknowledge.
 	  *
- 	  * @attention This callback is optional and must be initialized to
+	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80Read inta;
@@ -239,7 +259,7 @@ typedef struct {
 	/** @brief Callback invoked to perform a memory read on instruction data
 	  * during a maskable interrupt response in mode 0.
 	  *
- 	  * @attention This callback becomes mandatory when the @c Z80.inta
+	  * @attention This callback becomes mandatory when the @c Z80.inta
 	  * callback is used. Initializing it to @c Z_NULL will cause the
 	  * emulator to crash. */
 
@@ -247,7 +267,7 @@ typedef struct {
 
 	/* @brief Callback invoked to query the duration of a RESET signal.
 	  *
- 	  * @attention This callback is optional and must be initialized to
+	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80Reset reset;
@@ -255,7 +275,7 @@ typedef struct {
 	/** @brief Callback invoked when an <tt>ld i,a</tt> instruction is
 	  * fetched.
 	  *
- 	  * @attention This callback is optional and must be initialized to
+	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80Notify ld_i_a;
@@ -263,28 +283,28 @@ typedef struct {
 	/** @brief Callback invoked when an <tt>ld r,a</tt> instruction is
 	  * fetched.
 	  *
- 	  * @attention This callback is optional and must be initialized to
+	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80Notify ld_r_a;
 
 	/** @brief Callback invoked when a @c reti instruction is fetched.
 	  *
- 	  * @attention This callback is optional and must be initialized to
+	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80Notify reti;
 
 	/** @brief Callback invoked when a @c retn instruction is fetched.
 	  *
- 	  * @attention This callback is optional and must be initialized to
+	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80Notify retn;
 
 	/** @brief Callback invoked when a trap is fecthed.
 	  *
- 	  * @attention This callback is optional and must be initialized to
+	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80Read hook;
@@ -292,7 +312,7 @@ typedef struct {
 	/** @brief Callback invoked to delegate the emulation of an illegal
 	  * opcode.
 	  *
- 	  * @attention This callback is optional and must be initialized to
+	  * @attention This callback is optional and must be initialized to
 	  * @c Z_NULL if not used. */
 
 	Z80Illegal illegal;
@@ -301,7 +321,7 @@ typedef struct {
 
 	ZInt32 data;
 
-	/** @brief Temporay IX/IY register.
+	/** @brief Temporary IX/IY register.
 	  *
 	  * All instructions with @c DDh prefix behave in exactly the same way
 	  * as their counterparts with @c FDh prefix, differing only in which
@@ -372,16 +392,15 @@ typedef struct {
 
 	/** @brief State of the INT line.
 	  *
-	  * Contains @c TRUE if the INT line is active (low), or @c FALSE
-	  * otherwise (high). */
+	  * Contains @c TRUE if the INT line is low, or @c FALSE otherwise. */
 
 	zuint8 int_line;
 
 	/** @brief State of the HALT line.
 	  *
-	  * Contains @c TRUE if the HALT line is active (low), or @c FALSE
-	  * otherwise (high). The emulator always modifies this variable @b
-	  * before invoking the @ref Z80.halt callback. */
+	  * Contains @c TRUE if the HALT line is low, or @c FALSE otherwise.
+	  * The emulator always modifies this variable @b before invoking the
+	  * @ref Z80.halt callback. */
 
 	zuint8 halt_line;
 } Z80;
