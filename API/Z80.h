@@ -185,7 +185,7 @@ typedef struct {
 	  * memory address specified by the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
-	  * will cause the emulator to crash. */
+	  * will cause the program to crash. */
 
 	Z80Read fetch;
 
@@ -196,7 +196,7 @@ typedef struct {
 	  * memory address specified by the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
-	  * will cause the emulator to crash. */
+	  * will cause the program to crash. */
 
 	Z80Read read;
 
@@ -207,21 +207,29 @@ typedef struct {
 	  * parameter into the memory location specified by the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
-	  * will cause the emulator to crash. */
+	  * will cause the program to crash. */
 
 	Z80Write write;
 
 	/** @brief Callback invoked to perform an I/O port read.
 	  *
+	  * The invokation of this callback indicates the beginning of an I/O
+	  * read M-cycle. The function must return the byte read from the I/O
+	  * port specified by the 2nd parameter.
+	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
-	  * will cause the emulator to crash. */
+	  * will cause the program to crash. */
 
 	Z80Read in;
 
 	/** @brief Callback invoked to perform an I/O port write.
 	  *
+	  * The invokation of this callback indicates the beginning of an I/O
+	  * write M-cycle. The function must write the value of the 3rd
+	  * parameter to the port specified by the 2nd parameter.
+	  *
 	  * @attention This callback is mandatory, initializing it to @c Z_NULL
-	  * will cause the emulator to crash. */
+	  * will cause the program to crash. */
 
 	Z80Write out;
 
@@ -261,7 +269,7 @@ typedef struct {
 	  *
 	  * @attention This callback becomes mandatory when the @c Z80.inta
 	  * callback is used. Initializing it to @c Z_NULL will cause the
-	  * emulator to crash. */
+	  * program to crash. */
 
 	Z80Read int_fetch;
 
