@@ -82,7 +82,7 @@
 /** @brief Defines a pointer to a @ref Z80 callback function invoked to perform
   * a read operation.
   *
-  * @param context The value of the @ref Z80.context member of the calling
+  * @param context The value of the @ref Z80::context member of the calling
   * object.
   * @param address The memory address or I/O port to read from.
   * @return The byte read. */
@@ -92,7 +92,7 @@ typedef zuint8 (* Z80Read)(void *context, zuint16 address);
 /** @brief Defines a pointer to a @ref Z80 callback function invoked to perform
   * a write operation.
   *
-  * @param context The value of the @ref Z80.context member of the calling
+  * @param context The value of the @ref Z80::context member of the calling
   * object.
   * @param address The memory address or I/O port to write to.
   * @param value The byte to write. */
@@ -102,7 +102,7 @@ typedef void (* Z80Write)(void *context, zuint16 address, zuint8 value);
 /** @brief Defines a pointer to a @ref Z80 callback function invoked to notify
   * a signal change on the HALT line.
   *
-  * @param context The value of the @ref Z80.context member of the calling
+  * @param context The value of the @ref Z80::context member of the calling
   * object.
   * @param state
   *     @c TRUE  if the HALT line goes low  (the CPU enters the HALT state);
@@ -113,7 +113,7 @@ typedef void (* Z80HALT)(void *context, zboolean state);
 /** @brief Defines a pointer to a @ref Z80 callback function invoked to notify
   * an event.
   *
-  * @param context The value of the @ref Z80.context member of the calling
+  * @param context The value of the @ref Z80::context member of the calling
   * object. */
 
 typedef void (* Z80Notify)(void *context);
@@ -121,7 +121,7 @@ typedef void (* Z80Notify)(void *context);
 /** @brief Defines a pointer to a @ref Z80 callback function invoked to delegate
   * the emulation of an illegal instruction.
   *
-  * @param context The value of the @ref Z80.context member variable of the
+  * @param context The value of the @ref Z80::context member variable of the
   * calling object.
   * @param opcode The illegal opcode.
   * @return The number of clock cycles consumed by the instruction. */
@@ -131,7 +131,7 @@ typedef zuint8 (* Z80Illegal)(void *context, zuint8 opcode);
 /** @brief Defines a pointer to a @ref Z80 callback function invoked to obtain
   * the duration of a RESET signal.
   *
-  * @param context The value of the @ref Z80.context member of the calling
+  * @param context The value of the @ref Z80::context member of the calling
   * object.
   * @param address The value in the address bus when the RESET signal begins.
   * @return The number of clock cycles that the RESET signal lasts. */
@@ -234,6 +234,11 @@ typedef struct {
 	Z80Write out;
 
 	/** @brief Callback invoked when the state of the HALT line changes.
+	  *
+	  * The invokation of this callback indicates that the CPU enters or
+	  * exits the HALT state. When entering, it is invoked after the @c halt
+	  * opcode is fetched; when exiting, before executing the response to
+	  * the exit condition (interrupt or reset).
 	  *
 	  * @attention This callback is optional and must be set to @c Z_NULL
 	  * when not used. */
@@ -368,7 +373,7 @@ typedef struct {
 	  * eventually corrupts R7.
 	  *
 	  * Before entering the execution loop, the @ref z80_execute and @ref
-	  * z80_run functions copy @ref Z80.r into this member to preserve the
+	  * z80_run functions copy @ref Z80::r into this member to preserve the
 	  * value of R7, so that it can be restored before returning. The
 	  * emulation of the <tt>ld r, a</tt> instruction also updates the value
 	  * of this member. */
@@ -408,7 +413,7 @@ typedef struct {
 	  *
 	  * Contains @c TRUE if the HALT line is low, or @c FALSE otherwise.
 	  * The emulator always modifies this variable @b before invoking the
-	  * @ref Z80.halt callback. */
+	  * @ref Z80::halt callback. */
 
 	zuint8 halt_line;
 } Z80;
