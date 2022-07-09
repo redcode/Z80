@@ -169,8 +169,8 @@ typedef struct {
 	  * fetch M-cycle. The function must return the byte located at the
 	  * memory address specified by the 2nd parameter.
 	  *
-	  * @attention This callback is mandatory, initializing it to @c Z_NULL
-	  * will cause the program to crash. */
+	  * @attention This callback is mandatory, setting it to @c Z_NULL will
+	  * cause the program to crash. */
 
 	Z80Read fetch_opcode;
 
@@ -184,8 +184,8 @@ typedef struct {
 	  * immediate operand. The function must return the byte located at the
 	  * memory address specified by the 2nd parameter.
 	  *
-	  * @attention This callback is mandatory, initializing it to @c Z_NULL
-	  * will cause the program to crash. */
+	  * @attention This callback is mandatory, setting it to @c Z_NULL will
+	  * cause the program to crash. */
 
 	Z80Read fetch;
 
@@ -195,8 +195,8 @@ typedef struct {
 	  * read M-cycle. The function must return the byte located at the
 	  * memory address specified by the 2nd parameter.
 	  *
-	  * @attention This callback is mandatory, initializing it to @c Z_NULL
-	  * will cause the program to crash. */
+	  * @attention This callback is mandatory, setting it to @c Z_NULL will
+	  * cause the program to crash. */
 
 	Z80Read read;
 
@@ -206,8 +206,8 @@ typedef struct {
 	  * write M-cycle. The function must write the value of the 3rd
 	  * parameter into the memory location specified by the 2nd parameter.
 	  *
-	  * @attention This callback is mandatory, initializing it to @c Z_NULL
-	  * will cause the program to crash. */
+	  * @attention This callback is mandatory, setting it to @c Z_NULL will
+	  * cause the program to crash. */
 
 	Z80Write write;
 
@@ -217,8 +217,8 @@ typedef struct {
 	  * read M-cycle. The function must return the byte read from the I/O
 	  * port specified by the 2nd parameter.
 	  *
-	  * @attention This callback is mandatory, initializing it to @c Z_NULL
-	  * will cause the program to crash. */
+	  * @attention This callback is mandatory, setting it to @c Z_NULL will
+	  * cause the program to crash. */
 
 	Z80Read in;
 
@@ -228,39 +228,39 @@ typedef struct {
 	  * write M-cycle. The function must write the value of the 3rd
 	  * parameter to the port specified by the 2nd parameter.
 	  *
-	  * @attention This callback is mandatory, initializing it to @c Z_NULL
-	  * will cause the program to crash. */
+	  * @attention This callback is mandatory, setting it to @c Z_NULL will
+	  * cause the program to crash. */
 
 	Z80Write out;
 
 	/** @brief Callback invoked when the state of the HALT line changes.
 	  *
-	  * @attention This callback is optional and must be initialized to
-	  * @c Z_NULL if not used. */
+	  * @attention This callback is optional and must be set to @c Z_NULL
+	  * when not used. */
 
 	Z80HALT halt;
 
 	/** @brief Callback invoked to perform the disregarded opcode fetch of
 	  * an internal NOP operation.
 	  *
- 	  * @attention This callback is optional and must be initialized to
-	  * @c Z_NULL if not used. */
+ 	  * @attention This callback is optional and must be set to @c Z_NULL
+	  * when not used. */
 
 	Z80Read nop;
 
 	/** @brief Callback invoked to perform the disregarded opcode fetch of
 	  * a non-maskable interrupt acknowledge.
 	  *
- 	  * @attention This callback is optional and must be initialized to
-	  * @c Z_NULL if not used. */
+ 	  * @attention This callback is optional and must be set to @c Z_NULL
+	  * when not used. */
 
 	Z80Read nmia;
 
 	/** @brief Callback invoked to perform the data bus read of a maskable
 	  * interrupt acknowledge.
 	  *
-	  * @attention This callback is optional and must be initialized to
-	  * @c Z_NULL if not used. */
+	  * @attention This callback is optional and must be set to @c Z_NULL
+	  * when not used. */
 
 	Z80Read inta;
 
@@ -268,60 +268,60 @@ typedef struct {
 	  * during a maskable interrupt response in mode 0.
 	  *
 	  * @attention This callback becomes mandatory when the @c Z80.inta
-	  * callback is used. Initializing it to @c Z_NULL will cause the
-	  * program to crash. */
+	  * callback is used. Setting it to @c Z_NULL will cause the program to
+	  * crash. */
 
 	Z80Read int_fetch;
 
 	/* @brief Callback invoked to query the duration of a RESET signal.
 	  *
-	  * @attention This callback is optional and must be initialized to
-	  * @c Z_NULL if not used. */
+	  * @attention This callback is optional and must be set to @c Z_NULL
+	  * when not used. */
 
 	Z80Reset reset;
 
 	/** @brief Callback invoked when an <tt>ld i,a</tt> instruction is
 	  * fetched.
 	  *
-	  * @attention This callback is optional and must be initialized to
-	  * @c Z_NULL if not used. */
+	  * @attention This callback is optional and must be set to @c Z_NULL
+	  * when not used. */
 
 	Z80Notify ld_i_a;
 
 	/** @brief Callback invoked when an <tt>ld r,a</tt> instruction is
 	  * fetched.
 	  *
-	  * @attention This callback is optional and must be initialized to
-	  * @c Z_NULL if not used. */
+	  * @attention This callback is optional and must be set to @c Z_NULL
+	  * when not used. */
 
 	Z80Notify ld_r_a;
 
 	/** @brief Callback invoked when a @c reti instruction is fetched.
 	  *
-	  * @attention This callback is optional and must be initialized to
-	  * @c Z_NULL if not used. */
+	  * @attention This callback is optional and must be set to @c Z_NULL
+	  * when not used. */
 
 	Z80Notify reti;
 
 	/** @brief Callback invoked when a @c retn instruction is fetched.
 	  *
-	  * @attention This callback is optional and must be initialized to
-	  * @c Z_NULL if not used. */
+	  * @attention This callback is optional and must be set to @c Z_NULL
+	  * when not used. */
 
 	Z80Notify retn;
 
 	/** @brief Callback invoked when a trap is fecthed.
 	  *
-	  * @attention This callback is optional and must be initialized to
-	  * @c Z_NULL if not used. */
+	  * @attention This callback is optional and must be set to @c Z_NULL
+	  * when not used. */
 
 	Z80Read hook;
 
 	/** @brief Callback invoked to delegate the emulation of an illegal
 	  * opcode.
 	  *
-	  * @attention This callback is optional and must be initialized to
-	  * @c Z_NULL if not used. */
+	  * @attention This callback is optional and must be set to @c Z_NULL
+	  * when not used. */
 
 	Z80Illegal illegal;
 
