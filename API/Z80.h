@@ -272,7 +272,7 @@ typedef struct {
 	/** @brief Callback invoked to perform a memory read on instruction data
 	  * during a maskable interrupt response in mode 0.
 	  *
-	  * @attention This callback becomes mandatory when the @c Z80.inta
+	  * @attention This callback becomes mandatory when the @c Z80::inta
 	  * callback is used. Setting it to @c Z_NULL will cause the program to
 	  * crash. */
 
