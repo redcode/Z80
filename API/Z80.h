@@ -165,9 +165,9 @@ typedef struct {
 
 	/** @brief Callback invoked to perform an opcode fetch.
 	  *
-	  * The invokation of this callback indicates the beginning of an opcode
-	  * fetch M-cycle. The function must return the byte located at the
-	  * memory address specified by the 2nd parameter.
+	  * This callback indicates the beginning of an opcode fetch M-cycle.
+	  * The function must return the byte located at the memory address
+	  * specified by the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, setting it to @c Z_NULL will
 	  * cause the program to crash. */
@@ -177,12 +177,11 @@ typedef struct {
 	/** @brief Callback invoked to perform a memory read on instruction
 	  * data.
 	  *
-	  * The invokation of this callback indicates the beginning of a memory
-	  * read M-cycle, during which the CPU fetches one byte of instruction
-	  * data, i.e., one byte of the instruction that is neither a prefix nor
-	  * an opcode, but a pseudo-opcode, an immediate operand or part of an
-	  * immediate operand. The function must return the byte located at the
-	  * memory address specified by the 2nd parameter.
+	  * This callback indicates the beginning of a memory read M-cycle
+	  * during which the CPU fetches one byte of instruction data, i.e.,
+	  * one byte of the instruction that is neither a prefix nor an opcode.
+	  * the function must return the byte located at the memory address
+	  * specified by the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, setting it to @c Z_NULL will
 	  * cause the program to crash. */
@@ -191,9 +190,9 @@ typedef struct {
 
 	/** @brief Callback invoked to perform a memory read.
 	  *
-	  * The invokation of this callback indicates the beginning of a memory
-	  * read M-cycle. The function must return the byte located at the
-	  * memory address specified by the 2nd parameter.
+	  * This callback indicates the beginning of a memory read M-cycle. The
+	  * function must return the byte located at the memory address
+	  * specified by the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, setting it to @c Z_NULL will
 	  * cause the program to crash. */
@@ -202,9 +201,9 @@ typedef struct {
 
 	/** @brief Callback invoked to peform a memory write.
 	  *
-	  * The invokation of this callback indicates the beginning of a memory
-	  * write M-cycle. The function must write the value of the 3rd
-	  * parameter into the memory location specified by the 2nd parameter.
+	  * This callback indicates the beginning of a memory write M-cycle. The
+	  * function must write the value of the 3rd parameter into the memory
+	  * location specified by the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, setting it to @c Z_NULL will
 	  * cause the program to crash. */
@@ -213,9 +212,9 @@ typedef struct {
 
 	/** @brief Callback invoked to perform an I/O port read.
 	  *
-	  * The invokation of this callback indicates the beginning of an I/O
-	  * read M-cycle. The function must return the byte read from the I/O
-	  * port specified by the 2nd parameter.
+	  * This callback indicates the beginning of an I/O read M-cycle. The
+	  * function must return the byte read from the I/O port specified by
+	  * the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, setting it to @c Z_NULL will
 	  * cause the program to crash. */
@@ -224,9 +223,9 @@ typedef struct {
 
 	/** @brief Callback invoked to perform an I/O port write.
 	  *
-	  * The invokation of this callback indicates the beginning of an I/O
-	  * write M-cycle. The function must write the value of the 3rd
-	  * parameter to the port specified by the 2nd parameter.
+	  * This callback indicates the beginning of an I/O write M-cycle. The
+	  * function must write the value of the 3rd parameter to the port
+	  * specified by the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, setting it to @c Z_NULL will
 	  * cause the program to crash. */
@@ -235,10 +234,9 @@ typedef struct {
 
 	/** @brief Callback invoked when the state of the HALT line changes.
 	  *
-	  * The invokation of this callback indicates that the CPU enters or
-	  * exits the HALT state. When entering, it is invoked after the @c halt
-	  * opcode is fetched; when exiting, before executing the response to
-	  * the exit condition (interrupt or reset).
+	  * This callback indicates that the CPU is entering or exiting the HALT
+	  * state. It is invoked after updating the value of Z80::halt_line,
+	  * which is passed as the 2nd parameter.
 	  *
 	  * @attention This callback is optional and must be set to @c Z_NULL
 	  * when not used. */
