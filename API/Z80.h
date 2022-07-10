@@ -178,9 +178,9 @@ typedef struct {
 	  * data.
 	  *
 	  * This callback indicates the beginning of a memory read M-cycle
-	  * during which the CPU fetches one byte of instruction data, i.e.,
-	  * one byte of the instruction that is neither a prefix nor an opcode.
-	  * the function must return the byte located at the memory address
+	  * during which the CPU fetches one byte of instruction data (i.e.,
+	  * one byte of the instruction that is neither a prefix nor an opcode).
+	  * The function must return the byte located at the memory address
 	  * specified by the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, setting it to @c Z_NULL will
@@ -224,7 +224,7 @@ typedef struct {
 	/** @brief Callback invoked to perform an I/O port write.
 	  *
 	  * This callback indicates the beginning of an I/O write M-cycle. The
-	  * function must write the value of the 3rd parameter to the port
+	  * function must write the value of the 3rd parameter to the I/O port
 	  * specified by the 2nd parameter.
 	  *
 	  * @attention This callback is mandatory, setting it to @c Z_NULL will
@@ -237,6 +237,9 @@ typedef struct {
 	  * This callback indicates that the CPU is entering or exiting the HALT
 	  * state. It is invoked after updating the value of Z80::halt_line,
 	  * which is passed as the 2nd parameter.
+	  *
+	  * When exiting the HALT state, this callback is invoked before @ref
+	  * Z80::inta, @ref Z80::reti or @ref Z80::reset.
 	  *
 	  * @attention This callback is optional and must be set to @c Z_NULL
 	  * when not used. */
@@ -276,7 +279,7 @@ typedef struct {
 
 	Z80Read int_fetch;
 
-	/* @brief Callback invoked to query the duration of a RESET signal.
+	/** @brief Callback invoked to query the duration of a RESET signal.
 	  *
 	  * @attention This callback is optional and must be set to @c Z_NULL
 	  * when not used. */
