@@ -163,107 +163,101 @@ typedef struct {
 
 	void *context;
 
-	/** @brief Callback invoked to perform an opcode fetch.
+	/** @brief Invoked to perform an opcode fetch.
 	  *
 	  * This callback indicates the beginning of an opcode fetch M-cycle.
 	  * The function must return the byte located at the memory address
-	  * specified by the 2nd parameter.
-	  *
-	  * @attention This callback is mandatory, setting it to @c Z_NULL will
-	  * cause the program to crash. */
+	  * specified by the second parameter. */
 
 	Z80Read fetch_opcode;
 
-	/** @brief Callback invoked to perform a memory read on instruction
-	  * data.
+	/** @brief Invoked to perform a memory read on instruction data.
 	  *
 	  * This callback indicates the beginning of a memory read M-cycle
-	  * during which the CPU fetches one byte of instruction data (i.e.,
-	  * one byte of the instruction that is neither a prefix nor an opcode).
-	  * The function must return the byte located at the memory address
-	  * specified by the 2nd parameter.
-	  *
-	  * @attention This callback is mandatory, setting it to @c Z_NULL will
-	  * cause the program to crash. */
+	  * during which the CPU fetches one byte of instruction data (i.e., one
+	  * byte of the instruction that is neither a prefix nor an opcode). The
+	  * function must return the byte located at the memory address
+	  * specified by the second parameter. */
 
 	Z80Read fetch;
 
-	/** @brief Callback invoked to perform a memory read.
+	/** @brief Invoked to perform a memory read.
 	  *
 	  * This callback indicates the beginning of a memory read M-cycle. The
 	  * function must return the byte located at the memory address
-	  * specified by the 2nd parameter.
-	  *
-	  * @attention This callback is mandatory, setting it to @c Z_NULL will
-	  * cause the program to crash. */
+	  * specified by the second parameter. */
 
 	Z80Read read;
 
-	/** @brief Callback invoked to peform a memory write.
+	/** @brief Invoked to peform a memory write.
 	  *
 	  * This callback indicates the beginning of a memory write M-cycle. The
-	  * function must write the value of the 3rd parameter into the memory
-	  * location specified by the 2nd parameter.
-	  *
-	  * @attention This callback is mandatory, setting it to @c Z_NULL will
-	  * cause the program to crash. */
+	  * function must write the value of the third parameter into the memory
+	  * location specified by the second parameter. */
 
 	Z80Write write;
 
-	/** @brief Callback invoked to perform an I/O port read.
+	/** @brief Invoked to perform an I/O port read.
 	  *
 	  * This callback indicates the beginning of an I/O read M-cycle. The
 	  * function must return the byte read from the I/O port specified by
-	  * the 2nd parameter.
-	  *
-	  * @attention This callback is mandatory, setting it to @c Z_NULL will
-	  * cause the program to crash. */
+	  * the second parameter. */
 
 	Z80Read in;
 
-	/** @brief Callback invoked to perform an I/O port write.
+	/** @brief Invoked to perform an I/O port write.
 	  *
 	  * This callback indicates the beginning of an I/O write M-cycle. The
-	  * function must write the value of the 3rd parameter to the I/O port
-	  * specified by the 2nd parameter.
-	  *
-	  * @attention This callback is mandatory, setting it to @c Z_NULL will
-	  * cause the program to crash. */
+	  * function must write the value of the third parameter to the I/O port
+	  * specified by the second parameter. */
 
 	Z80Write out;
 
-	/** @brief Callback invoked when the state of the HALT line changes.
+	/** @brief Invoked when the state of the HALT line changes.
 	  *
 	  * This callback indicates that the CPU is entering or exiting the HALT
-	  * state. It is invoked after updating the value of Z80::halt_line,
-	  * which is passed as the 2nd parameter.
+	  * state. It is invoked after updating the value of @ref Z80::halt_line,
+	  * which is passed as the second parameter to the function.
 	  *
 	  * When exiting the HALT state, this callback is invoked before @ref
-	  * Z80::inta, @ref Z80::reti or @ref Z80::reset.
-	  *
-	  * @attention This callback is optional and must be set to @c Z_NULL
-	  * when not used. */
+	  * Z80::inta, @ref Z80::reti or @ref Z80::reset. */
 
 	Z80HALT halt;
 
-	/** @brief Callback invoked to perform the disregarded opcode fetch of
-	  * an internal NOP operation.
+	/** @brief Invoked to perform an opcode fetch that corresponds to an
+	  * internal NOP.
 	  *
- 	  * @attention This callback is optional and must be set to @c Z_NULL
-	  * when not used. */
+	  * This callback indicates the beginning of an internal NOP, which is
+	  * an opcode fetch M-cycle that is generated in two situations:
+	  *
+	  * - During the HALT state, the CPU repeatedly executes an internal NOP
+	  *   that fetches the next opcode after @c halt without incrementing
+	  *   the PC register. This opcode is read again and again until an exit
+	  *   condition occurs.
+	  *
+	  * - After detecting a special reset signal, the CPU completes the
+	  *   ongoing instruction and then executes an internal NOP during which
+	  *   it zeroes the PC register.
+	  *
+	  * The role of this callback is analogous to the role of @ref
+	  * Z80::fetch_opcode but the function is free to return any value
+	  * (since the opcode is disregarded).
+	  *
+	  * This callback is optional. Setting it to @c Z_NULL is equivalent to
+	  * setting the @ref Z80_OPTION_HALT_SKIP option. */
 
 	Z80Read nop;
 
-	/** @brief Callback invoked to perform the disregarded opcode fetch of
-	  * a non-maskable interrupt acknowledge.
+	/** @brief Invoked to perform an opcode fetch that correspond to a
+	  * non-maskable interrupt acknowledge M-cycle.
 	  *
  	  * @attention This callback is optional and must be set to @c Z_NULL
 	  * when not used. */
 
 	Z80Read nmia;
 
-	/** @brief Callback invoked to perform the data bus read of a maskable
-	  * interrupt acknowledge.
+	/** @brief Invoked to perform the data bus read of a maskable interrupt
+	  * acknowledge M-cycle.
 	  *
 	  * @attention This callback is optional and must be set to @c Z_NULL
 	  * when not used. */
@@ -286,23 +280,21 @@ typedef struct {
 
 	Z80Reset reset;
 
-	/** @brief Callback invoked when an <tt>ld i,a</tt> instruction is
-	  * fetched.
+	/** @brief Invoked when an <tt>ld i,a</tt> instruction is fetched.
 	  *
 	  * @attention This callback is optional and must be set to @c Z_NULL
 	  * when not used. */
 
 	Z80Notify ld_i_a;
 
-	/** @brief Callback invoked when an <tt>ld r,a</tt> instruction is
-	  * fetched.
+	/** @brief Invoked when an <tt>ld r,a</tt> instruction is fetched.
 	  *
 	  * @attention This callback is optional and must be set to @c Z_NULL
 	  * when not used. */
 
 	Z80Notify ld_r_a;
 
-	/** @brief Callback invoked when a @c reti instruction is fetched.
+	/** @brief Invoked when a @c reti instruction is fetched.
 	  *
 	  * @attention This callback is optional and must be set to @c Z_NULL
 	  * when not used. */
@@ -316,15 +308,14 @@ typedef struct {
 
 	Z80Notify retn;
 
-	/** @brief Callback invoked when a trap is fecthed.
+	/** @brief Invoked when a trap is fecthed.
 	  *
 	  * @attention This callback is optional and must be set to @c Z_NULL
 	  * when not used. */
 
 	Z80Read hook;
 
-	/** @brief Callback invoked to delegate the emulation of an illegal
-	  * opcode.
+	/** @brief Invoked to delegate the emulation of an illegal opcode.
 	  *
 	  * @attention This callback is optional and must be set to @c Z_NULL
 	  * when not used. */
@@ -406,15 +397,16 @@ typedef struct {
 
 	/** @brief State of the INT line.
 	  *
-	  * Contains @c TRUE if the INT line is low, or @c FALSE otherwise. */
+	  * The value of this member is @c TRUE if the INT line is low;
+	  * otherwise, @c FALSE. */
 
 	zuint8 int_line;
 
 	/** @brief State of the HALT line.
 	  *
-	  * Contains @c TRUE if the HALT line is low, or @c FALSE otherwise.
-	  * The emulator always modifies this variable @b before invoking the
-	  * @ref Z80::halt callback. */
+	  * The value of this member is @c TRUE if the HALT line is low;
+	  * otherwise, @c FALSE. The emulator always updates this member before
+	  * invoking the @ref Z80::halt callback. */
 
 	zuint8 halt_line;
 } Z80;
@@ -522,171 +514,171 @@ typedef struct {
 #define Z80_RESUME_SPECIAL_RESET_XY  5
 #define Z80_RESUME_SPECIAL_RESET_NOP 6
 
-/** @brief Accesses the MEMPTR register of a @ref Z80 @c object. */
+/** @brief Accesses the MEMPTR register of a @ref Z80 @p object. */
 
 #define Z80_MEMPTR(object) (object).memptr.uint16_value
 
-/** @brief Accesses the PC register of a @ref Z80 @c object. */
+/** @brief Accesses the PC register of a @ref Z80 @p object. */
 
 #define Z80_PC(object) (object).pc.uint16_value
 
-/** @brief Accesses the SP register of a @ref Z80 @c object. */
+/** @brief Accesses the SP register of a @ref Z80 @p object. */
 
 #define Z80_SP(object) (object).sp.uint16_value
 
-/** @brief Accesses the temporary IX/IY register of a @ref Z80 @c object */
+/** @brief Accesses the temporary IX/IY register of a @ref Z80 @p object */
 
 #define Z80_XY(object) (object).xy.uint16_value
 
-/** @brief Accesses the IX register of a @ref Z80 @c object. */
+/** @brief Accesses the IX register of a @ref Z80 @p object. */
 
 #define Z80_IX(object) (object).ix.uint16_value
 
-/** @brief Accesses the IY register of a @ref Z80 @c object. */
+/** @brief Accesses the IY register of a @ref Z80 @p object. */
 
 #define Z80_IY(object) (object).iy.uint16_value
 
-/** @brief Accesses the AF register of a @ref Z80 @c object. */
+/** @brief Accesses the AF register of a @ref Z80 @p object. */
 
 #define Z80_AF(object) (object).af.uint16_value
 
-/** @brief Accesses the BC register of a @ref Z80 @c object. */
+/** @brief Accesses the BC register of a @ref Z80 @p object. */
 
 #define Z80_BC(object) (object).bc.uint16_value
 
-/** @brief Accesses the DE register of a @ref Z80 @c object. */
+/** @brief Accesses the DE register of a @ref Z80 @p object. */
 
 #define Z80_DE(object) (object).de.uint16_value
 
-/** @brief Accesses the HL register of a @ref Z80 @c object. */
+/** @brief Accesses the HL register of a @ref Z80 @p object. */
 
 #define Z80_HL(object) (object).hl.uint16_value
 
-/** @brief Accesses the AF' register of a @ref Z80 @c object. */
+/** @brief Accesses the AF' register of a @ref Z80 @p object. */
 
 #define Z80_AF_(object) (object).af_.uint16_value
 
-/** @brief Accesses the BC' register of a @ref Z80 @c object. */
+/** @brief Accesses the BC' register of a @ref Z80 @p object. */
 
 #define Z80_BC_(object) (object).bc_.uint16_value
 
-/** @brief Accesses the DE' register of a @ref Z80 @c object. */
+/** @brief Accesses the DE' register of a @ref Z80 @p object. */
 
 #define Z80_DE_(object) (object).de_.uint16_value
 
-/** @brief Accesses the HL' register of a @ref Z80 @c object. */
+/** @brief Accesses the HL' register of a @ref Z80 @p object. */
 
 #define Z80_HL_(object) (object).hl_.uint16_value
 
-/** @brief Accesses the MEMPTRH register of a @ref Z80 @c object. */
+/** @brief Accesses the MEMPTRH register of a @ref Z80 @p object. */
 
 #define Z80_MEMPTRH(object) (object).memptr.uint8_values.at_1
 
-/** @brief Accesses the MEMPTRL register of a @ref Z80 @c object. */
+/** @brief Accesses the MEMPTRL register of a @ref Z80 @p object. */
 
 #define Z80_MEMPTRL(object) (object).memptr.uint8_values.at_0
 
-/** @brief Accesses the PCH register of a @ref Z80 @c object. */
+/** @brief Accesses the PCH register of a @ref Z80 @p object. */
 
 #define Z80_PCH(object) (object).pc.uint8_values.at_1
 
-/** @brief Accesses the PCL register of a @ref Z80 @c object. */
+/** @brief Accesses the PCL register of a @ref Z80 @p object. */
 
 #define Z80_PCL(object) (object).pc.uint8_values.at_0
 
-/** @brief Accesses the SPH register of a @ref Z80 @c object. */
+/** @brief Accesses the SPH register of a @ref Z80 @p object. */
 
 #define Z80_SPH(object) (object).sp.uint8_values.at_1
 
-/** @brief Accesses the SPL register of a @ref Z80 @c object. */
+/** @brief Accesses the SPL register of a @ref Z80 @p object. */
 
 #define Z80_SPL(object) (object).sp.uint8_values.at_0
 
-/** @brief Accesses the temporary IXH/IYH register of a @ref Z80 @c object. */
+/** @brief Accesses the temporary IXH/IYH register of a @ref Z80 @p object. */
 
 #define Z80_XYH(object) (object).xy.uint8_values.at_1
 
-/** @brief Accesses the temporary IXL/IYL register of a @ref Z80 @c object. */
+/** @brief Accesses the temporary IXL/IYL register of a @ref Z80 @p object. */
 
 #define Z80_XYL(object) (object).xy.uint8_values.at_0
 
-/** @brief Accesses the IXH register of a @ref Z80 @c object. */
+/** @brief Accesses the IXH register of a @ref Z80 @p object. */
 
 #define Z80_IXH(object) (object).ix.uint8_values.at_1
 
-/** @brief Accesses the IXL register of a @ref Z80 @c object. */
+/** @brief Accesses the IXL register of a @ref Z80 @p object. */
 
 #define Z80_IXL(object) (object).ix.uint8_values.at_0
 
-/** @brief Accesses the IYH register of a @ref Z80 @c object. */
+/** @brief Accesses the IYH register of a @ref Z80 @p object. */
 
 #define Z80_IYH(object) (object).iy.uint8_values.at_1
 
-/** @brief Accesses the IYL register of a @ref Z80 @c object. */
+/** @brief Accesses the IYL register of a @ref Z80 @p object. */
 
 #define Z80_IYL(object) (object).iy.uint8_values.at_0
 
-/** @brief Accesses the A register of a @ref Z80 @c object. */
+/** @brief Accesses the A register of a @ref Z80 @p object. */
 
 #define Z80_A(object) (object).af.uint8_values.at_1
 
-/** @brief Accesses the F register of a @ref Z80 @c object. */
+/** @brief Accesses the F register of a @ref Z80 @p object. */
 
 #define Z80_F(object) (object).af.uint8_values.at_0
 
-/** @brief Accesses the B register of a @ref Z80 @c object. */
+/** @brief Accesses the B register of a @ref Z80 @p object. */
 
 #define Z80_B(object) (object).bc.uint8_values.at_1
 
-/** @brief Accesses the C register of a @ref Z80 @c object. */
+/** @brief Accesses the C register of a @ref Z80 @p object. */
 
 #define Z80_C(object) (object).bc.uint8_values.at_0
 
-/** @brief Accesses the D register of a @ref Z80 @c object. */
+/** @brief Accesses the D register of a @ref Z80 @p object. */
 
 #define Z80_D(object) (object).de.uint8_values.at_1
 
-/** @brief Accesses the E register of a @ref Z80 @c object. */
+/** @brief Accesses the E register of a @ref Z80 @p object. */
 
 #define Z80_E(object) (object).de.uint8_values.at_0
 
-/** @brief Accesses the H register of a @ref Z80 @c object. */
+/** @brief Accesses the H register of a @ref Z80 @p object. */
 
 #define Z80_H(object) (object).hl.uint8_values.at_1
 
-/** @brief Accesses the L register of a @ref Z80 @c object. */
+/** @brief Accesses the L register of a @ref Z80 @p object. */
 
 #define Z80_L(object) (object).hl.uint8_values.at_0
 
-/** @brief Accesses the A' register of a @ref Z80 @c object. */
+/** @brief Accesses the A' register of a @ref Z80 @p object. */
 
 #define Z80_A_(object) (object).af_.uint8_values.at_1
 
-/** @brief Accesses the F' register of a @ref Z80 @c object. */
+/** @brief Accesses the F' register of a @ref Z80 @p object. */
 
 #define Z80_F_(object) (object).af_.uint8_values.at_0
 
-/** @brief Accesses the B' register of a @ref Z80 @c object. */
+/** @brief Accesses the B' register of a @ref Z80 @p object. */
 
 #define Z80_B_(object) (object).bc_.uint8_values.at_1
 
-/** @brief Accesses the C' register of a @ref Z80 @c object. */
+/** @brief Accesses the C' register of a @ref Z80 @p object. */
 
 #define Z80_C_(object) (object).bc_.uint8_values.at_0
 
-/** @brief Accesses the D' register of a @ref Z80 @c object. */
+/** @brief Accesses the D' register of a @ref Z80 @p object. */
 
 #define Z80_D_(object) (object).de_.uint8_values.at_1
 
-/** @brief Accesses the E' register of a @ref Z80 @c object. */
+/** @brief Accesses the E' register of a @ref Z80 @p object. */
 
 #define Z80_E_(object) (object).de_.uint8_values.at_0
 
-/** @brief Accesses the H' register of a @ref Z80 @c object. */
+/** @brief Accesses the H' register of a @ref Z80 @p object. */
 
 #define Z80_H_(object) (object).hl_.uint8_values.at_1
 
-/** @brief Accesses the L' register of a @ref Z80 @c object. */
+/** @brief Accesses the L' register of a @ref Z80 @p object. */
 
 #define Z80_L_(object) (object).hl_.uint8_values.at_0
 
