@@ -2148,6 +2148,10 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		{
 		if (REQUEST)
 			{
+#			ifdef Z80_WITH_SPECIAL_RESET
+				zuint8 special_reset = REQUEST & Z80_REQUEST_SPECIAL_RESET;
+#			endif
+
 			/*-------------------------------------------------------------------------.
 			| NMI Acknowledge/Response				| T-states: 11:533 |
 			|--------------------------------------------------------------------------|
@@ -2174,18 +2178,10 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			|     * https://github.com/floooh/v6502r				   |
 			'=========================================================================*/
 			if (REQUEST & Z80_REQUEST_REJECT_NMI)
-#				ifdef Z80_WITH_SPECIAL_RESET
-					REQUEST &= Z80_REQUEST_SPECIAL_RESET;
-#				else
-					REQUEST = 0;
-#				endif
+				REQUEST = 0;
 
 			else if (REQUEST & Z80_REQUEST_NMI)
 				{
-#				ifdef Z80_WITH_SPECIAL_RESET
-					zuint8 special_reset = REQUEST & Z80_REQUEST_SPECIAL_RESET;
-#				endif
-
 				IFF1 = 0;
 				if (HALT_LINE) {SET_HALT_LINE(FALSE);}
 				R++; /* M1 */
@@ -2231,10 +2227,6 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #				ifdef Z80_WITH_FULL_IM0
 					Z80Read hook;
 					IM0	im0;
-#				endif
-
-#				ifdef Z80_WITH_SPECIAL_RESET
-					zuint8 special_reset = REQUEST & Z80_REQUEST_SPECIAL_RESET;
 #				endif
 
 				zuint8 byte;
@@ -2531,8 +2523,10 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| * https://worldofspectrum.org/forums/discussion/34574			|
 			'======================================================================*/
 #			ifdef Z80_WITH_SPECIAL_RESET
-				if (REQUEST & Z80_REQUEST_SPECIAL_RESET)
+				if (special_reset)
 					{
+					REQUEST = 0;
+
 					if (HALT_LINE)
 						{
 						zuint8 opcode;
