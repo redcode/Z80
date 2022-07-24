@@ -58,11 +58,10 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Brewer, Tony**
 
-  1. For his research on the special RESET. |re| |fe| :ref:`11<r11>` |ren| |ces|
-  2. For sharing information about the RESET signal. |re| |fe| :ref:`12<r12>` |ren| |ces|
-  3. For helping to crack the flag behavior of the block instructions. |re| |fe| :ref:`2<r2>` |ren| |ces|
-  4. For conducting low-level tests on real hardware. |re| |fe| :ref:`2<r2>` |ren| |ces|
-  5. For helping me to test different undocumented behaviors of the Zilog Z80.
+  1. For his research on the special RESET. |re| |fe| :ref:`11<r11>`, :ref:`12<r12>` |ren| |ces|
+  2. For helping to crack the flag behavior of the block instructions. |re| |fe| :ref:`2<r2>` |ren| |ces|
+  3. For conducting low-level tests on real hardware. |re| |fe| :ref:`2<r2>` |ren| |ces|
+  4. For helping me to test different undocumented behaviors of the Zilog Z80.
 
 * **Bystrov, Dmitry (Alone Coder)**
 
@@ -305,7 +304,7 @@ References
 
     .. _r12:
 
-    https://mtxworld.dk/memorum/viewtopic.php?p=1352#p1352
+    https://stardot.org.uk/forums/viewtopic.php?p=357136#p357136
 
 13.
 

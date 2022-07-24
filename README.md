@@ -574,11 +574,10 @@ Many thanks to the following individuals (in alphabetical order):
 * **Brady, Stuart**
 	* For his research on the flag behavior of the `ccf/scf` instructions. <sup>[10](#r10)</sup>
 * **Brewer, Tony**
-	1. For his research on the special RESET. <sup>[11](#r11)</sup>
-	2. For sharing information about the RESET signal. <sup>[12](#r12)</sup>
-	3. For helping to crack the flag behavior of the block instructions. <sup>[2](#r2)</sup>
-	4. For conducting low-level tests on real hardware. <sup>[2](#r2)</sup>
-	5. For helping me to test different undocumented behaviors of the Zilog Z80.
+	1. For his research on the special RESET. <sup>[11](#r11), [12](#r12)</sup>
+	2. For helping to crack the flag behavior of the block instructions. <sup>[2](#r2)</sup>
+	3. For conducting low-level tests on real hardware. <sup>[2](#r2)</sup>
+	4. For helping me to test different undocumented behaviors of the Zilog Z80.
 * **Bystrov, Dmitry (Alone Coder)**
 	* For validating tests on real hardware. <sup>[4](#r4)</sup>
 * **Chunin, Roman (CHRV)**
@@ -688,7 +687,7 @@ Many thanks to the following individuals (in alphabetical order):
 10. <span id="r10">https://sourceforge.net/p/fuse-emulator/mailman/message/6929573</span>
 11. <span id="r11">Brewer, Tony (2014-12). _"Z80 Special Reset"_.</span>
 	* http://primrosebank.net/computers/z80/z80_special_reset.htm
-12. <span id="r12">https://mtxworld.dk/memorum/viewtopic.php?p=1352#p1352</span>
+12. <span id="r12">https://stardot.org.uk/forums/viewtopic.php?p=357136#p357136</span>
 13. <span id="r13">https://worldofspectrum.org/forums/discussion/20345</span>
 14. <span id="r14">https://groups.google.com/g/comp.os.cpm/c/HfSTFpaIkuU/m/KotvMWu3bZoJ</span>
 15. <span id="r15">Cringle, Frank D. (1998-01-28). _"Yaze - Yet Another Z80 Emulator"_ v1.10.</span>

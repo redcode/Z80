@@ -19,11 +19,10 @@ Many thanks to the following individuals (in alphabetical order):
 * Brady, Stuart
     For his research on the flag behavior of the `ccf/scf` instructions [10].
 * Brewer, Tony
-    1. For his research on the special RESET [11].
-    2. For sharing information about the RESET signal [12].
-    3. For helping to crack the flag behavior of the block instructions [2].
-    4. For conducting low-level tests on real hardware [2].
-    5. For helping me to test different undocumented behaviors of the Zilog Z80.
+    1. For his research on the special RESET [11,12].
+    2. For helping to crack the flag behavior of the block instructions [2].
+    3. For conducting low-level tests on real hardware [2].
+    4. For helping me to test different undocumented behaviors of the Zilog Z80.
 * Bystrov, Dmitry (Alone Coder)
     For validating tests on real hardware [4].
 * Chunin, Roman (CHRV)
@@ -142,7 +141,7 @@ References
 10. https://sourceforge.net/p/fuse-emulator/mailman/message/6929573
 11. Brewer, Tony (2014-12). "Z80 Special Reset".
     * http://primrosebank.net/computers/z80/z80_special_reset.htm
-12. https://mtxworld.dk/memorum/viewtopic.php?p=1352#p1352
+12. https://stardot.org.uk/forums/viewtopic.php?p=357136#p357136
 13. https://worldofspectrum.org/forums/discussion/20345
 14. https://groups.google.com/g/comp.os.cpm/c/HfSTFpaIkuU/m/KotvMWu3bZoJ
 15. Cringle, Frank D. (1998-01-28). "Yaze - Yet Another Z80 Emulator" v1.10.
