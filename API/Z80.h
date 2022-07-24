@@ -147,11 +147,11 @@ typedef zusize (* Z80Reset)(void *context, zuint16 address);
 
 typedef struct {
 
-	/** @brief Number of clock cycles already executed. */
+	/** @brief Number of clock cycles (T-states) already executed. */
 
 	zusize cycles;
 
-	/** @brief Maximum number of clock cycles to be executed. */
+	/** @brief Maximum number of clock cycles (T-states) to be executed. */
 
 	zusize cycle_limit;
 
@@ -227,14 +227,13 @@ typedef struct {
 	/** @brief Invoked to perform an opcode fetch that corresponds to an
 	  * internal NOP.
 	  *
-	  * This callback indicates the beginning of an internal NOP, which is
-	  * an opcode fetch M-cycle that is generated in two situations:
+	  * This callback indicates the beginning of an opcode fetch M-cycle
+	  * that is generated in the following cases:
 	  *
 	  * - During the HALT state, the CPU repeatedly executes an internal NOP
 	  *   that fetches the next opcode after @c halt without incrementing
 	  *   the PC register. This opcode is read again and again until an exit
 	  *   condition occurs.
-	  *
 	  * - After detecting a special reset signal, the CPU completes the
 	  *   ongoing instruction and then executes an internal NOP during which
 	  *   it zeroes the PC register.
@@ -273,45 +272,50 @@ typedef struct {
 
 	Z80Read int_fetch;
 
-	/** @brief Callback invoked to query the duration of a RESET signal.
-	  *
-	  * @attention This callback is optional and must be set to @c Z_NULL
-	  * when not used. */
-
-	Z80Reset reset;
-
 	/** @brief Invoked when an <tt>ld i,a</tt> instruction is fetched.
 	  *
-	  * @attention This callback is optional and must be set to @c Z_NULL
-	  * when not used. */
+	  * This callback is invoked before the <tt>ld i,a</tt> instruction
+	  * modifies the I register.
+	  *
+	  * This callback is optional and must be set to @c Z_NULL when not
+	  * used. */
 
 	Z80Notify ld_i_a;
 
 	/** @brief Invoked when an <tt>ld r,a</tt> instruction is fetched.
 	  *
-	  * @attention This callback is optional and must be set to @c Z_NULL
-	  * when not used. */
+	  * This callback is invoked before the <tt>ld r,a</tt> instruction
+	  * modifies the R register.
+	  *
+	  * This callback is optional and must be set to @c Z_NULL when not
+	  * used. */
 
 	Z80Notify ld_r_a;
 
 	/** @brief Invoked when a @c reti instruction is fetched.
 	  *
-	  * @attention This callback is optional and must be set to @c Z_NULL
-	  * when not used. */
+	  * This callback is invoked before executing a @c reti instruction.
+	  *
+	  * This callback is optional and must be set to @c Z_NULL when not
+	  * used. */
 
 	Z80Notify reti;
 
 	/** @brief Callback invoked when a @c retn instruction is fetched.
 	  *
-	  * @attention This callback is optional and must be set to @c Z_NULL
-	  * when not used. */
+	  * This callback is invoked before executing a @c retn instruction.
+	  *
+	  * This callback is optional and must be set to @c Z_NULL when not
+	  * used. */
 
 	Z80Notify retn;
 
 	/** @brief Invoked when a trap is fecthed.
 	  *
-	  * @attention This callback is optional and must be set to @c Z_NULL
-	  * when not used. */
+	  * This callback is invoked before the @c retn instruction is executed.
+	  *
+	  * This callback is optional and must be set to @c Z_NULL when not
+	  * used. */
 
 	Z80Read hook;
 
@@ -469,10 +473,6 @@ typedef struct {
 #define Z80_MODEL_ST_CMOS \
 	(Z80_OPTION_LD_A_IR_BUG | Z80_OPTION_YQ)
 
-/** @brief @ref Z80 request flag anouncing an incoming RESET signal. */
-
-#define Z80_REQUEST_RESET 3
-
 /** @brief @ref Z80 request flag that prevents the NMI signal from being
   * accepted. */
 
@@ -483,16 +483,11 @@ typedef struct {
 
 #define Z80_REQUEST_NMI 8
 
-#define Z80_REQUEST_CLEAR_PC 16
-
 /** @brief @ref Z80 request flag anouncing an incoming special RESET signal. */
 
 #define Z80_REQUEST_SPECIAL_RESET 32
 
 #define Z80_REQUEST_INT 64
-#define Z80_REQUEST_ANY_RESET 35
-#define Z80_REQUEST_RESET 3
-#define Z80_REQUEST_INTERRUPT 5
 
 /** @brief @ref Z80 resume code that is set when the emulator runs out of clock
   * cycles during the HALT state. */
@@ -510,9 +505,6 @@ typedef struct {
   * sequence or an illegal instruction with @c DDh or @c FDh prefix. */
 
 #define Z80_RESUME_IM0_XY 3
-
-#define Z80_RESUME_SPECIAL_RESET_XY  5
-#define Z80_RESUME_SPECIAL_RESET_NOP 6
 
 /** @brief Accesses the MEMPTR register of a @ref Z80 @p object. */
 
@@ -698,12 +690,6 @@ Z80_API void z80_power(Z80 *self, zboolean state);
   * @param self Pointer to the object on which the function is called. */
 
 Z80_API void z80_instant_reset(Z80 *self);
-
-/** @brief Sends a normal RESET signal to a @ref Z80 object.
-  *
-  * @param self Pointer to the object on which the function is called. */
-
-Z80_API void z80_reset(Z80 *self);
 
 /** @brief Sends a special RESET signal to a @ref Z80 object.
   *

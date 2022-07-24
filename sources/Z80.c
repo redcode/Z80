@@ -957,7 +957,7 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 
 #define OTXR(hl_operator, memptr_operator) \
 	zuint8 out = READ(HL hl_operator); \
-	zuint8 nf  = (out & 128) >> 6;	   \
+	zuint8 nf  = (out >> 6) & NF;	   \
 	zuint  t   = (zuint)out + L;	   \
 	zuint8 hcf = (t > 255) ? HCF : 0;  \
 	zuint8 p   = (t & 7) ^ --B;	   \
@@ -967,9 +967,9 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	INXR_OTXR(out)
 
 
-#define EXIT_HALT_STATE	   \
-	HALT_LINE = FALSE; \
-	if (self->halt != Z_NULL) self->halt(CONTEXT, FALSE)
+#define SET_HALT_LINE(state) \
+	HALT_LINE = state;   \
+	if (self->halt != Z_NULL) self->halt(CONTEXT, state)
 
 
 /* MARK: - Instructions: 8-Bit Load Group */
@@ -1223,7 +1223,7 @@ INSTRUCTION(neg)
 
 
 /*---------------------------------------------------------------------------.
-| "ccf" and "scf" are the only instructions in which Q affects the flags.    |
+| `ccf` and `scf` are the only instructions in which Q affects the flags.    |
 | Patrik Rak cracked the behavior of YF and XF in 2012, confirming that they |
 | are taken, respectively, from bits 5 and 3 of the result of "(Q ^ F) | A"  |
 | [1,2]. This applies to all Zilog Z80 models, both NMOS and CMOS. In 2018,  |
@@ -1277,12 +1277,12 @@ INSTRUCTION(scf)
 
 
 /*-----------------------------------------------------------------------------.
-| The "halt" instruction enables the HALT state after PC is incremented during |
+| The `halt` instruction enables the HALT state after PC is incremented during |
 | the opcode fetch. The CPU neither decrements nor avoids incrementing PC "so  |
 | that the instruction is re-executed" as Sean Young writes in section 5.4 of  |
 | "The Undocumented Z80 Documented". During the HALT state, the CPU repeatedly |
 | executes an internal NOP operation. Each NOP consists of 1 M1 cycle of 4     |
-| T-states that fetches and disregards the next opcode after "halt" without    |
+| T-states that fetches and disregards the next opcode after `halt` without    |
 | incrementing PC. This opcode is read again and again until an exit condition |
 | occurs (i.e., INT, NMI or RESET).					       |
 |									       |
@@ -1302,40 +1302,35 @@ INSTRUCTION(halt)
 			{
 			Q_0
 			PC++;
-			if (REQUEST & Z80_REQUEST_INTERRUPT) return 4;
+			if (REQUEST) return 4;
 			RESUME = Z80_RESUME_HALT;
 			if ((self->cycles += 4) >= self->cycle_limit) return 0;
 			}
 
-		HALT_LINE = TRUE;
-		if (self->halt != Z_NULL) self->halt(CONTEXT, TRUE);
+		SET_HALT_LINE(TRUE);
 		}
 
 	if (self->nop == Z_NULL || (OPTIONS & Z80_OPTION_HALT_SKIP))
 		{
-		if (REQUEST) RESUME = FALSE;
+		zusize nop_cycles = self->cycle_limit - self->cycles;
 
-		else if (self->cycles < self->cycle_limit)
-			{
-			zusize nop_cycles = self->cycle_limit - self->cycles;
-
-			nop_cycles += (4 - (nop_cycles & 3)) & 3;
-			R += (zuint8)(nop_cycles >> 2);
-			self->cycles += nop_cycles;
-			}
+		nop_cycles += (4 - (nop_cycles & 3)) & 3;
+		R += (zuint8)(nop_cycles >> 2);
+		self->cycles += nop_cycles;
 		}
 
-	else for (; self->cycles < self->cycle_limit; self->cycles += 4)
-		{
+	else do {
+		R++; /* M1 */
+		(void)self->nop(CONTEXT, PC);
+		self->cycles += 4;
+
 		if (REQUEST)
 			{
 			RESUME = FALSE;
 			return 0;
 			}
-
-		R++; /* M1 */
-		(void)self->nop(CONTEXT, PC);
 		}
+	while (self->cycles < self->cycle_limit);
 
 	return 0;
 	}
@@ -1543,9 +1538,9 @@ INSTRUCTION(djnz_OFFSET) {DJNZ_JR_Z_OFFSET(--B, 13, 8);						}
 |+ reti/retn	<--ED-->01***101	  ........  14:4433	      |
 |  rst N	11nnn111		  ........  11:533	      |
 |---------------------------------------------------------------------|
-| (+) The instruction has undocumented opcodes. The mnemonic "reti"   |
+| (+) The instruction has undocumented opcodes. The `reti` mnemonic   |
 |     is used to represent the ED4Dh opcode, which is recognized by   |
-|     the Z80 CTC chip. All others opcodes are represented as "retn". |
+|     the Z80 CTC chip. All other opcodes are represented as `retn`.  |
 '====================================================================*/
 
 INSTRUCTION(call_WORD) {Q_0 MEMPTR = FETCH_16(PC + 1); PUSH(PC + 3); PC = MEMPTR; return 17;}
@@ -1646,7 +1641,7 @@ INSTRUCTION(out_vBYTE_a)
 
 
 /*----------------------------------------------------------------------------.
-| The "out (c),0" instruction behaves as "out (c),255" on the Zilog Z80 CMOS. |
+| The `out (c),0` instruction behaves as `out (c),255` on the Zilog Z80 CMOS. |
 | This was first discovered by Simon Cooke, who reported it on Usenet in 1996 |
 | [1]. Later, in 2004, Colin Piggot rediscovered it with his SAM Coupé when   |
 | running a demo for SCPDU 6, coincidentally written by Simon Cooke [2]. In   |
@@ -1885,7 +1880,7 @@ INSTRUCTION(xy_xy)
 
 /*------------------------------------------------------------------.
 | The CPU ignores illegal instructions with EDh prefix; in practice |
-| they are all equivalent to two "nop" instructions (8 T-states).   |
+| they are all equivalent to two `nop` instructions (8 T-states).   |
 '==================================================================*/
 
 INSTRUCTION(ed_illegal)
@@ -2019,21 +2014,34 @@ Z80_API void z80_power(Z80 *self, zboolean state)
 	}
 
 
+/*-------------------------------------------------------------------------.
+| The normal reset clears PC, I, and R [1,2,3,4,5], resets the interrupt   |
+| enable flip-flops (IFF1 and IFF2) [1,2,4,5] and sets the interrupt mode  |
+| 0 [1,2,5]. Once /RESET goes inactive, the CPU consumes 3 T-states before |
+| resuming normal processing operation at address 0000h [2,4,6,7].	   |
+|									   |
+| References:								   |
+| 1. Zilog (2016-09). "Z80 CPU User Manual" revision 11. p. 6.		   |
+| 2. Flammenkamp, Achim. "Interrupt Behaviour of the Z80 CPU".		   |
+|     * http://z80.info/interrup.htm					   |
+| 3. https://worldofspectrum.org/forums/discussion/34574		   |
+| 4. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm	   |
+| 5. Brewer, Tony (2014-12). "Z80 Special Reset".			   |
+|     * http://primrosebank.net/computers/z80/z80_special_reset.htm	   |
+| 6. SGS-Thomson (1990-01). "Z80 Microprocessor Family" 1st edition.	   |
+|    p. 40.								   |
+'=========================================================================*/
+
 Z80_API void z80_instant_reset(Z80 *self)
 	{
-	if (HALT_LINE) {EXIT_HALT_STATE;}
+	if (HALT_LINE) {SET_HALT_LINE(FALSE);}
+
 	PC = R = I = IFF1 = IFF2 = IM =
 	DATA[0] = HALT_LINE = RESUME = REQUEST = 0;
 	}
 
 
-#ifdef Z80_WITH_RESET_SIGNAL
-	Z80_API void z80_reset(Z80 *self)
-		{REQUEST |= Z80_REQUEST_RESET;}
-#endif
-
-
-#ifdef Z80_WITH_SPECIAL_RESET_SIGNAL
+#ifdef Z80_WITH_SPECIAL_RESET
 	Z80_API void z80_special_reset(Z80 *self)
 		{REQUEST |= Z80_REQUEST_SPECIAL_RESET;}
 #endif
@@ -2092,7 +2100,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 	| significant bit, commonly known as R7. This behavior is not emulated |
 	| in every increment for obvious speed reasons. Instead, a copy of R   |
 	| is used to preserve R7, which is restored before returning from this |
-	| function. The emulation of "ld {a,r|r,a}" takes this into account.   |
+	| function. The emulation of `ld {a,r|r,a}` takes this into account.   |
 	'=====================================================================*/
 	R7 = R;
 
@@ -2104,10 +2112,11 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		/*----------------------------------------------------------------.
 		| The CPU is halted. In order to avoid affecting the speed of the |
 		| main execution loop, this state is executed by a dedicated loop |
-		| within the function that emulates the "halt" instruction.	  |
+		| within the function that emulates the `halt` instruction.	  |
 		'================================================================*/
 		case Z80_RESUME_HALT:
-		(void)halt(self);
+		if (REQUEST) RESUME = FALSE;
+		else (void)halt(self);
 		break;
 
 		/*--------------------------------------------------------------------.
@@ -2133,58 +2142,12 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			RESUME = FALSE;
 			goto im0_begin;
 #		endif
-
-#		ifdef Z80_WITH_SPECIAL_RESET_SIGNAL
-			case Z80_RESUME_SPECIAL_RESET_XY:
-			RESUME = FALSE;
-			goto special_reset_execute;
-
-			case Z80_RESUME_SPECIAL_RESET_NOP:
-			RESUME = FALSE;
-			goto special_reset_nop;
-#		endif
 		}
 
 	while (self->cycles < cycles) /* Main execution loop. */
 		{
 		if (REQUEST)
 			{
-			/*-------------------------------------------------------------------------.
-			| Normal RESET Response					     | T-states: 3 |
-			|--------------------------------------------------------------------------|
-			| The normal RESET clears PC, I, and R [1,2,3,4,5], resets the interrupt   |
-			| enable flip-flops (IFF1 and IFF2) [1,2,4,5] and sets the interrupt mode  |
-			| 0 [1,2,5]. Once /RESET goes inactive, the CPU consumes 3 T-states before |
-			| resuming normal processing operation at address 0000h [2,4,6,7].	   |
-			|									   |
-			| References:								   |
-			| 1. Zilog (2016-09). "Z80 CPU User Manual" revision 11. p. 6.		   |
-			| 2. Flammenkamp, Achim. "Interrupt Behaviour of the Z80 CPU".		   |
-			|     * http://z80.info/interrup.htm					   |
-			| 3. https://worldofspectrum.org/forums/discussion/34574		   |
-			| 4. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm	   |
-			| 5. Brewer, Tony (2014-12). "Z80 Special Reset".			   |
-			|     * http://primrosebank.net/computers/z80/z80_special_reset.htm	   |
-			| 6. SGS-Thomson (1990-01). "Z80 Microprocessor Family" 1st edition.	   |
-			|    p. 40.								   |
-			'=========================================================================*/
-#			ifdef Z80_WITH_RESET_SIGNAL
-				if (REQUEST & Z80_REQUEST_RESET)
-					{
-					if (HALT_LINE) {EXIT_HALT_STATE;}
-
-					reset:
-					self->cycles += (self->reset != Z_NULL)
-						? self->reset(CONTEXT, PC)
-						: Z80_CYCLES_PER_RESET;
-
-					PC = R = I = IFF1 = IFF2 = IM =
-					DATA[0] = HALT_LINE = RESUME = 0;
-					REQUEST = Z80_REQUEST_REJECT_NMI;
-					continue;
-					}
-#			endif
-
 			/*-------------------------------------------------------------------------.
 			| NMI Acknowledge/Response				| T-states: 11:533 |
 			|--------------------------------------------------------------------------|
@@ -2194,7 +2157,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| NMI by storing PC on the stack and jumping to the ISR located at address |
 			| 0066h. The interrupt enable flip-flop 1 (IFF1) is reset to prevent any   |
 			| INT from being accepted during the execution of this routine, which is   |
-			| usually exited by using a "reti" or "retn" instruction to restore the	   |
+			| usually exited by using a `reti` or `retn` instruction to restore the	   |
 			| original state of IFF1.						   |
 			|									   |
 			| Some technical documents from Zilog include an erroneous timing diagram  |
@@ -2211,48 +2174,34 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			|     * https://github.com/floooh/v6502r				   |
 			'=========================================================================*/
 			if (REQUEST & Z80_REQUEST_REJECT_NMI)
-#				ifdef Z80_WITH_SPECIAL_RESET_SIGNAL
-					REQUEST &= ~(zuint8)Z80_REQUEST_REJECT_NMI;
+#				ifdef Z80_WITH_SPECIAL_RESET
+					REQUEST &= Z80_REQUEST_SPECIAL_RESET;
 #				else
 					REQUEST = 0;
 #				endif
 
 			else if (REQUEST & Z80_REQUEST_NMI)
 				{
+#				ifdef Z80_WITH_SPECIAL_RESET
+					zuint8 special_reset = REQUEST & Z80_REQUEST_SPECIAL_RESET;
+#				endif
+
 				IFF1 = 0;
-
-				if (HALT_LINE)
-					{
-					HALT_LINE = FALSE;
-
-					if (self->halt != Z_NULL)
-						{
-						self->halt(CONTEXT, FALSE);
-
-#						ifdef Z80_WITH_RESET_SIGNAL
-							if (REQUEST & Z80_REQUEST_RESET) goto reset;
-#						endif
-						}
-					}
-
+				if (HALT_LINE) {SET_HALT_LINE(FALSE);}
 				R++; /* M1 */
 				if (self->nmia != Z_NULL) (void)self->nmia(CONTEXT, PC);
 
-#				ifdef Z80_WITH_SPECIAL_RESET_SIGNAL
-					PC >>= REQUEST & Z80_REQUEST_CLEAR_PC;
-					REQUEST = (REQUEST & (Z80_REQUEST_ANY_RESET | Z80_REQUEST_NMI)) >> 1;
+#				ifdef Z80_WITH_SPECIAL_RESET
+					PC >>= special_reset;
+					REQUEST = Z80_REQUEST_REJECT_NMI | (REQUEST & Z80_REQUEST_SPECIAL_RESET);
 #				else
-					REQUEST =
-#						ifdef Z80_WITH_RESET_SIGNAL
-							(REQUEST & Z80_REQUEST_RESET) |
-#						endif
-						Z80_REQUEST_REJECT_NMI;
+					REQUEST = Z80_REQUEST_REJECT_NMI;
 #				endif
 
 				DATA[0] = 0;
 				Q_0
 				PUSH(PC);
-				MEMPTR = PC = 0x66;
+				PC = MEMPTR = 0x66;
 				self->cycles += 11;
 				continue;
 				}
@@ -2260,21 +2209,21 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			/*-------------------------------------------------------------------------.
 			| INT Acknowledge/Response						   |
 			|--------------------------------------------------------------------------|
-			| The maskable interrupt can be enabled and disabled by using the "ei" and |
-			| "di" instructions respectively, which control the state of the interrupt |
+			| The maskable interrupt can be enabled and disabled by using the `ei` and |
+			| `di` instructions respectively, which control the state of the interrupt |
 			| enable flip-flops (IFF1 and IFF2). The CPU does not accept this kind of  |
-			| interrupt directly after an "ei" instruction, but only after the one	   |
-			| following "ei" is executed. This is so that ISRs can return without the  |
+			| interrupt directly after an `ei` instruction, but only after the one	   |
+			| following `ei` is executed. This is so that ISRs can return without the  |
 			| danger of being interrupted immediately after re-enabling interrupts if  |
 			| the /INT line is still active, which could cause a stack overflow.	   |
 			'=========================================================================*/
 			else if (
-#				ifdef Z80_WITH_SPECIAL_RESET_SIGNAL
+#				ifdef Z80_WITH_SPECIAL_RESET
 					(REQUEST & Z80_REQUEST_INT) &&
 #				endif
-				/* if the previous instruction is not "ei" */
+				/* if the previous instruction is not `ei` */
 				DATA[0] != 0xFB &&
-				/* if the previous instruction is not "reti/retn" or IFF1 has not changed */
+				/* if the previous instruction is not `reti/retn` or IFF1 has not changed */
 				(self->data.uint32_value & Z_UINT32_BIG_ENDIAN(Z_UINT32(0xFFC7FF00)))
 				!=			   Z_UINT32_BIG_ENDIAN(Z_UINT32(0xED450000))
 			)
@@ -2283,27 +2232,19 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					Z80Read hook;
 					IM0	im0;
 #				endif
+
+#				ifdef Z80_WITH_SPECIAL_RESET
+					zuint8 special_reset = REQUEST & Z80_REQUEST_SPECIAL_RESET;
+#				endif
+
 				zuint8 byte;
 
 				IFF1 = IFF2 = 0;
-
-				if (HALT_LINE)
-					{
-					HALT_LINE = FALSE;
-
-					if (self->halt != Z_NULL)
-						{
-						self->halt(CONTEXT, FALSE);
-
-#						ifdef Z80_WITH_RESET_SIGNAL
-							if (REQUEST & Z80_REQUEST_RESET) goto reset;
-#						endif
-						}
-					}
+				if (HALT_LINE) {SET_HALT_LINE(FALSE);}
 
 				/*-----------------------------------------------------.
 				| Due to a bug, the Zilog Z80 NMOS resets PF if an INT |
-				| is accepted during the execution of "ld a,{i|r}".    |
+				| is accepted during the execution of `ld a,{i|r}`.    |
 				'=====================================================*/
 #				ifdef Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 					if (
@@ -2321,22 +2262,18 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				| interrupt response data. The first and perhaps only byte of this data |
 				| is read from the data bus during this special M1 cycle.		|
 				|									|
-				| The value FFh is assumed when the "inta" callback is not used. This	|
-				| is the most desirable behavior, since the "rst 38h" instruction will	|
+				| The value FFh is assumed when the `inta` callback is not used. This	|
+				| is the most desirable behavior, since the `rst 38h` instruction will	|
 				| be executed if the interrupt mode is 0.				|
 				'======================================================================*/
 				R++; /* M1 */
 				byte = (self->inta != Z_NULL) ? INTA : 0xFF;
 
-#				ifdef Z80_WITH_SPECIAL_RESET_SIGNAL
-					PC >>= REQUEST & Z80_REQUEST_CLEAR_PC;
-					REQUEST = (REQUEST & Z80_REQUEST_NMI) | ((REQUEST & Z80_REQUEST_ANY_RESET) >> 1);
+#				ifdef Z80_WITH_SPECIAL_RESET
+					PC >>= special_reset;
+					REQUEST &= Z80_REQUEST_NMI | Z80_REQUEST_SPECIAL_RESET;
 #				else
-					REQUEST &=
-#						ifdef Z80_WITH_RESET_SIGNAL
-							Z80_REQUEST_RESET |
-#						endif
-						Z80_REQUEST_NMI;
+					REQUEST &= Z80_REQUEST_NMI;
 #				endif
 
 				switch (IM) /* Response */
@@ -2526,7 +2463,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							self->cycles += 2 + 17;
 							continue;
 
-							/* "rst N" is assumed for other instructions */
+							/* `rst N` is assumed for other instructions */
 							default:
 							Q_0
 							PUSH(PC);
@@ -2537,9 +2474,9 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #					endif
 
 					/*----------------------------------------------------------.
-					| Interrupt Mode 1: Execute "rst 38h"	 | T-states: 13:733 |
+					| Interrupt Mode 1: Execute `rst 38h`	 | T-states: 13:733 |
 					|-----------------------------------------------------------|
-					| An internal "rst 38h" is executed. The interrupt response |
+					| An internal `rst 38h` is executed. The interrupt response |
 					| data read from the data bus is disregarded.		    |
 					'==========================================================*/
 					case 1:
@@ -2551,7 +2488,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					continue;
 
 					/*---------------------------------------------------------------------.
-					| Interrupt Mode 2: Execute "call (i:BYTE)"	  | T-states: 19:73333 |
+					| Interrupt Mode 2: Execute `call (i:BYTE)`	  | T-states: 19:73333 |
 					|----------------------------------------------------------------------|
 					| An indirect call is executed. The pointer to the ISR is loaded from  |
 					| the memory address formed by taking the I register as the most       |
@@ -2593,22 +2530,34 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| * US Patent 4486827							|
 			| * https://worldofspectrum.org/forums/discussion/34574			|
 			'======================================================================*/
-#			ifdef Z80_WITH_SPECIAL_RESET_SIGNAL
-				if (REQUEST & Z80_REQUEST_CLEAR_PC)
-					{
-					if (self->nop != Z_NULL) (void)self->nop(CONTEXT, PC);
-					PC = 0;
-					}
-
+#			ifdef Z80_WITH_SPECIAL_RESET
 				if (REQUEST & Z80_REQUEST_SPECIAL_RESET)
 					{
 					if (HALT_LINE)
 						{
-						zuint8 opcode = DATA[0] = FETCH_OPCODE(PC);
-						if (self->halt != Z_NULL) self->halt(CONTEXT, FALSE);
+						zuint8 opcode;
+
+						R++; /* M1 */
+						opcode = DATA[0] = FETCH_OPCODE(PC);
+						SET_HALT_LINE(FALSE);
 						PC--;
-						self->cycles += instruction_table[opcode]();
+						self->cycles += instruction_table[opcode](self);
 						}
+
+					else	{
+						if (DATA[0] == 0x76)
+							{
+							SET_HALT_LINE(TRUE);
+							SET_HALT_LINE(FALSE);
+							}
+
+						R++; /* M1 */
+						if (self->nop != Z_NULL) (void)self->nop(CONTEXT, PC);
+						DATA[0] = 0;
+						PC = 0;
+						}
+
+					continue;
 					}
 #			endif
 			}

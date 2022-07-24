@@ -817,7 +817,6 @@ int main(int argc, char **argv)
 	cpu.nmia      =
 	cpu.inta      =
 	cpu.int_fetch = Z_NULL;
-	cpu.reset     = Z_NULL;
 	cpu.ld_i_a    =
 	cpu.ld_r_a    =
 	cpu.reti      =

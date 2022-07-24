@@ -432,12 +432,8 @@ Package-specific options are prefixed with `Z80_` and can be divided into two gr
 	Build the implementation of the [Q "register"](https://worldofspectrum.org/forums/discussion/41704).  
 	The default is `NO`.
 
-* <span id="option_z80_with_reset_signal">**`-DZ80_WITH_RESET_SIGNAL=(YES|NO)`**</span>  
-	Build the implementation of the normal RESET signal.  
-	The default is `NO`.
-
-* <span id="option_z80_with_special_reset_signal">**`-DZ80_WITH_SPECIAL_RESET_SIGNAL=(YES|NO)`**</span>  
-	Build the implementation of the [special RESET](http://www.primrosebank.net/computers/z80/z80_special_reset.htm) signal.  
+* <span id="option_z80_with_special_reset">**`-DZ80_WITH_SPECIAL_RESET=(YES|NO)`**</span>  
+	Build the implementation of the [special RESET](http://www.primrosebank.net/computers/z80/z80_special_reset.htm).  
 	The default is `NO`.
 
 * <span id="option_z80_with_unofficial_reti">**`-DZ80_WITH_UNOFFICIAL_RETI=(YES|NO)`**</span>  
@@ -454,7 +450,6 @@ Package maintainers should use at least the following options for the shared lib
 -DZ80_WITH_EXECUTE=YES
 -DZ80_WITH_FULL_IM0=YES
 -DZ80_WITH_Q=YES
--DZ80_WITH_RESET_SIGNAL=YES
 -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
 ```
 
@@ -539,8 +534,7 @@ There are several macros that can be used to configure the source code of the li
 * **[`#define Z80_WITH_EXECUTE`](#option_z80_with_execute)**
 * **[`#define Z80_WITH_FULL_IM0`](#option_z80_with_full_im0)**
 * **[`#define Z80_WITH_Q`](#option_z80_with_q)**
-* **[`#define Z80_WITH_RESET_SIGNAL`](#option_z80_with_reset_signal)**
-* **[`#define Z80_WITH_SPECIAL_RESET_SIGNAL`](#option_z80_with_special_reset_signal)**
+* **[`#define Z80_WITH_SPECIAL_RESET`](#option_z80_with_special_reset)**
 * **[`#define Z80_WITH_UNOFFICIAL_RETI`](#option_z80_with_unofficial_reti)**
 * **[`#define Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG`](#option_z80_with_zilog_nmos_ld_a_ir_bug)**
 

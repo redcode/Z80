@@ -91,12 +91,8 @@ option(${PROJECT_NAME}_WITH_Q
 "Build the implementation of the Q \"register\"."
 NO)
 
-option(${PROJECT_NAME}_WITH_RESET_SIGNAL
-"Build the implementation of the normal RESET signal."
-NO)
-
-option(${PROJECT_NAME}_WITH_SPECIAL_RESET_SIGNAL
-"Build the implementation of the special RESET signal."
+option(${PROJECT_NAME}_WITH_SPECIAL_RESET
+"Build the implementation of the special RESET."
 NO)
 
 option(${PROJECT_NAME}_WITH_UNOFFICIAL_RETI
@@ -184,12 +180,8 @@ if(${PROJECT_NAME}_WITH_Q)
 	target_compile_definitions(${PROJECT_NAME} PRIVATE Z80_WITH_Q)
 endif()
 
-if(${PROJECT_NAME}_WITH_RESET_SIGNAL)
-	target_compile_definitions(${PROJECT_NAME} PRIVATE Z80_WITH_RESET_SIGNAL)
-endif()
-
-if(${PROJECT_NAME}_WITH_SPECIAL_RESET_SIGNAL)
-	target_compile_definitions(${PROJECT_NAME} PRIVATE Z80_WITH_SPECIAL_RESET_SIGNAL)
+if(${PROJECT_NAME}_WITH_SPECIAL_RESET)
+	target_compile_definitions(${PROJECT_NAME} PRIVATE Z80_WITH_SPECIAL_RESET)
 endif()
 
 if(${PROJECT_NAME}_WITH_UNOFFICIAL_RETI)

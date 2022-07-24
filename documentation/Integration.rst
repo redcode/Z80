@@ -72,8 +72,7 @@ The second group of package-specific options, explained in the "Installation" se
 .. c:macro:: Z80_WITH_EXECUTE
 .. c:macro:: Z80_WITH_FULL_IM0
 .. c:macro:: Z80_WITH_Q
-.. c:macro:: Z80_WITH_RESET_SIGNAL
-.. c:macro:: Z80_WITH_SPECIAL_RESET_SIGNAL
+.. c:macro:: Z80_WITH_SPECIAL_RESET
 .. c:macro:: Z80_WITH_UNOFFICIAL_RETI
 .. c:macro:: Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 

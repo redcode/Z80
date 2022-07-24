@@ -176,12 +176,8 @@ library by predefining macros that enable optional implementations:
         Build the implementation of the Q "register".
         The default is `NO`.
 
-    -DZ80_WITH_RESET_SIGNAL=(YES|NO)
-        Build the implementation of the normal RESET signal.
-        The default is `NO`.
-
-    -DZ80_WITH_SPECIAL_RESET_SIGNAL=(YES|NO)
-        Build the implementation of the special RESET signal.
+    -DZ80_WITH_SPECIAL_RESET=(YES|NO)
+        Build the implementation of the special RESET.
         The default is `NO`.
 
     -DZ80_WITH_UNOFFICIAL_RETI=(YES|NO)
@@ -201,7 +197,6 @@ library:
     -DZ80_WITH_EXECUTE=YES
     -DZ80_WITH_FULL_IM0=YES
     -DZ80_WITH_Q=YES
-    -DZ80_WITH_RESET_SIGNAL=YES
     -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
 
 Finally, once the build system is configured according to your needs, build and
@@ -282,8 +277,7 @@ source code by predefining the following macros:
     #define Z80_WITH_EXECUTE
     #define Z80_WITH_FULL_IM0
     #define Z80_WITH_Q
-    #define Z80_WITH_RESET_SIGNAL
-    #define Z80_WITH_SPECIAL_RESET_SIGNAL
+    #define Z80_WITH_SPECIAL_RESET
     #define Z80_WITH_UNOFFICIAL_RETI
     #define Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 
@@ -312,4 +306,4 @@ with this library. If not, see <http://www.gnu.org/licenses/>.
 
 
 --------------------------------------------------------------------------------
-Last update: 2022-07-03                                               README EOF
+Last update: 2022-07-16                                               README EOF
