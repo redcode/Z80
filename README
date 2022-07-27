@@ -28,7 +28,7 @@
 
 The Z80 library implements a fast, small and accurate emulator of the Zilog Z80.
 It emulates all that is known to date about this CPU, including the undocumented
-behaviour, MEMPTR, Q and the special RESET. It also has the honor of having been
+behaviors, MEMPTR, Q and the special RESET. It also has the honor of having been
 the first open source project to provide full emulation of the interrupt mode 0.
 
 The source code is written in ANSI C for maximum portability and is extensively
@@ -306,4 +306,4 @@ with this library. If not, see <http://www.gnu.org/licenses/>.
 
 
 --------------------------------------------------------------------------------
-Last update: 2022-07-16                                               README EOF
+Last update: 2022-07-28                                               README EOF

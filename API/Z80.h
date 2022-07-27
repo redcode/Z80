@@ -28,7 +28,7 @@
   *
   * @details The Z80 library implements a fast, small and accurate emulator
   * of the Zilog Z80. It emulates all that is known to date about this CPU,
-  * including the undocumented behaviour, MEMPTR, Q and the special RESET.
+  * including the undocumented behaviors, MEMPTR, Q and the special RESET.
   *
   * @version 0.2
   * @date 2022-05-29
