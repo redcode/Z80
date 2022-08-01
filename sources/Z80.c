@@ -32,31 +32,23 @@
 |   A12 <-02--|           |--39-> A09      that can stand the test of time     |
 |   A13 <-03--|           |--38-> A08      with no need for major changes.     |
 |   A14 <-04--|           |--37-> A07                                          |
-|   A15 <-05--|           |--36-> A06      Everything that is known about the  |
-|   CLK --06->|           |--35-> A05      Z80 is emulated here, including     |
-|    D4 <-07->|           |--34-> A04      the interrupt mode 0, which has     |
-|    D3 <-08->|.---------.|--33-> A03      not been fully implemented to date  |
-|    D5 <-09->|| ZILOG   ||--32-> A02      in any other known open source Z80  |
-|    D6 <-10->|| Z80     ||--31-> A01      emulator. This is, therefore, the   |
-|   +5V --11--|| CPU     ||--30-> A00      first complete and free emulator.   |
+|   A15 <-05--|           |--36-> A06      Some of the main design decisions   |
+|   CLK --06->|           |--35-> A05      have been the following:            |
+|    D4 <-07->|           |--34-> A04                                          |
+|    D3 <-08->|.---------.|--33-> A03      1. Opcode partial decoding keeps    |
+|   +5V --11--|| CPU     ||--30-> A00      the code small and maintainable.    |
 |    D2 <-12->||         ||--29-- GND                                          |
-|    D7 <-13->|'---------'|--28-> RFSH     Some of the main design decisions   |
-|    D0 <-14->|           |--27-> M1       have been the following:            |
-|    D1 <-15->|           |<-26-- RESET                                        |
-|   INT --16->|           |<-25-- BUSREQ   1.  The logic of the opcodes has    |
-|   NMI --17->|           |<-24-- WAIT     been separated from that of the     |
-|  HALT <-18--|           |--23-> BUSACK   arguments to reduce the size of     |
-|  MREQ <-19--|           |--22-> WR       the emulator, thus increasing the   |
-|  IORQ <-20--|           |--21-> RD       possibility that the CPU loads all  |
-|             '-----------'                its code in the L1 cache.           |
+|    D7 <-13->|'---------'|--28-> RFSH     2. Function pointer tables for      |
+|    D0 <-14->|           |--27-> M1       opcode selection allow easy reuse   |
+|    D1 <-15->|           |<-26-- RESET    of almost all instruction code      |
+|   INT --16->|           |<-25-- BUSREQ   in the interrupt mode 0.            |
+|   NMI --17->|           |<-24-- WAIT                                         |
+|  HALT <-18--|           |--23-> BUSACK   3. Avoiding conditional statements  |
+|  MREQ <-19--|           |--22-> WR       as much as possible reduces the     |
+|  IORQ <-20--|           |--21-> RD       branch penalty in modern pipelined  |
+|             '-----------'                processors.                         |
 |    Zilog Z80 CPU, May 1976 version                                           |
-|       40-pin ceramic DIP pinout          2.  The use of function pointer     |
-|                                          tables has been chosen over large   |
-|  switch statements for opcode selection. This allows easy reuse of almost    |
-|  all instruction emulation code in the interrupt mode 0.                     |
-|                                                                              |
-|  3.  Special attention has been given to avoid conditional statements as     |
-|  much as possible to reduce the branch penalty in pipelined processors.      |
+|       40-pin ceramic DIP pinout                                      Manuel  |
 |                                                                              |
 '=============================================================================*/
 
