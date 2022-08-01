@@ -36,17 +36,19 @@
 |   CLK --06->|           |--35-> A05      have been the following:            |
 |    D4 <-07->|           |--34-> A04                                          |
 |    D3 <-08->|.---------.|--33-> A03      1. Opcode partial decoding keeps    |
-|   +5V --11--|| CPU     ||--30-> A00      the code small and maintainable.    |
-|    D2 <-12->||         ||--29-- GND                                          |
-|    D7 <-13->|'---------'|--28-> RFSH     2. Function pointer tables for      |
-|    D0 <-14->|           |--27-> M1       opcode selection allow easy reuse   |
-|    D1 <-15->|           |<-26-- RESET    of almost all instruction code      |
-|   INT --16->|           |<-25-- BUSREQ   in the interrupt mode 0.            |
-|   NMI --17->|           |<-24-- WAIT                                         |
-|  HALT <-18--|           |--23-> BUSACK   3. Avoiding conditional statements  |
-|  MREQ <-19--|           |--22-> WR       as much as possible reduces the     |
-|  IORQ <-20--|           |--21-> RD       branch penalty in modern pipelined  |
-|             '-----------'                processors.                         |
+|    D5 <-09->|| ZILOG   ||--32-> A02      the code small and maintainable.    |
+|    D6 <-10->|| Z80     ||--31-> A01                                          |
+|   +5V --11--|| CPU     ||--30-> A00      2. Function pointer tables for      |
+|    D2 <-12->||         ||--29-- GND      opcode selection allow easy reuse   |
+|    D7 <-13->|'---------'|--28-> RFSH     of almost all instruction code      |
+|    D0 <-14->|           |--27-> M1       in the interrupt mode 0.            |
+|    D1 <-15->|           |<-26-- RESET                                        |
+|   INT --16->|           |<-25-- BUSREQ   3. Avoiding conditional statements  |
+|   NMI --17->|           |<-24-- WAIT     as much as possible reduces the     |
+|  HALT <-18--|           |--23-> BUSACK   branch penalty in modern pipelined  |
+|  MREQ <-19--|           |--22-> WR       processors.                         |
+|  IORQ <-20--|           |--21-> RD                                           |
+|             '-----------'                                                    |
 |    Zilog Z80 CPU, May 1976 version                                           |
 |       40-pin ceramic DIP pinout                                      Manuel  |
 |                                                                              |
