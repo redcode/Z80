@@ -97,7 +97,7 @@ typedef zuint8 (* Instruction)(Z80 *self);
 /* MARK: - External Macros */
 
 #define REGISTER_OFFSET(member) (zusize)Z_MEMBER_OFFSET(Z80, member)
-#define ROL(value)		value = Z_UINT8_ROTATE_LEFT( value, 1)
+#define ROL(value)		value = Z_UINT8_ROTATE_LEFT (value, 1)
 #define ROR(value)		value = Z_UINT8_ROTATE_RIGHT(value, 1)
 
 
