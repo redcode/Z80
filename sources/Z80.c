@@ -2159,12 +2159,9 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| original state of IFF1.						   |
 			|									   |
 			| Some technical documents from Zilog include an erroneous timing diagram  |
-			| showing an NMI acknowledge cycle of 4 T-states. In particular, "The Z80  |
-			| Family Program Interrupt Structure" and all versions of "Z80 Family: CPU |
-			| User Manual". Other documents from Zilog, as well as practically all the |
-			| existing literature about the Z80 from different manufacturers and third |
-			| parties, specify that this M-cycle has 5 T-states, as has been confirmed |
-			| by electronic simulations [1].					   |
+			| showing an NMI acknowledge cycle of 4 T-states. However, documents from  |
+			| other manufacturers and third parties specify that this M-cycle has 5    |
+			| T-states, as has been confirmed by electronic simulations [1].	   |
 			|									   |
 			| References:								   |
 			| 1. Checked with "Visual Z80 Remix"					   |
