@@ -7,7 +7,7 @@
 # Copyright (C) 1999-2022 Manuel Sainz de Baranda y Goñi.
 # Released under the terms of the GNU Lesser General Public License v3.
 
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.14) # install(TARGETS ARCHIVE [DESTINATION])
 
 if(	CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR AND
 	NOT CMAKE_BUILD_TYPE				   AND
