@@ -174,7 +174,7 @@ static zuint  search_path_count = 0;
 
 /* String containing what has been detected as invalid
 ** when parsing the command line. */
-static const char *invalid;
+static char const *invalid;
 
 
 /* MARK: - CPU Callbacks: Common */
@@ -331,7 +331,7 @@ static zuint8 zx_spectrum_cpu_fetch_opcode(void *context, zuint16 address)
 	}
 
 
-static char const *compose_path(char const *base_path, const char *file_path)
+static char const *compose_path(char const *base_path, char const *file_path)
 	{
 	zusize base_path_size;
 
@@ -373,7 +373,7 @@ static zboolean load_file(
 	}
 
 
-static zboolean load_test(const char *search_path, Test const *test, void *buffer)
+static zboolean load_test(char const *search_path, Test const *test, void *buffer)
 	{
 #	ifdef TEST_Z80_WITH_ARCHIVE_EXTRACTION
 		zboolean status = load_file(
