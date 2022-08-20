@@ -24,13 +24,6 @@
 #ifdef TEST_Z80_WITH_ARCHIVE_EXTRACTION
 #	include <zip.h>
 #	include <zlib.h>
-
-	/* Z_NULL is also defined by Zeta, so it is
-	** undefined to avoid conflicts with zlib. */
-#	ifdef Z_NULL
-#		undef Z_NULL
-#	endif
-
 #	include <Z/formats/archive/TAR.h>
 #endif
 
@@ -42,7 +35,7 @@
 #include <string.h>
 
 
-/* MARK: - Constants */
+/* MARK: - Constants: Opcodes */
 
 #define OPCODE_NOP	 0x00
 #define OPCODE_RET	 0xC9
@@ -50,18 +43,29 @@
 #define OPCODE_CALL_WORD 0xCD
 #define OPCODE_JP_WORD	 0xC3
 
-/* CP/M program in COM format. */
+
+/* MARK: - Constants: Test Formats */
+
+/*----------------------------.
+| CP/M program in COM format. |
+'============================*/
 #define TEST_FORMAT_CPM 0
 
-/* ZX Spectrum TAP image. Different versions of the Z80 Instruction Set
-** Exerciser adapted and improved by Jonathan Graham Harston and others. */
+/*----------------------------------------------------------------------.
+| ZX Spectrum TAP image. Different versions of the Z80 Instruction Set  |
+| Exerciser adapted and improved by Jonathan Graham Harston and others. |
+'======================================================================*/
 #define TEST_FORMAT_HARSTON 1
 
-/* ZX Spectrum TAP image. Tapes of the Zilog Z80 CPU Test Suite written by
-** Patrik Rak. */
+/*--------------------------------------------------------------.
+| ZX Spectrum TAP image. Tapes of the Zilog Z80 CPU Test Suite, |
+| written by Patrik Rak.				        |
+'==============================================================*/
 #define TEST_FORMAT_RAK 2
 
-/* ZX Spectrum TAP image. Z80 Test Suite, written by Mark Woodmass. */
+/*-----------------------------------------------------------------.
+| ZX Spectrum TAP image. Z80 Test Suite, written by Mark Woodmass. |
+'=================================================================*/
 #define TEST_FORMAT_WOODMASS 3
 
 
@@ -72,22 +76,22 @@ typedef struct {
 	char const* archive_name;
 
 	/* Name of the test program file, or the path to the file inside the
-	** archive if the file is compressed. */
+	   archive if the file is compressed. */
 	char const* file_path;
 
 	/* Size of the program file. */
 	zuint16 file_size;
 
-	/* Offset of the program code inside the file. */
+	/* Offset of the executable code inside the program file. */
 	zuint16 code_offset;
 
-	/* Size of the program code. */
+	/* Size of the executable code. */
 	zuint16 code_size;
 
-	/* Memory address where to jump to start executing the test code. */
+	/* Memory address where to jump to start executing the program. */
 	zuint16 start_address; /* */
 
-	/* Value of the PC register once the test ends. */
+	/* Value of the PC register once the test completes. */
 	zuint16 exit_address;
 
 	/* Format of the program file. */
@@ -132,49 +136,63 @@ static struct {char const *key; zuint8 options;} const cpu_models[4] = {
 	{"st-cmos",    Z80_MODEL_ST_CMOS   }
 };
 
-/* Instance of the Z80 CPU emulator and 64 KB of memory. */
+/*------------------------------------------------------.
+| Instance of the Z80 CPU emulator and 64 KB of memory. |
+'======================================================*/
 static Z80 cpu;
 static zuint8 memory[65536];
 
-/* Whether or not the current test has been completed. */
+/*----------------------------------------------------.
+| Whether or not the current test has been completed. |
+'====================================================*/
 static zboolean test_completed;
 
-/* Whether or not the last character printed was a TAB.
-** Only used in ZX Spectrum tests. */
+/*-------------------------------------------------------.
+| Whether or not the previous character printed was TAB. |
+| Only used in ZX Spectrum tests.			 |
+'=======================================================*/
 static zboolean zx_spectrum_tab;
 
-/* X position of the cursor inside screen paper (in characters).
-** Only used in ZX Spectrum tests. */
+/*-----------------------------------------------------------.
+| X position of the cursor inside the paper (in characters). |
+| It is only used in ZX Spectrum tests.			     |
+'===========================================================*/
 static zuint zx_spectrum_column;
 
-/* Number of text lines printed by the current test program. It is used
-** to know whether the test has been passed or has produced errors. */
+/*----------------------------------------------------------.
+| Number of text lines printed by the current test program. |
+| It is used to know whether the test produces errors.	    |
+'==========================================================*/
 static zuint lines;
 
-/* Address where to place a trap to intercept the PRINT routine used by
- * the test program. */
+/*-------------------------------------------------------------.
+| Address where to place a trap to intercept the PRINT routine |
+| used by the test program.				       |
+'=============================================================*/
 static zuint16 print_hook_address;
 
-/* [0] = Value read from even I/O ports.
-** [1] = Value read from odd I/O ports.
-** The default values are those of a Sinclair ZX Spectrum 16K/48K with no
-** devives attached. */
+/*---------------------------------------------------------------.
+| [0] = Value read from even I/O ports.				 |
+| [1] = Value read from odd I/O ports.				 |
+| The default values are those of a Sinclair ZX Spectrum 16K/48K |
+| with no devives attached.					 |
+'===============================================================*/
 static zuint8 in_values[2] = {191, 255};
 
-/* Verbosity level. */
+/*-----------------.
+| Verbosity level. |
+'=================*/
 static zuint8 verbosity = 4;
 
-/* Wheter or not to print the output of the test program being run. This is
-** TRUE only if the verbosity level is 4. It is used to simplify the code. */
+/*-----------------------------------------------------------------.
+| Wheter or not to print the output of the test program being run. |
+| TRUE if the verbosity level is 4. It is used for simplicity.     |
+'=================================================================*/
 static zboolean show_test_output;
 
 static char*  path_buffer	= Z_NULL;
 static char** search_paths	= Z_NULL;
 static zuint  search_path_count = 0;
-
-/* String containing what has been detected as invalid
-** when parsing the command line. */
-static char const *invalid;
 
 
 /* MARK: - CPU Callbacks: Common */
@@ -618,12 +636,22 @@ int main(int argc, char **argv)
 	zusize longest_search_path_size = 0;
 	int ii, i = 0;
 
-	/* [0] = Number of tests failed.
-	** [1] = Number of tests passed. */
+	/*----------------------------------------------------.
+	| String containing what has been detected as invalid |
+	| when parsing the command line.		      |
+	'====================================================*/
+	char const *invalid;
+
+	/*------------------------------.
+	| [0] = Number of tests failed. |
+	| [1] = Number of tests passed. |
+	'==============================*/
 	zuint results[2] = {0, 0};
 
-	/* The Z80 CPU emulator will behave as a Zilog NMOS
-	 * if the user does not specify a CPU model. */
+	/*-------------------------------------------------.
+	| The Z80 CPU emulator will behave as a Zilog NMOS |
+	| if the user does not specify a CPU model.        |
+	'=================================================*/
 	cpu.options = Z80_MODEL_ZILOG_NMOS;
 
 	while (++i < argc && *argv[i] == '-')
@@ -753,15 +781,19 @@ int main(int argc, char **argv)
 			}
 		}
 
-	/* It is mandatory to specify at least one test number in
-	** the command line, or the "-a" option in its absence. */
+	/*-------------------------------------------------------.
+	| It is mandatory to specify at least one test number in |
+	| the command line, or the `-a` option in its absence.	 |
+	'=======================================================*/
 	if (i == argc && !all)
 		{
 		fputs("No test specified.\n", stderr);
 		goto bad_syntax;
 		}
 
-	/* All test numbers specified by the user must be valid. */
+	/*--------------------------------------------------------------.
+	| All test numbers specified in the command line must be valid. |
+	'==============================================================*/
 	for (ii = i; i < argc; i++)
 		{
 		char const *string = argv[i];
@@ -783,37 +815,47 @@ int main(int argc, char **argv)
 		goto exit_with_error;
 		}
 
+	/*-------------------------------------------------------------------.
+	| The output of the test programs is only printed when using the     |
+	| verbosity level 4. In this case, the standard output is configured |
+	| as unbuffered so that the characters printed by these programs are |
+	| visible immediately, rather than after each ENTER.		     |
+	'===================================================================*/
 	if (verbosity)
 		{
-		/* Configure stdout as unbuffered. */
 		setvbuf(stdout, Z_NULL, _IONBF, 0);
-
-		/* The output of the test programs must only be printed
-		** when using the maximum verbosity level. */
 		show_test_output = verbosity == 4;
 		}
 
 	/* Configure the Z80 CPU emulator. */
 
-	/* No context is needed, as the object is a global variable. */
+	/*---------------------------------------------------------.
+	| No CPU context is needed; we are using global variables. |
+	'=========================================================*/
 	cpu.context = Z_NULL;
 
-	/* There is no need to distinguish between memory read on instruction
-	** data, memory read on non-instruction data and internal NOP opcode
-	** fetch. */
+	/*----------------------------------------------------------.
+	| It is not necessary to distinguish between memory read on |
+	| instruction data, memory read on non-instruction data and |
+	| internal NOP (the three are memory read M-cycles), as the |
+	| tests do not require precise timing or memory contention. |
+	'==========================================================*/
 	cpu.fetch =
 	cpu.read  =
-
 	cpu.nop   = cpu_read;
+
 	cpu.in	  = cpu_in;
 	cpu.out   = cpu_out;
 
-	/* Entering the HALT state will mean that the test program has
-	** completed. */
+	/*-------------------------------------------------------------------.
+	| Entering the HALT state means that the test program has completed. |
+	'===================================================================*/
 	cpu.halt = cpu_halt;
 
-	/* The following callbacks of the Z80 CPU emulator
-	** are not required by the test programs: */
+	/*------------------------------------------------.
+	| The following callbacks of the Z80 CPU emulator |
+	| are not required by the test programs.	  |
+	'================================================*/
 	cpu.nmia      =
 	cpu.inta      =
 	cpu.int_fetch = Z_NULL;
@@ -823,20 +865,26 @@ int main(int argc, char **argv)
 	cpu.retn      = Z_NULL;
 	cpu.illegal   = Z_NULL;
 
-	/* First run the tests whose numbers are explicitly
-	** specified in the command line. */
+	/*-----------------------------------------------------.
+	| Run the tests whose numbers are explicitly specified |
+	| in the command line.				       |
+	'=====================================================*/
 	while (ii < argc)
 		{
 		tests_run |= Z_UINT32(1) << (i = atoi(argv[ii++]));
 		results[run_test(i)]++;
 		}
 
-	/* If all tests must be run, do so without repeating
-	** those already run. */
+	/*-----------------------------------------------------.
+	| If all tests must be run, do so, but avoid repeating |
+	| those already run.				       |
+	'=====================================================*/
 	if (all) for (i = 0; i < (int)Z_ARRAY_SIZE(tests); i++)
 		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test(i)]++;
 
-	/* Print the summary of the results. */
+	/*----------------------------------.
+	| Print the summary of the results. |
+	'==================================*/
 	printf(	"%sResults: %u test%s passed, %u failed\n",
 		verbosity && !show_test_output ? "\n" : "",
 		results[1],
