@@ -44,7 +44,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80full.tap</b>
 				</a>
 				<br>
-				Tests all flags and registers.
+				<sup>Tests all flags and registers.</sup>
 			</td>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
@@ -53,7 +53,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80doc.tap</b>
 				</a>
 				<br>
-				Tests all registers, but only officially documented flags.
+				<sup>Tests all registers, but only officially documented flags.</sup>
 			</td>
 		</tr>
 		<tr>
@@ -72,7 +72,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80flags.tap</b>
 				</a>
 				<br>
-				Tests all flags, ignores registers.
+				<sup>Tests all flags, ignores registers.</sup>
 			</td>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
@@ -81,7 +81,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80docflags.tap</b>
 				</a>
 				<br>
-				Tests documented flags only, ignores registers.
+				<sup>Tests documented flags only, ignores registers.</sup>
 			</td>
 		</tr>
 			<td align="center" valign="top">
@@ -99,7 +99,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80ccf.tap</b>
 				</a>
 				<br>
-				Tests all flags after executing <code>ccf</code> after each instruction tested.
+				<sup>Tests all flags after executing <code>ccf</code> after each instruction tested.</sup>
 			</td>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
@@ -108,7 +108,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80memptr.tap</b>
 				</a>
 				<br>
-				Tests all flags after executing <code>bit n,(hl)</code> after each instruction tested.
+				<sup>Tests all flags after executing <code>bit n,(hl)</code> after each instruction tested.</sup>
 			</td>
 		</tr>
 		<tr>
@@ -132,7 +132,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80full.tap</b>
 				</a>
 				<br>
-				Tests all flags and registers.
+				<sup>Tests all flags and registers.</sup>
 			</td>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
@@ -141,7 +141,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80doc.tap</b>
 				</a>
 				<br>
-				Tests all registers, but only officially documented flags.
+				<sup>Tests all registers, but only officially documented flags.</sup>
 			</td>
 		</tr>
 		<tr>
@@ -160,7 +160,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80flags.tap</b>
 				</a>
 				<br>
-				Tests all flags, ignores registers.
+				<sup>Tests all flags, ignores registers.</sup>
 			</td>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
@@ -169,7 +169,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80docflags.tap</b>
 				</a>
 				<br>
-				Tests documented flags only, ignores registers.
+				<sup>Tests documented flags only, ignores registers.</sup>
 			</td>
 		</tr>
 			<td align="center" valign="top">
@@ -187,7 +187,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80ccf.tap</b>
 				</a>
 				<br>
-				Tests all flags after executing <code>ccf</code> after each instruction tested.
+				<sup>Tests all flags after executing <code>ccf</code> after each instruction tested.</sup>
 			</td>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
@@ -196,7 +196,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80memptr.tap</b>
 				</a>
 				<br>
-				Tests all flags after executing <code>bit n,(hl)</code> after each instruction tested.
+				<sup>Tests all flags after executing <code>bit n,(hl)</code> after each instruction tested.</sup>
 			</td>
 		</tr>
 		<tr>
@@ -252,7 +252,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 					<b>zexdoc.tap</b>
 				</a>
 				<br>
-				Tests officially documented flag effects.
+				<sup>Tests officially documented flag effects.</sup>
 			</td>
 			</td>
 			<td align="center" valign="top">
@@ -262,7 +262,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 					<b>zexall.tap</b>
 				</a>
 				<br>
-				Tests all flags changes.
+				<sup>Tests all flags changes.</sup>
 			</td>
 		</tr>
 		<tr>
@@ -286,7 +286,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 					<b>zexfix.tap</b>
 				</a>
 				<br>
-				Tests all flags changes.
+				<sup>Tests all flags changes.</sup>
 			</td>
 			</td>
 			<td align="center" valign="top">
@@ -296,8 +296,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 					<b>zexbit.tap</b>
 				</a>
 				<br>
-				Tests all flags changes<br>
-				(narrowed to `bit` Instructions).
+				<sup>Tests all flags changes of <code>bit</code> instructions.</sup>
 			</td>
 		</tr>
 		<tr>
