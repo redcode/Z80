@@ -276,6 +276,41 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 	</table>
 </details>
 <details>
+	<summary>Results (Jan Bobrowski's version)</summary>
+	<table>
+		<tr>
+			<td align="center" valign="top">
+				<a href="https://web.archive.org/web/20120527195857if_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexfix.tap">
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
+					<br>
+					<b>zexfix.tap</b>
+				</a>
+				<br>
+				Tests all flags changes.
+			</td>
+			</td>
+			<td align="center" valign="top">
+				<a href="https://web.archive.org/web/20120527200327if_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexbit.tap">
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
+					<br>
+					<b>zexbit.tap</b>
+				</a>
+				<br>
+				Tests all flags changes<br>
+				(narrowed to `bit` Instructions).
+			</td>
+		</tr>
+		<tr>
+			<td align="center" valign="top">
+				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282009%29%28Bobrowski,%20Jan%29.gif"/>
+			</td>
+			<td align="center" valign="top">
+				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282011%29%28Bobrowski,%20Jan%29%28Narrowed%20to%20BIT%20Instructions%29.gif"/>
+			</td>
+		</tr>
+	</table>
+</details>
+<details>
 	<summary>Results (Patrik Rak's version)</summary>
 	<table>
 		<tr>
