@@ -284,7 +284,7 @@ predefining the following macros:
 Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined
 as any value; the source code only checks whether or not they are defined.
 
-Please note that the activation of some these optional implementations affects
+Please note that the activation of some of the optional implementations affects
 the speed of the emulator due to various factors (read the documentation for
 more details).
 
@@ -305,4 +305,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 --------------------------------------------------------------------------------
-Last update: 2022-08-06                                               README EOF
+Last update: 2022-08-21                                               README EOF
