@@ -591,9 +591,9 @@ static zuint8 run_test(int test_index)
 
 	memory[test->exit_address] = OPCODE_HALT;
 	Z80_PC(cpu)		   = start_address;
-	lines			   = 0;
+	lines			   =
 	zx_spectrum_column	   = 0;
-	zx_spectrum_tab		   = FALSE;
+	zx_spectrum_tab		   =
 	test_completed		   = FALSE;
 
 	if (verbosity >= 3) printf("* Running program...%s", show_test_output ? "\n\n" : "");
