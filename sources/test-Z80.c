@@ -633,7 +633,7 @@ int main(int argc, char **argv)
 	{
 	zboolean all = FALSE;
 	zuint32 tests_run = 0;
-	zusize longest_search_path_size = 0;
+	zusize maximum_search_path_size = 0;
 	int ii, i = 0;
 
 	/*----------------------------------------------------.
@@ -763,7 +763,7 @@ int main(int argc, char **argv)
 			char **p;
 
 			if (++i == argc || !(s = strlen(argv[i]))) goto incomplete_option;
-			if (s > longest_search_path_size) longest_search_path_size = s;
+			if (s > maximum_search_path_size) maximum_search_path_size = s;
 
 			if ((p = realloc(search_paths, (search_path_count + 1) * sizeof(char *))) == Z_NULL)
 				goto not_enough_memory_available;
@@ -807,7 +807,7 @@ int main(int argc, char **argv)
 		}
 
 	if (	search_path_count &&
-		(path_buffer = malloc(longest_search_path_size + 110)) == Z_NULL
+		(path_buffer = malloc(maximum_search_path_size + 110)) == Z_NULL
 	)
 		{
 		not_enough_memory_available:
