@@ -634,7 +634,7 @@ int main(int argc, char **argv)
 	zboolean all = FALSE;
 	zuint32 tests_run = 0;
 	zusize maximum_search_path_size = 0;
-	int ii, i = 0;
+	int j, i = 0;
 
 	/*----------------------------------------------------.
 	| String containing what has been detected as invalid |
@@ -746,15 +746,15 @@ int main(int argc, char **argv)
 		else if (is_option(argv[i], "-m", "--model"))
 			{
 			if (++i == argc) goto incomplete_option;
-			for (ii = 0; ii < 4; ii++) if (!strcmp(argv[i], cpu_models[ii].key)) break;
+			for (j = 0; j < 4; j++) if (!strcmp(argv[i], cpu_models[j].key)) break;
 
-			if (ii == 4)
+			if (j == 4)
 				{
 				invalid = "CPU model";
 				goto invalid_argument;
 				}
 
-			cpu.options = cpu_models[ii].options;
+			cpu.options = cpu_models[j].options;
 			}
 
 		else if (is_option(argv[i], "-p", "--path"))
@@ -794,7 +794,7 @@ int main(int argc, char **argv)
 	/*--------------------------------------------------------------.
 	| All test numbers specified in the command line must be valid. |
 	'==============================================================*/
-	for (ii = i; i < argc; i++)
+	for (j = i; i < argc; i++)
 		{
 		char const *string = argv[i];
 		char *end;
@@ -869,9 +869,9 @@ int main(int argc, char **argv)
 	| Run the tests whose numbers are explicitly specified |
 	| in the command line.				       |
 	'=====================================================*/
-	while (ii < argc)
+	while (j < argc)
 		{
-		tests_run |= Z_UINT32(1) << (i = atoi(argv[ii++]));
+		tests_run |= Z_UINT32(1) << (i = atoi(argv[j++]));
 		results[run_test(i)]++;
 		}
 
