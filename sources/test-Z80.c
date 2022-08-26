@@ -149,7 +149,7 @@ static zboolean test_completed;
 
 /*-------------------------------------------------------.
 | Whether or not the previous character printed was TAB. |
-| Only used in ZX Spectrum tests.			 |
+| It is only used in ZX Spectrum tests.			 |
 '=======================================================*/
 static zboolean zx_spectrum_tab;
 
@@ -184,10 +184,10 @@ static zuint8 in_values[2] = {191, 255};
 '=================*/
 static zuint8 verbosity = 4;
 
-/*-----------------------------------------------------------------.
-| Wheter or not to print the output of the test program being run. |
-| TRUE if the verbosity level is 4. It is used for simplicity.     |
-'=================================================================*/
+/*-------------------------------------------------------------.
+| Wheter or not to print the output of the test programs.      |
+| TRUE if the verbosity level is 4. It is used for simplicity. |
+'=============================================================*/
 static zboolean show_test_output;
 
 static char*  path_buffer	= Z_NULL;
@@ -636,10 +636,10 @@ int main(int argc, char **argv)
 	zusize maximum_search_path_size = 0;
 	int j, i = 0;
 
-	/*----------------------------------------------------.
-	| String containing what has been detected as invalid |
-	| when parsing the command line.		      |
-	'====================================================*/
+	/*--------------------------------------------.
+	| String containing what has been detected as |
+	| invalid when parsing the command line.      |
+	'============================================*/
 	char const *invalid;
 
 	/*------------------------------.
@@ -648,10 +648,10 @@ int main(int argc, char **argv)
 	'==============================*/
 	zuint results[2] = {0, 0};
 
-	/*-------------------------------------------------.
-	| The Z80 CPU emulator will behave as a Zilog NMOS |
-	| if the user does not specify a CPU model.        |
-	'=================================================*/
+	/*------------------------------------------.
+	| The emulator will behave as a Zilog NMOS  |
+	| if the user does not specify a CPU model. |
+	'==========================================*/
 	cpu.options = Z80_MODEL_ZILOG_NMOS;
 
 	while (++i < argc && *argv[i] == '-')
@@ -865,10 +865,10 @@ int main(int argc, char **argv)
 	cpu.retn      = Z_NULL;
 	cpu.illegal   = Z_NULL;
 
-	/*-----------------------------------------------------.
-	| Run the tests whose numbers are explicitly specified |
-	| in the command line.				       |
-	'=====================================================*/
+	/*-------------------------------------------------.
+	| Run the tests whose numbers have been explicitly |
+	| specified in the command line.		   |
+	'=================================================*/
 	while (j < argc)
 		{
 		tests_run |= Z_UINT32(1) << (i = atoi(argv[j++]));
