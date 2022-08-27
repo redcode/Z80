@@ -546,8 +546,7 @@ static zuint8 ggg(Z80 *self, zuint8 offset, zuint8 value)
 			| CF |<-----| 7 <-- 0 |<--'
 			'----'	    '--------*/
 		case 0:
-		ROL(value);
-		cf = value & 1;
+		cf = (ROL(value)) & 1;
 		break;
 
 		/* rrc	.----------------.
