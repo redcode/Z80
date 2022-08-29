@@ -1828,8 +1828,6 @@ INSTRUCTION(xy_cb_prefix)
 | and the final instruction is executed. Each prefix consumes 4 T-states.      |
 '=============================================================================*/
 
-/* TODO: RESET */
-
 INSTRUCTION(xy_xy)
 	{
 	zuint8 cycles, first_prefix = DATA[0];
