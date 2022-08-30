@@ -40,7 +40,7 @@ Changes:
 29. Renamed the 8-bit register lists: ``X/Y`` to ``J/K``; ``J/K`` and ``P/Q`` to ``O/P``.
 30. Replaced all P/V overflow computation functions with a single, faster macro.
 31. Replaced all register resolution functions with macros.
-32. Replaced all ``ld {J,K|O,P}`` instructions that have the same destination and source register with NOPs.
+32. Replaced all ``ld {J,K|O,P}`` instructions that have the same destination and source register with NOPs. In addition, the "illegal" forms of the ``ld O,P``, ``ld O,BYTE``, ``U [a,]P`` and ``V O`` instructions are now executed without using the illegal instruction handler.
 33. Reimplemented the HALT state. The emulation should now be fully accurate. HALTskip is also supported.
 34. Renamed the ``z80_reset`` function to ``z80_instant_reset``.
 35. Added optional emulation of the special RESET, along with the new ``z80_special_reset`` function.
