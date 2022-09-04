@@ -1657,6 +1657,11 @@ INSTRUCTION(out_vc_0)
 	}
 
 
+/* MARK: - Instructions: Optimizations */
+
+INSTRUCTION(nop_nop) {Q_0; PC += 2; return 8;}
+
+
 /* MARK: - Instruction Function Tables */
 
 INSTRUCTION(cb_prefix	);
@@ -1668,8 +1673,6 @@ INSTRUCTION(xy_xy	);
 INSTRUCTION(ed_illegal	);
 INSTRUCTION(xy_illegal	);
 INSTRUCTION(hook	);
-
-#define nop_nop ed_illegal
 
 #ifdef Z80_WITH_UNOFFICIAL_RETI
 #	define reti_retn reti
