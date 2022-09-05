@@ -405,20 +405,21 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 			/* .tar.gz */
 			if (strrchr(test->archive_name, '.')[1] == 'g')
 				{
-				union {zuint8 data[Z_TAR_BLOCK_SIZE]; Z_TARHeader fields;} header;
 				gzFile gz = gzopen(search_path, "rb");
 
 				if (gz != Z_NULL)
 					{
+					union {zuint8 data[Z_TAR_BLOCK_SIZE]; Z_TARHeader fields;} header;
+
 					while (!gzeof(gz))
 						{
 						char *end;
 						zulong file_size, block_tail_size;
 
 						if (gzread(gz, header.data, Z_TAR_BLOCK_SIZE) != Z_TAR_BLOCK_SIZE) break;
-						file_size = strtoul((char *)header.fields.size, &end, 8);
+						file_size = strtoul((char const *)header.fields.size, &end, 8);
 
-						if (!strcmp(test->file_path, (char *)header.fields.name))
+						if (!strcmp(test->file_path, (char const *)header.fields.name))
 							{
 							status =
 								file_size				== test->file_size &&
