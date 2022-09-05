@@ -416,10 +416,9 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 						char *end;
 						zulong file_size, block_tail_size;
 
-						if (	gzread(gz, header.data, Z_TAR_BLOCK_SIZE)
-							!= Z_TAR_BLOCK_SIZE ||
-							strnlen((char const *)header.fields.size, Z_ARRAY_SIZE(header.fields.size))
-							== Z_ARRAY_SIZE(header.fields.size)
+						if (	gzread(gz, header.data, Z_TAR_BLOCK_SIZE) != Z_TAR_BLOCK_SIZE ||
+							header.fields.size[0] == 0				      ||
+							memchr(header.fields.size, 0, Z_ARRAY_SIZE(header.fields.size)) == Z_NULL
 						)
 							break;
 
