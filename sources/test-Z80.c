@@ -371,7 +371,7 @@ static zboolean load_file(
 	void*	    buffer
 )
 	{
-	zboolean status = FALSE;
+	zboolean ok = FALSE;
 	FILE *file = fopen(compose_path(search_path, file_path), "rb");
 
 	if (file != Z_NULL)
@@ -381,24 +381,24 @@ static zboolean load_file(
 		if (ftell(file) == file_size)
 			{
 			fseek(file, offset, SEEK_SET);
-			status = fread(buffer, size, 1, file) == 1;
+			ok = fread(buffer, size, 1, file) == 1;
 			}
 
 		fclose(file);
 		}
 
-	return status;
+	return ok;
 	}
 
 
 static zboolean load_test(char const *search_path, Test const *test, void *buffer)
 	{
 #	ifdef TEST_Z80_WITH_ARCHIVE_EXTRACTION
-		zboolean status = load_file(
+		zboolean ok = load_file(
 			search_path, test->file_path, test->file_size,
 			test->code_offset, test->code_size, buffer);
 
-		if (!status && test->archive_name != Z_NULL)
+		if (!ok && test->archive_name != Z_NULL)
 			{
 			search_path = compose_path(search_path, test->archive_name);
 
@@ -416,13 +416,18 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 						char *end;
 						zulong file_size, block_tail_size;
 
-						if (gzread(gz, header.data, Z_TAR_BLOCK_SIZE) != Z_TAR_BLOCK_SIZE) break;
+						if (	gzread(gz, header.data, Z_TAR_BLOCK_SIZE)
+							!= Z_TAR_BLOCK_SIZE ||
+							strnlen((char const *)header.fields.size, Z_ARRAY_SIZE(header.fields.size))
+							== Z_ARRAY_SIZE(header.fields.size)
+						)
+							break;
+
 						file_size = strtoul((char const *)header.fields.size, &end, 8);
 
 						if (!strcmp(test->file_path, (char const *)header.fields.name))
 							{
-							status =
-								file_size				== test->file_size &&
+							ok =	file_size				== test->file_size &&
 								gzseek(gz, test->code_offset, SEEK_CUR) != -1		   &&
 								gzread(gz, buffer, test->code_size)	== test->code_size;
 
@@ -459,7 +464,7 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 						if (	zip_fread(file, buffer, test->code_offset) == test->code_offset &&
 							zip_fread(file, buffer, test->code_size)   == test->code_size
 						)
-							status = TRUE;
+							ok = TRUE;
 
 						zip_fclose(file);
 						}
@@ -469,7 +474,7 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 				}
 			}
 
-		return status;
+		return ok;
 
 #	else
 		return load_file(
