@@ -128,16 +128,6 @@ typedef void (* Z80Notify)(void *context);
 
 typedef zuint8 (* Z80Illegal)(void *context, zuint8 opcode);
 
-/** @brief Defines a pointer to a @ref Z80 callback function invoked to obtain
-  * the duration of a RESET signal.
-  *
-  * @param context The value of the @ref Z80::context member of the calling
-  * object.
-  * @param address The value in the address bus when the RESET signal begins.
-  * @return The number of clock cycles that the RESET signal lasts. */
-
-typedef zusize (* Z80Reset)(void *context, zuint16 address);
-
 /** @struct Z80 Z80.h
   *
   * @brief A Z80 CPU emulator.
