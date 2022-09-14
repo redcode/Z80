@@ -1609,7 +1609,7 @@ INSTRUCTION(in_a_vBYTE)
 
 	/*--------------------------------------------------------------------.
 	| In "MEMPTR, Esoteric Register of the Zilog Z80 CPU", boo_boo says   |
-	| that MEMPTR is set to "((A << 8) | BYTE) + 1", which causes a carry |
+	| that MEMPTR is set to `((A << 8) | BYTE) + 1`, which causes a carry |
 	| from the LSbyte of the resulting port number if BYTE is 255. This   |
 	| differs from all other instructions where MEMPTRH is set to A, but  |
 	| it has been confirmed to be correct by the IN-MEMPTR test.	      |
@@ -1985,17 +1985,19 @@ INSTRUCTION(hook)
 /* MARK: - Public Functions */
 
 /*----------------------------------------------------------------------.
-| On POWER-ON, the CPU clears PC, I, and R, sets SP, IX, IY, AF, BC,    |
+| On POWER-ON, the CPU zeroes PC, I, and R, sets SP, IX, IY, AF, BC,	|
 | DE, HL, AF', BC', DE' and HL' to to FFFFh [1,2], resets the interrupt |
-| enable flip-flops (IFF1 and IFF2) [2] and selects the interrupt mode  |
-| 0. On Zilog NMOS models, F is sometimes set to FDh (NF reset) [2].	|
+| enable flip-flops (IFF1 and IFF2) and selects interrupt mode 0 [3].	|
+| On Zilog NMOS models, F is sometimes set to FDh (NF reset) [1].	|
 |									|
-| There is no information about the initial state of MEMPTR and Q, so   |
+| There is no information about the initial state of MEMPTR and Q, so	|
 | they are assumed to be 0.						|
 |									|
 | References:								|
-| 1. https://worldofspectrum.org/forums/discussion/34574		|
-| 2. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm	|
+| 1. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm |
+| 2. https://worldofspectrum.org/forums/discussion/34574		|
+| 3. Young, Sean (2005-09-18). "Undocumented Z80 Documented, The"	|
+|    v0.91, p. 20.							|
 '======================================================================*/
 
 Z80_API void z80_power(Z80 *self, zboolean state)
@@ -2008,23 +2010,21 @@ Z80_API void z80_power(Z80 *self, zboolean state)
 	}
 
 
-/*-------------------------------------------------------------------------.
-| The normal reset clears PC, I, and R [1,2,3,4,5], resets the interrupt   |
-| enable flip-flops (IFF1 and IFF2) [1,2,4,5] and sets the interrupt mode  |
-| 0 [1,2,5]. Once /RESET goes inactive, the CPU consumes 3 T-states before |
-| resuming normal processing operation at address 0000h [2,4,6,7].	   |
-|									   |
-| References:								   |
-| 1. Zilog (2016-09). "Z80 CPU User Manual" revision 11. p. 6.		   |
-| 2. Flammenkamp, Achim. "Interrupt Behaviour of the Z80 CPU".		   |
-|     * http://z80.info/interrup.htm					   |
-| 3. https://worldofspectrum.org/forums/discussion/34574		   |
-| 4. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm	   |
-| 5. Brewer, Tony (2014-12). "Z80 Special Reset".			   |
-|     * http://primrosebank.net/computers/z80/z80_special_reset.htm	   |
-| 6. SGS-Thomson (1990-01). "Z80 Microprocessor Family" 1st edition.	   |
-|    p. 40.								   |
-'=========================================================================*/
+/*--------------------------------------------------------------------------.
+| The normal RESET zeroes PC, I, and R [1,2,3,4,5,6], resets the interrupt  |
+| enable flip-flops (IFF1 and IFF2) [1,2,3,4,5] and selects the interrupt   |
+| mode 0 [1,2,3,4].							    |
+|									    |
+| References:								    |
+| 1. Zilog (2016-09). "Z80 CPU User Manual" revision 11, p. 6.		    |
+| 2. SGS-Thomson (1990-01). "Z80 Microprocessor Family" 1st edition, p. 33. |
+| 3. Brewer, Tony (2014-12). "Z80 Special Reset".			    |
+|     * http://primrosebank.net/computers/z80/z80_special_reset.htm	    |
+| 4. Flammenkamp, Achim. "Interrupt Behaviour of the Z80 CPU".		    |
+|     * http://z80.info/interrup.htm					    |
+| 5. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm	    |
+| 6. https://worldofspectrum.org/forums/discussion/34574		    |
+'==========================================================================*/
 
 Z80_API void z80_instant_reset(Z80 *self)
 	{
@@ -2430,15 +2430,13 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #					else
 						switch (byte)
 							{
-							/* jp WORD */
-							case 0xC3:
+							case 0xC3: /* jp WORD */
 							Q_0
 							MEMPTR = PC = int_fetch_16(self);
 							self->cycles += 2 + 10;
 							continue;
 
-							/* call WORD */
-							case 0xCD:
+							case 0xCD: /* call WORD */
 							Q_0
 							MEMPTR = int_fetch_16(self);
 							PUSH(PC);
@@ -2446,8 +2444,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							self->cycles += 2 + 17;
 							continue;
 
-							/* `rst N` is assumed for other instructions */
-							default:
+							default: /* `rst N` is assumed for other instructions */
 							Q_0
 							PUSH(PC);
 							MEMPTR = PC = DATA[0] & 56;
@@ -2487,9 +2484,9 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| odd or even.							       |
 					|								       |
 					| References:							       |
-					| 1. Zilog (2005-03). "Z80 CPU User Manual" revision 5. pp. 25,26.     |
-					| 2. Young, Sean (2005-09-18). "Undocumented Z80 Documented, The".     |
-					|    v0.91 p. 20.						       |
+					| 1. Zilog (2005-03). "Z80 CPU User Manual" revision 5, pp. 25,26.     |
+					| 2. Young, Sean (2005-09-18). "Undocumented Z80 Documented, The"      |
+					|    v0.91, p. 20.						       |
 					'=====================================================================*/
 					case 2:
 					DATA[0] = 0;
