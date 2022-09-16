@@ -586,6 +586,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * CPM-Emulator, _by [Marc Sibert](https://github.com/Marcussacapuces91)_ - [GitHub](https://github.com/Marcussacapuces91/CPM-Emulator)
 * [tihle: a unique TI calculator emulator](https://www.taricorp.net/2020/introducing-tihle/), _by [Peter Marheine](https://www.taricorp.net/about/)_ - [GitHub](https://github.com/tari/tihle), [GitLab](https://gitlab.com/taricorp/tihle)
 * [TileMap](https://simonowen.com/spectrum/tilemap/), _by [Simon Owen](https://simonowen.com/)_ - [GitHub](https://github.com/simonowen/tilemap)
+* Z80Plus, _by [Sofía Ortega Sosa](https://github.com/Agaxia)_ - [GitHub](https://github.com/Agaxia/Z80Plus)
 * [Zemu](https://github.com/jayvalentine/zemu), _by [Jay Valentine](https://jayvalentine.github.io/)_ - [GitHub](https://github.com/jayvalentine/zemu), [RubyGems](https://rubygems.org/gems/zemu)
 
 # Thanks
@@ -667,14 +668,14 @@ Many thanks to the following individuals (in alphabetical order):
 * **Owen, Simon**
 	* For the idea of the hooking method used in this emulator.
 * **Ownby, Matthew P.**
-	* For his reseach on the state of the registers after POWER. <sup>[29](#r29)</sup>
+	* For his reseach on the state of the registers after POWER-ON. <sup>[29](#r29)</sup>
 * **Rak, Patrik**
 	1. For improving the _"Z80 Instruction Set Exerciser for Spectrum"_. <sup>[30](#r30)</sup>
 	2. For cracking the flag behavior of the `ccf/scf` instructions. <sup>[13](#r13), [30](#r30)</sup>
 	3. For writing the _"Zilog Z80 CPU Test Suite"_. <sup>[30](#r30), [31](#r31)</sup>
 	4. For his research on the unstable flag behavior of the `ccf/scf` instructions.
 * **Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)**
-	* For his reseach on the state of the registers after POWER/RESET. <sup>[32](#r32)</sup>
+	* For his reseach on the state of the registers after POWER-ON/RESET. <sup>[32](#r32)</sup>
 * **Rodríguez Palomino, Mario (r-lyeh)**
 	* For teaching me how emulators work.
 * **Sainz de Baranda y Romero, Manuel**

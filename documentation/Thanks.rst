@@ -161,7 +161,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Ownby, Matthew P.**
 
-  * For his reseach on the state of the registers after POWER. |re| |fe| :ref:`29<r29>` |ren| |ces|
+  * For his reseach on the state of the registers after POWER-ON. |re| |fe| :ref:`29<r29>` |ren| |ces|
 
 * **Rak, Patrik**
 
@@ -172,7 +172,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)**
 
-  * For his reseach on the state of the registers after POWER/RESET. |re| |fe| :ref:`32<r32>` |ren| |ces|
+  * For his reseach on the state of the registers after POWER-ON/RESET. |re| |fe| :ref:`32<r32>` |ren| |ces|
 
 * **Rodríguez Palomino, Mario (r-lyeh)**
 
