@@ -262,7 +262,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 					<b>zexall.tap</b>
 				</a>
 				<br>
-				<sup>Tests all flags changes.</sup>
+				<sup>Tests all flag changes.</sup>
 			</td>
 		</tr>
 		<tr>
@@ -286,7 +286,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 					<b>zexfix.tap</b>
 				</a>
 				<br>
-				<sup>Tests all flags changes.</sup>
+				<sup>Tests all flag changes.</sup>
 			</td>
 			</td>
 			<td align="center" valign="top">
@@ -296,7 +296,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 					<b>zexbit.tap</b>
 				</a>
 				<br>
-				<sup>Tests all flags changes of <code>bit</code> instructions.</sup>
+				<sup>Tests all flag changes of <code>bit</code> instructions.</sup>
 			</td>
 		</tr>
 		<tr>
