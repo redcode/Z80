@@ -72,8 +72,6 @@
 
 #define Z80_CYCLE_LIMIT (Z_USIZE_MAXIMUM - Z_USIZE(30))
 
-#define Z80_CYCLES_PER_RESET 5
-
 /** @brief Opcode interpreted as a hook by the Z80 library, which
   * corresponds to the <tt>ld h,h</tt> instruction of the Z80 ISA. */
 
@@ -320,6 +318,10 @@ typedef struct {
 
 	ZInt32 data;
 
+	ZInt16 ix_iy[2]; /**< @brief IX and IY registers. */
+	ZInt16 pc;       /**< @brief PC register.         */
+	ZInt16 sp;       /**< @brief SP register.         */
+
 	/** @brief Temporary IX/IY register.
 	  *
 	  * All instructions with @c DDh prefix behave in exactly the same way
@@ -336,10 +338,6 @@ typedef struct {
 	ZInt16 xy;
 
 	ZInt16 memptr; /**< @brief MEMPTR register. */
-	ZInt16 pc;     /**< @brief PC register.     */
-	ZInt16 sp;     /**< @brief SP register.     */
-	ZInt16 ix;     /**< @brief IX register.     */
-	ZInt16 iy;     /**< @brief IY register.     */
 	ZInt16 af;     /**< @brief AF register.     */
 	ZInt16 bc;     /**< @brief BC register.     */
 	ZInt16 de;     /**< @brief DE register.     */
@@ -354,7 +352,7 @@ typedef struct {
 	/** @brief The most significant bit of the R register.
 	  *
 	  * The Z80 CPU increments the R register during each M1 cycle without
-	  * altering its most significant bit, commonly known as R7. However, 
+	  * altering its most significant bit, commonly known as R7. However,
 	  * the Z80 library performs normal increments for speed reasons, which
 	  * eventually corrupts R7.
 	  *
@@ -479,20 +477,19 @@ typedef struct {
 
 #define Z80_REQUEST_INT 64
 
-/** @brief @ref Z80 resume code that is set when the emulator runs out of clock
+/** @brief @ref Z80 resume code indicating that the emulator ran out of clock
   * cycles during the HALT state. */
 
 #define Z80_RESUME_HALT 1
 
-/** @brief @ref Z80 resume code that is set when the emulator runs out of clock
-  * cycles by fetching a prefix sequence or an illegal instruction with @c DDh
-  * or @c FDh prefix. */
+/** @brief @ref Z80 resume code indicating that the emulator ran out of clock
+  * cycles by fetching a @c DDh or @c FDh prefix. */
 
 #define Z80_RESUME_XY 2
 
-/** @brief @ref Z80 resume code that is set when the emulator runs out of clock
-  * cycles during a maskable interrupt response in mode 0, by fetching a prefix
-  * sequence or an illegal instruction with @c DDh or @c FDh prefix. */
+/** @brief @ref Z80 resume code indicating that the emulator ran out of clock
+  * cycles by fetching a @c DDh or @c FDh prefix during a maskable interrupt
+  * response in mode 0. */
 
 #define Z80_RESUME_IM0_XY 3
 
@@ -514,11 +511,11 @@ typedef struct {
 
 /** @brief Accesses the IX register of a @ref Z80 @p object. */
 
-#define Z80_IX(object) (object).ix.uint16_value
+#define Z80_IX(object) (object).ix_iy[0].uint16_value
 
 /** @brief Accesses the IY register of a @ref Z80 @p object. */
 
-#define Z80_IY(object) (object).iy.uint16_value
+#define Z80_IY(object) (object).ix_iy[1].uint16_value
 
 /** @brief Accesses the AF register of a @ref Z80 @p object. */
 
@@ -586,19 +583,19 @@ typedef struct {
 
 /** @brief Accesses the IXH register of a @ref Z80 @p object. */
 
-#define Z80_IXH(object) (object).ix.uint8_values.at_1
+#define Z80_IXH(object) (object).ix_iy[0].uint8_values.at_1
 
 /** @brief Accesses the IXL register of a @ref Z80 @p object. */
 
-#define Z80_IXL(object) (object).ix.uint8_values.at_0
+#define Z80_IXL(object) (object).ix_iy[0].uint8_values.at_0
 
 /** @brief Accesses the IYH register of a @ref Z80 @p object. */
 
-#define Z80_IYH(object) (object).iy.uint8_values.at_1
+#define Z80_IYH(object) (object).ix_iy[1].uint8_values.at_1
 
 /** @brief Accesses the IYL register of a @ref Z80 @p object. */
 
-#define Z80_IYL(object) (object).iy.uint8_values.at_0
+#define Z80_IYL(object) (object).ix_iy[1].uint8_values.at_0
 
 /** @brief Accesses the A register of a @ref Z80 @p object. */
 

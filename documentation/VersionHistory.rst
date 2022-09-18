@@ -59,13 +59,14 @@ Changes:
 48. Added emulation options that can be configured at runtime.
 49. Added emulation of the ``out (c),255`` instruction (Zilog Z80 CMOS).
 50. Added optional emulation of the bug affecting the ``ld a,{i|r}`` instructions (Zilog Z80 NMOS). If enabled at compile-time, the P/V flag is reset when an INT is accepted during the execution of these instructions.
-51. Removed ``Z80::state``. Replaced with individual members for the registers, the interrupt enable flip-flops and the interrupt mode.
-52. Removed the superfluous EI flag. The previous opcode is checked instead, which is faster and makes the ``Z80`` object smaller.
-53. Removed all module-related stuff.
-54. Optimizations in flag computation and condition evaluation.
-55. New source code comments and improvements to existing ones.
-56. Improved code aesthetics.
-57. Other improvements, optimizations and minor changes.
+51. Increased granularity. The emulator can now stop directly after fetching a ``DDh`` or ``FDh`` prefix if it runs out of clock cycles. This also works during the INT response in mode 0.
+52. Removed ``Z80::state``. Replaced with individual members for the registers, the interrupt enable flip-flops and the interrupt mode.
+53. Removed the superfluous EI flag. The previous opcode is checked instead, which is faster and makes the ``Z80`` object smaller.
+54. Removed all module-related stuff.
+55. Optimizations in flag computation and condition evaluation.
+56. New source code comments and improvements to existing ones.
+57. Improved code aesthetics.
+58. Other improvements, optimizations and minor changes.
 
 v0.1 (2018-11-10)
 =================

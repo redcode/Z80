@@ -97,8 +97,8 @@ typedef zuint8 (* Instruction)(Z80 *self);
 /* MARK: - External Macros */
 
 #define REGISTER_OFFSET(member) (zusize)Z_MEMBER_OFFSET(Z80, member)
-#define ROL(value)		value = Z_UINT8_ROTATE_LEFT (value, 1)
-#define ROR(value)		value = Z_UINT8_ROTATE_RIGHT(value, 1)
+#define ROL(value)		Z_UINT8_ROTATE_LEFT (value, 1)
+#define ROR(value)		Z_UINT8_ROTATE_RIGHT(value, 1)
 
 
 /* MARK: - Instance Variable and Callback Shortcuts */
@@ -108,8 +108,8 @@ typedef zuint8 (* Instruction)(Z80 *self);
 #define MEMPTRL	  self->memptr.uint8_values.at_0
 #define PC	  self->pc.uint16_value
 #define SP	  self->sp.uint16_value
-#define IX	  self->ix.uint16_value
-#define IY	  self->iy.uint16_value
+#define IX	  self->ix_iy[0].uint16_value
+#define IY	  self->ix_iy[1].uint16_value
 #define AF	  self->af.uint16_value
 #define BC	  self->bc.uint16_value
 #define DE	  self->de.uint16_value
@@ -546,7 +546,7 @@ static zuint8 ggg(Z80 *self, zuint8 offset, zuint8 value)
 			| CF |<-----| 7 <-- 0 |<--'
 			'----'	    '--------*/
 		case 0:
-		cf = (ROL(value)) & 1;
+		cf = (value = ROL(value)) & 1;
 		break;
 
 		/* rrc	.----------------.
@@ -555,7 +555,7 @@ static zuint8 ggg(Z80 *self, zuint8 offset, zuint8 value)
 			    '---------'      '---*/
 		case 1:
 		cf = value & 1;
-		ROR(value);
+		value = ROR(value);
 		break;
 
 		/* rl	.-------------------------.
@@ -995,13 +995,13 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 '============================================================================*/
 
 INSTRUCTION(ld_J_K	   ) {Q_0 J0 = K0;					PC++;	 return  4;}
-INSTRUCTION(ld_O_P	   ) {Q_0 O  = P;					PC += 2; return  8;}
+INSTRUCTION(ld_O_P	   ) {Q_0 O  = P;					PC += 2; return  4;}
 INSTRUCTION(ld_J_BYTE	   ) {Q_0 J0 = FETCH((PC += 2) - 1);				 return  7;}
-INSTRUCTION(ld_O_BYTE	   ) {Q_0 O  = FETCH((PC += 3) - 1);				 return 11;}
+INSTRUCTION(ld_O_BYTE	   ) {Q_0 O  = FETCH((PC += 3) - 1);				 return  7;}
 INSTRUCTION(ld_J_vhl	   ) {Q_0 J0 = READ(HL);				PC++;	 return  7;}
-INSTRUCTION(ld_J_vXYpOFFSET) {Q_0 J1 = READ(FETCH_XY_EA((PC += 3) - 1));		 return 19;}
+INSTRUCTION(ld_J_vXYpOFFSET) {Q_0 J1 = READ(FETCH_XY_EA((PC += 3) - 1));		 return 15;}
 INSTRUCTION(ld_vhl_K	   ) {Q_0 WRITE(HL, K0);				PC++;	 return  7;}
-INSTRUCTION(ld_vXYpOFFSET_K) {Q_0 WRITE(FETCH_XY_EA((PC += 3) - 1), K1);		 return 19;}
+INSTRUCTION(ld_vXYpOFFSET_K) {Q_0 WRITE(FETCH_XY_EA((PC += 3) - 1), K1);		 return 15;}
 INSTRUCTION(ld_vhl_BYTE	   ) {Q_0 WRITE(HL,   FETCH((PC += 2) - 1));			 return 10;}
 INSTRUCTION(ld_a_vbc	   ) {Q_0 MEMPTR  = BC + 1; A = READ(BC);		PC++;	 return  7;}
 INSTRUCTION(ld_a_vde	   ) {Q_0 MEMPTR  = DE + 1; A = READ(DE);		PC++;	 return  7;}
@@ -1021,7 +1021,7 @@ INSTRUCTION(ld_vXYpOFFSET_BYTE)
 	Q_0
  	ea = FETCH_XY_EA((PC += 4) - 2);
 	WRITE(ea, FETCH(PC - 1));
-	return 19;
+	return 15;
 	}
 
 
@@ -1058,19 +1058,19 @@ INSTRUCTION(ld_vWORD_a)
 '======================================================================*/
 
 INSTRUCTION(ld_SS_WORD ) {Q_0 SS0    = FETCH_16((PC += 3) - 2);				  return 10;}
-INSTRUCTION(ld_XY_WORD ) {Q_0 XY     = FETCH_16((PC += 4) - 2);				  return 14;}
+INSTRUCTION(ld_XY_WORD ) {Q_0 XY     = FETCH_16((PC += 4) - 2);				  return 10;}
 INSTRUCTION(ld_hl_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 3) - 2); HL  = READ_16(MEMPTR++);  return 16;}
 INSTRUCTION(ld_SS_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); SS1 = READ_16(MEMPTR++);  return 20;}
-INSTRUCTION(ld_XY_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); XY  = READ_16(MEMPTR++);  return 20;}
+INSTRUCTION(ld_XY_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); XY  = READ_16(MEMPTR++);  return 16;}
 INSTRUCTION(ld_vWORD_hl) {Q_0 MEMPTR = FETCH_16((PC += 3) - 2); WRITE_16F(MEMPTR++, HL ); return 16;}
 INSTRUCTION(ld_vWORD_SS) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); WRITE_16F(MEMPTR++, SS1); return 20;}
-INSTRUCTION(ld_vWORD_XY) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); WRITE_16F(MEMPTR++, XY ); return 20;}
+INSTRUCTION(ld_vWORD_XY) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); WRITE_16F(MEMPTR++, XY ); return 16;}
 INSTRUCTION(ld_sp_hl   ) {Q_0 SP = HL;						 PC++;	  return  6;}
-INSTRUCTION(ld_sp_XY   ) {Q_0 SP = XY;						 PC += 2; return 10;}
+INSTRUCTION(ld_sp_XY   ) {Q_0 SP = XY;						 PC += 2; return  6;}
 INSTRUCTION(push_TT    ) {Q_0 WRITE_16B(SP -= 2, TT);				 PC++;	  return 11;}
-INSTRUCTION(push_XY    ) {Q_0 WRITE_16B(SP -= 2, XY);				 PC += 2; return 15;}
+INSTRUCTION(push_XY    ) {Q_0 WRITE_16B(SP -= 2, XY);				 PC += 2; return 11;}
 INSTRUCTION(pop_TT     ) {Q_0 TT = READ_16(SP); SP += 2;			 PC++;	  return 10;}
-INSTRUCTION(pop_XY     ) {Q_0 XY = READ_16(SP); SP += 2;			 PC += 2; return 14;}
+INSTRUCTION(pop_XY     ) {Q_0 XY = READ_16(SP); SP += 2;			 PC += 2; return 10;}
 
 
 /* MARK: - Instructions: Exchange, Block Transfer and Search Groups */
@@ -1097,7 +1097,7 @@ INSTRUCTION(ex_de_hl ) {zuint16 t; Q_0 EX(DE, HL );				  PC++;	   return  4;}
 INSTRUCTION(ex_af_af_) {zuint16 t; Q_0 EX(AF, AF_);				  PC++;	   return  4;}
 INSTRUCTION(exx      ) {zuint16 t; Q_0 EX(BC, BC_); EX(DE, DE_); EX(HL, HL_);	  PC++;	   return  4;}
 INSTRUCTION(ex_vsp_hl) {Q_0 MEMPTR = READ_16(SP); WRITE_16B(SP, HL); HL = MEMPTR; PC++;	   return 19;}
-INSTRUCTION(ex_vsp_XY) {Q_0 MEMPTR = READ_16(SP); WRITE_16B(SP, XY); XY = MEMPTR; PC += 2; return 23;}
+INSTRUCTION(ex_vsp_XY) {Q_0 MEMPTR = READ_16(SP); WRITE_16B(SP, XY); XY = MEMPTR; PC += 2; return 19;}
 INSTRUCTION(ldi      ) {LDX (++);								     }
 INSTRUCTION(ldir     ) {LDXR(++);								     }
 INSTRUCTION(ldd      ) {LDX (--);								     }
@@ -1128,14 +1128,14 @@ INSTRUCTION(cpdr     ) {CPXR(--);								     }
 '===================================================================*/
 
 INSTRUCTION(U_a_K	  ) {U0(K0);						      PC++;    return  4;}
-INSTRUCTION(U_a_P	  ) {U1(P);						      PC += 2; return  8;}
+INSTRUCTION(U_a_P	  ) {U1(P);						      PC += 2; return  4;}
 INSTRUCTION(U_a_BYTE	  ) {U0(FETCH((PC += 2) - 1));					       return  7;}
 INSTRUCTION(U_a_vhl	  ) {U0(READ(HL));					      PC++;    return  7;}
-INSTRUCTION(U_a_vXYpOFFSET) {U1(READ(FETCH_XY_EA((PC += 3) - 1)));			       return 19;}
+INSTRUCTION(U_a_vXYpOFFSET) {U1(READ(FETCH_XY_EA((PC += 3) - 1)));			       return 15;}
 INSTRUCTION(V_J		  ) {zuint8 *j = &J0; *j = V0(*j);			      PC++;    return  4;}
-INSTRUCTION(V_O		  ) {zuint8 *o = &O;  *o = V1(*o);			      PC += 2; return  8;}
+INSTRUCTION(V_O		  ) {zuint8 *o = &O;  *o = V1(*o);			      PC += 2; return  4;}
 INSTRUCTION(V_vhl	  ) {WRITE(HL, V0(READ(HL)));				      PC++;    return 11;}
-INSTRUCTION(V_vXYpOFFSET  ) {zuint16 ea = FETCH_XY_EA((PC += 3) - 1); WRITE(ea, V1(READ(ea))); return 23;}
+INSTRUCTION(V_vXYpOFFSET  ) {zuint16 ea = FETCH_XY_EA((PC += 3) - 1); WRITE(ea, V1(READ(ea))); return 19;}
 
 
 /* MARK: - Instructions: General-Purpose Arithmetic and CPU Control Groups */
@@ -1367,11 +1367,11 @@ INSTRUCTION(ei)
 INSTRUCTION(add_hl_SS) {ADD_RR_NN(HL, SS0);		  PC++;    return 11;}
 INSTRUCTION(adc_hl_SS) {ADC_SBC_HL_SS(+, ~ss, ss + fc + HL > 65535, Z_EMPTY);}
 INSTRUCTION(sbc_hl_SS) {ADC_SBC_HL_SS(-,  ss, ss + fc	   > HL,    | NF   );}
-INSTRUCTION(add_XY_WW) {ADD_RR_NN(XY, WW);		  PC += 2; return 15;}
+INSTRUCTION(add_XY_WW) {ADD_RR_NN(XY, WW);		  PC += 2; return 11;}
 INSTRUCTION(inc_SS   ) {Q_0 (SS0)++;			  PC++;    return  6;}
-INSTRUCTION(inc_XY   ) {Q_0 XY++;			  PC += 2; return 10;}
+INSTRUCTION(inc_XY   ) {Q_0 XY++;			  PC += 2; return  6;}
 INSTRUCTION(dec_SS   ) {Q_0 (SS0)--;			  PC++;    return  6;}
-INSTRUCTION(dec_XY   ) {Q_0 XY--;			  PC += 2; return 10;}
+INSTRUCTION(dec_XY   ) {Q_0 XY--;			  PC += 2; return  6;}
 
 
 /* MARK: - Instructions: Rotate and Shift Group */
@@ -1394,14 +1394,14 @@ INSTRUCTION(dec_XY   ) {Q_0 XY--;			  PC += 2; return 10;}
 | (*) Undocumented instruction.						   |
 '=========================================================================*/
 
-INSTRUCTION(rlca	  ) {ROL(A); FLAGS = F_SZP | (A & YXCF);	  PC++; return	4;}
+INSTRUCTION(rlca	  ) {A = ROL(A); FLAGS = F_SZP | (A & YXCF);	  PC++; return	4;}
 INSTRUCTION(rla		  ) {RXA(A >> 7, <<, F_C);					  }
-INSTRUCTION(rrca	  ) {ROR(A); FLAGS = F_SZP | A_YX | (A >> 7);	  PC++; return	4;}
+INSTRUCTION(rrca	  ) {A = ROR(A); FLAGS = F_SZP | A_YX | (A >> 7); PC++; return	4;}
 INSTRUCTION(rra		  ) {RXA(A & 1, >>, (F << 7));					  }
 INSTRUCTION(G_K		  ) {zuint8 *k = &K1; *k = G1(*k);			return	8;}
 INSTRUCTION(G_vhl	  ) {WRITE(HL, G1(READ(HL)));				return 15;}
-INSTRUCTION(G_vXYpOFFSET  ) {zuint16 ea = MEMPTR; WRITE(ea,	 G3(READ(ea))); return 23;}
-INSTRUCTION(G_vXYpOFFSET_K) {zuint16 ea = MEMPTR; WRITE(ea, K3 = G3(READ(ea))); return 23;}
+INSTRUCTION(G_vXYpOFFSET  ) {zuint16 ea = MEMPTR; WRITE(ea,	 G3(READ(ea))); return 19;}
+INSTRUCTION(G_vXYpOFFSET_K) {zuint16 ea = MEMPTR; WRITE(ea, K3 = G3(READ(ea))); return 19;}
 INSTRUCTION(rld		  ) {RXD(<< 4, & 0xF, >> 4);					  }
 INSTRUCTION(rrd		  ) {RXD(>> 4, << 4, & 0xF);					  }
 
@@ -1428,8 +1428,8 @@ INSTRUCTION(rrd		  ) {RXD(>> 4, << 4, & 0xF);					  }
 
 INSTRUCTION(M_N_K	    ) {zuint8 *k = &K1; *k = M1(*k);			  return  8;}
 INSTRUCTION(M_N_vhl	    ) {WRITE(HL, M1(READ(HL)));				  return 15;}
-INSTRUCTION(M_N_vXYpOFFSET  ) {zuint16 ea = MEMPTR; WRITE(ea,	   M3(READ(ea))); return 23;}
-INSTRUCTION(M_N_vXYpOFFSET_K) {zuint16 ea = MEMPTR; WRITE(ea, K3 = M3(READ(ea))); return 23;}
+INSTRUCTION(M_N_vXYpOFFSET  ) {zuint16 ea = MEMPTR; WRITE(ea,	   M3(READ(ea))); return 19;}
+INSTRUCTION(M_N_vXYpOFFSET_K) {zuint16 ea = MEMPTR; WRITE(ea, K3 = M3(READ(ea))); return 19;}
 
 
 INSTRUCTION(bit_N_K)
@@ -1492,7 +1492,7 @@ INSTRUCTION(bit_N_vXYpOFFSET)
 		HF		   | /* HF = 1		       */
 		F_C;		     /* CF unchanged	       */
 				     /* NF = 0		       */
-	return 20;
+	return 16;
 	}
 
 
@@ -1515,7 +1515,7 @@ INSTRUCTION(jp_Z_WORD  ) {Q_0 MEMPTR = FETCH_16(PC + 1); PC = Z(7) ? MEMPTR : PC
 INSTRUCTION(jr_OFFSET  ) {Q_0 MEMPTR = (PC += 2 + (zsint8)FETCH(PC + 1));	      return 12;}
 INSTRUCTION(jr_Z_OFFSET) {DJNZ_JR_Z_OFFSET(Z(3), 12, 7);					}
 INSTRUCTION(jp_hl      ) {Q_0 PC = HL;						      return  4;}
-INSTRUCTION(jp_XY      ) {Q_0 PC = XY;						      return  8;}
+INSTRUCTION(jp_XY      ) {Q_0 PC = XY;						      return  4;}
 INSTRUCTION(djnz_OFFSET) {DJNZ_JR_Z_OFFSET(--B, 13, 8);						}
 
 
@@ -1659,7 +1659,7 @@ INSTRUCTION(out_vc_0)
 
 /* MARK: - Instructions: Optimizations */
 
-INSTRUCTION(nop_nop) {Q_0; PC += 2; return 8;}
+INSTRUCTION(nop_nop) {Q_0; PC += 2; return 4;}
 
 
 /* MARK: - Instruction Function Tables */
@@ -1800,8 +1800,14 @@ INSTRUCTION(ed_prefix)
 #define XY_PREFIX(register)						     \
 	zuint8 cycles;							     \
 									     \
-	XY = register;							     \
+	if ((self->cycles += 4) >= self->cycle_limit)			     \
+		{							     \
+		RESUME = Z80_RESUME_XY;					     \
+		return 0;						     \
+		}							     \
+									     \
 	R++;								     \
+	XY = register;							     \
 	cycles = xy_instruction_table[DATA[1] = FETCH_OPCODE(PC + 1)](self); \
 	register = XY;							     \
 	return cycles;
@@ -1833,11 +1839,12 @@ INSTRUCTION(xy_cb_prefix)
 
 INSTRUCTION(xy_xy)
 	{
-	zuint8 cycles, first_prefix = DATA[0];
+	zuint8 cycles;
+	zuint8 first_prefix = DATA[0];
 
 	do	{
-		DATA[0] = DATA[1];
 		PC++;
+		DATA[0] = DATA[1];
 
 		if ((self->cycles += 4) >= self->cycle_limit)
 			{
@@ -1895,13 +1902,7 @@ INSTRUCTION(ed_illegal)
 INSTRUCTION(xy_illegal)
 	{
 	PC++;
-	DATA[0] = DATA[1];
-
-	if ((self->cycles += 4) < self->cycle_limit)
-		return instruction_table[DATA[0]](self);
-
-	RESUME = Z80_RESUME_XY;
-	return 0;
+	return instruction_table[DATA[0] = DATA[1]](self);
 	}
 
 
@@ -2013,7 +2014,7 @@ Z80_API void z80_power(Z80 *self, zboolean state)
 /*--------------------------------------------------------------------------.
 | The normal RESET zeroes PC, I, and R [1,2,3,4,5,6], resets the interrupt  |
 | enable flip-flops (IFF1 and IFF2) [1,2,3,4,5] and selects the interrupt   |
-| mode 0 [1,2,3,4].							    |
+| mode 0 [1,2,3,4,7].							    |
 |									    |
 | References:								    |
 | 1. Zilog (2016-09). "Z80 CPU User Manual" revision 11, p. 6.		    |
@@ -2024,6 +2025,7 @@ Z80_API void z80_power(Z80 *self, zboolean state)
 |     * http://z80.info/interrup.htm					    |
 | 5. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm	    |
 | 6. https://worldofspectrum.org/forums/discussion/34574		    |
+| 7. Zilog (1978-05). "Z80 Family Program Interrupt Structure, The", p. 8.  |
 '==========================================================================*/
 
 Z80_API void z80_instant_reset(Z80 *self)
@@ -2059,6 +2061,8 @@ Z80_API void z80_busreq(Z80 *self, zboolean state)
 #ifdef Z80_WITH_EXECUTE
 	Z80_API zusize z80_execute(Z80 *self, zusize cycles)
 		{
+		zuint16 *xy;
+
 		R7		  = R;
 		self->cycles	  = 0;
 		self->cycle_limit = cycles;
@@ -2071,7 +2075,10 @@ Z80_API void z80_busreq(Z80 *self, zboolean state)
 
 			case Z80_RESUME_XY:
 			RESUME = FALSE;
-			self->cycles += instruction_table[DATA[0]](self);
+			R++; /* M1 */
+			XY = *(xy = &self->ix_iy[(DATA[0] >> 5) & 1].uint16_value);
+			self->cycles += xy_instruction_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
+			*xy = XY;
 			break;
 			}
 
@@ -2089,6 +2096,9 @@ Z80_API void z80_busreq(Z80 *self, zboolean state)
 
 Z80_API zusize z80_run(Z80 *self, zusize cycles)
 	{
+	zuint16 *xy;
+	zuint8 ird;
+
 	/*---------------------------------------------------------------------.
 	| The CPU increments R during each M1 cycle without altering the most  |
 	| significant bit, commonly known as R7. This behavior is not emulated |
@@ -2113,27 +2123,25 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		else (void)halt(self);
 		break;
 
-		/*--------------------------------------------------------------------.
-		| The CPU is in normal operation state and the first byte of the next |
-		| instruction has already been fetched. This resumption is scheduled  |
-		| if the emulator runs out of cycles while fetching a prefix sequence |
-		| or an illegal instruction with DDh or FDh prefix.		      |
-		'====================================================================*/
+		/*--------------------------------------------------------------.
+		| The CPU is in normal operation state; the emulator ran out of |
+		| clock cycles by fetching a DDh or FDh prefix.			|
+		'==============================================================*/
 		case Z80_RESUME_XY:
 		RESUME = FALSE;
-		/*resume_opcode:*/
-		self->cycles += instruction_table[DATA[0]](self);
+		R++;
+		XY = *(xy = &self->ix_iy[(DATA[0] >> 5) & 1].uint16_value);
+		self->cycles += xy_instruction_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
+		*xy = XY;
 		break;
 
-		/*--------------------------------------------------------------------.
-		| The CPU is responding to an INT in mode 0 and the first byte of the |
-		| instruction has already been fetched. This resumption if scheduled  |
-		| if the emulator runs out of cycles while fetching a prefix sequence |
-		| or an illegal instruction with DDh or FDh prefix.		      |
-		'====================================================================*/
+		/*----------------------------------------------------------------.
+		| The CPU is responding to an INT in mode 0; the emulator ran out |
+		| clock cycles by fetching a DDh or FDh prefix.			  |
+		'================================================================*/
 #		ifdef Z80_WITH_FULL_IM0
 			case Z80_RESUME_IM0_XY:
-			RESUME = FALSE;
+			ird = DATA[0];
 			goto im0_begin;
 #		endif
 		}
@@ -2156,17 +2164,27 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| 0066h. The interrupt enable flip-flop 1 (IFF1) is reset to prevent any   |
 			| INT from being accepted during the execution of this routine, which is   |
 			| usually exited by using a `reti` or `retn` instruction to restore the	   |
-			| original state of IFF1.						   |
+			| original state of IFF1 [1].						   |
 			|									   |
 			| Some technical documents from Zilog include an erroneous timing diagram  |
 			| showing an NMI acknowledge cycle of 4 T-states. However, documents from  |
-			| other manufacturers and third parties specify that this M-cycle has 5    |
-			| T-states, as has been confirmed by electronic simulations [1].	   |
+			| other manufacturers and third parties specify that this M-cycle has 5	   |
+			| T-states, as has been confirmed by low-level tests [2] and electronic	   |
+			| simulations [3].							   |
+			|									   |
+			| The CPU does not accept a second NMI during the NMI response. Therefore, |
+			| it is not possible to chain two NMI responses in a row without executing |
+			| at least one instruction between them [3,4,5].			   |
 			|									   |
 			| References:								   |
-			| 1. Checked with "Visual Z80 Remix"					   |
+			| 1. Zilog (1978-05). "Z80 Family Program Interrupt Structure, The",	   |
+			|    pp. 4,5.								   |
+			| 2. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm	   |
+			| 3. Checked with "Visual Z80 Remix"					   |
 			|     * https://floooh.github.io/visualz80remix				   |
 			|     * https://github.com/floooh/v6502r				   |
+			| 4. https://spectrumcomputing.co.uk/forums/viewtopic.php?t=7086	   |
+			| 5. https://stardot.org.uk/forums/viewtopic.php?t=24662		   |
 			'=========================================================================*/
 			if (REQUEST & Z80_REQUEST_REJECT_NMI)
 				REQUEST = 0;
@@ -2203,6 +2221,17 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| following `ei` is executed. This is so that ISRs can return without the  |
 			| danger of being interrupted immediately after re-enabling interrupts if  |
 			| the /INT line is still active, which could cause a stack overflow.	   |
+			|									   |
+			| As in `ei`, all forms of `reti` and `retn` defer the acceptance of the   |
+			| maskable interrupt for one instruction, but this only occurs when IFF1   |
+			| and IFF2 do not have the same state prior to the execution of either of  |
+			| these instructions, which can only be caused by an earlier NMI response  |
+			| [1,2,3].								   |
+			|									   |
+			| References:								   |
+			| 1. https://floooh.github.io/2021/12/17/cycle-stepped-z80.html		   |
+			| 2. https://spectrumcomputing.co.uk/forums/viewtopic.php?t=7086	   |
+			| 3. https://stardot.org.uk/forums/viewtopic.php?t=24662		   |
 			'=========================================================================*/
 			else if (
 #				ifdef Z80_WITH_SPECIAL_RESET
@@ -2217,10 +2246,8 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				{
 #				ifdef Z80_WITH_FULL_IM0
 					Z80Read hook;
-					IM0	im0;
+					IM0 im0;
 #				endif
-
-				zuint8 byte;
 
 				IFF1 = IFF2 = 0;
 				if (HALT_LINE) {SET_HALT_LINE(FALSE);}
@@ -2239,18 +2266,19 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #				endif
 
 				/*----------------------------------------------------------------------.
-				| The INT acknowledge cycle indicates that the interrupting I/O device	|
-				| can write to the data bus. 2 wait T-states are added to this M-cycle, |
-				| allowing sufficient time to identify which device must insert the	|
-				| interrupt response data. The first and perhaps only byte of this data |
-				| is read from the data bus during this special M1 cycle.		|
+				| The INT acknowledge cycle (INTA) indicates that the interrupting I/O	|
+				| device can write to the data bus. 2 wait T-states are automatically	|
+				| added to this M-cycle, allowing sufficient time to identify which	|
+				| device must insert the interrupt response data. The first and posibly |
+				| sole byte of the response data is read from the data bus during this	|
+				| special M1 cycle.							|
 				|									|
 				| The value FFh is assumed when the `inta` callback is not used. This	|
 				| is the most desirable behavior, since the `rst 38h` instruction will	|
 				| be executed if the interrupt mode is 0.				|
 				'======================================================================*/
 				R++; /* M1 */
-				byte = (self->inta != Z_NULL) ? INTA : 0xFF;
+				ird = (self->inta != Z_NULL) ? INTA : 0xFF;
 
 #				ifdef Z80_WITH_SPECIAL_RESET
 					PC >>= special_reset;
@@ -2279,11 +2307,11 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| 1. Checked with "Visual Z80 Remix"					   |
 					|     * https://floooh.github.io/visualz80remix				   |
 					|     * https://github.com/floooh/v6502r				   |
-					| 2. Zilog (1978-05). "Z80 Family Program Interrupt Structure, The".	   |
+					| 2. Zilog (1978-05). "Z80 Family Program Interrupt Structure, The",	   |
 					|    pp. 6,8.								   |
 					'=========================================================================*/
 					case 0:
-					DATA[0] = byte;
+					DATA[0] = ird;
 
 #					ifdef Z80_WITH_FULL_IM0
 						im0_begin:
@@ -2296,7 +2324,6 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						im0.in	      = self->in;
 						im0.out	      = self->out;
 						im0.pc	      = PC;
-						byte	      = DATA[0];
 						self->context = &im0;
 						self->fetch   = (Z80Read )im0_fetch;
 						self->read    = (Z80Read )im0_read;
@@ -2307,30 +2334,30 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 						im0_execute:
 
-						if (im0_pc_decrement_table[byte])
+						if (im0_pc_decrement_table[ird])
 							{
-							PC -= im0_pc_decrement_table[byte];
-							self->cycles += 2 + instruction_table[byte](self);
+							PC -= im0_pc_decrement_table[ird];
+							self->cycles += 2 + instruction_table[ird](self);
 							}
 
 						/* halt */
-						else if (byte == 0x76) HALT_LINE = TRUE;
+						else if (ird == 0x76) HALT_LINE = TRUE;
 
 						/* instructions with CBh prefix */
-						else if (byte == 0xCB)
+						else if (ird == 0xCB)
 							{
 							R++;
 							self->cycles += 4 + cb_instruction_table[DATA[1] = INTA](self);
 							}
 
 						/* instructions with EDh prefix */
-						else if (byte == 0xED)
+						else if (ird == 0xED)
 							{
 							Instruction instruction;
 
 							R++;
 
-							if ((instruction = ed_instruction_table[DATA[1] = byte = INTA]) != ed_illegal)
+							if ((instruction = ed_instruction_table[DATA[1] = ird = INTA]) != ed_illegal)
 								{
 								im0.ld_i_a   = self->ld_i_a;
 								im0.ld_r_a   = self->ld_r_a;
@@ -2349,62 +2376,60 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 								self->retn   = im0.retn;
 
 								/* All except: reti / retn */
-								if ((byte & 0xC7) != 0x45) PC -= ((byte & 0xC7) == 0x43)
+								if ((ird & 0xC7) != 0x45) PC -= ((ird & 0xC7) == 0x43)
 									? 4 /* ld SS,(WORD) / ld (WORD),SS */
 									: 2 /* all others		   */;
 								}
 
 							else self->cycles += (self->illegal == Z_NULL)
 								? 4 + 8
-								: 4 + self->illegal(CONTEXT, byte);
+								: 4 + self->illegal(CONTEXT, ird);
 							}
 
 						/* instructions with DDh, FDh, DDCBh or FDCBh prefix */
-						else if (IS_XY_PREFIX(byte))
+						else if (IS_XY_PREFIX(ird))
 							{
 							Instruction instruction;
 
-							im0_xy:
-							R++;
-
-							if (IS_XY_PREFIX(byte = INTA))
-								{
-								DATA[0] = byte;
-								if ((self->cycles += 6) < cycles) goto im0_xy;
-								RESUME = Z80_RESUME_IM0_XY;
-								goto im0_finalize;
-								}
-
-							if ((instruction = xy_instruction_table[byte]) == xy_illegal)
-								{
-								DATA[0] = byte;
-								if ((self->cycles += 6) < cycles) goto im0_execute;
-								RESUME = Z80_RESUME_IM0_XY;
-								goto im0_finalize;
-								}
-
-							if (DATA[0] == 0xDD)
-								{
-								XY = IX;
-								self->cycles += 4 + instruction(self);
-								IX = XY;
-								}
+							if (RESUME) RESUME = FALSE;
 
 							else	{
-								XY = IY;
-								self->cycles += 4 + instruction(self);
-								IY = XY;
+								im0_advance_xy:
+								if ((self->cycles += 6) >= self->cycle_limit)
+									{
+									RESUME = Z80_RESUME_IM0_XY;
+									goto im0_finalize;
+									}
 								}
 
+							R++;
+
+							if (IS_XY_PREFIX(ird = INTA))
+								{
+								DATA[0] = ird;
+								goto im0_advance_xy;
+								}
+
+							if ((instruction = xy_instruction_table[ird]) == xy_illegal)
+								{
+								DATA[0] = ird;
+								PC++;
+								goto im0_execute;
+								}
+
+							XY = *(xy = &self->ix_iy[((DATA[1] = ird) >> 5) & 1].uint16_value);
+							self->cycles += 2 + instruction(self);
+							*xy = XY;
+
 							/* all except: jp (XY) */
-							if (byte != 0xE9) PC = im0.pc;
+							if (ird != 0xE9) PC = im0.pc;
 							}
 
 						else	{
-							cycles += 2 + instruction_table[byte](self);
+							cycles += 2 + instruction_table[ird](self);
 
 							/* all except: jp WORD / jp (hl)> / ret */
-							if (byte != 0xC3 && (byte & 0xDF) != 0xC9) PC = im0.pc;
+							if (ird != 0xC3 && (ird & 0xDF) != 0xC9) PC = im0.pc;
 							}
 
 						im0_finalize:
@@ -2428,7 +2453,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						continue;
 
 #					else
-						switch (byte)
+						switch (ird)
 							{
 							case 0xC3: /* jp WORD */
 							Q_0
@@ -2447,7 +2472,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							default: /* `rst N` is assumed for other instructions */
 							Q_0
 							PUSH(PC);
-							MEMPTR = PC = DATA[0] & 56;
+							MEMPTR = PC = ird & 56;
 							self->cycles += 2 + 11;
 							continue;
 							}
@@ -2492,7 +2517,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					DATA[0] = 0;
 					Q_0
 					PUSH(PC);
-					MEMPTR = PC = READ_16((zuint16)(((zuint16)I << 8) | byte));
+					MEMPTR = PC = READ_16((zuint16)(((zuint16)I << 8) | ird));
 					self->cycles += 19; /* M1(5+2w), M2(3), M3(3), M4(3), M5(3) */
 					continue;
 					}
