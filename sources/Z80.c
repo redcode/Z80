@@ -2265,18 +2265,18 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						FLAGS = F & ~(zuint8)PF;
 #				endif
 
-				/*----------------------------------------------------------------------.
-				| The INT acknowledge cycle (INTA) indicates that the interrupting I/O	|
-				| device can write to the data bus. 2 wait T-states are automatically	|
-				| added to this M-cycle, allowing sufficient time to identify which	|
-				| device must insert the interrupt response data. The first and posibly |
-				| sole byte of the response data is read from the data bus during this	|
-				| special M1 cycle.							|
-				|									|
-				| The value FFh is assumed when the `inta` callback is not used. This	|
-				| is the most desirable behavior, since the `rst 38h` instruction will	|
-				| be executed if the interrupt mode is 0.				|
-				'======================================================================*/
+				/*---------------------------------------------------------------------.
+				| The INT acknowledge cycle (INTA) indicates that the interrupting I/O |
+				| device can write to the data bus. 2 wait T-states are automatically  |
+				| added to this M-cycle, allowing sufficient time to identify which    |
+				| device must insert the interrupt response data (IRD). The first and  |
+				| posibly sole byte of the IRD is read from the data bus during this   |
+				| special M1 cycle.						       |
+				|								       |
+				| The value FFh is assumed when the `inta` callback is not used. This  |
+				| is the most desirable behavior, since the `rst 38h` instruction will |
+				| be executed if the interrupt mode is 0.			       |
+				'=====================================================================*/
 				R++; /* M1 */
 				ird = (self->inta != Z_NULL) ? INTA : 0xFF;
 
