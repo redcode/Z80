@@ -104,10 +104,9 @@ typedef zuint8 (* Instruction)(Z80 *self);
 /* MARK: - Instance Variable and Callback Shortcuts */
 
 #define MEMPTR	  self->memptr.uint16_value
-#define MEMPTRH	  self->memptr.uint8_values.at_1
-#define MEMPTRL	  self->memptr.uint8_values.at_0
 #define PC	  self->pc.uint16_value
 #define SP	  self->sp.uint16_value
+#define XY	  self->xy.uint16_value
 #define IX	  self->ix_iy[0].uint16_value
 #define IY	  self->ix_iy[1].uint16_value
 #define AF	  self->af.uint16_value
@@ -118,6 +117,9 @@ typedef zuint8 (* Instruction)(Z80 *self);
 #define BC_	  self->bc_.uint16_value
 #define DE_	  self->de_.uint16_value
 #define HL_	  self->hl_.uint16_value
+#define MEMPTRH	  self->memptr.uint8_values.at_1
+#define MEMPTRL	  self->memptr.uint8_values.at_0
+#define PCH	  self->pc.uint8_values.at_1
 #define A	  self->af.uint8_values.at_1
 #define F	  self->af.uint8_values.at_0
 #define B	  self->bc.uint8_values.at_1
@@ -133,7 +135,6 @@ typedef zuint8 (* Instruction)(Z80 *self);
 #define IM	  self->im
 #define HALT_LINE self->halt_line
 #define INT_LINE  self->int_line
-#define XY	  self->xy.uint16_value
 #define DATA	  self->data.uint8_array
 #define REQUEST	  self->request
 #define RESUME	  self->resume
@@ -907,31 +908,31 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	INX_OUTX(out)
 
 
-#define INXR_OTXR(io)							   \
-	if (B)	{							   \
-		FLAGS = (zuint8)(	    /* ZF = 0			*/ \
-			(B & SF)	  | /* SF = Bo.7		*/ \
-			((PC >> 8) & YXF) | /* YF = PCi.13; XF = PCi.11 */ \
-			nf		  | /* NF = IO.7		*/ \
-			(hcf	?					   \
-				CF |					   \
-				(nf	?				   \
-					(!(B & 0xF) << 4) |		   \
-					PF_PARITY(p ^ ((B - 1) & 7))	   \
-					:				   \
-					(((B & 0xF) == 0xF) << 4) |	   \
-					PF_PARITY(p ^ ((B + 1) & 7)))	   \
-				: PF_PARITY(p ^ (B & 7))));		   \
-									   \
-		return 21;						   \
-		}							   \
-									   \
-	FLAGS = ZF	     | /* ZF = 1; SF, YF, XF = 0     */		   \
-		hcf	     | /* HF, CF = T > 255	     */		   \
-		PF_PARITY(p) | /* PF = ((T & 7) ^ Bo).parity */		   \
-		nf;	       /* NF = IO.7		     */		   \
-									   \
-	PC += 2;							   \
+#define INXR_OTXR(io)						      \
+	if (B)	{						      \
+		FLAGS = (zuint8)(     /* ZF = 0			  */  \
+			(B & SF)    | /* SF = Bo.7		  */  \
+			(PCH & YXF) | /* YF = PCi.13; XF = PCi.11 */  \
+			nf	    | /* NF = IO.7		  */  \
+			(hcf	?				      \
+				CF |				      \
+				(nf	?			      \
+					(!(B & 0xF) << 4) |	      \
+					PF_PARITY(p ^ ((B - 1) & 7))  \
+					:			      \
+					(((B & 0xF) == 0xF) << 4) |   \
+					PF_PARITY(p ^ ((B + 1) & 7))) \
+				: PF_PARITY(p ^ (B & 7))));	      \
+								      \
+		return 21;					      \
+		}						      \
+								      \
+	FLAGS = ZF	     | /* ZF = 1; SF, YF, XF = 0     */	      \
+		hcf	     | /* HF, CF = T > 255	     */	      \
+		PF_PARITY(p) | /* PF = ((T & 7) ^ Bo).parity */	      \
+		nf;	       /* NF = IO.7		     */	      \
+								      \
+	PC += 2;						      \
 	return 16
 
 
