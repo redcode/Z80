@@ -2062,7 +2062,7 @@ Z80_API void z80_busreq(Z80 *self, zboolean state)
 #ifdef Z80_WITH_EXECUTE
 	Z80_API zusize z80_execute(Z80 *self, zusize cycles)
 		{
-		zuint16 *xy;
+		ZInt16 *xy;
 
 		R7		  = R;
 		self->cycles	  = 0;
@@ -2077,9 +2077,9 @@ Z80_API void z80_busreq(Z80 *self, zboolean state)
 			case Z80_RESUME_XY:
 			RESUME = FALSE;
 			R++; /* M1 */
-			XY = *(xy = &self->ix_iy[(DATA[0] >> 5) & 1].uint16_value);
+			XY = (xy = &self->ix_iy[(DATA[0] >> 5) & 1])->uint16_value;
 			self->cycles += xy_instruction_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
-			*xy = XY;
+			xy->uint16_value = XY;
 			break;
 			}
 
@@ -2097,7 +2097,7 @@ Z80_API void z80_busreq(Z80 *self, zboolean state)
 
 Z80_API zusize z80_run(Z80 *self, zusize cycles)
 	{
-	zuint16 *xy;
+	ZInt16 *xy;
 	zuint8 ird;
 
 	/*---------------------------------------------------------------------.
@@ -2131,9 +2131,9 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		case Z80_RESUME_XY:
 		RESUME = FALSE;
 		R++;
-		XY = *(xy = &self->ix_iy[(DATA[0] >> 5) & 1].uint16_value);
+		XY = (xy = &self->ix_iy[(DATA[0] >> 5) & 1])->uint16_value;
 		self->cycles += xy_instruction_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
-		*xy = XY;
+		xy->uint16_value = XY;
 		break;
 
 		/*----------------------------------------------------------------.
@@ -2418,9 +2418,9 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 								goto im0_execute;
 								}
 
-							XY = *(xy = &self->ix_iy[((DATA[1] = ird) >> 5) & 1].uint16_value);
+							XY = (xy = &self->ix_iy[((DATA[1] = ird) >> 5) & 1])->uint16_value;
 							self->cycles += 2 + instruction(self);
-							*xy = XY;
+							xy->uint16_value = XY;
 
 							/* all except: jp (XY) */
 							if (ird != 0xE9) PC = im0.pc;
