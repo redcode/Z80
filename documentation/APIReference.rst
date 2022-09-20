@@ -18,7 +18,6 @@ Types
 .. doxygentypedef:: Z80HALT
 .. doxygentypedef:: Z80Notify
 .. doxygentypedef:: Z80Illegal
-.. doxygentypedef:: Z80Reset
 .. doxygenstruct:: Z80
    :members:
 
