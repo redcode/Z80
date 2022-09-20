@@ -28,7 +28,7 @@
 #endif
 
 #include <Z/constants/pointer.h>
-#include <Z/macros/aggregate.h>
+#include <Z/macros/array.h>
 #include <Z80.h>
 #include <stdio.h>
 #include <stdlib.h>
