@@ -649,10 +649,10 @@ int main(int argc, char **argv)
 	'==============================*/
 	zuint results[2] = {0, 0};
 
-	/*------------------------------------------.
-	| The emulator will behave as a Zilog NMOS  |
-	| if the user does not specify a CPU model. |
-	'==========================================*/
+	/*--------------------------------------------.
+	| The emulator will behave as a Zilog NMOS if |
+	| the user does not specify a CPU model.      |
+	'============================================*/
 	cpu.options = Z80_MODEL_ZILOG_NMOS;
 
 	while (++i < argc && *argv[i] == '-')
@@ -782,19 +782,19 @@ int main(int argc, char **argv)
 			}
 		}
 
-	/*-------------------------------------------------------.
-	| It is mandatory to specify at least one test number in |
-	| the command line, or the `-a` option in its absence.	 |
-	'=======================================================*/
+	/*------------------------------------------------.
+	| The user must specify at least one test number, |
+	| or the `-a` option in its absence.		  |
+	'================================================*/
 	if (i == argc && !all)
 		{
 		fputs("No test specified.\n", stderr);
 		goto bad_syntax;
 		}
 
-	/*--------------------------------------------------------------.
-	| All test numbers specified in the command line must be valid. |
-	'==============================================================*/
+	/*------------------------------------------.
+	| All test numbers specified must be valid. |
+	'==========================================*/
 	for (j = i; i < argc; i++)
 		{
 		char const *string = argv[i];
@@ -816,12 +816,10 @@ int main(int argc, char **argv)
 		goto exit_with_error;
 		}
 
-	/*-------------------------------------------------------------------.
-	| The output of the test programs is only printed when using the     |
-	| verbosity level 4. In this case, the standard output is configured |
-	| as unbuffered so that the characters printed by these programs are |
-	| visible immediately, rather than after each ENTER.		     |
-	'===================================================================*/
+	/*---------------------------------------------------------------.
+	| Disable output buffering if verbosity is enabled, so that the  |
+	| messages are visible immediately rather than after each ENTER. |
+	'===============================================================*/
 	if (verbosity)
 		{
 		setvbuf(stdout, Z_NULL, _IONBF, 0);
@@ -830,17 +828,27 @@ int main(int argc, char **argv)
 
 	/* Configure the Z80 CPU emulator. */
 
-	/*---------------------------------------------------------.
-	| No CPU context is needed; we are using global variables. |
-	'=========================================================*/
+	/*---------------------------------------------------------------.
+	| No CPU context is needed, since we are using global variables. |
+	'===============================================================*/
 	cpu.context = Z_NULL;
 
-	/*----------------------------------------------------------.
-	| It is not necessary to distinguish between memory read on |
-	| instruction data, memory read on non-instruction data and |
-	| internal NOP (the three are memory read M-cycles), as the |
-	| tests do not require precise timing or memory contention. |
-	'==========================================================*/
+	/*---------------------------------------------------.
+	| No test program requires these optional callbacks. |
+	'===================================================*/
+	cpu.nmia      =
+	cpu.inta      =
+	cpu.int_fetch = Z_NULL;
+	cpu.ld_i_a    =
+	cpu.ld_r_a    =
+	cpu.reti      =
+	cpu.retn      = Z_NULL;
+	cpu.illegal   = Z_NULL;
+
+	/*---------------------------------------------------------------------.
+	| It is not necessary to distinguish between memory read and internal  |
+	| NOP, as no test program require precise timing or memory contention. |
+	'=====================================================================*/
 	cpu.fetch =
 	cpu.read  =
 	cpu.nop   = cpu_read;
@@ -853,23 +861,9 @@ int main(int argc, char **argv)
 	'===================================================================*/
 	cpu.halt = cpu_halt;
 
-	/*------------------------------------------------.
-	| The following callbacks of the Z80 CPU emulator |
-	| are not required by the test programs.	  |
-	'================================================*/
-	cpu.nmia      =
-	cpu.inta      =
-	cpu.int_fetch = Z_NULL;
-	cpu.ld_i_a    =
-	cpu.ld_r_a    =
-	cpu.reti      =
-	cpu.retn      = Z_NULL;
-	cpu.illegal   = Z_NULL;
-
-	/*-------------------------------------------------.
-	| Run the tests whose numbers have been explicitly |
-	| specified in the command line.		   |
-	'=================================================*/
+	/*------------------------------------------------------------.
+	| Run the tests whose numbers have been explicitly specified. |
+	'============================================================*/
 	while (j < argc)
 		{
 		tests_run |= Z_UINT32(1) << (i = atoi(argv[j++]));
@@ -877,15 +871,15 @@ int main(int argc, char **argv)
 		}
 
 	/*-----------------------------------------------------.
-	| If all tests must be run, do so, but avoid repeating |
-	| those already run.				       |
+	| If the `-a` option has been specified, run all tests |
+	| without repeating those that have already been run.  |
 	'=====================================================*/
 	if (all) for (i = 0; i < (int)Z_ARRAY_SIZE(tests); i++)
 		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test(i)]++;
 
-	/*----------------------------------.
-	| Print the summary of the results. |
-	'==================================*/
+	/*---------------------------.
+	| Print the results summary. |
+	'===========================*/
 	printf(	"%sResults: %u test%s passed, %u failed\n",
 		verbosity && !show_test_output ? "\n" : "",
 		results[1],
