@@ -140,7 +140,9 @@ target_include_directories(
 	"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/API>"
 	"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
-if(BUILD_SHARED_LIBS)
+if(${PROJECT_NAME}_OBJECT_LIBS OR NOT BUILD_SHARED_LIBS)
+	target_compile_definitions(${PROJECT_NAME} PUBLIC Z80_STATIC)
+else()
 	if(WIN32)
 		if(PROJECT_VERSION_PATCH STREQUAL "")
 			set(PROJECT_VERSION_PATCH 0)
@@ -174,8 +176,6 @@ if(BUILD_SHARED_LIBS)
 	elseif(NOT ${PROJECT_NAME}_NOSTDLIB_FLAGS STREQUAL "")
 		target_link_options(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_NOSTDLIB_FLAGS})
 	endif()
-else()
-	target_compile_definitions(${PROJECT_NAME} PUBLIC Z80_STATIC)
 endif()
 
 target_compile_definitions(
