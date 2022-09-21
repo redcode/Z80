@@ -93,7 +93,7 @@ if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
 
 	add_custom_command(
 		OUTPUT  ${_pdf_documentation_output}
-		COMMAND make
+		COMMAND ${CMAKE_MAKE_PROGRAM}
 		MAIN_DEPENDENCY ${_latex_documentation_output}
 		WORKING_DIRECTORY ${_latex_documentation_output}
 		COMMENT "Converting documentation to PDF format")
