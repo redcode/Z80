@@ -390,7 +390,7 @@ cmake -LAH
 If in doubt, read the [CMake documentation](https://cmake.org/documentation/) for more information on configuration options. The following are some of the most relevant standard options of CMake:
 
 * <span id="option_build_shared_libs">**`-DBUILD_SHARED_LIBS=(YES|NO)`**</span>  
-	Build the project as a shared library rather than a static one.  
+	Build the emulator as a shared library rather than a static one.  
 	The default is `NO`.
 
 * <span id="option_cmake_build_type">**`-DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo|MinSizeRel)`**</span>  
@@ -420,7 +420,7 @@ Package-specific options are prefixed with `Z80_` and can be divided into two gr
 	The default is `Auto` (autoconfigure flags). If you get linker errors, set this option to `""`.
 
 * <span id="option_z80_shared_libs">**`-DZ80_SHARED_LIBS=(YES|NO)`**</span>  
-	Build the project as a shared library rather than a static one.  
+	Build the emulator as a shared library rather than a static one.  
 	This option takes precedence over [`BUILD_SHARED_LIBS`](#option_build_shared_libs).  
 	Not defined by default.
 

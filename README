@@ -92,7 +92,7 @@ If in doubt, read the CMake documentation for more information on configuration
 options. The following are some of the most relevant standard options of CMake:
 
     -DBUILD_SHARED_LIBS=(YES|NO)
-        Build the project as a shared library rather than a static one.
+        Build the emulator as a shared library rather than a static one.
         The default is `NO`.
 
     -DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo|MinSizeRel)
@@ -125,7 +125,7 @@ library:
         this option to `""`.
 
     -DZ80_SHARED_LIBS=(YES|NO)
-        Build the project as a shared library rather than a static one.
+        Build the emulator as a shared library rather than a static one.
         This option takes precedence over `BUILD_SHARED_LIBS`.
         Not defined by default.
 

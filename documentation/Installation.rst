@@ -37,7 +37,7 @@ If in doubt, read the `CMake documentation <https://cmake.org/documentation/>`_ 
 
 .. option:: -DBUILD_SHARED_LIBS=(YES|NO)
 
-	Build the project as a shared library rather than a static one. |br| |nl|
+	Build the emulator as a shared library rather than a static one. |br| |nl|
 	The default is ``NO``.
 
 .. option:: -DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo|MinSizeRel)
@@ -74,7 +74,7 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 
 .. option:: -DZ80_SHARED_LIBS=(YES|NO)
 
-	Build the project as a shared library rather than a static one. |br| |nl|
+	Build the emulator as a shared library rather than a static one. |br| |nl|
 	This option takes precedence over ``BUILD_SHARED_LIBS``. |br| |nl|
 	Not defined by default.
 
