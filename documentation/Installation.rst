@@ -72,6 +72,12 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 	Specify the linker flags used to avoid linking against system libraries. |br| |nl|
 	The default is ``Auto`` (autoconfigure flags). If you get linker errors, set this option to ``""``.
 
+.. option:: -DZ80_OBJECT_LIBS=(YES|NO)
+
+	Build the emulator as an object library. |br| |nl|
+	This option takes precedence over ``BUILD_SHARED_LIBS`` and ``Z80_SHARED_LIBS``. If enabled, the build system will ignore ``Z80_WITH_CMAKE_SUPPORT`` and ``Z80_WITH_PKGCONFIG_SUPPORT``, as no libraries or support files will be installed. |br| |nl|
+	The default is ``NO``.
+
 .. option:: -DZ80_SHARED_LIBS=(YES|NO)
 
 	Build the emulator as a shared library, rather than static. |br| |nl|

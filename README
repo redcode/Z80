@@ -124,6 +124,14 @@ library:
         The default is Auto (autoconfigure flags). If you get linker errors, set
         this option to `""`.
 
+    -DZ80_OBJECT_LIBS=(YES|NO)
+        Build the emulator as an object library.
+        This option takes precedence over `BUILD_SHARED_LIBS` and
+        `Z80_SHARED_LIBS`. If enabled, the build system will ignore
+        `Z80_WITH_CMAKE_SUPPORT` and `Z80_WITH_PKGCONFIG_SUPPORT`, as no
+        libraries or support files will be installed.
+        The default is `NO`.
+
     -DZ80_SHARED_LIBS=(YES|NO)
         Build the emulator as a shared library, rather than static.
         This option takes precedence over `BUILD_SHARED_LIBS`.
@@ -305,4 +313,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 --------------------------------------------------------------------------------
-Last update: 2022-08-26                                               README EOF
+Last update: 2022-09-21                                               README EOF

@@ -29,10 +29,6 @@ message("${PROJECT_NAME} v${PROJECT_VERSION}")
 
 include(GNUInstallDirs)
 
-if(DEFINED ${PROJECT_NAME}_SHARED_LIBS)
-	set(BUILD_SHARED_LIBS "${${PROJECT_NAME}_SHARED_LIBS}")
-endif()
-
 option(${PROJECT_NAME}_DOWNLOAD_TEST_FILES
 "Download the firmware and software used by the testing tool."
 NO)
@@ -48,6 +44,10 @@ set(${PROJECT_NAME}_INSTALL_PKGCONFIGDIR
 set(${PROJECT_NAME}_NOSTDLIB_FLAGS
 "Auto" CACHE STRING
 "Specify the linker flags used to avoid linking against system libraries.")
+
+option(${PROJECT_NAME}_OBJECT_LIBS
+"Build the emulator as an object library."
+NO)
 
 set(${PROJECT_NAME}_SPHINX_HTML_THEME
 "" CACHE STRING
@@ -109,8 +109,18 @@ NO)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 find_package(Zeta REQUIRED)
 
-add_library(
-	${PROJECT_NAME}
+if(${PROJECT_NAME}_OBJECT_LIBS)
+	add_library(${PROJECT_NAME} OBJECT)
+else()
+	if(DEFINED ${PROJECT_NAME}_SHARED_LIBS)
+		set(BUILD_SHARED_LIBS "${${PROJECT_NAME}_SHARED_LIBS}")
+	endif()
+
+	add_library(${PROJECT_NAME})
+endif()
+
+target_sources(
+	${PROJECT_NAME} PRIVATE
 	"${CMAKE_CURRENT_SOURCE_DIR}/API/Z80.h"
 	"${CMAKE_CURRENT_SOURCE_DIR}/sources/Z80.c")
 
@@ -188,7 +198,9 @@ install(TARGETS ${PROJECT_NAME}
 		DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 		COMPONENT "${PROJECT_NAME}_Development")
 
-if(${PROJECT_NAME}_WITH_CMAKE_SUPPORT OR ${PROJECT_NAME}_WITH_PKGCONFIG_SUPPORT)
+if(	NOT ${PROJECT_NAME}_OBJECT_LIBS AND
+	(${PROJECT_NAME}_WITH_CMAKE_SUPPORT OR ${PROJECT_NAME}_WITH_PKGCONFIG_SUPPORT)
+)
 	include(CMakePackageConfigHelpers)
 
 	if(${PROJECT_NAME}_WITH_CMAKE_SUPPORT)
