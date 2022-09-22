@@ -156,7 +156,7 @@ else()
 		target_sources(${PROJECT_NAME} PRIVATE "${PROJECT_BINARY_DIR}/Z80.rc")
 	endif()
 
-	if (${PROJECT_NAME}_NOSTDLIB_FLAGS STREQUAL "Auto")
+	if(${PROJECT_NAME}_NOSTDLIB_FLAGS STREQUAL "Auto")
 		if(MSVC)
 			target_compile_definitions(${PROJECT_NAME} PRIVATE Z80_WITH_WINDOWS_DLL_MAIN)
 			target_link_options(${PROJECT_NAME} PRIVATE "/NODEFAULTLIB")
@@ -204,7 +204,7 @@ if(	NOT ${PROJECT_NAME}_OBJECT_LIBS AND
 	include(CMakePackageConfigHelpers)
 
 	if(${PROJECT_NAME}_WITH_CMAKE_SUPPORT)
-		if (BUILD_SHARED_LIBS)
+		if(BUILD_SHARED_LIBS)
 			set(_type Shared)
 		else()
 			set(_type Static)
@@ -304,7 +304,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 					"${downloads_dir}/${_file_path}"
 					EXPECTED_HASH SHA512=${_sha512})
 
-				if (	NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
+				if(	NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
 					(NOT ZLIB_FOUND OR NOT libzip_FOUND)
 				)
 					get_filename_component(_file_extension ${_file_full_name} LAST_EXT)
@@ -338,7 +338,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 			"http://zxe.io/depot/software"
 			"${CMAKE_CURRENT_BINARY_DIR}/downloads/software")
 
-		if (	"${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
+		if(	"${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
 			(NOT ZLIB_FOUND OR NOT libzip_FOUND)
 		)
 			message(WARNING
