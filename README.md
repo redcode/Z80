@@ -389,15 +389,15 @@ cmake -LAH
 
 If in doubt, read the [CMake documentation](https://cmake.org/documentation/) for more information on configuration options. The following are some of the most relevant standard options of CMake:
 
-* <span id="option_build_shared_libs">**`-DBUILD_SHARED_LIBS=(YES|NO)`**</span>  
+* <span id="option_build_shared_libs">**<code>-D[BUILD_SHARED_LIBS](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html)=(YES|NO)</code>**</span>  
 	Build the emulator as a shared library, rather than static.  
 	The default is `NO`.
 
-* <span id="option_cmake_build_type">**`-DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo|MinSizeRel)`**</span>  
+* <span id="option_cmake_build_type">**<code>-D[CMAKE_BUILD_TYPE](https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html)=(Debug|Release|RelWithDebInfo|MinSizeRel)</code>**</span>  
 	Choose the type of build (configuration) to generate.  
 	The default is `Release`.
 
-* <span id="option_cmake_install_prefix">**`-DCMAKE_INSTALL_PREFIX="<path>"`**</span>  
+* <span id="option_cmake_install_prefix">**<code>-D[CMAKE_INSTALL_PREFIX](https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html)="\<path\>"</code>**</span>  
 	Specify the installation prefix on [UNIX](https://en.wikipedia.org/wiki/Unix) and [UNIX-like](https://en.wikipedia.org/wiki/Unix-like) operating systems.  
 	The default is `"/usr/local"`.
 
@@ -409,11 +409,11 @@ Package-specific options are prefixed with `Z80_` and can be divided into two gr
 
 * <span id="option_z80_install_cmakedir">**`-DZ80_INSTALL_CMAKEDIR="<path>"`**</span>  
 	Specify the directory in which to install the CMake [config-file package](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages).  
-	The default is `"${CMAKE_INSTALL_LIBDIR}/cmake/Z80"`.
+	The default is <code>"${[CMAKE_INSTALL_LIBDIR](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)}/cmake/Z80"</code>.
 
 * <span id="option_z80_install_pkgconfigdir">**`-DZ80_INSTALL_PKGCONFIGDIR="<path>"`**</span>  
 	Specify the directory in which to install the [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config) [file](https://people.freedesktop.org/~dbn/pkg-config-guide.html).  
-	The default is `"${CMAKE_INSTALL_LIBDIR}/pkgconfig"`.
+	The default is <code>"${[CMAKE_INSTALL_LIBDIR](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)}/pkgconfig"</code>.
 
 * <span id="option_z80_nostdlib_flags">**`-DZ80_NOSTDLIB_FLAGS=(Auto|[<flag>[;<flag>...]])`**</span>  
 	Specify the linker flags used to avoid linking against system libraries.  
@@ -503,7 +503,7 @@ make install/strip
 
 # Running the tests
 
-The package includes a tool called `test-Z80` capable of running all [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of [the major test suites](#major_test_suites). Configure the build system with [`-DZ80_WITH_TESTS=YES`](#option_z80_with_tests) to enable its compilation and [`-DZ80_DOWNLOAD_TEST_FILES=YES`](#option_z80_download_test_files) to download the firmware and software required. Also note that the Z80 library must be built with [`-DZ80_WITH_Q=YES`](#option_z80_with_q) to be able to pass Patrik Rak's tests.
+The package includes a tool called `test-Z80` capable of running all [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of [the major test suites](#major_test_suites). Configure the build system with <code>-D[Z80_WITH_TESTS](#option_z80_with_tests)=YES</code> to enable its compilation and <code>-D[Z80_DOWNLOAD_TEST_FILES](#option_z80_download_test_files)=YES</code> to download the firmware and software required. Also note that the Z80 library must be built with <code>-D[Z80_WITH_Q](#option_z80_with_q)=YES</code> to be able to pass Patrik Rak's tests.
 
 Once you have built the package, type the following to run all tests:
 ```shell
