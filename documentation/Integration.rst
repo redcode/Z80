@@ -76,4 +76,4 @@ The second group of package-specific options, explained in the :doc:`Installatio
 .. c:macro:: Z80_WITH_UNOFFICIAL_RETI
 .. c:macro:: Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 
-Except for ``Z80_DEPENDENCIES_HEADER``, the above macros do not need to be defined as any value; the source code only checks whether or not they are defined.
+Except for :c:macro:`Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as any value; the source code only checks whether or not they are defined.

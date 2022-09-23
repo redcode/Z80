@@ -15,10 +15,10 @@ Changes:
 4. Switched the build system from Premake to CMake.
 5. Switched to Zeta v0.1.
 6. Added pkg-config support.
-7. Added the ``.vimrc`` dotfile.
-8. Added the ``CITATION.cff`` file.
-9. Added the ``file_id.diz`` file.
-10. Added the ``THANKS`` file.
+7. Added the :file:`.vimrc` dotfile.
+8. Added the :file:`CITATION.cff` file.
+9. Added the :file:`file_id.diz` file.
+10. Added the :file:`THANKS` file.
 11. Added detailed documentation.
 12. Added tests.
 13. Added public macros for checking the library version.

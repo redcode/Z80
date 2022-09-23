@@ -75,13 +75,13 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 .. option:: -DZ80_OBJECT_LIBS=(YES|NO)
 
 	Build the emulator as an `object library <https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#object-libraries>`_. |br| |nl|
-	This option takes precedence over ``BUILD_SHARED_LIBS`` and ``Z80_SHARED_LIBS``. If enabled, the build system will ignore ``Z80_WITH_CMAKE_SUPPORT`` and ``Z80_WITH_PKGCONFIG_SUPPORT``, as no libraries or support files will be installed. |br| |nl|
+	This option takes precedence over :option:`BUILD_SHARED_LIBS<-DBUILD_SHARED_LIBS>` and :option:`Z80_SHARED_LIBS<-DZ80_SHARED_LIBS>`. If enabled, the build system will ignore :option:`Z80_WITH_CMAKE_SUPPORT<-DZ80_WITH_CMAKE_SUPPORT>` and :option:`Z80_WITH_PKGCONFIG_SUPPORT<-DZ80_WITH_PKGCONFIG_SUPPORT>`, as no libraries or support files will be installed. |br| |nl|
 	The default is ``NO``.
 
 .. option:: -DZ80_SHARED_LIBS=(YES|NO)
 
 	Build the emulator as a shared library, rather than static. |br| |nl|
-	This option takes precedence over ``BUILD_SHARED_LIBS``. |br| |nl|
+	This option takes precedence over :option:`BUILD_SHARED_LIBS<-DBUILD_SHARED_LIBS>`. |br| |nl|
 	Not defined by default.
 
 .. option:: -DZ80_SPHINX_HTML_THEME="[<name>]"
