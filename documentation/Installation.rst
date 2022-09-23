@@ -113,7 +113,7 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 
 .. option:: -DZ80_WITH_STANDARD_DOCUMENTS=(YES|NO)
 
-	Install the standard text documents distributed with the package: ``AUTHORS``, ``COPYING``, ``COPYING.LESSER``, ``HISTORY``, ``README`` and ``THANKS``. |br| |nl|
+	Install the standard text documents distributed with the package: :file:`AUTHORS`, :file:`COPYING`, :file:`COPYING.LESSER`, :file:`HISTORY`, :file:`README` and :file:`THANKS`. |br| |nl|
 	The default is ``NO``.
 
 .. option:: -DZ80_WITH_TESTS=(YES|NO)
