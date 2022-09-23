@@ -389,99 +389,99 @@ cmake -LAH
 
 If in doubt, read the [CMake documentation](https://cmake.org/documentation/) for more information on configuration options. The following are some of the most relevant standard options of CMake:
 
-* <span id="option_build_shared_libs">**<code>-D[BUILD_SHARED_LIBS](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html)=(YES|NO)</code>**</span>  
+* <span id="option_BUILD_SHARED_LIBS">**<code>-D[BUILD_SHARED_LIBS](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html)=(YES|NO)</code>**</span>  
 	Build the emulator as a shared library, rather than static.  
 	The default is `NO`.
 
-* <span id="option_cmake_build_type">**<code>-D[CMAKE_BUILD_TYPE](https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html)=(Debug|Release|RelWithDebInfo|MinSizeRel)</code>**</span>  
+* <span id="option_CMAKE_BUILD_TYPE">**<code>-D[CMAKE_BUILD_TYPE](https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html)=(Debug|Release|RelWithDebInfo|MinSizeRel)</code>**</span>  
 	Choose the type of build (configuration) to generate.  
 	The default is `Release`.
 
-* <span id="option_cmake_install_prefix">**<code>-D[CMAKE_INSTALL_PREFIX](https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html)="\<path\>"</code>**</span>  
+* <span id="option_CMAKE_INSTALL_PREFIX">**<code>-D[CMAKE_INSTALL_PREFIX](https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html)="\<path\>"</code>**</span>  
 	Specify the installation prefix on [UNIX](https://en.wikipedia.org/wiki/Unix) and [UNIX-like](https://en.wikipedia.org/wiki/Unix-like) operating systems.  
 	The default is `"/usr/local"`.
 
 Package-specific options are prefixed with `Z80_` and can be divided into two groups. The first one controls aspects not related to the source code of the library:
 
-* <span id="option_z80_download_test_files">**`-DZ80_DOWNLOAD_TEST_FILES=(YES|NO)`**</span>  
+* <span id="option_Z80_DOWNLOAD_TEST_FILES">**`-DZ80_DOWNLOAD_TEST_FILES=(YES|NO)`**</span>  
 	Download the firmware and software used by the testing tool.  
 	The default is `NO`.
 
-* <span id="option_z80_install_cmakedir">**`-DZ80_INSTALL_CMAKEDIR="<path>"`**</span>  
+* <span id="option_Z80_INSTALL_CMAKEDIR">**`-DZ80_INSTALL_CMAKEDIR="<path>"`**</span>  
 	Specify the directory in which to install the CMake [config-file package](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages).  
 	The default is <code>"${[CMAKE_INSTALL_LIBDIR](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)}/cmake/Z80"</code>.
 
-* <span id="option_z80_install_pkgconfigdir">**`-DZ80_INSTALL_PKGCONFIGDIR="<path>"`**</span>  
+* <span id="option_Z80_INSTALL_PKGCONFIGDIR">**`-DZ80_INSTALL_PKGCONFIGDIR="<path>"`**</span>  
 	Specify the directory in which to install the [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config) [file](https://people.freedesktop.org/~dbn/pkg-config-guide.html).  
 	The default is <code>"${[CMAKE_INSTALL_LIBDIR](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)}/pkgconfig"</code>.
 
-* <span id="option_z80_nostdlib_flags">**`-DZ80_NOSTDLIB_FLAGS=(Auto|[<flag>[;<flag>...]])`**</span>  
+* <span id="option_Z80_NOSTDLIB_FLAGS">**`-DZ80_NOSTDLIB_FLAGS=(Auto|[<flag>[;<flag>...]])`**</span>  
 	Specify the linker flags used to avoid linking against system libraries.  
 	The default is `Auto` (autoconfigure flags). If you get linker errors, set this option to `""`.
 
-* <span id="option_z80_object_libs">**`-DZ80_OBJECT_LIBS=(YES|NO)`**</span>  
+* <span id="option_Z80_OBJECT_LIBS">**`-DZ80_OBJECT_LIBS=(YES|NO)`**</span>  
 	Build the emulator as an [object library](https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#object-libraries).  
-	This option takes precedence over [`BUILD_SHARED_LIBS`](#option_build_shared_libs) and [`Z80_SHARED_LIBS`](#option_z80_shared_libs). If enabled, the build system will ignore [`Z80_WITH_CMAKE_SUPPORT`](#option_z80_with_cmake_support) and [`Z80_WITH_PKGCONFIG_SUPPORT`](#option_z80_with_pkgconfig_support), as no libraries or support files will be installed.  
+	This option takes precedence over [`BUILD_SHARED_LIBS`](#option_BUILD_SHARED_LIBS) and [`Z80_SHARED_LIBS`](#option_Z80_SHARED_LIBS). If enabled, the build system will ignore [`Z80_WITH_CMAKE_SUPPORT`](#option_Z80_WITH_CMAKE_SUPPORT) and [`Z80_WITH_PKGCONFIG_SUPPORT`](#option_Z80_WITH_PKGCONFIG_SUPPORT), as no libraries or support files will be installed.  
 	The default is `NO`.
 
-* <span id="option_z80_shared_libs">**`-DZ80_SHARED_LIBS=(YES|NO)`**</span>  
+* <span id="option_Z80_SHARED_LIBS">**`-DZ80_SHARED_LIBS=(YES|NO)`**</span>  
 	Build the emulator as a shared library, rather than static.  
-	This option takes precedence over [`BUILD_SHARED_LIBS`](#option_build_shared_libs).  
+	This option takes precedence over [`BUILD_SHARED_LIBS`](#option_BUILD_SHARED_LIBS).  
 	Not defined by default.
 
-* <span id="option_z80_sphinx_html_theme">**`-DZ80_SPHINX_HTML_THEME="[<name>]"`**</span>  
+* <span id="option_Z80_SPHINX_HTML_THEME">**`-DZ80_SPHINX_HTML_THEME="[<name>]"`**</span>  
 	Specify the Sphinx theme for the documentation in HTML format.  
 	The default is `""` (use the default theme).
 
-* <span id="option_z80_with_cmake_support">**`-DZ80_WITH_CMAKE_SUPPORT=(YES|NO)`**</span>  
+* <span id="option_Z80_WITH_CMAKE_SUPPORT">**`-DZ80_WITH_CMAKE_SUPPORT=(YES|NO)`**</span>  
 	Generate and install the CMake [config-file package](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages).  
 	The default is `NO`.
 
-* <span id="option_z80_with_html_documentation">**`-DZ80_WITH_HTML_DOCUMENTATION=(YES|NO)`**</span>  
+* <span id="option_Z80_WITH_HTML_DOCUMENTATION">**`-DZ80_WITH_HTML_DOCUMENTATION=(YES|NO)`**</span>  
 	Build and install the documentation in HTML format.  
 	It requires Doxygen, Sphinx and Breathe.  
 	The default is `NO`.
 
-* <span id="option_z80_with_pdf_documentation">**`-DZ80_WITH_PDF_DOCUMENTATION=(YES|NO)`**</span>  
+* <span id="option_Z80_WITH_PDF_DOCUMENTATION">**`-DZ80_WITH_PDF_DOCUMENTATION=(YES|NO)`**</span>  
 	Build and install the documentation in PDF format.  
 	It requires Doxygen, Sphinx, Breathe and LaTeX with PDF support.  
 	The default is `NO`.
 
-* <span id="option_z80_with_pkgconfig_support">**`-DZ80_WITH_PKGCONFIG_SUPPORT=(YES|NO)`**</span>  
+* <span id="option_Z80_WITH_PKGCONFIG_SUPPORT">**`-DZ80_WITH_PKGCONFIG_SUPPORT=(YES|NO)`**</span>  
 	Generate and install the [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config) [file](https://people.freedesktop.org/~dbn/pkg-config-guide.html).  
 	The default is `NO`.
 
-* <span id="option_z80_with_standard_documents">**`-DZ80_WITH_STANDARD_DOCUMENTS=(YES|NO)`**</span>  
+* <span id="option_Z80_WITH_STANDARD_DOCUMENTS">**`-DZ80_WITH_STANDARD_DOCUMENTS=(YES|NO)`**</span>  
 	Install the standard text documents distributed with the package: `AUTHORS`, `COPYING`, `COPYING.LESSER`, `HISTORY`, `README` and `THANKS`.  
 	The default is `NO`.
 
-* <span id="option_z80_with_tests">**`-DZ80_WITH_TESTS=(YES|NO)`**</span>  
+* <span id="option_Z80_WITH_TESTS">**`-DZ80_WITH_TESTS=(YES|NO)`**</span>  
 	Build the testing tool.  
 	The default is `NO`.
 
 <span id="cmake_source_code_options">The second group of package-specific options</span> configures the source code of the library by predefining macros that enable optional implementations:
 
-* <span id="option_z80_with_execute">**`-DZ80_WITH_EXECUTE=(YES|NO)`**</span>  
+* <span id="option_Z80_WITH_EXECUTE">**`-DZ80_WITH_EXECUTE=(YES|NO)`**</span>  
 	Build the implementation of the `z80_execute` function.  
 	The default is `NO`.
 
-* <span id="option_z80_with_full_im0">**`-DZ80_WITH_FULL_IM0=(YES|NO)`**</span>  
+* <span id="option_Z80_WITH_FULL_IM0">**`-DZ80_WITH_FULL_IM0=(YES|NO)`**</span>  
 	Build the full implementation of the interrupt mode 0 rather than the reduced one.  
 	The default is `NO`.
 
-* <span id="option_z80_with_q">**`-DZ80_WITH_Q=(YES|NO)`**</span>  
+* <span id="option_Z80_WITH_Q">**`-DZ80_WITH_Q=(YES|NO)`**</span>  
 	Build the implementation of the [Q "register"](https://worldofspectrum.org/forums/discussion/41704).  
 	The default is `NO`.
 
-* <span id="option_z80_with_special_reset">**`-DZ80_WITH_SPECIAL_RESET=(YES|NO)`**</span>  
+* <span id="option_Z80_WITH_SPECIAL_RESET">**`-DZ80_WITH_SPECIAL_RESET=(YES|NO)`**</span>  
 	Build the implementation of the [special RESET](http://www.primrosebank.net/computers/z80/z80_special_reset.htm).  
 	The default is `NO`.
 
-* <span id="option_z80_with_unofficial_reti">**`-DZ80_WITH_UNOFFICIAL_RETI=(YES|NO)`**</span>  
+* <span id="option_Z80_WITH_UNOFFICIAL_RETI">**`-DZ80_WITH_UNOFFICIAL_RETI=(YES|NO)`**</span>  
         Configure the `ED5Dh`, `ED6Dh` and `ED7Dh` undocumented instructions as `reti` instead of `retn`.  
         The default is `NO`.
 
-* <span id="option_z80_with_zilog_nmos_ld_a_ir_bug">**`-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=(YES|NO)`**</span>  
+* <span id="option_Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG">**`-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=(YES|NO)`**</span>  
 	Build the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the `ld a,{i|r}` instructions.  
 	The default is `NO`.
 
@@ -503,7 +503,7 @@ make install/strip
 
 # Running the tests
 
-The package includes a tool called `test-Z80` capable of running all [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of [the major test suites](#major_test_suites). Configure the build system with <code>-D[Z80_WITH_TESTS](#option_z80_with_tests)=YES</code> to enable its compilation and <code>-D[Z80_DOWNLOAD_TEST_FILES](#option_z80_download_test_files)=YES</code> to download the firmware and software required. Also note that the Z80 library must be built with <code>-D[Z80_WITH_Q](#option_z80_with_q)=YES</code> to be able to pass Patrik Rak's tests.
+The package includes a tool called `test-Z80` capable of running all [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of [the major test suites](#major_test_suites). Configure the build system with <code>-D[Z80_WITH_TESTS](#option_Z80_WITH_TESTS)=YES</code> to enable its compilation and <code>-D[Z80_DOWNLOAD_TEST_FILES](#option_Z80_DOWNLOAD_TEST_FILES)=YES</code> to download the firmware and software required. Also note that the Z80 library must be built with <code>-D[Z80_WITH_Q](#option_Z80_WITH_Q)=YES</code> to be able to pass Patrik Rak's tests.
 
 Once you have built the package, type the following to run all tests:
 ```shell
@@ -525,7 +525,7 @@ The CRC errors in the latter two are normal and match the values obtained on rea
 
 ### As an external dependency in CMake-based projects
 
-The Z80 library [includes](#option_z80_with_cmake_support) a [config-file package](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages) for integration into CMake-based projects, which should be installed for development. Use [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) to find the `Z80` package. This creates the `Z80` imported library target that carries the necessary transitive link dependencies. The linking method can optionally be selected by specifying the `Shared` or the `Static` component.
+The Z80 library [includes](#option_Z80_WITH_CMAKE_SUPPORT) a [config-file package](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages) for integration into CMake-based projects, which should be installed for development. Use [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) to find the `Z80` package. This creates the `Z80` imported library target that carries the necessary transitive link dependencies. The linking method can optionally be selected by specifying the `Shared` or the `Static` component.
 
 Example:
 
@@ -534,7 +534,7 @@ find_package(Z80 REQUIRED Shared)
 target_link_libraries(your-target Z80)
 ```
 
-When not specified as a component, the linking method is selected according to [`Z80_SHARED_LIBS`](#option_z80_shared_libs). If this option is not defined, the config-file uses the type of library that is installed on the system and, if it finds both the shared and the static versions, [`BUILD_SHARED_LIBS`](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html) determines which one to link against.
+When not specified as a component, the linking method is selected according to [`Z80_SHARED_LIBS`](#option_Z80_SHARED_LIBS). If this option is not defined, the config-file uses the type of library that is installed on the system and, if it finds both the shared and the static versions, [`BUILD_SHARED_LIBS`](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html) determines which one to link against.
 
 ### As a CMake subproject
 
@@ -553,7 +553,7 @@ add_subdirectory(dependencies/Z80)
 target_link_libraries(your-target Z80)
 ```
 
-It is important to set the [`Z80_SHARED_LIBS`](#option_z80_shared_libs) option. Otherwise CMake will build the library type indicated by [`BUILD_SHARED_LIBS`](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html), which may not be the desired one.
+It is important to set the [`Z80_SHARED_LIBS`](#option_Z80_SHARED_LIBS) option. Otherwise CMake will build the library type indicated by [`BUILD_SHARED_LIBS`](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html), which may not be the desired one.
 
 ### Integrating the source code
 
@@ -572,12 +572,12 @@ There are several macros that can be used to configure the source code of the li
 
 [The second group of package-specific options](#cmake_source_code_options), explained in the _[Installation from sources](#installation-from-sources)_ section of this document, activates various optional implementations in the source code by predefining the following macros:
 
-* **<code>#define [Z80_WITH_EXECUTE](#option_z80_with_execute)</code>**
-* **<code>#define [Z80_WITH_FULL_IM0](#option_z80_with_full_im0)</code>**
-* **<code>#define [Z80_WITH_Q](#option_z80_with_q)</code>**
-* **<code>#define [Z80_WITH_SPECIAL_RESET](#option_z80_with_special_reset)</code>**
-* **<code>#define [Z80_WITH_UNOFFICIAL_RETI](#option_z80_with_unofficial_reti)</code>**
-* **<code>#define [Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG](#option_z80_with_zilog_nmos_ld_a_ir_bug)</code>**
+* **<code>#define [Z80_WITH_EXECUTE](#option_Z80_WITH_EXECUTE)</code>**
+* **<code>#define [Z80_WITH_FULL_IM0](#option_Z80_WITH_FULL_IM0)</code>**
+* **<code>#define [Z80_WITH_Q](#option_Z80_WITH_Q)</code>**
+* **<code>#define [Z80_WITH_SPECIAL_RESET](#option_Z80_WITH_SPECIAL_RESET)</code>**
+* **<code>#define [Z80_WITH_UNOFFICIAL_RETI](#option_Z80_WITH_UNOFFICIAL_RETI)</code>**
+* **<code>#define [Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG](#option_Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG)</code>**
 
 Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as any value; the source code only checks whether or not they are defined.
 
