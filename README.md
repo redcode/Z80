@@ -572,12 +572,12 @@ There are several macros that can be used to configure the source code of the li
 
 [The second group of package-specific options](#cmake_source_code_options), explained in the _[Installation from sources](#installation-from-sources)_ section of this document, activates various optional implementations in the source code by predefining the following macros:
 
-* **[`#define Z80_WITH_EXECUTE`](#option_z80_with_execute)**
-* **[`#define Z80_WITH_FULL_IM0`](#option_z80_with_full_im0)**
-* **[`#define Z80_WITH_Q`](#option_z80_with_q)**
-* **[`#define Z80_WITH_SPECIAL_RESET`](#option_z80_with_special_reset)**
-* **[`#define Z80_WITH_UNOFFICIAL_RETI`](#option_z80_with_unofficial_reti)**
-* **[`#define Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG`](#option_z80_with_zilog_nmos_ld_a_ir_bug)**
+* **<code>#define [Z80_WITH_EXECUTE](#option_z80_with_execute)</code>**
+* **<code>#define [Z80_WITH_FULL_IM0](#option_z80_with_full_im0)</code>**
+* **<code>#define [Z80_WITH_Q](#option_z80_with_q)</code>**
+* **<code>#define [Z80_WITH_SPECIAL_RESET](#option_z80_with_special_reset)</code>**
+* **<code>#define [Z80_WITH_UNOFFICIAL_RETI](#option_z80_with_unofficial_reti)</code>**
+* **<code>#define [Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG](#option_z80_with_zilog_nmos_ld_a_ir_bug)</code>**
 
 Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as any value; the source code only checks whether or not they are defined.
 
