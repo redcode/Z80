@@ -4,15 +4,15 @@ Integration
 
 .. only:: html
 
-	.. |br| raw:: html
+   .. |br| raw:: html
 
-		<br />
+      <br />
 
 .. only:: latex
 
-	.. |nl| raw:: latex
+   .. |nl| raw:: latex
 
-		\newline
+      \newline
 
 As an external dependency in CMake-based projects
 -------------------------------------------------
@@ -23,8 +23,8 @@ Example:
 
 .. code-block:: cmake
 
-	find_package(Z80 REQUIRED Shared)
-	target_link_libraries(your-target Z80)
+   find_package(Z80 REQUIRED Shared)
+   target_link_libraries(your-target Z80)
 
 When not specified as a component, the linking method is selected according to ``Z80_SHARED_LIBS``. If this option is not defined, the config-file uses the type of library that is installed on the system and, if it finds both the shared and the static versions, ``BUILD_SHARED_LIBS`` determines which one to link against.
 
@@ -39,12 +39,12 @@ Example:
 
 .. code-block:: cmake
 
-	set(Z80_SHARED_LIBS                 NO  CACHE BOOL "")
-	set(Z80_WITH_Q                      YES CACHE BOOL "")
-	set(Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG YES CACHE BOOL "")
+   set(Z80_SHARED_LIBS                 NO  CACHE BOOL "")
+   set(Z80_WITH_Q                      YES CACHE BOOL "")
+   set(Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG YES CACHE BOOL "")
 
-	add_subdirectory(dependencies/Z80)
-	target_link_libraries(your-target Z80)
+   add_subdirectory(dependencies/Z80)
+   target_link_libraries(your-target Z80)
 
 It is important to set the ``Z80_SHARED_LIBS`` option. Otherwise CMake will build the library type indicated by ``BUILD_SHARED_LIBS``, which may not be the desired one.
 
@@ -55,17 +55,17 @@ There are several macros that can be used to configure the source code of the li
 
 .. c:macro:: Z80_DEPENDENCIES_HEADER
 
-	Specifies the only external header to ``#include``, replacing those of Zeta. |br| |nl|
-	If used, it must also be defined before including the :file:`Z80.h` header.
+   Specifies the only external header to ``#include``, replacing those of Zeta. |br| |nl|
+   If used, it must also be defined before including the :file:`Z80.h` header.
 
 .. c:macro:: Z80_STATIC
 
-	Required to compile and/or use the emulator as a static library or as an internal part of another project. |br| |nl|
-	If used, it must also be defined before including the :file:`Z80.h` header.
+   Required to compile and/or use the emulator as a static library or as an internal part of another project. |br| |nl|
+   If used, it must also be defined before including the :file:`Z80.h` header.
 
 .. c:macro:: Z80_WITH_LOCAL_HEADER
 
-	Tells :file:`Z80.c` to ``#include "Z80.h"`` instead of ``<Z80.h>``.
+   Tells :file:`Z80.c` to ``#include "Z80.h"`` instead of ``<Z80.h>``.
 
 The second group of package-specific options, explained in the :doc:`Installation` section of this document, activates various optional implementations in the source code by predefining the following macros:
 

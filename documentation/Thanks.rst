@@ -4,23 +4,23 @@ Thanks
 
 .. only:: html
 
-	.. |re| raw:: html
+   .. |re| raw:: html
 
-		<sup>
+      <sup>
 
-	.. |ren| raw:: html
+   .. |ren| raw:: html
 
-		</sup>
+      </sup>
 
 .. only:: latex
 
-	.. |fe| raw:: latex
+   .. |fe| raw:: latex
 
-		\textsuperscript{
+      \textsuperscript{
 
-	.. |ces| raw:: latex
+   .. |ces| raw:: latex
 
-		}
+      }
 
 
 Many thanks to the following individuals (in alphabetical order):
