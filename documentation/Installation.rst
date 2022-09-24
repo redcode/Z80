@@ -125,7 +125,7 @@ The second group of package-specific options configures the source code of the l
 
 .. option:: -DZ80_WITH_EXECUTE=(YES|NO)
 
-   Build the implementation of the ``z80_execute`` function. |br| |nl|
+   Build the implementation of the :c:func:`z80_execute` function. |br| |nl|
    The default is ``NO``.
 
 .. option:: -DZ80_WITH_FULL_IM0=(YES|NO)

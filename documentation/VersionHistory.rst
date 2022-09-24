@@ -1,5 +1,5 @@
 ===============
-Version History
+Version history
 ===============
 
 v0.2 (2022-XX-XX)
@@ -12,8 +12,8 @@ Changes:
 1. Changed the license from GPL to LGPL (by popular request).
 2. Moved the public header from ``<emulation/CPU/Z80.h>`` to ``<Z80.h>``.
 3. Removed the Xcode project.
-4. Switched the build system from Premake to CMake.
-5. Switched to Zeta v0.1.
+4. Switched the build system from Premake to `CMake <https://cmake.org>`_.
+5. Switched to `Zeta <https://zeta.st>`_ v0.1.
 6. Added pkg-config support.
 7. Added the :file:`.vimrc` dotfile.
 8. Added the :file:`CITATION.cff` file.
@@ -24,9 +24,9 @@ Changes:
 13. Added public macros for checking the library version.
 14. Added public macros with bit masks for working with flags.
 15. Added public macros for accessing the 16-bit registers.
-16. Added the ``z80_execute`` function for running a simplified emulation without RESET and interrupts.
-17. Added the ``z80_refresh_address`` function for getting the refresh address of the current M1 cycle.
-18. Added the ``z80_in_cycle`` and ``z80_out_cycle`` functions for obtaining the clock cycle at which the I/O M-cycle begins, relative to the start of the instruction.
+16. Added the :c:func:`z80_execute` function for running a simplified emulation without RESET and interrupts.
+17. Added the :c:func:`z80_refresh_address` function for getting the refresh address of the current M1 cycle.
+18. Added the :c:func:`z80_in_cycle` and :c:func:`z80_out_cycle` functions for obtaining the clock cycle at which the I/O M-cycle begins, relative to the start of the instruction.
 19. Fixed a bug in the ``sll`` instruction.
 20. Fixed a bug in the ``INX`` and ``OUTX`` macros affecting the S and N flags.
 21. Fixed a bug in the ``OUTX`` macro affecting the MSByte of the port number.
@@ -42,16 +42,16 @@ Changes:
 31. Replaced all register resolution functions with macros.
 32. Replaced all ``ld {J,K|O,P}`` instructions that have the same destination and source register with NOPs. In addition, the "illegal" forms of the ``ld O,P``, ``ld O,BYTE``, ``U [a,]P`` and ``V O`` instructions are now executed without using the illegal instruction handler.
 33. Reimplemented the HALT state. The emulation should now be fully accurate. HALTskip is also supported.
-34. Renamed the ``z80_reset`` function to ``z80_instant_reset``.
-35. Added optional emulation of the special RESET, along with the new ``z80_special_reset`` function.
-36. Added the ``Z80::fetch_opcode`` and ``Z80::fetch`` callbacks for performing opcode fetch operations and memory read operations on instruction data respectively.
-37. Added the ``Z80::nop`` callback for performing disregarded opcode fetch operations during internal NOP M-cycles.
-38. Added emulation of the NMI acknowledge M-cycle through the new ``Z80::nmia`` callback.
-39. Added emulation of the INT acknowledge M-cycle through the new ``Z80::inta`` callback, which replaces ``Z80::int_data``.
-40. Added optional full emulation of the interrupt mode 0, along with the new ``Z80::int_fetch`` callback for performing bus read operations on instruction data. If not enabled at compile-time, the old simplified emulation is built, which supports only the most typical instructions.
-41. Added four callbacks for notifying the execution of important instructions: ``Z80::ld_i_a``, ``Z80::ld_r_a``, ``Z80::reti`` and ``Z80::retn``.
-42. Added hooking functionality through the ``ld h,h`` instruction and the new ``Z80::hook`` callback.
-43. Added the ``Z80::illegal`` callback for delegating the emulation of illegal instructions.
+34. Renamed the ``z80_reset`` function to :c:func:`z80_instant_reset`.
+35. Added optional emulation of the special RESET, along with the new :c:func:`z80_special_reset` function.
+36. Added the :c:data:`Z80::fetch_opcode<Z80.fetch_opcode>` and :c:data:`Z80::fetch<Z80.fetch>` callbacks for performing opcode fetch operations and memory read operations on instruction data respectively.
+37. Added the :c:data:`Z80::nop<Z80.nop>` callback for performing disregarded opcode fetch operations during internal NOP M-cycles.
+38. Added emulation of the NMI acknowledge M-cycle through the new :c:data:`Z80::nmia<Z80.nmia>` callback.
+39. Added emulation of the INT acknowledge M-cycle through the new :c:data:`Z80::inta<Z80.inta>` callback, which replaces ``Z80::int_data``.
+40. Added optional full emulation of the interrupt mode 0, along with the new :c:data:`Z80::int_fetch<Z80.int_fetch>` callback for performing bus read operations on instruction data. If not enabled at compile-time, the old simplified emulation is built, which supports only the most typical instructions.
+41. Added four callbacks for notifying the execution of important instructions: :c:data:`Z80::ld_i_a<Z80.ld_i_a>`, :c:data:`Z80::ld_r_a<Z80.ld_r_a>`, :c:data:`Z80::reti<Z80.reti>` and :c:data:`Z80::retn<Z80.retn>`.
+42. Added hooking functionality through the ``ld h,h`` instruction and the new :c:data:`Z80::hook<Z80.hook>` callback.
+43. Added the :c:data:`Z80::illegal<Z80.illegal>` callback for delegating the emulation of illegal instructions.
 44. Added accurate flag behavior in the following instructions: ``ldir``, ``lddr``, ``cpir``, ``cpdr``, ``inir``, ``indr``, ``otir`` and ``otdr``.
 45. Added emulation of the interrupt acceptance deferral that occurs during the ``reti`` and ``retn`` instructions.
 46. Added MEMPTR emulation. The ``bit N,(hl)`` instruction now produces a correct value of F.
@@ -61,7 +61,7 @@ Changes:
 50. Added optional emulation of the bug affecting the ``ld a,{i|r}`` instructions (Zilog Z80 NMOS). If enabled at compile-time, the P/V flag is reset when an INT is accepted during the execution of these instructions.
 51. Increased granularity. The emulator can now stop directly after fetching a ``DDh`` or ``FDh`` prefix if it runs out of clock cycles. This also works during the INT response in mode 0.
 52. Removed ``Z80::state``. Replaced with individual members for the registers, the interrupt enable flip-flops and the interrupt mode.
-53. Removed the superfluous EI flag. The previous opcode is checked instead, which is faster and makes the ``Z80`` object smaller.
+53. Removed the superfluous EI flag. The previous opcode is checked instead, which is faster and makes the :c:type:`Z80` object smaller.
 54. Removed all module-related stuff.
 55. Optimizations in flag computation and condition evaluation.
 56. New source code comments and improvements to existing ones.

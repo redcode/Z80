@@ -2147,7 +2147,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #		endif
 		}
 
-	while (self->cycles < cycles) /* Main execution loop. */
+	while (self->cycles < cycles) /* main execution loop */
 		{
 		if (REQUEST)
 			{
@@ -2288,7 +2288,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					REQUEST &= Z80_REQUEST_NMI;
 #				endif
 
-				switch (IM) /* Response */
+				switch (IM) /* response */
 					{
 					/*-------------------------------------------------------------------------.
 					| Interrupt Mode 0: Execute Instruction	     | T-states: 2*n + instruction |
