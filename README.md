@@ -452,7 +452,7 @@ Package-specific options are prefixed with `Z80_` and can be divided into two gr
 	The default is `NO`.
 
 * <span id="option_Z80_WITH_STANDARD_DOCUMENTS">**`-DZ80_WITH_STANDARD_DOCUMENTS=(YES|NO)`**</span>  
-	Install the standard text documents distributed with the package: `AUTHORS`, `COPYING`, `COPYING.LESSER`, `HISTORY`, `README` and `THANKS`.  
+	Install the standard text documents distributed with the package: [`AUTHORS`](AUTHORS), [`COPYING`](COPYING), [`COPYING.LESSER`](COPYING.LESSER), [`HISTORY`](HISTORY), [`README`](README) and [`THANKS`](THANKS).  
 	The default is `NO`.
 
 * <span id="option_Z80_WITH_TESTS">**`-DZ80_WITH_TESTS=(YES|NO)`**</span>  
