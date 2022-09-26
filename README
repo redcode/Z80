@@ -47,9 +47,10 @@ when accuracy is imperative.
 
 Instruction-level granularity means that, except in a few well-defined cases,
 the execution of a given instruction cannot stop until all its internal M-cycles
-are completed. In addition, this kind of emulation has been optimized for speed,
+are processed. In addition, this kind of emulation has been optimized for speed,
 which implies that any pertinent register is modified only once per instruction
-and the T-state counter is updated only after a whole instruction is executed.
+and that the T-state counter is normally updated only after a full instruction
+has been executed.
 
 That said, instructions, flags, memory accesses, interrupt and reset responses,
 clock cycles, etc. are accurately emulated as far as is known, according to the
@@ -313,4 +314,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 --------------------------------------------------------------------------------
-Last update: 2022-09-21                                               README EOF
+Last update: 2022-09-26                                               README EOF
