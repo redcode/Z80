@@ -53,7 +53,7 @@ T-state counter is normally updated only after a full instruction has been
 executed.
 
 That said, instructions, flags, memory accesses, interrupt and reset responses,
-clock cycles, etc. are accurately emulated as far as is known, according to the
+clock cycles, etc., are accurately emulated as far as is known, according to the
 technical documentation available, the findings made after decades of research
 on the Z80 and electronic simulations. And, of course, the emulator passes the
 most exhaustive tests written to date such as Patrik Rak's "Zilog Z80 CPU Test
