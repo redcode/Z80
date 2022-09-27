@@ -14,10 +14,19 @@ Integration
 
       \newline
 
-As an external dependency in CMake-based projects
--------------------------------------------------
+.. |BUILD_SHARED_LIBS| replace:: ``BUILD_SHARED_LIBS``
+.. _BUILD_SHARED_LIBS: https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html
 
-The Z80 library includes a `config-file package <https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages>`_ for integration into CMake-based projects, which should be installed for development. Use ``find_package`` to find the ``Z80`` package. This creates the ``Z80`` imported library target that carries the necessary transitive link dependencies. The linking method can optionally be selected by specifying the ``Shared`` or the ``Static`` component.
+.. |find_package| replace:: ``find_package``
+.. _find_package: https://cmake.org/cmake/help/latest/command/find_package.html
+
+.. |add_subdirectory| replace:: ``add_subdirectory``
+.. _add_subdirectory: https://cmake.org/cmake/help/latest/command/add_subdirectory.html
+
+As an external dependency in CMake-based projects
+=================================================
+
+The Z80 library includes a `config-file package <https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages>`_ for integration into CMake-based projects, which should be installed for development. Use |find_package|_ to find the ``Z80`` package. This creates the ``Z80`` imported library target that carries the necessary transitive link dependencies. The linking method can optionally be selected by specifying the ``Shared`` or the ``Static`` component.
 
 Example:
 
@@ -26,12 +35,12 @@ Example:
    find_package(Z80 REQUIRED Shared)
    target_link_libraries(your-target Z80)
 
-When not specified as a component, the linking method is selected according to ``Z80_SHARED_LIBS``. If this option is not defined, the config-file uses the type of library that is installed on the system and, if it finds both the shared and the static versions, ``BUILD_SHARED_LIBS`` determines which one to link against.
+When not specified as a component, the linking method is selected according to :option:`Z80_SHARED_LIBS<-DZ80_SHARED_LIBS>`. If this option is not defined, the config-file uses the type of library that is installed on the system and, if it finds both the shared and the static versions, |BUILD_SHARED_LIBS|_ determines which one to link against.
 
 As a CMake subproject
----------------------
+=====================
 
-To embed the Z80 library as a CMake subproject, place its entire source tree into a subdirectory of another project and use ``add_subdirectory`` in the parent project to add this subdirectory to the build process.
+To embed the Z80 library as a CMake subproject, place its entire source tree into a subdirectory of another project and use |add_subdirectory|_ in the parent project to add this subdirectory to the build process.
 
 It is advisable to configure the library in the :file:`CMakeLists.txt` of the parent project. This will prevent the user from having to specify configuration options for the Z80 subproject through the command line when building the main project.
 
@@ -46,10 +55,10 @@ Example:
    add_subdirectory(dependencies/Z80)
    target_link_libraries(your-target Z80)
 
-It is important to set the ``Z80_SHARED_LIBS`` option. Otherwise CMake will build the library type indicated by ``BUILD_SHARED_LIBS``, which may not be the desired one.
+It is important to set the :option:`Z80_SHARED_LIBS<-DZ80_SHARED_LIBS>` option. Otherwise CMake will build the library type indicated by |BUILD_SHARED_LIBS|_, which may not be the desired one.
 
 Integrating the source code
----------------------------
+===========================
 
 There are several macros that can be used to configure the source code of the library. You can define those you need in your build system or at the beginning of the :file:`Z80.c` file. The following ones allow you to configure the integration of :file:`Z80.h` and :file:`Z80.c` into the project:
 
