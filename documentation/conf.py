@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Z80'
-copyright = '1999-2022 Manuel Sainz de Baranda y Goñi'
-author = 'Manuel Sainz de Baranda y Goñi'
+copyright = u'1999-2022 Manuel Sainz de Baranda y Goñi'
+author = u'Manuel Sainz de Baranda y Goñi'
 
 
 # -- General configuration ---------------------------------------------------
@@ -31,7 +31,7 @@ extensions = ['breathe']
 
 # Breathe Configuration.
 breathe_default_project = 'Z80'
-breathe_domain_by_extension = {"h": "c"}
+breathe_domain_by_extension = {'h': 'c'}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
