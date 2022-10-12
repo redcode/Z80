@@ -216,10 +216,10 @@ static void cpu_out(void *context, zuint16 port, zuint8 value)
 	{Z_UNUSED(context) Z_UNUSED(port) Z_UNUSED(value)}
 
 
-static void cpu_halt(void *context, zboolean state)
+static void cpu_halt(void *context, zuint8 state)
 	{
 	Z_UNUSED(context) Z_UNUSED(state)
-	cpu.cycles = Z80_CYCLE_LIMIT;
+	cpu.cycles = Z80_MAXIMUM_CYCLES;
 	test_completed = TRUE;
 	}
 
@@ -601,9 +601,9 @@ static zuint8 run_test(int test_index)
 
 	do
 #	ifdef TEST_Z80_WITH_EXECUTE
-		z80_execute(&cpu, Z80_CYCLE_LIMIT);
+		z80_execute(&cpu, Z80_MAXIMUM_CYCLES);
 #	else
-		z80_run(&cpu, Z80_CYCLE_LIMIT);
+		z80_run(&cpu, Z80_MAXIMUM_CYCLES);
 #	endif
 	while (!test_completed);
 

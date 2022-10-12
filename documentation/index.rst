@@ -3,6 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+======================
 Zilog Z80 CPU Emulator
 ======================
 
@@ -10,6 +11,7 @@ Zilog Z80 CPU Emulator
    :maxdepth: 2
    :caption: Contents:
 
+   Introduction
    EmulationAccuracy
    Installation
    Integration
@@ -24,4 +26,3 @@ Indices and tables
 
 * :ref:`genindex`
 * :ref:`search`
-

@@ -2,12 +2,14 @@
 Version history
 ===============
 
-v0.2 (2022-XX-XX)
-=================
+v0.2
+====
+
+*Released on 2022-12-xx*
 
 This is an important update that addresses a number of issues and also includes new features. Please note that the changes introduced in this release break the binary compatibility with the previous version.
 
-Changes:
+**Changes:**
 
 1. Changed the license from GPL to LGPL (by popular request).
 2. Moved the public header from ``<emulation/CPU/Z80.h>`` to ``<Z80.h>``.
@@ -68,7 +70,9 @@ Changes:
 57. Improved code aesthetics.
 58. Other improvements, optimizations and minor changes.
 
-v0.1 (2018-11-10)
-=================
+v0.1
+====
+
+*Released on 2018-11-10*
 
 Initial public release.
