@@ -503,7 +503,7 @@ make install/strip
 
 # Running the tests
 
-The package includes a tool called `test-Z80` capable of running all [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of [the major test suites](#major_test_suites). Configure the build system with <code>-D[Z80_WITH_TESTS](#option_Z80_WITH_TESTS)=YES</code> to enable its compilation and <code>-D[Z80_DOWNLOAD_TEST_FILES](#option_Z80_DOWNLOAD_TEST_FILES)=YES</code> to download the firmware and software required. Also note that the Z80 library must be built with <code>-D[Z80_WITH_Q](#option_Z80_WITH_Q)=YES</code> to be able to pass Patrik Rak's tests.
+The package includes a tool called `test-Z80` capable of running the most relevant [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of [the major test suites](#major_test_suites). Configure the build system with <code>-D[Z80_WITH_TESTS](#option_Z80_WITH_TESTS)=YES</code> to enable its compilation and <code>-D[Z80_DOWNLOAD_TEST_FILES](#option_Z80_DOWNLOAD_TEST_FILES)=YES</code> to download the firmware and software required. Also note that the Z80 library must be built with <code>-D[Z80_WITH_Q](#option_Z80_WITH_Q)=YES</code> to be able to pass Patrik Rak's tests.
 
 Once you have built the package, type the following to run all tests:
 ```shell
