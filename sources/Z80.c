@@ -1291,23 +1291,7 @@ INSTRUCTION(scf)
 
 #ifdef Z80_WITH_SPECIAL_RESET
 	static Instruction const instruction_table[256];
-
-
-	static void special_reset_halt_exit(Z80 *self, zuint8 opcode)
-		{
-		HALT_LINE = FALSE;
-
-		if (self->halt != Z_NULL)
-			self->halt(CONTEXT, Z80_HALT_EARLY_EXIT);
-
-		if ((DATA[0] = opcode) != 0x76)
-			{
-			PC--;
-			self->cycles += instruction_table[opcode](self) - 4;
-			}
-		}
 #endif
-
 
 INSTRUCTION(halt)
 	{
@@ -1348,7 +1332,19 @@ INSTRUCTION(halt)
 					RESUME = FALSE;
 
 					if (REQUEST & Z80_REQUEST_SPECIAL_RESET)
-						special_reset_halt_exit(self, opcode);
+						{
+						HALT_LINE = FALSE;
+
+						if (self->halt != Z_NULL)
+							self->halt(CONTEXT, Z80_HALT_EARLY_EXIT);
+
+						if ((DATA[0] = opcode) != 0x76)
+							{
+							self->cycles -= 4;
+							PC--;
+							return instruction_table[opcode](self);
+							}
+						}
 
 					return 0;
 					}
@@ -2168,8 +2164,24 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			RESUME = FALSE;
 
 #			ifdef Z80_WITH_SPECIAL_RESET
-				if (REQUEST & Z80_REQUEST_SPECIAL_RESET)
-					special_reset_halt_exit(self, DATA[2]);
+				if ((REQUEST & Z80_REQUEST_SPECIAL_RESET) && HALT_LINE)
+					{
+					zuint8 opcode = DATA[2];
+
+					HALT_LINE = FALSE;
+
+					if (self->halt != Z_NULL)
+						self->halt(CONTEXT, Z80_HALT_EARLY_EXIT);
+
+					if (IS_XY_PREFIX(DATA[0] = opcode))
+						self->cycles += instruction_table[FETCH_OPCODE(PC)](self);
+
+					if (opcode != 0x76)
+						{
+						PC--;
+						self->cycles += instruction_table[opcode](self) - 4;
+						}
+					}
 #			endif
 			}
 
