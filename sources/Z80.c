@@ -2176,7 +2176,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					if (IS_XY_PREFIX(DATA[0] = opcode))
 						self->cycles += instruction_table[FETCH_OPCODE(PC)](self);
 
-					if (opcode != 0x76)
+					else if (opcode != 0x76)
 						{
 						PC--;
 						self->cycles += instruction_table[opcode](self) - 4;
