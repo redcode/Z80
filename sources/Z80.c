@@ -2166,14 +2166,14 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #			ifdef Z80_WITH_SPECIAL_RESET
 				if ((REQUEST & Z80_REQUEST_SPECIAL_RESET) && HALT_LINE)
 					{
-					zuint8 opcode = DATA[2];
+					zuint8 opcode;
 
 					HALT_LINE = FALSE;
 
 					if (self->halt != Z_NULL)
 						self->halt(CONTEXT, Z80_HALT_EARLY_EXIT);
 
-					if (IS_XY_PREFIX(DATA[0] = opcode))
+					if (IS_XY_PREFIX(DATA[0] = opcode = DATA[2]))
 						self->cycles += instruction_table[FETCH_OPCODE(PC)](self);
 
 					else if (opcode != 0x76)
