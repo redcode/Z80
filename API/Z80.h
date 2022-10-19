@@ -76,8 +76,8 @@
 #define Z80_NF   2 /**< @brief Bitmask of the Z80 N flag.   */
 #define Z80_CF   1 /**< @brief Bitmask of the Z80 C flag.   */
 
-/** @brief Opcode interpreted as a hook by the Z80 library, which
-  * corresponds to the <tt>ld h,h</tt> instruction of the Z80 ISA. */
+/** @brief Opcode interpreted as a hook by the Z80 library. It corresponds to
+  * the <tt>ld h,h</tt> instruction of the Z80 ISA. */
 
 #define Z80_HOOK Z_UINT8(0x64)
 
@@ -87,7 +87,7 @@
 #define Z80_MAXIMUM_CYCLES (Z_USIZE_MAXIMUM - Z_USIZE(30))
 
 /** @brief Maximum number of clock cycles that <tt>@ref z80_run</tt> emulates
-  * when its @c cycles parameter is @c 1. */
+  * when instructed to execute 1 clock cycle. */
 
 #define Z80_MAXIMUM_CYCLES_PER_STEP 23
 

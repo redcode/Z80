@@ -79,10 +79,27 @@ There are several macros that can be used to configure the source code of the li
 The second group of package-specific options, explained in the :doc:`Installation` section of this document, activates various optional implementations in the source code by predefining the following macros:
 
 .. c:macro:: Z80_WITH_EXECUTE
+
+   Enables the implementation of the :c:func:`z80_execute` function.
+
 .. c:macro:: Z80_WITH_FULL_IM0
+
+   Enables the full implementation of the interrupt mode 0.
+
 .. c:macro:: Z80_WITH_Q
+
+   Enables the implementation of the `Q "register" <https://worldofspectrum.org/forums/discussion/41704>`_.
+
 .. c:macro:: Z80_WITH_SPECIAL_RESET
+
+   Enables the implementation of the `special RESET <http://www.primrosebank.net/computers/z80/z80_special_reset.htm>`_.
+
 .. c:macro:: Z80_WITH_UNOFFICIAL_RETI
+
+   Configures the ``ED5Dh``, ``ED6Dh`` and ``ED7Dh`` undocumented instructions as ``reti`` instead of ``retn``.
+
 .. c:macro:: Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
+
+   Enables the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the ``ld a,{i|r}`` instructions.
 
 Except for :c:macro:`Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as any value; the source code only checks whether or not they are defined.
