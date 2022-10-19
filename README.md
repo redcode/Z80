@@ -581,7 +581,7 @@ There are several macros that can be used to configure the source code of the li
 
 Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as any value; the source code only checks whether or not they are defined.
 
-> **Note**: The activation of some of the optional implementations affects the speed of the emulator due to various factors (read the [documentation](https://zxe.io/software/Z80/documentation) for more details).
+> **Note**: The activation of some of the optional implementations affects the speed of the emulator due to various factors (read the [documentation](https://zxe.io/software/Z80/documentation/latest) for more details).
 
 # Showcase
 
