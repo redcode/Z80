@@ -123,6 +123,10 @@ Many thanks to the following individuals (in alphabetical order):
 
   * For testing the behavior of the MEMPTR register on real Z80 chips. |re| |fe| :ref:`6<r6>`, :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>` |ren| |ces|
 
+* **ICEknight**
+
+  * For validating tests on real hardware.
+
 * **Kladov, Vladimir**
 
   * For cracking the behavior of the MEMPTR register. |re| |fe| :ref:`6<r6>`, :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>` |ren| |ces|
