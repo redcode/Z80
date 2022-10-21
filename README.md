@@ -654,6 +654,8 @@ Many thanks to the following individuals (in alphabetical order):
 	6. For his invaluable help.
 * **icebear**
 	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
+* **ICEknight**
+	* For validating tests on real hardware.
 * **Kladov, Vladimir**
 	* For cracking the behavior of the MEMPTR register. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Krook, Magnus**
