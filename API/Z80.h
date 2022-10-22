@@ -124,17 +124,6 @@ typedef void (* Z80Write)(void *context, zuint16 address, zuint8 value);
 
 typedef void (* Z80Halt)(void *context, zuint8 state);
 
-/** @brief State code passed as the second argument to <tt>@ref Z80::halt</tt>
-  * indicating that the HALT line goes high due to a special RESET signal. */
-
-#define Z80_HALT_EARLY_EXIT 2
-
-/** @brief State code passed as the second argument to <tt>@ref Z80::halt</tt>
-  * indicating that the HALT line quickly goes low and then high during the
-  * execution of the `halt` instruction due to a special RESET signal. */
-
-#define Z80_HALT_CANCEL 3
-
 /** @brief Defines a pointer to a <tt>@ref Z80</tt> callback function invoked to
   * notify an event.
   *
@@ -517,6 +506,17 @@ typedef struct {
   * interrupt response in mode 0. */
 
 #define Z80_RESUME_IM0_XY 3
+
+/** @brief Value of the @p state parameter of <tt>@ref Z80::halt</tt> when the
+  * HALT line goes high due to a special RESET signal. */
+
+#define Z80_HALT_EARLY_EXIT 2
+
+/** @brief Value of the @p state paratemer of <tt>@ref Z80::halt</tt> when the
+  * HALT line goes low and then high due to a special RESET signal during the
+  * execution of the `halt` instruction. */
+
+#define Z80_HALT_CANCEL 3
 
 /** @brief Accesses the MEMPTR register of a <tt>@ref Z80</tt> @p object. */
 
