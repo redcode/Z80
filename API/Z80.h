@@ -253,67 +253,65 @@ typedef struct {
 
 	Z80Read nop;
 
-	/** @brief Invoked to perform an opcode fetch that correspond to a
+	/** @brief Invoked to perform an opcode fetch that corresponds to a
 	  * non-maskable interrupt acknowledge M-cycle.
 	  *
- 	  * @attention This callback is optional and must be set to @c Z_NULL
-	  * when not used. */
+ 	  * This callback is optional and must be set to @c Z_NULL when not
+	  * used. It indicates the beginning of an NMI acknowledge M-cycle. As
+	  * the opcode is disregarded, the function is free to return any value
+	  * or the byte located at the memory address specified by the second
+	  * parameter. */
 
 	Z80Read nmia;
 
-	/** @brief Invoked to perform the data bus read of a maskable interrupt
-	  * acknowledge M-cycle.
+	/** @brief Invoked to perform a data bus read that corresponds to a
+	  * maskable interrupt acknowledge M-cycle.
 	  *
-	  * @attention This callback is optional and must be set to @c Z_NULL
-	  * when not used. */
+	  * This callback is optional and must be set to @c Z_NULL when not
+	  * used. It indicates the beginning of an INT acknowledge M-cycle. The
+	  * function must return the byte that the interrupting I/O device
+	  * supplies to the CPU via the data bus during this M-cycle.
+	  *
+	  * When this callback is `Z_NULL`, the emulator assumes that the value
+	  * read from the data bus is `FFh`. */
 
 	Z80Read inta;
 
-	/** @brief Callback invoked to perform a memory read on instruction data
-	  * during a maskable interrupt response in mode 0.
+	/** @brief Invoked to perform a memory read on instruction data during a
+	  * maskable interrupt response in mode 0.
 	  *
-	  * @attention This callback becomes mandatory when the <tt>@ref
-	  * Z80::inta</tt>
-	  * callback is used. Setting it to @c Z_NULL will cause the program to
-	  * crash. */
+	  * This callback becomes mandatory when the <tt>@ref Z80::inta</tt>
+	  * callback is used. */
 
 	Z80Read int_fetch;
 
 	/** @brief Invoked when an <tt>ld i,a</tt> instruction is fetched.
 	  *
-	  * This callback is invoked before the <tt>ld i,a</tt> instruction
-	  * modifies the I register.
-	  *
 	  * This callback is optional and must be set to @c Z_NULL when not
-	  * used. */
+	  * used. It is invoked before the instruction copies the A register
+	  * into the I register. */
 
 	Z80Notify ld_i_a;
 
 	/** @brief Invoked when an <tt>ld r,a</tt> instruction is fetched.
 	  *
-	  * This callback is invoked before the <tt>ld r,a</tt> instruction
-	  * modifies the R register.
-	  *
 	  * This callback is optional and must be set to @c Z_NULL when not
-	  * used. */
+	  * used. It is invoked before the instruction copies the A register
+	  * into the R register. */
 
 	Z80Notify ld_r_a;
 
 	/** @brief Invoked when a @c reti instruction is fetched.
 	  *
-	  * This callback is invoked before executing a @c reti instruction.
-	  *
 	  * This callback is optional and must be set to @c Z_NULL when not
-	  * used. */
+	  * used. It is invoked before executing the instruction. */
 
 	Z80Notify reti;
 
 	/** @brief Callback invoked when a @c retn instruction is fetched.
 	  *
-	  * This callback is invoked before executing a @c retn instruction.
-	  *
 	  * This callback is optional and must be set to @c Z_NULL when not
-	  * used. */
+	  * used. It is invoked before executing the instruction. */
 
 	Z80Notify retn;
 
@@ -341,11 +339,10 @@ typedef struct {
 
 	/** @brief Temporary IX/IY register.
 	  *
-	  * All instructions with @c DDh prefix behave in exactly the same way
-	  * as their counterparts with @c FDh prefix, differing only in which
-	  * index register is used. This allows optimizing the size of the Z80
-	  * library by using a temporary index register, which avoids duplicate
-	  * code.
+	  * All instructions with @c DDh prefix behave exactly the same as their
+	  * counterparts with @c FDh prefix, differing only in the index
+	  * register. This allows reducing the size of the library by using a
+	  * temporary index register to avoid duplicate code.
 	  *
 	  * When a @c DDh or @c FDh prefix is fetched, the corresponding index
 	  * register is copied into this member. The instruction logic is then
