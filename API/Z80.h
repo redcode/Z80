@@ -112,15 +112,28 @@ typedef zuint8 (* Z80Read)(void *context, zuint16 address);
 typedef void (* Z80Write)(void *context, zuint16 address, zuint8 value);
 
 /** @brief Defines a pointer to a <tt>@ref Z80</tt> callback function invoked to
-  * notify a signal change on the HALT line.
+  * notify signal changes on the HALT line.
   *
   * @param context The value of the <tt>@ref Z80::context</tt> member of the
   * calling object.
-  * @param state
-  *     @c TRUE  if the HALT line goes low  (the CPU enters the HALT state);
-  *     @c FALSE if the HALT line goes high (the CPU exits the HALT state). */
+  * @param state @c TRUE if the HALT line goes low (the CPU enters the HALT
+  * state); @c FALSE if the HALT line goes high (the CPU exits the HALT state).
+  * If the library has been built with special RESET support, the values
+  * <tt>@ref Z80_HALT_CANCEL</tt> and <tt>@ref Z80_HALT_EARLY_EXIT</tt> are also
+  * possible. */
 
-typedef void (* Z80HALT)(void *context, zuint8 state);
+typedef void (* Z80Halt)(void *context, zuint8 state);
+
+/** @brief State code passed as the second argument to <tt>@ref Z80::halt</tt>
+  * indicating that the HALT line goes high due to a special RESET signal. */
+
+#define Z80_HALT_EARLY_EXIT 2
+
+/** @brief State code passed as the second argument to <tt>@ref Z80::halt</tt>
+  * indicating that the HALT line quickly goes low and then high during the
+  * execution of the `halt` instruction due to a special RESET signal. */
+
+#define Z80_HALT_CANCEL 3
 
 /** @brief Defines a pointer to a <tt>@ref Z80</tt> callback function invoked to
   * notify an event.
@@ -149,15 +162,16 @@ typedef zuint8 (* Z80Illegal)(void *context, zuint8 opcode);
 
 typedef struct {
 
-	/** @brief Number of clock cycles (T-states) already executed. */
+	/** @brief Number of clock cycles already executed. */
 
 	zusize cycles;
 
-	/** @brief Maximum number of clock cycles (T-states) to be executed. */
+	/** @brief Maximum number of clock cycles to be executed. */
 
 	zusize cycle_limit;
 
-	/** @brief Pointer to pass as first argument to all callback functions.
+	/** @brief Pointer to pass as the first argument to all callback
+	  * functions.
 	  *
 	  * This member is intended to hold a reference to the context to which
 	  * the object belongs. It is safe not to initialize it when this is not
@@ -223,9 +237,9 @@ typedef struct {
 	  * function.
 	  *
 	  * When exiting the HALT state, this callback is invoked before
-	  * <tt>@ref Z80::inta</tt> or <tt>@ref Z80::reti</tt>. */
+	  * <tt>@ref Z80::nmia</tt> or <tt>@ref Z80::inta</tt>. */
 
-	Z80HALT halt;
+	Z80Halt halt;
 
 	/** @brief Invoked to perform an opcode fetch that corresponds to an
 	  * internal NOP.
@@ -363,7 +377,7 @@ typedef struct {
 	zuint8 r;      /**< @brief R register.      */
 	zuint8 i;      /**< @brief I register.      */
 
-	/** @brief The most significant bit of the R register.
+	/** @brief Most significant bit of the R register.
 	  *
 	  * The Z80 CPU increments the R register during each M1 cycle without
 	  * altering its most significant bit, commonly known as R7. However,
@@ -416,9 +430,6 @@ typedef struct {
 
 	zuint8 halt_line;
 } Z80;
-
-#define Z80_HALT_CANCEL 2
-#define Z80_HALT_EARLY_EXIT 3
 
 /** @brief <tt>@ref Z80::options</tt> bitmask that enables emulation of the bug
   * affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a

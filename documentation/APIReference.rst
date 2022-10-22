@@ -1,19 +1,83 @@
+=============
 API reference
 =============
 
-Macros
-------
+.. code-block:: c
 
-Library version macros
-^^^^^^^^^^^^^^^^^^^^^^
+   #include <Z80.h>
+
+Types
+=====
+
+Callback pointers
+-----------------
+
+.. doxygentypedef:: Z80Read
+.. doxygentypedef:: Z80Write
+.. doxygentypedef:: Z80Halt
+.. doxygentypedef:: Z80Notify
+.. doxygentypedef:: Z80Illegal
+
+Emulator object
+---------------
+
+.. doxygenstruct:: Z80
+   :members:
+
+Functions
+=========
+
+Powering the CPU
+----------------
+
+.. doxygenfunction:: z80_power
+
+Running the emulation
+---------------------
+
+.. doxygenfunction:: z80_execute
+.. doxygenfunction:: z80_run
+
+Requesting interrupts
+---------------------
+
+.. doxygenfunction:: z80_int
+.. doxygenfunction:: z80_nmi
+.. doxygenfunction:: z80_instant_reset
+.. doxygenfunction:: z80_special_reset
+
+Obtaining information
+---------------------
+
+.. doxygenfunction:: z80_in_cycle
+.. doxygenfunction:: z80_out_cycle
+.. doxygenfunction:: z80_r
+.. doxygenfunction:: z80_refresh_address
+
+Macros
+======
+
+Library version
+---------------
 
 .. doxygendefine:: Z80_LIBRARY_VERSION_MAJOR
 .. doxygendefine:: Z80_LIBRARY_VERSION_MINOR
 .. doxygendefine:: Z80_LIBRARY_VERSION_MICRO
 .. doxygendefine:: Z80_LIBRARY_VERSION_STRING
 
-Flag bitmasks
-^^^^^^^^^^^^^
+Limits
+------
+
+.. doxygendefine:: Z80_MAXIMUM_CYCLES
+.. doxygendefine:: Z80_MAXIMUM_CYCLES_PER_STEP
+
+Opcodes
+-------
+
+.. doxygendefine:: Z80_HOOK
+
+Flags
+-----
 
 .. doxygendefine:: Z80_SF
 .. doxygendefine:: Z80_ZF
@@ -24,30 +88,8 @@ Flag bitmasks
 .. doxygendefine:: Z80_NF
 .. doxygendefine:: Z80_CF
 
-Hooking
--------
-
-.. doxygendefine:: Z80_HOOK
-
-Limits
-------
-
-.. doxygendefine:: Z80_MAXIMUM_CYCLES
-.. doxygendefine:: Z80_MAXIMUM_CYCLES_PER_STEP
-
-Types
------
-
-.. doxygentypedef:: Z80Read
-.. doxygentypedef:: Z80Write
-.. doxygentypedef:: Z80HALT
-.. doxygentypedef:: Z80Notify
-.. doxygentypedef:: Z80Illegal
-.. doxygenstruct:: Z80
-   :members:
-
-Configuration options
----------------------
+Configuration
+-------------
 
 .. doxygendefine:: Z80_OPTION_HALT_SKIP
 .. doxygendefine:: Z80_OPTION_LD_A_IR_BUG
@@ -59,8 +101,8 @@ Configuration options
 .. doxygendefine:: Z80_MODEL_NEC_NMOS
 .. doxygendefine:: Z80_MODEL_ST_CMOS
 
-Request bitmasks
-----------------
+Requests
+--------
 
 .. doxygendefine:: Z80_REQUEST_INT
 .. doxygendefine:: Z80_REQUEST_NMI
@@ -75,6 +117,12 @@ Sometimes the emulator runs out of clock cycles while performing long tasks that
 .. doxygendefine:: Z80_RESUME_HALT
 .. doxygendefine:: Z80_RESUME_XY
 .. doxygendefine:: Z80_RESUME_IM0_XY
+
+HALT state codes
+----------------
+
+.. doxygendefine:: Z80_HALT_EARLY_EXIT
+.. doxygendefine:: Z80_HALT_CANCEL
 
 Register accessors
 ------------------
@@ -121,33 +169,3 @@ Register accessors
 .. doxygendefine:: Z80_E_
 .. doxygendefine:: Z80_H_
 .. doxygendefine:: Z80_L_
-
-Functions
----------
-
-Powering the CPU
-^^^^^^^^^^^^^^^^
-
-.. doxygenfunction:: z80_power
-
-Running the emulation
-^^^^^^^^^^^^^^^^^^^^^
-
-.. doxygenfunction:: z80_execute
-.. doxygenfunction:: z80_run
-
-Requesting interrupts
-^^^^^^^^^^^^^^^^^^^^^
-
-.. doxygenfunction:: z80_int
-.. doxygenfunction:: z80_nmi
-.. doxygenfunction:: z80_instant_reset
-.. doxygenfunction:: z80_special_reset
-
-Obtaining information
-^^^^^^^^^^^^^^^^^^^^^
-
-.. doxygenfunction:: z80_in_cycle
-.. doxygenfunction:: z80_out_cycle
-.. doxygenfunction:: z80_r
-.. doxygenfunction:: z80_refresh_address
