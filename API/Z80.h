@@ -272,16 +272,29 @@ typedef struct {
 	  * function must return the byte that the interrupting I/O device
 	  * supplies to the CPU via the data bus during this M-cycle.
 	  *
-	  * When this callback is `Z_NULL`, the emulator assumes that the value
-	  * read from the data bus is `FFh`. */
+	  * When this callback is @c Z_NULL, the emulator assumes that the value
+	  * read from the data bus is @c 0xFF. */
 
 	Z80Read inta;
 
 	/** @brief Invoked to perform a memory read on instruction data during a
 	  * maskable interrupt response in mode 0.
 	  *
-	  * This callback becomes mandatory when the <tt>@ref Z80::inta</tt>
-	  * callback is used. */
+	  * The role of this callback is analogous to the role of
+	  * <tt>@ref Z80::fetch</tt> but it is specific to the INT response in
+	  * mode 0. Ideally, the function should return a byte of instruction
+	  * data that the interrupting I/O device supplies to the CPU via the
+	  * data bus, but depending on the emulated hardware, the device may
+	  * not be able to do this during a memory read M-cycle because the
+	  * memory is addressed instead, in which case the function must return
+	  * the byte located at the memory address specified by the second
+	  * parameter.
+	  *
+	  * This callback is only used when <tt>@ref Z80::inta</tt> is not @c
+	  * Z_NULL and returns an opcode that implies subsequent memory read
+	  * M-cycles to fetch the non-opcode bytes of the instruction, thus
+	  * it is safe not to initialize it or set it to @c Z_NULL if such a
+	  * scenario is not possible. */
 
 	Z80Read int_fetch;
 
@@ -339,12 +352,12 @@ typedef struct {
 
 	/** @brief Temporary IX/IY register.
 	  *
-	  * All instructions with @c DDh prefix behave exactly the same as their
-	  * counterparts with @c FDh prefix, differing only in the index
+	  * All instructions with @c 0xDD prefix behave exactly the same as
+	  * their counterparts with @c 0xFD prefix, differing only in the index
 	  * register. This allows reducing the size of the library by using a
 	  * temporary index register to avoid duplicate code.
 	  *
-	  * When a @c DDh or @c FDh prefix is fetched, the corresponding index
+	  * When a @c 0xDD or @c 0xFD prefix is fetched, the corresponding index
 	  * register is copied into this member. The instruction logic is then
 	  * executed and finally this member is copied back into the index
 	  * register. */
@@ -494,12 +507,12 @@ typedef struct {
 #define Z80_RESUME_HALT 1
 
 /** @brief <tt>@ref Z80::resume</tt> value indicating that the emulator ran out
-  * of clock cycles by fetching a @c DDh or @c FDh prefix. */
+  * of clock cycles by fetching a @c 0xDD or @c 0xFD prefix. */
 
 #define Z80_RESUME_XY 2
 
 /** @brief <tt>@ref Z80::resume</tt> value indicating that the emulator ran out
-  * of clock cycles by fetching a @c DDh or @c FDh prefix during a maskable
+  * of clock cycles by fetching a @c 0xDD or @c 0xFD prefix during a maskable
   * interrupt response in mode 0. */
 
 #define Z80_RESUME_IM0_XY 3
