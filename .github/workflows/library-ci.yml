@@ -52,14 +52,14 @@ jobs:
       if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
       run: |
         mkdir -p ${{github.workspace}}/build
-        curl -L http://zeta.st/downloads/Zeta-latest.tar.xz | xz -cd | tar -C ${{github.workspace}}/build --strip-components=2 -xvf - Zeta/API/Z
+        curl -L http://zeta.st/download/Zeta-latest.tar.xz | xz -cd | tar -C ${{github.workspace}}/build --strip-components=2 -xvf - Zeta/API/Z
 
     - name: Install Dependencies (Windows)
       if: startsWith(matrix.os, 'windows')
       shell: cmd
       run: |
         mkdir ${{github.workspace}}\build
-        curl -L http://zeta.st/downloads/Zeta-latest.tar.xz | 7z x -txz -si -so | 7z x -si -ttar -o${{github.workspace}}\build Zeta/API/Z
+        curl -L http://zeta.st/download/Zeta-latest.tar.xz | 7z x -txz -si -so | 7z x -si -ttar -o${{github.workspace}}\build Zeta/API/Z
 
     - name: Configure CMake
       run: >

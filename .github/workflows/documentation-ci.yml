@@ -49,7 +49,7 @@ jobs:
     - name: Install Dependencies
       run: |
         mkdir -p ${{github.workspace}}/build
-        curl -L http://zeta.st/downloads/Zeta-latest.tar.xz | xz -cd | tar -C ${{github.workspace}}/build --strip-components=2 -xvf - Zeta/API/Z
+        curl -L http://zeta.st/download/Zeta-latest.tar.xz | xz -cd | tar -C ${{github.workspace}}/build --strip-components=2 -xvf - Zeta/API/Z
 
     - name: Configure CMake
       run: >
