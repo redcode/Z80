@@ -591,6 +591,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * CPM-Emulator, _by [Marc Sibert](https://github.com/Marcussacapuces91)_ - [GitHub](https://github.com/Marcussacapuces91/CPM-Emulator)
 * [tihle: a unique TI calculator emulator](https://www.taricorp.net/2020/introducing-tihle/), _by [Peter Marheine](https://www.taricorp.net/about/)_ - [GitHub](https://github.com/tari/tihle), [GitLab](https://gitlab.com/taricorp/tihle)
 * [TileMap](https://simonowen.com/spectrum/tilemap/), _by [Simon Owen](https://simonowen.com/)_ - [GitHub](https://github.com/simonowen/tilemap)
+* <a href="https://eaw.app/tranzputer-fusionx/">tranZPUter<sup>FusionX</sup></a>, _by [Philip Smart](https://eaw.app/about/)_
 * Z80Plus, _by [Sofía Ortega Sosa](https://github.com/Agaxia)_ - [GitHub](https://github.com/Agaxia/Z80Plus)
 * [Zemu](https://github.com/jayvalentine/zemu), _by [Jay Valentine](https://jayvalentine.github.io/)_ - [GitHub](https://github.com/jayvalentine/zemu), [RubyGems](https://rubygems.org/gems/zemu)
 
