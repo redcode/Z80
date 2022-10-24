@@ -64,8 +64,12 @@ There are several macros that can be used to configure the source code of the li
 
 .. c:macro:: Z80_DEPENDENCIES_HEADER
 
-   Specifies the only external header to ``#include``, replacing those of Zeta. |br| |nl|
+   Specifies the only external header to ``#include``, replacing those of `Zeta <https://github.com/redcode/Zeta>`_. |br| |nl|
    If used, it must also be defined before including the :file:`Z80.h` header.
+
+   This external header must define the following macros: ``Z_API_EXPORT``, ``Z_API_IMPORT``, ``Z_EMPTY``, ``Z_EXTERN_C_BEGIN``, ``Z_EXTERN_C_END``, ``Z_INLINE``, ``Z_MEMBER_OFFSET``, ``Z_NULL``, ``Z_UINT8_ROTATE_LEFT``, ``Z_UINT8_ROTATE_RIGHT``, ``Z_UINT16``, ``Z_UINT16_BIG_ENDIAN``, ``Z_UINT32``, ``Z_UINT32_BIG_ENDIAN`` and ``Z_UNUSED``.
+
+   And the following types: ``zboolean``, ``zuint``, ``zuint8``, ``zuint16``, ``zuint32``, ``zsint``, ``zsint8``, ``ZInt16`` and ``ZInt32``.
 
 .. c:macro:: Z80_STATIC
 
