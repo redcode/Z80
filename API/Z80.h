@@ -67,20 +67,6 @@
 
 #define Z80_LIBRARY_VERSION_STRING "0.2"
 
-#define Z80_SF 128 /**< @brief Bitmask of the Z80 S flag.   */
-#define Z80_ZF  64 /**< @brief Bitmask of the Z80 Z flag.   */
-#define Z80_YF  32 /**< @brief Bitmask of the Z80 Y flag.   */
-#define Z80_HF  16 /**< @brief Bitmask of the Z80 H flag.   */
-#define Z80_XF   8 /**< @brief Bitmask of the Z80 X flag.   */
-#define Z80_PF   4 /**< @brief Bitmask of the Z80 P/V flag. */
-#define Z80_NF   2 /**< @brief Bitmask of the Z80 N flag.   */
-#define Z80_CF   1 /**< @brief Bitmask of the Z80 C flag.   */
-
-/** @brief Opcode interpreted as a hook by the Z80 library. It corresponds to
-  * the <tt>ld h,h</tt> instruction of the Z80 ISA. */
-
-#define Z80_HOOK Z_UINT8(0x64)
-
 /** @brief Maximum number of clock cycles that <tt>@ref z80_run</tt> and
   * <tt>@ref z80_execute</tt> can emulate. */
 
@@ -90,6 +76,20 @@
   * when instructed to execute 1 clock cycle. */
 
 #define Z80_MAXIMUM_CYCLES_PER_STEP 23
+
+/** @brief Opcode interpreted as a hook by the Z80 library. It corresponds to
+  * the <tt>ld h,h</tt> instruction of the Z80 ISA. */
+
+#define Z80_HOOK 0x64
+
+#define Z80_SF 128 /**< @brief Bitmask of the Z80 S flag.   */
+#define Z80_ZF  64 /**< @brief Bitmask of the Z80 Z flag.   */
+#define Z80_YF  32 /**< @brief Bitmask of the Z80 Y flag.   */
+#define Z80_HF  16 /**< @brief Bitmask of the Z80 H flag.   */
+#define Z80_XF   8 /**< @brief Bitmask of the Z80 X flag.   */
+#define Z80_PF   4 /**< @brief Bitmask of the Z80 P/V flag. */
+#define Z80_NF   2 /**< @brief Bitmask of the Z80 N flag.   */
+#define Z80_CF   1 /**< @brief Bitmask of the Z80 C flag.   */
 
 /** @brief Defines a pointer to a <tt>@ref Z80</tt> callback function invoked to
   * perform a read operation.
@@ -218,7 +218,7 @@ typedef struct {
 
 	Z80Write out;
 
-	/** @brief Invoked when the state of the HALT line changes.
+	/** @brief Invoked to notify signal changes on the HALT line.
 	  *
 	  * This callback indicates that the CPU is entering or exiting the HALT
 	  * state. It is invoked after updating the value of <tt>@ref
@@ -234,19 +234,22 @@ typedef struct {
 	  * internal NOP.
 	  *
 	  * This callback indicates the beginning of an opcode fetch M-cycle
-	  * that is generated in the following two cases:
+	  * of 4 clock cycles that is generated in the following cases:
 	  *
 	  * - During the HALT state, the CPU repeatedly executes an internal NOP
 	  *   that fetches the next opcode after @c halt without incrementing
 	  *   the PC register. This opcode is read again and again until an exit
-	  *   condition occurs (i.e., NMI, INT or RESET).
-	  * - After detecting a special RESET signal, the CPU completes the
-	  *   ongoing instruction and then executes an internal NOP during which
-	  *   it zeroes the PC register.
+	  *   condition occurs (i.e., NMI, INT or RESET). In this case, the
+	  *   opcode is ignored unless a special RESET signal is received, as
+	  *   this causes the CPU to exit the HALT state immediately and execute
+	  *   the full instruction with no delay.
 	  *
-	  * The role of this callback is analogous to the role of <tt>@ref
-	  * Z80::fetch_opcode</tt> but the function is free to return any value
-	  * (since the opcode is disregarded).
+	  * - After detecting a special RESET signal, the CPU completes the
+	  *   ongoing instruction or interrupt response and then zeroes PC
+	  *   during the the next M1 cycle. If no interrupt has been accepted at
+	  *   the end of the instruction or interrupt response, the CPU produces
+	  *   an internal NOP to allow for the fetch-execute overlap to take
+	  *   place, during which it fetches the next opcode and zeroes PC.
 	  *
 	  * This callback is optional. Setting it to @c Z_NULL is equivalent to
 	  * setting the <tt>@ref Z80_OPTION_HALT_SKIP</tt> option. */
@@ -374,16 +377,16 @@ typedef struct {
 	zuint8 r;      /**< @brief R register.      */
 	zuint8 i;      /**< @brief I register.      */
 
-	/** @brief Most significant bit of the R register.
+	/** @brief The most significant bit of the R register.
 	  *
 	  * The Z80 CPU increments the R register during each M1 cycle without
 	  * altering its most significant bit, commonly known as R7. However,
 	  * the Z80 library performs normal increments for speed reasons, which
 	  * eventually corrupts R7.
 	  *
-	  * Before entering the execution loop, the <tt>@ref z80_execute</tt> and
-	  * <tt>@ref z80_run</tt> functions copy <tt>@ref Z80::r</tt> into this
-	  * member to preserve the value of R7, so that it can be restored before
+	  * Before entering the execution loop, <tt>@ref z80_execute</tt> and
+	  * <tt>@ref z80_run</tt> copy <tt>@ref Z80::r</tt> into this member to
+	  * preserve the value of R7, so that it can be restored before
 	  * returning. The emulation of the <tt>ld r, a</tt> instruction also
 	  * updates the value of this member. */
 
