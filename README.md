@@ -373,7 +373,7 @@ You will need [CMake](https://cmake.org) v3.14 or later to build the package and
 
 The emulator requires some types and macros included in [Zeta](https://github.com/redcode/Zeta), a dependency-free, [header-only](https://en.wikipedia.org/wiki/Header-only) library used to retain compatibility with most C compilers. Install Zeta or extract its [official source code package](https://zeta.st/download) to the same directory of this `README.md` or its parent directory. Zeta is the sole dependency; the emulator is a freestanding implementation and as such does not depend on the [C standard library](https://en.wikipedia.org/wiki/C_standard_library).
 
-Once all prerequisites are met, create a directory and run `cmake` from there to prepare the build system:
+Once the prerequisites are met, create a directory and run `cmake` from there to prepare the build system:
 
 ```shell
 mkdir build
