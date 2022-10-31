@@ -623,6 +623,8 @@ Many thanks to the following individuals (in alphabetical order):
 	4. For helping me to test different undocumented behaviors of the Zilog Z80.
 * **Bystrov, Dmitry (Alone Coder)**
 	* For validating tests on real hardware. <sup>[4](#r4)</sup>
+* **Chandler, Richard**
+	* For his corrections to the documentation.
 * **Chunin, Roman (CHRV)**
 	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Conway, Simon (BadBeard)**
