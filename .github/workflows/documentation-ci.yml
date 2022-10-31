@@ -5,16 +5,14 @@ on:
     paths:
     - '.github/workflows/documentation-ci.yml'
     - 'API/**'
-    - 'CMake/FindBreathe.cmake'
-    - 'CMake/FindSphinx.cmake'
+    - 'CMake/**'
     - 'documentation/**'
     - 'CMakeLists.txt'
   pull_request:
     paths:
     - '.github/workflows/documentation-ci.yml'
     - 'API/**'
-    - 'CMake/FindBreathe.cmake'
-    - 'CMake/FindSphinx.cmake'
+    - 'CMake/**'
     - 'documentation/**'
     - 'CMakeLists.txt'
 
