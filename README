@@ -76,7 +76,7 @@ directory of this README or its parent directory. Zeta is the sole dependency;
 the emulator is a freestanding implementation and as such does not depend on the
 C standard library.
 
-Once all requirements are met, create a directory and run cmake from there to
+Once all prerequisites are met, create a directory and run cmake from there to
 prepare the build system:
 
     $ mkdir build
@@ -314,4 +314,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 --------------------------------------------------------------------------------
-Last update: 2022-09-26                                               README EOF
+Last update: 2022-10-31                                               README EOF
