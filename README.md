@@ -333,11 +333,12 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 
 ### Debian/Ubuntu
 
-First add the ZXE repository:
+First add the ZXE repository and update the package index:
 
 ```shell
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv FE214A38D6A0C01D9AF514EE841EA3BD3A7E1487
 add-apt-repository 'deb [arch=amd64] https://zxe.io/repos/apt stable main'
+apt update
 ```
 
 Next, install the Z80 library package:
