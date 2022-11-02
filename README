@@ -211,8 +211,8 @@ library:
 Finally, once the build system is configured according to your needs, build and
 install the package:
 
-    $ make
-    # make install/strip
+    $ cmake --build .
+    # cmake --install . --strip
 
 
 4.  Integration
@@ -314,4 +314,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 --------------------------------------------------------------------------------
-Last update: 2022-10-31                                               README EOF
+Last update: 2022-11-02                                               README EOF
