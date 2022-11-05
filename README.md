@@ -502,7 +502,7 @@ cmake --build .
 cmake --install . [--strip]
 ```
 
-Use the `--strip` option to remove all non-public symbols when installing non-debug builds of the shared library.
+Use the `--strip` option when installing non-debug builds of the shared library.
 
 # Running the tests
 

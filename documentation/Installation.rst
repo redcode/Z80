@@ -183,9 +183,7 @@ Finally, type the following to install the package:
 
    cmake --install . [--strip] [--component <component>]
 
-Use the ``--strip`` option to remove all non-public symbols when installing non-debug builds of the shared library.
-
-The package is divided into three components that can be installed separately by using the ``--component`` option:
+Use the ``--strip`` option when installing non-debug builds of the shared library. To install only a specific component of the package, use the ``--component`` option. The project defines the following components:
 
 .. option:: Z80_Runtime
 
