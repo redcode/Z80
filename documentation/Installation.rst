@@ -168,7 +168,7 @@ Package maintainers are encouraged to use at least the following options for the
    -DZ80_WITH_Q=YES
    -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
 
-Next, once the build system is configured according to your needs, build the package:
+Once the build system is configured according to your needs, build the package:
 
 .. code-block:: sh
 
@@ -177,7 +177,7 @@ Next, once the build system is configured according to your needs, build the pac
 Install
 =======
 
-Finaly, install the package:
+Finally, type the following to install the package:
 
 .. code-block:: sh
 
@@ -185,7 +185,7 @@ Finaly, install the package:
 
 Use the ``--strip`` option to remove all non-public symbols when installing non-debug builds of the shared library.
 
-The package contents are divided into three components that can be installed separately by using the ``--component`` option:
+The package is divided into three components that can be installed separately by using the ``--component`` option:
 
 .. option:: Z80_Runtime
 
