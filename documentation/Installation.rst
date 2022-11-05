@@ -14,6 +14,12 @@ Installation
 
       \newline
 
+.. |cmake_option_strip| replace:: ``--strip``
+.. _cmake_option_strip: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-strip
+
+.. |cmake_option_component| replace:: ``--component``
+.. _cmake_option_component: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-component
+
 Prerequisites
 =============
 
@@ -183,7 +189,7 @@ Finally, type the following to install the package:
 
    cmake --install . [--strip] [--component <component>]
 
-Use the ``--strip`` option when installing non-debug builds of the shared library. To install only a specific component of the package, use the ``--component`` option. The project defines the following components:
+It is advisable to use the |cmake_option_strip|_ option when installing non-debug builds of the shared library. To install only a specific component of the package, use the |cmake_option_component|_ option. The project defines the following components:
 
 .. option:: Z80_Runtime
 
@@ -203,5 +209,3 @@ Use the ``--strip`` option when installing non-debug builds of the shared librar
 
    * Documentation in HTML format.
    * Documentation in PDF format.
-
-If no component is specified, all files will be installed.

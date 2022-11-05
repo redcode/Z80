@@ -502,7 +502,7 @@ cmake --build .
 cmake --install . [--strip]
 ```
 
-Use the `--strip` option when installing non-debug builds of the shared library.
+It is advisable to use the [`--strip`](https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-strip) option when installing non-debug builds of the shared library.
 
 # Running the tests
 

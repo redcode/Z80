@@ -37,8 +37,8 @@ of software; something solid and elegant that can stand the test of time with no
 need for major changes.
 
 
-2.  Emulation accuracy
-======================
+2.  Accuracy
+============
 
 The Zilog Z80 emulator has a classic design with instruction-level granularity.
 This provides the best performance when speed is a critical factor, while still
@@ -214,7 +214,8 @@ install the package:
     $ cmake --build .
     # cmake --install . [--strip]
 
-Use the `--strip` option when installing non-debug builds of the shared library.
+It is advisable to use the `--strip` option when installing non-debug builds of
+the shared library.
 
 
 4.  Integration
