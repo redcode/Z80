@@ -21,7 +21,7 @@ The [Z80 library](https://zxe.io/software/Z80) implements a fast, small and accu
 The source code is written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C) for maximum portability and is extensively commented. The aim has been to write a well-structured, easy to understand piece of software; something solid and elegant that can stand the test of time with no need for major changes.
 
 
-# Emulation accuracy
+# Accuracy
 
 The Zilog Z80 emulator has a classic design with instruction-level granularity. This provides the best performance when speed is a critical factor, while still offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/Agaxia/Z80Plus) when accuracy is imperative.
 
