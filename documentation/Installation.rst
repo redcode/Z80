@@ -183,7 +183,7 @@ Finaly, install the package:
 
    cmake --install . [--strip] [--component <component>]
 
-For non-``Debug`` builds of the shared library, it is recommended to use the ``--strip`` option to remove all private symbols from the library as part of the installation process.
+Use the ``--strip`` option to remove all non-public symbols when installing non-debug builds of the shared library.
 
 The package contents are divided into three components that can be installed separately by using the ``--component`` option:
 

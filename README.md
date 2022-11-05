@@ -499,8 +499,10 @@ Finally, once the build system is configured according to your needs, build and 
 
 ```shell
 cmake --build .
-cmake --install . --strip
+cmake --install . [--strip]
 ```
+
+Use the `--strip` option to remove all non-public symbols when installing non-debug builds of the shared library.
 
 # Running the tests
 
