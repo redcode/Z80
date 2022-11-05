@@ -486,7 +486,7 @@ Package-specific options are prefixed with `Z80_` and can be divided into two gr
 	Build the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the `ld a,{i|r}` instructions.  
 	The default is `NO`.
 
-Package maintainers should use at least the following options for the shared library:
+Package maintainers are encouraged to use at least the following options for the shared library:
 
 ```shell
 -DZ80_WITH_EXECUTE=YES

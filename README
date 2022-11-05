@@ -200,8 +200,8 @@ library by predefining macros that enable optional implementations:
         during the execution of the `ld a,{i|r}` instructions.
         The default is `NO`.
 
-Package maintainers should use at least the following options for the shared
-library:
+Package maintainers are encouraged to use at least the following options for the
+shared library:
 
     -DZ80_WITH_EXECUTE=YES
     -DZ80_WITH_FULL_IM0=YES
@@ -314,4 +314,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 --------------------------------------------------------------------------------
-Last update: 2022-11-02                                               README EOF
+Last update: 2022-11-05                                               README EOF
