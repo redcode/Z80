@@ -463,7 +463,7 @@ Package-specific options are prefixed with `Z80_` and can be divided into two gr
 <span id="cmake_source_code_options">The second group of package-specific options</span> configures the source code of the library by predefining macros that enable optional implementations:
 
 * <span id="option_Z80_WITH_EXECUTE">**`-DZ80_WITH_EXECUTE=(YES|NO)`**</span>  
-	Build the implementation of the `z80_execute` function.  
+	Build the implementation of the [`z80_execute`](https://zxe.io/software/Z80/documentation/latest/APIReference.html#c.z80_execute) function.  
 	The default is `NO`.
 
 * <span id="option_Z80_WITH_FULL_IM0">**`-DZ80_WITH_FULL_IM0=(YES|NO)`**</span>  
