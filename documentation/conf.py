@@ -20,7 +20,7 @@
 project = 'Z80'
 copyright = u'1999-2022 Manuel Sainz de Baranda y Goñi'
 author = u'Manuel Sainz de Baranda y Goñi'
-
+version = '0.2'
 
 # -- General configuration ---------------------------------------------------
 

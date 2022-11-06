@@ -1,2 +1,0 @@
-Emulation accuracy
-==================
