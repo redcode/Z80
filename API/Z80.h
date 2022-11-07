@@ -112,15 +112,15 @@ typedef zuint8 (* Z80Read)(void *context, zuint16 address);
 typedef void (* Z80Write)(void *context, zuint16 address, zuint8 value);
 
 /** @brief Defines a pointer to a <tt>@ref Z80</tt> callback function invoked to
-  * notify signal changes on the \f$\overline{\texttt{HALT}}\f$ line.
+  * notify signal changes on the HALT line.
   *
   * @param context The value of the <tt>@ref Z80::context</tt> member of the
   * calling object.
-  * @param state @c TRUE if the \f$\overline{\texttt{HALT}}\f$ line goes low
-  * (the CPU enters the HALT state); @c FALSE if the \f$\overline{\texttt{HALT}}
-  * \f$ line goes high (the CPU exits the HALT state). If the library has been
-  * built with special RESET support, the values <tt>@ref Z80_HALT_CANCEL</tt>
-  * and <tt>@ref Z80_HALT_EARLY_EXIT</tt> are also possible. */
+  * @param state @c TRUE if the HALT line goes low (the CPU enters the HALT
+  * state); @c FALSE if the HALT line goes high (the CPU exits the HALT state).
+  * If the library has been built with special RESET support, the values
+  * <tt>@ref Z80_HALT_CANCEL</tt> and <tt>@ref Z80_HALT_EARLY_EXIT</tt> are also
+  * possible. */
 
 typedef void (* Z80Halt)(void *context, zuint8 state);
 
@@ -218,8 +218,7 @@ typedef struct {
 
 	Z80Write out;
 
-	/** @brief Invoked to notify signal changes on the
-	  * \f$\overline{\texttt{HALT}}\f$ line.
+	/** @brief Invoked to notify signal changes on the HALT line.
 	  *
 	  * This callback indicates that the CPU is entering or exiting the HALT
 	  * state. It is invoked after updating the value of <tt>@ref
@@ -416,16 +415,16 @@ typedef struct {
 
 	zuint8 options;
 
-	/** @brief State of the \f$\overline{\texttt{INT}}\f$ line.
+	/** @brief State of the INT line.
 	  *
-	  * @c TRUE if the \f$\overline{\texttt{INT}}\f$ line is low; otherwise,
-	  * @c FALSE. */
+	  * The value of this member is @c TRUE if the INT line is low;
+	  * otherwise, @c FALSE. */
 
 	zuint8 int_line;
 
-	/** @brief State of the \f$\overline{\texttt{HALT}}\f$ line.
+	/** @brief State of the HALT line.
 	  *
-	  * @c TRUE if the \f$\overline{\texttt{HALT}}\f$ line is low;
+	  * The value of this member is @c TRUE if the HALT line is low;
 	  * otherwise, @c FALSE. The emulator always updates this member before
 	  * invoking the <tt>@ref Z80::halt</tt> callback. */
 
@@ -498,8 +497,8 @@ typedef struct {
 
 #define Z80_REQUEST_NMI 4
 
-/** @brief <tt>@ref Z80::request</tt> bitmask indicating that the
-  * \f$\overline{\texttt{INT}}\f$ line is low and interrupts are enabled. */
+/** @brief <tt>@ref Z80::request</tt> bitmask indicating that the INT line is
+  * low and interrupts are enabled. */
 
 #define Z80_REQUEST_INT 8
 
@@ -520,13 +519,13 @@ typedef struct {
 #define Z80_RESUME_IM0_XY 3
 
 /** @brief Value of the @p state parameter of <tt>@ref Z80::halt</tt> when the
-  * \f$\overline{\texttt{HALT}}\f$ line goes high due to a special RESET. */
+  * HALT line goes high due to a special RESET signal. */
 
 #define Z80_HALT_EARLY_EXIT 2
 
 /** @brief Value of the @p state paratemer of <tt>@ref Z80::halt</tt> when the
-  * \f$\overline{\texttt{HALT}}\f$ line goes low and then high due to a special
-  * RESET during the execution of the `halt` instruction. */
+  * HALT line goes low and then high due to a special RESET signal during the
+  * execution of the `halt` instruction. */
 
 #define Z80_HALT_CANCEL 3
 
@@ -728,8 +727,7 @@ Z80_API void z80_instant_reset(Z80 *self);
 
 Z80_API void z80_special_reset(Z80 *self);
 
-/** @brief Sets the state of the \f$\overline{\texttt{INT}}\f$ line of a
-  * <tt>@ref Z80</tt>.
+/** @brief Sets the state of the INT line of a <tt>@ref Z80</tt>.
   *
   * @param self Pointer to the object on which the function is called.
   * @param state
@@ -738,8 +736,7 @@ Z80_API void z80_special_reset(Z80 *self);
 
 Z80_API void z80_int(Z80 *self, zboolean state);
 
-/** @brief Triggers the \f$\overline{\texttt{NMI}}\f$ line of a
-  * <tt>@ref Z80</tt>.
+/** @brief Triggers the NMI line of a <tt>@ref Z80</tt>.
   *
   * @param self Pointer to the object on which the function is called. */
 
