@@ -1,4 +1,5 @@
 .DS_Store
 .directory
 Thumbs.db
-build/
+/build/
+/CMakeLists.txt.user
