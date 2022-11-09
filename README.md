@@ -39,8 +39,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top" align="center">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80full.tap</b>
 				</a>
 				<br>
@@ -48,8 +47,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80doc.tap</b>
 				</a>
 				<br>
@@ -67,8 +65,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80flags.tap</b>
 				</a>
 				<br>
@@ -76,8 +73,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80docflags.tap</b>
 				</a>
 				<br>
@@ -94,8 +90,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80ccf.tap</b>
 				</a>
 				<br>
@@ -103,8 +98,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80memptr.tap</b>
 				</a>
 				<br>
@@ -127,8 +121,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top" align="center">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80full.tap</b>
 				</a>
 				<br>
@@ -136,8 +129,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80doc.tap</b>
 				</a>
 				<br>
@@ -155,8 +147,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80flags.tap</b>
 				</a>
 				<br>
@@ -164,8 +155,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80docflags.tap</b>
 				</a>
 				<br>
@@ -182,8 +172,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80ccf.tap</b>
 				</a>
 				<br>
@@ -191,8 +180,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80memptr.tap</b>
 				</a>
 				<br>
@@ -220,8 +208,7 @@ This suite performs a series of tests to verify the MEMPTR documents <sup>_([Eng
 		<tr>
 			<td align="center" valign="top" colspan="2">
 				<a href="https://web.archive.org/web/20130511214919if_/http://homepage.ntlworld.com/mark.woodmass/z80tests.tap">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80tests.tap</b>
 				</a>
 			</td>
@@ -247,8 +234,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		<tr>
 			<td align="center" valign="top">
 				<a href="http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexdoc.tap">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>zexdoc.tap</b>
 				</a>
 				<br>
@@ -257,8 +243,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 			</td>
 			<td align="center" valign="top">
 				<a href="http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexall.tap">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>zexall.tap</b>
 				</a>
 				<br>
@@ -281,8 +266,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20120527195857if_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexfix.tap">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>zexfix.tap</b>
 				</a>
 				<br>
@@ -291,8 +275,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20120527200327if_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexbit.tap">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>zexbit.tap</b>
 				</a>
 				<br>
@@ -315,8 +298,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		<tr>
 			<td align="center" valign="top">
 				<a href="http://zxds.raxoft.cz/taps/misc/zexall2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/>
-					<br>
+					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>zexall2.tap</b>
 				</a>
 			</td>
@@ -513,7 +495,7 @@ Once you have built the package, type the following to run all tests:
 ./test-Z80 -p downloads/firmware -p downloads/software/POSIX -p "downloads/software/ZX Spectrum" -a
 ```
 
-The tool supports options and can run the tests individually. Type `./test-Z80 -h` for help. If you prefer to run all tests through CMake, just type `cmake --build . --target test`. For [CTest](https://cmake.org/cmake/help/latest/manual/ctest.1.html), use `ctest` or `ctest -V` instead.
+The tool supports options and can run the tests individually (type `./test-Z80 -h` for help). If you prefer to run all tests through CMake, just type `cmake --build . --target test`. For [CTest](https://cmake.org/cmake/help/latest/manual/ctest.1.html), use `ctest` or `ctest -V` instead.
 
 These are the complete logs generated by `test-Z80` emulating different CPU variants:
 
@@ -584,7 +566,7 @@ There are several macros that can be used to configure the source code of the li
 
 Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as any value; the source code only checks whether or not they are defined.
 
-> **Note**: The activation of some of the optional implementations affects the speed of the emulator due to various factors (read the [documentation](https://zxe.io/software/Z80/documentation/latest) for more details).
+> **Note**: The activation of some of the optional implementations affects the speed of the emulator due to various factors (read the [documentation](https://zxe.io/software/Z80/documentation/latest/Introduction.html#optional-features) for more details).
 
 # Showcase
 
