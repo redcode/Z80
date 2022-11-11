@@ -34,6 +34,10 @@ Package maintainers should enable the implementation of this function.
 Interrupt mode 0
 ----------------
 
+The interrupt mode 0 executes an instruction supplied to the CPU via the data bus. Real Z80 chips can execute any instruction, even illegal ones, and also long sequences of ``DDh/FDh`` prefixes, although most existing hardware only uses a few instructions from the control transfer groups for this interrupt mode.
+
+The library includes two different implementations of this interrupt mode: full, which emulates everything, and reduced, which emulates only the ``jp WORD``, ``call WORD`` and ``rst N`` instructions. Enabling the full implementation can increase the size of the library by 1 or 2 KB approximately (depending on the target ISA and the executable format).
+
 Package maintainers should enable the full implementation of the interrupt mode 0.
 
 Q "register"
@@ -57,7 +61,7 @@ Package maintainers should not enable the implementation of the special RESET.
 Unofficial ``reti`` opcodes
 ---------------------------
 
-The Z80 Counter/Timer Circuit (CTC) detects the two-byte ``ED4Dh`` opcode when it is fetched by the Z80 CPU. This instruction is represented with the ``reti`` assembly mnemonic and is used to return from an ISR and signal that the computer should initialize the daisy-chain enable lines for control of nested priority interrupt handling. However, as far as the CPU is concerned, this instruction is exactly the same as ``retn``.
+The Z80 Counter/Timer Circuit (CTC) detects the two-byte ``ED4Dh`` opcode sequence when it is fetched by the Z80 CPU. This instruction is represented with the ``reti`` assembly mnemonic and is used to return from an ISR and signal that the computer should initialize the daisy-chain enable lines for control of nested priority interrupt handling. However, as far as the CPU is concerned, this instruction is exactly the same as ``retn``.
 
 Package maintainers should not enable unofficial ``reti`` opcodes.
 
