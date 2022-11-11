@@ -34,7 +34,7 @@ Package maintainers should enable the implementation of this function.
 Interrupt mode 0
 ----------------
 
-The interrupt mode 0 executes an instruction supplied to the CPU via the data bus. Real Z80 chips can execute any instruction, even illegal ones, and also long sequences of ``DDh/FDh`` prefixes, although most existing hardware only uses a few instructions from the control transfer groups for this interrupt mode.
+The interrupt mode 0 executes an instruction supplied to the CPU via the data bus. Real Z80 chips can execute any instruction, even illegal ones, and also long sequences of ``DDh/FDh`` prefixes, although most existing hardware only uses a few instructions from the control transfer groups.
 
 The library includes two different implementations of this interrupt mode: full, which emulates everything, and reduced, which emulates only the ``jp WORD``, ``call WORD`` and ``rst N`` instructions. Enabling the full implementation can increase the size of the library by 1 or 2 KB approximately (depending on the target ISA and the executable format).
 
