@@ -28,7 +28,7 @@ add_custom_command(
 	DEPENDS ${_public_headers}
 	COMMAND ${DOXYGEN_EXECUTABLE} ${_doxyfile}
 	MAIN_DEPENDENCY ${_doxyfile}
-	COMMENT "Extracting API reference")
+	COMMENT "Extracting API reference from ${PROJECT_NAME}")
 
 add_custom_target(
 	${PROJECT_NAME}-API-XML ALL
@@ -53,7 +53,7 @@ if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION)
 			${_html_documentation_output}
 		MAIN_DEPENDENCY ${_api_xml_output}
 		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-		COMMENT "Generating documentation in HTML format")
+		COMMENT "Generating documentation in HTML format for ${PROJECT_NAME}")
 
 	add_custom_target(
 		${PROJECT_NAME}-Documentation-HTML ALL
@@ -80,7 +80,7 @@ if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
 			${_latex_documentation_output}
 		MAIN_DEPENDENCY ${_api_xml_output}
 		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-		COMMENT "Generating documentation in LaTeX format")
+		COMMENT "Generating documentation in LaTeX format for ${PROJECT_NAME}")
 
 	add_custom_target(
 		${PROJECT_NAME}-Documentation-LaTeX ALL
@@ -96,7 +96,7 @@ if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
 		COMMAND ${CMAKE_MAKE_PROGRAM}
 		MAIN_DEPENDENCY ${_latex_documentation_output}
 		WORKING_DIRECTORY ${_latex_documentation_output}
-		COMMENT "Converting documentation to PDF format")
+		COMMENT "Generating documentation in PDF format for ${PROJECT_NAME}")
 
 	add_custom_target(
 		${PROJECT_NAME}-Documentation-PDF ALL

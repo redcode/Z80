@@ -69,7 +69,7 @@ There are several macros that can be used to configure the source code of the li
 
    This external header must define the following macros: ``Z_API_EXPORT``, ``Z_API_IMPORT``, ``Z_EMPTY``, ``Z_EXTERN_C_BEGIN``, ``Z_EXTERN_C_END``, ``Z_INLINE``, ``Z_MEMBER_OFFSET``, ``Z_NULL``, ``Z_UINT8_ROTATE_LEFT``, ``Z_UINT8_ROTATE_RIGHT``, ``Z_UINT16``, ``Z_UINT16_BIG_ENDIAN``, ``Z_UINT32``, ``Z_UINT32_BIG_ENDIAN``, ``Z_UNUSED`` and ``Z_USIZE``.
 
-   And the following types: ``zboolean``, ``zsint``, ``zsint8``, ``zuint``, ``zuint8``, ``zuint16``, ``zuint32``, ``ZInt16`` and ``ZInt32``.
+   And the following types: ``zboolean``, ``zsint``, ``zsint8``, ``zuint``, ``zuint8``, ``zuint16``, ``zuint32``, ``zusize``, ``ZInt16`` and ``ZInt32``.
 
 .. c:macro:: Z80_STATIC
 
