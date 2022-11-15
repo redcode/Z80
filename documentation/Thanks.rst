@@ -161,7 +161,8 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Ortega Sosa, Sofía**
 
-  * For her support.
+  1. For optimizing the emulator.
+  2. For her support.
 
 * **Owen, Simon**
 
@@ -198,6 +199,10 @@ Many thanks to the following individuals (in alphabetical order):
 
   1. For testing the special RESET on real hardware. |re| |fe| :ref:`11<r11>` |ren| |ces|
   2. For conducting low-level tests on real hardware. |re| |fe| :ref:`35<r35>` |ren| |ces|
+
+* **Vučenović, Zoran**
+
+  * For writing the Pascal header.
 
 * **Weissflog, Andre (Floh)**
 
