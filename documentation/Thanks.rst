@@ -202,7 +202,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Vučenović, Zoran**
 
-  * For writing the Pascal header.
+  * For writing the Pascal binding.
 
 * **Weissflog, Andre (Floh)**
 

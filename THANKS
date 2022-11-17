@@ -104,7 +104,7 @@ Many thanks to the following individuals (in alphabetical order):
     1. For testing the special RESET on real hardware [11].
     2. For conducting low-level tests on real hardware [35].
 * Vučenović, Zoran
-    For writing the Pascal header.
+    For writing the Pascal binding.
 * Weissflog, Andre (Floh)
     1. For finding out that the `reti/retn` instructions defer the acceptance of
        the maskable interrupt [36].
