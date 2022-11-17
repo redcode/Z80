@@ -57,10 +57,10 @@ This is an important update that addresses a number of issues and also includes 
 44. Added accurate flag behavior in the following instructions: ``ldir``, ``lddr``, ``cpir``, ``cpdr``, ``inir``, ``indr``, ``otir`` and ``otdr``.
 45. Added emulation of the interrupt acceptance deferral that occurs during the ``reti`` and ``retn`` instructions.
 46. Added MEMPTR emulation. The ``bit N,(hl)`` instruction now produces a correct value of F.
-47. Added optional emulation of the Q "register". If enabled at compile-time, the ``ccf`` and ``scf`` instructions produce a correct value of F.
+47. Added optional emulation of Q. If enabled at compile-time, the ``ccf`` and ``scf`` instructions will produce a correct value of F.
 48. Added emulation options that can be configured at runtime.
 49. Added emulation of the ``out (c),255`` instruction (Zilog Z80 CMOS).
-50. Added optional emulation of the bug affecting the ``ld a,{i|r}`` instructions (Zilog Z80 NMOS). If enabled at compile-time, the P/V flag is reset when an INT is accepted during the execution of these instructions.
+50. Added optional emulation of the bug affecting the ``ld a,{i|r}`` instructions (Zilog Z80 NMOS). If enabled at compile-time, the P/V flag will be reset if an INT is accepted during the execution of these instructions.
 51. Increased granularity. The emulator can now stop directly after fetching a ``DDh`` or ``FDh`` prefix if it runs out of clock cycles. This also works during the INT response in mode 0.
 52. Removed ``Z80::state``. Replaced with individual members for the registers, the interrupt enable flip-flops and the interrupt mode.
 53. Removed the superfluous EI flag. The previous opcode is checked instead, which is faster and makes the :c:type:`Z80` object smaller.

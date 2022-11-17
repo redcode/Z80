@@ -92,7 +92,7 @@ The second group of package-specific options, explained in the :doc:`Installatio
 
 .. c:macro:: Z80_WITH_Q
 
-   Enables the implementation of the `Q "register" <https://worldofspectrum.org/forums/discussion/41704>`_.
+   Enables the implementation of `Q <https://worldofspectrum.org/forums/discussion/41704>`_.
 
 .. c:macro:: Z80_WITH_SPECIAL_RESET
 

@@ -147,7 +147,7 @@ The second group of package-specific options configures the source code of the l
 
 .. option:: -DZ80_WITH_Q=(YES|NO)
 
-   Build the implementation of the `Q "register" <https://worldofspectrum.org/forums/discussion/41704>`_. |br| |nl|
+   Build the implementation of `Q <https://worldofspectrum.org/forums/discussion/41704>`_. |br| |nl|
    The default is ``NO``.
 
 .. option:: -DZ80_WITH_SPECIAL_RESET=(YES|NO)

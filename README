@@ -182,7 +182,7 @@ library by predefining macros that enable optional implementations:
         The default is `NO`.
 
     -DZ80_WITH_Q=(YES|NO)
-        Build the implementation of the Q "register".
+        Build the implementation of Q.
         The default is `NO`.
 
     -DZ80_WITH_SPECIAL_RESET=(YES|NO)
@@ -317,4 +317,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 --------------------------------------------------------------------------------
-Last update: 2022-11-05                                               README EOF
+Last update: 2022-11-17                                               README EOF

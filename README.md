@@ -453,7 +453,7 @@ Package-specific options are prefixed with `Z80_` and can be divided into two gr
 	The default is `NO`.
 
 * <span id="option_Z80_WITH_Q">**`-DZ80_WITH_Q=(YES|NO)`**</span>  
-	Build the implementation of the [Q "register"](https://worldofspectrum.org/forums/discussion/41704).  
+	Build the implementation of [Q](https://worldofspectrum.org/forums/discussion/41704).  
 	The default is `NO`.
 
 * <span id="option_Z80_WITH_SPECIAL_RESET">**`-DZ80_WITH_SPECIAL_RESET=(YES|NO)`**</span>  
