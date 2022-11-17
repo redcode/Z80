@@ -6,7 +6,8 @@ on:
     - '.github/workflows/library-ci.yml'
     - 'API/**'
     - 'CMake/FindZeta.cmake'
-    - 'sources/**'
+    - 'sources/*.c'
+    - 'sources/*.rc.in'
     - 'support/*.sha512sum'
     - 'CMakeLists.txt'
   pull_request:
@@ -14,7 +15,8 @@ on:
     - '.github/workflows/library-ci.yml'
     - 'API/**'
     - 'CMake/FindZeta.cmake'
-    - 'sources/**'
+    - 'sources/*.c'
+    - 'sources/*.rc.in'
     - 'support/*.sha512sum'
     - 'CMakeLists.txt'
 
