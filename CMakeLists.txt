@@ -88,7 +88,7 @@ reduced one."
 NO)
 
 option(${PROJECT_NAME}_WITH_Q
-"Build the implementation of the Q \"register\"."
+"Build the implementation of Q."
 NO)
 
 option(${PROJECT_NAME}_WITH_SPECIAL_RESET
