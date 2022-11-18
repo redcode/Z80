@@ -3,7 +3,7 @@
       /\___  \/\  __ \\  __ \
  ____ \/__/  /\_\  __ \\ \/\ \ ________________________________________________
 |        /\_____\\_____\\_____\                                                |
-|  Zilog \/_____//_____//_____/ CPU Emulator Test Tool                         |
+|  Zilog \/_____//_____//_____/ CPU Emulator - Test Tool                       |
 |  Copyright (C) 2021-2022 Manuel Sainz de Baranda y Goñi.                     |
 |                                                                              |
 |  This program is free software: you can redistribute it and/or modify it     |
@@ -72,7 +72,7 @@
 /* MARK: - Types */
 
 typedef struct {
-	/* Name of the archive if the test is compressed; Z_NULL otherwise. */
+	/* Name of the archive if the test is compressed; `Z_NULL` otherwise. */
 	char const* archive_name;
 
 	/* Name of the test program file, or the path to the file inside the
