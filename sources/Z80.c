@@ -855,9 +855,9 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 
 
 #define RETX(mnemonic)						   \
+	DATA[2] = IFF1;						   \
 	NOTIFY(mnemonic);					   \
 	Q_0							   \
-	DATA[2] = IFF1;						   \
 	if ((IFF1 = IFF2) && INT_LINE) REQUEST |= Z80_REQUEST_INT; \
 	RET;							   \
 	return 14
@@ -2022,8 +2022,10 @@ INSTRUCTION(hook)
 
 	static void im0_ld_i_a(IM0 *self) {NOTIFY(ld_i_a);}
 	static void im0_ld_r_a(IM0 *self) {NOTIFY(ld_r_a);}
-	static void im0_reti  (IM0 *self) {NOTIFY(reti	);}
-	static void im0_retn  (IM0 *self) {NOTIFY(retn	);}
+
+
+	static void im0_reti(IM0 *self) {DATA[2] &= 2; NOTIFY(reti);}
+	static void im0_retn(IM0 *self) {DATA[2] &= 2; NOTIFY(retn);}
 #endif
 
 
