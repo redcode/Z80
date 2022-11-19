@@ -2024,8 +2024,18 @@ INSTRUCTION(hook)
 	static void im0_ld_r_a(IM0 *self) {NOTIFY(ld_r_a);}
 
 
-	static void im0_reti(IM0 *self) {DATA[2] &= 2; NOTIFY(reti);}
-	static void im0_retn(IM0 *self) {DATA[2] &= 2; NOTIFY(retn);}
+	static void im0_reti(IM0 *self)
+		{
+		self->z80->data.uint8_array[2] &= 2;
+		NOTIFY(reti);
+		}
+
+
+	static void im0_retn(IM0 *self)
+		{
+		self->z80->data.uint8_array[2] &= 2;
+		NOTIFY(retn);
+		}
 #endif
 
 
