@@ -74,6 +74,6 @@ Zilog NMOS bug of the ``ld a,i`` and ``ld a,r`` instructions
 
 The Z80 CPU models that use NMOS technology have a bug which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of these instructions. This affects processors manufactured by Zilog, second sources, NEC and can also be found in CMOS models from SGS-Thomson (and possibly other companies).
 
-Enabling the implementation of this bug adds code inside the maskable interrupt response to check whether or not the previous instruction was ``la a,i`` or ``ld a,r``, thus making it slightly slower.
+Enabling the implementation of this bug adds code inside the maskable interrupt response to check whether or not the previous instruction was ``ld a,i`` or ``ld a,r``, thus making it slightly slower.
 
 Package maintainers should enable the implementation of this bug, as there are firmware and software that depend on it.

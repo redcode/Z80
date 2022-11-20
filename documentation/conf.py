@@ -26,9 +26,12 @@ version = '0.2'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['breathe']
+extensions = ['sphinx.ext.autosectionlabel', 'breathe']
 
-# Breathe Configuration.
+# sphinx.ext.autosectionlabel
+autosectionlabel_prefix_document = True
+
+# Breathe
 breathe_default_project = 'Z80'
 breathe_domain_by_extension = {'h': 'c'}
 

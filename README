@@ -170,7 +170,7 @@ library:
         The default is `NO`.
 
 The second group of package-specific options configures the source code of the
-library by predefining macros that enable optional implementations:
+library by predefining macros that enable optional features:
 
     -DZ80_WITH_EXECUTE=(YES|NO)
         Build the implementation of the `z80_execute` function.
@@ -288,8 +288,8 @@ Z80.h and Z80.c into the project:
         Tells Z80.c to `#include "Z80.h"` instead of `<Z80.h>`.
 
 The second group of package-specific options, explained in section 3 of this
-document, activates various optional implementations in the source code by
-predefining the following macros:
+document, activates various optional features in the source code by predefining
+the following macros:
 
     #define Z80_WITH_EXECUTE
     #define Z80_WITH_FULL_IM0
@@ -301,9 +301,9 @@ predefining the following macros:
 Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined
 as any value; the source code only checks whether or not they are defined.
 
-Please note that the activation of some of the optional implementations affects
-the speed of the emulator due to various factors (read the documentation for
-more details).
+Please note that the activation of some of the optional features affects the
+speed of the emulator due to various factors (read the documentation for more
+details).
 
 
 5.  License

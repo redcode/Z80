@@ -133,7 +133,7 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
    Build the testing tool. |br| |nl|
    The default is ``NO``.
 
-The second group of package-specific options configures the source code of the library by predefining macros that enable optional implementations:
+The second group of package-specific options configures the source code of the library by predefining macros that enable :ref:`optional features <Introduction:Optional features>`:
 
 .. option:: -DZ80_WITH_EXECUTE=(YES|NO)
 

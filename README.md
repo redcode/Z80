@@ -442,7 +442,7 @@ Package-specific options are prefixed with `Z80_` and can be divided into two gr
 	Build the testing tool.  
 	The default is `NO`.
 
-<span id="cmake_source_code_options">The second group of package-specific options</span> configures the source code of the library by predefining macros that enable optional implementations:
+<span id="cmake_source_code_options">The second group of package-specific options</span> configures the source code of the library by predefining macros that enable [optional features](https://zxe.io/software/Z80/documentation/latest/Introduction.html#optional-features):
 
 * <span id="option_Z80_WITH_EXECUTE">**`-DZ80_WITH_EXECUTE=(YES|NO)`**</span>  
 	Build the implementation of the [`z80_execute`](https://zxe.io/software/Z80/documentation/latest/APIReference.html#c.z80_execute) function.  
@@ -559,7 +559,7 @@ There are several macros that can be used to configure the source code of the li
 * **`#define Z80_WITH_LOCAL_HEADER`**  
 	Tells `Z80.c` to `#include "Z80.h"` instead of `<Z80.h>`.
 
-[The second group of package-specific options](#cmake_source_code_options), explained in the _[Installation from sources](#installation-from-sources)_ section of this document, activates various optional implementations in the source code by predefining the following macros:
+[The second group of package-specific options](#cmake_source_code_options), explained in the _[Installation from sources](#installation-from-sources)_ section of this document, activates various optional features in the source code by predefining the following macros:
 
 * **<code>#define [Z80_WITH_EXECUTE](#option_Z80_WITH_EXECUTE)</code>**
 * **<code>#define [Z80_WITH_FULL_IM0](#option_Z80_WITH_FULL_IM0)</code>**
@@ -571,7 +571,7 @@ There are several macros that can be used to configure the source code of the li
 
 Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as any value; the source code only checks whether or not they are defined.
 
-> **Note**: The activation of some of the optional implementations affects the speed of the emulator due to various factors (read the [documentation](https://zxe.io/software/Z80/documentation/latest/Introduction.html#optional-features) for more details).
+> **Note**: The activation of some of the optional features affects the speed of the emulator due to various factors (read the [documentation](https://zxe.io/software/Z80/documentation/latest/Introduction.html#optional-features) for more details).
 
 # Showcase
 

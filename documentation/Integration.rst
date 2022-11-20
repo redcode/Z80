@@ -80,7 +80,7 @@ There are several macros that can be used to configure the source code of the li
 
    Tells :file:`Z80.c` to ``#include "Z80.h"`` instead of ``<Z80.h>``.
 
-The second group of package-specific options, explained in the :doc:`Installation` section of this document, activates various optional implementations in the source code by predefining the following macros:
+The second group of package-specific options, explained in the :doc:`Installation` section of this document, activates various :ref:`optional features <Introduction:Optional features>` in the source code by predefining the following macros:
 
 .. c:macro:: Z80_WITH_EXECUTE
 
