@@ -2024,18 +2024,18 @@ INSTRUCTION(hook)
 	static void im0_ld_r_a(IM0 *self) {NOTIFY(ld_r_a);}
 
 
-	static void im0_reti(IM0 *self)
-		{
-		self->z80->data.uint8_array[2] |= 2;
-		NOTIFY(reti);
-		}
+#	ifdef Z80_WITH_RETX_NOTIFICATIONS_IN_IM0
+		#define IM0_NOTIFY_RETX(callback)		     \
+			if (self->callback != Z_NULL)		     \
+				{				     \
+				self->z80->data.uint8_array[2] |= 2; \
+				self->callback(CONTEXT);	     \
+				}
 
 
-	static void im0_retn(IM0 *self)
-		{
-		self->z80->data.uint8_array[2] |= 2;
-		NOTIFY(retn);
-		}
+		static void im0_reti(IM0 *self) {IM0_NOTIFY_RETX(reti)}
+		static void im0_retn(IM0 *self) {IM0_NOTIFY_RETX(retn)}
+#	endif
 #endif
 
 
@@ -2450,8 +2450,14 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 								im0.retn     = self->retn;
 								self->ld_i_a = (Z80Notify)im0_ld_i_a;
 								self->ld_r_a = (Z80Notify)im0_ld_r_a;
-								self->reti   = (Z80Notify)im0_reti;
-								self->retn   = (Z80Notify)im0_retn;
+
+#								ifdef Z80_WITH_RETX_NOTIFICATIONS_IN_IM0
+									self->reti = (Z80Notify)im0_reti;
+									self->retn = (Z80Notify)im0_retn;
+#								else
+									self->reti = Z_NULL;
+									self->retn = Z_NULL;
+#								endif
 
 								self->cycles += 4 + instruction(self);
 

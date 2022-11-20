@@ -150,6 +150,11 @@ The second group of package-specific options configures the source code of the l
    Build the implementation of `Q <https://worldofspectrum.org/forums/discussion/41704>`_. |br| |nl|
    The default is ``NO``.
 
+.. option:: -DZ80_WITH_RETX_NOTIFICATIONS_IN_IM0=(YES|NO)
+
+   Enable optional notifications for any ``reti`` or ``retn`` instruction executed during the interrupt mode 0 response. |br| |nl|
+   The default is ``NO``.
+
 .. option:: -DZ80_WITH_SPECIAL_RESET=(YES|NO)
 
    Build the implementation of the `special RESET <http://www.primrosebank.net/computers/z80/z80_special_reset.htm>`_. |br| |nl|

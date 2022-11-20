@@ -94,6 +94,10 @@ The second group of package-specific options, explained in the :doc:`Installatio
 
    Enables the implementation of `Q <https://worldofspectrum.org/forums/discussion/41704>`_.
 
+.. c:macro:: Z80_WITH_RETX_NOTIFICATIONS_IN_IM0
+
+   Enables optional notifications for any ``reti`` or ``retn`` instruction executed during the interrupt mode 0 response.
+
 .. c:macro:: Z80_WITH_SPECIAL_RESET
 
    Enables the implementation of the `special RESET <http://www.primrosebank.net/computers/z80/z80_special_reset.htm>`_.

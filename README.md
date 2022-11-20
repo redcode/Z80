@@ -456,6 +456,10 @@ Package-specific options are prefixed with `Z80_` and can be divided into two gr
 	Build the implementation of [Q](https://worldofspectrum.org/forums/discussion/41704).  
 	The default is `NO`.
 
+* <span id="option_Z80_WITH_RETX_NOTIFICATIONS_IN_IM0">**`-DZ80_WITH_RETX_NOTIFICATIONS_IN_IM0=(YES|NO)`**</span>  
+	Enable optional notifications for any `reti` or `retn` instruction executed during the interrupt mode 0 response.  
+	The default is `NO`.
+
 * <span id="option_Z80_WITH_SPECIAL_RESET">**`-DZ80_WITH_SPECIAL_RESET=(YES|NO)`**</span>  
 	Build the implementation of the [special RESET](http://www.primrosebank.net/computers/z80/z80_special_reset.htm).  
 	The default is `NO`.
@@ -560,6 +564,7 @@ There are several macros that can be used to configure the source code of the li
 * **<code>#define [Z80_WITH_EXECUTE](#option_Z80_WITH_EXECUTE)</code>**
 * **<code>#define [Z80_WITH_FULL_IM0](#option_Z80_WITH_FULL_IM0)</code>**
 * **<code>#define [Z80_WITH_Q](#option_Z80_WITH_Q)</code>**
+* **<code>#define [Z80_WITH_RETX_NOTIFICATIONS_IN_IM0](#option_Z80_WITH_RETX_NOTIFICATIONS_IN_IM0)</code>**
 * **<code>#define [Z80_WITH_SPECIAL_RESET](#option_Z80_WITH_SPECIAL_RESET)</code>**
 * **<code>#define [Z80_WITH_UNOFFICIAL_RETI](#option_Z80_WITH_UNOFFICIAL_RETI)</code>**
 * **<code>#define [Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG](#option_Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG)</code>**

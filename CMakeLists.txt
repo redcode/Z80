@@ -79,7 +79,7 @@ option(${PROJECT_NAME}_WITH_TESTS
 NO)
 
 option(${PROJECT_NAME}_WITH_EXECUTE
-"Build the implementation of the z80_execute function."
+"Build the implementation of the `z80_execute` function."
 NO)
 
 option(${PROJECT_NAME}_WITH_FULL_IM0
@@ -91,19 +91,24 @@ option(${PROJECT_NAME}_WITH_Q
 "Build the implementation of Q."
 NO)
 
+option(${PROJECT_NAME}_WITH_RETX_NOTIFICATIONS_IN_IM0
+"Enable optional notifications for any `reti` or `retn` instruction \
+executed during the interrupt mode 0 response."
+NO)
+
 option(${PROJECT_NAME}_WITH_SPECIAL_RESET
 "Build the implementation of the special RESET."
 NO)
 
 option(${PROJECT_NAME}_WITH_UNOFFICIAL_RETI
-"Configure the ED5Dh, ED6Dh and ED7Dh undocumented instructions as \"reti\" \
-instead of \"retn\"."
+"Configure the ED5Dh, ED6Dh and ED7Dh undocumented instructions as `reti` \
+instead of `retn`."
 NO)
 
 option(${PROJECT_NAME}_WITH_ZILOG_NMOS_LD_A_IR_BUG
 "Build the implementation of the bug affecting the Zilog Z80 NMOS, which \
 causes the P/V flag to be reset when a maskable interrupt is accepted \
-during the execution of the \"ld a,{i|r}\" instructions."
+during the execution of the `ld a,{i|r}` instructions."
 NO)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
@@ -183,6 +188,7 @@ target_compile_definitions(
 	$<$<BOOL:${${PROJECT_NAME}_WITH_EXECUTE}>:Z80_WITH_EXECUTE>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_FULL_IM0}>:Z80_WITH_FULL_IM0>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_Q}>:Z80_WITH_Q>
+	$<$<BOOL:${${PROJECT_NAME}_WITH_RETX_NOTIFICATIONS_IN_IM0}>:Z80_WITH_RETX_NOTIFICATIONS_IN_IM0>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_SPECIAL_RESET}>:Z80_WITH_SPECIAL_RESET>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_UNOFFICIAL_RETI}>:Z80_WITH_UNOFFICIAL_RETI>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_ZILOG_NMOS_LD_A_IR_BUG}>:Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG>)

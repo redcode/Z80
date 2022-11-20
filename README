@@ -185,6 +185,11 @@ library by predefining macros that enable optional implementations:
         Build the implementation of Q.
         The default is `NO`.
 
+    -DZ80_WITH_RETX_NOTIFICATIONS_IN_IM0=(YES|NO)
+        Enable optional notifications for any `reti` or `retn` instruction
+        executed during the interrupt mode 0 response.
+        The default is `NO`.
+
     -DZ80_WITH_SPECIAL_RESET=(YES|NO)
         Build the implementation of the special RESET.
         The default is `NO`.
@@ -317,4 +322,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 --------------------------------------------------------------------------------
-Last update: 2022-11-17                                               README EOF
+Last update: 2022-11-20                                               README EOF
