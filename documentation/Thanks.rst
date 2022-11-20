@@ -162,7 +162,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Ortega Sosa, Sofía**
 
   1. For optimizing the emulator.
-  2. For her support.
+  2. For her help and support.
 
 * **Owen, Simon**
 
