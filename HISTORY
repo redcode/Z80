@@ -12,10 +12,10 @@ Changes:
  4. Switched the build system from Premake to CMake.
  5. Switched to Zeta v0.1.
  6. Added pkg-config support.
- 7. Added the `.vimrc` dotfile.
- 8. Added the `CITATION.cff` file.
- 9. Added the `file_id.diz` file.
-10. Added the `THANKS` file.
+ 7. Added the .vimrc dotfile.
+ 8. Added the CITATION.cff file.
+ 9. Added the file_id.diz file.
+10. Added the THANKS file.
 11. Added detailed documentation.
 12. Added Pascal binding, courtesy of Zoran Vučenović.
 13. Added tests.
@@ -50,9 +50,9 @@ Changes:
 31. Replaced all P/V overflow computation functions with a single, faster macro.
 32. Replaced all register resolution functions with macros.
 33. Replaced all `ld {J,K|O,P}` instructions that have the same destination and
-    source register with NOPs. In addition, the "illegal" forms of the `ld O,P`,
-    `ld O,BYTE`, `U [a,]P` and `V O` instructions are now executed without using
-    the illegal instruction handler.
+    source register with NOPs. In addition, the "illegal" forms of the following
+    instructions are now executed without using the illegal instruction handler:
+    `ld O,P`, `ld O,BYTE`, `U [a,]P` and `V O`.
 34. Reimplemented the HALT state. The emulation should now be fully accurate.
     HALTskip is also supported.
 35. Renamed the `z80_reset` function to `z80_instant_reset`.
