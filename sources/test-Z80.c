@@ -197,7 +197,6 @@ static zuint  search_path_count = 0;
 
 /* MARK: - CPU Callbacks: Common */
 
-
 static zuint8 cpu_read(void *context, zuint16 address)
 	{
 	Z_UNUSED(context)
@@ -225,7 +224,6 @@ static void cpu_halt(void *context, zuint8 state)
 
 
 /* MARK: - CPU Callbacks: CP/M */
-
 
 static void cpm_cpu_write(void *context, zuint16 address, zuint8 value)
 	{
@@ -282,7 +280,6 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 
 
 /* MARK: - CPU Callbacks: ZX Spectrum */
-
 
 static void zx_spectrum_cpu_write(void *context, zuint16 address, zuint8 value)
 	{
