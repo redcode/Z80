@@ -514,7 +514,7 @@ The CRC errors in the latter two are normal and match the values obtained on rea
 
 ### As an external dependency in CMake-based projects
 
-The Z80 library [includes](#option_Z80_WITH_CMAKE_SUPPORT) a [config-file package](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages) for integration into CMake-based projects, which should be installed for development. Use [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) to find the `Z80` package. This creates the `Z80` imported library target that carries the necessary transitive link dependencies. The linking method can optionally be selected by specifying the `Shared` or the `Static` component.
+The Z80 library [includes](#option_Z80_WITH_CMAKE_SUPPORT) a [config-file package](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages) for integration into CMake-based projects, which should be installed for development. Use [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) to find the `Z80` package. This creates the `Z80` imported library target that carries the necessary transitive link dependencies. The linking method can optionally be selected by specifying either the `Shared` component or the `Static` component.
 
 Example:
 

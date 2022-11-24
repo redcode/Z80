@@ -232,7 +232,7 @@ The Z80 library includes a config-file package for integration into CMake-based
 projects, which should be installed for development. Use `find_package` to find
 the `Z80` package. This creates the `Z80` imported library target that carries
 the necessary transitive link dependencies. The linking method can optionally be
-selected by specifying the `Shared` or the `Static` component.
+selected by specifying either the `Shared` component or the `Static` component.
 
 Example:
 
