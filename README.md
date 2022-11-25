@@ -27,7 +27,7 @@ The Zilog Z80 emulator has a classic design with instruction-level granularity. 
 
 Instruction-level granularity means that, except in a few well-defined cases, the execution of a given instruction cannot stop until all its internal M-cycles are processed. In addition, this type of emulation has been optimized for speed, which implies that the registers are modified only once per instruction and the [T-state counter](https://zxe.io/software/Z80/documentation/latest/APIReference.html#c.Z80.cycles) is normally updated only after a full instruction has been executed.
 
-That said, instructions, flags, memory accesses, interrupt and reset responses, clock cycles, etc., are accurately emulated as far as is known, according to the [technical documentation](https://github.com/redcode/Z80/wiki/Technical-literature) available, the findings made after decades of research on the Z80 and electronic simulations. And, of course, the emulator passes the most exhaustive tests written to date, including all three major test suites:
+That said, instructions, flags, memory accesses, interrupt and reset responses, clock cycles, etc., are accurately emulated as far as is known, according to the [technical documentation](https://github.com/redcode/Z80/wiki/Technical-literature) available, the findings made after decades of research on the Z80 and electronic simulations. And, of course, the emulator passes the most exhaustive [tests](https://github.com/redcode/Z80/wiki/Tests) written to date, including all three major test suites:
 
 ### <span id="major_test_suites">[Zilog Z80 CPU Test Suite](https://github.com/raxoft/z80test), by [Patrik Rak](https://github.com/raxoft)</span>
 
