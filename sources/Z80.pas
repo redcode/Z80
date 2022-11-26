@@ -106,6 +106,10 @@ type
 		bc:           TZ80RegisterPair;
 		de:           TZ80RegisterPair;
 		hl:           TZ80RegisterPair;
+		af_:          TZ80RegisterPair;
+		bc_:          TZ80RegisterPair;
+		de_:          TZ80RegisterPair;
+		hl_:          TZ80RegisterPair;
 		r:            UInt8;
 		i:            UInt8;
 		r7:           UInt8;
