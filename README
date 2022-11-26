@@ -41,9 +41,8 @@ need for major changes.
 ============
 
 The Zilog Z80 emulator has a classic design with instruction-level granularity.
-This provides the best performance when speed is a critical factor, while still
-offering a reasonable flexibility to achieve precision down to the T-state level
-when accuracy is imperative.
+This provides the best performance while still offering a reasonable flexibility
+to achieve precision down to the T-state level.
 
 Instruction-level granularity means that, except in a few well-defined cases,
 the execution of a given instruction cannot stop until all its internal M-cycles
@@ -322,4 +321,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 --------------------------------------------------------------------------------
-Last update: 2022-11-20                                               README EOF
+Last update: 2022-11-26                                               README EOF

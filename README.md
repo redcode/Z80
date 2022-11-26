@@ -23,7 +23,7 @@ The source code is written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C) for
 
 # Accuracy
 
-The Zilog Z80 emulator has a classic design with instruction-level granularity. This provides the best performance when speed is a critical factor, while still offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/Agaxia/Z80Plus) when accuracy is imperative.
+The Zilog Z80 emulator has a classic design with instruction-level granularity. This provides the best performance while still offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/Agaxia/Z80Plus).
 
 Instruction-level granularity means that, except in a few well-defined cases, the execution of a given instruction cannot stop until all its internal M-cycles are processed. In addition, this type of emulation has been optimized for speed, which implies that the registers are modified only once per instruction and the [T-state counter](https://zxe.io/software/Z80/documentation/latest/APIReference.html#c.Z80.cycles) is normally updated only after a full instruction has been executed.
 
