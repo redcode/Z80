@@ -275,13 +275,14 @@ Z80.h and Z80.c into the project:
 
     #define Z80_DEPENDENCIES_HEADER "header name.h"
         Specifies the only external header to `#include`, replacing those of
-        Zeta.
-        If used, it must also be defined before including the Z80.h header.
+        Zeta. If you compile Z80.c with with this macro defined, you must also
+        define it before including `"Z80.h"` or `<Z80.h>`.
 
     #define Z80_STATIC
         Required to compile and/or use the emulator as a static library or as an
-        internal part of another project.
-        If used, it must also be defined before including the Z80.h header.
+        internal part of another project. If you compile Z80.c with with this
+        macro defined, you must also define it before including `"Z80.h"` or
+        `<Z80.h>`.
 
     #define Z80_WITH_LOCAL_HEADER
         Tells Z80.c to `#include "Z80.h"` instead of `<Z80.h>`.
@@ -320,5 +321,5 @@ PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
---------------------------------------------------------------------------------
-Last update: 2022-11-26                                               README EOF
+________________________________________________________________________________
+Last update: 2022-11-28                                               README EOF

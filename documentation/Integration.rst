@@ -2,18 +2,6 @@
 Integration
 ===========
 
-.. only:: html
-
-   .. |br| raw:: html
-
-      <br />
-
-.. only:: latex
-
-   .. |nl| raw:: latex
-
-      \newline
-
 .. |BUILD_SHARED_LIBS| replace:: ``BUILD_SHARED_LIBS``
 .. _BUILD_SHARED_LIBS: https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html
 
@@ -64,17 +52,17 @@ There are several macros that can be used to configure the source code of the li
 
 .. c:macro:: Z80_DEPENDENCIES_HEADER
 
-   Specifies the only external header to ``#include``, replacing those of `Zeta <https://github.com/redcode/Zeta>`_. |br| |nl|
-   If used, it must also be defined before including the :file:`Z80.h` header.
+   Specifies the only external header to ``#include``, replacing those of `Zeta <https://github.com/redcode/Zeta>`_. This header must define the following:
 
-   This external header must define the following macros: ``Z_API_EXPORT``, ``Z_API_IMPORT``, ``Z_EMPTY``, ``Z_EXTERN_C_BEGIN``, ``Z_EXTERN_C_END``, ``Z_INLINE``, ``Z_MEMBER_OFFSET``, ``Z_NULL``, ``Z_UINT8_ROTATE_LEFT``, ``Z_UINT8_ROTATE_RIGHT``, ``Z_UINT16``, ``Z_UINT16_BIG_ENDIAN``, ``Z_UINT32``, ``Z_UINT32_BIG_ENDIAN``, ``Z_UNUSED`` and ``Z_USIZE``.
+   * Macros: ``Z_API_EXPORT``, ``Z_API_IMPORT``, ``Z_EMPTY``, ``Z_EXTERN_C_BEGIN``, ``Z_EXTERN_C_END``, ``Z_INLINE``, ``Z_MEMBER_OFFSET``, ``Z_NULL``, ``Z_UINT8_ROTATE_LEFT``, ``Z_UINT8_ROTATE_RIGHT``, ``Z_UINT16``, ``Z_UINT16_BIG_ENDIAN``, ``Z_UINT32``, ``Z_UINT32_BIG_ENDIAN``, ``Z_UNUSED`` and ``Z_USIZE``.
 
-   And the following types: ``zboolean``, ``zsint``, ``zsint8``, ``zuint``, ``zuint8``, ``zuint16``, ``zuint32``, ``zusize``, ``ZInt16`` and ``ZInt32``.
+   * Types: ``zboolean``, ``zsint``, ``zsint8``, ``zuint``, ``zuint8``, ``zuint16``, ``zuint32``, ``zusize``, ``ZInt16`` and ``ZInt32``.
+
+   If you compile :file:`Z80.c` with with this macro defined, you must also define it before including ``"Z80.h"`` or ``<Z80.h>``.
 
 .. c:macro:: Z80_STATIC
 
-   Required to compile and/or use the emulator as a static library or as an internal part of another project. |br| |nl|
-   If used, it must also be defined before including the :file:`Z80.h` header.
+   Required to compile and/or use the emulator as a static library or as an internal part of another project. If you compile :file:`Z80.c` with with this macro defined, you must also define it before including ``"Z80.h"`` or ``<Z80.h>``.
 
 .. c:macro:: Z80_WITH_LOCAL_HEADER
 
