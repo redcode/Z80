@@ -20,7 +20,6 @@ The [Z80 library](https://zxe.io/software/Z80) implements a fast, small and accu
 
 The source code is written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C) for maximum portability and is extensively commented. The aim has been to write a well-structured, easy to understand piece of software; something solid and elegant that can stand the test of time with no need for major changes.
 
-
 # Accuracy
 
 The Zilog Z80 emulator has a classic design with instruction-level granularity. This provides the best performance while still offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/Agaxia/Z80Plus).
@@ -339,14 +338,14 @@ apt install libz80-dev
 
 First add the ZXE overlay:
 
-```
+```shell
 eselect repository add zxe git https://github.com/redcode/zxe-gentoo-overlay.git
 emaint sync --repo zxe
 ```
 
 Next, install the Z80 library:
 
-```
+```shell
 emerge z80
 ```
 
@@ -495,6 +494,7 @@ It is advisable to use the [`--strip`](https://cmake.org/cmake/help/latest/manua
 The package includes a tool called `test-Z80` capable of running the most relevant [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of [the major test suites](#major_test_suites). Configure the build system with <code>-D[Z80_WITH_TESTS](#option_Z80_WITH_TESTS)=YES</code> to enable its compilation and <code>-D[Z80_DOWNLOAD_TEST_FILES](#option_Z80_DOWNLOAD_TEST_FILES)=YES</code> to download the firmware and software required. Also note that the Z80 library must be built with <code>-D[Z80_WITH_Q](#option_Z80_WITH_Q)=YES</code> to be able to pass [Patrik Rak's tests](#zilog-z80-cpu-test-suite-by-patrik-rak).
 
 Once you have built the package, type the following to run all tests:
+
 ```shell
 ./test-Z80 -p downloads/firmware -p downloads/software/POSIX -p "downloads/software/ZX Spectrum" -a
 ```
