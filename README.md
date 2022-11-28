@@ -383,7 +383,7 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 	Specify the installation prefix on [UNIX](https://en.wikipedia.org/wiki/Unix) and [UNIX-like](https://en.wikipedia.org/wiki/Unix-like) operating systems.  
 	The default is `"/usr/local"`.
 
-Package-specific options are prefixed with `Z80_` and can be divided into two groups. The first one controls aspects not related to the source code of the library:
+<span id="cmake_package_options">Package-specific options</span> are prefixed with `Z80_` and can be divided into two groups. The first one controls aspects not related to the source code of the library:
 
 * <span id="option_Z80_DOWNLOAD_TEST_FILES">**`-DZ80_DOWNLOAD_TEST_FILES=(YES|NO)`**</span>  
 	Download the firmware and software used by the testing tool.  
@@ -529,7 +529,7 @@ When not specified as a component, the linking method is selected according to [
 
 To embed the Z80 library as a CMake subproject, place its entire source tree into a subdirectory of another project and use [`add_subdirectory`](https://cmake.org/cmake/help/latest/command/add_subdirectory.html) in the parent project to add this subdirectory to the build process.
 
-It is advisable to configure the library in the `CMakeLists.txt` of the parent project. This will prevent the user from having to specify configuration options for the Z80 subproject through the command line when building the main project.
+It is advisable to configure the library in the `CMakeLists.txt` of the parent project. This will prevent the user from having to specify [configuration options for the Z80 subproject](#cmake_package_options) through the command line when building the main project.
 
 Example:
 
