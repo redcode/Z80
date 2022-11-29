@@ -62,6 +62,8 @@ If in doubt, read the `CMake documentation <https://cmake.org/documentation/>`_ 
    Specify the installation prefix on `UNIX <https://en.wikipedia.org/wiki/Unix>`_ and `UNIX-like <https://en.wikipedia.org/wiki/Unix-like>`_ operating systems. |br| |nl|
    The default is ``"/usr/local"``.
 
+.. _cmake_package_options:
+
 Package-specific options are prefixed with ``Z80_`` and can be divided into two groups. The first one controls aspects not related to the source code of the library:
 
 .. option:: -DZ80_DOWNLOAD_TEST_FILES=(YES|NO)
@@ -132,6 +134,8 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 
    Build the testing tool. |br| |nl|
    The default is ``NO``.
+
+.. _cmake_source_code_options:
 
 The second group of package-specific options configures the source code of the library by predefining macros that enable :ref:`optional features <Introduction:Optional features>`:
 

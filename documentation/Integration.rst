@@ -30,7 +30,7 @@ As a CMake subproject
 
 To embed the Z80 library as a CMake subproject, place its entire source tree into a subdirectory of another project and use |add_subdirectory|_ in the parent project to add this subdirectory to the build process.
 
-It is advisable to configure the library in the :file:`CMakeLists.txt` of the parent project. This will prevent the user from having to specify configuration options for the Z80 subproject through the command line when building the main project.
+It is advisable to configure the library in the :file:`CMakeLists.txt` of the parent project. This will prevent the user from having to specify :ref:`configuration options for the Z80 subproject <cmake_package_options>` through the command line when building the main project.
 
 Example:
 
@@ -68,7 +68,7 @@ There are several macros that can be used to configure the source code of the li
 
    Tells :file:`Z80.c` to ``#include "Z80.h"`` instead of ``<Z80.h>``.
 
-The second group of package-specific options, explained in the :doc:`Installation` section of this document, activates various :ref:`optional features <Introduction:Optional features>` in the source code by predefining the following macros:
+:ref:`The second group of package-specific options <cmake_source_code_options>`, explained in the :doc:`Installation` section of this document, activates various :ref:`optional features <Introduction:Optional features>` in the source code by predefining the following macros:
 
 .. c:macro:: Z80_WITH_EXECUTE
 
