@@ -1,9 +1,9 @@
-name: Library CI
+name: Build and test library
 
 on:
   push:
     paths:
-    - '.github/workflows/library-ci.yml'
+    - '.github/workflows/build_and_test_library.yml'
     - 'API/**'
     - 'CMake/FindZeta.cmake'
     - 'sources/*.c'
@@ -12,7 +12,7 @@ on:
     - 'CMakeLists.txt'
   pull_request:
     paths:
-    - '.github/workflows/library-ci.yml'
+    - '.github/workflows/build_and_test_library.yml'
     - 'API/**'
     - 'CMake/FindZeta.cmake'
     - 'sources/*.c'
@@ -41,7 +41,7 @@ env:
   Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG: YES
 
 jobs:
-  build:
+  build_and_test_library:
     runs-on: ${{matrix.os}}
 
     strategy:
@@ -51,13 +51,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install Dependencies (POSIX)
+    - name: Install dependencies (POSIX)
       if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
       run: |
         mkdir -p ${{github.workspace}}/build
         curl -L http://zeta.st/download/Zeta-latest.tar.xz | xz -cd | tar -C ${{github.workspace}}/build --strip-components=2 -xvf - Zeta/API/Z
 
-    - name: Install Dependencies (Windows)
+    - name: Install dependencies (Windows)
       if: startsWith(matrix.os, 'windows')
       shell: cmd
       run: |

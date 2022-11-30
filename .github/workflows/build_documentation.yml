@@ -1,16 +1,16 @@
-name: Documentation CI
+name: Build documentation
 
 on:
   push:
     paths:
-    - '.github/workflows/documentation-ci.yml'
+    - '.github/workflows/build_documentation.yml'
     - 'API/**'
     - 'CMake/**'
     - 'documentation/**'
     - 'CMakeLists.txt'
   pull_request:
     paths:
-    - '.github/workflows/documentation-ci.yml'
+    - '.github/workflows/build_documentation.yml'
     - 'API/**'
     - 'CMake/**'
     - 'documentation/**'
@@ -29,13 +29,13 @@ env:
   Z80_WITH_TESTS: NO
 
 jobs:
-  build:
+  build_documentation:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install Build Tools
+    - name: Install build tools
       run: |
         sudo apt-get update
         sudo apt-get -y install doxygen
@@ -44,7 +44,7 @@ jobs:
         pip3 install --user sphinx
         pip3 install --user breathe
 
-    - name: Install Dependencies
+    - name: Install dependencies
       run: |
         mkdir -p ${{github.workspace}}/build
         curl -L http://zeta.st/download/Zeta-latest.tar.xz | xz -cd | tar -C ${{github.workspace}}/build --strip-components=2 -xvf - Zeta/API/Z
@@ -63,8 +63,8 @@ jobs:
         -DZ80_WITH_STANDARD_DOCUMENTS=${{env.Z80_WITH_STANDARD_DOCUMENTS}}
         -DZ80_WITH_TESTS=${{env.Z80_WITH_TESTS}}
 
-    - name: Build HTML Documentation
+    - name: Build HTML documentation
       run: cmake --build ${{github.workspace}}/build --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-HTML
 
-    - name: Build PDF Documentation
+    - name: Build PDF documentation
       run: cmake --build ${{github.workspace}}/build --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-PDF
