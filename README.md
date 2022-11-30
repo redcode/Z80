@@ -346,7 +346,7 @@ emaint sync --repo zxe
 Next, install the Z80 library:
 
 ```shell
-emerge z80
+emerge emulation-libs/z80
 ```
 
 # Installation from sources
