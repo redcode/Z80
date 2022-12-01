@@ -411,7 +411,11 @@ typedef struct {
 	zuint8 iff2; /**< @brief Interrupt enable flip-flop 2 (IFF2). */
 	zuint8 q;    /**< @brief Q "register". */
 
-	/** @brief Emulation options. */
+	/** @brief Emulation options.
+	  *
+	  * This member specifies the different emulation options that are
+	  * enabled. It is mandatory to initialize it before using the emulator.
+	  * Setting it to `0` disables all options. */
 
 	zuint8 options;
 
