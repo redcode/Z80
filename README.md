@@ -38,7 +38,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top" align="center">
 				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80full.tap</b>
 				</a>
 				<br>
@@ -46,7 +46,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80doc.tap</b>
 				</a>
 				<br>
@@ -55,16 +55,16 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Full.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Full.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Doc.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Doc.gif"/>
 			</td>
 		</tr>
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80flags.tap</b>
 				</a>
 				<br>
@@ -72,7 +72,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80docflags.tap</b>
 				</a>
 				<br>
@@ -80,16 +80,16 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 		</tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Flags.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Flags.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif"/>
 			</td>
 		</tr>
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80ccf.tap</b>
 				</a>
 				<br>
@@ -97,7 +97,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80memptr.tap</b>
 				</a>
 				<br>
@@ -106,10 +106,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20CCF.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20CCF.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif"/>
 			</td>
 		</tr>
 	</table>
@@ -120,7 +120,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top" align="center">
 				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80full.tap</b>
 				</a>
 				<br>
@@ -128,7 +128,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80doc.tap</b>
 				</a>
 				<br>
@@ -137,16 +137,16 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Full.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Full.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Doc.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Doc.gif"/>
 			</td>
 		</tr>
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80flags.tap</b>
 				</a>
 				<br>
@@ -154,7 +154,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80docflags.tap</b>
 				</a>
 				<br>
@@ -162,16 +162,16 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 		</tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Flags.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Flags.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif"/>
 			</td>
 		</tr>
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80ccf.tap</b>
 				</a>
 				<br>
@@ -179,7 +179,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80memptr.tap</b>
 				</a>
 				<br>
@@ -188,10 +188,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20CCF.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20CCF.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif"/>
 			</td>
 		</tr>
 	</table>
@@ -207,17 +207,17 @@ This suite performs a series of tests to verify the MEMPTR documents <sup>_([Eng
 		<tr>
 			<td align="center" valign="top" colspan="2">
 				<a href="https://web.archive.org/web/20130511214919if_/http://homepage.ntlworld.com/mark.woodmass/z80tests.tap">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>z80tests.tap</b>
 				</a>
 			</td>
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Test%20Suite%20%282008%29%28Woodmass,%20Mark%29%20-%20Flags.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Test%20Suite%20%282008%29%28Woodmass,%20Mark%29%20-%20Flags.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Test%20Suite%20%282008%29%28Woodmass,%20Mark%29%20-%20MEMPTR.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Test%20Suite%20%282008%29%28Woodmass,%20Mark%29%20-%20MEMPTR.gif"/>
 			</td>
 		</tr>
 	</table>
@@ -233,7 +233,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20200806155334if_/http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexdoc.tap">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>zexdoc.tap</b>
 				</a>
 				<br>
@@ -242,7 +242,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20181216034526if_/http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexall.tap">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>zexall.tap</b>
 				</a>
 				<br>
@@ -251,10 +251,10 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Documented%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282018%29%28Harston,%20Jonathan%20Graham%29.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Documented%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282018%29%28Harston,%20Jonathan%20Graham%29.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282018%29%28Harston,%20Jonathan%20Graham%29.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282018%29%28Harston,%20Jonathan%20Graham%29.gif"/>
 			</td>
 		</tr>
 	</table>
@@ -265,7 +265,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20120527195857if_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexfix.tap">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>zexfix.tap</b>
 				</a>
 				<br>
@@ -274,7 +274,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20120527200327if_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexbit.tap">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>zexbit.tap</b>
 				</a>
 				<br>
@@ -283,10 +283,10 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282009%29%28Bobrowski,%20Jan%29.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282009%29%28Bobrowski,%20Jan%29.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282011%29%28Bobrowski,%20Jan%29%28Narrowed%20to%20BIT%20Instructions%29.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282011%29%28Bobrowski,%20Jan%29%28Narrowed%20to%20BIT%20Instructions%29.gif"/>
 			</td>
 		</tr>
 	</table>
@@ -297,14 +297,14 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204406if_/http://zxds.raxoft.cz/taps/misc/zexall2.zip">
-					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>zexall2.tap</b>
 				</a>
 			</td>
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="http://zxe.io/software/Z80/images/tests/Z80%20Instruction%20Set%20Exerciser%20for%20Spectrum%202%20v0.1%20%282012-11-27%29%28Rak,%20Patrik%29.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Instruction%20Set%20Exerciser%20for%20Spectrum%202%20v0.1%20%282012-11-27%29%28Rak,%20Patrik%29.gif"/>
 			</td>
 		</tr>
 	</table>
@@ -775,7 +775,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 Copyright © 1999-2022 Manuel Sainz de Baranda y Goñi.
 
-<img src="http://zxe.io/software/Z80/images/lgplv3-147x51.png" align="right">
+<img src="https://zxe.io/software/Z80/images/lgplv3-147x51.png" align="right">
 
 This library is [free software](https://www.gnu.org/philosophy/free-sw.html): you can redistribute it and/or modify it under the terms of the **[GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.en.html)** as published by the [Free Software Foundation](https://www.fsf.org), either version 3 of the License, or (at your option) any later version.
 
