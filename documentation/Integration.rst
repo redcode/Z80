@@ -28,7 +28,7 @@ When not specified as a component, the linking method is selected according to :
 As a CMake subproject
 =====================
 
-To embed the Z80 library as a CMake subproject, extract the source code packages of `Zeta <https://zeta.st/download>`__ and `Z80 <https://zxe.io/software/Z80/download>`_ (or clone their respective repositories) into a subdirectory of another project. Then use |add_subdirectory|_ in the parent project to add the Z80 source code tree to the build process (the Z80 subproject will automatically find Zeta and import it as an `interface library <https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#interface-libraries>`_).
+To embed the Z80 library as a CMake subproject, extract the source code packages of `Zeta <https://zeta.st/download>`__ and `Z80 <https://zxe.io/software/Z80/download>`_ (or clone their respective repositories) into a subdirectory of another project. Then use |add_subdirectory|_ in the parent project to add the Z80 source code tree to the build process (N.B., the Z80 subproject will automatically find Zeta and import it as an `interface library <https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#interface-libraries>`_).
 
 It is advisable to configure the Z80 library in the :file:`CMakeLists.txt` of the parent project. This will prevent the user from having to specify :ref:`configuration options for the Z80 subproject <cmake_package_options>` through the command line when building the main project.
 
