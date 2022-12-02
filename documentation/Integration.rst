@@ -28,9 +28,9 @@ When not specified as a component, the linking method is selected according to :
 As a CMake subproject
 =====================
 
-To embed the Z80 library as a CMake subproject, place its entire source tree into a subdirectory of another project and use |add_subdirectory|_ in the parent project to add this subdirectory to the build process.
+To embed the Z80 library as a CMake subproject, extract the source code packages of `Zeta <https://zeta.st/download>`__ and `Z80 <https://zxe.io/software/Z80/download>`_ (or clone their respective repositories) into a subdirectory of another project. Then use |add_subdirectory|_ in the parent project to add the Z80 source code tree to the build process (the Z80 subproject will automatically find Zeta and import it as an `interface library <https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#interface-libraries>`_).
 
-It is advisable to configure the library in the :file:`CMakeLists.txt` of the parent project. This will prevent the user from having to specify :ref:`configuration options for the Z80 subproject <cmake_package_options>` through the command line when building the main project.
+It is advisable to configure the Z80 library in the :file:`CMakeLists.txt` of the parent project. This will prevent the user from having to specify :ref:`configuration options for the Z80 subproject <cmake_package_options>` through the command line when building the main project.
 
 Example:
 
@@ -52,7 +52,7 @@ There are several macros that can be used to configure the source code of the li
 
 .. c:macro:: Z80_DEPENDENCIES_HEADER
 
-   Specifies the only external header to ``#include``, replacing those of `Zeta <https://github.com/redcode/Zeta>`_. This header must define the following:
+   Specifies the only external header to ``#include``, replacing those of `Zeta <https://github.com/redcode/Zeta>`__. This header must define the following:
 
    * Macros: ``Z_API_EXPORT``, ``Z_API_IMPORT``, ``Z_EMPTY``, ``Z_EXTERN_C_BEGIN``, ``Z_EXTERN_C_END``, ``Z_INLINE``, ``Z_MEMBER_OFFSET``, ``Z_NULL``, ``Z_UINT8_ROTATE_LEFT``, ``Z_UINT8_ROTATE_RIGHT``, ``Z_UINT16``, ``Z_UINT16_BIG_ENDIAN``, ``Z_UINT32``, ``Z_UINT32_BIG_ENDIAN``, ``Z_UNUSED`` and ``Z_USIZE``.
 
