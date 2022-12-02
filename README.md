@@ -241,7 +241,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 			</td>
 			</td>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20181216034526if_/http://mdfs.net:80/Software/Z80/Exerciser/Spectrum/zexall.tap">
+				<a href="https://web.archive.org/web/20181216034526if_/http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexall.tap">
 					<img src="http://zxe.io/software/Z80/images/TAP.png"/><br>
 					<b>zexall.tap</b>
 				</a>
