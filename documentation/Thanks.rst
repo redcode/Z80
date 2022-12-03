@@ -91,6 +91,10 @@ Many thanks to the following individuals (in alphabetical order):
 
   * For his research on undocumented behaviors of the Z80 CPU. |re| |fe| :ref:`16<r16>` |ren| |ces|
 
+* **Equinox**
+
+  * For his corrections to the documentation.
+
 * **Flammenkamp, Achim**
 
   * For his article on Z80 interrupts. |re| |fe| :ref:`17<r17>` |ren| |ces|

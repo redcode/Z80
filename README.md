@@ -626,6 +626,8 @@ Many thanks to the following individuals (in alphabetical order):
 	* For writing the _"Z80 Instruction Set Exerciser"_. <sup>[15](#r15)</sup>
 * **Devic, Goran**
 	* For his research on undocumented behaviors of the Z80 CPU. <sup>[16](#r16)</sup>
+* **Equinox**
+	* For his corrections to the documentation.
 * **Flammenkamp, Achim**
 	* For his article on Z80 interrupts. <sup>[17](#r17)</sup>
 * **Gimeno Fortea, Pedro**
