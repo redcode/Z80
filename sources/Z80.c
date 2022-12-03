@@ -858,8 +858,8 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	DATA[2] = IFF1;						   \
 	NOTIFY(mnemonic);					   \
 	Q_0							   \
-	if ((IFF1 = IFF2) && INT_LINE) REQUEST |= Z80_REQUEST_INT; \
 	RET;							   \
+	if ((IFF1 = IFF2) && INT_LINE) REQUEST |= Z80_REQUEST_INT; \
 	return 14
 
 
@@ -2331,7 +2331,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				/* if the previous instruction is not `ei` */
 				DATA[0] != 0xFB &&
 				/* if the previous instruction is not `reti/retn` or IFF1 has not changed */
-				(self->data.uint32_value & Z_UINT32_BIG_ENDIAN(Z_UINT32(0xFFC7FF00)))
+				(self->data.uint32_value & Z_UINT32_BIG_ENDIAN(Z_UINT32(0xFFC70100)))
 				!=			   Z_UINT32_BIG_ENDIAN(Z_UINT32(0xED450000))
 			)
 				{
