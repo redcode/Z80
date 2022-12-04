@@ -29,6 +29,7 @@ if(NOT FindZeta_NO_RELATIVE_SEARCH)
 			"${PROJECT_SOURCE_DIR}/kits/Zeta/API"
 			"${PROJECT_SOURCE_DIR}/kits"
 			"${PROJECT_SOURCE_DIR}/../Zeta/API"
+			"${PROJECT_SOURCE_DIR}/../zeta-src/API"
 			"${PROJECT_SOURCE_DIR}/.."
 		NO_DEFAULT_PATH)
 endif()
