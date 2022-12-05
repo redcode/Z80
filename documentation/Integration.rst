@@ -58,11 +58,11 @@ There are several macros that can be used to configure the source code of the li
 
    * Types: ``zboolean``, ``zsint``, ``zsint8``, ``zuint``, ``zuint8``, ``zuint16``, ``zuint32``, ``zusize``, ``ZInt16`` and ``ZInt32``.
 
-   If you compile :file:`Z80.c` with with this macro defined, you must also define it before including ``"Z80.h"`` or ``<Z80.h>``.
+   If you compile :file:`Z80.c` with this macro defined, you must also define it before including ``"Z80.h"`` or ``<Z80.h>``.
 
 .. c:macro:: Z80_STATIC
 
-   Required to compile and/or use the emulator as a static library or as an internal part of another project. If you compile :file:`Z80.c` with with this macro defined, you must also define it before including ``"Z80.h"`` or ``<Z80.h>``.
+   Required to compile and/or use the emulator as a static library or as an internal part of another project. If you compile :file:`Z80.c` with this macro defined, you must also define it before including ``"Z80.h"`` or ``<Z80.h>``.
 
 .. c:macro:: Z80_WITH_LOCAL_HEADER
 
