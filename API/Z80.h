@@ -31,7 +31,7 @@
   * including the undocumented behaviors, MEMPTR, Q and the special RESET.
   *
   * @version 0.2
-  * @date 2022-10
+  * @date 2022-12
   * @author Manuel Sainz de Baranda y Goñi. */
 
 #ifdef Z80_DEPENDENCIES_HEADER
