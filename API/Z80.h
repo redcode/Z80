@@ -435,17 +435,17 @@ typedef struct {
 	zuint8 halt_line;
 } Z80;
 
+/** @brief <tt>@ref Z80::options</tt> bitmask that enables emulation of the
+  * <tt>out (c),255</tt> instruction, specific to the Zilog Z80 CMOS. */
+
+#define Z80_OPTION_OUT_VC_255 1
+
 /** @brief <tt>@ref Z80::options</tt> bitmask that enables emulation of the bug
   * affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a
   * maskable interrupt is accepted during the execution of the
   * <tt>ld a,{i|r}</tt> instructions. */
 
-#define Z80_OPTION_LD_A_IR_BUG 1
-
-/** @brief <tt>@ref Z80::options</tt> bitmask that enables emulation of the
-  * <tt>out (c),255</tt> instruction, specific to the Zilog Z80 CMOS. */
-
-#define Z80_OPTION_OUT_VC_255 2
+#define Z80_OPTION_LD_A_IR_BUG 2
 
 /** @brief <tt>@ref Z80::options</tt> bitmask that enables the XQ factor in the
   * emulation of the @c ccf and @c scf instructions. */

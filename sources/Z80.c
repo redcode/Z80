@@ -1696,7 +1696,7 @@ INSTRUCTION(out_vc_0)
 	Q_0
 	PC += 2;
 	MEMPTR = BC + 1;
-	OUT(BC, (OPTIONS & Z80_OPTION_OUT_VC_255) ? 255 : 0);
+	OUT(BC, (zuint8)0 - (OPTIONS & (zuint8)Z80_OPTION_OUT_VC_255));
 	return 12;
 	}
 
