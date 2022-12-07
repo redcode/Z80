@@ -251,6 +251,7 @@ begin
 
 	z80_power         := nil;
 	z80_instant_reset := nil;
+	z80_special_reset := nil;
 	z80_int           := nil;
 	z80_nmi           := nil;
 	z80_execute       := nil;
