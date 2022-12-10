@@ -317,21 +317,23 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 First add the ZXE repository and update the package index:
 
 ```shell
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv FE214A38D6A0C01D9AF514EE841EA3BD3A7E1487
-add-apt-repository 'deb [arch=amd64] https://zxe.io/repos/apt stable main'
-apt update
+sudo mkdir -pm700 /root/.gnupg
+sudo mkdir -pm755 /etc/apt/keyrings
+sudo gpg --no-default-keyring --keyring /etc/apt/keyrings/zxe-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys FE214A38D6A0C01D9AF514EE841EA3BD3A7E1487
+echo "deb [signed-by=/etc/apt/keyrings/zxe-archive-keyring.gpg arch=amd64] https://zxe.io/repos/apt stable main" | sudo tee /etc/apt/sources.list.d/zxe.list
+sudo apt update
 ```
 
-Next, install the Z80 library package:
+Next, install the library package:
 
 ```shell
-apt install libz80
+sudo apt install libz80
 ```
 
 In case you need to build software that requires the Z80 library, install the development package too:
 
 ```shell
-apt install libz80-dev
+sudo apt install libz80-dev
 ````
 
 ### Gentoo Linux
@@ -343,7 +345,7 @@ eselect repository add zxe git https://github.com/redcode/zxe-gentoo-overlay.git
 emaint sync --repo zxe
 ```
 
-Next, install the Z80 library:
+Then, install the library:
 
 ```shell
 emerge emulation-libs/z80
