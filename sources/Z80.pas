@@ -67,7 +67,7 @@ type
 		{$else}
 			1: (bytes: packed record high: UInt8; low: UInt8 end);
 		{$endif}
-  	end;
+	end;
 
 	Z80Read    = function(context: Pointer; address: UInt16): UInt8; cdecl;
 	Z80Write   = procedure(context: Pointer; address: UInt16; value: UInt8); cdecl;

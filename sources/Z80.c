@@ -250,7 +250,7 @@ static Z_INLINE void write_16b(Z80 const *self, zuint16 address, zuint16 value)
 /* MARK: - P/V Flag Computation */
 
 static zuint8 const pf_parity_table[256] = {
-/*	0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
+/*	0  1  2  3  4  5  6  7	8  9  A  B  C  D  E  F */
 /* 0 */ 4, 0, 0, 4, 0, 4, 4, 0, 0, 4, 4, 0, 4, 0, 0, 4,
 /* 1 */ 0, 4, 4, 0, 4, 0, 0, 4, 4, 0, 0, 4, 0, 4, 4, 0,
 /* 2 */ 0, 4, 4, 0, 4, 0, 0, 4, 4, 0, 0, 4, 0, 4, 4, 0,
@@ -649,6 +649,7 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 
 /* MARK: - Function Shortcuts and Reusable Code */
 
+#define INSTRUCTION(name)    static zuint8 name(Z80 *self)
 #define N(index)	     ((DATA[index] >> 3) & 7)
 #define Z(mask)		     zzz(self, mask)
 #define U0(value)	     uuu(self, 0, value)
@@ -663,7 +664,6 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 #define R_ALL		     ((R & 127) | (R7 & 128))
 #define RET		     MEMPTR = PC = READ_16(SP); SP += 2
 #define FETCH_XY_EA(address) MEMPTR = (zuint16)(XY + (zsint8)FETCH(address))
-#define INSTRUCTION(name)    static zuint8 name(Z80 *self)
 #define IS_XY_PREFIX(opcode) ((opcode) & 0xDF) == 0xDD
 #define EX(a, b)	     t = a; a = b; b = t
 
@@ -1020,7 +1020,7 @@ INSTRUCTION(ld_vXYpOFFSET_BYTE)
 	zuint16 ea;
 
 	Q_0
- 	ea = FETCH_XY_EA((PC += 4) - 2);
+	ea = FETCH_XY_EA((PC += 4) - 2);
 	WRITE(ea, FETCH(PC - 1));
 	return 15;
 	}
@@ -1111,7 +1111,7 @@ INSTRUCTION(cpdr     ) {CPXR(--);								     }
 
 /* MARK: - Instructions: 8-Bit Arithmetic and Logical Group */
 /*-------------------------------------------------------------------.
-|		      0	      1	      2		Flags     T-states   |
+|		      0	      1	      2		Flags	  T-states   |
 |  Assembly	      765432107654321076543210	SZYHXPNC     123456  |
 |  -----------------  ------------------------	--------  ---------  |
 |  U [a,]K	      10uuukkk			sz||||||   4:4	     |
@@ -1467,7 +1467,7 @@ INSTRUCTION(rrd		  ) {RXD(>> 4, << 4, & 0xF);					  }
 | (*) Undocumented instruction.						     |
 |----------------------------------------------------------------------------|
 | 1. All versions of Zilog's "Z80 CPU User Manual" contain a typo in the     |
-|    M-cycles of this instruction: an additional M-cycle of 4 T-states.      |
+|    M-cycles of this instruction: an additional M-cycle of 4 T-states.	     |
 '===========================================================================*/
 
 INSTRUCTION(M_N_K	    ) {zuint8 *k = &K1; *k = M1(*k);			  return  8;}
@@ -1608,7 +1608,7 @@ INSTRUCTION(call_Z_WORD)
 /* MARK: - Instructions: Input and Output Group */
 /*--------------------------------------------------------------.
 |		 0	 1	   Flags     T-states		|
-|  Assembly	 7654321076543210  SZYHXPNC  !0 12345  =0 1234  |
+|  Assembly	 7654321076543210  SZYHXPNC  !0 12345  =0 1234	|
 |  ------------	 ----------------  --------  -----------------	|
 |  in a,(BYTE)	 <--DB--><-BYTE->  ........  11:434		|
 |  in J,(c)	 <--ED-->01jjj000  szy0xp0.  12:444		|
@@ -1627,9 +1627,9 @@ INSTRUCTION(call_Z_WORD)
 |---------------------------------------------------------------|
 | (*) Undocumented instruction.					|
 |---------------------------------------------------------------|
-| 1. All versions of Zilog's "Z80 CPU User Manual" have a typo  |
+| 1. All versions of Zilog's "Z80 CPU User Manual" have a typo	|
 |    in the M-cycles of these instructions: the T-states of the |
-|    3rd and 4th M-cycles are swapped.		                |
+|    3rd and 4th M-cycles are swapped.				|
 '==============================================================*/
 
 INSTRUCTION(in_J_vc ) {IN_VC; J1 = t;			 PC += 2; return 12;}
@@ -1973,7 +1973,7 @@ INSTRUCTION(hook)
 
 #ifdef Z80_WITH_FULL_IM0
 	static zuint8 const im0_pc_decrement_table[256] = {
-	/*      0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
+	/*	0  1  2  3  4  5  6  7	8  9  A  B  C  D  E  F */
 	/* 0 */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	/* 1 */ 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0,
 	/* 2 */ 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0,
