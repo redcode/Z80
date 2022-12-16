@@ -142,13 +142,13 @@ typedef zuint8 (* Instruction)(Z80 *self);
 #define CONTEXT	  self->context
 
 #define FETCH_OPCODE(address) self->fetch_opcode(CONTEXT, address)
-#define FETCH(address)	      self->fetch(CONTEXT, address)
-#define READ(address)	      self->read (CONTEXT, address)
-#define WRITE(address, value) self->write(CONTEXT, address, value)
-#define IN(port)	      self->in (CONTEXT, port)
-#define OUT(port, value)      self->out(CONTEXT, port, value)
+#define FETCH(address)	      self->fetch	(CONTEXT, address)
+#define READ(address)	      self->read 	(CONTEXT, address)
+#define WRITE(address, value) self->write	(CONTEXT, address, value)
+#define IN(port)	      self->in   	(CONTEXT, port)
+#define OUT(port, value)      self->out  	(CONTEXT, port, value)
+#define INTA		      self->inta 	(CONTEXT, PC)
 #define NOTIFY(callback)      if (self->callback != Z_NULL) self->callback(CONTEXT)
-#define INTA		      self->inta(CONTEXT, PC)
 
 
 /* MARK: - Callbacks: 16-bit Operations */
