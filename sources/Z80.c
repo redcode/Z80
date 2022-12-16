@@ -96,9 +96,8 @@ typedef zuint8 (* Instruction)(Z80 *self);
 
 /* MARK: - External Macros */
 
-#define REGISTER_OFFSET(member) (zusize)Z_MEMBER_OFFSET(Z80, member)
-#define ROL(value)		Z_UINT8_ROTATE_LEFT (value, 1)
-#define ROR(value)		Z_UINT8_ROTATE_RIGHT(value, 1)
+#define ROL(value) Z_UINT8_ROTATE_LEFT (value, 1)
+#define ROR(value) Z_UINT8_ROTATE_RIGHT(value, 1)
 
 
 /* MARK: - Instance Variable and Callback Shortcuts */
@@ -290,25 +289,25 @@ static zuint8 const pf_parity_table[256] = {
 	       '--------------------*/
 
 static zusize const j_k_table[8] = {
-	REGISTER_OFFSET(bc.uint8_values.at_1),
-	REGISTER_OFFSET(bc.uint8_values.at_0),
-	REGISTER_OFFSET(de.uint8_values.at_1),
-	REGISTER_OFFSET(de.uint8_values.at_0),
-	REGISTER_OFFSET(hl.uint8_values.at_1),
-	REGISTER_OFFSET(hl.uint8_values.at_0),
+	Z_MEMBER_OFFSET(Z80, bc.uint8_values.at_1),
+	Z_MEMBER_OFFSET(Z80, bc.uint8_values.at_0),
+	Z_MEMBER_OFFSET(Z80, de.uint8_values.at_1),
+	Z_MEMBER_OFFSET(Z80, de.uint8_values.at_0),
+	Z_MEMBER_OFFSET(Z80, hl.uint8_values.at_1),
+	Z_MEMBER_OFFSET(Z80, hl.uint8_values.at_0),
 	0,
-	REGISTER_OFFSET(af.uint8_values.at_1)
+	Z_MEMBER_OFFSET(Z80, af.uint8_values.at_1)
 };
 
 static zusize const o_p_table[8] = {
-	REGISTER_OFFSET(bc.uint8_values.at_1),
-	REGISTER_OFFSET(bc.uint8_values.at_0),
-	REGISTER_OFFSET(de.uint8_values.at_1),
-	REGISTER_OFFSET(de.uint8_values.at_0),
-	REGISTER_OFFSET(xy.uint8_values.at_1),
-	REGISTER_OFFSET(xy.uint8_values.at_0),
+	Z_MEMBER_OFFSET(Z80, bc.uint8_values.at_1),
+	Z_MEMBER_OFFSET(Z80, bc.uint8_values.at_0),
+	Z_MEMBER_OFFSET(Z80, de.uint8_values.at_1),
+	Z_MEMBER_OFFSET(Z80, de.uint8_values.at_0),
+	Z_MEMBER_OFFSET(Z80, xy.uint8_values.at_1),
+	Z_MEMBER_OFFSET(Z80, xy.uint8_values.at_0),
 	0,
-	REGISTER_OFFSET(af.uint8_values.at_1)
+	Z_MEMBER_OFFSET(Z80, af.uint8_values.at_1)
 };
 
 #define REGISTER_8(table, offset, shift) \
@@ -335,24 +334,24 @@ static zusize const o_p_table[8] = {
 	       '----------------------------*/
 
 static zusize const s_table[4] = {
-	REGISTER_OFFSET(bc.uint16_value),
-	REGISTER_OFFSET(de.uint16_value),
-	REGISTER_OFFSET(hl.uint16_value),
-	REGISTER_OFFSET(sp)
+	Z_MEMBER_OFFSET(Z80, bc.uint16_value),
+	Z_MEMBER_OFFSET(Z80, de.uint16_value),
+	Z_MEMBER_OFFSET(Z80, hl.uint16_value),
+	Z_MEMBER_OFFSET(Z80, sp)
 };
 
 static zusize const t_table[4] = {
-	REGISTER_OFFSET(bc.uint16_value),
-	REGISTER_OFFSET(de.uint16_value),
-	REGISTER_OFFSET(hl.uint16_value),
-	REGISTER_OFFSET(af.uint16_value)
+	Z_MEMBER_OFFSET(Z80, bc.uint16_value),
+	Z_MEMBER_OFFSET(Z80, de.uint16_value),
+	Z_MEMBER_OFFSET(Z80, hl.uint16_value),
+	Z_MEMBER_OFFSET(Z80, af.uint16_value)
 };
 
 static zusize const w_table[4] = {
-	REGISTER_OFFSET(bc.uint16_value),
-	REGISTER_OFFSET(de.uint16_value),
-	REGISTER_OFFSET(xy.uint16_value),
-	REGISTER_OFFSET(sp)
+	Z_MEMBER_OFFSET(Z80, bc.uint16_value),
+	Z_MEMBER_OFFSET(Z80, de.uint16_value),
+	Z_MEMBER_OFFSET(Z80, xy.uint16_value),
+	Z_MEMBER_OFFSET(Z80, sp)
 };
 
 #define REGISTER_16(table, offset) \
