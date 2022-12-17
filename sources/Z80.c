@@ -94,12 +94,6 @@ typedef zuint8 (* Instruction)(Z80 *self);
 #endif
 
 
-/* MARK: - External Macros */
-
-#define ROL(value) Z_UINT8_ROTATE_LEFT (value, 1)
-#define ROR(value) Z_UINT8_ROTATE_RIGHT(value, 1)
-
-
 /* MARK: - Instance Variable and Callback Shortcuts */
 
 #define MEMPTR	  self->memptr.uint16_value
@@ -272,6 +266,12 @@ static zuint8 const pf_parity_table[256] = {
 
 #define PF_OVERFLOW(bits, result, lhs, rhs) \
 	(((zuint##bits)((lhs ^ rhs) & (lhs ^ result)) >> (bits - 3)) & PF)
+
+
+/* MARK: - Bit Rotation */
+
+#define ROL(value) Z_UINT8_ROTATE_LEFT (value, 1)
+#define ROR(value) Z_UINT8_ROTATE_RIGHT(value, 1)
 
 
 /* MARK: - 8-Bit Register Resolution */
