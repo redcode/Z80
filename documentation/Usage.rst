@@ -14,6 +14,7 @@ Usage
 	} Device;
 
 	typedef struct {
+		zusize  cycles;
 		zuint8  memory[65536];
 		Z80     cpu;
 		Device* devices;
@@ -27,7 +28,7 @@ Usage
 
 		for (; index < device_count; index++)
 			if (self->devices[index]->assigned_port == port)
-				return self->devices[index];
+				return &self->devices[index];
 
 		return Z_NULL;
 		}
@@ -63,6 +64,7 @@ Usage
 
 	void machine_initialize(Machine *self)
 		{
+		self->cycles           = 0;
 		self->cpu.fetch_opcode =
 		self->cpu.fetch        =
 		self->cpu.nop          =
@@ -81,6 +83,8 @@ Usage
 		self->cpu.hook         = Z_NULL;
 		self->cpu.illegal      = Z_NULL;
 		self->cpu.options      = Z80_MODEL_ZILOG_NMOS;
+
+		/* Create and initialize devices... */
 		}
 
 
@@ -98,4 +102,19 @@ Usage
 	void machine_reset(Machine *self)
 		{
 		z80_instant_reset(&cpu);
+		}
+
+
+	#define CYCLES_PER_FRAME 69888
+	#define CYCLES_AT_INT 24
+	#define CYCLES_PER_INT 32
+
+	void machine_run_frame(Machine *self)
+		{
+		self->cycles += z80_execute(&self->cpu, CYCLES_AT_INT - self->cycles);
+		z80_int(&self->cpu, TRUE);
+		self->cycles += z80_run(&self->cpu, (CYCLES_AT_INT + CYCLES_PER_INT) - self->cycles);
+		z80_int(&self->cpu, FALSE);
+		self->cycles += z80_execute(&self->cpu, CYCLES_PER_FRAME - self->cycles);
+		self->cycles -= CYCLES_PER_FRAME;
 		}
