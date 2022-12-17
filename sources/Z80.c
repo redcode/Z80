@@ -421,7 +421,8 @@ static void uuu(Z80 *self, zuint8 offset, zuint8 value)
 		f =	((zuint)A + value > 255)     | /* CF = carry	  */
 			PF_OVERFLOW(8, t, A, ~value) | /* PF = overflow	  */
 			((A ^ value ^ t) & HF);	       /* HF = half-carry */
-		A = t;				       /* NF = 0	  */
+						       /* NF = 0	  */
+		A = t;
 		break;
 
 		case 1: /* adc */
@@ -441,6 +442,7 @@ static void uuu(Z80 *self, zuint8 offset, zuint8 value)
 			NF			    | /* NF = 1		  */
 			PF_OVERFLOW(8, t, A, value) | /* PF = overflow	  */
 			((A ^ value ^ t) & HF);	      /* HF = half-borrow */
+
 		A = t;
 		break;
 
