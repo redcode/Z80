@@ -13,6 +13,8 @@ Granularity
 Fetch/execute overlapping
 -------------------------
 
+Real Z80 CPUs overlap some operations of certain instructions with the fetch phase of the next instruction or interrupt response. For example, the effective modification of registers A and F. The library does not emulate this feature for speed reasons and only guarantees register coherence at the instruction level, not at the T-state level.
+
 Normal RESET
 ------------
 
@@ -36,18 +38,20 @@ Interrupt mode 0
 
 The interrupt mode 0 executes an instruction supplied to the CPU via the data bus. Real Z80 chips can execute any instruction, even illegal ones, and also long sequences of ``DDh/FDh`` prefixes, although most existing hardware only uses a few instructions from the control transfer groups.
 
-The library includes two different implementations of this interrupt mode: full, which emulates everything, and reduced, which emulates only the ``jp WORD``, ``call WORD`` and ``rst N`` instructions. Enabling the full implementation can increase the size of the library by 1 or 2 KB approximately (depending on the target ISA and the executable format).
+The library includes two different implementations of this interrupt mode: full, which emulates everything, and reduced, which emulates only the ``jp WORD``, ``call WORD`` and ``rst N`` instructions.
+
+Enabling the full implementation of the interrupt mode 0 can increase the size of the library by 1 or 2 KB approximately (depending on the target ISA and the executable format).
 
 Package maintainers should enable the full implementation of the interrupt mode 0.
 
 Q
 -
 
-Q is an abstraction of certain ALU data involved in the computation of the flags. Instructions that do not modify the flags set Q to ``0``, while those that do so copy the final value of the F register to Q. The state of Q affects the undocumented flags X and Y in the ``ccf`` and ``scf`` instructions. This occurs on Z80 CPUs from Zilog and most other manufacturers.
+Q is an abstraction of certain ALU data related to flag computation. Instructions that modify the flags copy the final value of the F register to Q, while those that do not modify the flags set Q to zero. The state of Q affects the undocumented flags X and Y in the ``ccf`` and ``scf`` instructions. This occurs on Z80 CPUs from Zilog and most other manufacturers.
 
 Enabling the implementation of this feature adds code to update the value of Q in each instruction and interrupt response, which slightly increases the size of the library and, depending on the target ISA and the specific microarchitecture of the host CPU, can result in a performance loss of up to 2.4%.
 
-Package maintainers should however enable the implementation of the Q, as it is necessary for the emulator to pass all tests.
+Package maintainers should however enable the implementation of Q, as it is necessary for the emulator to pass all tests.
 
 Special RESET
 -------------
@@ -61,13 +65,13 @@ Package maintainers should not enable the implementation of the special RESET.
 Unofficial ``reti`` opcodes
 ---------------------------
 
-The ``retn`` instruction has 8 different opcodes: 1 documented, 6 undocumented and ``reti``, which is just the ``retn`` opcode whose execution is monitored by the Z80 CTC chip to know whether the CPU is returning from an ISR.
+The ``retn`` instruction has 8 different opcodes: 1 documented, 6 undocumented and ``reti``, which is just the specific ``retn`` opcode whose execution is monitored by the Z80 CTC chip to know whether the CPU is returning from an ISR.
 
-Some Z80 CPU emulators assign the 4 opcodes whose bit 3 is 0 to ``retn``, and the other 4 to ``reti``. However, as far as is known, the Z80 CTC and other similar circuits only monitor the execution of the ``ED4Dh`` opcode, (i.e. the one that the official documentation designates as ``reti``).
+Some Z80 CPU emulators assign the 4 opcodes whose bit 3 is ``0`` to ``retn``, and the other 4 to ``reti``. However, as far as is known, the Z80 CTC and other similar circuits only monitor the execution of the two-byte instruction ``ED4Dh``, (i.e. the one that the official documentation designates as ``reti``).
 
-Enabling unofficial ``reti`` opcodes will configure the ``D5Dh``, ``ED6Dh`` and ``ED7Dh`` opcodes as ``reti``, causing their execution to be notified through the :c:data:`Z80::reti<Z80.reti>` callback rather than :c:data:`Z80::retn<Z80.retn>`.
+Enabling unofficial ``reti`` opcodes will configure the ``ED5Dh``, ``ED6Dh`` and ``ED7Dh`` instructions as ``reti``, causing their execution to be notified through the :c:data:`Z80::reti<Z80.reti>` callback rather than :c:data:`Z80::retn<Z80.retn>`.
 
-Package maintainers should not enable unofficial ``reti`` opcodes.
+Package maintainers should never enable unofficial ``reti`` opcodes.
 
 Zilog NMOS bug of the ``ld a,i`` and ``ld a,r`` instructions
 ------------------------------------------------------------
