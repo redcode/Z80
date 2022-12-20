@@ -26,7 +26,7 @@
 |  Those familiar with the official documentation of the Zilog Z80 CPU will    |
 |  find this source code quite intuitive. The purpose has not been to write    |
 |  the fastest possible emulator, although the speed aspect is not neglected,  |
-|                                          but a portable, hackable and well   |
+|                                          but a portable, hackable and well-  |
 |             .----._.----.                structured piece of software;       |
 |   A11 <-01--|1         o|--40-> A10      something small, solid and elegant  |
 |   A12 <-02--|           |--39-> A09      that can stand the test of time     |
@@ -1507,7 +1507,7 @@ INSTRUCTION(bit_N_vhl)
 	| YF and XF are taken, respectively, from bits 13 and 11 of this  |
 	| internal register whose behavior was cracked in 2006 by boo_boo |
 	| and Vladimir Kladov. Official schematics refer to this register |
-	| as WZ, but this emulator uses the name "MEMPTR" to honour those |
+	| as WZ, but this emulator uses the name "MEMPTR" to honor those  |
 	| who cracked it.						  |
 	|								  |
 	| References:							  |
@@ -1924,10 +1924,10 @@ INSTRUCTION(xy_xy)
 
 /* MARK: - Instructions: Illegal */
 
-/*------------------------------------------------------------------.
-| The CPU ignores illegal instructions with EDh prefix; in practice |
-| they are all equivalent to two `nop` instructions (8 T-states).   |
-'==================================================================*/
+/*-------------------------------------------------------------------.
+| The CPU ignores illegal instructions with EDh prefix; in practice, |
+| they are all equivalent to two `nop` instructions (8 T-states).    |
+'===================================================================*/
 
 INSTRUCTION(ed_illegal)
 	{
@@ -2043,10 +2043,10 @@ INSTRUCTION(hook)
 /* MARK: - Public Functions */
 
 /*----------------------------------------------------------------------.
-| On POWER-ON, the CPU zeroes PC, I, and R, sets SP, IX, IY, AF, BC,	|
-| DE, HL, AF', BC', DE' and HL' to to FFFFh [1,2], resets the interrupt |
-| enable flip-flops (IFF1 and IFF2) and selects interrupt mode 0 [3].	|
-| On Zilog NMOS models, F is sometimes set to FDh (NF reset) [1].	|
+| On POWER-ON, the CPU zeroes PC, I and R, sets SP, IX, IY, AF, BC, DE,	|
+| HL, AF', BC', DE' and HL' to FFFFh [1,2], resets the interrupt enable |
+| flip-flops (IFF1 and IFF2) and selects interrupt mode 0 [3]. On Zilog |
+| NMOS models, F is sometimes set to FDh (NF reset) [1].		|
 |									|
 | There is no information about the initial state of MEMPTR and Q, so	|
 | they are assumed to be 0.						|
@@ -2166,11 +2166,11 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 	if (RESUME && cycles) switch (RESUME)
 		{
-		/*----------------------------------------------------------------.
-		| The CPU is halted. In order to avoid affecting the speed of the |
-		| main execution loop, this state is executed by a dedicated loop |
-		| within the function that emulates the `halt` instruction.	  |
-		'================================================================*/
+		/*------------------------------------------------------------.
+		| The CPU is halted. To avoid affecting the speed of the main |
+		| execution loop, this state is executed by a dedicated loop  |
+		| within the function that emulates the `halt` instruction.   |
+		'============================================================*/
 		case Z80_RESUME_HALT:
 		if (REQUEST)
 			{
@@ -2361,7 +2361,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				| device can write to the data bus. 2 wait T-states are automatically  |
 				| added to this M-cycle, allowing sufficient time to identify which    |
 				| device must insert the interrupt response data (IRD). The first and  |
-				| posibly sole byte of the IRD is read from the data bus during this   |
+				| possibly sole byte of the IRD is read from the data bus during this  |
 				| special M1 cycle.						       |
 				|								       |
 				| The value FFh is assumed when the `inta` callback is not used. This  |
@@ -2384,7 +2384,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| read during the INT acknowledge cycle (INTA). If it is an opcode prefix, |
 					| additional M-cycles of this kind are produced until the final opcode of  |
 					| the instruction is fetched [1]. Each INT acknowledge cycle consumes as   |
-					| many T-states as its normal M1 counterpart (the opcode fech M-cycle)     |
+					| many T-states as its normal M1 counterpart (the opcode fetch M-cycle)    |
 					| plus the 2 wait T-states mentioned above [1]. Subsequent bytes of the    |
 					| instruction are fetched by using normal memory read M-cycles [1,2],      |
 					| during which the interrupting I/O device must still supply the data [2]. |
@@ -2597,8 +2597,8 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| formed "is used to get two adjacent bytes to form a complete 16-bit  |
 					| service routine starting address and the addresses must always start |
 					| in even locations" [1]. However, Sean Young's experiments confirmed  |
-					| that there is no such limitation [2]; any vector works whether it is |
-					| odd or even.							       |
+					| that there is no such limitation [2]; any vector works regardless of |
+					| whether it is even or odd.					       |
 					|								       |
 					| References:							       |
 					| 1. Zilog (2005-03). "Z80 CPU User Manual" revision 5, pp. 25,26.     |
