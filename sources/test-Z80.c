@@ -509,8 +509,8 @@ static zuint8 run_test(int test_index)
 		{
 		error_loading_file:
 		if (verbosity) puts(show_test_output
-			? " error! (test skipped)\n"
-			: " error! (test skipped)");
+			? " Error, test skipped\n"
+			: " Error, test skipped");
 
 		return FALSE;
 		}
@@ -606,7 +606,7 @@ static zuint8 run_test(int test_index)
 
 	if (verbosity) puts(show_test_output
 		? (test->format == TEST_FORMAT_RAK ? "" : "\n")
-		: (lines == test->lines_expected ? " passed" : " failed"));
+		: (lines == test->lines_expected ? " Passed" : " Failed"));
 
 	return lines == test->lines_expected;
 	}
