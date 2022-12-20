@@ -2,7 +2,7 @@
 Introduction
 ============
 
-The Z80 library implements a fast, small and accurate `emulator <https://en.wikipedia.org/wiki/Emulator>`_ of the `Zilog Z80 <https://en.wikipedia.org/wiki/Zilog_Z80>`_. It emulates all that is known to date about this CPU, including the undocumented behaviors, `MEMPTR <https://zxpress.ru/zxnet/zxnet.pc/5909>`_, `Q <https://worldofspectrum.org/forums/discussion/41704>`_ and the `special RESET <http://www.primrosebank.net/computers/z80/z80_special_reset.htm>`_. It also has the honor of having been the first open source project to provide full emulation of the interrupt mode 0.
+The Z80 library implements a fast, small and accurate `emulator <https://en.wikipedia.org/wiki/Emulator>`_ of the `Zilog Z80 <https://en.wikipedia.org/wiki/Zilog_Z80>`_. It emulates all that is known to date about this CPU, including the undocumented behaviors, `MEMPTR <https://zxpress.ru/zxnet/zxnet.pc/5909>`_, `Q <https://worldofspectrum.org/forums/discussion/41704>`_ and the `special RESET <http://www.primrosebank.net/computers/z80/z80_special_reset.htm>`_. It also has the honor of having been the first open-source project to provide full emulation of the interrupt mode 0.
 
 Limitations
 ===========
@@ -44,6 +44,7 @@ Enabling the full implementation of the interrupt mode 0 can increase the size o
 
 Package maintainers should enable the full implementation of the interrupt mode 0.
 
+
 Q
 -
 
@@ -61,6 +62,10 @@ The special RESET is a little-known pseudo interrupt described in U.S. Patent No
 Enabling its implementation is discouraged because it adds additional operations that may very slightly affect the speed of interrupt responses and the resumption of emulation when the CPU is in the HALT state.
 
 Package maintainers should not enable the implementation of the special RESET.
+
+
+Notifications of ``reti`` and ``retn`` in the interrupt mode 0
+--------------------------------------------------------------
 
 Unofficial ``reti`` opcodes
 ---------------------------
