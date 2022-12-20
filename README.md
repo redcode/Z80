@@ -569,7 +569,7 @@ ctest -V
 
 ### As an external dependency in CMake-based projects
 
-The Z80 library [includes](#option_Z80_WITH_CMAKE_SUPPORT) a [config-file package](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages) for integration into CMake-based projects, which should be installed for development. Use [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) to find the `Z80` package. This creates the `Z80` imported library target that carries the necessary transitive link dependencies. The linking method can optionally be selected by specifying either the `Shared` component or the `Static` component.
+The Z80 library [includes](#option_Z80_WITH_CMAKE_SUPPORT) a [config-file package](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages) for integration into CMake-based projects that must be installed for development. Use [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) to find the `Z80` package. This creates the `Z80` imported library target, which carries the necessary transitive link dependencies. Optionally, the linking method can be selected by specifying either the `Shared` or `Static` component.
 
 Example:
 
@@ -597,7 +597,7 @@ add_subdirectory(dependencies/Z80)
 target_link_libraries(your-target Z80)
 ```
 
-It is important to set the [`Z80_SHARED_LIBS`](#option_Z80_SHARED_LIBS) option. Otherwise CMake will build the library type indicated by [`BUILD_SHARED_LIBS`](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html), which may not be the desired one.
+It is important to set the [`Z80_SHARED_LIBS`](#option_Z80_SHARED_LIBS) option. Otherwise, CMake will build the library type indicated by [`BUILD_SHARED_LIBS`](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html), which may not be the desired one.
 
 ### Integrating the source code
 

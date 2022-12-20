@@ -14,7 +14,7 @@ Integration
 As an external dependency in CMake-based projects
 =================================================
 
-The Z80 library includes a `config-file package <https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages>`_ for integration into CMake-based projects, which should be installed for development. Use |find_package|_ to find the ``Z80`` package. This creates the ``Z80`` imported library target that carries the necessary transitive link dependencies. The linking method can optionally be selected by specifying either the ``Shared`` component or the ``Static`` component.
+The Z80 library includes a `config-file package <https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages>`_ for integration into CMake-based projects that must be installed for development. Use |find_package|_ to find the ``Z80`` package. This creates the ``Z80`` imported library target, which carries the necessary transitive link dependencies. Optionally, the linking method can be selected by specifying either the ``Shared`` or ``Static`` component.
 
 Example:
 
@@ -43,7 +43,7 @@ Example:
    add_subdirectory(dependencies/Z80)
    target_link_libraries(your-target Z80)
 
-It is important to set the :option:`Z80_SHARED_LIBS<-DZ80_SHARED_LIBS>` option. Otherwise CMake will build the library type indicated by |BUILD_SHARED_LIBS|_, which may not be the desired one.
+It is important to set the :option:`Z80_SHARED_LIBS<-DZ80_SHARED_LIBS>` option. Otherwise, CMake will build the library type indicated by |BUILD_SHARED_LIBS|_, which may not be the desired one.
 
 Integrating the source code
 ===========================
