@@ -29,7 +29,7 @@
 The Z80 library implements a fast, small and accurate emulator of the Zilog Z80.
 It emulates all that is known to date about this CPU, including the undocumented
 behaviors, MEMPTR, Q and the special RESET. It also has the honor of having been
-the first open source project to provide full emulation of the interrupt mode 0.
+the first open-source project to provide full emulation of the interrupt mode 0.
 
 The source code is written in ANSI C for maximum portability and is extensively
 commented. The aim has been to write a well-structured, easy to understand piece
@@ -64,9 +64,9 @@ Test Suite" and Peter Helcmanovsky's "Z80 Block Flags Test", to name a few.
 ================
 
 You will need CMake v3.14 or later to build the package and, optionally, recent
-versions of Doxygen, Sphinx and Breathe to compile the documentation. Also make
-sure you have LaTeX with PDF support installed on your system if you want to
-generate the documentation in PDF format.
+versions of Doxygen, Sphinx and Breathe to compile the documentation. Also, make
+sure that you have LaTeX with PDF support installed on your system if you want
+to generate the documentation in PDF format.
 
 The emulator requires some types and macros included in Zeta (https://zeta.st),
 a dependency-free, header-only library used to retain compatibility with most C
@@ -301,7 +301,7 @@ the following macros:
     #define Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 
 Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined
-as any value; the source code only checks whether or not they are defined.
+as any value; the source code only checks whether they are defined.
 
 Please note that the activation of some of the optional features affects the
 speed of the emulator due to various factors (read the documentation for more
@@ -324,4 +324,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2022-12-05                                               README EOF
+Last update: 2022-12-20                                               README EOF

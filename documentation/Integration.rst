@@ -98,4 +98,4 @@ There are several macros that can be used to configure the source code of the li
 
    Enables the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the ``ld a,{i|r}`` instructions.
 
-Except for :c:macro:`Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as any value; the source code only checks whether or not they are defined.
+Except for :c:macro:`Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as any value; the source code only checks whether they are defined.
