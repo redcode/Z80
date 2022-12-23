@@ -146,28 +146,28 @@ typedef zuint8 (* Instruction)(Z80 *self);
 
 /* MARK: - Callbacks: 16-bit Operations */
 
-static Z_INLINE zuint16 fetch_16(Z80 const *self, zuint16 address)
+static Z_INLINE zuint16 fetch_16(Z80 *self, zuint16 address)
 	{
 	zuint8 t = FETCH(address);
 	return (zuint16)(t | ((zuint16)FETCH(address + 1) << 8));
 	}
 
 
-static Z_INLINE zuint16 read_16(Z80 const *self, zuint16 address)
+static Z_INLINE zuint16 read_16(Z80 *self, zuint16 address)
 	{
 	zuint8 t = READ(address);
 	return (zuint16)(t | ((zuint16)READ(address + 1) << 8));
 	}
 
 
-static Z_INLINE void write_16f(Z80 const *self, zuint16 address, zuint16 value)
+static Z_INLINE void write_16f(Z80 *self, zuint16 address, zuint16 value)
 	{
 	WRITE(address, (zuint8)value);
 	WRITE(address + 1, (zuint8)(value >> 8));
 	}
 
 
-static Z_INLINE void write_16b(Z80 const *self, zuint16 address, zuint16 value)
+static Z_INLINE void write_16b(Z80 *self, zuint16 address, zuint16 value)
 	{
 	WRITE(address + 1, (zuint8)(value >> 8));
 	WRITE(address, (zuint8)value);
@@ -175,7 +175,7 @@ static Z_INLINE void write_16b(Z80 const *self, zuint16 address, zuint16 value)
 
 
 #ifndef Z80_WITH_FULL_IM0
-	static Z_INLINE zuint16 int_fetch_16(Z80 const *self)
+	static Z_INLINE zuint16 int_fetch_16(Z80 *self)
 		{
 		zuint8 t = self->int_fetch(CONTEXT, PC);
 		return (zuint16)(t | ((zuint16)self->int_fetch(CONTEXT, PC) << 8));
@@ -896,7 +896,7 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	WRITE(HL hl_operator, in);			       \
 	MEMPTR = BC memptr_operator 1;			       \
 	B--;						       \
-	INX_OUTX(in)					       \
+	INX_OUTX(in)
 
 
 #define OUTX(hl_operator, memptr_operator) \
@@ -1998,31 +1998,31 @@ INSTRUCTION(hook)
 /* MARK: - Interrupt Mode 0: Callback Trampolines */
 
 #ifdef Z80_WITH_FULL_IM0
-	static zuint8 im0_fetch(IM0 *self, zuint16 address)
+	static zuint8 im0_fetch(IM0 const *self, zuint16 address)
 		{
 		Z_UNUSED(address)
 		return self->z80->int_fetch(CONTEXT, self->pc);
 		}
 
 
-	static zuint8 im0_read(IM0 *self, zuint16 address)
+	static zuint8 im0_read(IM0 const *self, zuint16 address)
 		{return READ(address);}
 
 
-	static void im0_write(IM0 *self, zuint16 address, zuint8 value)
+	static void im0_write(IM0 const *self, zuint16 address, zuint8 value)
 		{WRITE(address, value);}
 
 
-	static zuint8 im0_in(IM0 *self, zuint16 port)
+	static zuint8 im0_in(IM0 const *self, zuint16 port)
 		{return IN(port);}
 
 
-	static void im0_out(IM0 *self, zuint16 port, zuint8 value)
+	static void im0_out(IM0 const *self, zuint16 port, zuint8 value)
 		{OUT(port, value);}
 
 
-	static void im0_ld_i_a(IM0 *self) {NOTIFY(ld_i_a);}
-	static void im0_ld_r_a(IM0 *self) {NOTIFY(ld_r_a);}
+	static void im0_ld_i_a(IM0 const *self) {NOTIFY(ld_i_a);}
+	static void im0_ld_r_a(IM0 const *self) {NOTIFY(ld_r_a);}
 
 
 #	ifdef Z80_WITH_RETX_NOTIFICATIONS_IN_IM0
@@ -2034,8 +2034,8 @@ INSTRUCTION(hook)
 				}
 
 
-		static void im0_reti(IM0 *self) {IM0_NOTIFY_RETX(reti)}
-		static void im0_retn(IM0 *self) {IM0_NOTIFY_RETX(retn)}
+		static void im0_reti(IM0 const *self) {IM0_NOTIFY_RETX(reti)}
+		static void im0_retn(IM0 const *self) {IM0_NOTIFY_RETX(retn)}
 #	endif
 #endif
 
