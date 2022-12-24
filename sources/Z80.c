@@ -1514,10 +1514,10 @@ INSTRUCTION(bit_N_vhl)
 	| * https://zxpress.ru/zxnet/zxnet.pc/5909			  |
 	| * boo_boo; Kladov, Vladimir (2006-03-29). "MEMPTR, Esoteric	  |
 	|   Register of the Zilog Z80 CPU".				  |
-	|     * http://zx.pk.ru/showpost.php?p=43688			  |
-	|     * http://zx.pk.ru/attachment.php?attachmentid=2984	  |
-	|     * http://zx.pk.ru/showpost.php?p=43800			  |
-	|     * http://zx.pk.ru/attachment.php?attachmentid=2989	  |
+	|     * https://zx-pk.ru/showpost.php?p=43688			  |
+	|     * https://zx-pk.ru/attachment.php?attachmentid=2984	  |
+	|     * https://zx-pk.ru/showpost.php?p=43800			  |
+	|     * https://zx-pk.ru/attachment.php?attachmentid=2989	  |
 	'================================================================*/
 	FLAGS = (t ? t & SF : ZPF) | /* SF = sign; ZF, PF = zero	 */
 		(MEMPTRH & YXF)	   | /* YF = MEMPTRH.5; XF = MEMPTRH.3	 */

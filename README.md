@@ -199,7 +199,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 
 ### Z80 Test Suite, by Mark Woodmass
 
-This suite performs a series of tests to verify the MEMPTR documents <sup>_([English](http://zx.pk.ru/attachment.php?attachmentid=2989), [Russian](http://zx.pk.ru/attachment.php?attachmentid=2984))_</sup>, which are spot on, as well as a brief run through several of the `CBh/DDh/FDh` opcode ranges. The test results in the program are compared against those from a [NEC D780C-1](https://www.cpu-world.com/CPUs/Z80/NEC-D780C-1.html) CPU, but Simon Conway kindly tested several other Z80 clones, confirming the same results.
+This suite performs a series of tests to verify the MEMPTR documents <sup>_([English](https://zx.pk.ru/attachment.php?attachmentid=2989), [Russian](https://zx.pk.ru/attachment.php?attachmentid=2984))_</sup>, which are spot on, as well as a brief run through several of the `CBh/DDh/FDh` opcode ranges. The test results in the program are compared against those from a [NEC D780C-1](https://www.cpu-world.com/CPUs/Z80/NEC-D780C-1.html) CPU, but Simon Conway kindly tested several other Z80 clones, confirming the same results.
 
 <details>
 	<summary>Results</summary>
@@ -780,10 +780,10 @@ Many thanks to the following individuals (in alphabetical order):
 7. <span id="r7">https://zx-pk.ru/threads/2506-komanda-bit-n-(hl).html</span>
 8. <span id="r8">https://zx-pk.ru/threads/2586-prosba-realshchikam-ot-emulyatorshchikov.html</span>
 9. <span id="r9">boo_boo; Kladov, Vladimir (2006-03-29). _"MEMPTR, Esoteric Register of the Zilog Z80 CPU"_.</span>
-	* http://zx.pk.ru/showpost.php?p=43688
-	* http://zx.pk.ru/attachment.php?attachmentid=2984
-	* http://zx.pk.ru/showpost.php?p=43800
-	* http://zx.pk.ru/attachment.php?attachmentid=2989
+	* https://zx-pk.ru/showpost.php?p=43688
+	* https://zx-pk.ru/attachment.php?attachmentid=2984
+	* https://zx-pk.ru/showpost.php?p=43800
+	* https://zx-pk.ru/attachment.php?attachmentid=2989
 10. <span id="r10">https://sourceforge.net/p/fuse-emulator/mailman/message/6929573</span>
 11. <span id="r11">Brewer, Tony (2014-12). _"Z80 Special Reset"_.</span>
 	* http://primrosebank.net/computers/z80/z80_special_reset.htm

@@ -44,7 +44,6 @@ Enabling the full implementation of the interrupt mode 0 can increase the size o
 
 Package maintainers should enable the full implementation of the interrupt mode 0.
 
-
 Q
 -
 
