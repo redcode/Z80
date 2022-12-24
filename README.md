@@ -199,7 +199,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 
 ### Z80 Test Suite, by Mark Woodmass
 
-This suite performs a series of tests to verify the MEMPTR documents <sup>_([English](https://zx.pk.ru/attachment.php?attachmentid=2989), [Russian](https://zx.pk.ru/attachment.php?attachmentid=2984))_</sup>, which are spot on, as well as a brief run through several of the `CBh/DDh/FDh` opcode ranges. The test results in the program are compared against those from a [NEC D780C-1](https://www.cpu-world.com/CPUs/Z80/NEC-D780C-1.html) CPU, but Simon Conway kindly tested several other Z80 clones, confirming the same results.
+This suite performs a series of tests to verify the MEMPTR documents <sup>_([English](https://zx-pk.ru/attachment.php?attachmentid=2989), [Russian](https://zx-pk.ru/attachment.php?attachmentid=2984))_</sup>, which are spot on, as well as a brief run through several of the `CBh/DDh/FDh` opcode ranges. The test results in the program are compared against those from a [NEC D780C-1](https://www.cpu-world.com/CPUs/Z80/NEC-D780C-1.html) CPU, but Simon Conway kindly tested several other Z80 clones, confirming the same results.
 
 <details>
 	<summary>Results</summary>
