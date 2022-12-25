@@ -55,10 +55,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Full.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Full.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Doc.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Doc.gif"/>
 			</td>
 		</tr>
 		<tr>
@@ -80,10 +80,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 		</tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Flags.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Flags.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif"/>
 			</td>
 		</tr>
 		<tr>
@@ -106,10 +106,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20CCF.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20CCF.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif"/>
 			</td>
 		</tr>
 	</table>
@@ -137,10 +137,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Full.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Full.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Doc.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Doc.gif"/>
 			</td>
 		</tr>
 		<tr>
@@ -162,10 +162,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 		</tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Flags.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Flags.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif"/>
 			</td>
 		</tr>
 		<tr>
@@ -188,10 +188,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20CCF.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20CCF.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif"/>
 			</td>
 		</tr>
 	</table>
@@ -214,10 +214,10 @@ This suite performs a series of tests to verify the MEMPTR documents <sup>_([Eng
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Test%20Suite%20%282008%29%28Woodmass,%20Mark%29%20-%20Flags.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Z80%20Test%20Suite%20%282008%29%28Woodmass,%20Mark%29%20-%20Flags.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Test%20Suite%20%282008%29%28Woodmass,%20Mark%29%20-%20MEMPTR.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Z80%20Test%20Suite%20%282008%29%28Woodmass,%20Mark%29%20-%20MEMPTR.gif"/>
 			</td>
 		</tr>
 	</table>
@@ -251,10 +251,10 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Documented%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282018%29%28Harston,%20Jonathan%20Graham%29.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Z80%20Documented%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282018%29%28Harston,%20Jonathan%20Graham%29.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282018%29%28Harston,%20Jonathan%20Graham%29.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282018%29%28Harston,%20Jonathan%20Graham%29.gif"/>
 			</td>
 		</tr>
 	</table>
@@ -283,10 +283,10 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282009%29%28Bobrowski,%20Jan%29.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282009%29%28Bobrowski,%20Jan%29.gif"/>
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282011%29%28Bobrowski,%20Jan%29%28Narrowed%20to%20BIT%20Instructions%29.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Z80%20Full%20Instruction%20Set%20Exerciser%20for%20Spectrum%20%282011%29%28Bobrowski,%20Jan%29%28Narrowed%20to%20BIT%20Instructions%29.gif"/>
 			</td>
 		</tr>
 	</table>
@@ -304,7 +304,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/images/tests/Z80%20Instruction%20Set%20Exerciser%20for%20Spectrum%202%20v0.1%20%282012-11-27%29%28Rak,%20Patrik%29.gif"/>
+				<img src="https://zxe.io/software/Z80/images/tests/ZX%20Spectrum/Z80%20Instruction%20Set%20Exerciser%20for%20Spectrum%202%20v0.1%20%282012-11-27%29%28Rak,%20Patrik%29.gif"/>
 			</td>
 		</tr>
 	</table>

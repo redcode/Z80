@@ -4,7 +4,7 @@
  ____ \/__/  /\_\  __ \\ \/\ \ ________________________________________________
 |        /\_____\\_____\\_____\                                                |
 |  Zilog \/_____//_____//_____/ CPU Emulator                                   |
-|  Copyright (C) 1999-2022 Manuel Sainz de Baranda y Goñi.                     |
+|  Copyright (C) 1999-2023 Manuel Sainz de Baranda y Goñi.                     |
 |                                                                              |
 |  This emulator is free software: you can redistribute it and/or modify it    |
 |  under the terms of the GNU Lesser General Public License as published by    |
@@ -31,7 +31,7 @@
   * including the undocumented behaviors, MEMPTR, Q and the special RESET.
   *
   * @version 0.2
-  * @date 2022-12
+  * @date 2023-01
   * @author Manuel Sainz de Baranda y Goñi. */
 
 #ifdef Z80_DEPENDENCIES_HEADER

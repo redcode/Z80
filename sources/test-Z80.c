@@ -4,7 +4,7 @@
  ____ \/__/  /\_\  __ \\ \/\ \ ________________________________________________
 |        /\_____\\_____\\_____\                                                |
 |  Zilog \/_____//_____//_____/ CPU Emulator - Test Tool                       |
-|  Copyright (C) 2021-2022 Manuel Sainz de Baranda y Goñi.                     |
+|  Copyright (C) 2021-2023 Manuel Sainz de Baranda y Goñi.                     |
 |                                                                              |
 |  This program is free software: you can redistribute it and/or modify it     |
 |  under the terms of the GNU General Public License as published by the Free  |
@@ -46,27 +46,10 @@
 
 /* MARK: - Constants: Test Formats */
 
-/*----------------------------.
-| CP/M program in COM format. |
-'============================*/
-#define TEST_FORMAT_CPM 0
-
-/*----------------------------------------------------------------------.
-| ZX Spectrum TAP image. Different versions of the Z80 Instruction Set  |
-| Exerciser adapted and improved by Jonathan Graham Harston and others. |
-'======================================================================*/
-#define TEST_FORMAT_HARSTON 1
-
-/*--------------------------------------------------------------.
-| ZX Spectrum TAP image. Tapes of the Zilog Z80 CPU Test Suite, |
-| written by Patrik Rak.				        |
-'==============================================================*/
-#define TEST_FORMAT_RAK 2
-
-/*-----------------------------------------------------------------.
-| ZX Spectrum TAP image. Z80 Test Suite, written by Mark Woodmass. |
-'=================================================================*/
-#define TEST_FORMAT_WOODMASS 3
+#define TEST_FORMAT_CPM	     0 /* CP/M program in COM format.		      */
+#define TEST_FORMAT_HARSTON  1 /* Z80 Instruction Set Exerciser for Spectrum. */
+#define TEST_FORMAT_RAK	     2 /* Patrik Rak's Zilog Z80 CPU Test Suite.      */
+#define TEST_FORMAT_WOODMASS 3 /* Mark Woodmass' Z80 Test Suite.	      */
 
 
 /* MARK: - Types */
@@ -89,7 +72,7 @@ typedef struct {
 	zuint16 code_size;
 
 	/* Memory address where to jump to start executing the program. */
-	zuint16 start_address; /* */
+	zuint16 start_address;
 
 	/* Value of the PC register once the test completes. */
 	zuint16 exit_address;
@@ -676,12 +659,12 @@ int main(int argc, char **argv)
 				"\n"
 				"Tests:\n"
 				"  Versions of the Z80 Documented Instruction Set Exerciser:\n"
-				"    00  CP/M        ~ Cringle, Frank D. (2004-04-23).\n"
+				"    00  CP/M ~ Cringle, Frank D. (2004-04-23).\n"
 				"    01  ZX Spectrum ~ Harston, Jonathan Graham (2018).\n"
 				"  Versions of the Z80 Full Instruction Set Exerciser:\n"
-				"    02  CP/M        ~ Cringle, Frank D. (2004-04-23).\n"
+				"    02  CP/M ~ Cringle, Frank D. (2004-04-23).\n"
 				"    03  ZX Spectrum ~ Bobrowski, Jan (2009).\n"
-				"    04  ZX Spectrum ~ Bobrowski, Jan (2011). Narrowed to BIT instructions.\n"
+				"    04  ZX Spectrum ~ Bobrowski, Jan (2011). Narrowed to `bit` instructions.\n"
 				"    05  ZX Spectrum ~ Harston, Jonathan Graham (2017).\n"
 				"    06  ZX Spectrum ~ Harston, Jonathan Graham (2018).\n"
 				"    07  ZX Spectrum ~ Rak, Patrik (2012-11-27).\n"
@@ -693,15 +676,15 @@ int main(int argc, char **argv)
 				"    11  Tests all registers, but only officially documented flags.\n"
 				"    12  Tests all flags, ignores registers.\n"
 				"    13  Tests documented flags only, ignores registers.\n"
-				"    14  Tests all flags after executing CCF after each instruction.\n"
-				"    15  Tests all flags after executing BIT N,(HL) after each instruction.\n"
+				"    14  Tests all flags after executing `ccf` after each instruction.\n"
+				"    15  Tests all flags after executing `bit N,(hl)` after each instruction.\n"
 				"  Zilog Z80 CPU Test Suite v1.2 ~ ZX Spectrum ~ Rak, Patrik (2022-01-26):\n"
 				"    16  Tests all flags and registers.\n"
 				"    17  Tests all registers, but only officially documented flags.\n"
 				"    18  Tests all flags, ignores registers.\n"
 				"    19  Tests documented flags only, ignores registers.\n"
-				"    20  Tests all flags after executing CCF after each instruction.\n"
-				"    21  Tests all flags after executing BIT N,(HL) after each instruction.\n"
+				"    20  Tests all flags after executing `ccf` after each instruction.\n"
+				"    21  Tests all flags after executing `bit N,(hl)` after each instruction.\n"
 				"\n"
 				"Email bug reports and questions to <manuel@zxe.io>\n"
 				"Open issues at <https://github.com/redcode/Z80>");
@@ -712,7 +695,7 @@ int main(int argc, char **argv)
 		else if (is_option(argv[i], "-v", "--version"))
 			{
 			puts(	"test-Z80 v" Z80_LIBRARY_VERSION_STRING "\n"
-				"Copyright (C) 2021-2022 Manuel Sainz de Baranda y Goñi.\n"
+				"Copyright (C) 2021-2023 Manuel Sainz de Baranda y Goñi.\n"
 				"Released under the terms of the GNU General Public License v3.");
 
 			goto exit_without_error;
