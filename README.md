@@ -830,7 +830,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 # License
 
-Copyright © 1999-2022 Manuel Sainz de Baranda y Goñi.
+Copyright © 1999-2023 Manuel Sainz de Baranda y Goñi.
 
 <img src="https://zxe.io/software/Z80/images/lgplv3-147x51.png" align="right">
 
