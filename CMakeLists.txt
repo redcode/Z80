@@ -29,6 +29,10 @@ message("${PROJECT_NAME} v${PROJECT_VERSION}")
 
 include(GNUInstallDirs)
 
+set(${PROJECT_NAME}_DEPOT_URL
+"http://zxe.io/depot" CACHE STRING
+"Specify the URL of the depot from which to download the test files.")
+
 option(${PROJECT_NAME}_DOWNLOAD_TEST_FILES
 "Download the firmware and software used by the testing tool."
 NO)
@@ -336,12 +340,12 @@ if(${PROJECT_NAME}_WITH_TESTS)
 
 		_download_files(
 			"${CMAKE_CURRENT_SOURCE_DIR}/support/firmware.sha512sum"
-			"http://zxe.io/depot/firmware"
+			"${${PROJECT_NAME}_DEPOT_URL}/firmware"
 			"${CMAKE_CURRENT_BINARY_DIR}/downloads/firmware")
 
 		_download_files(
 			"${CMAKE_CURRENT_SOURCE_DIR}/support/software.sha512sum"
-			"http://zxe.io/depot/software"
+			"${${PROJECT_NAME}_DEPOT_URL}/software"
 			"${CMAKE_CURRENT_BINARY_DIR}/downloads/software")
 
 		if(	"${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
