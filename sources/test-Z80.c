@@ -88,9 +88,9 @@ typedef struct {
 /* MARK: - Global Variables */
 
 static Test const tests[22] = {
-	{"Yaze v1.14 (2004-04-23)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.14/test/zexdoc.com",				 8704,   0,  8704, 0x0100,	0, TEST_FORMAT_CPM,	  68},
+	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexdoc.com",				 8704,   0,  8704, 0x0100,	0, TEST_FORMAT_CPM,	  68},
 	{Z_NULL, "Z80 Documented Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",		 8716,  91,  8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,	  69},
-	{"Yaze v1.14 (2004-04-23)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.14/test/zexall.com",				 8704,   0,  8704, 0x0100,	0, TEST_FORMAT_CPM,	  68},
+	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexall.com",				 8704,   0,  8704, 0x0100,	0, TEST_FORMAT_CPM,	  68},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2009)(Bobrowski, Jan)[!].tap",				 8656, 108,  8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,	  69},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2011)(Bobrowski, Jan)(Narrowed to BIT Instructions)[!].tap",  8656, 108,  8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,	   4},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2017-0x)(Harston, Jonathan Graham)[!].tap",			 8704,  91,  8612, 0x8000, 0x803D, TEST_FORMAT_HARSTON,	  69},
@@ -659,7 +659,7 @@ int main(int argc, char **argv)
 				"\n"
 				"Tests:\n"
 				"  Versions of the Z80 Documented Instruction Set Exerciser:\n"
-				"    00  CP/M ~ Cringle, Frank D. (2004-04-23).\n"
+				"    00  CP/M ~ Cringle, Frank D. (1998-01-28).\n"
 				"    01  ZX Spectrum ~ Harston, Jonathan Graham (2018).\n"
 				"  Versions of the Z80 Full Instruction Set Exerciser:\n"
 				"    02  CP/M ~ Cringle, Frank D. (2004-04-23).\n"
