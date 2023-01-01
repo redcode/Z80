@@ -662,7 +662,7 @@ int main(int argc, char **argv)
 				"    00  CP/M ~ Cringle, Frank D. (1998-01-28).\n"
 				"    01  ZX Spectrum ~ Harston, Jonathan Graham (2018).\n"
 				"  Versions of the Z80 Full Instruction Set Exerciser:\n"
-				"    02  CP/M ~ Cringle, Frank D. (2004-04-23).\n"
+				"    02  CP/M ~ Cringle, Frank D. (1998-01-28).\n"
 				"    03  ZX Spectrum ~ Bobrowski, Jan (2009).\n"
 				"    04  ZX Spectrum ~ Bobrowski, Jan (2011). Narrowed to `bit` instructions.\n"
 				"    05  ZX Spectrum ~ Harston, Jonathan Graham (2017).\n"
