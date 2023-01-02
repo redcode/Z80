@@ -304,6 +304,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				string(REPLACE "!" "%21" _file_url ${_file_url})
 				string(REPLACE "(" "%28" _file_url ${_file_url})
 				string(REPLACE ")" "%29" _file_url ${_file_url})
+				string(REPLACE "," "%2C" _file_url ${_file_url})
 				string(REPLACE "[" "%5B" _file_url ${_file_url})
 				string(REPLACE "]" "%5D" _file_url ${_file_url})
 
