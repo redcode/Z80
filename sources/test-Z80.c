@@ -92,7 +92,7 @@ static Test const tests[22] = {
 	{Z_NULL, "Z80 Documented Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",		 8716,  91,  8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,	  69},
 	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexall.com",				 8704,   0,  8704, 0x0100,	0, TEST_FORMAT_CPM,	  68},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2009)(Bobrowski, Jan)[!].tap",				 8656, 108,  8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,	  69},
-	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2011)(Bobrowski, Jan)(Narrowed to BIT Instructions)[!].tap",  8656, 108,  8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,	   4},
+	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2011)(Bobrowski, Jan)(Narrowed to BIT Instructions)[!].tap",	 8656, 108,  8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,	   4},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2017-0x)(Harston, Jonathan Graham)[!].tap",			 8704,  91,  8612, 0x8000, 0x803D, TEST_FORMAT_HARSTON,	  69},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",			 8716,  91,  8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,	  69},
 	{"Z80 Instruction Set Exerciser for Spectrum 2 v0.1 (2012-11-27)(Rak, Patrik)[!].zip", "zexall2-0.1/zexall2.tap",	 9316,  87,  9228, 0x8000, 0x8040, TEST_FORMAT_HARSTON,	  76},
@@ -345,7 +345,7 @@ static char const *compose_path(char const *base_path, char const *file_path)
 static zboolean load_file(
 	char const* search_path,
 	char const* file_path,
-	zuint32     file_size,
+	zuint32	    file_size,
 	zuint16	    offset,
 	zuint16	    size,
 	void*	    buffer
@@ -831,10 +831,10 @@ int main(int argc, char **argv)
 	'=====================================================================*/
 	cpu.fetch =
 	cpu.read  =
-	cpu.nop   = cpu_read;
+	cpu.nop	  = cpu_read;
 
 	cpu.in	  = cpu_in;
-	cpu.out   = cpu_out;
+	cpu.out	  = cpu_out;
 
 	/*-------------------------------------------------------------------.
 	| Entering the HALT state means that the test program has completed. |

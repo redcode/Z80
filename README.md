@@ -312,7 +312,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 
 # Installation
 
-### Debian/Ubuntu
+### <sub><img src="https://zxe.io/software/Z80/images/debian-openlogo-nd.svg" height="24"></sub> Debian/Ubuntu
 
 First add the ZXE repository and update the package index:
 
@@ -336,7 +336,7 @@ In case you need to build software that requires the Z80 library, install the de
 sudo apt install libz80-dev
 ````
 
-### Gentoo Linux
+### <sub><img src="https://zxe.io/software/Z80/images/gentoo-signet.svg" height="24"></sub> Gentoo Linux
 
 First add the ZXE overlay:
 
