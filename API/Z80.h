@@ -259,7 +259,7 @@ typedef struct {
 	/** @brief Invoked to perform an opcode fetch that corresponds to a
 	  * non-maskable interrupt acknowledge M-cycle.
 	  *
- 	  * This callback is optional and must be set to @c Z_NULL when not
+	  * This callback is optional and must be set to @c Z_NULL when not
 	  * used. It indicates the beginning of an NMI acknowledge M-cycle.
 	  * The value returned by the function is ignored. */
 
