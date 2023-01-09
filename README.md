@@ -13,7 +13,7 @@
 		<img alt="Discord" src="https://img.shields.io/discord/848534208129138738?color=5865F2&label=Discord&logo=discord&logoColor=white">
 	</a>
 	<a href="https://zxe.io/software/Z80/documentation/latest">
-		<img alt="Documentation" src="https://img.shields.io/badge/View-Documentation-006FFF">
+		<img alt="Documentation" src="https://img.shields.io/badge/View-Documentation-0073FF">
 	</a>
 </p>
 
