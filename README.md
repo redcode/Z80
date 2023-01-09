@@ -3,6 +3,9 @@
 	<b>Zilog Z80 CPU Emulator</b>
 </h1>
 <p align="center">
+	<a href="https://zxe.io/software/Z80/documentation/latest">
+		<img alt="Documentation" src="https://img.shields.io/badge/Documentation-006FFF">
+	</a>
 	<a href="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml">
 		<img src="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml/badge.svg">
 	</a>
