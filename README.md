@@ -314,7 +314,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 
 ### <sub><img src="https://zxe.io/software/Z80/images/debian-openlogo-nd.svg" height="24"></sub> Debian/Ubuntu
 
-First add the `zxe` repository and update the package index:
+First, add the `zxe` repository and update the package index:
 
 ```shell
 sudo mkdir -pm700 /root/.gnupg
@@ -338,7 +338,7 @@ sudo apt install libz80-dev
 
 ### <sub><img src="https://zxe.io/software/Z80/images/gentoo-signet.svg" height="24"></sub> Gentoo Linux
 
-First add the [`zxe`](https://github.com/redcode/zxe-gentoo-overlay) overlay:
+First, add and sync the [`zxe`](https://github.com/redcode/zxe-gentoo-overlay) overlay:
 
 ```shell
 eselect repository add zxe git https://github.com/redcode/zxe-gentoo-overlay.git
