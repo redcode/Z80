@@ -1302,9 +1302,15 @@ INSTRUCTION(halt)
 			{
 			Q_0
 			PC++;
-			if (REQUEST) return 4;
+
+			if ((self->cycles += 4) >= self->cycle_limit)
+				{
+				RESUME = Z80_RESUME_HALT;
+				return 0;
+				}
+
+			if (REQUEST) return 0;
 			RESUME = Z80_RESUME_HALT;
-			if ((self->cycles += 4) >= self->cycle_limit) return 0;
 			}
 
 		SET_HALT_LINE(TRUE);
