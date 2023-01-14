@@ -564,6 +564,7 @@ git clone https://github.com/redcode/Z80.git
 cd Z80
 mkdir build && cd build
 cmake .. \
+	-DCMAKE_BUILD_TYPE=Release \
 	-DZ80_DOWNLOAD_TEST_FILES=YES \
 	-DZ80_WITH_TESTS=YES \
 	-DZ80_WITH_EXECUTE=YES \
