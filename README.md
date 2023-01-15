@@ -3,6 +3,9 @@
 	<b>Zilog Z80 CPU Emulator</b>
 </h1>
 <p align="center">
+	<a href="https://zxe.io/software/Z80/documentation/latest">
+		<img alt="Documentation" src="https://img.shields.io/badge/Documentation-informational?color=2675f5">
+	</a>
 	<a href="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml">
 		<img src="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml/badge.svg">
 	</a>
@@ -11,9 +14,6 @@
 	</a>
 	<a href="https://discord.gg/zU4dkzp8Mv">
 		<img alt="Discord" src="https://img.shields.io/discord/848534208129138738?color=5865F2&label=Discord&logo=discord&logoColor=white">
-	</a>
-	<a href="https://zxe.io/software/Z80/documentation/latest">
-		<img alt="Documentation" src="https://img.shields.io/badge/View-Documentation-informational">
 	</a>
 	<img src="https://awesome.re/mentioned-badge.svg">
 </p>
