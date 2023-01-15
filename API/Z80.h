@@ -484,7 +484,7 @@ typedef struct {
   * ST CMOS models. */
 
 #define Z80_MODEL_ST_CMOS \
-	(Z80_OPTION_LD_A_IR_BUG | Z80_OPTION_YQ)
+	(Z80_OPTION_OUT_VC_255 | Z80_OPTION_LD_A_IR_BUG | Z80_OPTION_YQ)
 
 /** @brief <tt>@ref Z80::request</tt> bitmask indicating that a special RESET
   * signal has been received. */
