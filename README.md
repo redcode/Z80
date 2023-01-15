@@ -15,6 +15,7 @@
 	<a href="https://zxe.io/software/Z80/documentation/latest">
 		<img alt="Documentation" src="https://img.shields.io/badge/View-Documentation-informational">
 	</a>
+	<img src="https://awesome.re/mentioned-badge.svg">
 </p>
 
 # Introduction
