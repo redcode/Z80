@@ -136,11 +136,11 @@ typedef zuint8 (* Instruction)(Z80 *self);
 
 #define FETCH_OPCODE(address) self->fetch_opcode(CONTEXT, address)
 #define FETCH(address)	      self->fetch	(CONTEXT, address)
-#define READ(address)	      self->read 	(CONTEXT, address)
+#define READ(address)	      self->read	(CONTEXT, address)
 #define WRITE(address, value) self->write	(CONTEXT, address, value)
-#define IN(port)	      self->in   	(CONTEXT, port)
-#define OUT(port, value)      self->out  	(CONTEXT, port, value)
-#define INTA		      self->inta 	(CONTEXT, PC)
+#define IN(port)	      self->in		(CONTEXT, port)
+#define OUT(port, value)      self->out		(CONTEXT, port, value)
+#define INTA		      self->inta	(CONTEXT, PC)
 #define NOTIFY(callback)      if (self->callback != Z_NULL) self->callback(CONTEXT)
 
 
@@ -2647,7 +2647,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		self->cycles += instruction_table[DATA[0] = FETCH_OPCODE(PC)](self);
 		}
 
-	R = R_ALL;	     /* restore R7 bit 	       */
+	R = R_ALL;	     /* restore R7 bit	       */
 	return self->cycles; /* return consumed cycles */
 	}
 
