@@ -937,16 +937,17 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	return 16
 
 
-#define INXR(hl_operator, memptr_operator)			\
-	zuint8 in  = IN(BC);					\
-	zuint8 nf  = (in >> 6) & NF;				\
-	zuint  t   = (zuint)in + (zuint8)(C memptr_operator 1); \
-	zuint8 hcf = (t > 255) ? HCF : 0;			\
-	zuint8 p;						\
-								\
-	WRITE(HL hl_operator, in);				\
-	MEMPTR = BC memptr_operator 1;				\
-	p = (t & 7) ^ --B;					\
+#define INXR(hl_operator, memptr_operator)			 \
+	zuint8 in = IN(BC);					 \
+	zuint8 nf = (in >> 6) & NF;				 \
+	zuint  t;						 \
+	zuint8 hcf;						 \
+	zuint8 p;						 \
+								 \
+	WRITE(HL hl_operator, in);				 \
+	t = (zuint)in + (zuint8)(MEMPTR = BC memptr_operator 1); \
+	hcf = (t > 255) ? HCF : 0;				 \
+	p = (t & 7) ^ --B;					 \
 	INXR_OTXR(in)
 
 
