@@ -941,8 +941,7 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	zuint8 in = IN(BC);					 \
 	zuint8 nf = (in >> 6) & NF;				 \
 	zuint  t;						 \
-	zuint8 hcf;						 \
-	zuint8 p;						 \
+	zuint8 hcf, p;						 \
 								 \
 	WRITE(HL hl_operator, in);				 \
 	t = (zuint)in + (zuint8)(MEMPTR = BC memptr_operator 1); \
