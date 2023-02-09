@@ -399,7 +399,7 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 
 * <span id="option_Z80_DEPOT_URL">**`-DZ80_DEPOT_URL="<URL>"`**</span>  
         Specify the URL of the depot from which to fetch the firmware and software used by the testing tool.  
-        The default is `"http://zxe.io/depot"`
+        The default is `"http://zxe.io/depot"`.
 
 * <span id="option_Z80_FETCH_TEST_FILES">**`-DZ80_FETCH_TEST_FILES=(YES|NO)`**</span>  
 	Fetch the firmware and software used by the testing tool.  
