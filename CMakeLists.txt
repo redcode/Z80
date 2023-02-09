@@ -31,9 +31,10 @@ include(GNUInstallDirs)
 
 set(${PROJECT_NAME}_DEPOT_URL
 "http://zxe.io/depot" CACHE STRING
-"URL of the depot from which to download the test files.")
+"URL of the depot from which to fetch the firmware and \
+software used by the testing tool.")
 
-option(${PROJECT_NAME}_DOWNLOAD_TEST_FILES
+option(${PROJECT_NAME}_FETCH_TEST_FILES
 "Download the firmware and software used by the testing tool."
 NO)
 
@@ -289,8 +290,8 @@ if(${PROJECT_NAME}_WITH_TESTS)
 		target_compile_definitions("test-${PROJECT_NAME}" PRIVATE TEST_Z80_WITH_EXECUTE)
 	endif()
 
-	if(${PROJECT_NAME}_DOWNLOAD_TEST_FILES)
-		function(_download_files sha512sum_file base_url downloads_dir)
+	if(${PROJECT_NAME}_FETCH_TEST_FILES)
+		function(_fetch_files sha512sum_file base_url destination_dir)
 			file(STRINGS "${sha512sum_file}" _lines)
 
 			foreach(_line ${_lines})
@@ -312,7 +313,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 
 				file(	DOWNLOAD
 					"${_file_url}"
-					"${downloads_dir}/${_file_path}"
+					"${destination_dir}/${_file_path}"
 					EXPECTED_HASH SHA512=${_sha512})
 
 				if(	NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
@@ -330,8 +331,8 @@ if(${PROJECT_NAME}_WITH_TESTS)
 						endif()
 
 						file(	ARCHIVE_EXTRACT
-							INPUT "${downloads_dir}/${_file_path}"
-							DESTINATION "${downloads_dir}/${_subdirectory}"
+							INPUT "${destination_dir}/${_file_path}"
+							DESTINATION "${destination_dir}/${_subdirectory}"
 							PATTERNS ${_extract_pattern}
 							VERBOSE)
 					endif()
@@ -339,15 +340,15 @@ if(${PROJECT_NAME}_WITH_TESTS)
 			endforeach()
 		endfunction()
 
-		_download_files(
+		_fetch_files(
 			"${CMAKE_CURRENT_SOURCE_DIR}/support/firmware.sha512sum"
 			"${${PROJECT_NAME}_DEPOT_URL}/firmware"
-			"${CMAKE_CURRENT_BINARY_DIR}/downloads/firmware")
+			"${CMAKE_CURRENT_BINARY_DIR}/depot/firmware")
 
-		_download_files(
+		_fetch_files(
 			"${CMAKE_CURRENT_SOURCE_DIR}/support/software.sha512sum"
 			"${${PROJECT_NAME}_DEPOT_URL}/software"
-			"${CMAKE_CURRENT_BINARY_DIR}/downloads/software")
+			"${CMAKE_CURRENT_BINARY_DIR}/depot/software")
 
 		if(	"${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
 			(NOT ZLIB_FOUND OR NOT libzip_FOUND)
@@ -361,16 +362,16 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				"does not support archive extraction.\n"
 				"To fix this, extract all files with `.tar.gz` or `.zip` extension "
 				"located in "
-				"`${CMAKE_CURRENT_BINARY_DIR}/downloads/software/**/`")
+				"`${CMAKE_CURRENT_BINARY_DIR}/depot/software/**/`")
 		endif()
 	endif()
 
 	add_test(
 		NAME "test-${PROJECT_NAME}"
 		COMMAND "test-${PROJECT_NAME}"
-			--path "${CMAKE_CURRENT_BINARY_DIR}/downloads/firmware"
-			--path "${CMAKE_CURRENT_BINARY_DIR}/downloads/software/POSIX"
-			--path "${CMAKE_CURRENT_BINARY_DIR}/downloads/software/ZX Spectrum"
+			--path "${CMAKE_CURRENT_BINARY_DIR}/depot/firmware"
+			--path "${CMAKE_CURRENT_BINARY_DIR}/depot/software/POSIX"
+			--path "${CMAKE_CURRENT_BINARY_DIR}/depot/software/ZX Spectrum"
 			--all
 		WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 endif()

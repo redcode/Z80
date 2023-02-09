@@ -397,8 +397,12 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 
 <span id="cmake_package_options">Package-specific options</span> are prefixed with `Z80_` and can be divided into two groups. The first one controls aspects not related to the source code of the library:
 
-* <span id="option_Z80_DOWNLOAD_TEST_FILES">**`-DZ80_DOWNLOAD_TEST_FILES=(YES|NO)`**</span>  
-	Download the firmware and software used by the testing tool.  
+* <span id="option_Z80_DEPOT_URL">**`-DZ80_DEPOT_URL="<URL>"`**</span>  
+        Specify the URL of the depot from which to fetch the firmware and software used by the testing tool.  
+        The default is `"http://zxe.io/depot"`
+
+* <span id="option_Z80_FETCH_TEST_FILES">**`-DZ80_FETCH_TEST_FILES=(YES|NO)`**</span>  
+	Fetch the firmware and software used by the testing tool.  
 	The default is `NO`.
 
 * <span id="option_Z80_INSTALL_CMAKEDIR">**`-DZ80_INSTALL_CMAKEDIR="<path>"`**</span>  
@@ -535,12 +539,12 @@ cmake --install . --strip
 
 # Running the tests
 
-The package includes a tool called `test-Z80` capable of running the most relevant [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of [the major test suites](#major_test_suites). Configure the build system with <code>-D[Z80_WITH_TESTS](#option_Z80_WITH_TESTS)=YES</code> to enable its compilation and <code>-D[Z80_DOWNLOAD_TEST_FILES](#option_Z80_DOWNLOAD_TEST_FILES)=YES</code> to download the firmware and software required. Also note that the Z80 library must be built with <code>-D[Z80_WITH_Q](#option_Z80_WITH_Q)=YES</code> to be able to pass [Patrik Rak's tests](#zilog-z80-cpu-test-suite-by-patrik-rak).
+The package includes a tool called `test-Z80` capable of running the most relevant [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of [the major test suites](#major_test_suites). Configure the build system with <code>-D[Z80_WITH_TESTS](#option_Z80_WITH_TESTS)=YES</code> to enable its compilation and <code>-D[Z80_FETCH_TEST_FILES](#option_Z80_FETCH_TEST_FILES)=YES</code> to download the firmware and software required. Also note that the Z80 library must be built with <code>-D[Z80_WITH_Q](#option_Z80_WITH_Q)=YES</code> to be able to pass [Patrik Rak's tests](#zilog-z80-cpu-test-suite-by-patrik-rak).
 
 Once you have built the package, type the following to run all tests:
 
 ```shell
-./test-Z80 -p downloads/firmware -p downloads/software/POSIX -p "downloads/software/ZX Spectrum" -a
+./test-Z80 -p depot/firmware -p depot/software/POSIX -p "depot/software/ZX Spectrum" -a
 ```
 
 The tool supports options and can run the tests individually (type `./test-Z80 -h` for help). If you prefer to run all tests through CMake, just type `cmake --build . --target test`. For [CTest](https://cmake.org/cmake/help/latest/manual/ctest.1.html), use `ctest` or `ctest -V` instead.
@@ -566,7 +570,7 @@ cd Z80
 mkdir build && cd build
 cmake .. \
 	-DCMAKE_BUILD_TYPE=Release \
-	-DZ80_DOWNLOAD_TEST_FILES=YES \
+	-DZ80_FETCH_TEST_FILES=YES \
 	-DZ80_WITH_TESTS=YES \
 	-DZ80_WITH_EXECUTE=YES \
 	-DZ80_WITH_FULL_IM0=YES \
