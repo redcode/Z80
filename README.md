@@ -398,11 +398,11 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 <span id="cmake_package_options">Package-specific options</span> are prefixed with `Z80_` and can be divided into two groups. The first one controls aspects not related to the source code of the library:
 
 * <span id="option_Z80_DEPOT_URL">**`-DZ80_DEPOT_URL="<URL>"`**</span>  
-        Specify the URL of the depot from which to fetch the firmware and software used by the testing tool.  
-        The default is `"http://zxe.io/depot"`.
+	Specify the URL or path to the depot containing the test files (i.e., the firmware and software required by the [testing tool](#running-the-tests)).  
+	The default is `"http://zxe.io/depot"`.
 
 * <span id="option_Z80_FETCH_TEST_FILES">**`-DZ80_FETCH_TEST_FILES=(YES|NO)`**</span>  
-	Fetch the firmware and software used by the testing tool.  
+	Download or copy the test files from the depot to the build directory.  
 	The default is `NO`.
 
 * <span id="option_Z80_INSTALL_CMAKEDIR">**`-DZ80_INSTALL_CMAKEDIR="<path>"`**</span>  
@@ -454,7 +454,7 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 	The default is `NO`.
 
 * <span id="option_Z80_WITH_TESTS">**`-DZ80_WITH_TESTS=(YES|NO)`**</span>  
-	Build the testing tool.  
+	Build the [testing tool](#running-the-tests).  
 	The default is `NO`.
 
 <span id="cmake_source_code_options">The second group of package-specific options</span> configures the source code of the library by predefining macros that enable [optional features](https://zxe.io/software/Z80/documentation/latest/Introduction.html#optional-features):

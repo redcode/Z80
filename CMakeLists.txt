@@ -31,11 +31,10 @@ include(GNUInstallDirs)
 
 set(${PROJECT_NAME}_DEPOT_URL
 "http://zxe.io/depot" CACHE STRING
-"URL of the depot from which to fetch the firmware and \
-software used by the testing tool.")
+"URL or path to the depot containing the test files.")
 
 option(${PROJECT_NAME}_FETCH_TEST_FILES
-"Download the firmware and software used by the testing tool."
+"Download or copy the test files from the depot to the build directory."
 NO)
 
 set(${PROJECT_NAME}_INSTALL_CMAKEDIR

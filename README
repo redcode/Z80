@@ -108,12 +108,12 @@ groups. The first one controls aspects not related to the source code of the
 library:
 
     -DZ80_DEPOT_URL="<URL>"
-        Specify the URL of the depot from which to fetch the firmware and
-        software used by the testing tool.
+        Specify the URL or path to the depot containing the test files (i.e.,
+        the firmware and software required by the testing tool).
         The default is `http://zxe.io/depot`.
 
     -DZ80_FETCH_TEST_FILES=(YES|NO)
-        Fetch the firmware and software used by the testing tool.
+        Download or copy the test files from the depot to the build directory.
         The default is `NO`.
 
     -DZ80_INSTALL_CMAKEDIR="<path>"
@@ -329,4 +329,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2022-02-09                                               README EOF
+Last update: 2022-02-10                                               README EOF
