@@ -65,14 +65,14 @@ If in doubt, read the `CMake documentation <https://cmake.org/documentation/>`_ 
 
 Package-specific options are prefixed with ``Z80_`` and can be divided into two groups. The first one controls aspects not related to the source code of the library:
 
-.. option:: -DZ80_DEPOT_URL="<URL>"
+.. option:: -DZ80_DEPOT_LOCATION="<location>"
 
-   Specify the URL or path to the depot containing the test files (i.e., the firmware and software required by the :doc:`testing tool <Tests>`). |br| |nl|
+   Specify the directory or URL of the depot containing the test files (i.e., the firmware and software required by the :doc:`testing tool <Tests>`). |br| |nl|
    The default is ``"http://zxe.io/depot"``.
 
 .. option:: -DZ80_FETCH_TEST_FILES=(YES|NO)
 
-   Download or copy the test files from the depot to the build directory. |br| |nl|
+   Copy or download the test files from the depot to the build directory. |br| |nl|
    The default is ``NO``.
 
 .. option:: -DZ80_INSTALL_CMAKEDIR="<path>"

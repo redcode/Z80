@@ -22,19 +22,20 @@ string(REGEX MATCH ".*Z80_LIBRARY_VERSION_STRING \"([^\n]*)\".*" _ ${_})
 project(Z80
 	VERSION ${CMAKE_MATCH_1}
 	LANGUAGES C
-	DESCRIPTION "Zilog Z80 CPU emulator")
+	DESCRIPTION "Zilog Z80 CPU emulator"
+	HOMEPAGE_URL "https://zxe.io/software/Z80")
 
 unset(_)
 message("${PROJECT_NAME} v${PROJECT_VERSION}")
 
 include(GNUInstallDirs)
 
-set(${PROJECT_NAME}_DEPOT_URL
+set(${PROJECT_NAME}_DEPOT_LOCATION
 "http://zxe.io/depot" CACHE STRING
-"URL or path to the depot containing the test files.")
+"Directory or URL of the depot containing the test files.")
 
 option(${PROJECT_NAME}_FETCH_TEST_FILES
-"Download or copy the test files from the depot to the build directory."
+"Copy or download the test files from the depot to the build directory."
 NO)
 
 set(${PROJECT_NAME}_INSTALL_CMAKEDIR
@@ -290,8 +291,16 @@ if(${PROJECT_NAME}_WITH_TESTS)
 	endif()
 
 	if(${PROJECT_NAME}_FETCH_TEST_FILES)
-		function(_fetch_files sha512sum_file base_url destination_dir)
+		function(_fetch_files sha512sum_file location destination_dir)
 			file(STRINGS "${sha512sum_file}" _lines)
+
+			if(location MATCHES ".*://.*")
+				set(_message_action "Downloading")
+			else()
+				set(_message_action "Copying")
+				get_filename_component(location "${location}" ABSOLUTE)
+				set(location "file://${location}")
+			endif()
 
 			foreach(_line ${_lines})
 				string(STRIP ${_line} _line)
@@ -299,7 +308,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				string(SUBSTRING ${_line} 130 -1 _file_path)
 				get_filename_component(_file_full_name ${_file_path} NAME)
 
-				set(_file_url "${base_url}/${_file_path}")
+				set(_file_url "${location}/${_file_path}")
 				string(REPLACE " " "%20" _file_url ${_file_url})
 				string(REPLACE "!" "%21" _file_url ${_file_url})
 				string(REPLACE "(" "%28" _file_url ${_file_url})
@@ -308,7 +317,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				string(REPLACE "[" "%5B" _file_url ${_file_url})
 				string(REPLACE "]" "%5D" _file_url ${_file_url})
 
-				message(STATUS "Downloading \"${_file_full_name}\"")
+				message(STATUS "${_message_action} \"${_file_full_name}\"")
 
 				file(	DOWNLOAD
 					"${_file_url}"
@@ -341,12 +350,12 @@ if(${PROJECT_NAME}_WITH_TESTS)
 
 		_fetch_files(
 			"${CMAKE_CURRENT_SOURCE_DIR}/support/firmware.sha512sum"
-			"${${PROJECT_NAME}_DEPOT_URL}/firmware"
+			"${${PROJECT_NAME}_DEPOT_LOCATION}/firmware"
 			"${CMAKE_CURRENT_BINARY_DIR}/depot/firmware")
 
 		_fetch_files(
 			"${CMAKE_CURRENT_SOURCE_DIR}/support/software.sha512sum"
-			"${${PROJECT_NAME}_DEPOT_URL}/software"
+			"${${PROJECT_NAME}_DEPOT_LOCATION}/software"
 			"${CMAKE_CURRENT_BINARY_DIR}/depot/software")
 
 		if(	"${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
@@ -365,14 +374,22 @@ if(${PROJECT_NAME}_WITH_TESTS)
 		endif()
 	endif()
 
+	if(${PROJECT_NAME}_FETCH_TEST_FILES OR ${PROJECT_NAME}_DEPOT_LOCATION MATCHES ".*://.*")
+		set(_depot_dir "${CMAKE_CURRENT_BINARY_DIR}/depot")
+	else()
+		set(_depot_dir "${${PROJECT_NAME}_DEPOT_LOCATION}")
+	endif()
+
 	add_test(
 		NAME "test-${PROJECT_NAME}"
 		COMMAND "test-${PROJECT_NAME}"
-			--path "${CMAKE_CURRENT_BINARY_DIR}/depot/firmware"
-			--path "${CMAKE_CURRENT_BINARY_DIR}/depot/software/POSIX"
-			--path "${CMAKE_CURRENT_BINARY_DIR}/depot/software/ZX Spectrum"
+			--path "${_depot_dir}/firmware"
+			--path "${_depot_dir}/software/POSIX"
+			--path "${_depot_dir}/software/ZX Spectrum"
 			--all
 		WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+
+	unset(_depot_dir)
 endif()
 
 # CMakeLists.txt EOF
