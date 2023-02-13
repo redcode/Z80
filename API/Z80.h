@@ -486,11 +486,6 @@ typedef struct {
 #define Z80_MODEL_ST_CMOS \
 	(Z80_OPTION_OUT_VC_255 | Z80_OPTION_LD_A_IR_BUG | Z80_OPTION_YQ)
 
-/** @brief <tt>@ref Z80::request</tt> bitmask indicating that a special RESET
-  * signal has been received. */
-
-#define Z80_REQUEST_SPECIAL_RESET 1
-
 /** @brief <tt>@ref Z80::request</tt> bitmask that prevents the NMI signal from
   * being accepted. */
 
@@ -505,6 +500,11 @@ typedef struct {
   * low and interrupts are enabled. */
 
 #define Z80_REQUEST_INT 8
+
+/** @brief <tt>@ref Z80::request</tt> bitmask indicating that a special RESET
+  * signal has been received. */
+
+#define Z80_REQUEST_SPECIAL_RESET 16
 
 /** @brief <tt>@ref Z80::resume</tt> value indicating that the emulator ran out
   * of clock cycles during the HALT state. */
