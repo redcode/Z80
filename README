@@ -185,13 +185,13 @@ library by predefining macros that enable optional features:
         reduced one.
         The default is `NO`.
 
-    -DZ80_WITH_Q=(YES|NO)
-        Build the implementation of Q.
-        The default is `NO`.
-
-    -DZ80_WITH_RETX_NOTIFICATIONS_IN_IM0=(YES|NO)
+    -DZ80_WITH_IM0_RETX_NOTIFICATIONS=(YES|NO)
         Enable optional notifications for any `reti` or `retn` instruction
         executed during the interrupt mode 0 response.
+        The default is `NO`.
+
+    -DZ80_WITH_Q=(YES|NO)
+        Build the implementation of Q.
         The default is `NO`.
 
     -DZ80_WITH_SPECIAL_RESET=(YES|NO)
@@ -300,6 +300,7 @@ the following macros:
 
     #define Z80_WITH_EXECUTE
     #define Z80_WITH_FULL_IM0
+    #define Z80_WITH_IM0_RETX_NOTIFICATIONS
     #define Z80_WITH_Q
     #define Z80_WITH_SPECIAL_RESET
     #define Z80_WITH_UNOFFICIAL_RETI
@@ -329,4 +330,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2022-02-12                                               README EOF
+Last update: 2023-02-14                                               README EOF

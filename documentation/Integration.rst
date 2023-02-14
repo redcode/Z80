@@ -78,13 +78,13 @@ There are several macros that can be used to configure the source code of the li
 
    Enables the full implementation of the interrupt mode 0.
 
+.. c:macro:: Z80_WITH_IM0_RETX_NOTIFICATIONS
+
+   Enables optional notifications for any ``reti`` or ``retn`` instruction executed during the interrupt mode 0 response.
+
 .. c:macro:: Z80_WITH_Q
 
    Enables the implementation of `Q <https://worldofspectrum.org/forums/discussion/41704>`_.
-
-.. c:macro:: Z80_WITH_RETX_NOTIFICATIONS_IN_IM0
-
-   Enables optional notifications for any ``reti`` or ``retn`` instruction executed during the interrupt mode 0 response.
 
 .. c:macro:: Z80_WITH_SPECIAL_RESET
 

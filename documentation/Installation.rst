@@ -153,14 +153,14 @@ The second group of package-specific options configures the source code of the l
    Build the full implementation of the interrupt mode 0 rather than the reduced one. |br| |nl|
    The default is ``NO``.
 
+.. option:: -DZ80_WITH_IM0_RETX_NOTIFICATIONS=(YES|NO)
+
+   Enable optional notifications for any ``reti`` or ``retn`` instruction executed during the interrupt mode 0 response. |br| |nl|
+   The default is ``NO``.
+
 .. option:: -DZ80_WITH_Q=(YES|NO)
 
    Build the implementation of `Q <https://worldofspectrum.org/forums/discussion/41704>`_. |br| |nl|
-   The default is ``NO``.
-
-.. option:: -DZ80_WITH_RETX_NOTIFICATIONS_IN_IM0=(YES|NO)
-
-   Enable optional notifications for any ``reti`` or ``retn`` instruction executed during the interrupt mode 0 response. |br| |nl|
    The default is ``NO``.
 
 .. option:: -DZ80_WITH_SPECIAL_RESET=(YES|NO)

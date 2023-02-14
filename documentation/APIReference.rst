@@ -92,6 +92,7 @@ Configuration
 -------------
 
 .. doxygendefine:: Z80_OPTION_HALT_SKIP
+.. doxygendefine:: Z80_OPTION_IM0_RETX_NOTIFICATIONS
 .. doxygendefine:: Z80_OPTION_LD_A_IR_BUG
 .. doxygendefine:: Z80_OPTION_OUT_VC_255
 .. doxygendefine:: Z80_OPTION_XQ

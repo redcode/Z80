@@ -447,20 +447,25 @@ typedef struct {
 
 #define Z80_OPTION_LD_A_IR_BUG 2
 
+/** @brief <tt>@ref Z80::options</tt> bitmask that enables the HALTskip
+  * optimization. */
+
+#define Z80_OPTION_HALT_SKIP 4
+
 /** @brief <tt>@ref Z80::options</tt> bitmask that enables the XQ factor in the
   * emulation of the @c ccf and @c scf instructions. */
 
 #define Z80_OPTION_XQ 8
 
+/** @brief <tt>@ref Z80::options</tt> bitmask that enables notifications for any
+`reti` or `retn` instruction executed during the interrupt mode 0 response. */
+
+#define Z80_OPTION_IM0_RETX_NOTIFICATIONS 16
+
 /** @brief <tt>@ref Z80::options</tt> bitmask that enables the YQ factor in the
   * emulation of the @c ccf and @c scf instructions. */
 
 #define Z80_OPTION_YQ 32
-
-/** @brief <tt>@ref Z80::options</tt> bitmask that enables the HALTskip
-  * optimization. */
-
-#define Z80_OPTION_HALT_SKIP 64
 
 /** @brief <tt>@ref Z80::options</tt> bitmask that enables full emulation of the
   * Zilog NMOS models. */

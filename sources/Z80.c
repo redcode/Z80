@@ -2031,9 +2031,12 @@ INSTRUCTION(hook)
 	static void im0_ld_r_a(IM0 const *self) {NOTIFY(ld_r_a);}
 
 
-#	ifdef Z80_WITH_RETX_NOTIFICATIONS_IN_IM0
+#	ifdef Z80_WITH_IM0_RETX_NOTIFICATIONS
 		#define IM0_NOTIFY_RETX(callback)		     \
-			if (self->callback != Z_NULL)		     \
+			if (	self->callback != Z_NULL &&	     \
+				(self->z80->options &		     \
+				Z80_OPTION_IM0_RETX_NOTIFICATIONS)   \
+			)					     \
 				{				     \
 				self->z80->data.uint8_array[2] |= 2; \
 				self->callback(CONTEXT);	     \

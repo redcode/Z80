@@ -467,12 +467,12 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 	Build the full implementation of the interrupt mode 0 rather than the reduced one.  
 	The default is `NO`.
 
-* <span id="option_Z80_WITH_Q">**`-DZ80_WITH_Q=(YES|NO)`**</span>  
-	Build the implementation of [Q](https://worldofspectrum.org/forums/discussion/41704).  
+* <span id="option_Z80_WITH_IM0_RETX_NOTIFICATIONS">**`-DZ80_WITH_IM0_RETX_NOTIFICATIONS=(YES|NO)`**</span>  
+	Enable optional notifications for any `reti` or `retn` instruction executed during the interrupt mode 0 response.  
 	The default is `NO`.
 
-* <span id="option_Z80_WITH_RETX_NOTIFICATIONS_IN_IM0">**`-DZ80_WITH_RETX_NOTIFICATIONS_IN_IM0=(YES|NO)`**</span>  
-	Enable optional notifications for any `reti` or `retn` instruction executed during the interrupt mode 0 response.  
+* <span id="option_Z80_WITH_Q">**`-DZ80_WITH_Q=(YES|NO)`**</span>  
+	Build the implementation of [Q](https://worldofspectrum.org/forums/discussion/41704).  
 	The default is `NO`.
 
 * <span id="option_Z80_WITH_SPECIAL_RESET">**`-DZ80_WITH_SPECIAL_RESET=(YES|NO)`**</span>  
@@ -631,8 +631,8 @@ There are several macros that can be used to configure the source code of the li
 
 * **<code>#define [Z80_WITH_EXECUTE](#option_Z80_WITH_EXECUTE)</code>**
 * **<code>#define [Z80_WITH_FULL_IM0](#option_Z80_WITH_FULL_IM0)</code>**
+* **<code>#define [Z80_WITH_IM0_RETX_NOTIFICATIONS](#option_Z80_WITH_IM0_RETX_NOTIFICATIONS)</code>**
 * **<code>#define [Z80_WITH_Q](#option_Z80_WITH_Q)</code>**
-* **<code>#define [Z80_WITH_RETX_NOTIFICATIONS_IN_IM0](#option_Z80_WITH_RETX_NOTIFICATIONS_IN_IM0)</code>**
 * **<code>#define [Z80_WITH_SPECIAL_RESET](#option_Z80_WITH_SPECIAL_RESET)</code>**
 * **<code>#define [Z80_WITH_UNOFFICIAL_RETI](#option_Z80_WITH_UNOFFICIAL_RETI)</code>**
 * **<code>#define [Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG](#option_Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG)</code>**
