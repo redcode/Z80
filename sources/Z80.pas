@@ -127,10 +127,10 @@ type
 	PZ80 = ^TZ80;
 
 const
-	Z80_OPTION_OUT_VC_255             = 1;
-	Z80_OPTION_LD_A_IR_BUG            = 2;
-	Z80_OPTION_HALT_SKIP              = 4;
-	Z80_OPTION_XQ                     = 8;
+	Z80_OPTION_OUT_VC_255             =  1;
+	Z80_OPTION_LD_A_IR_BUG            =  2;
+	Z80_OPTION_HALT_SKIP              =  4;
+	Z80_OPTION_XQ                     =  8;
 	Z80_OPTION_IM0_RETX_NOTIFICATIONS = 16;
 	Z80_OPTION_YQ                     = 32;
 
@@ -139,9 +139,9 @@ const
 	Z80_MODEL_NEC_NMOS   = Z80_OPTION_LD_A_IR_BUG;
 	Z80_MODEL_ST_CMOS    = (Z80_OPTION_OUT_VC_255 or Z80_OPTION_LD_A_IR_BUG or Z80_OPTION_YQ);
 
-	Z80_REQUEST_REJECT_NMI    = 2;
-	Z80_REQUEST_NMI           = 4;
-	Z80_REQUEST_INT           = 8;
+	Z80_REQUEST_REJECT_NMI    =  2;
+	Z80_REQUEST_NMI           =  4;
+	Z80_REQUEST_INT           =  8;
 	Z80_REQUEST_SPECIAL_RESET = 16;
 
 	Z80_RESUME_HALT     = 1;
@@ -231,13 +231,13 @@ begin
 		LibHandle := SafeLoadLibrary(LibName);
 		if LibHandle = NilHandle then Exit;
 
-		Pointer(z80_power)         := GetProcAddress(LibHandle, 'z80_power'        );
+		Pointer(z80_power)         := GetProcAddress(LibHandle, 'z80_power');
 		Pointer(z80_instant_reset) := GetProcAddress(LibHandle, 'z80_instant_reset');
 		Pointer(z80_special_reset) := GetProcAddress(LibHandle, 'z80_special_reset');
-		Pointer(z80_int)           := GetProcAddress(LibHandle, 'z80_int'          );
-		Pointer(z80_nmi)           := GetProcAddress(LibHandle, 'z80_nmi'          );
-		Pointer(z80_execute)       := GetProcAddress(LibHandle, 'z80_execute'      );
-		Pointer(z80_run)           := GetProcAddress(LibHandle, 'z80_run'          );
+		Pointer(z80_int)           := GetProcAddress(LibHandle, 'z80_int');
+		Pointer(z80_nmi)           := GetProcAddress(LibHandle, 'z80_nmi');
+		Pointer(z80_execute)       := GetProcAddress(LibHandle, 'z80_execute');
+		Pointer(z80_run)           := GetProcAddress(LibHandle, 'z80_run');
 	end;
 
 	Result := True;
