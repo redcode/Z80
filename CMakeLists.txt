@@ -291,8 +291,8 @@ if(${PROJECT_NAME}_WITH_TESTS)
 	endif()
 
 	if(${PROJECT_NAME}_FETCH_TEST_FILES)
-		function(_fetch_files sha512sum_file location destination_dir)
-			file(STRINGS "${sha512sum_file}" _lines)
+		function(_fetch_files file_list location destination_dir)
+			file(STRINGS "${file_list}" _lines)
 
 			if(location MATCHES ".*://.*")
 				set(_message_action "Downloading")
@@ -304,7 +304,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 
 			foreach(_line ${_lines})
 				string(STRIP ${_line} _line)
-				string(SUBSTRING ${_line} 0 128 _sha512)
+				string(SUBSTRING ${_line} 0 128 _file_hash)
 				string(SUBSTRING ${_line} 130 -1 _file_path)
 				get_filename_component(_file_full_name ${_file_path} NAME)
 
@@ -322,7 +322,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				file(	DOWNLOAD
 					"${_file_url}"
 					"${destination_dir}/${_file_path}"
-					EXPECTED_HASH SHA512=${_sha512})
+					EXPECTED_HASH SHA3_512=${_file_hash})
 
 				if(	NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
 					(NOT ZLIB_FOUND OR NOT libzip_FOUND)
@@ -349,12 +349,12 @@ if(${PROJECT_NAME}_WITH_TESTS)
 		endfunction()
 
 		_fetch_files(
-			"${CMAKE_CURRENT_SOURCE_DIR}/support/firmware.sha512sum"
+			"${CMAKE_CURRENT_SOURCE_DIR}/support/firmware.sha3-512"
 			"${${PROJECT_NAME}_DEPOT_LOCATION}/firmware"
 			"${CMAKE_CURRENT_BINARY_DIR}/depot/firmware")
 
 		_fetch_files(
-			"${CMAKE_CURRENT_SOURCE_DIR}/support/software.sha512sum"
+			"${CMAKE_CURRENT_SOURCE_DIR}/support/software.sha3-512"
 			"${${PROJECT_NAME}_DEPOT_LOCATION}/software"
 			"${CMAKE_CURRENT_BINARY_DIR}/depot/software")
 
