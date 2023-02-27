@@ -3,7 +3,7 @@
 # |__   /|  ___|__  __|/   \
 #   /  /_|  __|  |  | /  *  \
 #  /_____|_____| |__|/__/ \__\
-# Copyright (C) 2006-2022 Manuel Sainz de Baranda y Goñi.
+# Copyright (C) 2006-2023 Manuel Sainz de Baranda y Goñi.
 # # Released under the terms of the GNU Lesser General Public License v3.
 # This "find module" is DISTRIBUTED AS PUBLIC DOMAIN. No restrictions apply.
 
@@ -74,9 +74,9 @@ if(Zeta_FOUND AND NOT TARGET Zeta)
 	if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.11)
 		set_property(
 			TARGET Zeta
-			PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Zeta_INCLUDE_DIR})
+			PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${Zeta_INCLUDE_DIR}")
 	else()
-		target_include_directories(Zeta INTERFACE ${Zeta_INCLUDE_DIR})
+		target_include_directories(Zeta INTERFACE "${Zeta_INCLUDE_DIR}")
 	endif()
 endif()
 

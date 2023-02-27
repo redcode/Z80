@@ -222,7 +222,7 @@ if(	NOT ${PROJECT_NAME}_OBJECT_LIBS AND
 		endif()
 
 		install(EXPORT "${PROJECT_NAME}_Targets"
-			DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
+			DESTINATION "${${PROJECT_NAME}_INSTALL_CMAKEDIR}"
 			FILE ${PROJECT_NAME}${_type}Targets.cmake
 			COMPONENT ${PROJECT_NAME}_Development)
 
@@ -236,12 +236,12 @@ if(	NOT ${PROJECT_NAME}_OBJECT_LIBS AND
 		configure_package_config_file(
 			"${CMAKE_CURRENT_SOURCE_DIR}/support/${PROJECT_NAME}Config.cmake.in"
 			"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-			INSTALL_DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR})
+			INSTALL_DESTINATION "${${PROJECT_NAME}_INSTALL_CMAKEDIR}")
 
 		install(FILES
 			"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
 			"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-			DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
+			DESTINATION "${${PROJECT_NAME}_INSTALL_CMAKEDIR}"
 			COMPONENT ${PROJECT_NAME}_Development)
 	endif()
 
@@ -252,7 +252,7 @@ if(	NOT ${PROJECT_NAME}_OBJECT_LIBS AND
 			@ONLY)
 
 		install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc"
-			DESTINATION ${${PROJECT_NAME}_INSTALL_PKGCONFIGDIR}
+			DESTINATION "${${PROJECT_NAME}_INSTALL_PKGCONFIGDIR}"
 			COMPONENT ${PROJECT_NAME}_Development)
 	endif()
 endif()
@@ -264,7 +264,7 @@ if(${PROJECT_NAME}_WITH_STANDARD_DOCUMENTS)
 			"${CMAKE_CURRENT_SOURCE_DIR}/HISTORY"
 			"${CMAKE_CURRENT_SOURCE_DIR}/README"
 			"${CMAKE_CURRENT_SOURCE_DIR}/THANKS"
-		DESTINATION ${CMAKE_INSTALL_DOCDIR}
+		DESTINATION "${CMAKE_INSTALL_DOCDIR}"
 		COMPONENT "${PROJECT_NAME}_Runtime")
 endif()
 
@@ -278,16 +278,16 @@ if(${PROJECT_NAME}_WITH_TESTS)
 	find_package(ZLIB   QUIET)
 	find_package(libzip QUIET)
 
-	add_executable("test-${PROJECT_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}/sources/test-Z80.c")
-	target_link_libraries("test-${PROJECT_NAME}" PRIVATE ${PROJECT_NAME})
+	add_executable(test-${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/sources/test-Z80.c")
+	target_link_libraries(test-${PROJECT_NAME} PRIVATE ${PROJECT_NAME})
 
 	if(ZLIB_FOUND AND libzip_FOUND)
-		target_link_libraries("test-${PROJECT_NAME}" PRIVATE z libzip::zip)
-		target_compile_definitions("test-${PROJECT_NAME}" PRIVATE TEST_Z80_WITH_ARCHIVE_EXTRACTION)
+		target_link_libraries(test-${PROJECT_NAME} PRIVATE z libzip::zip)
+		target_compile_definitions(test-${PROJECT_NAME} PRIVATE TEST_Z80_WITH_ARCHIVE_EXTRACTION)
 	endif()
 
 	if(${PROJECT_NAME}_WITH_EXECUTE)
-		target_compile_definitions("test-${PROJECT_NAME}" PRIVATE TEST_Z80_WITH_EXECUTE)
+		target_compile_definitions(test-${PROJECT_NAME} PRIVATE TEST_Z80_WITH_EXECUTE)
 	endif()
 
 	if(${PROJECT_NAME}_FETCH_TEST_FILES)
@@ -303,19 +303,19 @@ if(${PROJECT_NAME}_WITH_TESTS)
 			endif()
 
 			foreach(_line ${_lines})
-				string(STRIP ${_line} _line)
-				string(SUBSTRING ${_line} 0 128 _file_hash)
-				string(SUBSTRING ${_line} 130 -1 _file_path)
-				get_filename_component(_file_full_name ${_file_path} NAME)
+				string(STRIP "${_line}" _line)
+				string(SUBSTRING "${_line}" 0 128 _file_hash)
+				string(SUBSTRING "${_line}" 130 -1 _file_path)
+				get_filename_component(_file_full_name "${_file_path}" NAME)
 
 				set(_file_url "${location}/${_file_path}")
-				string(REPLACE " " "%20" _file_url ${_file_url})
-				string(REPLACE "!" "%21" _file_url ${_file_url})
-				string(REPLACE "(" "%28" _file_url ${_file_url})
-				string(REPLACE ")" "%29" _file_url ${_file_url})
-				string(REPLACE "," "%2C" _file_url ${_file_url})
-				string(REPLACE "[" "%5B" _file_url ${_file_url})
-				string(REPLACE "]" "%5D" _file_url ${_file_url})
+				string(REPLACE " " "%20" _file_url "${_file_url}")
+				string(REPLACE "!" "%21" _file_url "${_file_url}")
+				string(REPLACE "(" "%28" _file_url "${_file_url}")
+				string(REPLACE ")" "%29" _file_url "${_file_url}")
+				string(REPLACE "," "%2C" _file_url "${_file_url}")
+				string(REPLACE "[" "%5B" _file_url "${_file_url}")
+				string(REPLACE "]" "%5D" _file_url "${_file_url}")
 
 				message(STATUS "${_message_action} \"${_file_full_name}\"")
 
@@ -327,10 +327,10 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				if(	NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
 					(NOT ZLIB_FOUND OR NOT libzip_FOUND)
 				)
-					get_filename_component(_file_extension ${_file_full_name} LAST_EXT)
+					get_filename_component(_file_extension "${_file_full_name}" LAST_EXT)
 
 					if(_file_extension STREQUAL ".gz" OR _file_extension STREQUAL ".zip")
-						get_filename_component(_subdirectory ${_file_path} DIRECTORY)
+						get_filename_component(_subdirectory "${_file_path}" DIRECTORY)
 
 						if(_file_extension STREQUAL ".gz")
 							set(_extract_pattern "*zex*.com")
@@ -381,8 +381,8 @@ if(${PROJECT_NAME}_WITH_TESTS)
 	endif()
 
 	add_test(
-		NAME "test-${PROJECT_NAME}"
-		COMMAND "test-${PROJECT_NAME}"
+		NAME test-${PROJECT_NAME}
+		COMMAND test-${PROJECT_NAME}
 			--path "${_depot_dir}/firmware"
 			--path "${_depot_dir}/software/POSIX"
 			--path "${_depot_dir}/software/ZX Spectrum"
