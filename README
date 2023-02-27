@@ -124,7 +124,7 @@ library:
         Specify the directory in which to install the pkg-config file.
         The default is `"${CMAKE_INSTALL_LIBDIR}/pkgconfig"`.
 
-    -DZ80_NOSTDLIB_FLAGS=(Auto|[<flag>[;<flag>...]])
+    -DZ80_NOSTDLIB_FLAGS=(Auto|"[<flag>[;<flag>...]]")
         Specify the linker flags used to avoid linking against system libraries.
         The default is Auto (autoconfigure flags). If you get linker errors, set
         this option to `""`.
@@ -330,4 +330,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2023-02-14                                               README EOF
+Last update: 2023-02-27                                               README EOF

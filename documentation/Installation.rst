@@ -85,7 +85,7 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
    Specify the directory in which to install the `pkg-config <https://www.freedesktop.org/wiki/Software/pkg-config>`_ `file <https://people.freedesktop.org/~dbn/pkg-config-guide.html>`_. |br| |nl|
    The default is ``"${CMAKE_INSTALL_LIBDIR}/pkgconfig"``.
 
-.. option:: -DZ80_NOSTDLIB_FLAGS=(Auto|[<flag>[;<flag>...]])
+.. option:: -DZ80_NOSTDLIB_FLAGS=(Auto|"[<flag>[;<flag>...]]")
 
    Specify the linker flags used to avoid linking against system libraries. |br| |nl|
    The default is ``Auto`` (autoconfigure flags). If you get linker errors, set this option to ``""``.

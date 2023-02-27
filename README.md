@@ -413,7 +413,7 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 	Specify the directory in which to install the [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config) [file](https://people.freedesktop.org/~dbn/pkg-config-guide.html).  
 	The default is <code>"${[CMAKE_INSTALL_LIBDIR](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html)}/pkgconfig"</code>.
 
-* <span id="option_Z80_NOSTDLIB_FLAGS">**`-DZ80_NOSTDLIB_FLAGS=(Auto|[<flag>[;<flag>...]])`**</span>  
+* <span id="option_Z80_NOSTDLIB_FLAGS">**`-DZ80_NOSTDLIB_FLAGS=(Auto|"[<flag>[;<flag>...]]")`**</span>  
 	Specify the linker flags used to avoid linking against system libraries.  
 	The default is `Auto` (autoconfigure flags). If you get linker errors, set this option to `""`.
 
