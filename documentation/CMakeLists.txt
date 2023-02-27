@@ -63,7 +63,7 @@ if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION)
 
 	install(DIRECTORY "${_html_documentation_output}/"
 		DESTINATION "${CMAKE_INSTALL_DOCDIR}/documentation"
-		COMPONENT "${PROJECT_NAME}_Documentation")
+		COMPONENT ${PROJECT_NAME}_Documentation)
 endif()
 
 if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
@@ -107,7 +107,7 @@ if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
 	install(FILES "${_pdf_documentation_output}"
 		DESTINATION "${CMAKE_INSTALL_DOCDIR}"
 		RENAME "${PROJECT_NAME} v${PROJECT_VERSION}.pdf"
-		COMPONENT "${PROJECT_NAME}_Documentation")
+		COMPONENT ${PROJECT_NAME}_Documentation)
 endif()
 
 # documentation/CMakeLists.txt EOF
