@@ -197,7 +197,7 @@ target_compile_definitions(
 	$<$<BOOL:${${PROJECT_NAME}_WITH_ZILOG_NMOS_LD_A_IR_BUG}>:Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG>)
 
 install(TARGETS ${PROJECT_NAME}
-	EXPORT "${PROJECT_NAME}_Targets"
+	EXPORT  ${PROJECT_NAME}_Targets
 	RUNTIME COMPONENT "${PROJECT_NAME}_Runtime"
 	LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 		COMPONENT "${PROJECT_NAME}_Runtime"
@@ -219,7 +219,7 @@ if(	NOT ${PROJECT_NAME}_OBJECT_LIBS AND
 			set(_type Static)
 		endif()
 
-		install(EXPORT "${PROJECT_NAME}_Targets"
+		install(EXPORT ${PROJECT_NAME}_Targets
 			DESTINATION "${${PROJECT_NAME}_INSTALL_CMAKEDIR}"
 			FILE ${PROJECT_NAME}${_type}Targets.cmake
 			COMPONENT ${PROJECT_NAME}_Development)
@@ -339,7 +339,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 						file(	ARCHIVE_EXTRACT
 							INPUT "${destination_dir}/${_file_path}"
 							DESTINATION "${destination_dir}/${_subdirectory}"
-							PATTERNS ${_extract_pattern}
+							PATTERNS "${_extract_pattern}"
 							VERBOSE)
 					endif()
 				endif()
