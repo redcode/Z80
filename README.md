@@ -42,7 +42,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top" align="center">
 				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80full.tap</b>
 				</a>
 				<br>
@@ -50,7 +50,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80doc.tap</b>
 				</a>
 				<br>
@@ -68,7 +68,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80flags.tap</b>
 				</a>
 				<br>
@@ -76,7 +76,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80docflags.tap</b>
 				</a>
 				<br>
@@ -93,7 +93,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80ccf.tap</b>
 				</a>
 				<br>
@@ -101,7 +101,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80memptr.tap</b>
 				</a>
 				<br>
@@ -124,7 +124,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top" align="center">
 				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80full.tap</b>
 				</a>
 				<br>
@@ -132,7 +132,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80doc.tap</b>
 				</a>
 				<br>
@@ -150,7 +150,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80flags.tap</b>
 				</a>
 				<br>
@@ -158,7 +158,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80docflags.tap</b>
 				</a>
 				<br>
@@ -175,7 +175,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80ccf.tap</b>
 				</a>
 				<br>
@@ -183,7 +183,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80memptr.tap</b>
 				</a>
 				<br>
@@ -211,7 +211,7 @@ This suite performs a series of tests to verify the MEMPTR documents <sup>_([Eng
 		<tr>
 			<td align="center" valign="top" colspan="2">
 				<a href="https://web.archive.org/web/20130511214919if_/http://homepage.ntlworld.com/mark.woodmass/z80tests.tap">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>z80tests.tap</b>
 				</a>
 			</td>
@@ -237,7 +237,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20200806155334if_/http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexdoc.tap">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>zexdoc.tap</b>
 				</a>
 				<br>
@@ -246,7 +246,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20181216034526if_/http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexall.tap">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>zexall.tap</b>
 				</a>
 				<br>
@@ -269,7 +269,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20120527195857if_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexfix.tap">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>zexfix.tap</b>
 				</a>
 				<br>
@@ -278,7 +278,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20120527200327if_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexbit.tap">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>zexbit.tap</b>
 				</a>
 				<br>
@@ -301,7 +301,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		<tr>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204406if_/http://zxds.raxoft.cz/taps/misc/zexall2.zip">
-					<img src="https://zxe.io/software/Z80/images/TAP.png"><br>
+					<img src="https://zxe.io/software/Z80/images/TAP.png" width="96"><br>
 					<b>zexall2.tap</b>
 				</a>
 			</td>
@@ -847,7 +847,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 Copyright © 1999-2023 Manuel Sainz de Baranda y Goñi.
 
-<img src="https://zxe.io/software/Z80/images/lgplv3-147x51.png" align="right">
+<img src="https://zxe.io/software/Z80/images/lgplv3-147x51.png" width="147" align="right">
 
 This library is [free software](https://www.gnu.org/philosophy/free-sw.html): you can redistribute it and/or modify it under the terms of the **[GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.html)** as published by the [Free Software Foundation](https://www.fsf.org), either version 3 of the License, or (at your option) any later version.
 
