@@ -501,7 +501,7 @@ References
 
     .. _r38:
 
-    http://groups.google.co.uk/group/comp.sys.sinclair/msg/56dd1fd4ccb5fb3b
+    https://groups.google.com/g/comp.sys.sinclair/c/WPsPr6j6w5k/m/O_u1zNQf3VYJ
 
 39.
 

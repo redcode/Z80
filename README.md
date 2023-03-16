@@ -840,7 +840,7 @@ Many thanks to the following individuals (in alphabetical order):
 35. <span id="r35">https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360</span>
 36. <span id="r36">https://floooh.github.io/2021/12/17/cycle-stepped-z80.html</span>
 37. <span id="r37">https://github.com/floooh/v6502r</span>
-38. <span id="r38">http://groups.google.co.uk/group/comp.sys.sinclair/msg/56dd1fd4ccb5fb3b</span>
+38. <span id="r38">https://groups.google.com/g/comp.sys.sinclair/c/WPsPr6j6w5k/m/O_u1zNQf3VYJ</span>
 39. <span id="r39">Young, Sean (1997-09-21). _"Zilog Z80 CPU Specifications"_.
 	* http://www.msxnet.org/tech/Z80/z80.zip
 
