@@ -69,7 +69,7 @@ typedef struct {
 	   archive if the file is compressed. */
 	char const* file_path;
 
-	/* Total number of clock cycles executed by the test when it passes. */
+	/* Total number of clock cycles executed when the test is passed. */
 	zusize cycles_expected[1 + (Z_USIZE_BITS < 64)];
 
 	/* Size of the program file. */
@@ -90,7 +90,7 @@ typedef struct {
 	/* Format of the program file. */
 	zuint8 format;
 
-	/* Total number of lines printed by the test when it passes. */
+	/* Total number of lines printed when the test is passed. */
 	zuint8 lines_expected;
 } Test;
 
