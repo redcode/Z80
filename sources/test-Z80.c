@@ -33,7 +33,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <inttypes.h>
 
 #ifdef TEST_Z80_WITH_EXECUTE
 #	define RUN z80_execute
@@ -874,7 +873,7 @@ int main(int argc, char **argv)
 	)
 		{
 		not_enough_memory_available:
-		fputs("Error: Not enough memory available.", stderr);
+		fputs("Error: not enough memory available.", stderr);
 		goto exit_with_error;
 		}
 
