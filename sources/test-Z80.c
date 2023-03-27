@@ -34,23 +34,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+/* MARK: - Macros */
+
 #ifdef TEST_Z80_WITH_EXECUTE
 #	define RUN z80_execute
 #else
 #	define RUN z80_run
 #endif
 
-
-/* MARK: - Constants: Opcodes */
-
 #define OPCODE_NOP	 0x00
 #define OPCODE_RET	 0xC9
 #define OPCODE_HALT	 0x76
 #define OPCODE_CALL_WORD 0xCD
 #define OPCODE_JP_WORD	 0xC3
-
-
-/* MARK: - Constants: Test Formats */
 
 #define TEST_FORMAT_CPM	     0 /* CP/M program in COM format.		      */
 #define TEST_FORMAT_HARSTON  1 /* Z80 Instruction Set Exerciser for Spectrum. */
@@ -64,8 +61,8 @@ typedef struct {
 	/* Name of the archive if the test is compressed; `Z_NULL` otherwise. */
 	char const* archive_name;
 
-	/* Name of the test program file, or the path to the file inside the
-	   archive if the file is compressed. */
+	/* Name of the test program file, or path to the file inside the archive
+	   if the file is compressed. */
 	char const* file_path;
 
 	/* Total number of clock cycles executed when the test is passed. */
@@ -138,66 +135,46 @@ static struct {char const *key; zuint8 options;} const cpu_models[4] = {
 
 static char const new_line[2] = "\n";
 
-/*------------------------------------------------------.
-| Instance of the Z80 CPU emulator and 64 KB of memory. |
-'======================================================*/
+/*---------------------------------------------------.
+| Instance of the Z80 emulator and 64 KiB of memory. |
+'===================================================*/
 static Z80 cpu;
 static zuint8 memory[65536];
 
-/*----------------------------------------------------.
-| Whether or not the current test has been completed. |
-'====================================================*/
+/*------------------------------------------------------------------------.
+| `completed` indicates whether the test has reached its exit address, in |
+| which case `cycles` contains the number of clock cycles executed during |
+| the last `RUN` of the emulation. `lines` is incremented every time the  |
+| test prints a new line or a line longer than the ZX Spectrum screen.	  |
+| A test will be considered passed if it reaches its exit address at the  |
+| correct clock cycle and prints the correct number of "lines".		  |
+'========================================================================*/
 static zboolean completed;
+static zusize   cycles, lines;
+
+/*--------------------------------------------------------------------------.
+| `zx_spectrum_tab` indicates whether the previous character printed by the |
+| test was TAB. `zx_spectrum_column` holds the X position of the cursor (in |
+| characters). `zx_spectrum_print_hook_address` contains the address of the |
+| trap that intercepts the routine called by the test to print characters.  |
+| These 3 variables are only used for ZX Spectrum tests.		    |
+'==========================================================================*/
+static zboolean zx_spectrum_tab;
+static zuint    zx_spectrum_column;
+static zuint16  zx_spectrum_print_hook_address;
 
 /*---------------------------------------------------------------------------.
-| Number of clock cycles executed before reaching the `halt` instruction. On |
-| >= 64-bit systems, it corresponds to the total number of cycles executed   |
-| by the program; on 32-bit systems, to the number of cycles executed during |
-| the last call to the `z80_run` or `z80_execute` function.		     |
-============================================================================*/
-static zusize cycles;
-
-/*-------------------------------------------------------.
-| Whether or not the previous character printed was TAB. |
-| It is only used in ZX Spectrum tests.			 |
-'=======================================================*/
-static zboolean zx_spectrum_tab;
-
-/*-----------------------------------------------------------.
-| X position of the cursor inside the paper (in characters). |
-| It is only used in ZX Spectrum tests.			     |
-'===========================================================*/
-static zuint zx_spectrum_column;
-
-/*----------------------------------------------------------.
-| Number of text lines printed by the current test program. |
-| It is used to know whether the test produces errors.	    |
-'==========================================================*/
-static zuint lines;
-
-/*-------------------------------------------------------------.
-| Address where to place a trap to intercept the PRINT routine |
-| used by the test program.				       |
-'=============================================================*/
-static zuint16 print_hook_address;
-
-/*---------------------------------------------------------------.
-| [0] = Value read from even I/O ports.				 |
-| [1] = Value read from odd I/O ports.				 |
-| The default values are those of a Sinclair ZX Spectrum 16K/48K |
-| with no devives attached.					 |
-'===============================================================*/
+| [0] = Value read from even I/O ports; [1] = Value read from odd I/O ports. |
+| The default values are those from a Sinclair ZX Spectrum 48K with no       |
+| devices attached.							     |
+'===========================================================================*/
 static zuint8 in_values[2] = {191, 255};
 
-/*-----------------.
-| Verbosity level. |
-'=================*/
-static zuint8 verbosity = 4;
-
-/*-------------------------------------------------------------.
-| Wheter or not to print the output of the test programs.      |
-| TRUE if the verbosity level is 4. It is used for simplicity. |
-'=============================================================*/
+/*----------------------------------------------------------------------------.
+| `verbosity` contains the verbosity level specified by the `-V` option.      |
+| `show_test_output` indicates whether to print the text output of the tests. |
+'============================================================================*/
+static zuint8   verbosity = 4;
 static zboolean show_test_output;
 
 static char*  path_buffer	= Z_NULL;
@@ -255,9 +232,7 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 		case 0x0D: break;
 		case 0x0A: character = '\n';
 		case 0x3A: lines++;
-
-		default:
-		if (show_test_output) putchar(character);
+		default:   if (show_test_output) putchar(character);
 		}
 
 	else if (Z80_C(cpu) == 9)
@@ -279,9 +254,7 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 				case 0x0D: break;
 				case 0x0A: character = '\n';
 				case 0x3A: lines++;
-
-				default:
-				if (show_test_output) putchar(character);
+				default:   if (show_test_output) putchar(character);
 				}
 			}
 		}
@@ -302,7 +275,7 @@ static void zx_spectrum_cpu_write(void *context, zuint16 address, zuint8 value)
 static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 	{
 	Z_UNUSED(context)
-	if (address != print_hook_address) return OPCODE_NOP;
+	if (address != zx_spectrum_print_hook_address) return OPCODE_NOP;
 
 	if (zx_spectrum_tab)
 		{
@@ -576,14 +549,14 @@ static zuint8 run_test(int test_index)
 			memory[0x0012] = 0x70;
 
 			/* 70F2: PRINT */
-			memory[print_hook_address = 0x70F2] = Z80_HOOK;
+			memory[zx_spectrum_print_hook_address = 0x70F2] = Z80_HOOK;
 			}
 
 		else	{
 			cpu.fetch_opcode = cpu_read;
 
 			/* 0010: THE 'PRINT A CHARACTER' RESTART */
-			memory[print_hook_address = 0x0010] = Z80_HOOK;
+			memory[zx_spectrum_print_hook_address = 0x0010] = Z80_HOOK;
 
 			/* 0D6B: THE 'CLS' COMMAND ROUTINE */
 			memory[0x0D6B] = OPCODE_RET;
@@ -642,7 +615,7 @@ static zuint8 run_test(int test_index)
 
 	if (verbosity)
 		{
-		const char *failure_reason;
+		char const *failure_reason;
 
 		if (!passed)
 			{
@@ -881,11 +854,8 @@ int main(int argc, char **argv)
 	| Disable output buffering if verbosity is enabled, so that the  |
 	| messages are visible immediately rather than after each ENTER. |
 	'===============================================================*/
-	if (verbosity)
-		{
-		setvbuf(stdout, Z_NULL, _IONBF, 0);
-		show_test_output = verbosity == 4;
-		}
+	if (verbosity) setvbuf(stdout, Z_NULL, _IONBF, 0);
+	show_test_output = verbosity == 4;
 
 	/* Configure the Z80 CPU emulator. */
 
