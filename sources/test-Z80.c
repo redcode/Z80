@@ -248,23 +248,17 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 		zuint16 i = Z80_DE(cpu);
 		zuint   c = 80;
 
-		while (memory[i] != '$')
+		while (c--) switch ((character = memory[i++]))
 			{
-			if (!c--)
-				{
-				if (show_test_output) puts(" [TRUNCATED]");
-				lines += 200;
-				break;
-				}
-
-			switch ((character = memory[i++]))
-				{
-				case 0x0D: break;
-				case 0x0A: character = '\n';
-				case 0x3A: lines++;
-				default:   if (show_test_output) putchar(character);
-				}
+			case 0x24: return OPCODE_RET;
+			case 0x0D: break;
+			case 0x0A: character = '\n';
+			case 0x3A: lines++;
+			default:   if (show_test_output) putchar(character);
 			}
+
+		if (show_test_output) puts(" [TRUNCATED]");
+		lines += 200;
 		}
 
 	return OPCODE_RET;
