@@ -154,20 +154,20 @@ static zusize   cycles, lines;
 
 /*--------------------------------------------------------------------------.
 | `zx_spectrum_tab` indicates whether the previous character printed by the |
-| test was TAB. `zx_spectrum_column` holds the X position of the cursor (in |
-| characters). `zx_spectrum_print_hook_address` contains the address of the |
-| trap that intercepts the routine called by the test to print characters.  |
+| test was a TAB. `zx_spectrum_column` holds the X position of the cursor.  |
+| `zx_spectrum_print_hook_address` contains the address of the trap that    |
+| intercepts the routine called by the test to print characters.	    |
 | These 3 variables are only used for ZX Spectrum tests.		    |
 '==========================================================================*/
 static zboolean zx_spectrum_tab;
 static zuint    zx_spectrum_column;
 static zuint16  zx_spectrum_print_hook_address;
 
-/*---------------------------------------------------------------------------.
-| [0] = Value read from even I/O ports; [1] = Value read from odd I/O ports. |
-| The default values are those from a Sinclair ZX Spectrum 48K with no       |
-| devices attached.							     |
-'===========================================================================*/
+/*-------------------------------------------------------------------------.
+| [0] = byte read from even I/O ports; [1] = byte read from odd I/O ports. |
+| The default values are those from a Sinclair ZX Spectrum 48K with no     |
+| devices attached.							   |
+'=========================================================================*/
 static zuint8 in_values[2] = {191, 255};
 
 /*----------------------------------------------------------------------------.
@@ -177,6 +177,11 @@ static zuint8 in_values[2] = {191, 255};
 static zuint8   verbosity = 4;
 static zboolean show_test_output;
 
+/*--------------------------------------------------------------------------.
+| The search paths specified by using the `-p` option are collected in the  |
+| `search_paths` array of size `search_path_count`. `path_buffer` is used   |
+| to compose a complete file path consisting of "<search path>/<filename>". |
+'==========================================================================*/
 static char*  path_buffer	= Z_NULL;
 static char** search_paths	= Z_NULL;
 static zuint  search_path_count = 0;
@@ -227,26 +232,29 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 	Z_UNUSED(context)
 	if (address != 5) return OPCODE_NOP;
 
-	if (Z80_C(cpu) == 2) switch ((character = Z80_E(cpu)))
-		{
-		case 0x0D: break;
-		case 0x0A: character = '\n';
-		case 0x3A: lines++;
-		default:   if (show_test_output) putchar(character);
-		}
+	/* BDOS function 2 (C_WRITE) - Console output */
+	if (Z80_C(cpu) == 2)
+		switch ((character = Z80_E(cpu)))
+			{
+			case 0x0D: break;
+			case 0x0A: character = '\n';
+			case 0x3A: lines++;
+			default:   if (show_test_output) putchar(character);
+			}
 
+	/* BDOS function 9 (C_WRITESTR) - Output string */
 	else if (Z80_C(cpu) == 9)
 		{
 		zuint16 i = Z80_DE(cpu);
-		zuint   c = 0;
+		zuint   c = 80;
 
 		while (memory[i] != '$')
 			{
-			if (c++ > 100)
+			if (!c--)
 				{
-				putchar('\n');
-				fputs("FATAL ERROR: String to print is too long!\n", stderr);
-				exit(EXIT_FAILURE);
+				if (show_test_output) puts(" [TRUNCATED]");
+				lines += 200;
+				break;
 				}
 
 			switch ((character = memory[i++]))
@@ -911,8 +919,9 @@ int main(int argc, char **argv)
 	/*---------------------------.
 	| Print the results summary. |
 	'===========================*/
-	printf(	"%sResults: %u test%s passed, %u failed\n",
+	printf(	"%sResults%s: %u test%s passed, %u failed\n",
 		verbosity && !show_test_output ? "\n" : "",
+		show_test_output ? " summary" : "",
 		results[1],
 		results[1] == 1 ? "" : "s",
 		results[0]);
