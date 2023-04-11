@@ -628,10 +628,10 @@ static zuint8 run_test(int test_index)
 
 	if (cursor_x > columns) columns = cursor_x;
 
-	/*------------------------------------------------------------------------.
-	| A test will be considered passed if it reaches its exit address at the  |
-	| correct clock cycle and prints the correct number of lines and columns. |
-	'========================================================================*/
+	/*---------------------------------------------------------------------.
+	| The test is passed if it has reached its exit address at the correct |
+	| clock cycle and printed the correct number of lines and columns.     |
+	'=====================================================================*/
 
 	passed = completed
 		&& lines   == test->lines_expected
@@ -664,7 +664,8 @@ static zuint8 run_test(int test_index)
 			if (passed) puts(&new_line[has_final_new_line]);
 
 			else printf(
-				"%s>>> Test failed: %s.\n\n", &new_line[completed && has_final_new_line],
+				"%s>>> Test failed: %s.\n\n",
+				&new_line[!lines || (completed && has_final_new_line)],
 				failure_reason);
 			}
 
@@ -701,7 +702,7 @@ int main(int argc, char **argv)
 	int j, i = 0;
 
 	/*--------------------------------------------.
-	| String containing what has been detected as |
+	| String specifying what has been detected as |
 	| invalid when parsing the command line.      |
 	'============================================*/
 	char const *invalid;
@@ -941,7 +942,7 @@ int main(int argc, char **argv)
 	| Print the results summary. |
 	'===========================*/
 	printf(	"%sResults%s: %u test%s passed, %u failed\n",
-		verbosity && !show_test_output ? "\n" : "",
+		&new_line[!verbosity || show_test_output],
 		show_test_output ? " summary" : "",
 		results[1],
 		results[1] == 1 ? "" : "s",
