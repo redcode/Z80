@@ -723,17 +723,17 @@ int main(int argc, char **argv)
 		{
 		if (is_option(argv[i], "-h", "--help"))
 			{
-			puts(	"Usage: test-Z80 [options] (--all | <test>...)\n"
+			puts(	"Usage: test-Z80 [options] (--all|<test>...)\n"
 				"\n"
 				"Options:\n"
-				"  -V, --verbosity (0..4)  Set the verbosity level (default: 4).\n"
-				"  -0, --in-even (0..255)  Set the byte read from even I/O ports (default: 191).\n"
-				"  -1, --in-odd (0..255)   Set the byte read from odd I/O ports (default: 255).\n"
+				"  -V, --verbosity (0..4)  Set the verbosity level [default: 4].\n"
+				"  -0, --in-even (0..255)  Set the byte read from even I/O ports [default: 191].\n"
+				"  -1, --in-odd (0..255)   Set the byte read from odd I/O ports [default: 255].\n"
 				"  -a, --all               Run all tests.\n"
-				"  -h, --help              Show this help message.\n"
+				"  -h, --help              Print this help message and exit.\n"
 				"  -m, --model <model>     Specify the CPU model to emulate.\n"
 				"  -p, --path <path>       Add a path where to look for the required files.\n"
-				"  -v, --version           Show version and copyright.\n"
+				"  -v, --version           Print version information and exit.\n"
 				"\n"
 				"CPU models:\n"
 				"  zilog-nmos  Zilog NMOS (default)\n"
