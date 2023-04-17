@@ -194,7 +194,7 @@ typedef struct {
 
 	Z80Read read;
 
-	/** @brief Invoked to peform a memory write.
+	/** @brief Invoked to perform a memory write.
 	  *
 	  * This callback indicates the beginning of a memory write M-cycle. The
 	  * function must write the value of the third parameter into the memory
@@ -392,7 +392,7 @@ typedef struct {
 
 	zuint8 r7;
 
-	/** @brief Maskable interrup mode.
+	/** @brief Maskable interrupt mode.
 	  *
 	  * Contains the number of the maskable interrupt mode in use: @c 0,
 	  * @c 1 or @c 2. */
@@ -796,7 +796,7 @@ static Z_INLINE zuint16 z80_refresh_address(Z80 const *self)
   * which the I/O read M-cycle being executed by a <tt>@ref Z80</tt> begins.
   *
   * @param self Pointer to the object on which the function is called.
-  * @return The clock cyle at which the I/O read M-cycle begins. */
+  * @return The clock cycle at which the I/O read M-cycle begins. */
 
 static Z_INLINE zuint8 z80_in_cycle(Z80 const *self)
 	{
@@ -814,7 +814,7 @@ static Z_INLINE zuint8 z80_in_cycle(Z80 const *self)
   * which the I/O write M-cycle being executed by a <tt>@ref Z80</tt> begins.
   *
   * @param self Pointer to the object on which the function is called.
-  * @return The clock cyle at which the I/O write M-cycle begins. */
+  * @return The clock cycle at which the I/O write M-cycle begins. */
 
 static Z_INLINE zuint8 z80_out_cycle(Z80 const *self)
 	{
