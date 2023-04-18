@@ -316,7 +316,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 
 # Installation
 
-### <sub><img src="https://zxe.io/software/Z80/images/debian-openlogo-nd.svg" height="24"></sub> Debian/Ubuntu
+### <sub><img src="https://zxe.io/software/Z80/images/debian-icon.svg" height="24"></sub> Debian/Ubuntu
 
 First, add the `zxe` repository and update the package index:
 
@@ -340,7 +340,7 @@ In case you need to build software that requires the Z80 library, install the de
 sudo apt install libz80-dev
 ````
 
-### <sub><img src="https://zxe.io/software/Z80/images/gentoo-signet.svg" height="24"></sub> Gentoo Linux
+### <sub><img src="https://zxe.io/software/Z80/images/gentoo-icon.svg" height="24"></sub> Gentoo Linux
 
 First, add and sync the [`zxe`](https://github.com/redcode/zxe-gentoo-overlay) overlay:
 
@@ -355,7 +355,7 @@ Then, install the library:
 emerge emulation-libs/z80
 ```
 
-### <sub><img src="https://zxe.io/software/Z80/images/homebrew-256x256.png" height="24"></sub> Homebrew
+### <sub><img src="https://zxe.io/software/Z80/images/homebrew-icon.svg" height="24"></sub> Homebrew
 
 ```shell
 brew install redcode/zxe/z80
