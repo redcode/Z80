@@ -14,11 +14,14 @@ Installation
 
       \newline
 
-.. |cmake_option_strip| replace:: ``--strip``
-.. _cmake_option_strip: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-strip
+.. |cmake_option_build_config| replace:: ``--config``
+.. _cmake_option_build_config: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-build-config
 
-.. |cmake_option_component| replace:: ``--component``
-.. _cmake_option_component: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-component
+.. |cmake_option_install_strip| replace:: ``--strip``
+.. _cmake_option_install_strip: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-strip
+
+.. |cmake_option_install_component| replace:: ``--component``
+.. _cmake_option_install_component: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-component
 
 Prerequisites
 =============
@@ -200,9 +203,10 @@ Finally, type the following to install the package:
 
 .. code-block:: sh
 
+   cmake --build . [--config (Debug|Release|RelWithDebInfo|MinSizeRel)]
    cmake --install . [--strip] [--component <component>]
 
-It is advisable to use the |cmake_option_strip|_ option when installing non-debug builds of the shared library. To install only a specific component of the package, use the |cmake_option_component|_ option. The project defines the following components:
+The |cmake_option_build_config|_ option is only necessary for those `CMake generators <https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html>`_ that ignore :option:`CMAKE_BUILD_TYPE<-DCMAKE_BUILD_TYPE>` (e.g., Xcode and Visual Studio). For non-debug builds of the shared library, use |cmake_option_install_strip|_ to discard debugging information and non-public symbols from the installed binary. To install only a specific component of the package, use the |cmake_option_install_component|_ option. The project defines the following components:
 
 .. option:: Z80_Runtime
 
