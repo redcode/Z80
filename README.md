@@ -503,7 +503,7 @@ cmake --build . [--config (Debug|Release|RelWithDebInfo|MinSizeRel)]
 cmake --install . [--strip]
 ```
 
-The [`--config`](https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-build-config) option is only necessary for those [CMake generators](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html) that ignore [`CMAKE_BUILD_TYPE`](#option_CMAKE_BUILD_TYPE) (e.g., Xcode and Visual Studio). For non-debug builds of the shared library, use [`--strip`](https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-strip) to discard debugging information and non-public symbols from the installed binary.
+The [`--config`](https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-build-config) option is only necessary for those [CMake generators](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html) that ignore [`CMAKE_BUILD_TYPE`](#option_CMAKE_BUILD_TYPE) (e.g., Xcode and Visual Studio). Use [`--strip`](https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-strip) to remove debugging information and non-public symbols when installing non-debug builds of the shared library.
 
 ### TL;DR
 

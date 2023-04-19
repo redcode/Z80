@@ -224,9 +224,9 @@ install the package:
     # cmake --install . [--strip]
 
 The `--config` option is only necessary for those CMake generators that ignore
-`CMAKE_BUILD_TYPE` (e.g., Xcode and Visual Studio). For non-debug builds of the
-shared library, use `--strip` to remove debugging information and non-public
-symbols from the installed binary.
+`CMAKE_BUILD_TYPE` (e.g., Xcode and Visual Studio). Use `--strip` to remove
+debugging information and non-public symbols when installing non-debug builds of
+the shared library.
 
 
 4.  Integration
@@ -332,4 +332,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2023-04-19                                               README EOF
+Last update: 2023-04-20                                               README EOF
