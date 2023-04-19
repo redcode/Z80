@@ -499,11 +499,11 @@ Package maintainers are encouraged to use at least the following options for the
 Finally, once the build system is configured according to your needs, build and install the package:
 
 ```shell
-cmake --build .
+cmake --build . [--config (Debug|Release|RelWithDebInfo|MinSizeRel)]
 cmake --install . [--strip]
 ```
 
-It is advisable to use the [`--strip`](https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-strip) option when installing non-debug builds of the shared library.
+The [`--config`](https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-build-config) option is only necessary for those [CMake generators](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html) that ignore [`CMAKE_BUILD_TYPE`](#option_CMAKE_BUILD_TYPE) (e.g., Xcode and Visual Studio). For non-debug builds of the shared library, use [`--strip`](https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-strip) to discard debugging information and non-public symbols from the installed binary.
 
 ### TL;DR
 
@@ -533,7 +533,7 @@ cmake .. \
 	-DZ80_WITH_FULL_IM0=YES \
 	-DZ80_WITH_Q=YES \
 	-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
-cmake --build .
+cmake --build . --config Release
 cmake --install . --strip
 ```
 
@@ -576,7 +576,7 @@ cmake .. \
 	-DZ80_WITH_FULL_IM0=YES \
 	-DZ80_WITH_Q=YES \
 	-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
-cmake --build .
+cmake --build . --config Release
 ctest -V
 ```
 
