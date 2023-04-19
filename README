@@ -70,10 +70,10 @@ to generate the documentation in PDF format.
 
 The emulator requires some types and macros included in Zeta (https://zeta.st),
 a dependency-free, header-only library used to retain compatibility with most C
-compilers. Install Zeta or extract its official source code package to the same
-directory of this README or its parent directory. Zeta is the sole dependency;
-the emulator is a freestanding implementation and as such does not depend on the
-C standard library.
+compilers. Install Zeta or extract its source code package to the root directory
+of the Z80 project or its parent directory. Zeta is the sole dependency; the
+emulator is a freestanding implementation and as such does not depend on the C
+standard library.
 
 Once the prerequisites are met, create a directory and run cmake from there to
 prepare the build system:
@@ -225,7 +225,7 @@ install the package:
 
 The `--config` option is only necessary for those CMake generators that ignore
 `CMAKE_BUILD_TYPE` (e.g., Xcode and Visual Studio). For non-debug builds of the
-shared library, use `--strip` to discard debugging information and non-public
+shared library, use `--strip` to remove debugging information and non-public
 symbols from the installed binary.
 
 
