@@ -17,6 +17,7 @@ on:
     - 'CMakeLists.txt'
 
 env:
+  Zeta_PACKAGE_URL: 'http://zeta.st/download/Zeta-latest.tar.xz'
   BUILD_SHARED_LIBS: NO
   CMAKE_BUILD_TYPE: Release
   CMAKE_VERBOSE_MAKEFILE: YES
@@ -47,7 +48,7 @@ jobs:
     - name: Install dependencies
       run: |
         mkdir -p ${{github.workspace}}/build
-        curl -L http://zeta.st/download/Zeta-latest.tar.xz | xz -cd | tar -C ${{github.workspace}}/build --strip-components=2 -xvf - Zeta/API/Z
+        curl -L ${{env.Zeta_PACKAGE_URL}} | xz -cd | tar -C ${{github.workspace}}/build --strip-components=2 -xvf - Zeta/API/Z
 
     - name: Configure CMake
       run: >
