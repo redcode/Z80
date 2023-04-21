@@ -361,6 +361,10 @@ emerge emulation-libs/z80
 brew install redcode/zxe/z80
 ```
 
+### <sub><img src="https://zxe.io/software/Z80/images/windows-icon.png" height="24"></sub> Windows
+
+Prebuilt binaries for Windows are available on the [download](https://zxe.io/software/Z80/download) page.
+
 # Installation from sources
 
 You will need [CMake](https://cmake.org) v3.14 or later to build the package and, optionally, recent versions of [Doxygen](https://www.doxygen.nl), [Sphinx](https://www.sphinx-doc.org) and [Breathe](https://www.breathe-doc.org) to compile the documentation. Also, make sure that you have [LaTeX](https://www.latex-project.org) with PDF support installed on your system if you want to generate the documentation in PDF format.
@@ -500,7 +504,7 @@ Finally, once the build system is configured according to your needs, build and 
 
 ```shell
 cmake --build . [--config (Debug|Release|RelWithDebInfo|MinSizeRel)]
-cmake --install . [--strip]
+cmake --install . [--config <configuration>] [--strip]
 ```
 
 The [`--config`](https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-build-config) option is only necessary for those [CMake generators](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html) that ignore [`CMAKE_BUILD_TYPE`](#option_CMAKE_BUILD_TYPE) (e.g., Xcode and Visual Studio). Use [`--strip`](https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-strip) to remove debugging information and non-public symbols when installing non-debug builds of the shared library.
