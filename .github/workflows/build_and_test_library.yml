@@ -60,7 +60,6 @@ jobs:
 
     - name: Install dependencies (Windows)
       if: startsWith(matrix.os, 'windows')
-      shell: cmd
       run: |
         mkdir ${{github.workspace}}\build
         curl -L ${{env.ZETA_PACKAGE_URL}} | 7z x -txz -si -so | 7z x -si -ttar -o${{github.workspace}}\build Zeta/API/Z
