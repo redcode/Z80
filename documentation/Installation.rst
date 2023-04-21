@@ -30,8 +30,8 @@ You will need `CMake <https://cmake.org>`_ v3.14 or later to build the package a
 
 The emulator requires some types and macros included in `Zeta <https://zeta.st>`_, a dependency-free, `header-only <https://en.wikipedia.org/wiki/Header-only>`_ library used to retain compatibility with most C compilers. Install Zeta or extract its `source code package <https://zeta.st/download>`_ to the root directory of the Z80 project or its parent directory. Zeta is the sole dependency; the emulator is a freestanding implementation and as such does not depend on the `C standard library <https://en.wikipedia.org/wiki/C_standard_library>`_.
 
-Configure and build
-===================
+Configure
+=========
 
 Once the prerequisites are met, create a directory and run ``cmake`` from there to prepare the build system:
 
@@ -190,21 +190,15 @@ Package maintainers are encouraged to use at least the following options for the
    -DZ80_WITH_Q=YES
    -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
 
-Once the build system is configured according to your needs, build the package:
+Build and install
+=================
 
-.. code-block:: sh
-
-   cmake --build .
-
-Install
-=======
-
-Finally, type the following to install the package:
+Finally, once the build system is configured according to your needs, build and install the package:
 
 .. code-block:: sh
 
    cmake --build . [--config (Debug|Release|RelWithDebInfo|MinSizeRel)]
-   cmake --install . [--strip] [--component <component>]
+   cmake --install . [--config <configuration>] [--strip] [--component <component>]
 
 The |cmake_option_build_config|_ option is only necessary for those `CMake generators <https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html>`_ that ignore :option:`CMAKE_BUILD_TYPE<-DCMAKE_BUILD_TYPE>` (e.g., Xcode and Visual Studio). Use |cmake_option_install_strip|_ to remove debugging information and non-public symbols when installing non-debug builds of the shared library. To install only a specific component of the package, use the |cmake_option_install_component|_ option. The project defines the following components:
 
