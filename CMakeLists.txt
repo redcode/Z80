@@ -279,7 +279,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 	target_link_libraries(test-${PROJECT_NAME} PRIVATE ${PROJECT_NAME})
 
 	if(ZLIB_FOUND AND libzip_FOUND)
-		target_link_libraries(test-${PROJECT_NAME} PRIVATE z libzip::zip)
+		target_link_libraries(test-${PROJECT_NAME} PRIVATE ZLIB::ZLIB libzip::zip)
 		target_compile_definitions(test-${PROJECT_NAME} PRIVATE TEST_Z80_WITH_ARCHIVE_EXTRACTION)
 	endif()
 
