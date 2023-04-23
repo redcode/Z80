@@ -769,7 +769,7 @@ Many thanks to the following individuals (in alphabetical order):
 	1. For testing the special RESET on real hardware. <sup>[11](#r11)</sup>
 	2. For conducting low-level tests on real hardware. <sup>[35](#r35)</sup>
 * **Vučenović, Zoran**
-	* For writing the Pascal binding.
+	* For writing the [Pascal binding](sources/Z80.pas).
 * **Weissflog, Andre (Floh)** :trophy:
 	1. For finding out that the `reti/retn` instructions defer the acceptance of the maskable interrupt. <sup>[36](#r36)</sup>
 	2. For writing the _"Visual Z80 Remix"_ simulator. <sup>[37](#r37)</sup>
