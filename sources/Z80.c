@@ -1971,7 +1971,6 @@ INSTRUCTION(hook)
 	if ((DATA[0] = self->hook(CONTEXT, PC)) != Z80_HOOK)
 		return instruction_table[DATA[0]](self);
 
-	R--;
 	return 0;
 	}
 
