@@ -1043,7 +1043,7 @@ INSTRUCTION(ld_vWORD_a)
 |		 0	 1	 2	 3	   Flags     T-states	|
 |  Assembly	 76543210765432107654321076543210  SZYHXPNC	123456	|
 |  ------------	 --------------------------------  --------  ---------	|
-|  ld SS,WORD	 00ss0001<-----WORD----->	   ........  10:433	|
+|  ld SS,WORD	 00ss0001<-----WORD----->	   ........  10:433    [1]
 |  ld XY,WORD	 <--XY--><--21--><-----WORD----->  ........  14:4433	|
 |  ld hl,(WORD)	 <--2A--><-----WORD----->	   ........  16:43333	|
 |  ld SS,(WORD)	 <--ED-->01ss1011<-----WORD----->  ........  20:443333	|
@@ -1057,6 +1057,9 @@ INSTRUCTION(ld_vWORD_a)
 |  push XY	 <--XY--><--E5-->		   ........  15:4533	|
 |  pop TT	 11tt0001			   ........  10:433	|
 |  pop XY	 <--XY--><--E1-->		   ........  14:4433	|
+|-----------------------------------------------------------------------|
+| 1. All versions of Zilog's "Z80 CPU User Manual" have a typo in the	|
+|    M-cycles of the instruction.					|
 '======================================================================*/
 
 INSTRUCTION(ld_SS_WORD ) {Q_0 SS0    = FETCH_16((PC += 3) - 2);				  return 10;}
@@ -1147,18 +1150,18 @@ INSTRUCTION(V_vXYpOFFSET  ) {zuint16 ea = FETCH_XY_EA((PC += 3) - 1); WRITE(ea, 
 |  --------  ----------------  --------	 --------  |
 |  daa	     <--27-->	       szy^xp.*	 4:4	   |
 |  cpl	     <--2F-->	       ..y1x.1.	 4:4	   |
-|+ neg	     <--ED-->01***100  szybxv1b	 8:44	   |
+|- neg	     <--ED-->01***100  szybxv1b	 8:44	   |
 |  ccf	     <--3F-->	       ..***.0~	 4:4	   |
 |  scf	     <--37-->	       ..*0*.01	 4:4	   |
 |  nop	     <--00-->	       ........	 4:4	   |
 |  halt	     <--76-->	       ........	 4:4	   |
 |  di	     <--F3-->	       ........	 4:4	   |
 |  ei	     <--FB-->	       ........	 4:4	   |
-|+ im 0	     <--ED-->01*0*110  ........	 8:44	   |
-|+ im 1	     <--ED-->01*10110  ........	 8:44	   |
-|+ im 2	     <--ED-->01*11110  ........	 8:44	   |
+|- im 0	     <--ED-->01*0*110  ........	 8:44	   |
+|- im 1	     <--ED-->01*10110  ........	 8:44	   |
+|- im 2	     <--ED-->01*11110  ........	 8:44	   |
 |--------------------------------------------------|
-| (+) The instruction has undocumented opcodes.	   |
+| (-) The instruction has undocumented opcodes.	   |
 '=================================================*/
 
 INSTRUCTION(nop ) {Q_0	       PC++;	return 4;}
@@ -1434,14 +1437,14 @@ INSTRUCTION(dec_XY   ) {Q_0 XY--;			  PC += 2; return  6;}
 |  rla		    <--17-->			      ..y0x.0=	 4:4	   |
 |  rrca		    <--0F-->			      ..y0x.0=	 4:4	   |
 |  rra		    <--1F-->			      ..y0x.0=	 4:4	   |
-|+ G K		    <--CB-->00gggkkk		      szy0xp0=	 8:44	   |
-|+ G (hl)	    <--CB-->00ggg110		      szy0xp0=	15:4443	   |
-|+ G (XY+OFFSET)    <--XY--><--CB--><OFFSET>00ggg110  szy0xp0=	23:443543  |
+|- G K		    <--CB-->00gggkkk		      szy0xp0=	 8:44	   |
+|- G (hl)	    <--CB-->00ggg110		      szy0xp0=	15:4443	   |
+|- G (XY+OFFSET)    <--XY--><--CB--><OFFSET>00ggg110  szy0xp0=	23:443543  |
 |* G (XY+OFFSET),K  <--XY--><--CB--><OFFSET>00gggkkk  szy0xp0=	23:443543  |
 |  rld		    <--ED--><--6F-->		      szy0xp0.	18:44343   |
 |  rrd		    <--ED--><--67-->		      szy0xp0.	18:44343   |
 |--------------------------------------------------------------------------|
-| (+) Some forms of the instruction are undocumented.			   |
+| (-) The instruction has undocumented [pseudo-]opcodes.		   |
 | (*) Undocumented instruction.						   |
 '=========================================================================*/
 
@@ -1464,17 +1467,17 @@ INSTRUCTION(rrd		  ) {RXD(>> 4, << 4, & 0xF);					  }
 |  -----------------  --------------------------------	--------  ---------  |
 |  bit N,K	      <--CB-->01nnnkkk			sz*1*z0.   8:44	     |
 |  bit N,(hl)	      <--CB-->01nnn110			sz*1*z0.  12:444    [1]
-|+ bit N,(XY+OFFSET)  <--XY--><--CB--><OFFSET>01nnn***	sz*1*z0.  20:44354   |
+|- bit N,(XY+OFFSET)  <--XY--><--CB--><OFFSET>01nnn***	sz*1*z0.  20:44354   |
 |  M N,K	      <--CB-->1mnnnkkk			........   8:44	     |
 |  M N,(hl)	      <--CB-->1mnnn110			........  15:4443    |
 |  M N,(XY+OFFSET)    <--XY--><--CB--><OFFSET>1mnnn110	........  23:443543  |
 |* M N,(XY+OFFSET),K  <--XY--><--CB--><OFFSET>1mnnnkkk	........  23:443543  |
 |----------------------------------------------------------------------------|
-| (+) Some forms of the instruction are undocumented.			     |
+| (-) The instruction has undocumented pseudo-opcodes.			     |
 | (*) Undocumented instruction.						     |
 |----------------------------------------------------------------------------|
-| 1. All versions of Zilog's "Z80 CPU User Manual" contain a typo in the     |
-|    M-cycles of this instruction: an additional M-cycle of 4 T-states.	     |
+| 1. All versions of Zilog's "Z80 CPU User Manual" have a typo in the	     |
+|    T-states of the instruction.					     |
 '===========================================================================*/
 
 INSTRUCTION(M_N_K	    ) {zuint8 *k = &K1; *k = M1(*k);			  return  8;}
@@ -1579,10 +1582,10 @@ INSTRUCTION(djnz_OFFSET) {DJNZ_JR_Z_OFFSET(--B, 13, 8);						}
 |  call Z,WORD	11zzz100<-----WORD----->  ........  17:43433  10:433  |
 |  ret		<--C9-->		  ........  10:433	      |
 |  ret Z	11zzz000		  ........  11:533     5:5    |
-|+ reti/retn	<--ED-->01***101	  ........  14:4433	      |
+|- reti/retn	<--ED-->01***101	  ........  14:4433	      |
 |  rst N	11nnn111		  ........  11:533	      |
 |---------------------------------------------------------------------|
-| (+) The instruction has undocumented opcodes. The `reti` mnemonic   |
+| (-) The instruction has undocumented opcodes. The `reti` mnemonic   |
 |     is used to represent the ED4Dh opcode, which is recognized by   |
 |     the Z80 CTC chip. All other opcodes are represented as `retn`.  |
 '====================================================================*/
@@ -1634,9 +1637,8 @@ INSTRUCTION(call_Z_WORD)
 |---------------------------------------------------------------|
 | (*) Undocumented instruction.					|
 |---------------------------------------------------------------|
-| 1. All versions of Zilog's "Z80 CPU User Manual" have a typo	|
-|    in the M-cycles of these instructions: the T-states of the |
-|    3rd and 4th M-cycles are swapped.				|
+| 1. All versions of Zilog's "Z80 CPU User Manual" have typos	|
+|    in the T-states of the instruction.			|
 '==============================================================*/
 
 INSTRUCTION(in_J_vc ) {IN_VC; J1 = t;			 PC += 2; return 12;}
@@ -2239,11 +2241,11 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| instruction or interrupt response and then zeroes PC during the falling  |
 			| edge of the next M1T1. The special RESET can be used in conjunction with |
 			| an interrupt, in which case PC is zeroed during the subsequent interrupt |
-			| acknowledge M-cycle. Otherwise, if no interrupt has been accepted at TL  |
-			| of the instruction or interrupt response in which the special RESET has  |
-			| been detected, the CPU produces an M1 cycle of 4 T-states to allow for   |
-			| the fetch-execute overlap to take place, during which it fetches the	   |
-			| next opcode and zeroes PC.						   |
+			| acknowledge M-cycle. Otherwise, if no interrupt has been accepted at the |
+			| TLAST of the instruction or interrupt response in which the special	   |
+			| RESET has been detected, the CPU produces an internal NOP of 4 T-states  |
+			| to allow for the fetch-execute overlap to take place, during which it	   |
+			| fetches the next opcode and zeroes PC.				   |
 			|									   |
 			| References:								   |
 			| * Brewer, Tony (2014-12). "Z80 Special Reset".			   |
@@ -2261,11 +2263,11 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| The non-maskable interrupt takes priority over the maskable interrupt	   |
 			| and cannot be disabled under software control. Its usual function is to  |
 			| provide immediate response to important signals. The CPU responds to an  |
-			| NMI by storing PC on the stack and jumping to the ISR located at address |
-			| 0066h. The interrupt enable flip-flop 1 (IFF1) is reset to prevent any   |
-			| INT from being accepted during the execution of this routine, which is   |
-			| usually exited by using a `reti` or `retn` instruction to restore the	   |
-			| original state of IFF1 [1].						   |
+			| NMI by pushing PC onto the stack and jumping to the ISR located at	   |
+			| address 0066h. The interrupt enable flip-flop 1 (IFF1) is reset to	   |
+			| prevent any maskable interrupt from being accepted during the execution  |
+			| of this routine, which is usually exited by using a `reti` or `retn`	   |
+			| instruction to restore the original state of IFF1 [1].		   |
 			|									   |
 			| Some technical documents from Zilog include an erroneous timing diagram  |
 			| showing an NMI acknowledge cycle of 4 T-states. However, documents from  |
@@ -2371,7 +2373,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				| special M1 cycle.						       |
 				|								       |
 				| The value FFh is assumed when the `inta` callback is not used. This  |
-				| is the most desirable behavior, since the `rst 38h` instruction will |
+				| is the most desirable behavior, since an `rst 38h` instruction will  |
 				| be executed if the interrupt mode is 0.			       |
 				'=====================================================================*/
 				R++; /* M1 */
@@ -2595,8 +2597,8 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					|----------------------------------------------------------------------|
 					| An indirect call is executed. The pointer to the ISR is loaded from  |
 					| the memory address formed by taking the I register as the most       |
-					| significant byte, and the interrupt response vector read from the    |
-					| data bus as the least significant byte.			       |
+					| significant byte, and the interrupt response vector (IRD) read from  |
+					| the data bus as the least significant byte.			       |
 					|								       |
 					| Zilog's official documentation states that the least significant bit |
 					| of the interrupt response vector "must be a zero", since the address |
@@ -2626,10 +2628,10 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					{
 					REQUEST = 0;
 
-					/*-------------------------------------------------------------------.
-					| The /HALT line quickly goes low and then high in TL when a special |
-					| RESET is detected during the execution of the `halt` instruction.  |
-					'===================================================================*/
+					/*---------------------------------------------------------.
+					| The /HALT line goes low and then high during TLAST if a  |
+					| special RESET is detected during the `halt` instruction. |
+					'=========================================================*/
 					if (DATA[0] == 0x76 && self->halt != Z_NULL)
 						self->halt(CONTEXT, Z80_HALT_CANCEL);
 
