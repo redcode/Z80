@@ -231,6 +231,17 @@ static Z_INLINE void write_16b(Z80 *self, zuint16 address, zuint16 value)
 
 #define ZF_ZERO(value) (!(value) << 6)
 
+/*-----------------------------------------------------------------------------.
+| Q is an abstraction of the latches where the CPU loads F to use and modify   |
+| the flags. From an emulation perspective, instructions that affect the flags |
+| copy F to Q, whereas instructions that do not affect the flags (including    |
+| `ex af,af'` and `pop af`), internal NOPs and interrupt responses set Q to 0. |
+|									       |
+| References:								       |
+| * https://worldofspectrum.org/forums/discussion/20345			       |
+| * https://worldofspectrum.org/forums/discussion/41704			       |
+'=============================================================================*/
+
 #ifdef Z80_WITH_Q
 #	define FLAGS Q = F
 #	define Q_0   Q = 0;
