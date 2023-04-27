@@ -234,8 +234,9 @@ static Z_INLINE void write_16b(Z80 *self, zuint16 address, zuint16 value)
 /*-----------------------------------------------------------------------------.
 | Q is an abstraction of the latches where the CPU loads F to use and modify   |
 | the flags. From an emulation perspective, instructions that affect the flags |
-| copy F to Q, whereas instructions that do not affect the flags (including    |
-| `ex af,af'` and `pop af`), internal NOPs and interrupt responses set Q to 0. |
+| copy the final value of F to Q, whereas instructions that do not affect them |
+| (including `ex af,af'`, `pop af`, internal NOPs and interrupt responses) set |
+| Q to 0. Q is used to compute YF and XF in the `ccf` and `scf` instructions.  |
 |									       |
 | References:								       |
 | * https://worldofspectrum.org/forums/discussion/20345			       |
@@ -2649,6 +2650,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					R++; /* M1 */
 					if (self->nop != Z_NULL) (void)self->nop(CONTEXT, PC);
 					DATA[0] = 0;
+					Q_0;
 					PC = 0;
 					self->cycles += 4;
 					continue;
