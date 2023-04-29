@@ -32,7 +32,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Conway, Simon (BadBeard)
     For validating the "Z80 Test Suite" on several Z80 clones [13].
 * Cooke, Simon
-    For finding out how the `out (c),0` instruction behaves on the Zilog Z80
+    For discovering how the `out (c),0` instruction behaves on the Zilog Z80
     CMOS [14].
 * Cringle, Frank D.
     For writing the "Z80 Instruction Set Exerciser" [15].
@@ -108,7 +108,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Vučenović, Zoran
     For writing the Pascal binding.
 * Weissflog, Andre (Floh)
-    1. For finding out that the `reti/retn` instructions defer the acceptance of
+    1. For discovering that the `reti/retn` instructions defer the acceptance of
        the maskable interrupt [36].
     2. For writing the "Visual Z80 Remix" simulator [37].
 * Wilkinson, Oli (evolutional)

@@ -81,7 +81,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Cooke, Simon**
 
-  * For finding out how the ``out (c),0`` instruction behaves on the Zilog Z80 CMOS. |re| |fe| :ref:`14<r14>` |ren| |ces|
+  * For discovering how the ``out (c),0`` instruction behaves on the Zilog Z80 CMOS. |re| |fe| :ref:`14<r14>` |ren| |ces|
 
 * **Cringle, Frank D.**
 
@@ -210,7 +210,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Weissflog, Andre (Floh)**
 
-  1. For finding out that the ``reti/retn`` instructions defer the acceptance of the maskable interrupt. |re| |fe| :ref:`36<r36>` |ren| |ces|
+  1. For discovering that the ``reti/retn`` instructions defer the acceptance of the maskable interrupt. |re| |fe| :ref:`36<r36>` |ren| |ces|
   2. For writing the *"Visual Z80 Remix"* simulator. |re| |fe| :ref:`37<r37>` |ren| |ces|
 
 * **Wilkinson, Oli (evolutional)**

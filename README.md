@@ -363,7 +363,7 @@ brew install redcode/zxe/z80
 
 ### <sub><img src="https://zxe.io/software/Z80/images/windows-icon.png" height="24"></sub> Windows
 
-Prebuilt binaries for Windows are available on the [download](https://zxe.io/software/Z80/download) page.
+Pre-built binaries for Windows are available on the [download](https://zxe.io/software/Z80/download) page.
 
 # Installation from sources
 
@@ -700,7 +700,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Conway, Simon (BadBeard)**
 	* For validating the _"Z80 Test Suite"_ on several Z80 clones. <sup>[13](#r13)</sup>
 * **Cooke, Simon** :trophy:
-	* For finding out how the `out (c),0` instruction behaves on the Zilog Z80 CMOS. <sup>[14](#r14)</sup>
+	* For discovering how the `out (c),0` instruction behaves on the Zilog Z80 CMOS. <sup>[14](#r14)</sup>
 * **Cringle, Frank D.**
 	* For writing the _"Z80 Instruction Set Exerciser"_. <sup>[15](#r15)</sup>
 * **Devic, Goran**
@@ -771,7 +771,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Vučenović, Zoran**
 	* For writing the [Pascal binding](sources/Z80.pas).
 * **Weissflog, Andre (Floh)** :trophy:
-	1. For finding out that the `reti/retn` instructions defer the acceptance of the maskable interrupt. <sup>[36](#r36)</sup>
+	1. For discovering that the `reti/retn` instructions defer the acceptance of the maskable interrupt. <sup>[36](#r36)</sup>
 	2. For writing the _"Visual Z80 Remix"_ simulator. <sup>[37](#r37)</sup>
 * **Wilkinson, Oli (evolutional)**
 	* For validating tests on real hardware. <sup>[26](#r26)</sup>
