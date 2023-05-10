@@ -70,7 +70,7 @@ to generate the documentation in PDF format.
 
 The emulator requires some types and macros included in Zeta (https://zeta.st),
 a dependency-free, header-only library used to retain compatibility with most C
-compilers. Install Zeta or extract its source code package to the root directory
+compilers. Install Zeta or extract its source code tarball to the root directory
 of the Z80 project or its parent directory. Zeta is the sole dependency; the
 emulator is a freestanding implementation and as such does not depend on the C
 standard library.
@@ -214,6 +214,7 @@ shared library:
 
     -DZ80_WITH_EXECUTE=YES
     -DZ80_WITH_FULL_IM0=YES
+    -DZ80_WITH_IM0_RETX_NOTIFICATIONS=YES
     -DZ80_WITH_Q=YES
     -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
 
@@ -252,7 +253,7 @@ the static versions, `BUILD_SHARED_LIBS` determines which one to link against.
 
 4.2.  As a CMake subproject
 
-To embed the Z80 library as a CMake subproject, extract the source code packages
+To embed the Z80 library as a CMake subproject, extract the source code tarballs
 of Zeta (https://zeta.st) and Z80 (or clone their respective repositories) into
 a subdirectory of another project. Then use `add_subdirectory` in the parent
 project to add the Z80 source code tree to the build process (N.B., the Z80
@@ -332,4 +333,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2023-04-21                                               README EOF
+Last update: 2023-05-10                                               README EOF

@@ -4,7 +4,7 @@
 </h1>
 <p align="center">
 	<a href="https://zxe.io/software/Z80/documentation/latest">
-		<img alt="Documentation" src="https://img.shields.io/badge/Documentation-informational?color=2675f5">
+		<img alt="Documentation" src="https://img.shields.io/badge/Documentation-informational?color=006FEF">
 	</a>
 	<a href="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml">
 		<img src="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml/badge.svg">
@@ -369,7 +369,7 @@ Pre-built binaries for Windows are available on the [download](https://zxe.io/so
 
 You will need [CMake](https://cmake.org) v3.14 or later to build the package and, optionally, recent versions of [Doxygen](https://www.doxygen.nl), [Sphinx](https://www.sphinx-doc.org) and [Breathe](https://www.breathe-doc.org) to compile the documentation. Also, make sure that you have [LaTeX](https://www.latex-project.org) with PDF support installed on your system if you want to generate the documentation in PDF format.
 
-The emulator requires some types and macros included in [Zeta](https://github.com/redcode/Zeta), a dependency-free, [header-only](https://en.wikipedia.org/wiki/Header-only) library used to retain compatibility with most C compilers. Install Zeta or extract its [source code package](https://zeta.st/download) to the root directory of the Z80 project or its parent directory. Zeta is the sole dependency; the emulator is a freestanding implementation and as such does not depend on the [C standard library](https://en.wikipedia.org/wiki/C_standard_library).
+The emulator requires some types and macros included in [Zeta](https://zeta.st), a dependency-free, [header-only](https://en.wikipedia.org/wiki/Header-only) library used to retain compatibility with most C compilers. Install Zeta or extract its [source code tarball](https://zeta.st/download) to the root directory of the Z80 project or its parent directory. Zeta is the sole dependency; the emulator is a freestanding implementation and as such does not depend on the [C standard library](https://en.wikipedia.org/wiki/C_standard_library).
 
 Once the prerequisites are met, create a directory and run `cmake` from there to prepare the build system:
 
@@ -496,6 +496,7 @@ Package maintainers are encouraged to use at least the following options for the
 ```shell
 -DZ80_WITH_EXECUTE=YES
 -DZ80_WITH_FULL_IM0=YES
+-DZ80_WITH_IM0_RETX_NOTIFICATIONS=YES
 -DZ80_WITH_Q=YES
 -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
 ```
@@ -524,7 +525,7 @@ cmake .. \
 	-DCMAKE_INSTALL_PREFIX=$HOME/.local \
 	-DZeta_WITH_CMAKE_SUPPORT=YES \
 	-DZeta_WITH_PKGCONFIG_SUPPORT=YES
-cmake --install .
+cmake --install . --config Release
 cd ../../Z80
 mkdir build && cd build
 cmake .. \
@@ -535,11 +536,14 @@ cmake .. \
 	-DZ80_WITH_PKGCONFIG_SUPPORT=YES \
 	-DZ80_WITH_EXECUTE=YES \
 	-DZ80_WITH_FULL_IM0=YES \
+	-DZ80_WITH_IM0_RETX_NOTIFICATIONS=YES \
 	-DZ80_WITH_Q=YES \
 	-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
 cmake --build . --config Release
-cmake --install . --strip
+cmake --install . --config Release --strip
 ```
+
+[<sub><img src="https://zxe.io/software/Z80/images/shell-script-icon.svg" height="16"></sub> build-and-install-Z80.sh](https://zxe.io/software/Z80/build-and-install-Z80.sh)
 
 # Running the tests
 
@@ -582,11 +586,16 @@ cmake .. \
 	-DZ80_WITH_TESTS=YES \
 	-DZ80_WITH_EXECUTE=YES \
 	-DZ80_WITH_FULL_IM0=YES \
+	-DZ80_WITH_IM0_RETX_NOTIFICATIONS=YES \
 	-DZ80_WITH_Q=YES \
 	-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
 cmake --build . --config Release
 ctest --verbose --build-config Release
 ```
+
+[<sub><img src="https://zxe.io/software/Z80/images/shell-script-icon.svg" height="16"></sub> build-and-test-Z80.sh](https://zxe.io/software/Z80/build-and-test-Z80.sh)
+&nbsp;&nbsp;
+[<sub><img src="https://zxe.io/software/Z80/images/shell-script-icon.svg" height="16"></sub> build-and-test-Z80.bat](https://zxe.io/software/Z80/build-and-test-Z80.bat)
 
 # Integration
 
@@ -605,7 +614,7 @@ When not specified as a component, the linking method is selected according to [
 
 ### As a CMake subproject
 
-To embed the Z80 library as a CMake subproject, extract the source code packages of [Zeta](https://zeta.st/download) and [Z80](https://zxe.io/software/Z80/download) (or clone their respective repositories) into a subdirectory of another project. Then use [`add_subdirectory`](https://cmake.org/cmake/help/latest/command/add_subdirectory.html) in the parent project to add the Z80 source code tree to the build process (N.B., the Z80 subproject will automatically find Zeta and import it as an [interface library](https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#interface-libraries)).
+To embed the Z80 library as a CMake subproject, extract the source code tarballs of [Zeta](https://zeta.st/download) and [Z80](https://zxe.io/software/Z80/download) (or clone their respective repositories) into a subdirectory of another project. Then use [`add_subdirectory`](https://cmake.org/cmake/help/latest/command/add_subdirectory.html) in the parent project to add the Z80 source code tree to the build process (N.B., the Z80 subproject will automatically find Zeta and import it as an [interface library](https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#interface-libraries)).
 
 It is advisable to configure the Z80 library in the `CMakeLists.txt` of the parent project. This will prevent the user from having to specify [configuration options for the Z80 subproject](#cmake_package_options) through the command line when building the main project.
 
