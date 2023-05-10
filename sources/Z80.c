@@ -231,29 +231,6 @@ static Z_INLINE void write_16b(Z80 *self, zuint16 address, zuint16 value)
 
 #define ZF_ZERO(value) (!(value) << 6)
 
-/*-----------------------------------------------------------------------------.
-| Q is an abstraction of the latches where the CPU loads F to use and modify   |
-| the flags. From an emulation perspective, instructions that affect the flags |
-| copy the final value of F to Q, whereas instructions that do not affect them |
-| (including `ex af,af'`, `pop af`, internal NOPs and interrupt responses) set |
-| Q to 0. Q is used to compute YF and XF in the `ccf` and `scf` instructions.  |
-|									       |
-| References:								       |
-| * https://worldofspectrum.org/forums/discussion/20345			       |
-| * https://worldofspectrum.org/forums/discussion/41704			       |
-'=============================================================================*/
-
-#ifdef Z80_WITH_Q
-#	define FLAGS Q = F
-#	define Q_0   Q = 0;
-#else
-#	define FLAGS F
-#	define Q_0
-#endif
-
-
-/* MARK: - P/V Flag Computation */
-
 static zuint8 const pf_parity_table[256] = {
 /*	0  1  2  3  4  5  6  7	8  9  A  B  C  D  E  F */
 /* 0 */ 4, 0, 0, 4, 0, 4, 4, 0, 0, 4, 4, 0, 4, 0, 0, 4,
@@ -278,6 +255,26 @@ static zuint8 const pf_parity_table[256] = {
 
 #define PF_OVERFLOW(bits, result, lhs, rhs) \
 	(((zuint##bits)((lhs ^ rhs) & (lhs ^ result)) >> (bits - 3)) & PF)
+
+/*-----------------------------------------------------------------------------.
+| Q is an abstraction of the latches where the CPU loads F to use and modify   |
+| the flags. From an emulation perspective, instructions that affect the flags |
+| copy the final value of F to Q, whereas instructions that do not affect them |
+| (including `ex af,af'`, `pop af`, internal NOPs and interrupt responses) set |
+| Q to 0. Q is used to compute YF and XF in the `ccf` and `scf` instructions.  |
+|									       |
+| References:								       |
+| * https://worldofspectrum.org/forums/discussion/20345			       |
+| * https://worldofspectrum.org/forums/discussion/41704			       |
+'=============================================================================*/
+
+#ifdef Z80_WITH_Q
+#	define FLAGS Q = F
+#	define Q_0   Q = 0;
+#else
+#	define FLAGS F
+#	define Q_0
+#endif
 
 
 /* MARK: - Bit Rotation */
@@ -1237,9 +1234,9 @@ INSTRUCTION(neg)
 | Patrik Rak cracked the behavior of YF and XF in 2012, confirming that they |
 | are taken, respectively, from bits 5 and 3 of the result of "(Q ^ F) | A"  |
 | [1,2]. This applies to all Zilog Z80 models, both NMOS and CMOS. In 2018,  |
-| David Banks (AKA hoglet) found that ST CMOS models do not set XF according |
-| to this formula, but take this flag from bit 3 of A, while NEC NMOS models |
-| take both flags from A [3].						     |
+| David Banks (AKA hoglet) discovered that at least some ST CMOS models do   |
+| not set XF according to this formula and instead take this flag from bit 3 |
+| of A, whereas NEC NMOS models take both flags from A [3].		     |
 |									     |
 | References:								     |
 | 1. https://worldofspectrum.org/forums/discussion/20345		     |
@@ -1701,13 +1698,13 @@ INSTRUCTION(out_vBYTE_a)
 /*----------------------------------------------------------------------------.
 | The `out (c),0` instruction behaves as `out (c),255` on the Zilog Z80 CMOS. |
 | This was first discovered by Simon Cooke, who reported it on Usenet in 1996 |
-| [1]. Later, in 2004, Colin Piggot rediscovered it with his SAM Coupé when   |
-| running a demo for SCPDU 6, coincidentally written by Simon Cooke [2]. In   |
-| 2008, this was once again rediscovered by the MSX community [3].	      |
+| [1,2]. Later, in 2004, Colin Piggot rediscovered it with his SAM Coupé when |
+| running a demo for SCPDU 6, coincidentally written by Simon Cooke [1]. In   |
+| 2008, this was once again rediscovered by the MSX community [1,3].	      |
 |									      |
 | References:								      |
-| 1. https://groups.google.com/g/comp.os.cpm/c/HfSTFpaIkuU/m/KotvMWu3bZoJ     |
-| 2. https://sinclair.wiki.zxnet.co.uk/wiki/Z80				      |
+| 1. https://sinclair.wiki.zxnet.co.uk/wiki/Z80				      |
+| 2. https://groups.google.com/g/comp.os.cpm/c/HfSTFpaIkuU/m/KotvMWu3bZoJ     |
 | 3. https://msx.org/forum/development/msx-development/bug-z80-emulation-or-  |
 |    tr-hw								      |
 '============================================================================*/
@@ -2262,7 +2259,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| References:								   |
 			| * Brewer, Tony (2014-12). "Z80 Special Reset".			   |
 			|     * http://primrosebank.net/computers/z80/z80_special_reset.htm	   |
-			| * US Patent 4486827							   |
+			| * US Patent 4486827.							   |
 			| * Checked with "Visual Z80 Remix".					   |
 			'=========================================================================*/
 #			ifdef Z80_WITH_SPECIAL_RESET
