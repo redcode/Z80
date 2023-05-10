@@ -28,7 +28,7 @@ Prerequisites
 
 You will need `CMake <https://cmake.org>`_ v3.14 or later to build the package and, optionally, recent versions of `Doxygen <https://www.doxygen.nl>`_, `Sphinx <https://www.sphinx-doc.org>`_ and `Breathe <https://www.breathe-doc.org>`_ to compile the documentation. Also, make sure that you have `LaTeX <https://www.latex-project.org>`_ with PDF support installed on your system if you want to generate the documentation in PDF format.
 
-The emulator requires some types and macros included in `Zeta <https://zeta.st>`_, a dependency-free, `header-only <https://en.wikipedia.org/wiki/Header-only>`_ library used to retain compatibility with most C compilers. Install Zeta or extract its `source code package <https://zeta.st/download>`_ to the root directory of the Z80 project or its parent directory. Zeta is the sole dependency; the emulator is a freestanding implementation and as such does not depend on the `C standard library <https://en.wikipedia.org/wiki/C_standard_library>`_.
+The emulator requires some types and macros included in `Zeta <https://zeta.st>`_, a dependency-free, `header-only <https://en.wikipedia.org/wiki/Header-only>`_ library used to retain compatibility with most C compilers. Install Zeta or extract its `source code tarball <https://zeta.st/download>`_ to the root directory of the Z80 project or its parent directory. Zeta is the sole dependency; the emulator is a freestanding implementation and as such does not depend on the `C standard library <https://en.wikipedia.org/wiki/C_standard_library>`_.
 
 Configure
 =========
@@ -187,6 +187,7 @@ Package maintainers are encouraged to use at least the following options for the
 
    -DZ80_WITH_EXECUTE=YES
    -DZ80_WITH_FULL_IM0=YES
+   -DZ80_WITH_IM0_RETX_NOTIFICATIONS=YES
    -DZ80_WITH_Q=YES
    -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
 
@@ -213,7 +214,7 @@ The |cmake_option_build_config|_ option is only necessary for those `CMake gener
    * Static library.
    * Unversioned symbolic link of the shared library.
    * Public header.
-   * CMake config-file package
+   * CMake config-file package.
    * pkg-config file.
 
 .. option:: Z80_Documentation
