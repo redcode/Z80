@@ -9,13 +9,23 @@
 
 include(FindPackageHandleStandardArgs)
 
-if(NOT FindZeta_NO_RELATIVE_SEARCH)
+if(NOT DEFINED Zeta_FIND_RELATIVE OR Zeta_FIND_RELATIVE)
 	find_path(
 		Zeta_INCLUDE_DIR "Z/version.h"
 		PATHS	"${PROJECT_BINARY_DIR}/Zeta/API"
 			"${PROJECT_BINARY_DIR}"
 			"${PROJECT_SOURCE_DIR}/Zeta/API"
 			"${PROJECT_SOURCE_DIR}"
+			"${PROJECT_SOURCE_DIR}/3rd/Zeta/API"
+			"${PROJECT_SOURCE_DIR}/3rd"
+			"${PROJECT_SOURCE_DIR}/3rd_party/Zeta/API"
+			"${PROJECT_SOURCE_DIR}/3rd_party"
+			"${PROJECT_SOURCE_DIR}/3rd-party/Zeta/API"
+			"${PROJECT_SOURCE_DIR}/3rd-party"
+			"${PROJECT_SOURCE_DIR}/third_party/Zeta/API"
+			"${PROJECT_SOURCE_DIR}/third_party"
+			"${PROJECT_SOURCE_DIR}/third-party/Zeta/API"
+			"${PROJECT_SOURCE_DIR}/third-party"
 			"${PROJECT_SOURCE_DIR}/dependencies/Zeta/API"
 			"${PROJECT_SOURCE_DIR}/dependencies"
 			"${PROJECT_SOURCE_DIR}/deps/Zeta/API"
@@ -28,8 +38,8 @@ if(NOT FindZeta_NO_RELATIVE_SEARCH)
 			"${PROJECT_SOURCE_DIR}/externals"
 			"${PROJECT_SOURCE_DIR}/kits/Zeta/API"
 			"${PROJECT_SOURCE_DIR}/kits"
-			"${PROJECT_SOURCE_DIR}/../Zeta/API"
 			"${PROJECT_SOURCE_DIR}/../zeta-src/API"
+			"${PROJECT_SOURCE_DIR}/../Zeta/API"
 			"${PROJECT_SOURCE_DIR}/.."
 		NO_DEFAULT_PATH)
 endif()
