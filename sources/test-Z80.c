@@ -141,7 +141,7 @@ static char const new_line[2] = "\n";
 /*--------------------------------------------------------------------------.
 | The search paths specified by using the `-p` option are collected in the  |
 | `search_paths` array of size `search_path_count`. `path_buffer` is used   |
-| to compose a complete file path consisting of "<search path>/<filename>". |
+| to compose a complete file path consisting of "<search-path>/<filename>". |
 '==========================================================================*/
 static char*  path_buffer	= Z_NULL;
 static char** search_paths	= Z_NULL;
@@ -165,7 +165,7 @@ static zuint8 in_values[2] = {191, 255};
 /*---------------------------------------------------.
 | Instance of the Z80 emulator and 64 KiB of memory. |
 '===================================================*/
-static Z80 cpu;
+static Z80    cpu;
 static zuint8 memory[65536];
 
 /*------------------------------------------------------------------------.
@@ -727,8 +727,8 @@ int main(int argc, char **argv)
 				"\n"
 				"Options:\n"
 				"  -V, --verbosity (0..4)  Set the verbosity level [default: 4].\n"
-				"  -0, --in-even (0..255)  Set the byte read from even I/O ports [default: 191].\n"
-				"  -1, --in-odd (0..255)   Set the byte read from odd I/O ports [default: 255].\n"
+				"  -0, --even-in (0..255)  Set the byte read from even I/O ports [default: 191].\n"
+				"  -1, --odd-in (0..255)   Set the byte read from odd I/O ports [default: 255].\n"
 				"  -a, --all               Run all tests.\n"
 				"  -h, --help              Print this help message and exit.\n"
 				"  -m, --model <model>     Specify the CPU model to emulate.\n"
@@ -736,7 +736,7 @@ int main(int argc, char **argv)
 				"  -v, --version           Print version information and exit.\n"
 				"\n"
 				"CPU models:\n"
-				"  zilog-nmos  Zilog NMOS (default)\n"
+				"  zilog-nmos  Zilog NMOS [default]\n"
 				"  zilog-cmos  Zilog CMOS\n"
 				"  nec-nmos    NEC NMOS\n"
 				"  st-cmos     SGS-Thomson CMOS\n"
@@ -796,13 +796,13 @@ int main(int argc, char **argv)
 				}
 			}
 
-		else if (is_option(argv[i], "-0", "--in-even"))
+		else if (is_option(argv[i], "-0", "--even-in"))
 			{
 			if (++i == argc) goto incomplete_option;
 			if (!to_uint8(argv[i], 255, &in_values[0])) goto invalid_io_value;
 			}
 
-		else if (is_option(argv[i], "-1", "--in-odd"))
+		else if (is_option(argv[i], "-1", "--odd-in"))
 			{
 			if (++i == argc) goto incomplete_option;
 			if (!to_uint8(argv[i], 255, &in_values[1])) goto invalid_io_value;
