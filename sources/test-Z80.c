@@ -297,13 +297,10 @@ static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 
 	if (zx_spectrum_tab)
 		{
-		if (show_test_output)
-			{
-			zuint c = (Z80_A(cpu) % 32) - (cursor_x % 32);
+		zuint c = (Z80_A(cpu) % 32) - (cursor_x % 32);
 
-			for (cursor_x += c; c--;) putchar(' ');
-			}
-
+		cursor_x += c;
+		if (show_test_output) while (c--) putchar(' ');
 		zx_spectrum_tab = FALSE;
 		}
 
