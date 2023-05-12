@@ -500,7 +500,7 @@ static zuint8 run_test(int test_index)
 			if (verbosity >= 3) printf("\n* Loading program");
 			}
 
-		printf("...");
+		printf("... ");
 		}
 
 	memset(memory, 0, 65536);
@@ -516,13 +516,13 @@ static zuint8 run_test(int test_index)
 		{
 		error_loading_file:
 		if (verbosity) puts(show_test_output
-			? " Error, test skipped\n"
-			: " Error, test skipped");
+			? "Error, test skipped\n"
+			: "Error, test skipped");
 
 		return FALSE;
 		}
 
-	if (verbosity >= 3) puts(" OK");
+	if (verbosity >= 3) puts("OK");
 	z80_power(&cpu, TRUE);
 
 	if (test->format == TEST_FORMAT_CPM)
@@ -542,7 +542,7 @@ static zuint8 run_test(int test_index)
 
 		if (test->format == TEST_FORMAT_WOODMASS)
 			{
-			if (verbosity >= 3) printf("* Loading firmware...");
+			if (verbosity >= 3) printf("* Loading firmware... ");
 
 			for (	i = 0;
 				i < search_path_count &&
@@ -555,7 +555,7 @@ static zuint8 run_test(int test_index)
 			)
 				goto error_loading_file;
 
-			if (verbosity >= 3) puts(" OK");
+			if (verbosity >= 3) puts("OK");
 			Z80_SP(cpu) = 0x7FE8;
 			Z80_AF(cpu) = 0x3222;
 
@@ -603,7 +603,7 @@ static zuint8 run_test(int test_index)
 	zx_spectrum_tab		   =
 	completed		   = FALSE;
 
-	if (verbosity >= 3) printf("* Running program...%s", show_test_output ? "\n\n" : "");
+	if (verbosity >= 3) printf("* Running program...%s", show_test_output ? "\n\n" : " ");
 
 #	if Z_USIZE_BITS < 64
 		for (i = 0; i < test->cycles_expected[1];)
@@ -670,8 +670,8 @@ static zuint8 run_test(int test_index)
 			}
 
 		else	{
-			if (passed) puts (" Passed");
-			else printf(" Failed: %s\n", failure_reason);
+			if (passed) puts ("Passed");
+			else printf("Failed: %s\n", failure_reason);
 			}
 		}
 
