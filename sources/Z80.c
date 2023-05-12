@@ -74,7 +74,7 @@
 
 /* MARK: - Types */
 
-typedef zuint8 (* Instruction)(Z80 *self);
+typedef zuint8 (* Insn)(Z80 *self);
 
 #ifdef Z80_WITH_FULL_IM0
 	typedef struct {
@@ -659,7 +659,7 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 
 /* MARK: - Function Shortcuts and Reusable Code */
 
-#define INSTRUCTION(name)    static zuint8 name(Z80 *self)
+#define INSN(name)	     static zuint8 name(Z80 *self)
 #define N(index)	     ((DATA[index] >> 3) & 7)
 #define Z(mask)		     zzz(self, mask)
 #define U0(value)	     uuu(self, 0, value)
@@ -1005,27 +1005,27 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 | (*) Undocumented instruction.						      |
 '============================================================================*/
 
-INSTRUCTION(ld_J_K	   ) {Q_0 J0 = K0;					PC++;	 return  4;}
-INSTRUCTION(ld_O_P	   ) {Q_0 O  = P;					PC += 2; return  4;}
-INSTRUCTION(ld_J_BYTE	   ) {Q_0 J0 = FETCH((PC += 2) - 1);				 return  7;}
-INSTRUCTION(ld_O_BYTE	   ) {Q_0 O  = FETCH((PC += 3) - 1);				 return  7;}
-INSTRUCTION(ld_J_vhl	   ) {Q_0 J0 = READ(HL);				PC++;	 return  7;}
-INSTRUCTION(ld_J_vXYpOFFSET) {Q_0 J1 = READ(FETCH_XY_EA((PC += 3) - 1));		 return 15;}
-INSTRUCTION(ld_vhl_K	   ) {Q_0 WRITE(HL, K0);				PC++;	 return  7;}
-INSTRUCTION(ld_vXYpOFFSET_K) {Q_0 WRITE(FETCH_XY_EA((PC += 3) - 1), K1);		 return 15;}
-INSTRUCTION(ld_vhl_BYTE	   ) {Q_0 WRITE(HL,   FETCH((PC += 2) - 1));			 return 10;}
-INSTRUCTION(ld_a_vbc	   ) {Q_0 MEMPTR  = BC + 1; A = READ(BC);		PC++;	 return  7;}
-INSTRUCTION(ld_a_vde	   ) {Q_0 MEMPTR  = DE + 1; A = READ(DE);		PC++;	 return  7;}
-INSTRUCTION(ld_a_vWORD	   ) {Q_0 MEMPTR  = FETCH_16((PC += 3) - 2); A = READ(MEMPTR++); return 13;}
-INSTRUCTION(ld_vbc_a	   ) {Q_0 MEMPTRL = C + 1; WRITE(BC, MEMPTRH = A);	PC++;	 return  7;}
-INSTRUCTION(ld_vde_a	   ) {Q_0 MEMPTRL = E + 1; WRITE(DE, MEMPTRH = A);	PC++;	 return  7;}
-INSTRUCTION(ld_a_i	   ) {LD_A_IR(I);							   }
-INSTRUCTION(ld_a_r	   ) {LD_A_IR(R_ALL);							   }
-INSTRUCTION(ld_i_a	   ) {NOTIFY(ld_i_a); Q_0 I = A;			PC += 2; return  9;}
-INSTRUCTION(ld_r_a	   ) {NOTIFY(ld_r_a); Q_0 R = R7 = A;			PC += 2; return  9;}
+INSN(ld_J_K	    ) {Q_0 J0 = K0;					 PC++;	  return  4;}
+INSN(ld_O_P	    ) {Q_0 O  = P;					 PC += 2; return  4;}
+INSN(ld_J_BYTE	    ) {Q_0 J0 = FETCH((PC += 2) - 1);				  return  7;}
+INSN(ld_O_BYTE	    ) {Q_0 O  = FETCH((PC += 3) - 1);				  return  7;}
+INSN(ld_J_vhl	    ) {Q_0 J0 = READ(HL);				 PC++;	  return  7;}
+INSN(ld_J_vXYpOFFSET) {Q_0 J1 = READ(FETCH_XY_EA((PC += 3) - 1));		  return 15;}
+INSN(ld_vhl_K	    ) {Q_0 WRITE(HL, K0);				 PC++;	  return  7;}
+INSN(ld_vXYpOFFSET_K) {Q_0 WRITE(FETCH_XY_EA((PC += 3) - 1), K1);		  return 15;}
+INSN(ld_vhl_BYTE    ) {Q_0 WRITE(HL,   FETCH((PC += 2) - 1));			  return 10;}
+INSN(ld_a_vbc	    ) {Q_0 MEMPTR  = BC + 1; A = READ(BC);		 PC++;	  return  7;}
+INSN(ld_a_vde	    ) {Q_0 MEMPTR  = DE + 1; A = READ(DE);		 PC++;	  return  7;}
+INSN(ld_a_vWORD	    ) {Q_0 MEMPTR  = FETCH_16((PC += 3) - 2); A = READ(MEMPTR++); return 13;}
+INSN(ld_vbc_a	    ) {Q_0 MEMPTRL = C + 1; WRITE(BC, MEMPTRH = A);	 PC++;	  return  7;}
+INSN(ld_vde_a	    ) {Q_0 MEMPTRL = E + 1; WRITE(DE, MEMPTRH = A);	 PC++;	  return  7;}
+INSN(ld_a_i	    ) {LD_A_IR(I);							    }
+INSN(ld_a_r	    ) {LD_A_IR(R_ALL);							    }
+INSN(ld_i_a	    ) {NOTIFY(ld_i_a); Q_0 I = A;			 PC += 2; return  9;}
+INSN(ld_r_a	    ) {NOTIFY(ld_r_a); Q_0 R = R7 = A;			 PC += 2; return  9;}
 
 
-INSTRUCTION(ld_vXYpOFFSET_BYTE)
+INSN(ld_vXYpOFFSET_BYTE)
 	{
 	zuint16 ea;
 
@@ -1036,7 +1036,7 @@ INSTRUCTION(ld_vXYpOFFSET_BYTE)
 	}
 
 
-INSTRUCTION(ld_vWORD_a)
+INSN(ld_vWORD_a)
 	{
 	zuint16 ea;
 
@@ -1071,20 +1071,20 @@ INSTRUCTION(ld_vWORD_a)
 |    M-cycles of the instruction.					|
 '======================================================================*/
 
-INSTRUCTION(ld_SS_WORD ) {Q_0 SS0    = FETCH_16((PC += 3) - 2);				  return 10;}
-INSTRUCTION(ld_XY_WORD ) {Q_0 XY     = FETCH_16((PC += 4) - 2);				  return 10;}
-INSTRUCTION(ld_hl_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 3) - 2); HL  = READ_16(MEMPTR++);  return 16;}
-INSTRUCTION(ld_SS_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); SS1 = READ_16(MEMPTR++);  return 20;}
-INSTRUCTION(ld_XY_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); XY  = READ_16(MEMPTR++);  return 16;}
-INSTRUCTION(ld_vWORD_hl) {Q_0 MEMPTR = FETCH_16((PC += 3) - 2); WRITE_16F(MEMPTR++, HL ); return 16;}
-INSTRUCTION(ld_vWORD_SS) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); WRITE_16F(MEMPTR++, SS1); return 20;}
-INSTRUCTION(ld_vWORD_XY) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); WRITE_16F(MEMPTR++, XY ); return 16;}
-INSTRUCTION(ld_sp_hl   ) {Q_0 SP = HL;						 PC++;	  return  6;}
-INSTRUCTION(ld_sp_XY   ) {Q_0 SP = XY;						 PC += 2; return  6;}
-INSTRUCTION(push_TT    ) {Q_0 WRITE_16B(SP -= 2, TT);				 PC++;	  return 11;}
-INSTRUCTION(push_XY    ) {Q_0 WRITE_16B(SP -= 2, XY);				 PC += 2; return 11;}
-INSTRUCTION(pop_TT     ) {Q_0 TT = READ_16(SP); SP += 2;			 PC++;	  return 10;}
-INSTRUCTION(pop_XY     ) {Q_0 XY = READ_16(SP); SP += 2;			 PC += 2; return 10;}
+INSN(ld_SS_WORD ) {Q_0 SS0    = FETCH_16((PC += 3) - 2);			   return 10;}
+INSN(ld_XY_WORD ) {Q_0 XY     = FETCH_16((PC += 4) - 2);			   return 10;}
+INSN(ld_hl_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 3) - 2); HL  = READ_16(MEMPTR++);  return 16;}
+INSN(ld_SS_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); SS1 = READ_16(MEMPTR++);  return 20;}
+INSN(ld_XY_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); XY  = READ_16(MEMPTR++);  return 16;}
+INSN(ld_vWORD_hl) {Q_0 MEMPTR = FETCH_16((PC += 3) - 2); WRITE_16F(MEMPTR++, HL ); return 16;}
+INSN(ld_vWORD_SS) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); WRITE_16F(MEMPTR++, SS1); return 20;}
+INSN(ld_vWORD_XY) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); WRITE_16F(MEMPTR++, XY ); return 16;}
+INSN(ld_sp_hl	) {Q_0 SP = HL;						  PC++;	   return  6;}
+INSN(ld_sp_XY	) {Q_0 SP = XY;						  PC += 2; return  6;}
+INSN(push_TT	) {Q_0 WRITE_16B(SP -= 2, TT);				  PC++;	   return 11;}
+INSN(push_XY	) {Q_0 WRITE_16B(SP -= 2, XY);				  PC += 2; return 11;}
+INSN(pop_TT	) {Q_0 TT = READ_16(SP); SP += 2;			  PC++;	   return 10;}
+INSN(pop_XY	) {Q_0 XY = READ_16(SP); SP += 2;			  PC += 2; return 10;}
 
 
 /* MARK: - Instructions: Exchange, Block Transfer and Search Groups */
@@ -1107,19 +1107,19 @@ INSTRUCTION(pop_XY     ) {Q_0 XY = READ_16(SP); SP += 2;			 PC += 2; return 10;}
 |  cpdr	       <--ED--><--B9-->	 sz*b**1.  21:44355   16:4435  |
 '=============================================================*/
 
-INSTRUCTION(ex_de_hl ) {zuint16 t; Q_0 EX(DE, HL );				  PC++;	   return  4;}
-INSTRUCTION(ex_af_af_) {zuint16 t; Q_0 EX(AF, AF_);				  PC++;	   return  4;}
-INSTRUCTION(exx      ) {zuint16 t; Q_0 EX(BC, BC_); EX(DE, DE_); EX(HL, HL_);	  PC++;	   return  4;}
-INSTRUCTION(ex_vsp_hl) {Q_0 MEMPTR = READ_16(SP); WRITE_16B(SP, HL); HL = MEMPTR; PC++;	   return 19;}
-INSTRUCTION(ex_vsp_XY) {Q_0 MEMPTR = READ_16(SP); WRITE_16B(SP, XY); XY = MEMPTR; PC += 2; return 19;}
-INSTRUCTION(ldi      ) {LDX (++);								     }
-INSTRUCTION(ldir     ) {LDXR(++);								     }
-INSTRUCTION(ldd      ) {LDX (--);								     }
-INSTRUCTION(lddr     ) {LDXR(--);								     }
-INSTRUCTION(cpi      ) {CPX (++);								     }
-INSTRUCTION(cpir     ) {CPXR(++);								     }
-INSTRUCTION(cpd      ) {CPX (--);								     }
-INSTRUCTION(cpdr     ) {CPXR(--);								     }
+INSN(ex_de_hl ) {zuint16 t; Q_0 EX(DE, HL );				   PC++;    return  4;}
+INSN(ex_af_af_) {zuint16 t; Q_0 EX(AF, AF_);				   PC++;    return  4;}
+INSN(exx      ) {zuint16 t; Q_0 EX(BC, BC_); EX(DE, DE_); EX(HL, HL_);	   PC++;    return  4;}
+INSN(ex_vsp_hl) {Q_0 MEMPTR = READ_16(SP); WRITE_16B(SP, HL); HL = MEMPTR; PC++;    return 19;}
+INSN(ex_vsp_XY) {Q_0 MEMPTR = READ_16(SP); WRITE_16B(SP, XY); XY = MEMPTR; PC += 2; return 19;}
+INSN(ldi      ) {LDX (++);								      }
+INSN(ldir     ) {LDXR(++);								      }
+INSN(ldd      ) {LDX (--);								      }
+INSN(lddr     ) {LDXR(--);								      }
+INSN(cpi      ) {CPX (++);								      }
+INSN(cpir     ) {CPXR(++);								      }
+INSN(cpd      ) {CPX (--);								      }
+INSN(cpdr     ) {CPXR(--);								      }
 
 
 /* MARK: - Instructions: 8-Bit Arithmetic and Logical Group */
@@ -1141,15 +1141,15 @@ INSTRUCTION(cpdr     ) {CPXR(--);								     }
 | (|) The flag is explained in a previous table.		     |
 '===================================================================*/
 
-INSTRUCTION(U_a_K	  ) {U0(K0);						      PC++;    return  4;}
-INSTRUCTION(U_a_P	  ) {U1(P);						      PC += 2; return  4;}
-INSTRUCTION(U_a_BYTE	  ) {U0(FETCH((PC += 2) - 1));					       return  7;}
-INSTRUCTION(U_a_vhl	  ) {U0(READ(HL));					      PC++;    return  7;}
-INSTRUCTION(U_a_vXYpOFFSET) {U1(READ(FETCH_XY_EA((PC += 3) - 1)));			       return 15;}
-INSTRUCTION(V_J		  ) {zuint8 *j = &J0; *j = V0(*j);			      PC++;    return  4;}
-INSTRUCTION(V_O		  ) {zuint8 *o = &O;  *o = V1(*o);			      PC += 2; return  4;}
-INSTRUCTION(V_vhl	  ) {WRITE(HL, V0(READ(HL)));				      PC++;    return 11;}
-INSTRUCTION(V_vXYpOFFSET  ) {zuint16 ea = FETCH_XY_EA((PC += 3) - 1); WRITE(ea, V1(READ(ea))); return 19;}
+INSN(U_a_K	   ) {U0(K0);						       PC++;	return	4;}
+INSN(U_a_P	   ) {U1(P);						       PC += 2; return	4;}
+INSN(U_a_BYTE	   ) {U0(FETCH((PC += 2) - 1));						return	7;}
+INSN(U_a_vhl	   ) {U0(READ(HL));					       PC++;	return	7;}
+INSN(U_a_vXYpOFFSET) {U1(READ(FETCH_XY_EA((PC += 3) - 1)));				return 15;}
+INSN(V_J	   ) {zuint8 *j = &J0; *j = V0(*j);			       PC++;	return	4;}
+INSN(V_O	   ) {zuint8 *o = &O;  *o = V1(*o);			       PC += 2; return	4;}
+INSN(V_vhl	   ) {WRITE(HL, V0(READ(HL)));				       PC++;	return 11;}
+INSN(V_vXYpOFFSET  ) {zuint16 ea = FETCH_XY_EA((PC += 3) - 1); WRITE(ea, V1(READ(ea))); return 19;}
 
 
 /* MARK: - Instructions: General-Purpose Arithmetic and CPU Control Groups */
@@ -1173,13 +1173,13 @@ INSTRUCTION(V_vXYpOFFSET  ) {zuint16 ea = FETCH_XY_EA((PC += 3) - 1); WRITE(ea, 
 | (-) The instruction has undocumented opcodes.	   |
 '=================================================*/
 
-INSTRUCTION(nop ) {Q_0	       PC++;	return 4;}
-INSTRUCTION(im_0) {Q_0 IM = 0; PC += 2; return 8;}
-INSTRUCTION(im_1) {Q_0 IM = 1; PC += 2; return 8;}
-INSTRUCTION(im_2) {Q_0 IM = 2; PC += 2; return 8;}
+INSN(nop ) {Q_0		PC++;	 return 4;}
+INSN(im_0) {Q_0 IM = 0; PC += 2; return 8;}
+INSN(im_1) {Q_0 IM = 1; PC += 2; return 8;}
+INSN(im_2) {Q_0 IM = 2; PC += 2; return 8;}
 
 
-INSTRUCTION(daa)
+INSN(daa)
 	{
 	zuint8 cf = A > 0x99, t = ((F & HF) || (A & 0xF) > 9) ? 6 : 0;
 
@@ -1200,7 +1200,7 @@ INSTRUCTION(daa)
 	}
 
 
-INSTRUCTION(cpl)
+INSN(cpl)
 	{
 	FLAGS = F_SZPC		 | /* SF, ZF, PF, CF unchanged */
 		((A = ~A) & YXF) | /* YF = Y; XF = X	       */
@@ -1211,7 +1211,7 @@ INSTRUCTION(cpl)
 	}
 
 
-INSTRUCTION(neg)
+INSN(neg)
 	{
 	zuint8 t = (zuint8)-A;
 
@@ -1246,7 +1246,7 @@ INSTRUCTION(neg)
 |     * https://stardot.org.uk/forums/download/file.php?id=39831	     |
 '===========================================================================*/
 
-INSTRUCTION(ccf)
+INSN(ccf)
 	{
 	FLAGS = (zuint8)(
 		(F_SZPC ^ CF) | /* SF, ZF, PF unchanged; CF = ~CFi	    */
@@ -1265,7 +1265,7 @@ INSTRUCTION(ccf)
 	}
 
 
-INSTRUCTION(scf)
+INSN(scf)
 	{
 	FLAGS = F_SZP | /* SF, ZF, PF unchanged				    */
 		/* Zilog:    YF = A.5 | (YFi ^ YQi); XF = A.3 | (XFi ^ XQi) */
@@ -1303,10 +1303,10 @@ INSTRUCTION(scf)
 '=============================================================================*/
 
 #ifdef Z80_WITH_SPECIAL_RESET
-	static Instruction const instruction_table[256];
+	static Insn const insn_table[256];
 #endif
 
-INSTRUCTION(halt)
+INSN(halt)
 	{
 	if (!HALT_LINE)
 		{
@@ -1361,7 +1361,7 @@ INSTRUCTION(halt)
 							{
 							self->cycles -= 4;
 							PC--;
-							return instruction_table[opcode](self);
+							return insn_table[opcode](self);
 							}
 						}
 
@@ -1392,7 +1392,7 @@ INSTRUCTION(halt)
 	}
 
 
-INSTRUCTION(di)
+INSN(di)
 	{
 	Q_0
 	IFF1 = IFF2 = 0;
@@ -1402,7 +1402,7 @@ INSTRUCTION(di)
 	}
 
 
-INSTRUCTION(ei)
+INSN(ei)
 	{
 	Q_0
 	IFF1 = IFF2 = 1;
@@ -1427,14 +1427,14 @@ INSTRUCTION(ei)
 |  dec XY     <--XY--><--2B-->	........  10:46	    |
 '==================================================*/
 
-INSTRUCTION(add_hl_SS) {ADD_RR_NN(HL, SS0);		  PC++;    return 11;}
-INSTRUCTION(adc_hl_SS) {ADC_SBC_HL_SS(+, ~ss, ss + fc + HL > 65535, Z_EMPTY);}
-INSTRUCTION(sbc_hl_SS) {ADC_SBC_HL_SS(-,  ss, ss + fc	   > HL,    | NF   );}
-INSTRUCTION(add_XY_WW) {ADD_RR_NN(XY, WW);		  PC += 2; return 11;}
-INSTRUCTION(inc_SS   ) {Q_0 (SS0)++;			  PC++;    return  6;}
-INSTRUCTION(inc_XY   ) {Q_0 XY++;			  PC += 2; return  6;}
-INSTRUCTION(dec_SS   ) {Q_0 (SS0)--;			  PC++;    return  6;}
-INSTRUCTION(dec_XY   ) {Q_0 XY--;			  PC += 2; return  6;}
+INSN(add_hl_SS) {ADD_RR_NN(HL, SS0);		   PC++;    return 11;}
+INSN(adc_hl_SS) {ADC_SBC_HL_SS(+, ~ss, ss + fc + HL > 65535, Z_EMPTY);}
+INSN(sbc_hl_SS) {ADC_SBC_HL_SS(-,  ss, ss + fc	    > HL,    | NF   );}
+INSN(add_XY_WW) {ADD_RR_NN(XY, WW);		   PC += 2; return 11;}
+INSN(inc_SS   ) {Q_0 (SS0)++;			   PC++;    return  6;}
+INSN(inc_XY   ) {Q_0 XY++;			   PC += 2; return  6;}
+INSN(dec_SS   ) {Q_0 (SS0)--;			   PC++;    return  6;}
+INSN(dec_XY   ) {Q_0 XY--;			   PC += 2; return  6;}
 
 
 /* MARK: - Instructions: Rotate and Shift Group */
@@ -1457,16 +1457,16 @@ INSTRUCTION(dec_XY   ) {Q_0 XY--;			  PC += 2; return  6;}
 | (*) Undocumented instruction.						   |
 '=========================================================================*/
 
-INSTRUCTION(rlca	  ) {A = ROL(A); FLAGS = F_SZP | (A & YXCF);	  PC++; return	4;}
-INSTRUCTION(rla		  ) {RXA(A >> 7, <<, F_C);					  }
-INSTRUCTION(rrca	  ) {A = ROR(A); FLAGS = F_SZP | A_YX | (A >> 7); PC++; return	4;}
-INSTRUCTION(rra		  ) {RXA(A & 1, >>, (F << 7));					  }
-INSTRUCTION(G_K		  ) {zuint8 *k = &K1; *k = G1(*k);			return	8;}
-INSTRUCTION(G_vhl	  ) {WRITE(HL, G1(READ(HL)));				return 15;}
-INSTRUCTION(G_vXYpOFFSET  ) {zuint16 ea = MEMPTR; WRITE(ea,	 G3(READ(ea))); return 19;}
-INSTRUCTION(G_vXYpOFFSET_K) {zuint16 ea = MEMPTR; WRITE(ea, K3 = G3(READ(ea))); return 19;}
-INSTRUCTION(rld		  ) {RXD(<< 4, & 0xF, >> 4);					  }
-INSTRUCTION(rrd		  ) {RXD(>> 4, << 4, & 0xF);					  }
+INSN(rlca	   ) {A = ROL(A); FLAGS = F_SZP | (A & YXCF);	   PC++; return	 4;}
+INSN(rla	   ) {RXA(A >> 7, <<, F_C);					   }
+INSN(rrca	   ) {A = ROR(A); FLAGS = F_SZP | A_YX | (A >> 7); PC++; return	 4;}
+INSN(rra	   ) {RXA(A & 1, >>, (F << 7));					   }
+INSN(G_K	   ) {zuint8 *k = &K1; *k = G1(*k);			 return	 8;}
+INSN(G_vhl	   ) {WRITE(HL, G1(READ(HL)));				 return 15;}
+INSN(G_vXYpOFFSET  ) {zuint16 ea = MEMPTR; WRITE(ea,	  G3(READ(ea))); return 19;}
+INSN(G_vXYpOFFSET_K) {zuint16 ea = MEMPTR; WRITE(ea, K3 = G3(READ(ea))); return 19;}
+INSN(rld	   ) {RXD(<< 4, & 0xF, >> 4);					   }
+INSN(rrd	   ) {RXD(>> 4, << 4, & 0xF);					   }
 
 
 /* MARK: - Instructions: Bit Set, Reset and Test Group */
@@ -1489,13 +1489,13 @@ INSTRUCTION(rrd		  ) {RXD(>> 4, << 4, & 0xF);					  }
 |    T-states of the instruction.					     |
 '===========================================================================*/
 
-INSTRUCTION(M_N_K	    ) {zuint8 *k = &K1; *k = M1(*k);			  return  8;}
-INSTRUCTION(M_N_vhl	    ) {WRITE(HL, M1(READ(HL)));				  return 15;}
-INSTRUCTION(M_N_vXYpOFFSET  ) {zuint16 ea = MEMPTR; WRITE(ea,	   M3(READ(ea))); return 19;}
-INSTRUCTION(M_N_vXYpOFFSET_K) {zuint16 ea = MEMPTR; WRITE(ea, K3 = M3(READ(ea))); return 19;}
+INSN(M_N_K	     ) {zuint8 *k = &K1; *k = M1(*k);			   return  8;}
+INSN(M_N_vhl	     ) {WRITE(HL, M1(READ(HL)));			   return 15;}
+INSN(M_N_vXYpOFFSET  ) {zuint16 ea = MEMPTR; WRITE(ea,	    M3(READ(ea))); return 19;}
+INSN(M_N_vXYpOFFSET_K) {zuint16 ea = MEMPTR; WRITE(ea, K3 = M3(READ(ea))); return 19;}
 
 
-INSTRUCTION(bit_N_K)
+INSN(bit_N_K)
 	{
 	zuint8 k = K1;
 	zuint8 t = k & (1U << N(1));
@@ -1516,7 +1516,7 @@ INSTRUCTION(bit_N_K)
 	}
 
 
-INSTRUCTION(bit_N_vhl)
+INSN(bit_N_vhl)
 	{
 	zuint8 t = READ(HL) & (1U << N(1));
 
@@ -1546,7 +1546,7 @@ INSTRUCTION(bit_N_vhl)
 	}
 
 
-INSTRUCTION(bit_N_vXYpOFFSET)
+INSN(bit_N_vXYpOFFSET)
 	{
 	zuint8 t = READ(MEMPTR) & (1U << N(3));
 
@@ -1573,13 +1573,13 @@ INSTRUCTION(bit_N_vXYpOFFSET)
 |  djnz OFFSET	<--10--><OFFSET>	  ........  13:535  8:53  |
 '================================================================*/
 
-INSTRUCTION(jp_WORD    ) {Q_0 MEMPTR = PC = FETCH_16(PC + 1);			      return 10;}
-INSTRUCTION(jp_Z_WORD  ) {Q_0 MEMPTR = FETCH_16(PC + 1); PC = Z(7) ? MEMPTR : PC + 3; return 10;}
-INSTRUCTION(jr_OFFSET  ) {Q_0 MEMPTR = (PC += 2 + (zsint8)FETCH(PC + 1));	      return 12;}
-INSTRUCTION(jr_Z_OFFSET) {DJNZ_JR_Z_OFFSET(Z(3), 12, 7);					}
-INSTRUCTION(jp_hl      ) {Q_0 PC = HL;						      return  4;}
-INSTRUCTION(jp_XY      ) {Q_0 PC = XY;						      return  4;}
-INSTRUCTION(djnz_OFFSET) {DJNZ_JR_Z_OFFSET(--B, 13, 8);						}
+INSN(jp_WORD	) {Q_0 MEMPTR = PC = FETCH_16(PC + 1);			       return 10;}
+INSN(jp_Z_WORD	) {Q_0 MEMPTR = FETCH_16(PC + 1); PC = Z(7) ? MEMPTR : PC + 3; return 10;}
+INSN(jr_OFFSET	) {Q_0 MEMPTR = (PC += 2 + (zsint8)FETCH(PC + 1));	       return 12;}
+INSN(jr_Z_OFFSET) {DJNZ_JR_Z_OFFSET(Z(3), 12, 7);					 }
+INSN(jp_hl	) {Q_0 PC = HL;						       return  4;}
+INSN(jp_XY	) {Q_0 PC = XY;						       return  4;}
+INSN(djnz_OFFSET) {DJNZ_JR_Z_OFFSET(--B, 13, 8);					 }
 
 
 /* MARK: - Instructions: Call and Return Group */
@@ -1599,15 +1599,15 @@ INSTRUCTION(djnz_OFFSET) {DJNZ_JR_Z_OFFSET(--B, 13, 8);						}
 |     the Z80 CTC chip. All other opcodes are represented as `retn`.  |
 '====================================================================*/
 
-INSTRUCTION(call_WORD) {Q_0 MEMPTR = FETCH_16(PC + 1); PUSH(PC + 3); PC = MEMPTR; return 17;}
-INSTRUCTION(ret      ) {Q_0 RET;						  return 10;}
-INSTRUCTION(ret_Z    ) {Q_0 if (Z(7)) {RET; return 11;}		     PC++;	  return  5;}
-INSTRUCTION(reti     ) {RETX(reti);							    }
-INSTRUCTION(retn     ) {RETX(retn);							    }
-INSTRUCTION(rst_N    ) {Q_0 PUSH(PC + 1); MEMPTR = PC = DATA[0] & 56;		  return 11;}
+INSN(call_WORD) {Q_0 MEMPTR = FETCH_16(PC + 1); PUSH(PC + 3); PC = MEMPTR; return 17;}
+INSN(ret      ) {Q_0 RET;						   return 10;}
+INSN(ret_Z    ) {Q_0 if (Z(7)) {RET; return 11;}	      PC++;	   return  5;}
+INSN(reti     ) {RETX(reti);							     }
+INSN(retn     ) {RETX(retn);							     }
+INSN(rst_N    ) {Q_0 PUSH(PC + 1); MEMPTR = PC = DATA[0] & 56;		   return 11;}
 
 
-INSTRUCTION(call_Z_WORD)
+INSN(call_Z_WORD)
 	{
 	Q_0
 	MEMPTR = FETCH_16(PC + 1); /* always */
@@ -1650,20 +1650,20 @@ INSTRUCTION(call_Z_WORD)
 |    in the T-states of the instruction.			|
 '==============================================================*/
 
-INSTRUCTION(in_J_vc ) {IN_VC; J1 = t;			 PC += 2; return 12;}
-INSTRUCTION(in_vc   ) {IN_VC;				 PC += 2; return 12;}
-INSTRUCTION(ini     ) {INX (++, +);					    }
-INSTRUCTION(inir    ) {INXR(++, +);					    }
-INSTRUCTION(ind     ) {INX (--, -);					    }
-INSTRUCTION(indr    ) {INXR(--, -);					    }
-INSTRUCTION(out_vc_J) {Q_0 MEMPTR = BC + 1; OUT(BC, J1); PC += 2; return 12;}
-INSTRUCTION(outi    ) {OUTX(++, +);					    }
-INSTRUCTION(otir    ) {OTXR(++, +);					    }
-INSTRUCTION(outd    ) {OUTX(--, -);					    }
-INSTRUCTION(otdr    ) {OTXR(--, -);					    }
+INSN(in_J_vc ) {IN_VC; J1 = t;			  PC += 2; return 12;}
+INSN(in_vc   ) {IN_VC;				  PC += 2; return 12;}
+INSN(ini     ) {INX (++, +);					     }
+INSN(inir    ) {INXR(++, +);					     }
+INSN(ind     ) {INX (--, -);					     }
+INSN(indr    ) {INXR(--, -);					     }
+INSN(out_vc_J) {Q_0 MEMPTR = BC + 1; OUT(BC, J1); PC += 2; return 12;}
+INSN(outi    ) {OUTX(++, +);					     }
+INSN(otir    ) {OTXR(++, +);					     }
+INSN(outd    ) {OUTX(--, -);					     }
+INSN(otdr    ) {OTXR(--, -);					     }
 
 
-INSTRUCTION(in_a_vBYTE)
+INSN(in_a_vBYTE)
 	{
 	zuint16 t;
 
@@ -1683,7 +1683,7 @@ INSTRUCTION(in_a_vBYTE)
 	}
 
 
-INSTRUCTION(out_vBYTE_a)
+INSN(out_vBYTE_a)
 	{
 	zuint8 t;
 
@@ -1709,7 +1709,7 @@ INSTRUCTION(out_vBYTE_a)
 |    tr-hw								      |
 '============================================================================*/
 
-INSTRUCTION(out_vc_0)
+INSN(out_vc_0)
 	{
 	Q_0
 	PC += 2;
@@ -1721,20 +1721,20 @@ INSTRUCTION(out_vc_0)
 
 /* MARK: - Instructions: Optimizations */
 
-INSTRUCTION(nop_nop) {Q_0; PC += 2; return 4;}
+INSN(nop_nop) {Q_0; PC += 2; return 4;}
 
 
 /* MARK: - Instruction Function Tables */
 
-INSTRUCTION(cb_prefix	);
-INSTRUCTION(ed_prefix	);
-INSTRUCTION(dd_prefix	);
-INSTRUCTION(fd_prefix	);
-INSTRUCTION(xy_cb_prefix);
-INSTRUCTION(xy_xy	);
-INSTRUCTION(ed_illegal	);
-INSTRUCTION(xy_illegal	);
-INSTRUCTION(hook	);
+INSN(cb_prefix	 );
+INSN(ed_prefix	 );
+INSN(dd_prefix	 );
+INSN(fd_prefix	 );
+INSN(xy_cb_prefix);
+INSN(xy_xy	 );
+INSN(ed_illegal	 );
+INSN(xy_illegal	 );
+INSN(hook	 );
 
 #ifdef Z80_WITH_UNOFFICIAL_RETI
 #	define reti_retn reti
@@ -1742,7 +1742,7 @@ INSTRUCTION(hook	);
 #	define reti_retn retn
 #endif
 
-static Instruction const instruction_table[256] = {
+static Insn const insn_table[256] = {
 /*	0	     1		 2	      3		   4		5	  6	       7	 8	      9		 A	      B		  C	       D	  E	     F */
 /* 0 */ nop,	     ld_SS_WORD, ld_vbc_a,    inc_SS,	   V_J,		V_J,	  ld_J_BYTE,   rlca,	 ex_af_af_,   add_hl_SS, ld_a_vbc,    dec_SS,	  V_J,	       V_J,	  ld_J_BYTE, rrca,
 /* 1 */ djnz_OFFSET, ld_SS_WORD, ld_vde_a,    inc_SS,	   V_J,		V_J,	  ld_J_BYTE,   rla,	 jr_OFFSET,   add_hl_SS, ld_a_vde,    dec_SS,	  V_J,	       V_J,	  ld_J_BYTE, rra,
@@ -1762,7 +1762,7 @@ static Instruction const instruction_table[256] = {
 /* F */ ret_Z,	     pop_TT,	 jp_Z_WORD,   di,	   call_Z_WORD, push_TT,  U_a_BYTE,    rst_N,	 ret_Z,	      ld_sp_hl,	 jp_Z_WORD,   ei,	  call_Z_WORD, fd_prefix, U_a_BYTE,  rst_N
 };
 
-static Instruction const cb_instruction_table[256] = {
+static Insn const cb_insn_table[256] = {
 /*	0	 1	  2	   3	    4	     5	      6		 7	  8	   9	    A	     B	      C	       D	E	   F */
 /* 0 */ G_K,	 G_K,	  G_K,	   G_K,	    G_K,     G_K,     G_vhl,	 G_K,	  G_K,	   G_K,	    G_K,     G_K,     G_K,     G_K,	G_vhl,	   G_K,
 /* 1 */ G_K,	 G_K,	  G_K,	   G_K,	    G_K,     G_K,     G_vhl,	 G_K,	  G_K,	   G_K,	    G_K,     G_K,     G_K,     G_K,	G_vhl,	   G_K,
@@ -1782,7 +1782,7 @@ static Instruction const cb_instruction_table[256] = {
 /* F */ M_N_K,	 M_N_K,	  M_N_K,   M_N_K,   M_N_K,   M_N_K,   M_N_vhl,	 M_N_K,	  M_N_K,   M_N_K,   M_N_K,   M_N_K,   M_N_K,   M_N_K,	M_N_vhl,   M_N_K
 };
 
-static Instruction const ed_instruction_table[256] = {
+static Insn const ed_insn_table[256] = {
 /*	0	    1		2	    3		 4	     5		 6	     7		 8	     9		 A	     B		  C	      D		  E	      F */
 /* 0 */ ed_illegal, ed_illegal, ed_illegal, ed_illegal,	 ed_illegal, ed_illegal, ed_illegal, ed_illegal, ed_illegal, ed_illegal, ed_illegal, ed_illegal,  ed_illegal, ed_illegal, ed_illegal, ed_illegal,
 /* 1 */ ed_illegal, ed_illegal, ed_illegal, ed_illegal,	 ed_illegal, ed_illegal, ed_illegal, ed_illegal, ed_illegal, ed_illegal, ed_illegal, ed_illegal,  ed_illegal, ed_illegal, ed_illegal, ed_illegal,
@@ -1802,7 +1802,7 @@ static Instruction const ed_instruction_table[256] = {
 /* F */ ed_illegal, ed_illegal, ed_illegal, ed_illegal,	 ed_illegal, ed_illegal, ed_illegal, ed_illegal, ed_illegal, ed_illegal, ed_illegal, ed_illegal,  ed_illegal, ed_illegal, ed_illegal, ed_illegal
 };
 
-static Instruction const xy_instruction_table[256] = {
+static Insn const xy_insn_table[256] = {
 /*	0		 1		  2		   3		    4		     5		      6			  7		   8	       9	   A		B	      C		  D	      E		       F */
 /* 0 */ nop_nop,	 xy_illegal,	  xy_illegal,	   xy_illegal,	    V_O,	     V_O,	      ld_O_BYTE,	  xy_illegal,	   xy_illegal, add_XY_WW,  xy_illegal,	xy_illegal,   V_O,	  V_O,	      ld_O_BYTE,       xy_illegal,
 /* 1 */ xy_illegal,	 xy_illegal,	  xy_illegal,	   xy_illegal,	    V_O,	     V_O,	      ld_O_BYTE,	  xy_illegal,	   xy_illegal, add_XY_WW,  xy_illegal,	xy_illegal,   V_O,	  V_O,	      ld_O_BYTE,       xy_illegal,
@@ -1822,7 +1822,7 @@ static Instruction const xy_instruction_table[256] = {
 /* F */ xy_illegal,	 xy_illegal,	  xy_illegal,	   xy_illegal,	    xy_illegal,	     xy_illegal,      xy_illegal,	  xy_illegal,	   xy_illegal, ld_sp_XY,   xy_illegal,	xy_illegal,   xy_illegal, xy_xy,      xy_illegal,      xy_illegal
 };
 
-static Instruction const xy_cb_instruction_table[256] = {
+static Insn const xy_cb_insn_table[256] = {
 /*	0		  1		    2		      3			4		  5		    6		      7			8		  9		    A		      B			C		  D		    E		      F */
 /* 0 */ G_vXYpOFFSET_K,	  G_vXYpOFFSET_K,   G_vXYpOFFSET_K,   G_vXYpOFFSET_K,	G_vXYpOFFSET_K,	  G_vXYpOFFSET_K,   G_vXYpOFFSET,     G_vXYpOFFSET_K,	G_vXYpOFFSET_K,	  G_vXYpOFFSET_K,   G_vXYpOFFSET_K,   G_vXYpOFFSET_K,	G_vXYpOFFSET_K,	  G_vXYpOFFSET_K,   G_vXYpOFFSET,     G_vXYpOFFSET_K,
 /* 1 */ G_vXYpOFFSET_K,	  G_vXYpOFFSET_K,   G_vXYpOFFSET_K,   G_vXYpOFFSET_K,	G_vXYpOFFSET_K,	  G_vXYpOFFSET_K,   G_vXYpOFFSET,     G_vXYpOFFSET_K,	G_vXYpOFFSET_K,	  G_vXYpOFFSET_K,   G_vXYpOFFSET_K,   G_vXYpOFFSET_K,	G_vXYpOFFSET_K,	  G_vXYpOFFSET_K,   G_vXYpOFFSET,     G_vXYpOFFSET_K,
@@ -1845,38 +1845,38 @@ static Instruction const xy_cb_instruction_table[256] = {
 
 /* MARK: - Instructions: Prefix Handling */
 
-INSTRUCTION(cb_prefix)
+INSN(cb_prefix)
 	{
 	R++;
-	return cb_instruction_table[DATA[1] = FETCH_OPCODE((PC += 2) - 1)](self);
+	return cb_insn_table[DATA[1] = FETCH_OPCODE((PC += 2) - 1)](self);
 	}
 
 
-INSTRUCTION(ed_prefix)
+INSN(ed_prefix)
 	{
 	R++;
-	return ed_instruction_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
+	return ed_insn_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
 	}
 
 
-#define XY_PREFIX(register)						     \
-	zuint8 cycles;							     \
-									     \
-	if ((self->cycles += 4) >= self->cycle_limit)			     \
-		{							     \
-		RESUME = Z80_RESUME_XY;					     \
-		return 0;						     \
-		}							     \
-									     \
-	R++;								     \
-	XY = register;							     \
-	cycles = xy_instruction_table[DATA[1] = FETCH_OPCODE(PC + 1)](self); \
-	register = XY;							     \
+#define XY_PREFIX(register)					      \
+	zuint8 cycles;						      \
+								      \
+	if ((self->cycles += 4) >= self->cycle_limit)		      \
+		{						      \
+		RESUME = Z80_RESUME_XY;				      \
+		return 0;					      \
+		}						      \
+								      \
+	R++;							      \
+	XY = register;						      \
+	cycles = xy_insn_table[DATA[1] = FETCH_OPCODE(PC + 1)](self); \
+	register = XY;						      \
 	return cycles;
 
 
-INSTRUCTION(dd_prefix) {XY_PREFIX(IX)}
-INSTRUCTION(fd_prefix) {XY_PREFIX(IY)}
+INSN(dd_prefix) {XY_PREFIX(IX)}
+INSN(fd_prefix) {XY_PREFIX(IY)}
 
 
 /*------------------------------------------------------------------------.
@@ -1885,10 +1885,10 @@ INSTRUCTION(fd_prefix) {XY_PREFIX(IY)}
 | The remaining 2 bytes are fetched by normal memory read operations.	  |
 '========================================================================*/
 
-INSTRUCTION(xy_cb_prefix)
+INSN(xy_cb_prefix)
 	{
 	FETCH_XY_EA((PC += 4) - 2);
-	return xy_cb_instruction_table[DATA[3] = FETCH(PC - 1)](self);
+	return xy_cb_insn_table[DATA[3] = FETCH(PC - 1)](self);
 	}
 
 
@@ -1899,7 +1899,7 @@ INSTRUCTION(xy_cb_prefix)
 | and the final instruction is executed. Each prefix consumes 4 T-states.      |
 '=============================================================================*/
 
-INSTRUCTION(xy_xy)
+INSN(xy_xy)
 	{
 	zuint8 cycles;
 	zuint8 first_prefix = DATA[0];
@@ -1918,19 +1918,19 @@ INSTRUCTION(xy_xy)
 		}
 	while (IS_XY_PREFIX(DATA[1] = FETCH_OPCODE(PC + 1)));
 
-	if (DATA[0] == first_prefix) return xy_instruction_table[DATA[1]](self);
+	if (DATA[0] == first_prefix) return xy_insn_table[DATA[1]](self);
 
 	if (first_prefix == 0xFD)
 		{
 		XY = IX;
-		cycles = xy_instruction_table[DATA[1]](self);
+		cycles = xy_insn_table[DATA[1]](self);
 		IX = XY;
 		XY = IY;
 		}
 
 	else	{
 		XY = IY;
-		cycles = xy_instruction_table[DATA[1]](self);
+		cycles = xy_insn_table[DATA[1]](self);
 		IY = XY;
 		XY = IX;
 		}
@@ -1946,7 +1946,7 @@ INSTRUCTION(xy_xy)
 | they are all equivalent to two `nop` instructions (8 T-states).    |
 '===================================================================*/
 
-INSTRUCTION(ed_illegal)
+INSN(ed_illegal)
 	{
 	if (self->illegal != Z_NULL) return self->illegal(CONTEXT, DATA[0]);
 	Q_0
@@ -1961,16 +1961,16 @@ INSTRUCTION(ed_illegal)
 | as the first byte of a new instruction. The prefix consumes 4 T-states. |
 '========================================================================*/
 
-INSTRUCTION(xy_illegal)
+INSN(xy_illegal)
 	{
 	PC++;
-	return instruction_table[DATA[0] = DATA[1]](self);
+	return insn_table[DATA[0] = DATA[1]](self);
 	}
 
 
 /* MARK: - Instructions: Hooking */
 
-INSTRUCTION(hook)
+INSN(hook)
 	{
 	if (self->hook == Z_NULL)
 		{
@@ -1980,7 +1980,7 @@ INSTRUCTION(hook)
 		}
 
 	return ((DATA[0] = self->hook(CONTEXT, PC)) != Z80_HOOK)
-		? instruction_table[DATA[0]](self) : 0;
+		? insn_table[DATA[0]](self) : 0;
 	}
 
 
@@ -2147,7 +2147,7 @@ Z80_API void z80_nmi(Z80 *self)
 			RESUME = FALSE;
 			R++; /* M1 */
 			XY = (xy = &self->ix_iy[(DATA[0] >> 5) & 1])->uint16_value;
-			self->cycles += xy_instruction_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
+			self->cycles += xy_insn_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
 			xy->uint16_value = XY;
 			break;
 			}
@@ -2155,7 +2155,7 @@ Z80_API void z80_nmi(Z80 *self)
 		while (self->cycles < cycles)
 			{
 			R++; /* M1 */
-			self->cycles += instruction_table[DATA[0] = FETCH_OPCODE(PC)](self);
+			self->cycles += insn_table[DATA[0] = FETCH_OPCODE(PC)](self);
 			}
 
 		R = R_ALL;	     /* restore R7 bit         */
@@ -2204,12 +2204,12 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						self->halt(CONTEXT, Z80_HALT_EARLY_EXIT);
 
 					if (IS_XY_PREFIX(DATA[0] = opcode = DATA[2]))
-						self->cycles += instruction_table[FETCH_OPCODE(PC)](self);
+						self->cycles += insn_table[FETCH_OPCODE(PC)](self);
 
 					else if (opcode != 0x76)
 						{
 						PC--;
-						self->cycles += instruction_table[opcode](self) - 4;
+						self->cycles += insn_table[opcode](self) - 4;
 						}
 					}
 #			endif
@@ -2226,7 +2226,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		RESUME = FALSE;
 		R++;
 		XY = (xy = &self->ix_iy[(DATA[0] >> 5) & 1])->uint16_value;
-		self->cycles += xy_instruction_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
+		self->cycles += xy_insn_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
 		xy->uint16_value = XY;
 		break;
 
@@ -2440,7 +2440,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						if (im0_pc_decrement_table[ird])
 							{
 							PC -= im0_pc_decrement_table[ird];
-							self->cycles += 2 + instruction_table[ird](self);
+							self->cycles += 2 + insn_table[ird](self);
 							}
 
 						/* halt */
@@ -2450,17 +2450,17 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						else if (ird == 0xCB)
 							{
 							R++;
-							self->cycles += 4 + cb_instruction_table[DATA[1] = INTA](self);
+							self->cycles += 4 + cb_insn_table[DATA[1] = INTA](self);
 							}
 
 						/* instructions with EDh prefix */
 						else if (ird == 0xED)
 							{
-							Instruction instruction;
+							Insn insn;
 
 							R++;
 
-							if ((instruction = ed_instruction_table[DATA[1] = ird = INTA]) != ed_illegal)
+							if ((insn = ed_insn_table[DATA[1] = ird = INTA]) != ed_illegal)
 								{
 								im0.ld_i_a   = self->ld_i_a;
 								im0.ld_r_a   = self->ld_r_a;
@@ -2477,7 +2477,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 									self->retn = Z_NULL;
 #								endif
 
-								self->cycles += 4 + instruction(self);
+								self->cycles += 4 + insn(self);
 
 								self->ld_i_a = im0.ld_i_a;
 								self->ld_r_a = im0.ld_r_a;
@@ -2498,7 +2498,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						/* instructions with DDh, FDh, DDCBh or FDCBh prefix */
 						else if (IS_XY_PREFIX(ird))
 							{
-							Instruction instruction;
+							Insn insn;
 
 							if (RESUME) RESUME = FALSE;
 
@@ -2519,7 +2519,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 								goto im0_advance_xy;
 								}
 
-							if ((instruction = xy_instruction_table[ird]) == xy_illegal)
+							if ((insn = xy_insn_table[ird]) == xy_illegal)
 								{
 								DATA[0] = ird;
 								PC++;
@@ -2527,7 +2527,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 								}
 
 							XY = (xy = &self->ix_iy[((DATA[1] = ird) >> 5) & 1])->uint16_value;
-							self->cycles += 2 + instruction(self);
+							self->cycles += 2 + insn(self);
 							xy->uint16_value = XY;
 
 							/* all except: jp (XY) */
@@ -2535,7 +2535,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							}
 
 						else	{
-							cycles += 2 + instruction_table[ird](self);
+							cycles += 2 + insn_table[ird](self);
 
 							/* all except: jp WORD / jp (hl)> / ret */
 							if (ird != 0xC3 && (ird & 0xDF) != 0xC9) PC = im0.pc;
@@ -2656,7 +2656,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			}
 
 		R++; /* M1 */
-		self->cycles += instruction_table[DATA[0] = FETCH_OPCODE(PC)](self);
+		self->cycles += insn_table[DATA[0] = FETCH_OPCODE(PC)](self);
 		}
 
 	R = R_ALL;	     /* restore R7 bit	       */
