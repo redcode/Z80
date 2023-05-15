@@ -103,9 +103,9 @@ typedef struct {
 #endif
 
 static Test const tests[22] = {
-	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexdoc.com",				C(A, E19F287A) /* 46,734,977,146 */,  8704,   0,  8704, 0x0100,	0,	TEST_FORMAT_CPM,       68, 34},
+	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexdoc.com",				C(A, E19F287A) /* 46,734,977,146 */,  8704,   0,  8704, 0x0100, 0,	TEST_FORMAT_CPM,       68, 34},
 	{Z_NULL, "Z80 Documented Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",		C(A, E4E22836) /* 46,789,699,638 */,  8716,  91,  8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
-	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexall.com",				C(A, E19F287A) /* 46,734,977,146 */,  8704,   0,  8704, 0x0100,	0,	TEST_FORMAT_CPM,       68, 34},
+	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexall.com",				C(A, E19F287A) /* 46,734,977,146 */,  8704,   0,  8704, 0x0100, 0,	TEST_FORMAT_CPM,       68, 34},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2009)(Bobrowski, Jan)[!].tap",				C(A, E4E1B837) /* 46,789,670,967 */,  8656, 108,  8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 31},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2011)(Bobrowski, Jan)(Narrowed to BIT Instructions)[!].tap",	C(0, 4F67AEDF) /*  1,332,195,039 */,  8656, 108,  8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,    4, 31},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2017-0x)(Harston, Jonathan Graham)[!].tap",			C(A, E4E20746) /* 46,789,691,206 */,  8704,  91,  8612, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
@@ -173,20 +173,31 @@ static zuint8 memory[65536];
 | which case `cycles` contains the number of clock cycles executed during |
 | the last `RUN` of the emulation. `lines` is incremented every time the  |
 | test prints a new line. `cursor_x` holds the X position of the cursor,  |
-| i.e., the size of the current line. `columns` contains the rightmost    |
+| i.e., the size of the current line. `columns` contains the rightmost	  |
 | position reached by the cursor throughout the test.			  |
 '========================================================================*/
 static zboolean completed;
 static zusize   cursor_x, columns, cycles, lines;
 
-/*----------------------------------------------------------------------------.
-| `zx_spectrum_tab` indicates whether the previous character printed by the   |
-| test was a TAB.`zx_spectrum_print_hook_address` contains the address of the |
-| trap that intercepts the routine called by the test to print characters.    |
-| These 2 variables are only used for ZX Spectrum tests.		      |
-'============================================================================*/
-static zboolean zx_spectrum_tab;
-static zuint16  zx_spectrum_print_hook_address;
+/*------------------------------------------------------------------------.
+| `zx_spectrum_print_hook_address` contains the address of the hook that  |
+| intercepts the routine called by the test to print characters. When a	  |
+| TAB character (17h) is printed, the `zx_spectrum_tab` counter is set to |
+| 2 to indicate that it is necessary to process the incoming <TAB n> and  |
+| <TAB STOP> bytes before continuing to print characters. `bad_character` |
+| is set to `TRUE` if the test prints any unsupported control characters. |
+|									  |
+| To learn more about the TAB control sequence of the ZX Spectrum, read:  |
+| * Sinclair Research (1983). "Sinclair ZX Spectrum BASIC Programming"	  |
+|   2nd edition, pp. 103, 196.						  |
+| * Ardley, Neil (1984). "ZX Spectrum + User Guide" (Dorling Kindersley;  |
+|   Sinclair Research. ISBN 0863180809), pp. 67-68.			  |
+|									  |
+| These three variables are only used for ZX Spectrum tests.		  |
+'========================================================================*/
+static zuint16	zx_spectrum_print_hook_address;
+static zuint	zx_spectrum_tab;
+static zboolean zx_spectrum_bad_character;
 
 
 /* MARK: - CPU Callbacks: Common */
@@ -246,16 +257,15 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 	if (address != 5) return OPCODE_NOP;
 
 	/* BDOS function 2 (C_WRITE) - Console output */
-	if (Z80_C(cpu) == 2)
-		switch ((character = Z80_E(cpu)))
-			{
-			case 0x0A: /* LF */ cr();
-			case 0x0D: /* CR */ break;
+	if (Z80_C(cpu) == 2) switch ((character = Z80_E(cpu)))
+		{
+		case 0x0A: /* LF */ cr();
+		case 0x0D: /* CR */ break;
 
-			default:
-			if (show_test_output) putchar(character);
-			cursor_x++;
-			}
+		default:
+		if (show_test_output) putchar(character);
+		cursor_x++;
+		}
 
 	/* BDOS function 9 (C_WRITESTR) - Output string */
 	else if (Z80_C(cpu) == 9)
@@ -295,23 +305,14 @@ static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 	Z_UNUSED(context)
 	if (address != zx_spectrum_print_hook_address) return OPCODE_NOP;
 
-	if (zx_spectrum_tab)
-		{
-		zuint c = (Z80_A(cpu) % 32) - (cursor_x % 32);
-
-		cursor_x += c;
-		if (show_test_output) while (c--) putchar(' ');
-		zx_spectrum_tab = FALSE;
-		}
-
-	else switch (Z80_A(cpu))
+	if (!zx_spectrum_tab) switch (Z80_A(cpu))
 		{
 		case 0x0D: /* CR */
 		cr();
 		break;
 
 		case 0x17: /* TAB */
-		zx_spectrum_tab = TRUE;
+		zx_spectrum_tab = 2;
 		break;
 
 		case 0x7F: /* © */
@@ -325,6 +326,17 @@ static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 			if (show_test_output) putchar(Z80_A(cpu));
 			cursor_x++;
 			}
+
+		else zx_spectrum_bad_character = TRUE;
+		}
+
+	else if (--zx_spectrum_tab)
+		{
+		zuint c = Z80_A(cpu) & (32 - 1), x = cursor_x & (32 - 1);
+
+		if (c < x) cr();
+		else cursor_x += (c -= x);
+		if (show_test_output) while (c--) putchar(' ');
 		}
 
 	return OPCODE_RET;
@@ -597,10 +609,11 @@ static zuint8 run_test(int test_index)
 	lines			   =
 	columns			   =
 	cursor_x		   = 0;
-	zx_spectrum_tab		   =
+	zx_spectrum_tab		   = 0;
+	zx_spectrum_bad_character  =
 	completed		   = FALSE;
 
-	if (verbosity >= 3) printf("* Running program...%s", show_test_output ? "\n\n" : " ");
+	if (verbosity >= 3) printf("* Running program%s", show_test_output ? ":\n\n" : "... ");
 
 #	if Z_USIZE_BITS < 64
 		for (i = 0; i < test->cycles_expected[1];)
@@ -627,10 +640,12 @@ static zuint8 run_test(int test_index)
 
 	/*---------------------------------------------------------------------.
 	| The test is passed if it has reached its exit address at the correct |
-	| clock cycle and printed the correct number of lines and columns.     |
+	| clock cycle, has printed the correct number of lines and columns,    |
+	| and has not printed any unsupported control characters.	       |
 	'=====================================================================*/
 
 	passed = completed
+		&& !zx_spectrum_bad_character
 		&& lines   == test->lines_expected
 		&& columns == test->columns_expected
 		&& cycles  == test->cycles_expected[0]
@@ -648,7 +663,11 @@ static zuint8 run_test(int test_index)
 			if (!completed)
 				failure_reason = "clock cycle limit exceeded; program aborted";
 
-			else if (lines != test->lines_expected || columns != test->columns_expected)
+			else if (
+				zx_spectrum_bad_character	||
+				lines   != test->lines_expected ||
+				columns != test->columns_expected
+			)
 				failure_reason = "incorrect behavior detected";
 
 			else failure_reason = "incorrect number of clock cycles";
