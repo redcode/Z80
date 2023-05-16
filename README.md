@@ -863,7 +863,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 Copyright © 1999-2023 Manuel Sainz de Baranda y Goñi.
 
-<img src="https://zxe.io/software/Z80/images/lgplv3-147x51.png" width="147" align="right">
+<img src="https://zxe.io/software/Z80/images/lgplv3.svg" width="160" align="right">
 
 This library is [free software](https://www.gnu.org/philosophy/free-sw.html): you can redistribute it and/or modify it under the terms of the **[GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.html)** as published by the [Free Software Foundation](https://www.fsf.org), either version 3 of the License, or (at your option) any later version.
 
