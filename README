@@ -40,24 +40,23 @@ need for major changes.
 2.  Accuracy
 ============
 
-The Zilog Z80 emulator has a classic design with instruction-level granularity.
-This provides the best performance while still offering a reasonable flexibility
-to achieve precision down to the T-state level.
+This Z80 CPU emulator has a classic design with instruction-level granularity
+that delivers the best performance, whilst offering a reasonable flexibility to
+achieve precision down to the T-state level.
 
-Instruction-level granularity means that, except in a few well-defined cases,
+Instruction-level granularity implies that: except in a few well-defined cases,
 the execution of a given instruction cannot stop until all its internal M-cycles
-are processed. In addition, this type of emulation has been optimized for speed,
-which implies that the registers are modified only once per instruction and the
-T-state counter is normally updated only after a full instruction has been
-executed.
+are processed; instructions are not divided into micro-operations; registers are
+modified only once per instruction and the T-state counter is normally updated
+after a full instruction has been executed.
 
-That said, instructions, flags, memory accesses, interrupt and reset responses,
-clock cycles, etc., are accurately emulated as far as is known, according to the
-technical documentation available, the findings made after decades of research
-on the Z80 and electronic simulations. And, of course, the emulator passes the
-most exhaustive tests written to date such as Patrik Rak's "Zilog Z80 CPU Test
-Suite", Frank D. Cringle's "Z80 Instruction Set Exerciser", Mark Woodmass' "Z80
-Test Suite" and Peter Helcmanovsky's "Z80 Block Flags Test", to name a few.
+That said, instructions, flags, memory accesses, interrupts, clock cycles, etc.,
+are accurately emulated according to the technical documentation available, the
+findings made after decades of research on the Z80 and electronic simulations.
+And, of course, the emulator passes the most exhaustive tests written to date,
+such as Frank D. Cringle's "Z80 Instruction Set Exerciser", Mark Woodmass' "Z80
+Test Suite", Patrik Rak's "Zilog Z80 CPU Test Suite" and Peter Helcmanovsky's
+"Z80 Block Flags Test", to name a few.
 
 
 3.  Installation

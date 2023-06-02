@@ -26,11 +26,11 @@ The source code is written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C) for
 
 # Accuracy
 
-The Zilog Z80 emulator has a classic design with instruction-level granularity. This provides the best performance while still offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/Agaxia/Z80Plus).
+This Z80 CPU emulator has a classic design with instruction-level granularity that delivers the best performance, whilst offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/Agaxia/Z80Plus).
 
-Instruction-level granularity means that, except in a few well-defined cases, the execution of a given instruction cannot stop until all its internal M-cycles are processed. In addition, this type of emulation has been optimized for speed, which implies that the registers are modified only once per instruction and the [T-state counter](https://zxe.io/software/Z80/documentation/latest/APIReference.html#c.Z80.cycles) is normally updated only after a full instruction has been executed.
+Instruction-level granularity implies that: except in a few well-defined cases, the execution of a given instruction cannot stop until all its internal M-cycles are processed; instructions are not divided into micro-operations; registers are modified only once per instruction and the [T-state counter](https://zxe.io/software/Z80/documentation/latest/APIReference.html#c.Z80.cycles) is normally updated after a full instruction has been executed.
 
-That said, instructions, flags, memory accesses, interrupt and reset responses, clock cycles, etc., are accurately emulated as far as is known, according to the [technical documentation](https://github.com/redcode/Z80/wiki/Technical-literature) available, the findings made after decades of research on the Z80 and [electronic simulations](https://github.com/redcode/Z80/wiki/Simulators). And, of course, the emulator passes the most exhaustive [tests](https://github.com/redcode/Z80/wiki/Tests) written to date, including all three major test suites:
+That said, instructions, flags, memory accesses, interrupts, clock cycles, etc., are accurately emulated according to the [technical documentation](https://github.com/redcode/Z80/wiki/Technical-literature) available, the findings made after decades of research on the Z80 and [electronic simulations](https://github.com/redcode/Z80/wiki/Simulators). And, of course, the emulator passes the most exhaustive [tests](https://github.com/redcode/Z80/wiki/Tests) written to date, including all three major test suites:
 
 ### <span id="major_test_suites">[Zilog Z80 CPU Test Suite](https://github.com/raxoft/z80test), by [Patrik Rak](https://github.com/raxoft)</span>
 
@@ -41,7 +41,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 	<table>
 		<tr>
 			<td align="center" valign="top" align="center">
-				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
+				<a href="https://web.archive.org/web/20210401091605id_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80full.tap</b>
 				</a>
@@ -49,7 +49,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 				<sup>Tests all flags and registers.</sup>
 			</td>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
+				<a href="https://web.archive.org/web/20210401091605id_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80doc.tap</b>
 				</a>
@@ -67,7 +67,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
+				<a href="https://web.archive.org/web/20210401091605id_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80flags.tap</b>
 				</a>
@@ -75,7 +75,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 				<sup>Tests all flags, ignores registers.</sup>
 			</td>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
+				<a href="https://web.archive.org/web/20210401091605id_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80docflags.tap</b>
 				</a>
@@ -92,7 +92,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
+				<a href="https://web.archive.org/web/20210401091605id_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80ccf.tap</b>
 				</a>
@@ -100,7 +100,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 				<sup>Tests all flags after executing <code>ccf</code> after each instruction tested.</sup>
 			</td>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20210401091605if_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
+				<a href="https://web.archive.org/web/20210401091605id_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80memptr.tap</b>
 				</a>
@@ -123,7 +123,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 	<table>
 		<tr>
 			<td align="center" valign="top" align="center">
-				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80full.tap</b>
 				</a>
@@ -131,7 +131,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 				<sup>Tests all flags and registers.</sup>
 			</td>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80doc.tap</b>
 				</a>
@@ -149,7 +149,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80flags.tap</b>
 				</a>
@@ -157,7 +157,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 				<sup>Tests all flags, ignores registers.</sup>
 			</td>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80docflags.tap</b>
 				</a>
@@ -174,7 +174,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80ccf.tap</b>
 				</a>
@@ -182,7 +182,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 				<sup>Tests all flags after executing <code>ccf</code> after each instruction tested.</sup>
 			</td>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20221202204115if_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80memptr.tap</b>
 				</a>
@@ -210,7 +210,7 @@ This suite performs a series of tests to verify the MEMPTR documents <sup>_([Eng
 	<table>
 		<tr>
 			<td align="center" valign="top" colspan="2">
-				<a href="https://web.archive.org/web/20130511214919if_/http://homepage.ntlworld.com/mark.woodmass/z80tests.tap">
+				<a href="https://web.archive.org/web/20130511214919id_/http://homepage.ntlworld.com/mark.woodmass/z80tests.tap">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>z80tests.tap</b>
 				</a>
@@ -236,7 +236,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 	<table>
 		<tr>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20200806155334if_/http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexdoc.tap">
+				<a href="https://web.archive.org/web/20200806155334id_/http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexdoc.tap">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>zexdoc.tap</b>
 				</a>
@@ -245,7 +245,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 			</td>
 			</td>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20181216034526if_/http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexall.tap">
+				<a href="https://web.archive.org/web/20181216034526id_/http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexall.tap">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>zexall.tap</b>
 				</a>
@@ -268,7 +268,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 	<table>
 		<tr>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20120527195857if_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexfix.tap">
+				<a href="https://web.archive.org/web/20120527195857id_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexfix.tap">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>zexfix.tap</b>
 				</a>
@@ -277,7 +277,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 			</td>
 			</td>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20120527200327if_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexbit.tap">
+				<a href="https://web.archive.org/web/20120527200327id_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexbit.tap">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>zexbit.tap</b>
 				</a>
@@ -300,7 +300,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 	<table>
 		<tr>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20221202204406if_/http://zxds.raxoft.cz/taps/misc/zexall2.zip">
+				<a href="https://web.archive.org/web/20221202204406id_/http://zxds.raxoft.cz/taps/misc/zexall2.zip">
 					<img src="https://zxe.io/software/Z80/images/TAP.png" width="88"><br>
 					<b>zexall2.tap</b>
 				</a>
