@@ -820,11 +820,11 @@ static Z_INLINE zuint8 z80_out_cycle(Z80 const *self)
 	{
 	return self->data.uint8_array[0] == 0xD3
 		? /* out (BYTE),a : 4+3 */
-		7
+		(zuint8)7
 		: /* out (c),J / out (c),0 : 4+4 */
-		8
+		(zuint8)8
 		+ /* outi / outd / otir / otdr : 4+5+3 */
-		((self->data.uint8_array[1] >> 7) << 2);
+		(zuint8)((self->data.uint8_array[1] >> 7) << 2);
 	}
 
 
