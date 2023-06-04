@@ -253,6 +253,15 @@ static zuint8 const pf_parity_table[256] = {
 
 #define PF_PARITY(value) pf_parity_table[value]
 
+/*-----------------------------------------------------------------------------.
+| `PF_OVERFLOW` computes PF according to whether signed overflow occurs in the |
+| addition or subtraction of two integers. For additions, `rhs` must be passed |
+| ~inverted. For an explanation of the code, read:			       |
+|									       |
+| * https://stackoverflow.com/a/199668					       |
+| * http://www.cs.umd.edu/class/spring2003/cmsc311/Notes/Comb/overflow.html    |
+'=============================================================================*/
+
 #define PF_OVERFLOW(bits, result, lhs, rhs) \
 	(((zuint##bits)((lhs ^ rhs) & (lhs ^ result)) >> (bits - 3)) & PF)
 
@@ -2290,7 +2299,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			|									   |
 			| References:								   |
 			| 1. Zilog (1978-05). "Z80 Family Program Interrupt Structure, The",	   |
-			|    pp. 4, 5.								   |
+			|    pp. 4-5.								   |
 			| 2. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm	   |
 			| 3. Checked with "Visual Z80 Remix".					   |
 			| 4. https://spectrumcomputing.co.uk/forums/viewtopic.php?t=7086	   |
@@ -2618,7 +2627,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| whether it is even or odd.					       |
 					|								       |
 					| References:							       |
-					| 1. Zilog (2005-03). "Z80 CPU User Manual" revision 5, pp. 25, 26.    |
+					| 1. Zilog (2005-03). "Z80 CPU User Manual" revision 5, pp. 25-26.     |
 					| 2. Young, Sean (2005-09-18). "Undocumented Z80 Documented, The"      |
 					|    v0.91, p. 20.						       |
 					'=====================================================================*/
