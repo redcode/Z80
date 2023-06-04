@@ -786,9 +786,10 @@ static Z_INLINE zuint8 z80_r(Z80 const *self)
 
 static Z_INLINE zuint16 z80_refresh_address(Z80 const *self)
 	{
-	return	((zuint16)self->i << 8) |
+	return (zuint16)(
+		((zuint16)self->i << 8) |
 		((self->r - 1) & 127)   |
-		(self->r7 & 128);
+		(self->r7 & 128));
 	}
 
 
@@ -800,13 +801,13 @@ static Z_INLINE zuint16 z80_refresh_address(Z80 const *self)
 
 static Z_INLINE zuint8 z80_in_cycle(Z80 const *self)
 	{
-	return self->data.uint8_array[0] == 0xDB
+	return (zuint8)(self->data.uint8_array[0] == 0xDB
 		? /* in a,(BYTE) : 4+3 */
 		7
 		: /* in J,(c) / in (c) : 4+4 */
 		8
 		+ /* ini / ind / inir / indr : 4+5 */
-		(self->data.uint8_array[1] >> 7);
+		(self->data.uint8_array[1] >> 7));
 	}
 
 
@@ -818,13 +819,13 @@ static Z_INLINE zuint8 z80_in_cycle(Z80 const *self)
 
 static Z_INLINE zuint8 z80_out_cycle(Z80 const *self)
 	{
-	return self->data.uint8_array[0] == 0xD3
+	return (zuint8)(self->data.uint8_array[0] == 0xD3
 		? /* out (BYTE),a : 4+3 */
-		(zuint8)7
+		7
 		: /* out (c),J / out (c),0 : 4+4 */
-		(zuint8)8
+		8
 		+ /* outi / outd / otir / otdr : 4+5+3 */
-		(zuint8)((self->data.uint8_array[1] >> 7) << 2);
+		((self->data.uint8_array[1] >> 7) << 2));
 	}
 
 
