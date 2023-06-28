@@ -543,7 +543,7 @@ cmake --build . --config Release
 cmake --install . --config Release --strip
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/images/shell-script-icon.svg" height="14"></sub> build-and-install-Z80.sh](https://zxe.io/software/Z80/build-and-install-Z80.sh)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80/images/shell-script-icon.svg" height="14"></sub> build-and-install-Z80.sh](https://zxe.io/software/Z80/scripts/build-and-install-Z80.sh)**</sup>
 
 # Running the tests
 
@@ -593,7 +593,7 @@ cmake --build . --config Release
 ctest --verbose --build-config Release
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/images/shell-script-icon.svg" height="14"></sub> build-and-test-Z80.sh](https://zxe.io/software/Z80/build-and-test-Z80.sh) &nbsp;&nbsp; [<sub><img src="https://zxe.io/software/Z80/images/shell-script-icon.svg" height="14"></sub> build-and-test-Z80.bat](https://zxe.io/software/Z80/build-and-test-Z80.bat)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80/images/shell-script-icon.svg" height="14"></sub> build-and-test-Z80.sh](https://zxe.io/software/Z80/scripts/build-and-test-Z80.sh) &nbsp;&nbsp; [<sub><img src="https://zxe.io/software/Z80/images/shell-script-icon.svg" height="14"></sub> build-and-test-Z80.bat](https://zxe.io/software/Z80/scripts/build-and-test-Z80.bat)**</sup>
 
 # Integration
 
