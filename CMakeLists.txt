@@ -303,7 +303,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				string(STRIP "${_line}" _line)
 				string(SUBSTRING "${_line}" 0 128 _file_hash)
 				string(SUBSTRING "${_line}" 130 -1 _file_path)
-				get_filename_component(_file_full_name "${_file_path}" NAME)
+				get_filename_component(_file_name "${_file_path}" NAME)
 
 				set(_file_url "${location}/${_file_path}")
 				string(REPLACE " " "%20" _file_url "${_file_url}")
@@ -314,7 +314,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				string(REPLACE "[" "%5B" _file_url "${_file_url}")
 				string(REPLACE "]" "%5D" _file_url "${_file_url}")
 
-				message(STATUS "${_message_action} \"${_file_full_name}\"")
+				message(STATUS "${_message_action} \"${_file_name}\"")
 
 				file(	DOWNLOAD
 					"${_file_url}"
@@ -324,7 +324,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				if(	NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
 					(NOT ZLIB_FOUND OR NOT libzip_FOUND)
 				)
-					get_filename_component(_file_extension "${_file_full_name}" LAST_EXT)
+					get_filename_component(_file_extension "${_file_name}" LAST_EXT)
 
 					if(_file_extension STREQUAL ".gz" OR _file_extension STREQUAL ".zip")
 						get_filename_component(_subdirectory "${_file_path}" DIRECTORY)
