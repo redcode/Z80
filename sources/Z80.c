@@ -932,7 +932,7 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 | the CPU performs additional flag changes during this M-cycle and managed to  |
 | crack the behavior. All these instructions copy bits 13 and 11 of PCi to YF  |
 | and XF respectively [1.1], but the I/O instructions (i.e., `inir`, `indr`,   |
-| `otir` and `otdr`) also modify PF and HF in a very complicated way [1.2].    |
+| `otir` and `otdr`) also modify HF and PF in a very complicated way [1.2].    |
 | These 2 flags are not commented here because the explanation would not be    |
 | simpler than the code itself, so please refer to hoglet's paper [2] for more |
 | information on this topic.						       |
