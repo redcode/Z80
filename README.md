@@ -105,7 +105,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80memptr.tap</b>
 				</a>
 				<br>
-				<sup>Tests all flags after executing <code>bit n,(hl)</code> after each instruction tested.</sup>
+				<sup>Tests all flags after executing <code>bit N,(hl)</code> after each instruction tested.</sup>
 			</td>
 		</tr>
 		<tr>
@@ -187,7 +187,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80memptr.tap</b>
 				</a>
 				<br>
-				<sup>Tests all flags after executing <code>bit n,(hl)</code> after each instruction tested.</sup>
+				<sup>Tests all flags after executing <code>bit N,(hl)</code> after each instruction tested.</sup>
 			</td>
 		</tr>
 		<tr>
@@ -742,7 +742,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For cracking the behavior of the MEMPTR register. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Krook, Magnus**
 	* For validating tests on real hardware. <sup>[28](#r28)</sup>
-* **London, Matthew**
+* **London, Matthew (mattinx)**
 	* For validating tests on real hardware.
 * **Martínez Cantero, Ricardo (Kyp)**
 	* For validating tests on real hardware.
