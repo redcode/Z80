@@ -927,19 +927,18 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 
 
 /*-----------------------------------------------------------------------------.
-| Block instructions from any group produce an extra M-cycle of 5 T-states to  |
-| decrement PC if the loop condition is met. In 2018, David Banks (AKA hoglet) |
-| discovered that the CPU performs additional flag changes during this M-cycle |
-| and managed to crack the behaviors. All these instructions copy bits 13 and  |
-| 11 of PCi to YF and XF respectively [1.1], but the instructions in the I/O   |
-| group (i.e., `inir`, `indr`, `otir` and `otdr`) also modify HF and PF in a   |
-| very complicated way [1.2]. These two flags are not commented here because   |
-| the explanation would not be simpler than the code itself, so please refer   |
-| to hoglet's paper [2] for more information on this topic.		       |
+| Block instructions produce an extra M-cycle of 5 T-states to decrement PC if |
+| the loop condition is met. In 2018, David Banks (AKA hoglet) discovered that |
+| the CPU performs additional flag changes during this M-cycle and managed to  |
+| crack the behaviors. All these instructions copy bits 13 and 11 of PCi to YF |
+| and XF respectively [1.1], but `inir`, `indr`, `otir` and `otdr` also modify |
+| HF and PF in a very complicated way [1.2]. These two flags are not commented |
+| here because the explanation would not be simpler than the code itself, so   |
+| please refer to David Banks' paper [2] for more information on this topic.   |
 |									       |
-| The additional flag changes of the block instructions have been thoroughly   |
-| tested on real hardware thanks to Peter Helcmanovsky (AKA Ped7g), who wrote  |
-| a test covering all the cases that can be tested using a ZX Spectrum [3].    |
+| David Banks' discoveries have been corroborated thanks to Peter Helcmanovsky |
+| (AKA Ped7g), who wrote a test covering most of the cases that can be tested  |
+| with a ZX Spectrum [3].						       |
 |									       |
 | References:								       |
 | 1. https://stardot.org.uk/forums/viewtopic.php?t=15464		       |
