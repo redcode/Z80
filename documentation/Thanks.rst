@@ -143,7 +143,7 @@ Many thanks to the following individuals (in alphabetical order):
 
   * For validating tests on real hardware. |re| |fe| :ref:`28<r28>` |ren| |ces|
 
-* **London, Matthew**
+* **London, Matthew (mattinx)**
 
   * For validating tests on real hardware.
 

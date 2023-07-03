@@ -70,7 +70,7 @@ Many thanks to the following individuals (in alphabetical order):
     For cracking the behavior of the MEMPTR register [6,7,8,9].
 * Krook, Magnus
     For validating tests on real hardware [28].
-* London, Matthew
+* London, Matthew (mattinx)
     For validating tests on real hardware.
 * Martínez Cantero, Ricardo (Kyp)
     For validating tests on real hardware.
