@@ -28,7 +28,7 @@ When not specified as a component, the linking method is selected according to :
 As a CMake subproject
 =====================
 
-To embed the Z80 library as a CMake subproject, extract the source code packages of `Zeta <https://zeta.st/download>`__ and `Z80 <https://zxe.io/software/Z80/download>`_ (or clone their respective repositories) into a subdirectory of another project. Then use |add_subdirectory|_ in the parent project to add the Z80 source code tree to the build process (N.B., the Z80 subproject will automatically find Zeta and import it as an `interface library <https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#interface-libraries>`_).
+To embed the Z80 library as a CMake subproject, extract the source code tarballs of `Zeta <https://zeta.st/download>`_ and `Z80 <https://zxe.io/software/Z80/download>`_ (or clone their respective repositories) into a subdirectory of another project. Then use |add_subdirectory|_ in the parent project to add the Z80 source code tree to the build process (N.B., the Z80 subproject will automatically find Zeta and import it as an `interface library <https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#interface-libraries>`_).
 
 It is advisable to configure the Z80 library in the :file:`CMakeLists.txt` of the parent project. This will prevent the user from having to specify :ref:`configuration options for the Z80 subproject <cmake_package_options>` through the command line when building the main project.
 
@@ -45,30 +45,34 @@ Example:
 
 It is important to set the :option:`Z80_SHARED_LIBS<-DZ80_SHARED_LIBS>` option. Otherwise, CMake will build the library type indicated by |BUILD_SHARED_LIBS|_, which may not be the desired one.
 
-Integrating the source code
-===========================
+Non-CMake-based projects
+========================
 
-There are several macros that can be used to configure the source code of the library. You can define those you need in your build system or at the beginning of the :file:`Z80.c` file. The following ones allow you to configure the integration of :file:`Z80.h` and :file:`Z80.c` into the project:
+The source code of the emulator can be configured at compile time by predefining a series of macros. Both :file:`Z80.h` and :file:`Z80.c` obey the following:
 
 .. c:macro:: Z80_DEPENDENCIES_HEADER
 
-   Specifies the only external header to ``#include``, replacing those of `Zeta <https://github.com/redcode/Zeta>`__. This header must define the following:
+   Specifies the only external header to ``#include``, replacing all others.
+
+   Predefine this macro to provide a header file that defines the external types and macros used by the emulator, thus preventing your project from depending on `Zeta <https://zeta.st>`_:
 
    * Macros: ``Z_API_EXPORT``, ``Z_API_IMPORT``, ``Z_EMPTY``, ``Z_EXTERN_C_BEGIN``, ``Z_EXTERN_C_END``, ``Z_INLINE``, ``Z_MEMBER_OFFSET``, ``Z_NULL``, ``Z_UINT8_ROTATE_LEFT``, ``Z_UINT8_ROTATE_RIGHT``, ``Z_UINT16``, ``Z_UINT16_BIG_ENDIAN``, ``Z_UINT32``, ``Z_UINT32_BIG_ENDIAN``, ``Z_UNUSED`` and ``Z_USIZE``.
 
    * Types: ``zboolean``, ``zsint``, ``zsint8``, ``zuint``, ``zuint8``, ``zuint16``, ``zuint32``, ``zusize``, ``ZInt16`` and ``ZInt32``.
 
-   If you compile :file:`Z80.c` with this macro defined, you must also define it before including ``"Z80.h"`` or ``<Z80.h>``.
+   You can use this macro when compiling :file:`Z80.c` as a part of your project or (if your types do not break the binary compatibility) when including ``<Z80.h>`` and linking against a pre-built Z80 library.
 
 .. c:macro:: Z80_STATIC
 
-   Required to compile and/or use the emulator as a static library or as an internal part of another project. If you compile :file:`Z80.c` with this macro defined, you must also define it before including ``"Z80.h"`` or ``<Z80.h>``.
+   Restricts the visibility of public symbols.
+
+   This macro is required if you are building :file:`Z80.c` as a static library, compiling it directly as a part of your project, or linking your program against the static version of the Z80 library. In either of these cases, make sure this macro is defined before including ``"Z80.h"`` or ``<Z80.h>``.
 
 .. c:macro:: Z80_WITH_LOCAL_HEADER
 
    Tells :file:`Z80.c` to ``#include "Z80.h"`` instead of ``<Z80.h>``.
 
-:ref:`The second group of package-specific options <cmake_source_code_options>`, explained in the :doc:`Installation` section of this document, activates various :ref:`optional features <Introduction:Optional features>` in the source code by predefining the following macros:
+The :ref:`optional features <Introduction:Optional features>` of the emulator mentioned in the :doc:`Installation` section are disabled by default. If you compile :file:`Z80.c` as a part of your project, enable those features you need by predefining their respective activation macros. They have the same name as their :ref:`CMake equivalents <cmake_source_code_options>`:
 
 .. c:macro:: Z80_WITH_EXECUTE
 
@@ -98,4 +102,4 @@ There are several macros that can be used to configure the source code of the li
 
    Enables the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the ``ld a,{i|r}`` instructions.
 
-Except for :c:macro:`Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as any value; the source code only checks whether they are defined.
+Except for :c:macro:`Z80_DEPENDENCIES_HEADER`, the above macros can be empty; the source code only checks whether they are defined.

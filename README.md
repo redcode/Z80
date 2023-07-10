@@ -629,20 +629,22 @@ target_link_libraries(your-target Z80)
 
 It is important to set the [`Z80_SHARED_LIBS`](#option_Z80_SHARED_LIBS) option. Otherwise, CMake will build the library type indicated by [`BUILD_SHARED_LIBS`](https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html), which may not be the desired one.
 
-### Integrating the source code
+### Non-CMake-based projects
 
-There are several macros that can be used to configure the source code of the library. You can define those you need in your build system or at the beginning of the `Z80.c` file. The following ones allow you to configure the integration of `Z80.h` and `Z80.c` into the project:
+The source code of the emulator can be configured at compile time by predefining a series of macros. Both [`Z80.h`](API/Z80.h) and [`Z80.c`](sources/Z80.c) obey the following:
 
-* **`#define Z80_DEPENDENCIES_HEADER "header name.h"`**  
-	Specifies the only external header to `#include`, replacing those of Zeta. If you compile `Z80.c` with this macro defined, you must also define it before including `"Z80.h"` or `<Z80.h>`.
+* <span id="macro_Z80_DEPENDENCIES_HEADER">**`#define Z80_DEPENDENCIES_HEADER "header-name.h"`**</span>  
+	Specifies the only external header to `#include`, replacing all others.  
+	Predefine this macro to provide a header file that defines the external types and macros used by the emulator, thus preventing your project from depending on Zeta. You can use this when compiling `Z80.c` as a part of your project or (if your types do not break the binary compatibility) when including `<Z80.h>` and linking against a pre-built Z80 library.
 
-* **`#define Z80_STATIC`**  
-	Required to compile and/or use the emulator as a static library or as an internal part of another project. If you compile `Z80.c` with this macro defined, you must also define it before including `"Z80.h"` or `<Z80.h>`.
+* <span id="macro_Z80_STATIC">**`#define Z80_STATIC`**</span>  
+	Restricts the visibility of public symbols.  
+	This macro is required if you are building `Z80.c` as a static library, compiling it directly as a part of your project, or linking your program against the static version of the Z80 library. In either of these cases, make sure this macro is defined before including `"Z80.h"` or `<Z80.h>`.
 
-* **`#define Z80_WITH_LOCAL_HEADER`**  
+* <span id="macro_Z80_WITH_LOCAL_HEADER">**`#define Z80_WITH_LOCAL_HEADER`**</span>  
 	Tells `Z80.c` to `#include "Z80.h"` instead of `<Z80.h>`.
 
-[The second group of package-specific options](#cmake_source_code_options), explained in the _[Installation from sources](#installation-from-sources)_ section of this document, activates various optional features in the source code by predefining the following macros:
+The optional features of the emulator mentioned in _[Installation from sources](#installation-from-sources)_ are disabled by default. If you compile `Z80.c` as a part of your project, enable those features you need by predefining their respective activation macros. They have the same name as their [CMake equivalents](#cmake_source_code_options):
 
 * **<code>#define [Z80_WITH_EXECUTE](#option_Z80_WITH_EXECUTE)</code>**
 * **<code>#define [Z80_WITH_FULL_IM0](#option_Z80_WITH_FULL_IM0)</code>**
@@ -652,7 +654,7 @@ There are several macros that can be used to configure the source code of the li
 * **<code>#define [Z80_WITH_UNOFFICIAL_RETI](#option_Z80_WITH_UNOFFICIAL_RETI)</code>**
 * **<code>#define [Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG](#option_Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG)</code>**
 
-Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined as any value; the source code only checks whether they are defined.
+Except for [`Z80_DEPENDENCIES_HEADER`](#macro_Z80_DEPENDENCIES_HEADER), the above macros can be empty; the source code only checks whether they are defined.
 
 > **Note**: The activation of some of the optional features affects the speed of the emulator due to various factors (read the [documentation](https://zxe.io/software/Z80/documentation/latest/Introduction.html#optional-features) for more details).
 

@@ -275,30 +275,33 @@ It is important to set the `Z80_SHARED_LIBS` option. Otherwise, CMake will build
 the library type indicated by `BUILD_SHARED_LIBS`, which may not be the desired
 one.
 
-4.3.  Integrating the source code
+4.3.  Non-CMake-based projects
 
-There are several macros that can be used to configure the source code of the
-library. You can define those you need in your build system or at the beginning
-of the Z80.c file. The following ones allow you to configure the integration of
-Z80.h and Z80.c into the project:
+The source code of the emulator can be configured at compile time by predefining
+a series of macros. Both Z80.h and Z80.c obey the following:
 
-    #define Z80_DEPENDENCIES_HEADER "header name.h"
-        Specifies the only external header to `#include`, replacing those of
-        Zeta. If you compile Z80.c with this macro defined, you must also define
-        it before including `"Z80.h"` or `<Z80.h>`.
+    #define Z80_DEPENDENCIES_HEADER "header-name.h"
+        Specifies the only external header to `#include`, replacing all others.
+        Predefine this macro to provide a header file that defines the external
+        types and macros used by the emulator, thus preventing your project from
+        depending on Zeta. You can use this when compiling Z80.c as a part of
+        your project or (if your types do not break the binary compatibility)
+        when including `<Z80.h>` and linking against a pre-built Z80 library.
 
     #define Z80_STATIC
-        Required to compile and/or use the emulator as a static library or as an
-        internal part of another project. If you compile Z80.c with this macro
-        defined, you must also define it before including `"Z80.h"` or
-        `<Z80.h>`.
+        Restricts the visibility of public symbols.
+        This macro is required if you are building Z80.c as a static library,
+        compiling it directly as a part of your project, or linking your program
+        against the static version of the Z80 library. In either of these cases,
+        make sure this macro is defined before including `"Z80.h"` or `<Z80.h>`.
 
     #define Z80_WITH_LOCAL_HEADER
         Tells Z80.c to `#include "Z80.h"` instead of `<Z80.h>`.
 
-The second group of package-specific options, explained in section 3 of this
-document, activates various optional features in the source code by predefining
-the following macros:
+The optional features of the emulator mentioned in section 3 of this document
+are disabled by default. If you compile Z80.c as a part of your project, enable
+those features you need by predefining their respective activation macros. They
+have the same name as their CMake equivalents:
 
     #define Z80_WITH_EXECUTE
     #define Z80_WITH_FULL_IM0
@@ -308,8 +311,8 @@ the following macros:
     #define Z80_WITH_UNOFFICIAL_RETI
     #define Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 
-Except for `Z80_DEPENDENCIES_HEADER`, the above macros do not need to be defined
-as any value; the source code only checks whether they are defined.
+Except for `Z80_DEPENDENCIES_HEADER`, the above macros can be empty; the source
+code only checks whether they are defined.
 
 Please note that the activation of some of the optional features affects the
 speed of the emulator due to various factors (read the documentation for more
@@ -332,4 +335,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2023-05-10                                               README EOF
+Last update: 2023-07-11                                               README EOF
