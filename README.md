@@ -635,7 +635,7 @@ The source code of the emulator can be configured at compile time by predefining
 
 * <span id="macro_Z80_DEPENDENCIES_HEADER">**`#define Z80_DEPENDENCIES_HEADER "header-name.h"`**</span>  
 	Specifies the only external header to `#include`, replacing all others.  
-	Predefine this macro to provide a header file that defines the external types and macros used by the emulator, thus preventing your project from depending on Zeta. You can use this when compiling `Z80.c` as a part of your project or (if your types do not break the binary compatibility) when including `<Z80.h>` and linking against a pre-built Z80 library.
+	Predefine this macro to provide a header file that defines the external types and macros used by the emulator, thus preventing your project from depending on [Zeta](https://zeta.st). You can use this when compiling `Z80.c` as a part of your project or (if your types do not break the binary compatibility) when including `<Z80.h>` and linking against a pre-built Z80 library.
 
 * <span id="macro_Z80_STATIC">**`#define Z80_STATIC`**</span>  
 	Restricts the visibility of public symbols.  
