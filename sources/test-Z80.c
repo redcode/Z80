@@ -107,7 +107,7 @@ static Test const tests[22] = {
 	{Z_NULL, "Z80 Documented Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",		C(A, E4E22836) /* 46,789,699,638 */,  8716,  91,  8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
 	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexall.com",				C(A, E19F287A) /* 46,734,977,146 */,  8704,   0,  8704, 0x0100, 0,	TEST_FORMAT_CPM,       68, 34},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2009)(Bobrowski, Jan)[!].tap",				C(A, E4E1B837) /* 46,789,670,967 */,  8656, 108,  8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 31},
-	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2011)(Bobrowski, Jan)(Narrowed to BIT Instructions)[!].tap",	C(0, 4F67AEDF) /*  1,332,195,039 */,  8656, 108,  8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,    4, 31},
+	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2011)(Bobrowski, Jan)(Narrowed to BIT Instructions)[!].tap", C(0, 4F67AEDF) /*  1,332,195,039 */,  8656, 108,  8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,    4, 31},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2017-0x)(Harston, Jonathan Graham)[!].tap",			C(A, E4E20746) /* 46,789,691,206 */,  8704,  91,  8612, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
 	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",			C(A, E4E22836) /* 46,789,699,638 */,  8716,  91,  8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
 	{"Z80 Instruction Set Exerciser for Spectrum 2 v0.1 (2012-11-27)(Rak, Patrik)[!].zip", "zexall2-0.1/zexall2.tap",	C(C, 18A43876) /* 51,953,023,094 */,  9316,  87,  9228, 0x8000, 0x8040, TEST_FORMAT_HARSTON,   76, 31},
@@ -827,15 +827,19 @@ int main(int argc, char **argv)
 		else if (is_option(argv[i], "-m", "--model"))
 			{
 			if (++i == argc) goto incomplete_option;
-			for (j = 0; j < 4; j++) if (!strcmp(argv[i], cpu_models[j].key)) break;
+
+			for (j = 0; j < Z_ARRAY_SIZE(cpu_models); j++)
+				if (!strcmp(argv[i], cpu_models[j].key))
+					{
+					cpu.options = cpu_models[j].options;
+					break;
+					}
 
 			if (j == 4)
 				{
 				invalid = "CPU model";
 				goto invalid_argument;
 				}
-
-			cpu.options = cpu_models[j].options;
 			}
 
 		else if (is_option(argv[i], "-p", "--path"))
