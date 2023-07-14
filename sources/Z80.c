@@ -668,7 +668,7 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 /* MARK: - Function Shortcuts and Reusable Code */
 
 #define INSN(name)	     static zuint8 name(Z80 *self)
-#define N(index)	     ((DATA[index] >> 3) & 7)
+#define N(offset)	     ((DATA[offset] >> 3) & 7)
 #define Z(mask)		     zzz(self, mask)
 #define U0(value)	     uuu(self, 0, value)
 #define U1(value)	     uuu(self, 1, value)
