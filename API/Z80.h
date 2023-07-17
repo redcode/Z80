@@ -530,7 +530,7 @@ typedef struct {
 /** @brief Value of the @p state parameter of <tt>@ref Z80::halt</tt> when the
   * HALT line goes high due to a special RESET signal. */
 
-#define Z80_HALT_EARLY_EXIT 2
+#define Z80_HALT_EXIT_EARLY 2
 
 /** @brief Value of the @p state paratemer of <tt>@ref Z80::halt</tt> when the
   * HALT line goes low and then high due to a special RESET signal during the

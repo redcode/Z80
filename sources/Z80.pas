@@ -3,7 +3,7 @@
  ____ \/__/  /\_\  __ \\ \/\ \ ______________________________________
 |        /\_____\\_____\\_____\                                      |
 |  Zilog \/_____//_____//_____/ CPU Emulator - Pascal Binding        |
-|  Copyright (C) 2022 Zoran Vučenović.                               |
+|  Copyright (C) 2022-2023 Zoran Vučenović.                          |
 |                                                                    |
 |  Permission to use, copy, modify, and/or distribute this software  |
 |  for any purpose with or without fee is hereby granted.            |
@@ -148,7 +148,9 @@ const
 	Z80_RESUME_XY       = 2;
 	Z80_RESUME_IM0_XY   = 3;
 
-	Z80_HALT_EARLY_EXIT = 2;
+	Z80_HALT_EXIT       = 0;
+	Z80_HALT_ENTER      = 1;
+	Z80_HALT_EXIT_EARLY = 2;
 	Z80_HALT_CANCEL     = 3;
 
 var

@@ -122,7 +122,7 @@ Sometimes the emulator runs out of clock cycles while performing long tasks that
 HALT state codes
 ----------------
 
-.. doxygendefine:: Z80_HALT_EARLY_EXIT
+.. doxygendefine:: Z80_HALT_EXIT_EARLY
 .. doxygendefine:: Z80_HALT_CANCEL
 
 Register accessors

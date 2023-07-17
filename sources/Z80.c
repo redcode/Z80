@@ -1388,7 +1388,7 @@ INSN(halt)
 						HALT_LINE = FALSE;
 
 						if (self->halt != Z_NULL)
-							self->halt(CONTEXT, Z80_HALT_EARLY_EXIT);
+							self->halt(CONTEXT, Z80_HALT_EXIT_EARLY);
 
 						if ((DATA[0] = opcode) != 0x76)
 							{
@@ -2234,7 +2234,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					HALT_LINE = FALSE;
 
 					if (self->halt != Z_NULL)
-						self->halt(CONTEXT, Z80_HALT_EARLY_EXIT);
+						self->halt(CONTEXT, Z80_HALT_EXIT_EARLY);
 
 					if (IS_XY_PREFIX(DATA[0] = opcode = DATA[2]))
 						self->cycles += insn_table[FETCH_OPCODE(PC)](self);
