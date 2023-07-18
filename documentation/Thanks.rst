@@ -91,6 +91,10 @@ Many thanks to the following individuals (in alphabetical order):
 
   * For his research on undocumented behaviors of the Z80 CPU. |re| |fe| :ref:`16<r16>` |ren| |ces|
 
+* **Dunn, Paul (ZXDunny)**
+
+  * For his corrections to the documentation.
+
 * **Equinox**
 
   * For his corrections to the documentation.
