@@ -27,12 +27,12 @@
   * @brief Zilog Z80 CPU emulator.
   *
   * @details The Z80 library implements a fast, small and accurate emulator
-  * of the Zilog Z80. It emulates all that is known to date about this CPU,
+  * of the Zilog Z80 that emulates all that is known to date about this CPU,
   * including the undocumented behaviors, MEMPTR, Q and the special RESET.
   *
   * @version 0.2
-  * @date 2023-01
-  * @author Manuel Sainz de Baranda y Goñi. */
+  * @date 2023-07-xx
+  * @author Manuel Sainz de Baranda y Goñi */
 
 #ifdef Z80_DEPENDENCIES_HEADER
 #	define  Z80_H
@@ -72,12 +72,24 @@
 
 #define Z80_MAXIMUM_CYCLES (Z_USIZE_MAXIMUM - Z_USIZE(30))
 
-/** @brief Maximum number of clock cycles that <tt>@ref z80_run</tt> emulates
-  * when instructed to execute 1 clock cycle. */
+/** @brief Maximum number of clock cycles that <tt>@ref z80_run</tt> will
+  * emulate if instructed to execute 1 clock cycle.
+  *
+  * This is the number of clock cycles consumed by the longest instruction, not
+  * counting opcode fetch M-cycles of @c 0xDD or @c 0xFD prefixes, plus the 2
+  * wait clock cycles that the CPU automatically adds to the maskable interrupt
+  * acknowledge M-cycle. For <tt>@ref z80_execute</tt>, this value is
+  * 2 clock cycles less. */
 
 #define Z80_MAXIMUM_CYCLES_PER_STEP 23
 
-/** @brief Opcode interpreted as a hook by the Z80 library. It corresponds to
+/** @brief Minimum number of clock cycles that <tt>@ref z80_run</tt> or
+  * <tt>@ref z80_execute</tt> will emulate if instructed to execute 1 clock
+  * cycle. */
+
+#define Z80_MINIMUM_CYCLES_PER_STEP 4
+
+/** @brief Opcode interpreted as a trap by the Z80 library. It corresponds to
   * the <tt>ld h,h</tt> instruction of the Z80 ISA. */
 
 #define Z80_HOOK 0x64
@@ -94,8 +106,7 @@
 /** @brief Defines a pointer to a <tt>@ref Z80</tt> callback function invoked to
   * perform a read operation.
   *
-  * @param context The value of the <tt>@ref Z80::context</tt> member of the
-  * calling object.
+  * @param context The <tt>@ref Z80::context</tt> of the calling object.
   * @param address The memory address or I/O port to read from.
   * @return The byte read. */
 
@@ -104,39 +115,31 @@ typedef zuint8 (* Z80Read)(void *context, zuint16 address);
 /** @brief Defines a pointer to a <tt>@ref Z80</tt> callback function invoked to
   * perform a write operation.
   *
-  * @param context The value of the <tt>@ref Z80::context</tt> member of the
-  * calling object.
+  * @param context The <tt>@ref Z80::context</tt> of the calling object.
   * @param address The memory address or I/O port to write to.
   * @param value The byte to write. */
 
 typedef void (* Z80Write)(void *context, zuint16 address, zuint8 value);
 
 /** @brief Defines a pointer to a <tt>@ref Z80</tt> callback function invoked to
-  * notify signal changes on the HALT line.
+  * notify a signal change on the HALT line.
   *
-  * @param context The value of the <tt>@ref Z80::context</tt> member of the
-  * calling object.
-  * @param state @c TRUE if the HALT line goes low (the CPU enters the HALT
-  * state); @c FALSE if the HALT line goes high (the CPU exits the HALT state).
-  * If the library has been built with special RESET support, the values
-  * <tt>@ref Z80_HALT_CANCEL</tt> and <tt>@ref Z80_HALT_EARLY_EXIT</tt> are also
-  * possible. */
+  * @param context The <tt>@ref Z80::context</tt> of the calling object.
+  * @param signal A code specifying the type of signal change. */
 
-typedef void (* Z80Halt)(void *context, zuint8 state);
+typedef void (* Z80Halt)(void *context, zuint8 signal);
 
 /** @brief Defines a pointer to a <tt>@ref Z80</tt> callback function invoked to
   * notify an event.
   *
-  * @param context The value of the <tt>@ref Z80::context</tt> member of the
-  * calling object. */
+  * @param context The <tt>@ref Z80::context</tt> of the calling object. */
 
 typedef void (* Z80Notify)(void *context);
 
 /** @brief Defines a pointer to a <tt>@ref Z80</tt> callback function invoked to
   * delegate the emulation of an illegal instruction.
   *
-  * @param context The value of the <tt>@ref Z80::context</tt> member of the
-  * calling object.
+  * @param context The <tt>@ref Z80::context</tt> of the calling object.
   * @param opcode The illegal opcode.
   * @return The number of clock cycles consumed by the instruction. */
 
@@ -146,8 +149,14 @@ typedef zuint8 (* Z80Illegal)(void *context, zuint8 opcode);
   *
   * @brief A Z80 CPU emulator.
   *
-  * @details @c Z80 contains the state of an emulated Z80 CPU and the callback
-  * pointers needed to interconnect it with the external logic. */
+  * A @c Z80 object contains the state of an emulated Z80 CPU, pointers to
+  * callback functions that interconnect the emulator with the external logic
+  * and a context that is passed to these functions.
+  *
+  * Because no constructor function is provided, it is mandatory to directly
+  * initialize all callback pointers and <tt>@ref Z80::options</tt> before using
+  * an object of this type. Optional callbacks must be set to @c Z_NULL when not
+  * in use. */
 
 typedef struct {
 
@@ -218,58 +227,71 @@ typedef struct {
 
 	Z80Write out;
 
-	/** @brief Invoked to notify signal changes on the HALT line.
+	/** @brief Invoked to notify a signal change on the HALT line.
 	  *
-	  * This callback indicates that the CPU is entering or exiting the HALT
-	  * state. It is invoked after updating the value of <tt>@ref
-	  * Z80::halt_line</tt>, which is passed as the second parameter to the
-	  * function.
+	  * This callback is optional and must be set to @c Z_NULL when not in
+	  * use. Its invocation is always deferred until the next emulation step
+	  * so that the emulator can abort the signal change if any invalidating
+	  * condition occurs, such as the acceptance of an interrupt during the
+	  * execution of a @c halt instruction.
 	  *
-	  * When exiting the HALT state, this callback is invoked before
-	  * <tt>@ref Z80::nmia</tt> or <tt>@ref Z80::inta</tt>. */
+	  * The second parameter of the function specifies the type of signal
+	  * change and can only contain a boolean value if the Z80 library has
+	  * not been built with special RESET support:
+	  *
+	  * - @c TRUE indicates that the HALT line is going low during the last
+	  *   clock cycle of a @c halt instruction, which means that the CPU is
+	  *   entering the HALT state.
+	  *
+	  * - @c FALSE indicates that the HALT line is going high during the
+	  *   last clock cycle of an internal NOP executed during the HALT
+	  *   state, i.e., the CPU is exiting the HALT state due to an interrupt
+	  *   or normal RESET.
+	  *
+	  * If the library has been built with special RESET support, the values
+	  * <tt>@ref Z80_HALT_EXIT_EARLY</tt> and <tt>@ref Z80_HALT_CANCEL</tt>
+	  * are also possible. */
 
 	Z80Halt halt;
 
 	/** @brief Invoked to perform an opcode fetch that corresponds to an
 	  * internal NOP.
 	  *
-	  * This callback indicates the beginning of an opcode fetch M-cycle
-	  * of 4 clock cycles that is generated in the following cases:
+	  * This callback indicates the beginning of an opcode fetch M-cycle of
+	  * 4 clock cycles that is generated in the following two cases:
 	  *
 	  * - During the HALT state, the CPU repeatedly executes an internal NOP
-	  *   that fetches the next opcode after @c halt without incrementing
-	  *   the PC register. This opcode is read again and again until an exit
-	  *   condition occurs (i.e., NMI, INT or RESET). In this case, the
-	  *   opcode is ignored unless a special RESET signal is received, as
-	  *   this causes the CPU to exit the HALT state immediately and execute
-	  *   the full instruction with no delay.
+	  *   that fetches the next opcode after the @c halt instruction without
+	  *   incrementing the PC register. This opcode is read again and again
+	  *   until an exit condition occurs (i.e., NMI, INT or RESET).
 	  *
 	  * - After detecting a special RESET signal, the CPU completes the
-	  *   ongoing instruction or interrupt response and then zeroes PC
-	  *   during the the next M1 cycle. If no interrupt has been accepted at
-	  *   the end of the instruction or interrupt response, the CPU produces
-	  *   an internal NOP to allow for the fetch-execute overlap to take
-	  *   place, during which it fetches the next opcode and zeroes PC.
+	  *   ongoing instruction or interrupt response and then zeroes the PC
+	  *   register during the first clock cycle of the next M1 cycle. If no
+	  *   interrupt has been accepted at the end of the instruction or
+	  *   interrupt response, the CPU produces an internal NOP to allow for
+	  *   the fetch-execute overlap to take place, during which it fetches
+	  *   the next opcode and zeroes PC.
 	  *
-	  * This callback is optional. Setting it to @c Z_NULL is equivalent to
-	  * setting the <tt>@ref Z80_OPTION_HALT_SKIP</tt> option. */
+	  * This callback is optional but note that setting it to @c Z_NULL is
+	  * equivalent to enabling <tt>@ref Z80_OPTION_HALT_SKIP</tt>. */
 
 	Z80Read nop;
 
 	/** @brief Invoked to perform an opcode fetch that corresponds to a
 	  * non-maskable interrupt acknowledge M-cycle.
 	  *
-	  * This callback is optional and must be set to @c Z_NULL when not
-	  * used. It indicates the beginning of an NMI acknowledge M-cycle.
-	  * The value returned by the function is ignored. */
+	  * This callback is optional and must be set to @c Z_NULL when not in
+	  * use. It indicates the beginning of an NMI acknowledge M-cycle. The
+	  * value returned by the function is ignored. */
 
 	Z80Read nmia;
 
 	/** @brief Invoked to perform a data bus read that corresponds to a
 	  * maskable interrupt acknowledge M-cycle.
 	  *
-	  * This callback is optional and must be set to @c Z_NULL when not
-	  * used. It indicates the beginning of an INT acknowledge M-cycle. The
+	  * This callback is optional and must be set to @c Z_NULL when not in
+	  * use. It indicates the beginning of an INT acknowledge M-cycle. The
 	  * function must return the byte that the interrupting I/O device
 	  * supplies to the CPU via the data bus during this M-cycle.
 	  *
@@ -285,65 +307,85 @@ typedef struct {
 	  * <tt>@ref Z80::fetch</tt> but it is specific to the INT response in
 	  * mode 0. Ideally, the function should return a byte of instruction
 	  * data that the interrupting I/O device supplies to the CPU via the
-	  * data bus, but depending on the emulated hardware, the device may
-	  * not be able to do this during a memory read M-cycle because the
-	  * memory is addressed instead, in which case the function must return
-	  * the byte located at the memory address specified by the second
+	  * data bus, but depending on the emulated hardware, the device may not
+	  * be able to do this during a memory read M-cycle because the memory
+	  * is addressed instead, in which case the function must return the
+	  * byte located at the memory address specified by the second
 	  * parameter.
 	  *
-	  * This callback is only used when <tt>@ref Z80::inta</tt> is not @c
-	  * Z_NULL and returns an opcode that implies subsequent memory read
-	  * M-cycles to fetch the non-opcode bytes of the instruction, thus
-	  * it is safe not to initialize it or set it to @c Z_NULL if such a
-	  * scenario is not possible. */
+	  * This callback will only be invoked if <tt>@ref Z80::inta</tt> is not
+	  * @c Z_NULL and returns an opcode that implies subsequent memory read
+	  * M-cycles to fetch the non-opcode bytes of the instruction, so it is
+	  * safe not to initialize it or set it to @c Z_NULL if such a scenario
+	  * is not possible. */
 
 	Z80Read int_fetch;
 
-	/** @brief Invoked when an <tt>ld i,a</tt> instruction is fetched.
+	/** @brief Invoked to notify that an <tt>ld i,a</tt> instruction has
+	  * been fetched.
 	  *
-	  * This callback is optional and must be set to @c Z_NULL when not
-	  * used. It is invoked before the instruction copies the A register
-	  * into the I register. */
+	  * This callback is optional and must be set to @c Z_NULL when not in
+	  * use. It is invoked before the instruction copies the A register into
+	  * the I register. */
 
 	Z80Notify ld_i_a;
 
-	/** @brief Invoked when an <tt>ld r,a</tt> instruction is fetched.
+	/** @brief Invoked to notify that an <tt>ld r,a</tt> instruction has
+	  * been fetched.
 	  *
-	  * This callback is optional and must be set to @c Z_NULL when not
-	  * used. It is invoked before the instruction copies the A register
-	  * into the R register. */
+	  * This callback is optional and must be set to @c Z_NULL when not in
+	  * use. It is invoked before the instruction copies the A register into
+	  * the R register. */
 
 	Z80Notify ld_r_a;
 
-	/** @brief Invoked when a @c reti instruction is fetched.
+	/** @brief Invoked to notify that a @c reti instruction has been
+	  * fetched.
 	  *
-	  * This callback is optional and must be set to @c Z_NULL when not
-	  * used. It is invoked before executing the instruction. */
+	  * This callback is optional and must be set to @c Z_NULL when not in
+	  * use. It is invoked before executing the instruction. */
 
 	Z80Notify reti;
 
-	/** @brief Callback invoked when a @c retn instruction is fetched.
+	/** @brief Invoked to notify that a @c retn instruction has been
+	  * fetched.
 	  *
-	  * This callback is optional and must be set to @c Z_NULL when not
-	  * used. It is invoked before executing the instruction. */
+	  * This callback is optional and must be set to @c Z_NULL when not in
+	  * use. It is invoked before executing the instruction. */
 
 	Z80Notify retn;
 
-	/** @brief Invoked when a trap is fecthed.
+	/** @brief Invoked when a trap is fetched.
 	  *
-	  * This callback is optional and must be set to @c Z_NULL when not
-	  * used. */
+	  * This callback is optional and must be set to @c Z_NULL when not in
+	  * use, in which case the opcode of the trap will be executed normally.
+	  * The function receives the memory address of the trap as the second
+	  * parameter and must return the opcode to be executed instead of the
+	  * trap. If the function returns a trap (i.e., <tt>@ref Z80_HOOK</tt>),
+	  * the emulator will do nothing, so the trap will be fetched again
+	  * unless the function has modified the PC register or replaced the
+	  * trap in memory with another opcode. Also note that returning a trap
+	  * does not revert the increment of the R register performed before
+	  * each opcode fetch. */
 
 	Z80Read hook;
 
-	/** @brief Invoked to delegate the emulation of an illegal opcode.
+	/** @brief Invoked to delegate the execution of an illegal instruction.
 	  *
-	  * @attention This callback is optional and must be set to @c Z_NULL
-	  * when not used. */
+	  * This callback is optional and must be set to @c Z_NULL when not in
+	  * use. Only those instructions with @c 0xED prefix that behave as a
+	  * double @c nop of 8 clock cycles are considered illegal. The function
+	  * receives the illegal opcode as the second argument and must take
+	  * care of invoking the corresponding callbacks according to the type
+	  * of M-cycles produced by the instruction. Finally, it must return the
+	  * total number of clock cycles consumed by the instruction. At the
+	  * time of invoking the callback, the PC register contains the memory
+	  * address of the prefix and R has been incremented twice since the
+	  * start of the instruction. */
 
 	Z80Illegal illegal;
 
-	/** @brief Temporary storage used for instruction fetch. */
+	/** @brief Temporary storage used for instruction fetch. */ /* TODO */
 
 	ZInt32 data;
 
@@ -365,24 +407,24 @@ typedef struct {
 
 	ZInt16 xy;
 
-	ZInt16 memptr; /**< @brief MEMPTR register. */
-	ZInt16 af;     /**< @brief AF register.     */
-	ZInt16 bc;     /**< @brief BC register.     */
-	ZInt16 de;     /**< @brief DE register.     */
-	ZInt16 hl;     /**< @brief HL register.     */
-	ZInt16 af_;    /**< @brief AF' register.    */
-	ZInt16 bc_;    /**< @brief BC' register.    */
-	ZInt16 de_;    /**< @brief DE' register.    */
-	ZInt16 hl_;    /**< @brief HL' register.    */
-	zuint8 r;      /**< @brief R register.      */
-	zuint8 i;      /**< @brief I register.      */
+	ZInt16 memptr; /**< @brief MEMPTR register, also known as WZ. */
+	ZInt16 af;     /**< @brief AF register.  */
+	ZInt16 bc;     /**< @brief BC register.  */
+	ZInt16 de;     /**< @brief DE register.  */
+	ZInt16 hl;     /**< @brief HL register.  */
+	ZInt16 af_;    /**< @brief AF' register. */
+	ZInt16 bc_;    /**< @brief BC' register. */
+	ZInt16 de_;    /**< @brief DE' register. */
+	ZInt16 hl_;    /**< @brief HL' register. */
+	zuint8 r;      /**< @brief R register.   */
+	zuint8 i;      /**< @brief I register.   */
 
 	/** @brief The most significant bit of the R register.
 	  *
 	  * The Z80 CPU increments the R register during each M1 cycle without
 	  * altering its most significant bit, commonly known as R7. However,
-	  * the Z80 library performs normal increments for speed reasons, which
-	  * eventually corrupts R7.
+	  * the Z80 library only performs normal increments for speed reasons,
+	  * which eventually corrupts R7.
 	  *
 	  * Before entering the execution loop, <tt>@ref z80_execute</tt> and
 	  * <tt>@ref z80_run</tt> copy <tt>@ref Z80::r</tt> into this member to
@@ -415,7 +457,7 @@ typedef struct {
 	  *
 	  * This member specifies the different emulation options that are
 	  * enabled. It is mandatory to initialize it before using the emulator.
-	  * Setting it to `0` disables all options. */
+	  * Setting it to @c 0 disables all options. */
 
 	zuint8 options;
 
@@ -429,8 +471,8 @@ typedef struct {
 	/** @brief State of the HALT line.
 	  *
 	  * The value of this member is @c TRUE if the HALT line is low;
-	  * otherwise, @c FALSE. The emulator always updates this member before
-	  * invoking the <tt>@ref Z80::halt</tt> callback. */
+	  * otherwise, @c FALSE. The emulator updates this member before
+	  * invoking <tt>@ref Z80::halt</tt>, not after. */
 
 	zuint8 halt_line;
 } Z80;
@@ -458,7 +500,8 @@ typedef struct {
 #define Z80_OPTION_XQ 8
 
 /** @brief <tt>@ref Z80::options</tt> bitmask that enables notifications for any
-`reti` or `retn` instruction executed during the interrupt mode 0 response. */
+  * @c reti or @c retn instruction executed during the interrupt mode 0
+  * response. */
 
 #define Z80_OPTION_IM0_RETX_NOTIFICATIONS 16
 
@@ -527,14 +570,16 @@ typedef struct {
 
 #define Z80_RESUME_IM0_XY 3
 
-/** @brief Value of the @p state parameter of <tt>@ref Z80::halt</tt> when the
-  * HALT line goes high due to a special RESET signal. */
+/** @brief Value of the second parameter of <tt>@ref Z80::halt</tt> when the
+  * HALT line goes high due to a special RESET signal.
+  *
+  * */
 
 #define Z80_HALT_EXIT_EARLY 2
 
-/** @brief Value of the @p state paratemer of <tt>@ref Z80::halt</tt> when the
+/** @brief Value of the second paratemer of <tt>@ref Z80::halt</tt> when the
   * HALT line goes low and then high due to a special RESET signal during the
-  * execution of the `halt` instruction. */
+  * execution of a @c halt instruction. */
 
 #define Z80_HALT_CANCEL 3
 
@@ -708,6 +753,10 @@ typedef struct {
 /** @brief Accesses the L' register of a <tt>@ref Z80</tt> @p object. */
 
 #define Z80_L_(object) (object).hl_.uint8_values.at_0
+
+#define Z80_WZ  Z80_MEMPTR  /**< @brief Same as <tt>@ref Z80_MEMPTR</tt>.  */
+#define Z80_WZH Z80_MEMPTRH /**< @brief Same as <tt>@ref Z80_MEMPTRH</tt>. */
+#define Z80_WZL Z80_MEMPTRL /**< @brief Same as <tt>@ref Z80_MEMPTRL</tt>. */
 
 Z_EXTERN_C_BEGIN
 
