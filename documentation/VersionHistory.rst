@@ -5,7 +5,7 @@ Version history
 v0.2
 ====
 
-*To be released on 2023-05-xx*
+*Released on 2023-07-xx*
 
 This is an important update that addresses a number of issues and also includes new features. Please note that the changes introduced in this release break the binary compatibility with the previous version.
 
