@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.3) # IN_LIST
+cmake_minimum_required(
+	# 3.3: IN_LIST
+	VERSION 3.3...${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 
 set(@PROJECT_NAME@_known_components Static Shared)
 set(@PROJECT_NAME@_component_Static NO)
