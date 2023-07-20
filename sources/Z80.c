@@ -1912,11 +1912,11 @@ INSN(dd_prefix) {XY_PREFIX(IX)}
 INSN(fd_prefix) {XY_PREFIX(IY)}
 
 
-/*------------------------------------------------------------------------.
-| Instructions with DDCBh or FDCBh prefix increment R by 2, as only the   |
-| bytes of the prefix are fetched by opcode fetch operations (M1 cycles). |
-| The remaining 2 bytes are fetched by normal memory read operations.	  |
-'========================================================================*/
+/*-----------------------------------------------------------------------.
+| Instructions with the two-byte prefix DDCBh or FDCBh increment R by 2, |
+| as only the prefix is fetched by opcode fetch operations (M1 cycles).	 |
+| The remaining wto bytes are fetched by normal memory read operations.	 |
+'=======================================================================*/
 
 INSN(xy_cb_prefix)
 	{
@@ -1926,7 +1926,7 @@ INSN(xy_cb_prefix)
 
 
 /*-----------------------------------------------------------------------------.
-| In a sequence of DDh and/or FDh prefixes, it is the last one that counts, as |
+| In a sequence of prefixes DDh and/or FDh, it is the last one that counts, as |
 | each prefix disables and replaces the previous one. No matter how long the   |
 | sequence is, interrupts can only be responded after all prefixes are fetched |
 | and the final instruction is executed. Each prefix consumes 4 T-states.      |
@@ -1974,10 +1974,10 @@ INSN(xy_xy)
 
 /* MARK: - Instructions: Illegal */
 
-/*-------------------------------------------------------------------.
-| The CPU ignores illegal instructions with EDh prefix; in practice, |
-| they are all equivalent to two `nop` instructions (8 T-states).    |
-'===================================================================*/
+/*----------------------------------------------------------------.
+| The CPU ignores illegal opcodes prefixed with EDh; in practice, |
+| they are all equivalent to two `nop` instructions (8 T-states). |
+'================================================================*/
 
 INSN(ed_illegal)
 	{
@@ -1989,7 +1989,7 @@ INSN(ed_illegal)
 
 
 /*------------------------------------------------------------------------.
-| Illegal instructions with DDh or FDh prefix cause the CPU to ignore the |
+| Illegal opcodes with the prefix DDh or FDh cause the CPU to ignore the  |
 | prefix, i.e., the byte immediately following the prefix is interpreted  |
 | as the first byte of a new instruction. The prefix consumes 4 T-states. |
 '========================================================================*/
@@ -2479,14 +2479,14 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						/* halt */
 						else if (ird == 0x76) HALT_LINE = TRUE;
 
-						/* instructions with CBh prefix */
+						/* instructions with the prefix CBh */
 						else if (ird == 0xCB)
 							{
 							R++;
 							self->cycles += 4 + cb_insn_table[DATA[1] = INTA](self);
 							}
 
-						/* instructions with EDh prefix */
+						/* instructions with the prefix EDh */
 						else if (ird == 0xED)
 							{
 							Insn insn;
@@ -2528,7 +2528,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 								: 4 + self->illegal(CONTEXT, ird);
 							}
 
-						/* instructions with DDh, FDh, DDCBh or FDCBh prefix */
+						/* instructions with the prefix DDh, FDh, DDCBh or FDCBh */
 						else if (IS_XY_PREFIX(ird))
 							{
 							Insn insn;
