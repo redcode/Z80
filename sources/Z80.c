@@ -1915,7 +1915,7 @@ INSN(fd_prefix) {XY_PREFIX(IY)}
 /*-----------------------------------------------------------------------.
 | Instructions with the two-byte prefix DDCBh or FDCBh increment R by 2, |
 | as only the prefix is fetched by opcode fetch operations (M1 cycles).	 |
-| The remaining wto bytes are fetched by normal memory read operations.	 |
+| The remaining two bytes are fetched by normal memory read operations.	 |
 '=======================================================================*/
 
 INSN(xy_cb_prefix)
@@ -1928,8 +1928,8 @@ INSN(xy_cb_prefix)
 /*-----------------------------------------------------------------------------.
 | In a sequence of prefixes DDh and/or FDh, it is the last one that counts, as |
 | each prefix disables and replaces the previous one. No matter how long the   |
-| sequence is, interrupts can only be responded after all prefixes are fetched |
-| and the final instruction is executed. Each prefix consumes 4 T-states.      |
+| sequence is, interrupts can only be responded to after all prefixes are      |
+| fetched and the final instruction is executed. Each prefix takes 4 T-states. |
 '=============================================================================*/
 
 INSN(xy_xy)
@@ -1975,7 +1975,7 @@ INSN(xy_xy)
 /* MARK: - Instructions: Illegal */
 
 /*----------------------------------------------------------------.
-| The CPU ignores illegal opcodes prefixed with EDh; in practice, |
+| The CPU ignores illegal opcodes prefixed with EDh. In practice, |
 | they are all equivalent to two `nop` instructions (8 T-states). |
 '================================================================*/
 
@@ -1988,11 +1988,11 @@ INSN(ed_illegal)
 	}
 
 
-/*------------------------------------------------------------------------.
-| Illegal opcodes with the prefix DDh or FDh cause the CPU to ignore the  |
-| prefix, i.e., the byte immediately following the prefix is interpreted  |
-| as the first byte of a new instruction. The prefix consumes 4 T-states. |
-'========================================================================*/
+/*-----------------------------------------------------------------------.
+| Illegal opcodes with the prefix DDh or FDh cause the CPU to ignore the |
+| prefix, i.e., the byte immediately following the prefix is interpreted |
+| as the first byte of a new instruction. The prefix takes 4 T-states.	 |
+'=======================================================================*/
 
 INSN(xy_illegal)
 	{
@@ -2191,8 +2191,8 @@ Z80_API void z80_nmi(Z80 *self)
 			self->cycles += insn_table[DATA[0] = FETCH_OPCODE(PC)](self);
 			}
 
-		R = R_ALL;	     /* restore R7 bit         */
-		return self->cycles; /* return consumed cycles */
+		R = R_ALL; /* restore R7 bit */
+		return self->cycles;
 		}
 #endif
 
@@ -2433,10 +2433,10 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| An instruction supplied via the data bus is executed. Its first byte is  |
 					| read during the INT acknowledge cycle (INTA). If it is an opcode prefix, |
 					| additional M-cycles of this kind are produced until the final opcode of  |
-					| the instruction is fetched [1]. Each INT acknowledge cycle consumes as   |
-					| many T-states as its normal M1 counterpart (the opcode fetch M-cycle)    |
-					| plus the 2 wait T-states mentioned above [1]. Subsequent bytes of the    |
-					| instruction are fetched by using normal memory read M-cycles [1,2],      |
+					| the instruction is fetched [1]. Each INT acknowledge cycle takes as many |
+					| T-states as its normal M1 counterpart (the opcode fetch M-cycle) plus	   |
+					| the 2 wait T-states mentioned above [1]. Subsequent bytes of the	   |
+					| instruction are fetched by using normal memory read M-cycles [1,2],	   |
 					| during which the interrupting I/O device must still supply the data [2]. |
 					| The PC register, however, remains at its pre-interrupt state, not being  |
 					| incremented as a result of the instruction fetch [1,2].		   |
@@ -2692,8 +2692,8 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		self->cycles += insn_table[DATA[0] = FETCH_OPCODE(PC)](self);
 		}
 
-	R = R_ALL;	     /* restore R7 bit	       */
-	return self->cycles; /* return consumed cycles */
+	R = R_ALL; /* restore R7 bit */
+	return self->cycles;
 	}
 
 
