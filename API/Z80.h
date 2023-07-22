@@ -75,11 +75,11 @@
 /** @brief Maximum number of clock cycles that <tt>@ref z80_run</tt> will
   * emulate if instructed to execute 1 clock cycle.
   *
-  * This is the number of clock cycles consumed by the longest instruction, not
-  * counting opcode fetch M-cycles of @c 0xDD or @c 0xFD prefixes, plus the 2
-  * wait clock cycles that the CPU automatically adds to the maskable interrupt
-  * acknowledge M-cycle. For <tt>@ref z80_execute</tt>, this value is
-  * 2 clock cycles less. */
+  * This is the number of clock cycles taken by the longest instruction, not
+  * counting opcode fetch M-cycles of the prefixes @c 0xDD and @c 0xFD, plus the
+  * 2 wait clock cycles automatically added by the CPU to the maskable interrupt
+  * acknowledge M-cycle. For <tt>@ref z80_execute</tt>, this value is 2 clock
+  * cycles less. */
 
 #define Z80_MAXIMUM_CYCLES_PER_STEP 23
 
@@ -90,7 +90,7 @@
 #define Z80_MINIMUM_CYCLES_PER_STEP 4
 
 /** @brief Opcode interpreted as a trap by the Z80 library. It corresponds to
-  * the <tt>ld h,h</tt> instruction of the Z80 ISA. */
+  * the <tt>ld h,h</tt> instruction in the Z80 ISA. */
 
 #define Z80_HOOK 0x64
 
@@ -373,62 +373,57 @@ typedef struct {
 	/** @brief Invoked to delegate the execution of an illegal instruction.
 	  *
 	  * This callback is optional and must be set to @c Z_NULL when not in
-	  * use. Only those instructions with @c 0xED prefix that behave as a
-	  * double @c nop of 8 clock cycles are considered illegal. The function
-	  * receives the illegal opcode as the second argument and must take
-	  * care of invoking the corresponding callbacks according to the type
-	  * of M-cycles produced by the instruction. Finally, it must return the
-	  * total number of clock cycles consumed by the instruction. At the
-	  * time of invoking the callback, the PC register contains the memory
-	  * address of the prefix and R has been incremented twice since the
-	  * start of the instruction. */
+	  * use. Only those instructions with the @c 0xED prefix that behave the
+	  * same as two consecutive @c nop instructions are considered illegal.
+	  * The function receives the illegal opcode as the second parameter and
+	  * must return the number of clock cycles taken by the instruction. At
+	  * the time of invoking this callback, and relative to the start of the
+	  * instruction, only the R register has been incremented (twice), so PC
+	  * still contains the memory address of the @c 0xED prefix. */
 
 	Z80Illegal illegal;
 
-	/** @brief Temporary storage used for instruction fetch. */ /* TODO */
+	/** @brief Temporary storage used for instruction fetch. */
 
 	ZInt32 data;
 
-	ZInt16 ix_iy[2]; /**< @brief IX and IY registers. */
-	ZInt16 pc;       /**< @brief PC register.         */
-	ZInt16 sp;       /**< @brief SP register.         */
+	ZInt16 ix_iy[2]; /**< @brief Index registers, IX and IY.    */
+	ZInt16 pc;       /**< @brief Register PC (program counter). */
+	ZInt16 sp;       /**< @brief Register SP (stack pointer).   */
 
-	/** @brief Temporary IX/IY register.
+	/** @brief Temporary index register.
 	  *
-	  * All instructions with @c 0xDD prefix behave exactly the same as
-	  * their counterparts with @c 0xFD prefix, differing only in the index
-	  * register. This allows reducing the size of the library by using a
-	  * temporary index register to avoid duplicate code.
-	  *
-	  * When a @c 0xDD or @c 0xFD prefix is fetched, the corresponding index
-	  * register is copied into this member. The instruction logic is then
-	  * executed and finally this member is copied back into the index
-	  * register. */
+	  * All instructions with the @c 0xDD prefix behave exactly the same as
+	  * their counterparts with the @c 0xFD prefix, differing only in the
+	  * index register: the former use IX, whereas the latter use IY. When
+	  * one of these prefixes is fetched, the corresponding index register
+	  * is copied into this member; the instruction logic is then executed
+	  * and finally this member is copied back into the index register. */
 
 	ZInt16 xy;
 
-	ZInt16 memptr; /**< @brief MEMPTR register, also known as WZ. */
-	ZInt16 af;     /**< @brief AF register.  */
-	ZInt16 bc;     /**< @brief BC register.  */
-	ZInt16 de;     /**< @brief DE register.  */
-	ZInt16 hl;     /**< @brief HL register.  */
-	ZInt16 af_;    /**< @brief AF' register. */
-	ZInt16 bc_;    /**< @brief BC' register. */
-	ZInt16 de_;    /**< @brief DE' register. */
-	ZInt16 hl_;    /**< @brief HL' register. */
-	zuint8 r;      /**< @brief R register.   */
-	zuint8 i;      /**< @brief I register.   */
+	ZInt16 memptr; /**< @brief Register MEMPTR, also known as WZ. */
+	ZInt16 af;     /**< @brief Register pair AF.  */
+	ZInt16 bc;     /**< @brief Register pair BC.  */
+	ZInt16 de;     /**< @brief Register pair DE.  */
+	ZInt16 hl;     /**< @brief Register pair HL.  */
+	ZInt16 af_;    /**< @brief Register pair AF'. */
+	ZInt16 bc_;    /**< @brief Register pair BC'. */
+	ZInt16 de_;    /**< @brief Register pair DE'. */
+	ZInt16 hl_;    /**< @brief Register pair HL'. */
+	zuint8 r;      /**< @brief Register R.        */
+	zuint8 i;      /**< @brief Register I.        */
 
-	/** @brief The most significant bit of the R register.
+	/** @brief Backup of bit 7 of the R register.
 	  *
 	  * The Z80 CPU increments the R register during each M1 cycle without
 	  * altering its most significant bit, commonly known as R7. However,
-	  * the Z80 library only performs normal increments for speed reasons,
-	  * which eventually corrupts R7.
+	  * the emulator only performs normal full-byte increments for speed
+	  * reasons, which eventually corrupts R7.
 	  *
-	  * Before entering the execution loop, <tt>@ref z80_execute</tt> and
-	  * <tt>@ref z80_run</tt> copy <tt>@ref Z80::r</tt> into this member to
-	  * preserve the value of R7, so that it can be restored before
+	  * Before entering the execution loop, both <tt>@ref z80_execute</tt>
+	  * and <tt>@ref z80_run</tt> copy <tt>@ref Z80::r</tt> into this member
+	  * to preserve the value of R7, so that they can restore it before
 	  * returning. The emulation of the <tt>ld r, a</tt> instruction also
 	  * updates the value of this member. */
 
@@ -451,7 +446,7 @@ typedef struct {
 
 	zuint8 iff1; /**< @brief Interrupt enable flip-flop 1 (IFF1). */
 	zuint8 iff2; /**< @brief Interrupt enable flip-flop 2 (IFF2). */
-	zuint8 q;    /**< @brief Q "register". */
+	zuint8 q;    /**< @brief Pseudo-register Q. */
 
 	/** @brief Emulation options.
 	  *
@@ -560,20 +555,18 @@ typedef struct {
 #define Z80_RESUME_HALT 1
 
 /** @brief <tt>@ref Z80::resume</tt> value indicating that the emulator ran out
-  * of clock cycles by fetching a @c 0xDD or @c 0xFD prefix. */
+  * of clock cycles by fetching a prefix @c 0xDD or @c 0xFD. */
 
 #define Z80_RESUME_XY 2
 
 /** @brief <tt>@ref Z80::resume</tt> value indicating that the emulator ran out
-  * of clock cycles by fetching a @c 0xDD or @c 0xFD prefix during a maskable
+  * of clock cycles by fetching a prefix @c 0xDD or @c 0xFD, during a maskable
   * interrupt response in mode 0. */
 
 #define Z80_RESUME_IM0_XY 3
 
 /** @brief Value of the second parameter of <tt>@ref Z80::halt</tt> when the
-  * HALT line goes high due to a special RESET signal.
-  *
-  * */
+  * HALT line goes high due to a special RESET signal. */
 
 #define Z80_HALT_EXIT_EARLY 2
 
@@ -595,7 +588,7 @@ typedef struct {
 
 #define Z80_SP(object) (object).sp.uint16_value
 
-/** @brief Accesses the temporary IX/IY register of a <tt>@ref Z80</tt> @p
+/** @brief Accesses the temporary index register of a <tt>@ref Z80</tt> @p
   * object */
 
 #define Z80_XY(object) (object).xy.uint16_value
