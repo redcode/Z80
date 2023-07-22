@@ -1926,7 +1926,7 @@ INSN(xy_cb_prefix)
 
 
 /*-----------------------------------------------------------------------------.
-| In a sequence of prefixes DDh and/or FDh, it is the last one that counts, as |
+| In a sequence of DDh and/or FDh prefixes, it is the last one that counts, as |
 | each prefix disables and replaces the previous one. No matter how long the   |
 | sequence is, interrupts can only be responded to after all prefixes are      |
 | fetched and the final instruction is executed. Each prefix takes 4 T-states. |
@@ -2253,7 +2253,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 		/*--------------------------------------------------------------.
 		| The CPU is in normal operation state; the emulator ran out of |
-		| clock cycles by fetching a DDh or FDh prefix.			|
+		| clock cycles by fetching a prefix DDh or FDh.			|
 		'==============================================================*/
 		case Z80_RESUME_XY:
 		RESUME = FALSE;
@@ -2265,7 +2265,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 		/*----------------------------------------------------------------.
 		| The CPU is responding to an INT in mode 0; the emulator ran out |
-		| clock cycles by fetching a DDh or FDh prefix.			  |
+		| of clock cycles by fetching a prefix DDh or FDh.		  |
 		'================================================================*/
 #		ifdef Z80_WITH_FULL_IM0
 			case Z80_RESUME_IM0_XY:
@@ -2479,14 +2479,14 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						/* halt */
 						else if (ird == 0x76) HALT_LINE = TRUE;
 
-						/* instructions with the prefix CBh */
+						/* instructions with the CBh prefix */
 						else if (ird == 0xCB)
 							{
 							R++;
 							self->cycles += 4 + cb_insn_table[DATA[1] = INTA](self);
 							}
 
-						/* instructions with the prefix EDh */
+						/* instructions with the EDh prefix */
 						else if (ird == 0xED)
 							{
 							Insn insn;
