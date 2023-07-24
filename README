@@ -198,7 +198,7 @@ library by predefining macros that enable optional features:
         The default is `NO`.
 
     -DZ80_WITH_UNOFFICIAL_RETI=(YES|NO)
-        Configure the ED5Dh, ED6Dh and ED7Dh undocumented instructions as `reti`
+        Configure the undocumented instructions ED5Dh, ED6Dh and ED7Dh as `reti`
         instead of `retn`.
         The default is `NO`.
 
@@ -335,4 +335,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2023-07-11                                               README EOF
+Last update: 2023-07-24                                               README EOF

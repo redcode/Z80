@@ -484,7 +484,7 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 	The default is `NO`.
 
 * <span id="option_Z80_WITH_UNOFFICIAL_RETI">**`-DZ80_WITH_UNOFFICIAL_RETI=(YES|NO)`**</span>  
-	Configure the `ED5Dh`, `ED6Dh` and `ED7Dh` undocumented instructions as `reti` instead of `retn`.  
+	Configure the undocumented instructions `ED5Dh`, `ED6Dh` and `ED7Dh` as `reti` instead of `retn`.  
 	The default is `NO`.
 
 * <span id="option_Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG">**`-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=(YES|NO)`**</span>  

@@ -173,7 +173,7 @@ The second group of package-specific options configures the source code of the l
 
 .. option:: -DZ80_WITH_UNOFFICIAL_RETI=(YES|NO)
 
-   Configure the ``ED5Dh``, ``ED6Dh`` and ``ED7Dh`` undocumented instructions as ``reti`` instead of ``retn``. |br| |nl|
+   Configure the undocumented instructions ``ED5Dh``, ``ED6Dh`` and ``ED7Dh`` as ``reti`` instead of ``retn``. |br| |nl|
    The default is ``NO``.
 
 .. option:: -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=(YES|NO)

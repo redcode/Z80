@@ -96,7 +96,7 @@ The :ref:`optional features <Introduction:Optional features>` of the emulator me
 
 .. c:macro:: Z80_WITH_UNOFFICIAL_RETI
 
-   Configures the ``ED5Dh``, ``ED6Dh`` and ``ED7Dh`` undocumented instructions as ``reti`` instead of ``retn``.
+   Configures the undocumented instructions ``ED5Dh``, ``ED6Dh`` and ``ED7Dh`` as ``reti`` instead of ``retn``.
 
 .. c:macro:: Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 
