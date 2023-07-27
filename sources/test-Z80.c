@@ -835,7 +835,7 @@ int main(int argc, char **argv)
 					break;
 					}
 
-			if (j == 4)
+			if (j == Z_ARRAY_SIZE(cpu_models))
 				{
 				invalid = "CPU model";
 				goto invalid_argument;
