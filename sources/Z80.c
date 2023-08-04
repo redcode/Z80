@@ -793,20 +793,20 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	return 16
 
 
-#define ADD_RR_NN(RR, NN)							      \
-	zuint16 nn = NN;							      \
-	zuint16 t  = RR + nn;							      \
+#define ADD_16(lhs, rhs)							      \
+	zuint16 n = rhs;							      \
+	zuint16 t = lhs + n;							      \
 										      \
 	FLAGS = F_SZP				     | /* SF, ZF, PF unchanged	   */ \
 		((t >> 8) & YXF)		     | /* YF = high-Y; XF = high-X */ \
-		(((zuint16)(RR ^ nn ^ t) >> 8) & HF) | /* HF = high-half-carry	   */ \
-		((zuint32)RR + nn > 65535);	       /* CF = carry		   */ \
+		(((zuint16)(lhs ^ n ^ t) >> 8) & HF) | /* HF = high-half-carry	   */ \
+		((zuint32)lhs + n > 65535);	       /* CF = carry		   */ \
 						       /* NF = 0		   */ \
-	MEMPTR = RR + 1;							      \
-	RR = t
+	MEMPTR = lhs + 1;							      \
+	lhs = t
 
 
-#define ADC_SBC_HL_SS(operator, pf_test_rhs, cf_test, set_nf)		    \
+#define ADC_SBC_HL_SS(operator, pf_overflow_rhs, cf_test, set_nf)	    \
 	zuint8	fc = F_C;						    \
 	zuint16 ss = SS1;						    \
 	zuint16 t  = HL operator ss operator fc;			    \
@@ -814,9 +814,10 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	FLAGS = (zuint8)(						    \
 		((t >> 8) & SYXF) /* SF = sign; YF = high-Y; XF = high-X */ \
 		| ZF_ZERO(t)	  /* ZF = zero				 */ \
-		  /* HF = high-half-carry (adc), high-half-borrow (sbc)	 */ \
+		/* HF = high-half-carry (adc), high-half-borrow (sbc)	 */ \
 		| (((zuint16)(HL ^ ss ^ t) >> 8) & HF)			    \
-		| PF_OVERFLOW(16, t, HL, pf_test_rhs) /* PF = overflow   */ \
+		/* PF = overflow */ 					    \
+		| PF_OVERFLOW(16, t, HL, pf_overflow_rhs)		    \
 		| ((zuint32)cf_test) /* CF = carry (adc), borrow (sbc)	 */ \
 		set_nf);	     /* NF = 0 (adc), 1 (sbc)		 */ \
 									    \
@@ -907,23 +908,23 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 
 
 #define INX(hl_operator, memptr_operator)		       \
-	zuint8 in = IN(BC);				       \
-	zuint  t  = (zuint)in + (zuint8)(C memptr_operator 1); \
+	zuint8 io = IN(BC);				       \
+	zuint  t  = (zuint)io + (zuint8)(C memptr_operator 1); \
 							       \
-	WRITE(HL hl_operator, in);			       \
+	WRITE(HL hl_operator, io);			       \
 	MEMPTR = BC memptr_operator 1;			       \
 	B--;						       \
-	INX_OUTX(in)
+	INX_OUTX(io)
 
 
 #define OUTX(hl_operator, memptr_operator) \
-	zuint8 out = READ(HL hl_operator); \
-	zuint  t   = (zuint)out + L;	   \
+	zuint8 io = READ(HL hl_operator);  \
+	zuint  t  = (zuint)io + L;	   \
 					   \
 	B--;				   \
 	MEMPTR = BC memptr_operator 1;	   \
-	OUT(BC, out);			   \
-	INX_OUTX(out)
+	OUT(BC, io);			   \
+	INX_OUTX(io)
 
 
 /*-----------------------------------------------------------------------------.
@@ -1460,10 +1461,10 @@ INSN(ei)
 |  dec XY     <--XY--><--2B-->	........  10:46	    |
 '==================================================*/
 
-INSN(add_hl_SS) {ADD_RR_NN(HL, SS0);		   PC++;    return 11;}
+INSN(add_hl_SS) {ADD_16(HL, SS0);		   PC++;    return 11;}
 INSN(adc_hl_SS) {ADC_SBC_HL_SS(+, ~ss, ss + fc + HL > 65535, Z_EMPTY);}
 INSN(sbc_hl_SS) {ADC_SBC_HL_SS(-,  ss, ss + fc	    > HL,    | NF   );}
-INSN(add_XY_WW) {ADD_RR_NN(XY, WW);		   PC += 2; return 11;}
+INSN(add_XY_WW) {ADD_16(XY, WW);		   PC += 2; return 11;}
 INSN(inc_SS   ) {Q_0 (SS0)++;			   PC++;    return  6;}
 INSN(inc_XY   ) {Q_0 XY++;			   PC += 2; return  6;}
 INSN(dec_SS   ) {Q_0 (SS0)--;			   PC++;    return  6;}
