@@ -644,7 +644,7 @@ The source code of the emulator can be configured at compile time by predefining
 * <span id="macro_Z80_WITH_LOCAL_HEADER">**`#define Z80_WITH_LOCAL_HEADER`**</span>  
 	Tells `Z80.c` to `#include "Z80.h"` instead of `<Z80.h>`.
 
-The optional features of the emulator mentioned in _[Installation from sources](#installation-from-sources)_ are disabled by default. If you compile `Z80.c` as a part of your project, enable those features you need by predefining their respective activation macros. They have the same name as their [CMake equivalents](#cmake_source_code_options):
+The optional features of the emulator mentioned in "[Installation from sources](#installation-from-sources)" are disabled by default. If you compile `Z80.c` as a part of your project, enable those features you need by predefining their respective activation macros. They have the same name as their [CMake equivalents](#cmake_source_code_options):
 
 * **<code>#define [Z80_WITH_EXECUTE](#option_Z80_WITH_EXECUTE)</code>**
 * **<code>#define [Z80_WITH_FULL_IM0](#option_Z80_WITH_FULL_IM0)</code>**
