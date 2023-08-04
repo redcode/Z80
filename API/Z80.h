@@ -325,8 +325,7 @@ typedef struct {
 	  * been fetched.
 	  *
 	  * This callback is optional and must be set to @c Z_NULL when not in
-	  * use. It is invoked before the instruction copies the A register into
-	  * the I register. */
+	  * use. It is invoked before executing the instruction. */
 
 	Z80Notify ld_i_a;
 
@@ -334,8 +333,7 @@ typedef struct {
 	  * been fetched.
 	  *
 	  * This callback is optional and must be set to @c Z_NULL when not in
-	  * use. It is invoked before the instruction copies the A register into
-	  * the R register. */
+	  * use. It is invoked before executing the instruction. */
 
 	Z80Notify ld_r_a;
 
@@ -363,10 +361,10 @@ typedef struct {
 	  * parameter and must return the opcode to be executed instead of the
 	  * trap. If the function returns a trap (i.e., <tt>@ref Z80_HOOK</tt>),
 	  * the emulator will do nothing, so the trap will be fetched again
-	  * unless the function has modified the PC register or replaced the
-	  * trap in memory with another opcode. Also note that returning a trap
-	  * does not revert the increment of the R register performed before
-	  * each opcode fetch. */
+	  * unless the function has modified <tt>@ref Z80::pc</tt> or replaced
+	  * the trap in memory with another opcode. Also note that returning a
+	  * trap does not revert the increment of <tt>@ref Z80::r</tt> performed
+	  * before each opcode fetch. */
 
 	Z80Read hook;
 
@@ -376,10 +374,12 @@ typedef struct {
 	  * use. Only those instructions with the @c 0xED prefix that behave the
 	  * same as two consecutive @c nop instructions are considered illegal.
 	  * The function receives the illegal opcode as the second parameter and
-	  * must return the number of clock cycles taken by the instruction. At
-	  * the time of invoking this callback, and relative to the start of the
-	  * instruction, only the R register has been incremented (twice), so PC
-	  * still contains the memory address of the @c 0xED prefix. */
+	  * must return the number of clock cycles taken by the instruction.
+	  *
+	  * At the time of invoking this callback, and relative to the start of
+	  * the instruction, only <tt>@ref Z80::r</tt> has been incremented
+	  * (twice), so <tt>@ref Z80::PC</tt> still contains the memory address
+	  * of the @c 0xED prefix. */
 
 	Z80Illegal illegal;
 
