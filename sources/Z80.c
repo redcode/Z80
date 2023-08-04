@@ -981,28 +981,28 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 
 
 #define INXR(hl_operator, memptr_operator)			 \
-	zuint8 in = IN(BC);					 \
-	zuint8 nf = (in >> 6) & NF;				 \
+	zuint8 io = IN(BC);					 \
+	zuint8 nf = (io >> 6) & NF;				 \
 	zuint  t;						 \
 	zuint8 hcf, p;						 \
 								 \
-	WRITE(HL hl_operator, in);				 \
-	t = (zuint)in + (zuint8)(MEMPTR = BC memptr_operator 1); \
+	WRITE(HL hl_operator, io);				 \
+	t = (zuint)io + (zuint8)(MEMPTR = BC memptr_operator 1); \
 	hcf = (t > 255) ? HCF : 0;				 \
 	p = (t & 7) ^ --B;					 \
-	INXR_OTXR(in)
+	INXR_OTXR(io)
 
 
 #define OTXR(hl_operator, memptr_operator) \
-	zuint8 out = READ(HL hl_operator); \
-	zuint8 nf  = (out >> 6) & NF;	   \
-	zuint  t   = (zuint)out + L;	   \
+	zuint8 io  = READ(HL hl_operator); \
+	zuint8 nf  = (io >> 6) & NF;	   \
+	zuint  t   = (zuint)io + L;	   \
 	zuint8 hcf = (t > 255) ? HCF : 0;  \
 	zuint8 p   = (t & 7) ^ --B;	   \
 					   \
 	MEMPTR = BC memptr_operator 1;	   \
-	OUT(BC, out);			   \
-	INXR_OTXR(out)
+	OUT(BC, io);			   \
+	INXR_OTXR(io)
 
 
 #define SET_HALT_LINE(state) \
