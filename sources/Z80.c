@@ -261,8 +261,8 @@ static zuint8 const pf_parity_table[256] = {
 | * http://www.cs.umd.edu/class/spring2003/cmsc311/Notes/Comb/overflow.html    |
 '=============================================================================*/
 
-#define PF_OVERFLOW(bits, result, lhs, rhs) \
-	(((zuint##bits)((lhs ^ rhs) & (lhs ^ result)) >> (bits - 3)) & PF)
+#define PF_OVERFLOW(width, result, lhs, rhs) \
+	(((zuint##width)((lhs ^ rhs) & (lhs ^ result)) >> (width - 3)) & PF)
 
 /*-----------------------------------------------------------------------------.
 | Q is an abstraction of the latches where the CPU loads F to use and modify   |
