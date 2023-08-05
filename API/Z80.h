@@ -378,7 +378,7 @@ typedef struct {
 	  *
 	  * At the time of invoking this callback, and relative to the start of
 	  * the instruction, only <tt>@ref Z80::r</tt> has been incremented
-	  * (twice), so <tt>@ref Z80::PC</tt> still contains the memory address
+	  * (twice), so <tt>@ref Z80::pc</tt> still contains the memory address
 	  * of the @c 0xED prefix. */
 
 	Z80Illegal illegal;
