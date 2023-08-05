@@ -349,7 +349,7 @@ eselect repository add zxe git https://github.com/redcode/zxe-gentoo-overlay.git
 emaint sync --repo zxe
 ```
 
-Then, install the library:
+Then install the library:
 
 ```shell
 emerge emulation-libs/z80
@@ -376,7 +376,7 @@ Once the prerequisites are met, create a directory and run `cmake` from there to
 ```shell
 mkdir build
 cd build
-cmake <directory of this README.md> [options]
+cmake <Z80-project-directory> [options]
 ```
 
 The resulting build files can be configured by passing options to `cmake`. To show a complete list of those available along with their current settings, type the following:
