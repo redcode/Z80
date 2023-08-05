@@ -39,7 +39,7 @@ Once the prerequisites are met, create a directory and run ``cmake`` from there 
 
    mkdir build
    cd build
-   cmake <path to the Z80 project> [options]
+   cmake <Z80-project-directory> [options]
 
 The resulting build files can be configured by passing options to ``cmake``. To show a complete list of those available along with their current settings, type the following:
 
