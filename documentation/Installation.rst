@@ -142,7 +142,7 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
    Build the :doc:`testing tool <Tests>`. |br| |nl|
    The default is ``NO``.
 
-.. _cmake_source_code_options:
+.. _cmake_package_source_code_options:
 
 The second group of package-specific options configures the source code of the library by predefining macros that enable :ref:`optional features <Introduction:Optional features>`:
 
