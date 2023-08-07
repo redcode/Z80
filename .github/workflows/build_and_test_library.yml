@@ -55,19 +55,21 @@ jobs:
     - name: Install dependencies (POSIX)
       if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
       run: |
-        mkdir -p ${{github.workspace}}/build
-        curl -L ${{env.ZETA_TARBALL_URL}} | xz -cd | tar -C ${{github.workspace}}/build --strip-components=2 -xvf - Zeta/API/Z
+        mkdir -p "${{github.workspace}}/build"
+        curl -L ${{env.ZETA_TARBALL_URL}} | xz -cd | tar -C "${{github.workspace}}/build" --strip-components=2 -xvf - Zeta/API/Z
 
     - name: Install dependencies (Windows)
       if: startsWith(matrix.os, 'windows')
       shell: cmd
       run: |
-        mkdir ${{github.workspace}}\build
-        curl -L ${{env.ZETA_TARBALL_URL}} | 7z x -txz -si -so | 7z x -si -ttar -o${{github.workspace}}\build Zeta/API/Z
+        mkdir "${{github.workspace}}\build"
+        curl -L ${{env.ZETA_TARBALL_URL}} | 7z x -txz -si -so | 7z x -si -ttar -o"${{github.workspace}}\build" Zeta/API/Z
 
     - name: Configure CMake
       run: >
-        cmake -B ${{github.workspace}}/build
+        cmake
+        -S "${{github.workspace}}"
+        -B "${{github.workspace}}/build"
         -DBUILD_SHARED_LIBS=${{env.BUILD_SHARED_LIBS}}
         -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}}
         -DCMAKE_VERBOSE_MAKEFILE=${{env.CMAKE_VERBOSE_MAKEFILE}}
@@ -88,7 +90,7 @@ jobs:
         -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=${{env.Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG}}
 
     - name: Build
-      run: cmake --build ${{github.workspace}}/build --config ${{env.CMAKE_BUILD_TYPE}}
+      run: cmake --build "${{github.workspace}}/build" --config ${{env.CMAKE_BUILD_TYPE}}
 
     - name: Test
       working-directory: ${{github.workspace}}/build

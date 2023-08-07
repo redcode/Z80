@@ -47,12 +47,14 @@ jobs:
 
     - name: Install dependencies
       run: |
-        mkdir -p ${{github.workspace}}/build
-        curl -L ${{env.ZETA_TARBALL_URL}} | xz -cd | tar -C ${{github.workspace}}/build --strip-components=2 -xvf - Zeta/API/Z
+        mkdir -p "${{github.workspace}}/build"
+        curl -L ${{env.ZETA_TARBALL_URL}} | xz -cd | tar -C "${{github.workspace}}/build" --strip-components=2 -xvf - Zeta/API/Z
 
     - name: Configure CMake
       run: >
-        cmake -B ${{github.workspace}}/build
+        cmake
+        -S "${{github.workspace}}"
+        -B "${{github.workspace}}/build"
         -DBUILD_SHARED_LIBS=${{env.BUILD_SHARED_LIBS}}
         -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}}
         -DCMAKE_VERBOSE_MAKEFILE=${{env.CMAKE_VERBOSE_MAKEFILE}}
@@ -65,7 +67,7 @@ jobs:
         -DZ80_WITH_TESTS=${{env.Z80_WITH_TESTS}}
 
     - name: Build HTML documentation
-      run: cmake --build ${{github.workspace}}/build --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-HTML
+      run: cmake --build "${{github.workspace}}/build" --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-HTML
 
     - name: Build PDF documentation
-      run: cmake --build ${{github.workspace}}/build --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-PDF
+      run: cmake --build "${{github.workspace}}/build" --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-PDF
