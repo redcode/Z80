@@ -17,7 +17,7 @@ on:
     - 'CMakeLists.txt'
 
 env:
-  ZETA_TARBALL_URL: 'http://zeta.st/download/Zeta-latest.tar.xz'
+  ZETA_TARBALL_URL: 'http://zxe.io/software/Zeta/download/Zeta-latest.tar.xz'
   BUILD_SHARED_LIBS: NO
   CMAKE_BUILD_TYPE: Release
   CMAKE_VERBOSE_MAKEFILE: YES
