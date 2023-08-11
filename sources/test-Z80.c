@@ -66,7 +66,7 @@ typedef struct {
 	char const* file_path;
 
 	/* Total number of clock cycles executed when the test is passed. */
-	zusize cycles_expected[1 + (Z_USIZE_BITS < 64)];
+	zusize cycles_expected[1 + (Z_USIZE_WIDTH < 64)];
 
 	/* Size of the file. */
 	zuint16 file_size;
@@ -96,7 +96,7 @@ typedef struct {
 
 /* MARK: - Global Variables */
 
-#if Z_USIZE_BITS < 64
+#if Z_USIZE_WIDTH < 64
 #	define C(high, low) {Z_USIZE(0x##low), Z_USIZE(0x##high)}
 #else
 #	define C(high, low) {Z_USIZE(0x##high##low)}
@@ -124,8 +124,7 @@ static Test const tests[22] = {
 	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80flags.tap",				C(0, 212F17D5) /*    556,734,421 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
 	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80docflags.tap",			C(0, 2152FFDA) /*    559,087,578 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
 	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80ccf.tap",				C(0, 23F34E43) /*    603,147,843 */, 14875,  91, 14783, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80memptr.tap",				C(0, 219FC276) /*    564,118,134 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32}
-};
+	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80memptr.tap",				C(0, 219FC276) /*    564,118,134 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32}};
 
 #undef C
 
@@ -133,8 +132,7 @@ static struct {char const *key; zuint8 options;} const cpu_models[4] = {
 	{"zilog-nmos", Z80_MODEL_ZILOG_NMOS},
 	{"zilog-cmos", Z80_MODEL_ZILOG_CMOS},
 	{"nec-nmos",   Z80_MODEL_NEC_NMOS  },
-	{"st-cmos",    Z80_MODEL_ST_CMOS   }
-};
+	{"st-cmos",    Z80_MODEL_ST_CMOS   }};
 
 static char const new_line[2] = "\n";
 
@@ -494,7 +492,7 @@ static zuint8 run_test(int test_index)
 	zboolean passed;
 	zuint i = 0;
 
-#	if Z_USIZE_BITS < 64
+#	if Z_USIZE_WIDTH < 64
 		zuint32 j = 0;
 #	endif
 
@@ -615,7 +613,7 @@ static zuint8 run_test(int test_index)
 
 	if (verbosity >= 3) printf("* Running program%s", show_test_output ? ":\n\n" : "... ");
 
-#	if Z_USIZE_BITS < 64
+#	if Z_USIZE_WIDTH < 64
 		for (i = 0; i < test->cycles_expected[1];)
 			{
 			RUN(&cpu, Z_UINT32_MAXIMUM / 2);
@@ -649,7 +647,7 @@ static zuint8 run_test(int test_index)
 		&& lines   == test->lines_expected
 		&& columns == test->columns_expected
 		&& cycles  == test->cycles_expected[0]
-#		if Z_USIZE_BITS < 64
+#		if Z_USIZE_WIDTH < 64
 			&& i == test->cycles_expected[1]
 #		endif
 		;
