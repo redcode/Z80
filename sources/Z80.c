@@ -1353,7 +1353,7 @@ INSN(halt)
 			RESUME = Z80_RESUME_HALT;
 			}
 
-		SET_HALT_LINE(TRUE);
+		SET_HALT_LINE(1);
 		}
 
 	if (self->nop == Z_NULL || (OPTIONS & Z80_OPTION_HALT_SKIP))
@@ -1376,11 +1376,11 @@ INSN(halt)
 
 				if (REQUEST)
 					{
-					RESUME = FALSE;
+					RESUME = 0;
 
 					if (REQUEST & Z80_REQUEST_SPECIAL_RESET)
 						{
-						HALT_LINE = FALSE;
+						HALT_LINE = 0;
 
 						if (self->halt != Z_NULL)
 							self->halt(CONTEXT, Z80_HALT_EXIT_EARLY);
@@ -1409,7 +1409,7 @@ INSN(halt)
 
 			if (REQUEST)
 				{
-				RESUME = FALSE;
+				RESUME = 0;
 				return 0;
 				}
 			}
@@ -2126,7 +2126,7 @@ Z80_API void z80_power(Z80 *self, zboolean state)
 
 Z80_API void z80_instant_reset(Z80 *self)
 	{
-	if (HALT_LINE) {SET_HALT_LINE(FALSE);}
+	if (HALT_LINE) {SET_HALT_LINE(0);}
 
 	PC = R = I = IFF1 = IFF2 = IM =
 	DATA[0] = HALT_LINE = RESUME = REQUEST = 0;
@@ -2166,7 +2166,7 @@ Z80_API void z80_nmi(Z80 *self)
 			break;
 
 			case Z80_RESUME_XY:
-			RESUME = FALSE;
+			RESUME = 0;
 			R++; /* M1 */
 			XY = (xy = &self->ix_iy[(DATA[0] >> 5) & 1])->uint16_value;
 			self->cycles += xy_insn_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
@@ -2213,14 +2213,14 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		case Z80_RESUME_HALT:
 		if (REQUEST)
 			{
-			RESUME = FALSE;
+			RESUME = 0;
 
 #			ifdef Z80_WITH_SPECIAL_RESET
 				if ((REQUEST & Z80_REQUEST_SPECIAL_RESET) && HALT_LINE)
 					{
 					zuint8 opcode;
 
-					HALT_LINE = FALSE;
+					HALT_LINE = 0;
 
 					if (self->halt != Z_NULL)
 						self->halt(CONTEXT, Z80_HALT_EXIT_EARLY);
@@ -2245,7 +2245,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		| clock cycles by fetching a prefix DDh or FDh.			|
 		'==============================================================*/
 		case Z80_RESUME_XY:
-		RESUME = FALSE;
+		RESUME = 0;
 		R++;
 		XY = (xy = &self->ix_iy[(DATA[0] >> 5) & 1])->uint16_value;
 		self->cycles += xy_insn_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
@@ -2325,7 +2325,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				{
 				REQUEST = Z80_REQUEST_REJECT_NMI;
 				IFF1 = 0;
-				if (HALT_LINE) {SET_HALT_LINE(FALSE);}
+				if (HALT_LINE) {SET_HALT_LINE(0);}
 				R++; /* M1 */
 				if (self->nmia != Z_NULL) (void)self->nmia(CONTEXT, PC);
 				DATA[0] = 0;
@@ -2381,7 +2381,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #				endif
 
 				REQUEST = IFF1 = IFF2 = 0;
-				if (HALT_LINE) {SET_HALT_LINE(FALSE);}
+				if (HALT_LINE) {SET_HALT_LINE(0);}
 
 				/*-------------------------------------------------------------------.
 				| Due to a bug, the Zilog Z80 NMOS resets PF when an INT is accepted |
@@ -2466,7 +2466,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							}
 
 						/* halt */
-						else if (ird == 0x76) HALT_LINE = TRUE;
+						else if (ird == 0x76) HALT_LINE = 1;
 
 						/* instructions with the CBh prefix */
 						else if (ird == 0xCB)
@@ -2522,7 +2522,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							{
 							Insn insn;
 
-							if (RESUME) RESUME = FALSE;
+							if (RESUME) RESUME = 0;
 
 							else	{
 								im0_advance_xy:
@@ -2574,7 +2574,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 						if (HALT_LINE)
 							{
-							if (self->halt != Z_NULL) self->halt(im0.context, TRUE);
+							if (self->halt != Z_NULL) self->halt(im0.context, 1);
 							RESUME = Z80_RESUME_HALT;
 							Q_0
 							self->cycles += 6;
@@ -2688,7 +2688,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 #ifdef Z80_WITH_WINDOWS_DLL_MAIN
 	int Z_MICROSOFT_STD_CALL _DllMainCRTStartup(void *hDllHandle, unsigned long dwReason, void *lpReserved)
-		{return TRUE;}
+		{return 1;}
 #endif
 
 

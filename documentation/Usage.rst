@@ -5,6 +5,7 @@ Usage
 .. code-block:: c
 
 	#include <Z80.h>
+	#include <Z/constants/pointer.h> /* Z_NULL */
 
 	typedef struct {
 		void* context;
@@ -112,9 +113,9 @@ Usage
 	void machine_run_frame(Machine *self)
 		{
 		self->cycles += z80_execute(&self->cpu, CYCLES_AT_INT - self->cycles);
-		z80_int(&self->cpu, TRUE);
+		z80_int(&self->cpu, Z_TRUE);
 		self->cycles += z80_run(&self->cpu, (CYCLES_AT_INT + CYCLES_PER_INT) - self->cycles);
-		z80_int(&self->cpu, FALSE);
+		z80_int(&self->cpu, Z_FALSE);
 		self->cycles += z80_execute(&self->cpu, CYCLES_PER_FRAME - self->cycles);
 		self->cycles -= CYCLES_PER_FRAME;
 		}

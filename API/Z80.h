@@ -239,14 +239,14 @@ typedef struct {
 	  * change and can only contain a boolean value if the Z80 library has
 	  * not been built with special RESET support:
 	  *
-	  * - @c TRUE indicates that the HALT line is going low during the last
-	  *   clock cycle of a @c halt instruction, which means that the CPU is
-	  *   entering the HALT state.
+	  * - @c 1 indicates that the HALT line is going low during the last
+	  *   clock cycle of a @c halt instruction, which means that the CPU
+	  *   is entering the HALT state.
 	  *
-	  * - @c FALSE indicates that the HALT line is going high during the
-	  *   last clock cycle of an internal NOP executed during the HALT
-	  *   state, i.e., the CPU is exiting the HALT state due to an interrupt
-	  *   or normal RESET.
+	  * - @c 0 indicates that the HALT line is going high during the last
+	  *   clock cycle of an internal NOP executed during the HALT state,
+	  *   i.e., the CPU is exiting the HALT state due to an interrupt or
+	  *   normal RESET.
 	  *
 	  * If the library has been built with special RESET support, the values
 	  * <tt>@ref Z80_HALT_EXIT_EARLY</tt> and <tt>@ref Z80_HALT_CANCEL</tt>
@@ -458,16 +458,16 @@ typedef struct {
 
 	/** @brief State of the INT line.
 	  *
-	  * The value of this member is @c TRUE if the INT line is low;
-	  * otherwise, @c FALSE. */
+	  * The value of this member is @c 1 if the INT line is low; otherwise,
+	  * @c 0. */
 
 	zuint8 int_line;
 
 	/** @brief State of the HALT line.
 	  *
-	  * The value of this member is @c TRUE if the HALT line is low;
-	  * otherwise, @c FALSE. The emulator updates this member before
-	  * invoking <tt>@ref Z80::halt</tt>, not after. */
+	  * The value of this member is @c 1 if the HALT line is low; otherwise,
+	  * @c 0. The emulator updates this member before invoking
+	  * <tt>@ref Z80::halt</tt>, not after. */
 
 	zuint8 halt_line;
 } Z80;
@@ -757,8 +757,8 @@ Z_EXTERN_C_BEGIN
   *
   * @param self Pointer to the object on which the function is called.
   * @param state
-  *   @c TRUE  = power on;
-  *   @c FALSE = power off. */
+  *   @c Z_TRUE  = power on;
+  *   @c Z_FALSE = power off. */
 
 Z80_API void z80_power(Z80 *self, zboolean state);
 
@@ -782,8 +782,8 @@ Z80_API void z80_special_reset(Z80 *self);
   *
   * @param self Pointer to the object on which the function is called.
   * @param state
-  *   @c TRUE  = set line low;
-  *   @c FALSE = set line high. */
+  *   @c Z_TRUE  = set line low;
+  *   @c Z_FALSE = set line high. */
 
 Z80_API void z80_int(Z80 *self, zboolean state);
 

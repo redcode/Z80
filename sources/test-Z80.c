@@ -177,22 +177,22 @@ static zuint8 memory[65536];
 static zboolean completed;
 static zusize   cursor_x, columns, cycles, lines;
 
-/*------------------------------------------------------------------------.
-| `zx_spectrum_print_hook_address` contains the address of the hook that  |
-| intercepts the routine called by the test to print characters. When a	  |
-| TAB character (17h) is printed, the `zx_spectrum_tab` counter is set to |
-| 2 to indicate that it is necessary to process the incoming <TAB n> and  |
-| <TAB STOP> bytes before continuing to print characters. `bad_character` |
-| is set to `TRUE` if the test prints any unsupported control characters. |
-|									  |
-| To learn more about the TAB control sequence of the ZX Spectrum, read:  |
-| * Sinclair Research (1983). "Sinclair ZX Spectrum BASIC Programming"	  |
-|   2nd edition, pp. 103, 196.						  |
-| * Ardley, Neil (1984). "ZX Spectrum + User Guide" (Dorling Kindersley;  |
-|   Sinclair Research. ISBN 0863180809), pp. 67-68.			  |
-|									  |
-| These three variables are only used for ZX Spectrum tests.		  |
-'========================================================================*/
+/*-----------------------------------------------------------------------------.
+| `zx_spectrum_print_hook_address` contains the address of the hook that       |
+| intercepts the routine called by the test to print characters. When a TAB    |
+| character (17h) is printed, the `zx_spectrum_tab` counter is set to 2 to     |
+| indicate that it is necessary to process the incoming <TAB n> and <TAB STOP> |
+| bytes before continuing to print characters. `zx_spectrum_bad_character` is  |
+| set to `Z_TRUE` if the test prints any unsupported control characters.       |
+|									       |
+| To learn more about the TAB control sequence of the ZX Spectrum, read:       |
+| * Sinclair Research (1983). "Sinclair ZX Spectrum BASIC Programming"	       |
+|   2nd edition, pp. 103, 196.						       |
+| * Ardley, Neil (1984). "ZX Spectrum + User Guide" (Dorling Kindersley;       |
+|   Sinclair Research. ISBN 0863180809), pp. 67-68.			       |
+|									       |
+| These three variables are only used for ZX Spectrum tests.		       |
+'=============================================================================*/
 static zuint16	zx_spectrum_print_hook_address;
 static zuint	zx_spectrum_tab;
 static zboolean zx_spectrum_bad_character;
@@ -223,7 +223,7 @@ static void cpu_halt(void *context, zuint8 state)
 	Z_UNUSED(context) Z_UNUSED(state)
 	cycles	   = cpu.cycles;
 	cpu.cycles = Z80_MAXIMUM_CYCLES;
-	completed  = TRUE;
+	completed  = Z_TRUE;
 	}
 
 
@@ -325,7 +325,7 @@ static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 			cursor_x++;
 			}
 
-		else zx_spectrum_bad_character = TRUE;
+		else zx_spectrum_bad_character = Z_TRUE;
 		}
 
 	else if (--zx_spectrum_tab)
@@ -377,7 +377,7 @@ static zboolean load_file(
 	void*	    buffer
 )
 	{
-	zboolean ok = FALSE;
+	zboolean ok = Z_FALSE;
 	FILE *file = fopen(compose_path(search_path, file_path), "rb");
 
 	if (file != Z_NULL)
@@ -465,7 +465,7 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 						if (	zip_fread(file, buffer, test->code_offset) == test->code_offset &&
 							zip_fread(file, buffer, test->code_size)   == test->code_size
 						)
-							ok = TRUE;
+							ok = Z_TRUE;
 
 						zip_fclose(file);
 						}
@@ -526,11 +526,11 @@ static zuint8 run_test(int test_index)
 			? "Error, test skipped\n"
 			: "Error, test skipped");
 
-		return FALSE;
+		return Z_FALSE;
 		}
 
 	if (verbosity >= 3) puts("OK");
-	z80_power(&cpu, TRUE);
+	z80_power(&cpu, Z_TRUE);
 
 	if (test->format == TEST_FORMAT_CPM)
 		{
@@ -609,7 +609,7 @@ static zuint8 run_test(int test_index)
 	cursor_x		   = 0;
 	zx_spectrum_tab		   = 0;
 	zx_spectrum_bad_character  =
-	completed		   = FALSE;
+	completed		   = Z_FALSE;
 
 	if (verbosity >= 3) printf("* Running program%s", show_test_output ? ":\n\n" : "... ");
 
@@ -702,15 +702,15 @@ static zboolean to_uint8(char const* string, zuint8 maximum_value, zuint8 *byte)
 	char *end;
 	zulong value = strtoul(string, &end, 0);
 
-	if (end == string || *end || value > maximum_value) return FALSE;
+	if (end == string || *end || value > maximum_value) return Z_FALSE;
 	if (byte != Z_NULL) *byte = (zuint8)value;
-	return TRUE;
+	return Z_TRUE;
 	}
 
 
 int main(int argc, char **argv)
 	{
-	zboolean all = FALSE;
+	zboolean all = Z_FALSE;
 	zuint32 tests_run = 0;
 	zusize maximum_search_path_size = 0;
 	int j, i = 0;
@@ -856,7 +856,7 @@ int main(int argc, char **argv)
 			}
 
 		else if (is_option(argv[i], "-a", "--all"))
-			all = TRUE;
+			all = Z_TRUE;
 
 		else	{
 			invalid = "option";
