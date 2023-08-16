@@ -16,7 +16,6 @@
 		<img alt="Discord" src="https://img.shields.io/discord/848534208129138738?color=5865F2&label=Discord&logo=discord&logoColor=white">
 	</a>
 	<img src="https://awesome.re/mentioned-badge.svg">
-	<img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fzxe.io%2Fsoftware%2FZ80%2Fbadges%2Fdevelopment-costs.json">
 </p>
 
 # Introduction
