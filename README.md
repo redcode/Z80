@@ -12,8 +12,8 @@
 	<a href="https://github.com/redcode/Z80/actions/workflows/build_documentation.yml">
 		<img src="https://github.com/redcode/Z80/actions/workflows/build_documentation.yml/badge.svg">
 	</a>
-	<a href="https://discord.gg/zU4dkzp8Mv">
-		<img alt="Discord" src="https://img.shields.io/discord/848534208129138738?color=5865F2&label=Discord&logo=discord&logoColor=white">
+	<a href="https://zxe.io/software/Z80/discord">
+		<img alt="Discord" src="https://zxe.io/software/Z80/discord-badge">
 	</a>
 	<img src="https://awesome.re/mentioned-badge.svg">
 </p>
