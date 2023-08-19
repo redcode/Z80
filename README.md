@@ -4,7 +4,7 @@
 </h1>
 <p align="center">
 	<a href="https://zxe.io/software/Z80/documentation/latest">
-		<img alt="Documentation" src="https://img.shields.io/badge/Documentation-informational?color=006FEF">
+		<img alt="Documentation" src="https://zxe.io/software/Z80/images/documentation-badge">
 	</a>
 	<a href="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml">
 		<img src="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml/badge.svg">
@@ -13,9 +13,9 @@
 		<img src="https://github.com/redcode/Z80/actions/workflows/build_documentation.yml/badge.svg">
 	</a>
 	<a href="https://zxe.io/software/Z80/discord">
-		<img alt="Discord" src="https://zxe.io/software/Z80/discord-badge">
+		<img alt="Discord" src="https://zxe.io/software/Z80/images/discord-badge">
 	</a>
-	<img src="https://awesome.re/mentioned-badge.svg">
+	<img src="https://zxe.io/software/Z80/images/mentioned-in-awesome-badge.svg">
 </p>
 
 # Introduction
