@@ -810,7 +810,7 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 		| ZF_ZERO(t)	  /* ZF = zero				 */ \
 		/* HF = high-half-carry (adc), high-half-borrow (sbc)	 */ \
 		| (((zuint16)(HL ^ ss ^ t) >> 8) & HF)			    \
-		/* PF = overflow */ 					    \
+		/* PF = overflow */					    \
 		| PF_OVERFLOW(16, t, HL, pf_overflow_rhs)		    \
 		| ((zuint32)cf_test) /* CF = carry (adc), borrow (sbc)	 */ \
 		set_nf);	     /* NF = 0 (adc), 1 (sbc)		 */ \

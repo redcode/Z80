@@ -22,7 +22,6 @@ Thanks
 
       }
 
-
 Many thanks to the following individuals (in alphabetical order):
 
 * **Akimov, Vadim (lvd)**
@@ -264,7 +263,7 @@ References
 3.
 
    .. _r3:
-  
+
    Banks, David (2018-08-21). *"Undocumented Z80 Flags"* revision 1.0.
 
    * https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags

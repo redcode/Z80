@@ -175,7 +175,7 @@ static zuint8 memory[65536];
 | position reached by the cursor throughout the test.			  |
 '========================================================================*/
 static zboolean completed;
-static zusize   cursor_x, columns, cycles, lines;
+static zusize   cycles, lines, cursor_x, columns;
 
 /*-----------------------------------------------------------------------------.
 | `zx_spectrum_print_hook_address` contains the address of the hook that       |
