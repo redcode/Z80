@@ -51,7 +51,7 @@ jobs:
         curl -L ${{env.ZETA_TARBALL_URL}} | xz -cd | tar -C "${{github.workspace}}/build" --strip-components=2 -xvf - Zeta/API/Z
 
     - name: Configure CMake
-      run: >
+      run: >-
         cmake
         -S "${{github.workspace}}"
         -B "${{github.workspace}}/build"

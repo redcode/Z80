@@ -66,7 +66,7 @@ jobs:
         curl -L ${{env.ZETA_TARBALL_URL}} | 7z x -txz -si -so | 7z x -si -ttar -o"${{github.workspace}}\build" Zeta/API/Z
 
     - name: Configure CMake
-      run: >
+      run: >-
         cmake
         -S "${{github.workspace}}"
         -B "${{github.workspace}}/build"
