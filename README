@@ -79,7 +79,7 @@ prepare the build system:
 
     $ mkdir build
     $ cd build
-    $ cmake <Z80-project-directory> [options]
+    $ cmake [options] <Z80-project-directory>
 
 The resulting build files can be configured by passing options to cmake. To show
 a complete list of those available along with their current settings, type the
@@ -335,4 +335,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2023-08-05                                               README EOF
+Last update: 2023-09-11                                               README EOF

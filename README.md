@@ -368,7 +368,7 @@ Once the prerequisites are met, create a directory and run `cmake` from there to
 ```shell
 mkdir build
 cd build
-cmake <Z80-project-directory> [options]
+cmake [options] <Z80-project-directory>
 ```
 
 The resulting build files can be configured by passing options to `cmake`. To show a complete list of those available along with their current settings, type the following:
@@ -512,15 +512,16 @@ git clone https://github.com/redcode/Zeta.git
 git clone https://github.com/redcode/Z80.git
 cd Zeta
 mkdir build && cd build
-cmake .. \
+cmake \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_INSTALL_PREFIX=$HOME/.local \
 	-DZeta_WITH_CMAKE_SUPPORT=YES \
-	-DZeta_WITH_PKGCONFIG_SUPPORT=YES
+	-DZeta_WITH_PKGCONFIG_SUPPORT=YES \
+	..
 cmake --install . --config Release
 cd ../../Z80
 mkdir build && cd build
-cmake .. \
+cmake \
 	-DBUILD_SHARED_LIBS=YES \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_INSTALL_PREFIX=$HOME/.local \
@@ -530,7 +531,8 @@ cmake .. \
 	-DZ80_WITH_FULL_IM0=YES \
 	-DZ80_WITH_IM0_RETX_NOTIFICATIONS=YES \
 	-DZ80_WITH_Q=YES \
-	-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
+	-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES \
+	..
 cmake --build . --config Release
 cmake --install . --config Release --strip
 ```
@@ -573,7 +575,7 @@ git clone https://github.com/redcode/Zeta.git
 git clone https://github.com/redcode/Z80.git
 cd Z80
 mkdir build && cd build
-cmake .. \
+cmake \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DZ80_FETCH_TEST_FILES=YES \
 	-DZ80_WITH_TESTS=YES \
@@ -581,7 +583,8 @@ cmake .. \
 	-DZ80_WITH_FULL_IM0=YES \
 	-DZ80_WITH_IM0_RETX_NOTIFICATIONS=YES \
 	-DZ80_WITH_Q=YES \
-	-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
+	-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES \
+	..
 cmake --build . --config Release
 ctest --verbose --build-config Release
 ```
