@@ -1,7 +1,5 @@
-<h1 align="center">
-	<img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Zilog_Z80.jpg"><br>
-	<b>Zilog Z80 CPU Emulator</b>
-</h1>
+<p align="center"><img src="https://zxe.io/software/Z80/assets/images/Z80-logo.png" width="640"></p>
+<h1 align="center"><b>Zilog Z80 CPU Emulator</b></h1>
 <p align="center">
 	<a href="https://zxe.io/software/Z80/documentation/latest"><img alt="Documentation" src="https://zxe.io/software/Z80/assets/images/documentation-badge"></a>
 	<a href="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml"><img src="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml/badge.svg"></a>
