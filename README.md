@@ -1,4 +1,4 @@
-<p align="center"><img src="https://zxe.io/software/Z80/assets/images/Z80-logo.png" width="640"></p>
+<p align="center"><img src="https://zxe.io/software/Z80/assets/images/Z80-logo.png" width="360"></p>
 <h1 align="center"><b>Zilog Z80 CPU Emulator</b></h1>
 <p align="center">
 	<a href="https://zxe.io/software/Z80/documentation/latest"><img alt="Documentation" src="https://zxe.io/software/Z80/assets/images/documentation-badge"></a>
