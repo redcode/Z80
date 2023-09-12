@@ -8,13 +8,13 @@
 	<img src="https://zxe.io/software/Z80/assets/images/mentioned-in-awesome-badge.svg">
 </p>
 
-# Introduction
+## Introduction
 
 The [Z80 library](https://zxe.io/software/Z80) implements a fast, small and accurate [emulator](https://en.wikipedia.org/wiki/Emulator) of the [Zilog Z80](https://en.wikipedia.org/wiki/Zilog_Z80). It emulates all that is known to date about this CPU, including the undocumented behaviors, [MEMPTR](https://zxpress.ru/zxnet/zxnet.pc/5909), [Q](https://worldofspectrum.org/forums/discussion/41704) and the [special RESET](http://www.primrosebank.net/computers/z80/z80_special_reset.htm). It also has the honor of having been the first open-source project to provide full emulation of the interrupt mode 0.
 
 The source code is written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C) for maximum portability and is extensively commented. The aim has been to write a well-structured, easy-to-understand piece of software; something solid and elegant that can stand the test of time with no need for major changes.
 
-# Accuracy
+## Accuracy
 
 This Z80 CPU emulator has a classic design with instruction-level granularity that delivers the best performance, whilst offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/Agaxia/Z80Plus).
 
@@ -304,7 +304,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 	</table>
 </details>
 
-# Installation
+## Installation
 
 ### <sub><img src="https://zxe.io/software/Z80/assets/images/debian-icon.svg" height="24"></sub> Debian/Ubuntu
 
@@ -355,7 +355,7 @@ brew install redcode/zxe/z80
 
 Pre-built binaries for Windows are available on the [download](https://zxe.io/software/Z80/download) page.
 
-# Installation from sources
+## Installation from sources
 
 You will need [CMake](https://cmake.org) v3.14 or later to build the package and, optionally, recent versions of [Doxygen](https://www.doxygen.nl), [Sphinx](https://www.sphinx-doc.org) and [Breathe](https://www.breathe-doc.org) to compile the documentation. Also, make sure that you have [LaTeX](https://www.latex-project.org) with PDF support installed on your system if you want to generate the documentation in PDF format.
 
@@ -537,7 +537,7 @@ cmake --install . --config Release --strip
 
 <sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/shell-script-icon.svg" height="14"></sub> build-and-install-Z80.sh](https://zxe.io/software/Z80/scripts/build-and-install-Z80.sh)**</sup>
 
-# Running the tests
+## Running the tests
 
 The package includes a tool called [`test-Z80`](sources/test-Z80.c) capable of running the most relevant [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of the [major test suites](#major_test_suites). Configure the build system with <code>-D[Z80_WITH_TESTS](#cmake_option_z80_with_tests)=YES</code> to enable its compilation and <code>-D[Z80_FETCH_TEST_FILES](#cmake_option_z80_fetch_test_files)=YES</code> to download the firmware and software required. Also note that the Z80 library must be built with <code>-D[Z80_WITH_Q](#cmake_option_z80_with_q)=YES</code> to be able to pass [Patrik Rak's tests](#zilog-z80-cpu-test-suite-by-patrik-rak).
 
@@ -589,7 +589,7 @@ ctest --verbose --build-config Release
 
 <sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/shell-script-icon.svg" height="14"></sub> build-and-test-Z80.sh](https://zxe.io/software/Z80/scripts/build-and-test-Z80.sh) &nbsp;&nbsp; [<sub><img src="https://zxe.io/software/Z80/assets/images/shell-script-icon.svg" height="14"></sub> build-and-test-Z80.bat](https://zxe.io/software/Z80/scripts/build-and-test-Z80.bat)**</sup>
 
-# Integration
+## Integration
 
 ### As an external dependency in CMake-based projects
 
@@ -653,7 +653,7 @@ Except for [`Z80_DEPENDENCIES_HEADER`](#macro_z80_dependencies_header), the abov
 > [!NOTE]
 > The activation of some of the optional features affects the speed of the emulator due to various factors (read the [documentation](https://zxe.io/software/Z80/documentation/latest/Introduction.html#optional-features) for more details).
 
-# Showcase
+## Showcase
 
 This emulator has been used by the following projects (listed in alphabetical order):
 
@@ -669,7 +669,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **Z80Plus** <sub>_by [Sofía Ortega Sosa](https://github.com/Agaxia)_</sub> — [GitHub](https://github.com/Agaxia/Z80Plus)
 * **Zemu** <sub>_by [Jay Valentine](https://jayvalentine.github.io/)_</sub> — [GitHub](https://github.com/jayvalentine/zemu) · [RubyGems](https://rubygems.org/gems/zemu)
 
-# Thanks
+## Thanks
 
 Many thanks to the following individuals (in alphabetical order):
 
@@ -858,7 +858,7 @@ Many thanks to the following individuals (in alphabetical order):
 39. <span id="r39">Young, Sean (1997-09-21). _"Zilog Z80 CPU Specifications"_.
 	* http://www.msxnet.org/tech/Z80/z80.zip
 
-# License
+## License
 
 Copyright © 1999-2023 Manuel Sainz de Baranda y Goñi.
 
@@ -870,6 +870,6 @@ This library is distributed in the hope that it will be useful, but **WITHOUT AN
 
 You should have received a [copy](COPYING.LESSER) of the GNU Lesser General Public License along with this library. If not, see <https://www.gnu.org/licenses/>.
 
-# Special licensing
+## Special licensing
 
 Projects where the terms of the GNU Lesser General Public License prevent the use of this library, or require unwanted publication of the source code of commercial products, may [apply for a special license](mailto:manuel@zxe.io?subject=Z80).
