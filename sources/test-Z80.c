@@ -186,8 +186,8 @@ static zusize   cycles, lines, cursor_x, columns;
 | set to `Z_TRUE` if the test prints any unsupported control characters.       |
 |									       |
 | To learn more about the TAB control sequence of the ZX Spectrum, read:       |
-| * Sinclair Research (1983). "Sinclair ZX Spectrum BASIC Programming"	       |
-|   2nd edition, pp. 103, 196.						       |
+| * Sinclair Research (1983). "Sinclair ZX Spectrum BASIC Programming" 2nd     |
+|   ed., pp. 103, 196.							       |
 | * Ardley, Neil (1984). "ZX Spectrum + User Guide" (Dorling Kindersley;       |
 |   Sinclair Research. ISBN 0863180809), pp. 67-68.			       |
 |									       |

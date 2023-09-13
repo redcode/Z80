@@ -2107,22 +2107,22 @@ Z80_API void z80_power(Z80 *self, zboolean state)
 	}
 
 
-/*--------------------------------------------------------------------------.
-| The normal RESET zeroes PC, I, and R [1,2,3,4,5,6], resets the interrupt  |
-| enable flip-flops (IFF1 and IFF2) [1,2,3,4,5] and selects the interrupt   |
-| mode 0 [1,2,3,4,7].							    |
-|									    |
-| References:								    |
-| 1. Zilog (2016-09). "Z80 CPU User Manual" revision 11, p. 6.		    |
-| 2. SGS-Thomson (1990-01). "Z80 Microprocessor Family" 1st edition, p. 33. |
-| 3. Brewer, Tony (2014-12). "Z80 Special Reset".			    |
-|     * http://primrosebank.net/computers/z80/z80_special_reset.htm	    |
-| 4. Flammenkamp, Achim. "Interrupt Behaviour of the Z80 CPU".		    |
-|     * http://z80.info/interrup.htm					    |
-| 5. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm	    |
-| 6. https://worldofspectrum.org/forums/discussion/34574		    |
-| 7. Zilog (1978-05). "Z80 Family Program Interrupt Structure, The", p. 8.  |
-'==========================================================================*/
+/*-------------------------------------------------------------------------.
+| The normal RESET zeroes PC, I, and R [1,2,3,4,5,6], resets the interrupt |
+| enable flip-flops (IFF1 and IFF2) [1,2,3,4,5] and selects the interrupt  |
+| mode 0 [1,2,3,4,7].							   |
+|									   |
+| References:								   |
+| 1. Zilog (2016-09). "Z80 CPU User Manual" revision 11, p. 6.		   |
+| 2. SGS-Thomson (1990-01). "Z80 Microprocessor Family" 1st ed., p. 33.	   |
+| 3. Brewer, Tony (2014-12). "Z80 Special Reset".			   |
+|     * http://primrosebank.net/computers/z80/z80_special_reset.htm	   |
+| 4. Flammenkamp, Achim. "Interrupt Behaviour of the Z80 CPU".		   |
+|     * http://z80.info/interrup.htm					   |
+| 5. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm	   |
+| 6. https://worldofspectrum.org/forums/discussion/34574		   |
+| 7. Zilog (1978-05). "Z80 Family Program Interrupt Structure, The", p. 8. |
+'=========================================================================*/
 
 Z80_API void z80_instant_reset(Z80 *self)
 	{
