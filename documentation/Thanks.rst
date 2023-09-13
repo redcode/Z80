@@ -264,7 +264,7 @@ References
 
    .. _r3:
 
-   Banks, David (2018-08-21). *"Undocumented Z80 Flags"* revision 1.0.
+   Banks, David (2018-08-21). *"Undocumented Z80 Flags"* rev. 1.0.
 
    * https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags
    * https://stardot.org.uk/forums/download/file.php?id=39831

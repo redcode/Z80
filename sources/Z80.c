@@ -939,7 +939,7 @@ static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 | 1. https://stardot.org.uk/forums/viewtopic.php?t=15464		       |
 |    1. https://stardot.org.uk/forums/viewtopic.php?p=211042#p211042	       |
 |    2. https://stardot.org.uk/forums/viewtopic.php?p=212021#p212021	       |
-| 2. Banks, David (2018-08-21). "Undocumented Z80 Flags" revision 1.0.	       |
+| 2. Banks, David (2018-08-21). "Undocumented Z80 Flags" rev. 1.0.	       |
 |    * https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags	       |
 |    * https://stardot.org.uk/forums/download/file.php?id=39831		       |
 | 3. Helcmanovsky, Peter (2021/2022). "Z80 Block Flags Test".		       |
@@ -1269,7 +1269,7 @@ INSN(neg)
 | References:								     |
 | 1. https://worldofspectrum.org/forums/discussion/20345		     |
 | 2. https://worldofspectrum.org/forums/discussion/41704		     |
-| 3. Banks, David (2018-08-21). "Undocumented Z80 Flags" revision 1.0.	     |
+| 3. Banks, David (2018-08-21). "Undocumented Z80 Flags" rev. 1.0.	     |
 |     * https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags	     |
 |     * https://stardot.org.uk/forums/download/file.php?id=39831	     |
 '===========================================================================*/
@@ -2113,7 +2113,7 @@ Z80_API void z80_power(Z80 *self, zboolean state)
 | mode 0 [1,2,3,4,7].							   |
 |									   |
 | References:								   |
-| 1. Zilog (2016-09). "Z80 CPU User Manual" revision 11, p. 6.		   |
+| 1. Zilog (2016-09). "Z80 CPU User Manual" rev. 11, p. 6.		   |
 | 2. SGS-Thomson (1990-01). "Z80 Microprocessor Family" 1st ed., p. 33.	   |
 | 3. Brewer, Tony (2014-12). "Z80 Special Reset".			   |
 |     * http://primrosebank.net/computers/z80/z80_special_reset.htm	   |
@@ -2640,7 +2640,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| whether it is even or odd.					       |
 					|								       |
 					| References:							       |
-					| 1. Zilog (2005-03). "Z80 CPU User Manual" revision 5, pp. 25-26.     |
+					| 1. Zilog (2005-03). "Z80 CPU User Manual" rev. 5, pp. 25-26.	       |
 					| 2. Young, Sean (2005-09-18). "Undocumented Z80 Documented, The"      |
 					|    v0.91, p. 20.						       |
 					'=====================================================================*/

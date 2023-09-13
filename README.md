@@ -801,7 +801,7 @@ Many thanks to the following individuals (in alphabetical order):
 2. <span id="r2">https://stardot.org.uk/forums/viewtopic.php?t=15464</span>
 	* https://stardot.org.uk/forums/viewtopic.php?p=211042#p211042
 	* https://stardot.org.uk/forums/viewtopic.php?p=212021#p212021
-3. <span id="r3">Banks, David (2018-08-21). _"Undocumented Z80 Flags"_  revision 1.0.</span>
+3. <span id="r3">Banks, David (2018-08-21). _"Undocumented Z80 Flags"_ rev. 1.0.</span>
 	* https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags
 	* https://stardot.org.uk/forums/download/file.php?id=39831
 4. <span id="r4">https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83041#p83041</span>
