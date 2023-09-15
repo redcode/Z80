@@ -1,5 +1,5 @@
 <p align="center"><img src="https://zxe.io/software/Z80/assets/images/Z80-logo.png" width="360"></p>
-<h1 align="center"><b>Zilog Z80 CPU Emulator</b></h1>
+<h1 align="center">Zilog Z80 CPU Emulator</h1>
 <p align="center">
 	<a href="https://zxe.io/software/Z80/documentation/latest"><img alt="Documentation" src="https://zxe.io/software/Z80/assets/images/documentation-badge"></a>
 	<a href="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml"><img src="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml/badge.svg"></a>
@@ -30,7 +30,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 	<summary>Results (v1.0)</summary>
 	<table>
 		<tr>
-			<td align="center" valign="top" align="center">
+			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20210401091605id_/http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip">
 					<img src="https://zxe.io/software/Z80/assets/images/tap.svg" width="96"><br>
 					<b>z80full.tap</b>
@@ -73,6 +73,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 				<sup>Tests documented flags only, ignores registers.</sup>
 			</td>
 		</tr>
+		<tr>
 			<td align="center" valign="top">
 				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Flags.gif">
 			</td>
@@ -112,7 +113,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 	<summary>Results (v1.2)</summary>
 	<table>
 		<tr>
-			<td align="center" valign="top" align="center">
+			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
 					<img src="https://zxe.io/software/Z80/assets/images/tap.svg" width="96"><br>
 					<b>z80full.tap</b>
@@ -155,6 +156,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 				<sup>Tests documented flags only, ignores registers.</sup>
 			</td>
 		</tr>
+		<tr>
 			<td align="center" valign="top">
 				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Flags.gif">
 			</td>
@@ -233,7 +235,6 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 				<br>
 				<sup>Tests officially documented flag effects.</sup>
 			</td>
-			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20181216034526id_/http://mdfs.net/Software/Z80/Exerciser/Spectrum/zexall.tap">
 					<img src="https://zxe.io/software/Z80/assets/images/tap.svg" width="96"><br>
@@ -264,7 +265,6 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 				</a>
 				<br>
 				<sup>Tests all flag changes.</sup>
-			</td>
 			</td>
 			<td align="center" valign="top">
 				<a href="https://web.archive.org/web/20120527200327id_/http://wizard.ae.krakow.pl:80/~jb/qaop/t/zexbit.tap">
@@ -328,7 +328,7 @@ In case you need to build software that requires the Z80 library, install the de
 
 ```shell
 sudo apt install libz80-dev
-````
+```
 
 ### <sub><img src="https://zxe.io/software/Z80/assets/images/gentoo-icon.svg" height="24"></sub> Gentoo Linux
 
