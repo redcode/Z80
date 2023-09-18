@@ -42,8 +42,8 @@ jobs:
         sudo apt-get -y install doxygen
         sudo apt-get -y install python3-pip
         sudo apt-get -y install texlive-full
-        pip3 install --user sphinx
-        pip3 install --user breathe
+        pip install --user sphinx
+        pip install --user breathe
 
     - name: Install dependencies
       run: |
