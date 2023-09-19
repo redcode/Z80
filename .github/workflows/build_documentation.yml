@@ -47,7 +47,7 @@ jobs:
     - name: Install dependencies
       run: |
         mkdir -p "${{github.workspace}}/build"
-        curl -L ${{env.ZETA_TARBALL_URL}} | xz -cd | tar -C "${{github.workspace}}/build" --strip-components=2 -xvf - Zeta/API/Z
+        curl -L "${{env.ZETA_TARBALL_URL}}" | xz -cd | tar -C "${{github.workspace}}/build" --strip-components=2 -xvf - Zeta/API/Z
 
     - name: Configure CMake
       run: >-
