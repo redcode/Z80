@@ -33,86 +33,106 @@ include(GNUInstallDirs)
 
 set(${PROJECT_NAME}_DEPOT_LOCATION
 "http://zxe.io/depot" CACHE STRING
-"Directory or URL of the depot containing the test files.")
+"${PROJECT_NAME}: \
+Directory or URL of the depot containing the test files.")
 
 option(${PROJECT_NAME}_FETCH_TEST_FILES
-"Copy or download the test files from the depot to the build directory."
+"${PROJECT_NAME}: \
+Copy or download the test files from the depot to the build directory."
 NO)
 
 set(${PROJECT_NAME}_INSTALL_CMAKEDIR
 "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}" CACHE STRING
-"Directory in which to install the CMake config-file package.")
+"${PROJECT_NAME}: \
+Directory in which to install the CMake config-file package.")
 
 set(${PROJECT_NAME}_INSTALL_PKGCONFIGDIR
 "${CMAKE_INSTALL_LIBDIR}/pkgconfig" CACHE STRING
-"Directory in which to install the pkg-config file.")
+"${PROJECT_NAME}: \
+Directory in which to install the pkg-config file.")
 
 set(${PROJECT_NAME}_NOSTDLIB_FLAGS
 "Auto" CACHE STRING
-"Linker flags used to avoid linking against system libraries.")
+"${PROJECT_NAME}: \
+Linker flags used to avoid linking against system libraries.")
 
 option(${PROJECT_NAME}_OBJECT_LIBS
-"Build the emulator as an object library."
+"${PROJECT_NAME}: \
+Build the emulator as an object library."
 NO)
 
 set(${PROJECT_NAME}_SPHINX_HTML_THEME
 "" CACHE STRING
-"Sphinx theme for the documentation in HTML format.")
+"${PROJECT_NAME}: \
+Sphinx theme for the documentation in HTML format.")
 
 option(${PROJECT_NAME}_WITH_CMAKE_SUPPORT
-"Generate and install the CMake config-file package."
+"${PROJECT_NAME}: \
+Generate and install the CMake config-file package."
 NO)
 
 option(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION
-"Build and install the documentation in HTML format."
+"${PROJECT_NAME}: \
+Build and install the documentation in HTML format."
 NO)
 
 option(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION
-"Build and install the documentation in PDF format."
+"${PROJECT_NAME}: \
+Build and install the documentation in PDF format."
 NO)
 
 option(${PROJECT_NAME}_WITH_PKGCONFIG_SUPPORT
-"Generate and install the pkg-config file."
+"${PROJECT_NAME}: \
+Generate and install the pkg-config file."
 NO)
 
 option(${PROJECT_NAME}_WITH_STANDARD_DOCUMENTS
-"Install the standard text documents distributed with the package: \
+"${PROJECT_NAME}: \
+Install the standard text documents distributed with the package: \
 AUTHORS, COPYING, COPYING.LESSER, HISTORY, README and THANKS."
 NO)
 
 option(${PROJECT_NAME}_WITH_TESTS
-"Build the testing tool."
+"${PROJECT_NAME}: \
+Build the testing tool."
 NO)
 
 option(${PROJECT_NAME}_WITH_EXECUTE
-"Build the implementation of the `z80_execute` function."
+"${PROJECT_NAME}: \
+Build the implementation of the `z80_execute` function."
 NO)
 
 option(${PROJECT_NAME}_WITH_FULL_IM0
-"Build the full implementation of the interrupt mode 0 rather than the \
+"${PROJECT_NAME}: \
+Build the full implementation of the interrupt mode 0 rather than the \
 reduced one."
 NO)
 
 option(${PROJECT_NAME}_WITH_IM0_RETX_NOTIFICATIONS
-"Enable optional notifications for any `reti` or `retn` instruction \
+"${PROJECT_NAME}: \
+Enable optional notifications for any `reti` or `retn` instruction \
 executed during the interrupt mode 0 response."
 NO)
 
 option(${PROJECT_NAME}_WITH_Q
-"Build the implementation of Q."
+"${PROJECT_NAME}: \
+Build the implementation of Q."
 NO)
 
 option(${PROJECT_NAME}_WITH_SPECIAL_RESET
-"Build the implementation of the special RESET."
+"${PROJECT_NAME}: \
+Build the implementation of the special RESET."
 NO)
 
 option(${PROJECT_NAME}_WITH_UNOFFICIAL_RETI
-"Configure the ED5Dh, ED6Dh and ED7Dh undocumented instructions as `reti` \
+"${PROJECT_NAME}: \
+Configure the ED5Dh, ED6Dh and ED7Dh undocumented instructions as `reti` \
 instead of `retn`."
 NO)
 
 option(${PROJECT_NAME}_WITH_ZILOG_NMOS_LD_A_IR_BUG
-"Build the implementation of the bug affecting the Zilog Z80 NMOS, which \
+"${PROJECT_NAME}: \
+Build the implementation of the bug affecting the Zilog Z80 NMOS, which \
 causes the P/V flag to be reset when a maskable interrupt is accepted \
 during the execution of the `ld a,{i|r}` instructions."
 NO)
