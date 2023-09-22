@@ -2,10 +2,10 @@
 Version history
 ===============
 
-v0.2
-====
+Z80 v0.2
+========
 
-*Released on 2023-07-xx*
+*Pre-released on 2023-08-12*
 
 This is an important update that addresses a number of issues and also includes new features. Please note that the changes introduced in this release break the binary compatibility with the previous version.
 
@@ -66,8 +66,8 @@ This is an important update that addresses a number of issues and also includes 
 53. Improved code aesthetics.
 54. Other improvements, optimizations and minor changes.
 
-v0.1
-====
+Z80 v0.1
+========
 
 *Released on 2018-11-10*
 

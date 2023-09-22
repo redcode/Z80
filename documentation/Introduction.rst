@@ -47,7 +47,7 @@ Package maintainers should enable the full implementation of the interrupt mode 
 Q
 -
 
-Q is an abstraction of certain ALU data related to flag computation. Instructions that modify the flags copy the final value of the F register to Q, while those that do not modify the flags set Q to zero. The state of Q affects the undocumented flags X and Y in the ``ccf`` and ``scf`` instructions. This occurs on Z80 CPUs from Zilog and most other manufacturers.
+Q is an abstraction of certain ALU data related to flag computation. Instructions that modify the flags copy the final value of the F register to Q, whereas those that do not modify the flags set Q to zero. The state of Q affects the undocumented flags X and Y in the ``ccf`` and ``scf`` instructions. This occurs on Z80 CPUs from Zilog and most other manufacturers.
 
 Enabling the implementation of this feature adds code to update the value of Q in each instruction and interrupt response, which slightly increases the size of the library and, depending on the target ISA and the specific microarchitecture of the host CPU, can result in a performance loss of up to 2.4%.
 

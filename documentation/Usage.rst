@@ -4,8 +4,8 @@ Usage
 
 .. code-block:: c
 
-	#include <Z80.h>
 	#include <Z/constants/pointer.h> /* Z_NULL */
+	#include <Z80.h>
 
 	typedef struct {
 		void* context;
