@@ -7,6 +7,12 @@ Usage
 	#include <Z/constants/pointer.h> /* Z_NULL */
 	#include <Z80.h>
 
+	#define CYCLES_PER_FRAME 69888
+	#define CYCLES_AT_INT    24
+	#define CYCLES_PER_INT   32
+	#define ROM_SIZE         0x4000 /* 16 KiB */
+	#define MEMORY_SIZE      0x8000 /* 32 KiB */
+
 	typedef struct {
 		void* context;
 		zuint8 (* read)(void *context);
@@ -37,13 +43,14 @@ Usage
 
 	static zuint8 machine_cpu_read(Machine *self, zuint16 address)
 		{
-		return self->memory[address];
+		return address < MEMORY_SIZE ? self->memory[address] : 0xFF;
 		}
 
 
 	static void machine_cpu_write(Machine *self, zuint16 address, zuint8 value)
 		{
-		self->memory[address] = value;
+		if (address >= ROM_SIZE && address < MEMORY_SIZE)
+			self->memory[address] = value;
 		}
 
 
@@ -66,6 +73,7 @@ Usage
 	void machine_initialize(Machine *self)
 		{
 		self->cycles           = 0;
+		self->cpu.context      = self;
 		self->cpu.fetch_opcode =
 		self->cpu.fetch        =
 		self->cpu.nop          =
@@ -91,11 +99,7 @@ Usage
 
 	void machine_power(Machine *self, zboolean state)
 		{
-		if (state)
-			{
-			memset(self->memory, 0, 65536);
-			}
-
+		if (state) memset(self->memory, 0, 65536);
 		z80_power(&self->cpu, state);
 		}
 
@@ -105,10 +109,6 @@ Usage
 		z80_instant_reset(&cpu);
 		}
 
-
-	#define CYCLES_PER_FRAME 69888
-	#define CYCLES_AT_INT 24
-	#define CYCLES_PER_INT 32
 
 	void machine_run_frame(Machine *self)
 		{
