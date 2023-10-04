@@ -1,4 +1,4 @@
-<p align="center"><img src="https://zxe.io/software/Z80/assets/images/Z80-logo.png" width="360"></p>
+<p align="center"><img src="https://zxe.io/software/Z80/assets/images/z80-readme-logo.png" width="360"></p>
 <h1 align="center">Zilog Z80 CPU Emulator</h1>
 <p align="center">
 	<a href="https://zxe.io/software/Z80/documentation/latest"><img alt="Documentation" src="https://zxe.io/software/Z80/assets/images/documentation-badge"></a>
@@ -16,7 +16,7 @@ The source code is written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C) for
 
 ## Accuracy
 
-This Z80 CPU emulator has a classic design with instruction-level granularity that delivers the best performance, whilst offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/Agaxia/Z80Plus).
+This Z80 CPU emulator has a classic design with instruction-level granularity that delivers the best performance, whilst offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/agaxia/Z80Plus).
 
 Instruction-level granularity implies that, except in a few well-defined cases, the execution of a given instruction cannot stop until all its internal M-cycles are processed, as instructions are not divided into micro-operations. Moreover, registers are modified only once per instruction and the [T-state counter](https://zxe.io/software/Z80/documentation/latest/APIReference.html#c.Z80.cycles) is normally updated after a full instruction has been executed.
 
@@ -306,7 +306,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 
 ## Installation
 
-### <sub><img src="https://zxe.io/software/Z80/assets/images/debian-icon.svg" height="24"></sub> Debian/Ubuntu
+### <sub><img src="https://zxe.io/software/Z80/assets/images/debian-icon.svg" height="24"></sub> Debian, <sub><img src="https://zxe.io/software/Z80/assets/images/ubuntu-icon.svg" height="24"></sub> Ubuntu and other Debian-based Linux distributions
 
 First, add the `zxe` repository and update the package index:
 
@@ -666,7 +666,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **[tihle: a unique TI calculator emulator](https://www.taricorp.net/2020/introducing-tihle/)** <sub>_by [Peter Marheine](https://www.taricorp.net/about/)_</sub> — [GitHub](https://github.com/tari/tihle) · [GitLab](https://gitlab.com/taricorp/tihle)
 * **[TileMap](https://simonowen.com/spectrum/tilemap/)** <sub>_by [Simon Owen](https://simonowen.com/)_</sub> — [GitHub](https://github.com/simonowen/tilemap)
 * **<a href="https://eaw.app/tranzputer-fusionx">tranZPUter<sup>FusionX</sup></a>** <sub>_by [Philip Smart](https://eaw.app/about/)_</sub> — [GitHub](https://github.com/pdsmart/tzpuFusionX)
-* **Z80Plus** <sub>_by [Sofía Ortega Sosa](https://github.com/Agaxia)_</sub> — [GitHub](https://github.com/Agaxia/Z80Plus)
+* **Z80Plus** <sub>_by [Sofía Ortega Sosa](https://github.com/agaxia)_</sub> — [GitHub](https://github.com/agaxia/Z80Plus)
 * **Zemu** <sub>_by [Jay Valentine](https://jayvalentine.github.io/)_</sub> — [GitHub](https://github.com/jayvalentine/zemu) · [RubyGems](https://rubygems.org/gems/zemu)
 
 ## Thanks
