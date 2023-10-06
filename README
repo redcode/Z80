@@ -278,7 +278,8 @@ one.
 4.3.  Non-CMake-based projects
 
 The source code of the emulator can be configured at compile time by predefining
-a series of macros. Both Z80.h and Z80.c obey the following:
+a series of macros. Both Z80.h and Z80.c obey the first two explained below. The
+rest of the macros are only relevant when compiling Z80.c:
 
     #define Z80_DEPENDENCIES_HEADER "header-name.h"
         Specifies the only external header to `#include`, replacing all others.
@@ -335,4 +336,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2023-09-11                                               README EOF
+Last update: 2023-10-06                                               README EOF

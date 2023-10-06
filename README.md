@@ -625,7 +625,7 @@ It is important to set the [`Z80_SHARED_LIBS`](#cmake_option_z80_shared_libs) op
 
 ### Non-CMake-based projects
 
-The source code of the emulator can be configured at compile time by predefining a series of macros. Both [`Z80.h`](API/Z80.h) and [`Z80.c`](sources/Z80.c) obey the following:
+The source code of the emulator can be configured at compile time by predefining a series of macros. Both [`Z80.h`](API/Z80.h) and [`Z80.c`](sources/Z80.c) obey the first two explained below. The rest of the macros are only relevant when compiling `Z80.c`:
 
 * <span id="macro_z80_dependencies_header">**`#define Z80_DEPENDENCIES_HEADER "header-name.h"`**</span>  
 	Specifies the only external header to `#include`, replacing all others.  

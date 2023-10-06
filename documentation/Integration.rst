@@ -48,7 +48,7 @@ It is important to set the :option:`Z80_SHARED_LIBS<-DZ80_SHARED_LIBS>` option. 
 Non-CMake-based projects
 ========================
 
-The source code of the emulator can be configured at compile time by predefining a series of macros. Both :file:`Z80.h` and :file:`Z80.c` obey the following:
+The source code of the emulator can be configured at compile time by predefining a series of macros. Both :file:`Z80.h` and :file:`Z80.c` obey the first two explained below. The rest of the macros are only relevant when compiling :file:`Z80.c`:
 
 .. c:macro:: Z80_DEPENDENCIES_HEADER
 
