@@ -72,7 +72,6 @@ Usage
 
 	void machine_initialize(Machine *self)
 		{
-		self->cycles           = 0;
 		self->cpu.context      = self;
 		self->cpu.fetch_opcode =
 		self->cpu.fetch        =
@@ -99,7 +98,12 @@ Usage
 
 	void machine_power(Machine *self, zboolean state)
 		{
-		if (state) memset(self->memory, 0, 65536);
+		if (state)
+			{
+			self->cycles = 0;
+			memset(self->memory, 0, 65536);
+			}
+
 		z80_power(&self->cpu, state);
 		}
 
@@ -112,10 +116,16 @@ Usage
 
 	void machine_run_frame(Machine *self)
 		{
+		/* CPU cycles before the INT signal */
 		self->cycles += z80_execute(&self->cpu, CYCLES_AT_INT - self->cycles);
+
+		/* CPU cycles during the INT signal */
 		z80_int(&self->cpu, Z_TRUE);
 		self->cycles += z80_run(&self->cpu, (CYCLES_AT_INT + CYCLES_PER_INT) - self->cycles);
 		z80_int(&self->cpu, Z_FALSE);
+
+		/* CPU cycles after the INT signal */
 		self->cycles += z80_execute(&self->cpu, CYCLES_PER_FRAME - self->cycles);
+
 		self->cycles -= CYCLES_PER_FRAME;
 		}
