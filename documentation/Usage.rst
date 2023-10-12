@@ -106,7 +106,7 @@ Usage
 
 	void machine_reset(Machine *self)
 		{
-		z80_instant_reset(&cpu);
+		z80_instant_reset(&self->cpu);
 		}
 
 
