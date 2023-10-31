@@ -816,7 +816,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles);
   * @param self Pointer to the object on which the function is called.
   * @return The value of the R register. */
 
-static Z_INLINE zuint8 z80_r(Z80 const *self)
+static Z_ALWAYS_INLINE zuint8 z80_r(Z80 const *self)
 	{return (self->r & 127) | (self->r7 & 128);}
 
 
@@ -826,7 +826,7 @@ static Z_INLINE zuint8 z80_r(Z80 const *self)
   * @param self Pointer to the object on which the function is called.
   * @return The refresh address. */
 
-static Z_INLINE zuint16 z80_refresh_address(Z80 const *self)
+static Z_ALWAYS_INLINE zuint16 z80_refresh_address(Z80 const *self)
 	{
 	return (zuint16)(
 		((zuint16)self->i << 8) |
@@ -841,7 +841,7 @@ static Z_INLINE zuint16 z80_refresh_address(Z80 const *self)
   * @param self Pointer to the object on which the function is called.
   * @return The clock cycle at which the I/O read M-cycle begins. */
 
-static Z_INLINE zuint8 z80_in_cycle(Z80 const *self)
+static Z_ALWAYS_INLINE zuint8 z80_in_cycle(Z80 const *self)
 	{
 	return (zuint8)(self->data.uint8_array[0] == 0xDB
 		? /* in a,(BYTE) : 4+3 */
@@ -859,7 +859,7 @@ static Z_INLINE zuint8 z80_in_cycle(Z80 const *self)
   * @param self Pointer to the object on which the function is called.
   * @return The clock cycle at which the I/O write M-cycle begins. */
 
-static Z_INLINE zuint8 z80_out_cycle(Z80 const *self)
+static Z_ALWAYS_INLINE zuint8 z80_out_cycle(Z80 const *self)
 	{
 	return (zuint8)(self->data.uint8_array[0] == 0xD3
 		? /* out (BYTE),a : 4+3 */

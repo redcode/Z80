@@ -146,28 +146,28 @@ typedef zuint8 (* Insn)(Z80 *self);
 
 /* MARK: - Callbacks: 16-bit Operations */
 
-static Z_INLINE zuint16 fetch_16(Z80 *self, zuint16 address)
+static Z_ALWAYS_INLINE zuint16 fetch_16(Z80 *self, zuint16 address)
 	{
 	zuint8 t = FETCH(address);
 	return (zuint16)(t | ((zuint16)FETCH(address + 1) << 8));
 	}
 
 
-static Z_INLINE zuint16 read_16(Z80 *self, zuint16 address)
+static Z_ALWAYS_INLINE zuint16 read_16(Z80 *self, zuint16 address)
 	{
 	zuint8 t = READ(address);
 	return (zuint16)(t | ((zuint16)READ(address + 1) << 8));
 	}
 
 
-static Z_INLINE void write_16f(Z80 *self, zuint16 address, zuint16 value)
+static Z_ALWAYS_INLINE void write_16f(Z80 *self, zuint16 address, zuint16 value)
 	{
 	WRITE(address, (zuint8)value);
 	WRITE(address + 1, (zuint8)(value >> 8));
 	}
 
 
-static Z_INLINE void write_16b(Z80 *self, zuint16 address, zuint16 value)
+static Z_ALWAYS_INLINE void write_16b(Z80 *self, zuint16 address, zuint16 value)
 	{
 	WRITE(address + 1, (zuint8)(value >> 8));
 	WRITE(address, (zuint8)value);
@@ -175,7 +175,7 @@ static Z_INLINE void write_16b(Z80 *self, zuint16 address, zuint16 value)
 
 
 #ifndef Z80_WITH_FULL_IM0
-	static Z_INLINE zuint16 int_fetch_16(Z80 *self)
+	static Z_ALWAYS_INLINE zuint16 int_fetch_16(Z80 *self)
 		{
 		zuint8 t = self->int_fetch(CONTEXT, PC);
 		return (zuint16)(t | ((zuint16)self->int_fetch(CONTEXT, PC) << 8));
@@ -392,7 +392,7 @@ static zusize const w_table[4] = {
 static zuint8 const z_table[8] = {ZF, ZF, CF, CF, PF, PF, SF, SF};
 
 
-static Z_INLINE zsint zzz(Z80 const *self, zuint8 mask)
+static Z_ALWAYS_INLINE zsint zzz(Z80 const *self, zuint8 mask)
 	{
 	zsint z = (DATA[0] >> 3) & mask;
 
@@ -646,7 +646,7 @@ static zuint8 ggg(Z80 *self, zuint8 offset, zuint8 value)
 '----------'   | 1 = set |
 	       '--------*/
 
-static Z_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
+static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	{
 	zuint8 t;
 
