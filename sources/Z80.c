@@ -932,8 +932,8 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 | please refer to David Banks' paper [2] for more information on this topic.   |
 |									       |
 | David Banks' discoveries have been corroborated thanks to Peter Helcmanovsky |
-| (AKA Ped7g), who wrote a test covering most of the cases that can be tested  |
-| with a ZX Spectrum [3].						       |
+| (AKA Ped7g), who wrote a test that covers most of the cases that can be      |
+| verified with a ZX Spectrum [3].					       |
 |									       |
 | References:								       |
 | 1. https://stardot.org.uk/forums/viewtopic.php?t=15464		       |
@@ -2180,7 +2180,7 @@ Z80_API void z80_nmi(Z80 *self)
 			self->cycles += insn_table[DATA[0] = FETCH_OPCODE(PC)](self);
 			}
 
-		R = R_ALL; /* restore R7 bit */
+		R = R_ALL; /* Restore R7 bit */
 		return self->cycles;
 		}
 #endif
@@ -2468,14 +2468,14 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						/* halt */
 						else if (ird == 0x76) HALT_LINE = 1;
 
-						/* instructions with the CBh prefix */
+						/* Instructions with the CBh prefix */
 						else if (ird == 0xCB)
 							{
 							R++;
 							self->cycles += 4 + cb_insn_table[DATA[1] = INTA](self);
 							}
 
-						/* instructions with the EDh prefix */
+						/* Instructions with the EDh prefix */
 						else if (ird == 0xED)
 							{
 							Insn insn;
@@ -2506,10 +2506,10 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 								self->reti   = im0.reti;
 								self->retn   = im0.retn;
 
-								/* All except: reti / retn */
+								/* Decrement PC, except for `reti` and `retn` */
 								if ((ird & 0xC7) != 0x45) PC -= ((ird & 0xC7) == 0x43)
-									? 4 /* ld SS,(WORD) / ld (WORD),SS */
-									: 2 /* all others		   */;
+									? 4 /* `ld SS,(WORD)` and `ld (WORD),SS` */
+									: 2 /* all others */;
 								}
 
 							else self->cycles += (self->illegal == Z_NULL)
@@ -2517,7 +2517,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 								: 4 + self->illegal(CONTEXT, ird);
 							}
 
-						/* instructions with the prefix DDh, FDh, DDCBh or FDCBh */
+						/* Instructions with the prefix DDh, FDh, DDCBh or FDCBh */
 						else if (IS_XY_PREFIX(ird))
 							{
 							Insn insn;
@@ -2552,14 +2552,14 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							self->cycles += 2 + insn(self);
 							xy->uint16_value = XY;
 
-							/* all except: jp (XY) */
+							/* Restore PC, except for `jp (XY)` */
 							if (ird != 0xE9) PC = im0.pc;
 							}
 
 						else	{
 							cycles += 2 + insn_table[ird](self);
 
-							/* all except: jp WORD / jp (hl)> / ret */
+							/* Restore PC, except for `jp WORD`, `jp (hl)` and `ret` */
 							if (ird != 0xC3 && (ird & 0xDF) != 0xC9) PC = im0.pc;
 							}
 
@@ -2600,7 +2600,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							self->cycles += 2 + 17;
 							continue;
 
-							default: /* `rst N` is assumed for other instructions */
+							default: /* `rst N` is assumed for all other instructions */
 							Q_0
 							PUSH(PC);
 							MEMPTR = PC = ird & 56;
@@ -2681,7 +2681,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		self->cycles += insn_table[DATA[0] = FETCH_OPCODE(PC)](self);
 		}
 
-	R = R_ALL; /* restore R7 bit */
+	R = R_ALL; /* Restore R7 bit */
 	return self->cycles;
 	}
 

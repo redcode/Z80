@@ -303,8 +303,8 @@ typedef struct {
 	/** @brief Invoked to perform a memory read on instruction data during a
 	  * maskable interrupt response in mode 0.
 	  *
-	  * The role of this callback is analogous to the role of
-	  * <tt>@ref Z80::fetch</tt> but it is specific to the INT response in
+	  * The role of this callback is analogous to that of
+	  * <tt>@ref Z80::fetch</tt>, but it is specific to the INT response in
 	  * mode 0. Ideally, the function should return a byte of instruction
 	  * data that the interrupting I/O device supplies to the CPU via the
 	  * data bus, but depending on the emulated hardware, the device may not
