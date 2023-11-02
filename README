@@ -46,9 +46,9 @@ achieve precision down to the T-state level.
 
 Instruction-level granularity implies that, except in a few well-defined cases,
 the execution of a given instruction cannot stop until all its internal M-cycles
-are processed, as instructions are not divided into micro-operations. Moreover,
-registers are modified only once per instruction and the T-state counter is
-normally updated after a full instruction has been executed.
+have been processed (i.e., instructions are not divided into micro-operations).
+Moreover, registers are modified only once per instruction and the T-state
+counter is normally updated after a full instruction has been executed.
 
 That said, instructions, flags, memory accesses, interrupts, clock cycles, etc.,
 are accurately emulated according to the technical documentation available, the
@@ -336,4 +336,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2023-10-06                                               README EOF
+Last update: 2023-11-02                                               README EOF
