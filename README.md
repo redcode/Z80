@@ -675,7 +675,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Akimov, Vadim (lvd)**
 	* For testing the library on many different platforms and CPU architectures.
-* **azesmbog**
+* **azesmbog** <sup>:medal_military:</sup>
 	1. For validating tests on real hardware. <sup>[1](#r1)</sup>
 	2. For his research on the unstable flag behavior of the `ccf/scf` instructions.
 	3. For his invaluable help.
@@ -726,7 +726,7 @@ Many thanks to the following individuals (in alphabetical order):
 	1. For his research work.
 	2. For his technical documents about the Zilog Z80. <sup>[22](#r22), [23](#r23), [24](#r24)</sup>
 	3. For porting the _"Z80 Instruction Set Exerciser"_ to the ZX Spectrum. <sup>[25](#r25)</sup>
-* **Helcmanovsky, Peter (Ped7g)**
+* **Helcmanovsky, Peter (Ped7g)** <sup>:medal_military:</sup>
 	1. For helping me to write the _"IN-MEMPTR"_ test.
 	2. For writing the _"Z80 Block Flags Test"_. <sup>[26](#r26), [27](#r27)</sup>
 	3. For writing the _"Z80 CCF SCF Outcome Stability"_ test. <sup>[27](#r27)</sup>
@@ -783,7 +783,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For validating tests on real hardware. <sup>[26](#r26)</sup>
 * **Wlodek**
 	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
-* **Woodmass, Mark (Woody)**
+* **Woodmass, Mark (Woody)** <sup>:medal_military:</sup>
 	1. For his invaluable contributions to the emuscene.
 	2. For writing the _"Z80 Test Suite"_. <sup>[13](#r13)</sup>
 	3. For his research on the flag behavior of the `ccf/scf` instructions. <sup>[38](#r38)</sup>
