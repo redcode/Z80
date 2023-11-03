@@ -679,18 +679,18 @@ Many thanks to the following individuals (in alphabetical order):
 	1. For validating tests on real hardware. <sup>[1](#r1)</sup>
 	2. For his research on the unstable flag behavior of the `ccf/scf` instructions.
 	3. For his invaluable help.
-* **Banks, David (hoglet)** :trophy:
+* **Banks, David (hoglet)** <sup>:trophy:</sup>
 	1. For cracking the flag behavior of the block instructions. <sup>[2](#r2), [3](#r3)</sup>
 	2. For his research on the flag behavior of the `ccf/scf` instructions. <sup>[3](#r3)</sup>
 * **Beliansky, Anatoly (Tolik_Trek)**
 	* For validating tests on real hardware. <sup>[4](#r4)</sup>
 * **Bobrowski, Jan**  
 	* For fixing the _"Z80 Full Instruction Set Exerciser for Spectrum"_. <sup>[5](#r5)</sup>
-* **boo_boo** :trophy:
+* **boo_boo** <sup>:trophy:</sup>
 	* For cracking the behavior of the MEMPTR register. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Brady, Stuart**
 	* For his research on the flag behavior of the `ccf/scf` instructions. <sup>[10](#r10)</sup>
-* **Brewer, Tony** :trophy:
+* **Brewer, Tony** <sup>:trophy:</sup>
 	1. For his research on the special RESET. <sup>[11](#r11), [12](#r12)</sup>
 	2. For helping to crack the flag behavior of the block instructions. <sup>[2](#r2)</sup>
 	3. For conducting low-level tests on real hardware. <sup>[2](#r2)</sup>
@@ -703,7 +703,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Conway, Simon (BadBeard)**
 	* For validating the _"Z80 Test Suite"_ on several Z80 clones. <sup>[13](#r13)</sup>
-* **Cooke, Simon** :trophy:
+* **Cooke, Simon** <sup>:trophy:</sup>
 	* For discovering how the `out (c),0` instruction behaves on the Zilog Z80 CMOS. <sup>[14](#r14)</sup>
 * **Cringle, Frank D.**
 	* For writing the _"Z80 Instruction Set Exerciser"_. <sup>[15](#r15)</sup>
@@ -715,7 +715,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For his corrections to the documentation.
 * **Flammenkamp, Achim**
 	* For his article on Z80 interrupts. <sup>[17](#r17)</sup>
-* **Gimeno Fortea, Pedro** :trophy:
+* **Gimeno Fortea, Pedro** <sup>:trophy:</sup>
 	1. For his research work. <sup>[18](#r18)</sup>
 	2. For writing the first-ever ZX Spectrum emulator. <sup>[19](#r19), [20](#r20)</sup>
 * **goodboy**
@@ -737,7 +737,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **ICEknight**
 	* For validating tests on real hardware.
-* **Kladov, Vladimir** :trophy:
+* **Kladov, Vladimir** <sup>:trophy:</sup>
 	* For cracking the behavior of the MEMPTR register. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Krook, Magnus**
 	* For validating tests on real hardware. <sup>[28](#r28)</sup>
@@ -758,7 +758,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For the idea of the hooking method used in this emulator.
 * **Ownby, Matthew P.**
 	* For his research on the state of the registers after POWER-ON. <sup>[29](#r29)</sup>
-* **Rak, Patrik** :trophy:
+* **Rak, Patrik** <sup>:trophy:</sup>
 	1. For improving the _"Z80 Instruction Set Exerciser for Spectrum"_. <sup>[30](#r30)</sup>
 	2. For cracking the flag behavior of the `ccf/scf` instructions. <sup>[13](#r13), [30](#r30)</sup>
 	3. For writing the _"Zilog Z80 CPU Test Suite"_. <sup>[30](#r30), [31](#r31)</sup>
@@ -776,7 +776,7 @@ Many thanks to the following individuals (in alphabetical order):
 	2. For conducting low-level tests on real hardware. <sup>[35](#r35)</sup>
 * **Vučenović, Zoran**
 	* For writing the [Pascal binding](sources/Z80.pas).
-* **Weissflog, Andre (Floh)** :trophy:
+* **Weissflog, Andre (Floh)** <sup>:trophy:</sup>
 	1. For discovering that the `reti/retn` instructions defer the acceptance of the maskable interrupt. <sup>[36](#r36)</sup>
 	2. For writing the _"Visual Z80 Remix"_ simulator. <sup>[37](#r37)</sup>
 * **Wilkinson, Oli (evolutional)**
@@ -789,7 +789,7 @@ Many thanks to the following individuals (in alphabetical order):
 	3. For his research on the flag behavior of the `ccf/scf` instructions. <sup>[38](#r38)</sup>
 	4. For writing the _"HALT2INT"_ test.
 	5. For writing the _"EIHALT"_ test.
-* **Young, Sean** :trophy:
+* **Young, Sean** <sup>:trophy:</sup>
 	1. For his research work.
 	2. For his technical documents about the Zilog Z80. <sup>[18](#r18), [29](#r29), [39](#r39)</sup>
 * **ZXGuesser**
