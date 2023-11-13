@@ -629,6 +629,7 @@ static zuint8 run_test(int test_index)
 			}
 
 		RUN(&cpu, test->cycles_expected[0] + Z_UINT32(0x10000000) - j);
+		cycles += j;
 		check_results:
 #	else
 		RUN(&cpu, test->cycles_expected[0] + Z_USIZE(0x10000000));
