@@ -3,14 +3,14 @@ name: Build documentation
 on:
   push:
     paths:
-    - '.github/workflows/build_documentation.yml'
+    - '.github/workflows/build-documentation.yml'
     - 'API/**'
     - 'CMake/**'
     - 'documentation/**'
     - 'CMakeLists.txt'
   pull_request:
     paths:
-    - '.github/workflows/build_documentation.yml'
+    - '.github/workflows/build-documentation.yml'
     - 'API/**'
     - 'CMake/**'
     - 'documentation/**'
@@ -30,7 +30,7 @@ env:
   Z80_WITH_TESTS: NO
 
 jobs:
-  build_documentation:
+  build-documentation:
     runs-on: ubuntu-latest
 
     steps:

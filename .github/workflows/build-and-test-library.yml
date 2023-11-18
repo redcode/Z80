@@ -3,7 +3,7 @@ name: Build and test library
 on:
   push:
     paths:
-    - '.github/workflows/build_and_test_library.yml'
+    - '.github/workflows/build-and-test-library.yml'
     - 'API/**'
     - 'CMake/FindZeta.cmake'
     - 'sources/*.c'
@@ -12,7 +12,7 @@ on:
     - 'CMakeLists.txt'
   pull_request:
     paths:
-    - '.github/workflows/build_and_test_library.yml'
+    - '.github/workflows/build-and-test-library.yml'
     - 'API/**'
     - 'CMake/FindZeta.cmake'
     - 'sources/*.c'
@@ -42,7 +42,7 @@ env:
   Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG: YES
 
 jobs:
-  build_and_test_library:
+  build-and-test-library:
     runs-on: ${{matrix.os}}
 
     strategy:

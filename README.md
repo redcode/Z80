@@ -2,8 +2,8 @@
 <h1 align="center">Zilog Z80 CPU Emulator</h1>
 <p align="center">
 	<a href="https://zxe.io/software/Z80/documentation/latest"><img alt="Documentation" src="https://zxe.io/software/Z80/assets/images/documentation-badge"></a>
-	<a href="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml"><img src="https://github.com/redcode/Z80/actions/workflows/build_and_test_library.yml/badge.svg"></a>
-	<a href="https://github.com/redcode/Z80/actions/workflows/build_documentation.yml"><img src="https://github.com/redcode/Z80/actions/workflows/build_documentation.yml/badge.svg"></a>
+	<a href="https://github.com/redcode/Z80/actions/workflows/build-and-test-library.yml"><img src="https://github.com/redcode/Z80/actions/workflows/build-and-test-library.yml/badge.svg"></a>
+	<a href="https://github.com/redcode/Z80/actions/workflows/build-documentation.yml"><img src="https://github.com/redcode/Z80/actions/workflows/build-documentation.yml/badge.svg"></a>
 	<a href="https://zxe.io/software/Z80/chat"><img alt="Chat" src="https://zxe.io/software/Z80/assets/images/chat-badge"></a>
 	<img src="https://zxe.io/software/Z80/assets/images/mentioned-in-awesome-badge.svg">
 </p>
