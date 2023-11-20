@@ -91,7 +91,7 @@ If in doubt, read the CMake documentation for more information on configuration
 options. The following are some of the most relevant standard options of CMake:
 
     -DBUILD_SHARED_LIBS=(YES|NO)
-        Build the emulator as a shared library, rather than static.
+        Generate shared libraries rather than static libraries.
         The default is `NO`.
 
     -DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo|MinSizeRel)
@@ -99,8 +99,8 @@ options. The following are some of the most relevant standard options of CMake:
         The default is `Release`.
 
     -DCMAKE_INSTALL_PREFIX="<path>"
-        Specify the installation prefix on UNIX and UNIX-like operating systems.
-        The default is `/usr/local`.
+        Specify the installation prefix.
+        The default is `/usr/local` (on UNIX and UNIX-like operating systems).
 
 Package-specific options are prefixed with `Z80_` and can be divided into two
 groups. The first one controls aspects not related to the source code of the

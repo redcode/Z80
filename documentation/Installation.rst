@@ -51,7 +51,7 @@ If in doubt, read the `CMake documentation <https://cmake.org/documentation/>`_ 
 
 .. option:: -DBUILD_SHARED_LIBS=(YES|NO)
 
-   Build the emulator as a shared library, rather than static. |br| |nl|
+   Generate shared libraries rather than static libraries. |br| |nl|
    The default is ``NO``.
 
 .. option:: -DCMAKE_BUILD_TYPE=(Debug|Release|RelWithDebInfo|MinSizeRel)
@@ -61,8 +61,8 @@ If in doubt, read the `CMake documentation <https://cmake.org/documentation/>`_ 
 
 .. option:: -DCMAKE_INSTALL_PREFIX="<path>"
 
-   Specify the installation prefix on `UNIX <https://en.wikipedia.org/wiki/Unix>`_ and `UNIX-like <https://en.wikipedia.org/wiki/Unix-like>`_ operating systems. |br| |nl|
-   The default is ``"/usr/local"``.
+   Specify the installation prefix. |br| |nl|
+   The default is ``"/usr/local"`` (on `UNIX <https://en.wikipedia.org/wiki/Unix>`_ and `UNIX-like <https://en.wikipedia.org/wiki/Unix-like>`_ operating systems).
 
 .. _cmake_package_options:
 
