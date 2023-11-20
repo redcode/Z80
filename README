@@ -156,7 +156,7 @@ library:
 
     -DZ80_WITH_PDF_DOCUMENTATION=(YES|NO)
         Build and install the documentation in PDF format.
-        It requires Doxygen, Sphinx, Breathe and LaTeX with PDF support.
+        It requires Doxygen, Sphinx, Breathe, and LaTeX with PDF support.
         The default is `NO`.
 
     -DZ80_WITH_PKGCONFIG_SUPPORT=(YES|NO)

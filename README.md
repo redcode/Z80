@@ -436,7 +436,7 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 
 * <span id="cmake_option_z80_with_pdf_documentation">**`-DZ80_WITH_PDF_DOCUMENTATION=(YES|NO)`**</span>  
 	Build and install the documentation in PDF format.  
-	It requires Doxygen, Sphinx, Breathe and LaTeX with PDF support.  
+	It requires Doxygen, Sphinx, Breathe, and LaTeX with PDF support.  
 	The default is `NO`.
 
 * <span id="cmake_option_z80_with_pkgconfig_support">**`-DZ80_WITH_PKGCONFIG_SUPPORT=(YES|NO)`**</span>  

@@ -124,7 +124,7 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 .. option:: -DZ80_WITH_PDF_DOCUMENTATION=(YES|NO)
 
    Build and install the documentation in PDF format. |br| |nl|
-   It requires Doxygen, Sphinx, Breathe and LaTeX with PDF support. |br| |nl|
+   It requires Doxygen, Sphinx, Breathe, and LaTeX with PDF support. |br| |nl|
    The default is ``NO``.
 
 .. option:: -DZ80_WITH_PKGCONFIG_SUPPORT=(YES|NO)
