@@ -125,8 +125,8 @@ library:
 
     -DZ80_NOSTDLIB_FLAGS=(Auto|"[<flag>[;<flag>...]]")
         Specify the linker flags used to avoid linking against system libraries.
-        The default is Auto (autoconfigure flags). If you get linker errors, set
-        this option to `""`.
+        The default is `Auto` (autoconfigure flags). If you get linker errors,
+        set this option to `""`.
 
     -DZ80_OBJECT_LIBS=(YES|NO)
         Build the emulator as an object library.
@@ -336,4 +336,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2023-11-02                                               README EOF
+Last update: 2023-11-20                                               README EOF
