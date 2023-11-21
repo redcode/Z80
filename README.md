@@ -16,7 +16,7 @@ The source code is written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C) for
 
 ## Accuracy
 
-This Z80 CPU emulator has a classic design with instruction-level granularity that delivers the best performance, whilst offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/agaxia/Z80Plus).
+This Z80 CPU emulator has a classic design with instruction-level granularity that delivers the best performance, whilst offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/agaxia/Z80InsnClock).
 
 Instruction-level granularity implies that, except in a few well-defined cases, the execution of a given instruction cannot stop until all its internal M-cycles have been processed (i.e., instructions are not divided into micro-operations). Moreover, registers are modified only once per instruction and the [T-state counter](https://zxe.io/software/Z80/documentation/latest/APIReference.html#c.Z80.cycles) is normally updated after a full instruction has been executed.
 
@@ -666,7 +666,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **[tihle: a unique TI calculator emulator](https://www.taricorp.net/2020/introducing-tihle/)** <sub>_by [Peter Marheine](https://www.taricorp.net/about/)_</sub> — [GitHub](https://github.com/tari/tihle) · [GitLab](https://gitlab.com/taricorp/tihle)
 * **[TileMap](https://simonowen.com/spectrum/tilemap/)** <sub>_by [Simon Owen](https://simonowen.com/)_</sub> — [GitHub](https://github.com/simonowen/tilemap)
 * **<a href="https://eaw.app/tranzputer-fusionx">tranZPUter<sup>FusionX</sup></a>** <sub>_by [Philip Smart](https://eaw.app/about/)_</sub> — [GitHub](https://github.com/pdsmart/tzpuFusionX)
-* **Z80Plus** <sub>_by [Sofía Ortega Sosa](https://github.com/agaxia)_</sub> — [GitHub](https://github.com/agaxia/Z80Plus)
+* **Z80InsnClock** <sub>_by [Sofía Ortega Sosa](https://github.com/agaxia)_</sub> — [GitHub](https://github.com/agaxia/Z80InsnClock)
 * **Zemu** <sub>_by [Jay Valentine](https://jayvalentine.github.io/)_</sub> — [GitHub](https://github.com/jayvalentine/zemu) · [RubyGems](https://rubygems.org/gems/zemu)
 
 ## Thanks
@@ -866,7 +866,7 @@ Copyright © 1999-2023 Manuel Sainz de Baranda y Goñi.
 
 This library is [free software](https://www.gnu.org/philosophy/free-sw.html): you can redistribute it and/or modify it under the terms of the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.html) as published by the [Free Software Foundation](https://www.fsf.org), either version 3 of the License, or (at your option) any later version.
 
-This library is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE**. See the GNU Lesser General Public License for more details.
+**This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE**. See the GNU Lesser General Public License for more details.
 
 You should have received a [copy](COPYING.LESSER) of the GNU Lesser General Public License along with this library. If not, see <https://www.gnu.org/licenses/>.
 
