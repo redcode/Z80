@@ -330,7 +330,7 @@ In case you need to build software that requires the Z80 library, install the de
 sudo apt install libz80-dev
 ```
 
-### <sub><img src="https://zxe.io/software/Z80/assets/images/gentoo-icon.svg" height="24"></sub> Gentoo Linux
+### <sub><img src="https://zxe.io/software/Z80/assets/images/gentoo-icon.svg" height="24"></sub> Gentoo
 
 First, add and sync the [`zxe`](https://github.com/redcode/zxe-gentoo-overlay) overlay:
 
