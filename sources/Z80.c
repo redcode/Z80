@@ -2557,7 +2557,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							}
 
 						else	{
-							cycles += 2 + insn_table[ird](self);
+							self->cycles += 2 + insn_table[ird](self);
 
 							/* Restore PC, except for `jp WORD` */
 							if (ird != 0xC3) PC = im0.pc;
