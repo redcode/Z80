@@ -110,11 +110,11 @@ This set of programs is intended to help the emulator authors to reach the desir
 	</table>
 </details>
 <details>
-	<summary>Results (v1.2)</summary>
+	<summary>Results (v1.2a)</summary>
 	<table>
 		<tr>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+				<a href="https://web.archive.org/web/20231202140745id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip">
 					<img src="https://zxe.io/software/Z80/assets/images/tap.svg" width="96"><br>
 					<b>z80full.tap</b>
 				</a>
@@ -122,7 +122,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 				<sup>Tests all flags and registers.</sup>
 			</td>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+				<a href="https://web.archive.org/web/20231202140745id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip">
 					<img src="https://zxe.io/software/Z80/assets/images/tap.svg" width="96"><br>
 					<b>z80doc.tap</b>
 				</a>
@@ -132,15 +132,15 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Full.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Full.gif">
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Doc.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Doc.gif">
 			</td>
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+				<a href="https://web.archive.org/web/20231202140745id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip">
 					<img src="https://zxe.io/software/Z80/assets/images/tap.svg" width="96"><br>
 					<b>z80flags.tap</b>
 				</a>
@@ -148,7 +148,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 				<sup>Tests all flags, ignores registers.</sup>
 			</td>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+				<a href="https://web.archive.org/web/20231202140745id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip">
 					<img src="https://zxe.io/software/Z80/assets/images/tap.svg" width="96"><br>
 					<b>z80docflags.tap</b>
 				</a>
@@ -158,15 +158,15 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Flags.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Flags.gif">
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif">
 			</td>
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+				<a href="https://web.archive.org/web/20231202140745id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip">
 					<img src="https://zxe.io/software/Z80/assets/images/tap.svg" width="96"><br>
 					<b>z80ccf.tap</b>
 				</a>
@@ -174,7 +174,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 				<sup>Tests all flags after executing <code>ccf</code> after each instruction tested.</sup>
 			</td>
 			<td align="center" valign="top">
-				<a href="https://web.archive.org/web/20221202204115id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2.zip">
+				<a href="https://web.archive.org/web/20231202140745id_/http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip">
 					<img src="https://zxe.io/software/Z80/assets/images/tap.svg" width="96"><br>
 					<b>z80memptr.tap</b>
 				</a>
@@ -184,10 +184,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20CCF.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20CCF.gif">
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2%20%282022-01-26%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif">
 			</td>
 		</tr>
 	</table>

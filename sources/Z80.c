@@ -962,16 +962,14 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 					PF_PARITY(p ^ ((B + 1) & 7))) \
 				: PF_PARITY(p ^ (B & 7))));	      \
 								      \
+		MEMPTR = PC + 1;				      \
 		return 21;					      \
 		}						      \
 								      \
 	FLAGS = ZF	     | /* ZF = 1; SF, YF, XF = 0     */	      \
 		hcf	     | /* HF, CF = T > 255	     */	      \
 		PF_PARITY(p) | /* PF = ((T & 7) ^ Bo).parity */	      \
-		nf;	       /* NF = IO.7		     */	      \
-								      \
-	PC += 2;						      \
-	return 16
+		nf	       /* NF = IO.7		     */
 
 
 #define INXR(hl_operator, memptr_operator)			 \
@@ -984,7 +982,9 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	t = (zuint)io + (zuint8)(MEMPTR = BC memptr_operator 1); \
 	hcf = (t > 255) ? HCF : 0;				 \
 	p = (t & 7) ^ --B;					 \
-	INXR_OTXR(io)
+	INXR_OTXR(io);						 \
+	PC += 2;						 \
+	return 16
 
 
 #define OTXR(hl_operator, memptr_operator) \
@@ -994,9 +994,11 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	zuint8 hcf = (t > 255) ? HCF : 0;  \
 	zuint8 p   = (t & 7) ^ --B;	   \
 					   \
-	MEMPTR = BC memptr_operator 1;	   \
 	OUT(BC, io);			   \
-	INXR_OTXR(io)
+	INXR_OTXR(io);			   \
+	MEMPTR = BC memptr_operator 1;	   \
+	PC += 2;			   \
+	return 16
 
 
 #define SET_HALT_LINE(state) \

@@ -119,12 +119,12 @@ static Test const tests[22] = {
 	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80docflags.tap",			C(0, 2110B9B1) /*    554,744,241 */, 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,      156, 32},
 	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80ccf.tap",				C(0, 23AB74CA) /*    598,439,114 */, 14219,  91, 14127, 0x8000, 0x7003, TEST_FORMAT_RAK,      156, 32},
 	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80memptr.tap",				C(0, 215CF3BD) /*    559,739,837 */, 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,      156, 32},
-	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80full.tap",				C(0, 4382DC6A) /*  1,132,649,578 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80doc.tap",				C(0, 43EE72CE) /*  1,139,700,430 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80flags.tap",				C(0, 212F17D5) /*    556,734,421 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80docflags.tap",			C(0, 2152FFDA) /*    559,087,578 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80ccf.tap",				C(0, 23F34E43) /*    603,147,843 */, 14875,  91, 14783, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2 (2022-01-26)(Rak, Patrik)[!].zip", "z80test-1.2/z80memptr.tap",				C(0, 219FC276) /*    564,118,134 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32}};
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80full.tap",				C(0, 4382DC6A) /*  1,132,649,578 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80doc.tap",				C(0, 43EE72CE) /*  1,139,700,430 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80flags.tap",			C(0, 212F17D5) /*    556,734,421 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80docflags.tap",			C(0, 2152FFDA) /*    559,087,578 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80ccf.tap",				C(0, 23F34E43) /*    603,147,843 */, 14875,  91, 14783, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80memptr.tap",			C(0, 219FC276) /*    564,118,134 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32}};
 
 #undef C
 
@@ -179,7 +179,7 @@ static zusize   cycles, lines, cursor_x, columns;
 
 /*-----------------------------------------------------------------------------.
 | `zx_spectrum_print_hook_address` contains the address of the hook that       |
-| intercepts the routine called by the test to print characters. When a TAB    |
+| intercepts the routine called by the test to print characters. When a <TAB>  |
 | character (17h) is printed, the `zx_spectrum_tab` counter is set to 2 to     |
 | indicate that it is necessary to process the incoming <TAB n> and <TAB STOP> |
 | bytes before continuing to print characters. `zx_spectrum_bad_character` is  |
@@ -777,7 +777,7 @@ int main(int argc, char **argv)
 				"    13  Tests documented flags only, ignores registers.\n"
 				"    14  Tests all flags after executing `ccf` after each instruction.\n"
 				"    15  Tests all flags after executing `bit N,(hl)` after each instruction.\n"
-				"  Zilog Z80 CPU Test Suite v1.2 ~ ZX Spectrum ~ Rak, Patrik (2022-01-26):\n"
+				"  Zilog Z80 CPU Test Suite v1.2a ~ ZX Spectrum ~ Rak, Patrik (2023-12-02):\n"
 				"    16  Tests all flags and registers.\n"
 				"    17  Tests all registers, but only officially documented flags.\n"
 				"    18  Tests all flags, ignores registers.\n"
