@@ -49,10 +49,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Full.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Zilog%20-%20Full.gif">
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Doc.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Zilog%20-%20Doc.gif">
 			</td>
 		</tr>
 		<tr>
@@ -75,10 +75,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Flags.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Zilog%20-%20Flags.gif">
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Zilog%20-%20Doc%20Flags.gif">
 			</td>
 		</tr>
 		<tr>
@@ -101,10 +101,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20CCF.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Zilog%20-%20CCF.gif">
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.0%20%282012-12-08%29%28Rak,%20Patrik%29%20-%20Zilog%20-%20MEMPTR.gif">
 			</td>
 		</tr>
 	</table>
@@ -132,10 +132,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Full.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Zilog%20-%20Full.gif">
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Doc.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Zilog%20-%20Doc.gif">
 			</td>
 		</tr>
 		<tr>
@@ -158,10 +158,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Flags.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Zilog%20-%20Flags.gif">
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Doc%20Flags.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Zilog%20-%20Doc%20Flags.gif">
 			</td>
 		</tr>
 		<tr>
@@ -184,10 +184,10 @@ This set of programs is intended to help the emulator authors to reach the desir
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20CCF.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Zilog%20-%20CCF.gif">
 			</td>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20MEMPTR.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Zilog%20Z80%20CPU%20Test%20Suite%20v1.2a%20%282023-12-02%29%28Rak,%20Patrik%29%20-%20Zilog%20-%20MEMPTR.gif">
 			</td>
 		</tr>
 	</table>
@@ -298,7 +298,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 		</tr>
 		<tr>
 			<td align="center" valign="top">
-				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Z80%20Instruction%20Set%20Exerciser%20for%20Spectrum%202%20v0.1%20%282012-11-27%29%28Rak,%20Patrik%29.gif">
+				<img src="https://zxe.io/software/Z80/tests/screenshots/ZX%20Spectrum/Z80%20Instruction%20Set%20Exerciser%20for%20Spectrum%202%20v0.1%20%282012-11-27%29%28Rak,%20Patrik%29%20-%20Zilog.gif">
 			</td>
 		</tr>
 	</table>
