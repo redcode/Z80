@@ -68,7 +68,8 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Chandler, Richard**
 
-  * For his corrections to the documentation.
+  1. For his corrections to the documentation.
+  2. For validating tests on real hardware. |re| |fe| :ref:`13<r13>` |ren| |ces|
 
 * **Chunin, Roman (CHRV)**
 
@@ -76,19 +77,19 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Conway, Simon (BadBeard)**
 
-  * For validating the *"Z80 Test Suite"* on several Z80 clones. |re| |fe| :ref:`13<r13>` |ren| |ces|
+  * For validating the *"Z80 Test Suite"* on several Z80 clones. |re| |fe| :ref:`14<r14>` |ren| |ces|
 
 * **Cooke, Simon**
 
-  * For discovering how the ``out (c),0`` instruction behaves on the Zilog Z80 CMOS. |re| |fe| :ref:`14<r14>` |ren| |ces|
+  * For discovering how the ``out (c),0`` instruction behaves on the Zilog Z80 CMOS. |re| |fe| :ref:`15<r15>` |ren| |ces|
 
 * **Cringle, Frank D.**
 
-  * For writing the *"Z80 Instruction Set Exerciser"*. |re| |fe| :ref:`15<r15>` |ren| |ces|
+  * For writing the *"Z80 Instruction Set Exerciser"*. |re| |fe| :ref:`16<r16>` |ren| |ces|
 
 * **Devic, Goran**
 
-  * For his research on undocumented behaviors of the Z80 CPU. |re| |fe| :ref:`16<r16>` |ren| |ces|
+  * For his research on undocumented behaviors of the Z80 CPU. |re| |fe| :ref:`17<r17>` |ren| |ces|
 
 * **Dunn, Paul (ZXDunny)**
 
@@ -100,12 +101,12 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Flammenkamp, Achim**
 
-  * For his article on Z80 interrupts. |re| |fe| :ref:`17<r17>` |ren| |ces|
+  * For his article on Z80 interrupts. |re| |fe| :ref:`18<r18>` |ren| |ces|
 
 * **Gimeno Fortea, Pedro**
 
-  1. For his research work. |re| |fe| :ref:`18<r18>` |ren| |ces|
-  2. For writing the first-ever ZX Spectrum emulator. |re| |fe| :ref:`19<r19>`, :ref:`20<r20>` |ren| |ces|
+  1. For his research work. |re| |fe| :ref:`19<r19>` |ren| |ces|
+  2. For writing the first-ever ZX Spectrum emulator. |re| |fe| :ref:`20<r20>`, :ref:`21<r21>` |ren| |ces|
 
 * **goodboy**
 
@@ -113,20 +114,20 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Greenway, Ian**
 
-  * For testing the flag behavior of the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`10<r10>`, :ref:`21<r21>` |ren| |ces|
+  * For testing the flag behavior of the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`10<r10>`, :ref:`22<r22>` |ren| |ces|
 
 * **Harston, Jonathan Graham**
 
   1. For his research work.
-  2. For his technical documents about the Zilog Z80. |re| |fe| :ref:`22<r22>`, :ref:`23<r23>`, :ref:`24<r24>` |ren| |ces|
-  3. For porting the *"Z80 Instruction Set Exerciser"* to the ZX Spectrum. |re| |fe| :ref:`25<r25>` |ren| |ces|
+  2. For his technical documents about the Zilog Z80. |re| |fe| :ref:`23<r23>`, :ref:`24<r24>`, :ref:`25<r25>` |ren| |ces|
+  3. For porting the *"Z80 Instruction Set Exerciser"* to the ZX Spectrum. |re| |fe| :ref:`26<r26>` |ren| |ces|
 
 * **Helcmanovsky, Peter (Ped7g)**
 
   1. For helping me to write the *"IN-MEMPTR"* test.
-  2. For writing the *"Z80 Block Flags Test"*. |re| |fe| :ref:`26<r26>`, :ref:`27<r27>` |ren| |ces|
-  3. For writing the *"Z80 CCF SCF Outcome Stability"* test. |re| |fe| :ref:`27<r27>` |ren| |ces|
-  4. For writing the *"Z80 INT Skip"* test. |re| |fe| :ref:`27<r27>` |ren| |ces|
+  2. For writing the *"Z80 Block Flags Test"*. |re| |fe| :ref:`27<r27>`, :ref:`28<r28>` |ren| |ces|
+  3. For writing the *"Z80 CCF SCF Outcome Stability"* test. |re| |fe| :ref:`28<r28>` |ren| |ces|
+  4. For writing the *"Z80 INT Skip"* test. |re| |fe| :ref:`28<r28>` |ren| |ces|
   5. For his research on the unstable flag behavior of the ``ccf/scf`` instructions.
   6. For his invaluable help.
 
@@ -144,7 +145,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Krook, Magnus**
 
-  * For validating tests on real hardware. |re| |fe| :ref:`28<r28>` |ren| |ces|
+  * For validating tests on real hardware. |re| |fe| :ref:`29<r29>` |ren| |ces|
 
 * **London, Matthew (mattinx)**
 
@@ -160,7 +161,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Nair, Arjun**
 
-  * For validating tests on real hardware. |re| |fe| :ref:`26<r26>` |ren| |ces|
+  * For validating tests on real hardware. |re| |fe| :ref:`27<r27>` |ren| |ces|
 
 * **Nicolás-González, César**
 
@@ -177,18 +178,18 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Ownby, Matthew P.**
 
-  * For his research on the state of the registers after POWER-ON. |re| |fe| :ref:`29<r29>` |ren| |ces|
+  * For his research on the state of the registers after POWER-ON. |re| |fe| :ref:`30<r30>` |ren| |ces|
 
 * **Rak, Patrik**
 
-  1. For improving the *"Z80 Instruction Set Exerciser for Spectrum"*. |re| |fe| :ref:`30<r30>` |ren| |ces|
-  2. For cracking the flag behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`13<r13>`, :ref:`30<r30>` |ren| |ces|
-  3. For writing the *"Zilog Z80 CPU Test Suite"*. |re| |fe| :ref:`30<r30>`, :ref:`31<r31>` |ren| |ces|
+  1. For improving the *"Z80 Instruction Set Exerciser for Spectrum"*. |re| |fe| :ref:`31<r31>` |ren| |ces|
+  2. For cracking the flag behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`14<r14>`, :ref:`31<r31>` |ren| |ces|
+  3. For writing the *"Zilog Z80 CPU Test Suite"*. |re| |fe| :ref:`31<r31>`, :ref:`32<r32>` |ren| |ces|
   4. For his research on the unstable flag behavior of the ``ccf/scf`` instructions.
 
 * **Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)**
 
-  * For his research on the state of the registers after POWER-ON/RESET. |re| |fe| :ref:`32<r32>` |ren| |ces|
+  * For his research on the state of the registers after POWER-ON/RESET. |re| |fe| :ref:`33<r33>` |ren| |ces|
 
 * **Rodríguez Palomino, Mario (r-lyeh)**
 
@@ -200,7 +201,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Sánchez Ordiñana, José Ismael (Vaporatorius)**
 
-  * For validating tests on real hardware. |re| |fe| :ref:`33<r33>`, :ref:`34<r34>` |ren| |ces|
+  * For validating tests on real hardware. |re| |fe| :ref:`34<r34>`, :ref:`35<r35>` |ren| |ces|
 
 * **Sevillano Mancilla, Marta (TheMartian)**
 
@@ -209,7 +210,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Stevenson, Dave**
 
   1. For testing the special RESET on real hardware. |re| |fe| :ref:`11<r11>` |ren| |ces|
-  2. For conducting low-level tests on real hardware. |re| |fe| :ref:`35<r35>` |ren| |ces|
+  2. For conducting low-level tests on real hardware. |re| |fe| :ref:`36<r36>` |ren| |ces|
 
 * **Vučenović, Zoran**
 
@@ -217,12 +218,12 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Weissflog, Andre (Floh)**
 
-  1. For discovering that the ``reti/retn`` instructions defer the acceptance of the maskable interrupt. |re| |fe| :ref:`36<r36>` |ren| |ces|
-  2. For writing the *"Visual Z80 Remix"* simulator. |re| |fe| :ref:`37<r37>` |ren| |ces|
+  1. For discovering that the ``reti/retn`` instructions defer the acceptance of the maskable interrupt. |re| |fe| :ref:`37<r37>` |ren| |ces|
+  2. For writing the *"Visual Z80 Remix"* simulator. |re| |fe| :ref:`38<r38>` |ren| |ces|
 
 * **Wilkinson, Oli (evolutional)**
 
-  * For validating tests on real hardware. |re| |fe| :ref:`26<r26>` |ren| |ces|
+  * For validating tests on real hardware. |re| |fe| :ref:`27<r27>` |ren| |ces|
 
 * **Wlodek**
 
@@ -231,15 +232,15 @@ Many thanks to the following individuals (in alphabetical order):
 * **Woodmass, Mark (Woody)**
 
   1. For his invaluable contributions to the emuscene.
-  2. For writing the *"Z80 Test Suite"*. |re| |fe| :ref:`13<r13>` |ren| |ces|
-  3. For his research on the flag behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`38<r38>` |ren| |ces|
+  2. For writing the *"Z80 Test Suite"*. |re| |fe| :ref:`14<r14>` |ren| |ces|
+  3. For his research on the flag behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`39<r39>` |ren| |ces|
   4. For writing the *"HALT2INT"* test.
   5. For writing the *"EIHALT"* test.
 
 * **Young, Sean**
 
   1. For his research work.
-  2. For his technical documents about the Zilog Z80. |re| |fe| :ref:`18<r18>`, :ref:`29<r29>`, :ref:`39<r39>` |ren| |ces|
+  2. For his technical documents about the Zilog Z80. |re| |fe| :ref:`19<r19>`, :ref:`30<r30>`, :ref:`40<r40>` |ren| |ces|
 
 * **ZXGuesser**
 
@@ -338,181 +339,187 @@ References
 
     .. _r13:
 
-    https://worldofspectrum.org/forums/discussion/20345
+    https://spectrumcomputing.co.uk/forums/viewtopic.php?p=131207#p131207
 
 14.
 
     .. _r14:
 
-    https://groups.google.com/g/comp.os.cpm/c/HfSTFpaIkuU/m/KotvMWu3bZoJ
+    https://worldofspectrum.org/forums/discussion/20345
 
 15.
 
     .. _r15:
 
-    Cringle, Frank D. (1998-01-28). *"Yaze - Yet Another Z80 Emulator"* v1.10.
-
-    * ftp://ftp.ping.de/pub/misc/emulators/yaze-1.10.tar.gz
+    https://groups.google.com/g/comp.os.cpm/c/HfSTFpaIkuU/m/KotvMWu3bZoJ
 
 16.
 
     .. _r16:
 
-    https://baltazarstudios.com/zilog-z80-undocumented-behavior
+    Cringle, Frank D. (1998-01-28). *"Yaze - Yet Another Z80 Emulator"* v1.10.
+
+    * ftp://ftp.ping.de/pub/misc/emulators/yaze-1.10.tar.gz
 
 17.
 
     .. _r17:
 
-    Flammenkamp, Achim. *"Interrupt Behaviour of the Z80 CPU"*.
-
-    * http://z80.info/interrup.htm
+    https://baltazarstudios.com/zilog-z80-undocumented-behavior
 
 18.
 
     .. _r18:
 
-    Young, Sean (1998-10). *"Z80 Undocumented Features (in Software Behaviour)"* v0.3.
+    Flammenkamp, Achim. *"Interrupt Behaviour of the Z80 CPU"*.
 
-    * http://www.msxnet.org/tech/Z80/z80undoc.txt
+    * http://z80.info/interrup.htm
 
 19.
 
     .. _r19:
 
-    https://elmundodelspectrum.com/desenterrando-el-primer-emulador-de-spectrum
+    Young, Sean (1998-10). *"Z80 Undocumented Features (in Software Behaviour)"* v0.3.
+
+    * http://www.msxnet.org/tech/Z80/z80undoc.txt
 
 20.
 
     .. _r20:
 
-    https://elmundodelspectrum.com/con-vosotros-el-emulador-de-pedro-gimeno-1989
+    https://elmundodelspectrum.com/desenterrando-el-primer-emulador-de-spectrum
 
 21.
 
     .. _r21:
 
-    https://sourceforge.net/p/fuse-emulator/mailman/message/4502844
+    https://elmundodelspectrum.com/con-vosotros-el-emulador-de-pedro-gimeno-1989
 
 22.
 
     .. _r22:
 
-    Harston, Jonathan Graham (2008). *"Full Z80 Opcode List Including Undocumented Opcodes"* v0.11 (revised).
-
-    * https://mdfs.net/Docs/Comp/Z80/OpList
+    https://sourceforge.net/p/fuse-emulator/mailman/message/4502844
 
 23.
 
     .. _r23:
 
-    Harston, Jonathan Graham (2012). *"Z80 Microprocessor Undocumented Instructions"* v0.15.
+    Harston, Jonathan Graham (2008). *"Full Z80 Opcode List Including Undocumented Opcodes"* v0.11 (revised).
 
-    * https://mdfs.net/Docs/Comp/Z80/UnDocOps
+    * https://mdfs.net/Docs/Comp/Z80/OpList
 
 24.
 
     .. _r24:
 
-    Harston, Jonathan Graham (2014). *"Z80 Opcode Map"* v0.10 (revised).
+    Harston, Jonathan Graham (2012). *"Z80 Microprocessor Undocumented Instructions"* v0.15.
 
-    * https://mdfs.net/Docs/Comp/Z80/OpCodeMap
+    * https://mdfs.net/Docs/Comp/Z80/UnDocOps
 
 25.
 
     .. _r25:
 
-    https://mdfs.net/Software/Z80/Exerciser/Spectrum
+    Harston, Jonathan Graham (2014). *"Z80 Opcode Map"* v0.10 (revised).
+
+    * https://mdfs.net/Docs/Comp/Z80/OpCodeMap
 
 26.
 
     .. _r26:
 
-    https://spectrumcomputing.co.uk/forums/viewtopic.php?t=6102
+    https://mdfs.net/Software/Z80/Exerciser/Spectrum
 
 27.
 
     .. _r27:
 
-    https://github.com/MrKWatkins/ZXSpectrumNextTests
+    https://spectrumcomputing.co.uk/forums/viewtopic.php?t=6102
 
 28.
 
     .. _r28:
 
-    https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83157#p83157
+    https://github.com/MrKWatkins/ZXSpectrumNextTests
 
 29.
 
     .. _r29:
+
+    https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83157#p83157
+
+30.
+
+    .. _r30:
 
     Young, Sean (2005-09-18). *"Undocumented Z80 Documented, The"* v0.91.
 
     * http://www.myquest.nl/z80undocumented
     * http://www.myquest.nl/z80undocumented/z80-documented-v0.91.pdf
 
-30.
+31.
 
-    .. _r30:
+    .. _r31:
 
     https://worldofspectrum.org/forums/discussion/41704
 
     * http://zxds.raxoft.cz/taps/misc/zexall2.zip
 
-31.
+32.
 
-    .. _r31:
+    .. _r32:
 
     https://worldofspectrum.org/forums/discussion/41834
 
     * http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip
     * https://github.com/raxoft/z80test
 
-32.
-
-    .. _r32:
-
-    https://worldofspectrum.org/forums/discussion/34574
-
 33.
 
     .. _r33:
 
-    https://worldofspectrum.org/forums/discussion/comment/668760/#Comment_668760
+    https://worldofspectrum.org/forums/discussion/34574
 
 34.
 
     .. _r34:
 
-    https://jisanchez.com/test-a-dos-placas-de-zx-spectrum
+    https://worldofspectrum.org/forums/discussion/comment/668760/#Comment_668760
 
 35.
 
     .. _r35:
 
-    https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360
+    https://jisanchez.com/test-a-dos-placas-de-zx-spectrum
 
 36.
 
     .. _r36:
 
-    https://floooh.github.io/2021/12/17/cycle-stepped-z80.html
+    https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360
 
 37.
 
     .. _r37:
 
-    https://github.com/floooh/v6502r
+    https://floooh.github.io/2021/12/17/cycle-stepped-z80.html
 
 38.
 
     .. _r38:
 
-    https://groups.google.com/g/comp.sys.sinclair/c/WPsPr6j6w5k/m/O_u1zNQf3VYJ
+    https://github.com/floooh/v6502r
 
 39.
 
     .. _r39:
+
+    https://groups.google.com/g/comp.sys.sinclair/c/WPsPr6j6w5k/m/O_u1zNQf3VYJ
+
+40.
+
+    .. _r40:
 
     Young, Sean (1997-09-21). *"Zilog Z80 CPU Specifications"*.
 

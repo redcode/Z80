@@ -26,41 +26,42 @@ Many thanks to the following individuals (in alphabetical order):
 * Bystrov, Dmitry (Alone Coder)
     For validating tests on real hardware [4].
 * Chandler, Richard
-    For his corrections to the documentation.
+    1. For his corrections to the documentation.
+    2. For validating tests on real hardware [13].
 * Chunin, Roman (CHRV)
     For testing the behavior of the MEMPTR register on real Z80 chips [6,7,8,9].
 * Conway, Simon (BadBeard)
-    For validating the "Z80 Test Suite" on several Z80 clones [13].
+    For validating the "Z80 Test Suite" on several Z80 clones [14].
 * Cooke, Simon
     For discovering how the `out (c),0` instruction behaves on the Zilog Z80
-    CMOS [14].
+    CMOS [15].
 * Cringle, Frank D.
-    For writing the "Z80 Instruction Set Exerciser" [15].
+    For writing the "Z80 Instruction Set Exerciser" [16].
 * Devic, Goran
-    For his research on undocumented behaviors of the Z80 CPU [16].
+    For his research on undocumented behaviors of the Z80 CPU [17].
 * Dunn, Paul (ZXDunny)
     For his corrections to the documentation.
 * Equinox
     For his corrections to the documentation.
 * Flammenkamp, Achim
-    For his article on Z80 interrupts [17].
+    For his article on Z80 interrupts [18].
 * Gimeno Fortea, Pedro
-    1. For his research work [18].
-    2. For writing the first-ever ZX Spectrum emulator [19,20].
+    1. For his research work [19].
+    2. For writing the first-ever ZX Spectrum emulator [20,21].
 * goodboy
     For testing the behavior of the MEMPTR register on real Z80 chips [6,7,8,9].
 * Greenway, Ian
     For testing the flag behavior of the `ccf/scf` instructions on real hardware
-    [10,21].
+    [10,22].
 * Harston, Jonathan Graham
     1. For his research work.
-    2. For his technical documents about the Zilog Z80 [22,23,24].
-    3. For porting the "Z80 Instruction Set Exerciser" to the ZX Spectrum [25].
+    2. For his technical documents about the Zilog Z80 [23,24,25].
+    3. For porting the "Z80 Instruction Set Exerciser" to the ZX Spectrum [26].
 * Helcmanovsky, Peter (Ped7g)
     1. For helping me to write the "IN-MEMPTR" test.
-    2. For writing the "Z80 Block Flags Test" [26,27].
-    3. For writing the "Z80 CCF SCF Outcome Stability" test [27].
-    4. For writing the "Z80 INT Skip" test [27].
+    2. For writing the "Z80 Block Flags Test" [27,28].
+    3. For writing the "Z80 CCF SCF Outcome Stability" test [28].
+    4. For writing the "Z80 INT Skip" test [28].
     5. For his research on the unstable flag behavior of the `ccf/scf`
        instructions.
     6. For his invaluable help.
@@ -71,7 +72,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Kladov, Vladimir
     For cracking the behavior of the MEMPTR register [6,7,8,9].
 * Krook, Magnus
-    For validating tests on real hardware [28].
+    For validating tests on real hardware [29].
 * London, Matthew (mattinx)
     For validating tests on real hardware.
 * Martínez Cantero, Ricardo (Kyp)
@@ -79,7 +80,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Molodtsov, Aleksandr
     For testing the behavior of the MEMPTR register on real Z80 chips [6,7,8,9].
 * Nair, Arjun
-    For validating tests on real hardware [26].
+    For validating tests on real hardware [27].
 * Nicolás-González, César
     For helping me to research the unstable flag behavior of the `ccf/scf`
     instructions.
@@ -89,45 +90,45 @@ Many thanks to the following individuals (in alphabetical order):
 * Owen, Simon
     For the idea of the hooking method used in this emulator.
 * Ownby, Matthew P.
-    For his research on the state of the registers after POWER-ON [29].
+    For his research on the state of the registers after POWER-ON [30].
 * Rak, Patrik
-    1. For improving the "Z80 Instruction Set Exerciser for Spectrum" [30].
-    2. For cracking the flag behavior of the `ccf/scf` instructions [13,30].
-    3. For writing the "Zilog Z80 CPU Test Suite" [30,31].
+    1. For improving the "Z80 Instruction Set Exerciser for Spectrum" [31].
+    2. For cracking the flag behavior of the `ccf/scf` instructions [14,31].
+    3. For writing the "Zilog Z80 CPU Test Suite" [31,32].
     4. For his research on the unstable flag behavior of the `ccf/scf`
        instructions.
 * Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)
-    For his research on the state of the registers after POWER-ON/RESET [32].
+    For his research on the state of the registers after POWER-ON/RESET [33].
 * Rodríguez Palomino, Mario (r-lyeh)
     For teaching me how emulators work.
 * Sainz de Baranda y Romero, Manuel
     For teaching me programming and giving me my first computer.
 * Sánchez Ordiñana, José Ismael (Vaporatorius)
-    For validating tests on real hardware [33,34].
+    For validating tests on real hardware [34,35].
 * Sevillano Mancilla, Marta (TheMartian)
     For validating tests on real hardware.
 * Stevenson, Dave
     1. For testing the special RESET on real hardware [11].
-    2. For conducting low-level tests on real hardware [35].
+    2. For conducting low-level tests on real hardware [36].
 * Vučenović, Zoran
     For writing the Pascal binding.
 * Weissflog, Andre (Floh)
     1. For discovering that the `reti/retn` instructions defer the acceptance of
-       the maskable interrupt [36].
-    2. For writing the "Visual Z80 Remix" simulator [37].
+       the maskable interrupt [37].
+    2. For writing the "Visual Z80 Remix" simulator [38].
 * Wilkinson, Oli (evolutional)
-    For validating tests on real hardware [26].
+    For validating tests on real hardware [27].
 * Wlodek
     For testing the behavior of the MEMPTR register on real Z80 chips [6,7,8,9].
 * Woodmass, Mark (Woody)
     1. For his invaluable contributions to the emuscene.
-    2. For writing the "Z80 Test Suite" [13].
-    3. For his research on the flag behavior of the `ccf/scf` instructions [38].
+    2. For writing the "Z80 Test Suite" [14].
+    3. For his research on the flag behavior of the `ccf/scf` instructions [39].
     4. For writing the "HALT2INT" test.
     5. For writing the "EIHALT" test.
 * Young, Sean
     1. For his research work.
-    2. For his technical documents about the Zilog Z80 [18,29,39].
+    2. For his technical documents about the Zilog Z80 [19,30,40].
 * ZXGuesser
     For validating tests on real hardware.
 
@@ -157,45 +158,46 @@ References
 11. Brewer, Tony (2014-12). "Z80 Special Reset".
     * http://primrosebank.net/computers/z80/z80_special_reset.htm
 12. https://stardot.org.uk/forums/viewtopic.php?p=357136#p357136
-13. https://worldofspectrum.org/forums/discussion/20345
-14. https://groups.google.com/g/comp.os.cpm/c/HfSTFpaIkuU/m/KotvMWu3bZoJ
-15. Cringle, Frank D. (1998-01-28). "Yaze - Yet Another Z80 Emulator" v1.10.
+13. https://spectrumcomputing.co.uk/forums/viewtopic.php?p=131207#p131207
+14. https://worldofspectrum.org/forums/discussion/20345
+15. https://groups.google.com/g/comp.os.cpm/c/HfSTFpaIkuU/m/KotvMWu3bZoJ
+16. Cringle, Frank D. (1998-01-28). "Yaze - Yet Another Z80 Emulator" v1.10.
     * ftp://ftp.ping.de/pub/misc/emulators/yaze-1.10.tar.gz
-16. https://baltazarstudios.com/zilog-z80-undocumented-behavior
-17. Flammenkamp, Achim. "Interrupt Behaviour of the Z80 CPU".
+17. https://baltazarstudios.com/zilog-z80-undocumented-behavior
+18. Flammenkamp, Achim. "Interrupt Behaviour of the Z80 CPU".
     * http://z80.info/interrup.htm
-18. Young, Sean (1998-10). "Z80 Undocumented Features (in Software Behaviour)"
+19. Young, Sean (1998-10). "Z80 Undocumented Features (in Software Behaviour)"
     v0.3.
     * http://www.msxnet.org/tech/Z80/z80undoc.txt
-19. https://elmundodelspectrum.com/desenterrando-el-primer-emulador-de-spectrum
-20. https://elmundodelspectrum.com/con-vosotros-el-emulador-de-pedro-gimeno-1989
-21. https://sourceforge.net/p/fuse-emulator/mailman/message/4502844
-22. Harston, Jonathan Graham (2008). "Full Z80 Opcode List Including
+20. https://elmundodelspectrum.com/desenterrando-el-primer-emulador-de-spectrum
+21. https://elmundodelspectrum.com/con-vosotros-el-emulador-de-pedro-gimeno-1989
+22. https://sourceforge.net/p/fuse-emulator/mailman/message/4502844
+23. Harston, Jonathan Graham (2008). "Full Z80 Opcode List Including
     Undocumented Opcodes" v0.11 (revised).
     * https://mdfs.net/Docs/Comp/Z80/OpList
-23. Harston, Jonathan Graham (2012). "Z80 Microprocessor Undocumented
+24. Harston, Jonathan Graham (2012). "Z80 Microprocessor Undocumented
     Instructions" v0.15.
     * https://mdfs.net/Docs/Comp/Z80/UnDocOps
-24. Harston, Jonathan Graham (2014). "Z80 Opcode Map" v0.10 (revised).
+25. Harston, Jonathan Graham (2014). "Z80 Opcode Map" v0.10 (revised).
     * https://mdfs.net/Docs/Comp/Z80/OpCodeMap
-25. https://mdfs.net/Software/Z80/Exerciser/Spectrum
-26. https://spectrumcomputing.co.uk/forums/viewtopic.php?t=6102
-27. https://github.com/MrKWatkins/ZXSpectrumNextTests
-28. https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83157#p83157
-29. Young, Sean (2005-09-18). "Undocumented Z80 Documented, The" v0.91.
+26. https://mdfs.net/Software/Z80/Exerciser/Spectrum
+27. https://spectrumcomputing.co.uk/forums/viewtopic.php?t=6102
+28. https://github.com/MrKWatkins/ZXSpectrumNextTests
+29. https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83157#p83157
+30. Young, Sean (2005-09-18). "Undocumented Z80 Documented, The" v0.91.
     * http://www.myquest.nl/z80undocumented
     * http://www.myquest.nl/z80undocumented/z80-documented-v0.91.pdf
-30. https://worldofspectrum.org/forums/discussion/41704
+31. https://worldofspectrum.org/forums/discussion/41704
     * http://zxds.raxoft.cz/taps/misc/zexall2.zip
-31. https://worldofspectrum.org/forums/discussion/41834
+32. https://worldofspectrum.org/forums/discussion/41834
     * http://zxds.raxoft.cz/taps/misc/z80test-1.0.zip
     * https://github.com/raxoft/z80test
-32. https://worldofspectrum.org/forums/discussion/34574
-33. https://worldofspectrum.org/forums/discussion/comment/668760/#Comment_668760
-34. https://jisanchez.com/test-a-dos-placas-de-zx-spectrum
-35. https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360
-36. https://floooh.github.io/2021/12/17/cycle-stepped-z80.html
-37. https://github.com/floooh/v6502r
-38. https://groups.google.com/g/comp.sys.sinclair/c/WPsPr6j6w5k/m/O_u1zNQf3VYJ
-39. Young, Sean (1997-09-21). "Zilog Z80 CPU Specifications".
+33. https://worldofspectrum.org/forums/discussion/34574
+34. https://worldofspectrum.org/forums/discussion/comment/668760/#Comment_668760
+35. https://jisanchez.com/test-a-dos-placas-de-zx-spectrum
+36. https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360
+37. https://floooh.github.io/2021/12/17/cycle-stepped-z80.html
+38. https://github.com/floooh/v6502r
+39. https://groups.google.com/g/comp.sys.sinclair/c/WPsPr6j6w5k/m/O_u1zNQf3VYJ
+40. Young, Sean (1997-09-21). "Zilog Z80 CPU Specifications".
     * http://www.msxnet.org/tech/Z80/z80.zip
