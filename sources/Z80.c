@@ -140,7 +140,6 @@ typedef zuint8 (* Insn)(Z80 *self);
 #define WRITE(address, value) self->write	(CONTEXT, address, value)
 #define IN(port)	      self->in		(CONTEXT, port)
 #define OUT(port, value)      self->out		(CONTEXT, port, value)
-#define INTA		      self->inta	(CONTEXT, PC)
 #define NOTIFY(callback)      if (self->callback != Z_NULL) self->callback(CONTEXT)
 
 
@@ -800,7 +799,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	lhs = t
 
 
-#define ADC_SBC_HL_SS(operator, pf_overflow_rhs, cf_test, set_nf)	    \
+#define ADC_SBC_HL_SS(operator, pf_overflow_rhs, cf_test, nf_or)	    \
 	zuint8	fc = F_C;						    \
 	zuint16 ss = SS1;						    \
 	zuint16 t  = HL operator ss operator fc;			    \
@@ -813,7 +812,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 		/* PF = overflow */					    \
 		| PF_OVERFLOW(16, t, HL, pf_overflow_rhs)		    \
 		| ((zuint32)cf_test) /* CF = carry (adc), borrow (sbc)	 */ \
-		set_nf);	     /* NF = 0 (adc), 1 (sbc)		 */ \
+		nf_or);		     /* NF = 0 (adc), 1 (sbc)		 */ \
 									    \
 	MEMPTR = HL + 1;						    \
 	HL = t;								    \
@@ -855,7 +854,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	zsint8 offset;						     \
 								     \
 	Q_0							     \
-	offset = (zsint8)FETCH(PC + 1); /* always */		     \
+	offset = (zsint8)FETCH(PC + 1); /* Always read */	     \
 								     \
 	if (condition)						     \
 		{						     \
@@ -925,7 +924,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 | Block instructions produce an extra M-cycle of 5 T-states to decrement PC if |
 | the loop condition is met. In 2018, David Banks (AKA hoglet) discovered that |
 | the CPU performs additional flag changes during this M-cycle and managed to  |
-| crack the behaviors. All these instructions copy bits 13 and 11 of PCi to YF |
+| crack the behaviors. All block instructions copy bits 13 and 11 of PCi to YF |
 | and XF respectively [1.1], but `inir`, `indr`, `otir` and `otdr` also modify |
 | HF and PF in a very complicated way [1.2]. These two flags are not commented |
 | here because the explanation would not be simpler than the code itself, so   |
@@ -933,7 +932,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 |									       |
 | David Banks' discoveries have been corroborated thanks to Peter Helcmanovsky |
 | (AKA Ped7g), who wrote a test that covers most of the cases that can be      |
-| verified with a ZX Spectrum [3].					       |
+| verified on a ZX Spectrum [3].					       |
 |									       |
 | References:								       |
 | 1. https://stardot.org.uk/forums/viewtopic.php?t=15464		       |
@@ -1372,7 +1371,7 @@ INSN(halt)
 			zuint8 opcode;
 
 			do	{
-				R++; /* M1 */
+				R++;
 				opcode = self->nop(CONTEXT, PC);
 				self->cycles += 4;
 
@@ -1405,7 +1404,7 @@ INSN(halt)
 
 #	else
 		else do	{
-			R++; /* M1 */
+			R++;
 			(void)self->nop(CONTEXT, PC);
 			self->cycles += 4;
 
@@ -1483,7 +1482,7 @@ INSN(dec_XY   ) {Q_0 XY--;			   PC += 2; return  6;}
 |  rld		    <--ED--><--6F-->		      szy0xp0.	18:44343   |
 |  rrd		    <--ED--><--67-->		      szy0xp0.	18:44343   |
 |--------------------------------------------------------------------------|
-| (-) The instruction has undocumented [pseudo-]opcodes.		   |
+| (-) The instruction has undocumented pseudo-opcodes.			   |
 | (*) Undocumented instruction.						   |
 '=========================================================================*/
 
@@ -1640,7 +1639,7 @@ INSN(rst_N    ) {Q_0 PUSH(PC + 1); MEMPTR = PC = DATA[0] & 56;		   return 11;}
 INSN(call_Z_WORD)
 	{
 	Q_0
-	MEMPTR = FETCH_16(PC + 1); /* always */
+	MEMPTR = FETCH_16(PC + 1); /* Always read */
 
 	if (Z(7))
 		{
@@ -1884,7 +1883,7 @@ INSN(ed_prefix)
 	}
 
 
-#define XY_PREFIX(register)					      \
+#define XY_PREFIX(index_register)				      \
 	zuint8 cycles;						      \
 								      \
 	if ((self->cycles += 4) >= self->cycle_limit)		      \
@@ -1894,9 +1893,9 @@ INSN(ed_prefix)
 		}						      \
 								      \
 	R++;							      \
-	XY = register;						      \
+	XY = index_register;					      \
 	cycles = xy_insn_table[DATA[1] = FETCH_OPCODE(PC + 1)](self); \
-	register = XY;						      \
+	index_register = XY;					      \
 	return cycles;
 
 
@@ -1919,9 +1918,9 @@ INSN(xy_cb_prefix)
 
 /*-----------------------------------------------------------------------------.
 | In a sequence of DDh and/or FDh prefixes, it is the last one that counts, as |
-| each prefix disables and replaces the previous one. No matter how long the   |
-| sequence is, interrupts can only be responded to after all prefixes are      |
-| fetched and the final instruction is executed. Each prefix takes 4 T-states. |
+| each prefix overrides the previous one. No matter how long the sequence is,  |
+| interrupts can only be responded to after executing the final instruction    |
+| once all the prefixes have been fetched. Each prefix takes 4 T-states.       |
 '=============================================================================*/
 
 INSN(xy_xy)
@@ -2174,7 +2173,7 @@ Z80_API void z80_nmi(Z80 *self)
 
 			case Z80_RESUME_XY:
 			RESUME = 0;
-			R++; /* M1 */
+			R++;
 			XY = (xy = &self->ix_iy[(DATA[0] >> 5) & 1])->uint16_value;
 			self->cycles += xy_insn_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
 			xy->uint16_value = XY;
@@ -2183,7 +2182,7 @@ Z80_API void z80_nmi(Z80 *self)
 
 		while (self->cycles < cycles)
 			{
-			R++; /* M1 */
+			R++;
 			self->cycles += insn_table[DATA[0] = FETCH_OPCODE(PC)](self);
 			}
 
@@ -2333,7 +2332,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				REQUEST = Z80_REQUEST_REJECT_NMI;
 				IFF1 = 0;
 				if (HALT_LINE) {SET_HALT_LINE(0);}
-				R++; /* M1 */
+				R++;
 				if (self->nmia != Z_NULL) (void)self->nmia(CONTEXT, PC);
 				DATA[0] = 0;
 				Q_0
@@ -2410,12 +2409,12 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				| possibly sole byte of the IRD is read from the data bus during this  |
 				| special M1 cycle.						       |
 				|								       |
-				| The value FFh is assumed when the `inta` callback is not used. This  |
-				| is the most desirable behavior, since an `rst 38h` instruction will  |
-				| be executed if the interrupt mode is 0.			       |
+				| The value FFh is assumed when the `Z80::inta` callback is not used.  |
+				| This is the most desirable behavior, since an `rst 38h` instruction  |
+				| will be executed if the interrupt mode is 0.			       |
 				'=====================================================================*/
-				R++; /* M1 */
-				ird = (self->inta != Z_NULL) ? INTA : 0xFF;
+				R++;
+				ird = (self->inta != Z_NULL) ? self->inta(CONTEXT, PC) : 0xFF;
 
 #				ifdef Z80_WITH_SPECIAL_RESET
 					PC >>= special_reset;
@@ -2447,9 +2446,30 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 #					ifdef Z80_WITH_FULL_IM0
 						im0_begin:
-						hook	      = self->hook;
+
+						/*-----------------------------------------------------.
+						| The `Z80::hook` callback is temporarily disabled, as |
+						| traps are ignored during the INT response in mode 0. |
+						'=====================================================*/
+						hook	   = self->hook;
+						self->hook = Z_NULL;
+
+						/*------------------------------------------------------------------------.
+						| The `Z80::fetch` callback is temporarily replaced by a trampoline that  |
+						| invokes `Z80::int_fecth` instead. This trampoline needs to access the	  |
+						| callback pointer in addition to the initial, non-incremented value of	  |
+						| PC, so the value of `Z80::context` is temporarily replaced by a pointer |
+						| to an `IM0` object that holds the real context and all this data, which |
+						| also makes it necessary to replace other callbacks with trampolines so  |
+						| that the real context can be passed to them.				  |
+						|									  |
+						| The main idea here is that the instruction code will invoke trampolines |
+						| rather than callbacks, and the one assigned to `Z80::fetch` will ignore |
+						| the received fetch address, passing instead to `Z80::int_fetch` the	  |
+						| initial, non-incremented value of PC.					  |
+						'========================================================================*/
 						im0.z80	      = self;
-						im0.context   = self->context;
+						im0.context   = CONTEXT;
 						im0.fetch     = self->fetch;
 						im0.read      = self->read;
 						im0.write     = self->write;
@@ -2462,10 +2482,19 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						self->write   = (Z80Write)im0_write;
 						self->in      = (Z80Read )im0_in;
 						self->out     = (Z80Write)im0_out;
-						self->hook    = Z_NULL;
 
 						im0_execute:
 
+						/*------------------------------------------------------------------------.
+						| `call`, `djnz`, `jr` and `rst` increment PC before pushing it onto the  |
+						| stack or using it as the base address, so it is necessary to decrement  |
+						| PC before executing any of these instructions so that the final address |
+						| is correct. `jmp` and `ret` are also handled here to simplify the code, |
+						| given that in their case this pre-decrement has no effect and PC must	  |
+						| also not be corrected after executing the instruction. These groups of  |
+						| instructions are identified by using a table of decrements. Note that	  |
+						| `jmp (XY)` and `reti/retn` are prefixed and will be handled later.	  |
+						'========================================================================*/
 						if (im0_pc_decrement_table[ird])
 							{
 							PC -= im0_pc_decrement_table[ird];
@@ -2475,11 +2504,15 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						/* halt */
 						else if (ird == 0x76) HALT_LINE = 1;
 
-						/* Instructions with the CBh prefix */
+						/*-------------------------------------------------------------------.
+						| Instructions with the CBh prefix are executed directly from here   |
+						| after fetching the opcode in a second INTA. They will not pass     |
+						| through the `cb_prefix` function, so PC will never be incremented. |
+						'===================================================================*/
 						else if (ird == 0xCB)
 							{
 							R++;
-							self->cycles += 4 + cb_insn_table[DATA[1] = INTA](self);
+							self->cycles += 4 + cb_insn_table[DATA[1] = self->inta(im0.context, im0.pc)](self);
 							}
 
 						/* Instructions with the EDh prefix */
@@ -2489,7 +2522,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 							R++;
 
-							if ((insn = ed_insn_table[DATA[1] = ird = INTA]) != ed_illegal)
+							if ((insn = ed_insn_table[DATA[1] = ird = self->inta(im0.context, im0.pc)]) != ed_illegal)
 								{
 								im0.ld_i_a   = self->ld_i_a;
 								im0.ld_r_a   = self->ld_r_a;
@@ -2506,17 +2539,16 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 									self->retn = Z_NULL;
 #								endif
 
+								PC -= ((ird & 0xC7) == 0x43)
+									? 4 /* `ld SS,(WORD)` and `ld (WORD),SS` */
+									: 2 /* All others */;
+
 								self->cycles += 4 + insn(self);
 
 								self->ld_i_a = im0.ld_i_a;
 								self->ld_r_a = im0.ld_r_a;
 								self->reti   = im0.reti;
 								self->retn   = im0.retn;
-
-								/* Decrement PC, except for `reti` and `retn` */
-								if ((ird & 0xC7) != 0x45) PC -= ((ird & 0xC7) == 0x43)
-									? 4 /* `ld SS,(WORD)` and `ld (WORD),SS` */
-									: 2 /* all others */;
 								}
 
 							else if (self->illegal == Z_NULL)
@@ -2524,7 +2556,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 							else	{
 								DATA[2] = 4;
-								self->cycles += self->illegal(self, ird);
+								self->cycles += 4 + self->illegal(self, ird);
 								}
 							}
 
@@ -2546,7 +2578,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 							R++;
 
-							if (IS_XY_PREFIX(ird = INTA))
+							if (IS_XY_PREFIX(ird = self->inta(im0.context, im0.pc)))
 								{
 								DATA[0] = ird;
 								goto im0_advance_xy;
@@ -2675,7 +2707,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					if (DATA[0] == 0x76 && self->halt != Z_NULL)
 						self->halt(CONTEXT, Z80_HALT_CANCEL);
 
-					R++; /* M1 */
+					R++;
 					if (self->nop != Z_NULL) (void)self->nop(CONTEXT, PC);
 					DATA[0] = 0;
 					Q_0;
@@ -2686,7 +2718,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #			endif
 			}
 
-		R++; /* M1 */
+		R++;
 		self->cycles += insn_table[DATA[0] = FETCH_OPCODE(PC)](self);
 		}
 
