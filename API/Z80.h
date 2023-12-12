@@ -183,7 +183,7 @@ struct Z80 {
 	  *
 	  * This callback indicates the beginning of an opcode fetch M-cycle.
 	  * The function must return the byte located at the memory address
-	  * specified by the second parameter. */
+	  * specified by the second argument. */
 
 	Z80Read fetch_opcode;
 
@@ -193,7 +193,7 @@ struct Z80 {
 	  * during which the CPU fetches one byte of instruction data (i.e., one
 	  * byte of the instruction that is neither a prefix nor an opcode). The
 	  * function must return the byte located at the memory address
-	  * specified by the second parameter. */
+	  * specified by the second argument. */
 
 	Z80Read fetch;
 
@@ -201,15 +201,15 @@ struct Z80 {
 	  *
 	  * This callback indicates the beginning of a memory read M-cycle. The
 	  * function must return the byte located at the memory address
-	  * specified by the second parameter. */
+	  * specified by the second argument. */
 
 	Z80Read read;
 
 	/** @brief Invoked to perform a memory write.
 	  *
 	  * This callback indicates the beginning of a memory write M-cycle. The
-	  * function must write the value of the third parameter into the memory
-	  * location specified by the second parameter. */
+	  * function must write the third argument into the memory location
+	  * specified by the second argument. */
 
 	Z80Write write;
 
@@ -217,15 +217,15 @@ struct Z80 {
 	  *
 	  * This callback indicates the beginning of an I/O read M-cycle. The
 	  * function must return the byte read from the I/O port specified by
-	  * the second parameter. */
+	  * the second argument. */
 
 	Z80Read in;
 
 	/** @brief Invoked to perform an I/O port write.
 	  *
 	  * This callback indicates the beginning of an I/O write M-cycle. The
-	  * function must write the value of the third parameter to the I/O port
-	  * specified by the second parameter. */
+	  * function must write the third argument to the I/O port specified by
+	  * the second argument. */
 
 	Z80Write out;
 
@@ -252,7 +252,7 @@ struct Z80 {
 	  *
 	  * If the library has been built with special RESET support, the values
 	  * <tt>@ref Z80_HALT_EXIT_EARLY</tt> and <tt>@ref Z80_HALT_CANCEL</tt>
-	  * are also possible. */
+	  * are also possible for the second parameter. */
 
 	Z80Halt halt;
 
