@@ -75,13 +75,12 @@
 /** @brief Maximum number of clock cycles that <tt>@ref z80_run</tt> will
   * emulate if instructed to execute 1 clock cycle.
   *
-  * This is the number of clock cycles taken by the longest instruction, not
-  * counting opcode fetch M-cycles of the prefixes @c 0xDD and @c 0xFD, plus the
-  * 2 wait clock cycles automatically added by the CPU to the maskable interrupt
-  * acknowledge M-cycle. For <tt>@ref z80_execute</tt>, this value is 2 clock
-  * cycles less. */
+  * This is the number of clock cycles that the longest instruction takes to
+  * execute through interrupt mode 0, not counting the M-cycle used to fetch
+  * a prefix @c 0xDD or @c 0xFD. For <tt>@ref z80_execute</tt>, this value is 4
+  * clock cycles less. */
 
-#define Z80_MAXIMUM_CYCLES_PER_STEP 23
+#define Z80_MAXIMUM_CYCLES_PER_STEP 25
 
 /** @brief Minimum number of clock cycles that <tt>@ref z80_run</tt> or
   * <tt>@ref z80_execute</tt> will emulate if instructed to execute 1 clock
