@@ -771,7 +771,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For teaching me programming and giving me my first computer.
 * **Sánchez Ordiñana, José Ismael (Vaporatorius)**
 	* For validating tests on real hardware. <sup>[33](#r33), [34](#r34)</sup>
-* **Sevillano Mancilla, Marta**
+* **Sevillano Mancilla, Marta (TheMartian)**
 	* For validating tests on real hardware.
 * **Stevenson, Dave**
 	1. For testing the special RESET on real hardware. <sup>[11](#r11)</sup>

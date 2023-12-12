@@ -202,7 +202,7 @@ Many thanks to the following individuals (in alphabetical order):
 
   * For validating tests on real hardware. |re| |fe| :ref:`33<r33>`, :ref:`34<r34>` |ren| |ces|
 
-* **Sevillano Mancilla, Marta**
+* **Sevillano Mancilla, Marta (TheMartian)**
 
   * For validating tests on real hardware.
 
