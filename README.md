@@ -821,7 +821,7 @@ Many thanks to the following individuals (in alphabetical order):
 11. <span id="r11">Brewer, Tony (2014-12). _"Z80 Special Reset"_.</span>
 	* http://primrosebank.net/computers/z80/z80_special_reset.htm
 12. <span id="r12">https://stardot.org.uk/forums/viewtopic.php?p=357136#p357136</span>
-13. <span id="r13">https://spectrumcomputing.co.uk/forums/viewtopic.php?p=131207#p131207</span>
+13. <span id="r13">https://spectrumcomputing.co.uk/forums/viewtopic.php?t=10555</span>
 14. <span id="r14">https://worldofspectrum.org/forums/discussion/20345</span>
 15. <span id="r15">https://groups.google.com/g/comp.os.cpm/c/HfSTFpaIkuU/m/KotvMWu3bZoJ</span>
 16. <span id="r16">Cringle, Frank D. (1998-01-28). _"Yaze - Yet Another Z80 Emulator"_ v1.10.</span>

@@ -339,7 +339,7 @@ References
 
     .. _r13:
 
-    https://spectrumcomputing.co.uk/forums/viewtopic.php?p=131207#p131207
+    https://spectrumcomputing.co.uk/forums/viewtopic.php?t=10555
 
 14.
 
