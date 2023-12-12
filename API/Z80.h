@@ -103,6 +103,8 @@
 #define Z80_NF   2 /**< @brief Bitmask of the Z80 N flag.   */
 #define Z80_CF   1 /**< @brief Bitmask of the Z80 C flag.   */
 
+typedef struct Z80 Z80;
+
 /** @brief Defines a pointer to a <tt>@ref Z80</tt> callback function invoked to
   * perform a read operation.
   *
@@ -139,11 +141,11 @@ typedef void (* Z80Notify)(void *context);
 /** @brief Defines a pointer to a <tt>@ref Z80</tt> callback function invoked to
   * delegate the emulation of an illegal instruction.
   *
-  * @param context The <tt>@ref Z80::context</tt> of the calling object.
+  * @param cpu The calling object.
   * @param opcode The illegal opcode.
   * @return The number of clock cycles consumed by the instruction. */
 
-typedef zuint8 (* Z80Illegal)(void *context, zuint8 opcode);
+typedef zuint8 (* Z80Illegal)(Z80 *cpu, zuint8 opcode);
 
 /** @struct Z80 Z80.h
   *
@@ -158,7 +160,7 @@ typedef zuint8 (* Z80Illegal)(void *context, zuint8 opcode);
   * an object of this type. Optional callbacks must be set to @c Z_NULL when not
   * in use. */
 
-typedef struct {
+struct Z80 {
 
 	/** @brief Number of clock cycles already executed. */
 
@@ -470,7 +472,7 @@ typedef struct {
 	  * <tt>@ref Z80::halt</tt>, not after. */
 
 	zuint8 halt_line;
-} Z80;
+};
 
 /** @brief <tt>@ref Z80::options</tt> bitmask that enables emulation of the
   * <tt>out (c),255</tt> instruction, specific to the Zilog Z80 CMOS. */

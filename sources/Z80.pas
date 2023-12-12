@@ -59,6 +59,8 @@ const
 	Z80_CF =   1;
 
 type
+	PZ80 = ^TZ80;
+
 	TZ80RegisterPair = packed record
 	case Integer of
 		0: (word: UInt16);
@@ -73,7 +75,7 @@ type
 	Z80Write   = procedure(context: Pointer; address: UInt16; value: UInt8); cdecl;
 	Z80Halt    = procedure(context: Pointer; state: UInt8); cdecl;
 	Z80Notify  = procedure(context: Pointer); cdecl;
-	Z80Illegal = function(context: Pointer; opcode: UInt8): UInt8; cdecl;
+	Z80Illegal = function(cpu: PZ80; opcode: UInt8): UInt8; cdecl;
 
 	TZ80 = record
 		cycles:       SizeUInt;
@@ -123,8 +125,6 @@ type
 		int_line:     UInt8;
 		halt_line:    UInt8;
 	end;
-
-	PZ80 = ^TZ80;
 
 const
 	Z80_OPTION_OUT_VC_255             =  1;

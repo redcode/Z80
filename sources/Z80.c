@@ -1973,7 +1973,12 @@ INSN(xy_xy)
 
 INSN(ed_illegal)
 	{
-	if (self->illegal != Z_NULL) return self->illegal(CONTEXT, DATA[0]);
+	if (self->illegal != Z_NULL)
+		{
+		DATA[2] = 0;
+		return self->illegal(self, DATA[1]);
+		}
+
 	Q_0
 	PC += 2;
 	return 8;
@@ -2514,9 +2519,13 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 									: 2 /* all others */;
 								}
 
-							else self->cycles += (self->illegal == Z_NULL)
-								? 4 + 8
-								: 4 + self->illegal(CONTEXT, ird);
+							else if (self->illegal == Z_NULL)
+								self->cycles += 4 + 8;
+
+							else	{
+								DATA[2] = 4;
+								self->cycles += self->illegal(self, ird);
+								}
 							}
 
 						/* Instructions with the prefix DDh, FDh, DDCBh or FDCBh */
