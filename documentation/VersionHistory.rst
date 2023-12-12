@@ -45,7 +45,7 @@ This is an important update that addresses a number of issues and also includes 
 32. Added optional emulation of Q. If enabled at compile-time, the ``ccf`` and ``scf`` instructions will produce a correct value of F.
 33. Added emulation of the ``out (c),255`` instruction (Zilog Z80 CMOS).
 34. Added optional emulation of the bug affecting the ``ld a,{i|r}`` instructions (Zilog Z80 NMOS). If enabled at compile-time and configured at runtime, the P/V flag will be reset if an INT is accepted during the execution of these instructions.
-35. Increased granularity. The emulator can now stop directly after fetching a ``DDh`` or ``FDh`` prefix if it runs out of clock cycles. This also works during the INT response in mode 0.
+35. Increased granularity. The emulator can now stop directly after fetching a prefix ``DDh`` or ``FDh`` if it runs out of clock cycles. This also works during the INT response in mode 0.
 36. Reimplemented the HALT state. The emulation should now be fully accurate. HALTskip optimization is also supported.
 37. Fixed a bug in the ``sll`` instruction.
 38. Fixed a bug in the ``INX`` and ``OUTX`` macros affecting the S and N flags.

@@ -1,4 +1,4 @@
-Z80 v0.2 (2023-07-xx)
+Z80 v0.2 (2023-12-25)
 =====================
 
 This is an important update that addresses a number of issues and also includes
@@ -69,7 +69,7 @@ Changes:
     P/V flag will be reset if an INT is accepted during the execution of these
     instructions.
 35. Increased granularity. The emulator can now stop directly after fetching a
-    DDh or FDh prefix if it runs out of clock cycles. This also works during the
+    prefix DDh or FDh if it runs out of clock cycles. This also works during the
     INT response in mode 0.
 36. Reimplemented the HALT state. The emulation should now be fully accurate.
     HALTskip optimization is also supported.
