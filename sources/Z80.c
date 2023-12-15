@@ -1482,7 +1482,7 @@ INSN(dec_XY   ) {Q_0 XY--;			   PC += 2; return  6;}
 |  rld		    <--ED--><--6F-->		      szy0xp0.	18:44343   |
 |  rrd		    <--ED--><--67-->		      szy0xp0.	18:44343   |
 |--------------------------------------------------------------------------|
-| (-) The instruction has undocumented pseudo-opcodes.			   |
+| (-) The instruction has undocumented [pseudo-]opcodes.		   |
 | (*) Undocumented instruction.						   |
 '=========================================================================*/
 
@@ -2115,8 +2115,8 @@ Z80_API void z80_power(Z80 *self, zboolean state)
 
 /*-------------------------------------------------------------------------.
 | The normal RESET zeroes PC, I, and R [1,2,3,4,5,6], resets the interrupt |
-| enable flip-flops (IFF1 and IFF2) [1,2,3,4,5] and selects the interrupt  |
-| mode 0 [1,2,3,4,7].							   |
+| enable flip-flops (IFF1 and IFF2) [1,2,3,4,5] and selects interrupt mode |
+| 0 [1,2,3,4,7].							   |
 |									   |
 | References:								   |
 | 1. Zilog (2016-09). "Z80 CPU User Manual" rev. 11, p. 6.		   |
@@ -2456,12 +2456,12 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 						/*------------------------------------------------------------------------.
 						| The `Z80::fetch` callback is temporarily replaced by a trampoline that  |
-						| invokes `Z80::int_fecth` instead. This trampoline needs to access the	  |
-						| callback pointer in addition to the initial, non-incremented value of	  |
-						| PC, so the value of `Z80::context` is temporarily replaced by a pointer |
-						| to an `IM0` object that holds the real context and all this data, which |
-						| also makes it necessary to replace other callbacks with trampolines so  |
-						| that the real context can be passed to them.				  |
+						| invokes `Z80::int_fecth`. This trampoline needs to access the callback  |
+						| pointer in addition to the initial, non-incremented value of PC, so the |
+						| value of `Z80::context` is temporarily replaced by a pointer to an	  |
+						| `IM0` object that holds the real context and all this data, which also  |
+						| makes it necessary to replace other callbacks with trampolines so that  |
+						| the real context can be passed to them.				  |
 						|									  |
 						| The main idea here is that the instruction code will invoke trampolines |
 						| rather than callbacks, and the one assigned to `Z80::fetch` will ignore |
@@ -2487,13 +2487,13 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 						/*------------------------------------------------------------------------.
 						| `call`, `djnz`, `jr` and `rst` increment PC before pushing it onto the  |
-						| stack or using it as the base address, so it is necessary to decrement  |
-						| PC before executing any of these instructions so that the final address |
-						| is correct. `jmp` and `ret` are also handled here to simplify the code, |
-						| given that in their case this pre-decrement has no effect and PC must	  |
-						| also not be corrected after executing the instruction. These groups of  |
-						| instructions are identified by using a table of decrements. Note that	  |
-						| `jmp (XY)` and `reti/retn` are prefixed and will be handled later.	  |
+						| stack or using it as the base address. This makes it necessary to	  |
+						| decrement PC before executing any of these instructions so that the	  |
+						| final address is correct. `jmp` and `ret` are handled here too because  |
+						| in their case this pre-decrement has no effect and PC must also not be  |
+						| corrected after executing the instruction. These groups of instructions |
+						| are identified by using a table of decrements. Note that `jmp (XY)` and |
+						| `reti/retn` are prefixed and will be handled later.			  |
 						'========================================================================*/
 						if (im0_pc_decrement_table[ird])
 							{
@@ -2504,11 +2504,11 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						/* halt */
 						else if (ird == 0x76) HALT_LINE = 1;
 
-						/*-------------------------------------------------------------------.
-						| Instructions with the CBh prefix are executed directly from here   |
-						| after fetching the opcode in a second INTA. They will not pass     |
-						| through the `cb_prefix` function, so PC will never be incremented. |
-						'===================================================================*/
+						/*---------------------------------------------------------------.
+						| Instructions with the CBh prefix are called directly from here |
+						| after fetching the opcode in the 2nd INTA. This bypasses the   |
+						| `cb_prefix` function, so PC is never incremented.		 |
+						'===============================================================*/
 						else if (ird == 0xCB)
 							{
 							R++;
