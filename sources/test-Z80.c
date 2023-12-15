@@ -166,16 +166,14 @@ static zuint8 in_values[2] = {191, 255};
 static Z80    cpu;
 static zuint8 memory[65536];
 
-/*------------------------------------------------------------------------.
-| `completed` indicates whether the test has reached its exit address, in |
-| which case `cycles` contains the number of clock cycles executed during |
-| the last `RUN` of the emulation. `lines` is incremented every time the  |
-| test prints a new line. `cursor_x` holds the X position of the cursor,  |
-| i.e., the size of the current line. `columns` contains the rightmost	  |
-| position reached by the cursor throughout the test.			  |
-'========================================================================*/
+/*-----------------------------------------------------------------------------.
+| `completed` indicates whether the test has reached its exit address. `lines` |
+| is incremented every time the test prints a new line. `cursor_x` holds the X |
+| position of the cursor in the current line. `columns` contains the rightmost |
+| position reached by the cursor throughout the test.			       |
+'=============================================================================*/
 static zboolean completed;
-static zusize   cycles, lines, cursor_x, columns;
+static zusize   lines, cursor_x, columns;
 
 /*-----------------------------------------------------------------------------.
 | `zx_spectrum_print_hook_address` contains the address of the hook that       |
@@ -221,9 +219,8 @@ static void cpu_out(void *context, zuint16 port, zuint8 value)
 static void cpu_halt(void *context, zuint8 state)
 	{
 	Z_UNUSED(context) Z_UNUSED(state)
-	cycles	   = cpu.cycles;
-	cpu.cycles = Z80_MAXIMUM_CYCLES;
-	completed  = Z_TRUE;
+	completed = Z_TRUE;
+	z80_break(&cpu);
 	}
 
 
@@ -490,6 +487,7 @@ static zuint8 run_test(int test_index)
 	Test const *test = &tests[test_index];
 	zuint16 start_address = test->start_address;
 	zboolean passed;
+	zusize cycles = 0;
 	zuint i = 0;
 
 #	if Z_USIZE_WIDTH < 64
@@ -603,7 +601,6 @@ static zuint8 run_test(int test_index)
 
 	memory[test->exit_address] = OPCODE_HALT;
 	Z80_PC(cpu)		   = start_address;
-	cycles			   =
 	lines			   =
 	columns			   =
 	cursor_x		   = 0;
@@ -616,7 +613,7 @@ static zuint8 run_test(int test_index)
 #	if Z_USIZE_WIDTH < 64
 		for (i = 0; i < test->cycles_expected[1];)
 			{
-			RUN(&cpu, Z_UINT32_MAXIMUM / 2);
+			cycles = RUN(&cpu, Z_UINT32_MAXIMUM / 2);
 
 			if (completed)
 				{
@@ -625,14 +622,13 @@ static zuint8 run_test(int test_index)
 				goto check_results;
 				}
 
-			if ((j += (zuint32)cpu.cycles) < cpu.cycles) i++;
+			if ((j += (zuint32)cycles) < cycles) i++;
 			}
 
-		RUN(&cpu, test->cycles_expected[0] + Z_UINT32(0x10000000) - j);
-		cycles += j;
+		cycles = RUN(&cpu, test->cycles_expected[0] + Z_UINT32(0x10000000) - j) + j;
 		check_results:
 #	else
-		RUN(&cpu, test->cycles_expected[0] + Z_USIZE(0x10000000));
+		cycles = RUN(&cpu, test->cycles_expected[0] + Z_USIZE(0x10000000));
 #	endif
 
 	if (cursor_x > columns) columns = cursor_x;

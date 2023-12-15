@@ -76,8 +76,8 @@
   * emulate if instructed to execute 1 clock cycle.
   *
   * This is the number of clock cycles that the longest instruction takes to
-  * execute through interrupt mode 0, not counting the M-cycle used to fetch
-  * a prefix @c 0xDD or @c 0xFD. For <tt>@ref z80_execute</tt>, this value is 4
+  * execute through interrupt mode 0, not counting the M-cycle used to fetch a
+  * prefix @c 0xDD or @c 0xFD. For <tt>@ref z80_execute</tt>, this value is 4
   * clock cycles less. */
 
 #define Z80_MAXIMUM_CYCLES_PER_STEP 25
@@ -810,6 +810,19 @@ Z80_API zusize z80_execute(Z80 *self, zusize cycles);
   * @return The actual number of clock cycles emulated. */
 
 Z80_API zusize z80_run(Z80 *self, zusize cycles);
+
+
+/** @brief Ends the emulation loop of <tt>@ref z80_execute</tt> or
+  * <tt>@ref z80_run</tt>.
+  *
+  * This function should only be used inside callback functions. It zeroes
+  * <tt>@ref `Z80::cycle_limit`</tt>, thus breaking the emulation loop after the
+  * ongoing emulation step has finished executing.
+  *
+  * @param self Pointer to the object on which the function is called. */
+
+static Z_ALWAYS_INLINE void z80_break(Z80 *self)
+	{self->cycle_limit = 0;}
 
 
 /** @brief Gets the value of the R register of a <tt>@ref Z80</tt>.

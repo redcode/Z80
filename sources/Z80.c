@@ -1000,9 +1000,9 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	return 16
 
 
-#define SET_HALT_LINE(state) \
-	HALT_LINE = state;   \
-	if (self->halt != Z_NULL) self->halt(CONTEXT, state)
+#define EXIT_HALT      \
+	HALT_LINE = 0; \
+	if (self->halt != Z_NULL) self->halt(CONTEXT, 0)
 
 
 /* MARK: - Instructions: 8-Bit Load Group */
@@ -1354,7 +1354,13 @@ INSN(halt)
 			RESUME = Z80_RESUME_HALT;
 			}
 
-		SET_HALT_LINE(1);
+		HALT_LINE = 1;
+
+		if (self->halt != Z_NULL)
+			{
+			self->halt(CONTEXT, 1);
+			if (self->cycles >= self->cycle_limit) return 0;
+			}
 		}
 
 	if (self->nop == Z_NULL || (OPTIONS & Z80_OPTION_HALT_SKIP))
@@ -1482,7 +1488,7 @@ INSN(dec_XY   ) {Q_0 XY--;			   PC += 2; return  6;}
 |  rld		    <--ED--><--6F-->		      szy0xp0.	18:44343   |
 |  rrd		    <--ED--><--67-->		      szy0xp0.	18:44343   |
 |--------------------------------------------------------------------------|
-| (-) The instruction has undocumented [pseudo-]opcodes.		   |
+| (-) The instruction has undocumented pseudo-opcodes.			   |
 | (*) Undocumented instruction.						   |
 '=========================================================================*/
 
@@ -2132,7 +2138,7 @@ Z80_API void z80_power(Z80 *self, zboolean state)
 
 Z80_API void z80_instant_reset(Z80 *self)
 	{
-	if (HALT_LINE) {SET_HALT_LINE(0);}
+	if (HALT_LINE) {EXIT_HALT;}
 
 	PC = R = I = IFF1 = IFF2 = IM =
 	DATA[0] = HALT_LINE = RESUME = REQUEST = 0;
@@ -2180,7 +2186,7 @@ Z80_API void z80_nmi(Z80 *self)
 			break;
 			}
 
-		while (self->cycles < cycles)
+		while (self->cycles < self->cycle_limit)
 			{
 			R++;
 			self->cycles += insn_table[DATA[0] = FETCH_OPCODE(PC)](self);
@@ -2269,7 +2275,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #		endif
 		}
 
-	while (self->cycles < cycles) /* main execution loop */
+	while (self->cycles < self->cycle_limit) /* main execution loop */
 		{
 		if (REQUEST)
 			{
@@ -2331,7 +2337,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				{
 				REQUEST = Z80_REQUEST_REJECT_NMI;
 				IFF1 = 0;
-				if (HALT_LINE) {SET_HALT_LINE(0);}
+				if (HALT_LINE) {EXIT_HALT;}
 				R++;
 				if (self->nmia != Z_NULL) (void)self->nmia(CONTEXT, PC);
 				DATA[0] = 0;
@@ -2387,7 +2393,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #				endif
 
 				REQUEST = IFF1 = IFF2 = 0;
-				if (HALT_LINE) {SET_HALT_LINE(0);}
+				if (HALT_LINE) {EXIT_HALT;}
 
 				/*-------------------------------------------------------------------.
 				| Due to a bug, the Zilog Z80 NMOS resets PF when an INT is accepted |

@@ -38,6 +38,11 @@ Running the emulation
 .. doxygenfunction:: z80_execute
 .. doxygenfunction:: z80_run
 
+Stopping the emulation
+----------------------
+
+.. doxygenfunction:: z80_break
+
 Requesting interrupts
 ---------------------
 
