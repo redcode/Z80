@@ -1488,7 +1488,7 @@ INSN(dec_XY   ) {Q_0 XY--;			   PC += 2; return  6;}
 |  rld		    <--ED--><--6F-->		      szy0xp0.	18:44343   |
 |  rrd		    <--ED--><--67-->		      szy0xp0.	18:44343   |
 |--------------------------------------------------------------------------|
-| (-) The instruction has undocumented pseudo-opcodes.			   |
+| (-) The instruction has undocumented [pseudo-]opcodes.		   |
 | (*) Undocumented instruction.						   |
 '=========================================================================*/
 
