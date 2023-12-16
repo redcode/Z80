@@ -2416,8 +2416,8 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				| special M1 cycle.						       |
 				|								       |
 				| The value FFh is assumed when the `Z80::inta` callback is not used.  |
-				| This is the most desirable behavior, since an `rst 38h` instruction  |
-				| will be executed if the interrupt mode is 0.			       |
+				| This is the most convenient default IRD, since an `rst 38h` will be  |
+				| executed if the interrupt mode is 0.				       |
 				'=====================================================================*/
 				R++;
 				ird = (self->inta != Z_NULL) ? self->inta(CONTEXT, PC) : 0xFF;
@@ -2434,13 +2434,13 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| An instruction supplied via the data bus is executed. Its first byte is  |
 					| read during the INT acknowledge cycle (INTA). If it is an opcode prefix, |
 					| additional M-cycles of this kind are produced until the final opcode of  |
-					| the instruction is fetched [1]. Each INT acknowledge cycle takes as many |
-					| T-states as its normal M1 counterpart (the opcode fetch M-cycle) plus	   |
-					| the 2 wait T-states mentioned above [1]. Subsequent bytes of the	   |
-					| instruction are fetched by using normal memory read M-cycles [1,2],	   |
-					| during which the interrupting I/O device must still supply the data [2]. |
-					| The PC register, however, remains at its pre-interrupt state, not being  |
-					| incremented as a result of the instruction fetch [1,2].		   |
+					| the instruction is fetched [1]. Each INTA M-cycle takes as many T-states |
+					| as its normal M1 counterpart (the opcode fetch M-cycle) plus the 2 wait  |
+					| T-states mentioned above [1]. Subsequent bytes of the instruction are	   |
+					| fetched by using normal memory read M-cycles [1,2], during which the	   |
+					| interrupting I/O device must still supply the data [2]. The PC register, |
+					| however, remains at its pre-interrupt state, not being incremented as a  |
+					| result of the instruction fetch [1,2].				   |
 					|									   |
 					| References:								   |
 					| 1. Checked with "Visual Z80 Remix".					   |
