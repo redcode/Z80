@@ -816,7 +816,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles);
   * <tt>@ref z80_run</tt>.
   *
   * This function should only be used inside callback functions. It zeroes
-  * <tt>@ref `Z80::cycle_limit`</tt>, thus breaking the emulation loop after the
+  * <tt>@ref Z80::cycle_limit</tt>, thus breaking the emulation loop after the
   * ongoing emulation step has finished executing.
   *
   * @param self Pointer to the object on which the function is called. */
