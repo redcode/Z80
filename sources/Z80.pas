@@ -174,6 +174,12 @@ function UnloadLibrary: Boolean;
 
 implementation
 
+procedure z80_break(self: PZ80);
+begin
+	self^.cycle_limit := 0;
+end;
+
+
 function z80_r(const self: PZ80): UInt8;
 begin
 	Result := (self^.r and 127) or (Self^.r7 and 128);
