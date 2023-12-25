@@ -923,12 +923,12 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 /*-----------------------------------------------------------------------------.
 | Block instructions produce an extra M-cycle of 5 T-states to decrement PC if |
 | the loop condition is met. In 2018, David Banks (AKA hoglet) discovered that |
-| the CPU performs additional flag changes during this M-cycle and managed to  |
-| crack the behaviors. All block instructions copy bits 13 and 11 of PCi to YF |
-| and XF respectively [1.1], but `inir`, `indr`, `otir` and `otdr` also modify |
-| HF and PF in a very complicated way [1.2]. These two flags are not commented |
-| here because the explanation would not be simpler than the code itself, so   |
-| please refer to David Banks' paper [2] for more information on this topic.   |
+| the Z80 CPU performs additional flag changes during this M-cycle and managed |
+| to crack the behaviors. All block instructions copy bits 13 and 11 of PCi to |
+| YF and XF, respectively [1.1], but `inir`, `indr`, `otir` and `otdr` also    |
+| modify HF and PF in a very complicated way [1.2]. These two flags are not    |
+| commented here because the explanation would not be simpler than the code    |
+| itself, so please refer to David Banks' paper [2] for more information.      |
 |									       |
 | David Banks' discoveries have been corroborated thanks to Peter Helcmanovsky |
 | (AKA Ped7g), who wrote a test that covers most of the cases that can be      |
@@ -951,7 +951,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 			(B & SF)    | /* SF = Bo.7		  */  \
 			(PCH & YXF) | /* YF = PCi.13; XF = PCi.11 */  \
 			nf	    | /* NF = IO.7		  */  \
-			(hcf	?				      \
+			(hcf	?     /* CF = T > 255		  */  \
 				CF |				      \
 				(nf	?			      \
 					(!(B & 0xF) << 4) |	      \
@@ -2357,13 +2357,12 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			/*-------------------------------------------------------------------------.
 			| INT Response								   |
 			|--------------------------------------------------------------------------|
-			| The maskable interrupt can be enabled and disabled by using the `ei` and |
-			| `di` instructions respectively, which control the state of the interrupt |
+			| The maskable interrupt is enabled and disabled by using, respectively,   |
+			| the instructions `ei` and `di`, which control the state of the interrupt |
 			| enable flip-flops (IFF1 and IFF2). The CPU does not accept this kind of  |
-			| interrupt directly after an `ei` instruction, but only after the one	   |
-			| following `ei` is executed. This is so that ISRs can return without the  |
-			| danger of being interrupted immediately after re-enabling interrupts if  |
-			| the /INT line is still active, which could cause a stack overflow.	   |
+			| interrupt during an `ei` instruction. This allows ISRs to return without |
+			| the danger of being interrupted immediately after re-enabling interrupts |
+			| if the /INT line is still active, which could cause a stack overflow.	   |
 			|									   |
 			| As in `ei`, all forms of `reti` and `retn` defer the acceptance of the   |
 			| maskable interrupt for one instruction, but this only occurs when IFF1   |
