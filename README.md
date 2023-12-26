@@ -1,4 +1,4 @@
-<p align="center"><img src="https://zxe.io/software/Z80/assets/images/z80-readme-logo.png" width="360"></p>
+<p align="center"><img src="https://zxe.io/software/Z80/assets/images/Z80.svg" width="256"></p>
 <h1 align="center">Zilog Z80 CPU Emulator</h1>
 <p align="center">
 	<a href="https://zxe.io/software/Z80/documentation/latest"><img alt="Documentation" src="https://zxe.io/software/Z80/assets/images/documentation-badge"></a>
@@ -535,7 +535,7 @@ cmake --build . --config Release
 cmake --install . --config Release --strip
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/shell-script-icon.svg" height="14"></sub> build-and-install-Z80.sh](https://zxe.io/software/Z80/scripts/build-and-install-Z80.sh)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/sh.svg" height="14"></sub> build-and-install-Z80.sh](https://zxe.io/software/Z80/scripts/build-and-install-Z80.sh)**</sup>
 
 ## Running the tests
 
@@ -587,7 +587,7 @@ cmake --build . --config Release
 ctest --verbose --build-config Release
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/shell-script-icon.svg" height="14"></sub> build-and-test-Z80.sh](https://zxe.io/software/Z80/scripts/build-and-test-Z80.sh) &nbsp;&nbsp; [<sub><img src="https://zxe.io/software/Z80/assets/images/shell-script-icon.svg" height="14"></sub> build-and-test-Z80.bat](https://zxe.io/software/Z80/scripts/build-and-test-Z80.bat)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/sh.svg" height="14"></sub> build-and-test-Z80.sh](https://zxe.io/software/Z80/scripts/build-and-test-Z80.sh) &nbsp;&nbsp; [<sub><img src="https://zxe.io/software/Z80/assets/images/bat.svg" height="14"></sub> build-and-test-Z80.bat](https://zxe.io/software/Z80/scripts/build-and-test-Z80.bat)**</sup>
 
 ## Integration
 
