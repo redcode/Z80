@@ -483,7 +483,7 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 
 Package maintainers are encouraged to use at least the following options for the shared library:
 
-```shell
+```
 -DZ80_WITH_EXECUTE=YES
 -DZ80_WITH_FULL_IM0=YES
 -DZ80_WITH_IM0_RETX_NOTIFICATIONS=YES
