@@ -20,7 +20,7 @@ This Z80 CPU emulator has a classic design with instruction-level granularity th
 
 Instruction-level granularity implies that, except in a few well-defined cases, the execution of a given instruction cannot stop until all its internal M-cycles have been processed (i.e., instructions are not divided into micro-operations). Moreover, registers are modified only once per instruction and the [T-state counter](https://zxe.io/software/Z80/documentation/latest/APIReference.html#c.Z80.cycles) is normally updated after a full instruction has been executed.
 
-That said, instructions, flags, memory accesses, interrupts, clock cycles, etc., are accurately emulated according to the [technical documentation](https://github.com/redcode/Z80/wiki/Technical-literature) available, the findings made after decades of research on the Z80 and [electronic simulations](https://github.com/redcode/Z80/wiki/Simulators). And, of course, the emulator passes the most exhaustive [tests](https://github.com/redcode/Z80/wiki/Tests) written to date, including all three major test suites:
+That said, instructions, flags, memory accesses, interrupts, clock cycles, etc., are accurately emulated according to the available [technical documentation](https://github.com/redcode/Z80/wiki/Technical-literature), the findings made after decades of research on the Z80 and [electronic simulations](https://github.com/redcode/Z80/wiki/Simulators). And, of course, the emulator passes the most exhaustive [tests](https://github.com/redcode/Z80/wiki/Tests) written to date, including all three major test suites:
 
 ### <span id="major_test_suites">[Zilog Z80 CPU Test Suite](https://github.com/raxoft/z80test), by [Patrik Rak](https://github.com/raxoft)</span>
 
@@ -856,7 +856,8 @@ Many thanks to the following individuals (in alphabetical order):
 34. <span id="r34">https://worldofspectrum.org/forums/discussion/comment/668760/#Comment_668760</span>
 35. <span id="r35">https://jisanchez.com/test-a-dos-placas-de-zx-spectrum</span>
 36. <span id="r36">https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360</span>
-37. <span id="r37">https://floooh.github.io/2021/12/17/cycle-stepped-z80.html</span>
+37. <span id="r37">Weissflog, Andre (2021-12-17). _"New Cycle-Stepped Z80 Emulator, A"_.</span>
+	* https://floooh.github.io/2021/12/17/cycle-stepped-z80.html
 38. <span id="r38">https://github.com/floooh/v6502r</span>
 39. <span id="r39">https://groups.google.com/g/comp.sys.sinclair/c/WPsPr6j6w5k/m/O_u1zNQf3VYJ</span>
 40. <span id="r40">Young, Sean (1997-09-21). _"Zilog Z80 CPU Specifications"_.
@@ -864,7 +865,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 ## License
 
-Copyright © 1999-2023 Manuel Sainz de Baranda y Goñi.
+Copyright © 1999-2024 Manuel Sainz de Baranda y Goñi.
 
 <img src="https://zxe.io/software/Z80/assets/images/lgplv3.svg" width="160" align="right">
 

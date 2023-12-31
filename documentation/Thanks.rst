@@ -503,7 +503,9 @@ References
 
     .. _r37:
 
-    https://floooh.github.io/2021/12/17/cycle-stepped-z80.html
+    Weissflog, Andre (2021-12-17). *"New Cycle-Stepped Z80 Emulator, A"*.
+
+    * https://floooh.github.io/2021/12/17/cycle-stepped-z80.html
 
 38.
 
