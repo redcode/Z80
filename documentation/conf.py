@@ -17,7 +17,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Z80'
-copyright = u'1999-2023 Manuel Sainz de Baranda y Goñi'
+copyright = u'1999-2024 Manuel Sainz de Baranda y Goñi'
 author = u'Manuel Sainz de Baranda y Goñi'
 version = '0.2'
 
