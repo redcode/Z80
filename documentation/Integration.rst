@@ -56,7 +56,7 @@ The source code of the emulator can be configured at compile time by predefining
 
    Predefine this macro to provide a header file that defines the external types and macros used by the emulator, thus preventing your project from depending on `Zeta <https://zeta.st>`_:
 
-   * Macros: ``Z_API_EXPORT``, ``Z_API_IMPORT``, ``Z_EMPTY``, ``Z_EXTERN_C_BEGIN``, ``Z_EXTERN_C_END``, ``Z_INLINE``, ``Z_MEMBER_OFFSET``, ``Z_NULL``, ``Z_UINT8_ROTATE_LEFT``, ``Z_UINT8_ROTATE_RIGHT``, ``Z_UINT16``, ``Z_UINT16_BIG_ENDIAN``, ``Z_UINT32``, ``Z_UINT32_BIG_ENDIAN``, ``Z_UNUSED`` and ``Z_USIZE``.
+   * Macros: ``Z_ALWAYS_INLINE``, ``Z_API_EXPORT``, ``Z_API_IMPORT``, ``Z_EMPTY``, ``Z_EXTERN_C_BEGIN``, ``Z_EXTERN_C_END``, ``Z_MEMBER_OFFSET``, ``Z_NULL``, ``Z_UINT8_ROTATE_LEFT``, ``Z_UINT8_ROTATE_RIGHT``, ``Z_UINT16``, ``Z_UINT16_BIG_ENDIAN``, ``Z_UINT32``, ``Z_UINT32_BIG_ENDIAN``, ``Z_UNUSED`` and ``Z_USIZE``.
 
    * Types: ``zboolean``, ``zsint``, ``zsint8``, ``zuint``, ``zuint8``, ``zuint16``, ``zuint32``, ``zusize``, ``ZInt16`` and ``ZInt32``.
 
