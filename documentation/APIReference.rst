@@ -75,6 +75,7 @@ Limits
 
 .. doxygendefine:: Z80_MAXIMUM_CYCLES
 .. doxygendefine:: Z80_MAXIMUM_CYCLES_PER_STEP
+.. doxygendefine:: Z80_MINIMUM_CYCLES_PER_STEP
 
 Opcodes
 -------
@@ -134,6 +135,7 @@ Register accessors
 ------------------
 
 .. doxygendefine:: Z80_MEMPTR
+.. doxygendefine:: Z80_WZ
 .. doxygendefine:: Z80_PC
 .. doxygendefine:: Z80_SP
 .. doxygendefine:: Z80_XY
@@ -149,6 +151,8 @@ Register accessors
 .. doxygendefine:: Z80_HL_
 .. doxygendefine:: Z80_MEMPTRH
 .. doxygendefine:: Z80_MEMPTRL
+.. doxygendefine:: Z80_WZH
+.. doxygendefine:: Z80_WZL
 .. doxygendefine:: Z80_PCH
 .. doxygendefine:: Z80_PCL
 .. doxygendefine:: Z80_SPH
