@@ -674,23 +674,19 @@ struct Z80 {
 
 #define Z80_XYL(object) (object).xy.uint8_values.at_0
 
-/** @brief Accesses the most significant byte of the IX register of a
-  * <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the IXH register of a <tt>@ref Z80</tt> @p object. */
 
 #define Z80_IXH(object) (object).ix_iy[0].uint8_values.at_1
 
-/** @brief Accesses the least significant byte of the IX register of a
-  * <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the IXL register of a <tt>@ref Z80</tt> @p object. */
 
 #define Z80_IXL(object) (object).ix_iy[0].uint8_values.at_0
 
-/** @brief Accesses the most significant byte of the IY register of a
-  * <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the IYH register of a <tt>@ref Z80</tt> @p object. */
 
 #define Z80_IYH(object) (object).ix_iy[1].uint8_values.at_1
 
-/** @brief Accesses the least significant byte of the IY register of a
-  * <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the IYL register of a <tt>@ref Z80</tt> @p object. */
 
 #define Z80_IYL(object) (object).ix_iy[1].uint8_values.at_0
 
