@@ -634,53 +634,63 @@ struct Z80 {
 
 #define Z80_HL_(object) (object).hl_.uint16_value
 
-/** @brief Accesses the MEMPTRH register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the most significant byte of the MEMPTR register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_MEMPTRH(object) (object).memptr.uint8_values.at_1
 
-/** @brief Accesses the MEMPTRL register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the least significant byte of the MEMPTR register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_MEMPTRL(object) (object).memptr.uint8_values.at_0
 
-/** @brief Accesses the PCH register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the most significant byte of the PC register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_PCH(object) (object).pc.uint8_values.at_1
 
-/** @brief Accesses the PCL register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the least significant byte of the PC register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_PCL(object) (object).pc.uint8_values.at_0
 
-/** @brief Accesses the SPH register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the most significant byte of the SP register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_SPH(object) (object).sp.uint8_values.at_1
 
-/** @brief Accesses the SPL register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the least significant byte of the SP register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_SPL(object) (object).sp.uint8_values.at_0
 
-/** @brief Accesses the temporary IXH/IYH register of a <tt>@ref Z80</tt> @p
-  * object. */
+/** @brief Accesses the most significant byte of the temporary index register
+  * of a <tt>@ref Z80</tt> @p object. */
 
 #define Z80_XYH(object) (object).xy.uint8_values.at_1
 
-/** @brief Accesses the temporary IXL/IYL register of a <tt>@ref Z80</tt> @p
-  * object. */
+/** @brief Accesses the least significant byte of the temporary index register
+  * of a <tt>@ref Z80</tt> @p object. */
 
 #define Z80_XYL(object) (object).xy.uint8_values.at_0
 
-/** @brief Accesses the IXH register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the most significant byte of the IX register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_IXH(object) (object).ix_iy[0].uint8_values.at_1
 
-/** @brief Accesses the IXL register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the least significant byte of the IX register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_IXL(object) (object).ix_iy[0].uint8_values.at_0
 
-/** @brief Accesses the IYH register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the most significant byte of the IY register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_IYH(object) (object).ix_iy[1].uint8_values.at_1
 
-/** @brief Accesses the IYL register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the least significant byte of the IY register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_IYL(object) (object).ix_iy[1].uint8_values.at_0
 
@@ -716,35 +726,43 @@ struct Z80 {
 
 #define Z80_L(object) (object).hl.uint8_values.at_0
 
-/** @brief Accesses the A' register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the most significant byte of the AF' register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_A_(object) (object).af_.uint8_values.at_1
 
-/** @brief Accesses the F' register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the least significant byte of the AF' register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_F_(object) (object).af_.uint8_values.at_0
 
-/** @brief Accesses the B' register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the most significant byte of the BC' register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_B_(object) (object).bc_.uint8_values.at_1
 
-/** @brief Accesses the C' register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the least significant byte of the BC' register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_C_(object) (object).bc_.uint8_values.at_0
 
-/** @brief Accesses the D' register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the most significant byte of the DE' register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_D_(object) (object).de_.uint8_values.at_1
 
-/** @brief Accesses the E' register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the least significant byte of the DE' register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_E_(object) (object).de_.uint8_values.at_0
 
-/** @brief Accesses the H' register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the most significant byte of the HL' register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_H_(object) (object).hl_.uint8_values.at_1
 
-/** @brief Accesses the L' register of a <tt>@ref Z80</tt> @p object. */
+/** @brief Accesses the least significant byte of the HL' register of a
+  * <tt>@ref Z80</tt> @p object. */
 
 #define Z80_L_(object) (object).hl_.uint8_values.at_0
 
@@ -825,7 +843,7 @@ static Z_ALWAYS_INLINE void z80_break(Z80 *self)
 	{self->cycle_limit = 0;}
 
 
-/** @brief Gets the value of the R register of a <tt>@ref Z80</tt>.
+/** @brief Gets the full value of the R register of a <tt>@ref Z80</tt>.
   *
   * @param self Pointer to the object on which the function is called.
   * @return The value of the R register. */
