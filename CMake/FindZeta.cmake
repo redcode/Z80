@@ -3,8 +3,7 @@
 # |__   /|  ___|__  __|/   \
 #   /  /_|  __|  |  | /  *  \
 #  /_____|_____| |__|/__/ \__\
-# Copyright (C) 2006-2023 Manuel Sainz de Baranda y Goñi.
-# # Released under the terms of the GNU Lesser General Public License v3.
+# Copyright (C) 2006-2024 Manuel Sainz de Baranda y Goñi.
 # This "find module" is DISTRIBUTED AS PUBLIC DOMAIN. No restrictions apply.
 
 include(FindPackageHandleStandardArgs)
