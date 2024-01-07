@@ -4,7 +4,7 @@
  ____ \/__/  /\_\  __ \\ \/\ \ ________________________________________________
 |        /\_____\\_____\\_____\                                                |
 |  Zilog \/_____//_____//_____/ CPU Emulator - Test Tool                       |
-|  Copyright (C) 2021-2023 Manuel Sainz de Baranda y Goñi.                     |
+|  Copyright (C) 2021-2024 Manuel Sainz de Baranda y Goñi.                     |
 |                                                                              |
 |  This program is free software: you can redistribute it and/or modify it     |
 |  under the terms of the GNU General Public License as published by the Free  |
@@ -29,6 +29,7 @@
 
 #include <Z/constants/pointer.h>
 #include <Z/macros/array.h>
+#include <Z/macros/hash.h>
 #include <Z80.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -66,7 +67,11 @@ typedef struct {
 	char const* file_path;
 
 	/* Total number of clock cycles executed when the test is passed. */
-	zusize cycles_expected[1 + (Z_USIZE_WIDTH < 64)];
+	zusize cycles[1 + (Z_USIZE_WIDTH < 64)];
+
+	/* FNV-1 hash of the entire text output when the test is passed (i.e.,
+	   all bytes sent to the print routine). */
+	zuint32 hash;
 
 	/* Size of the file. */
 	zuint16 file_size;
@@ -87,10 +92,10 @@ typedef struct {
 	zuint8 format;
 
 	/* Number of lines printed when the test is passed. */
-	zuint8 lines_expected;
+	zuint8 lines;
 
 	/* Rightmost position reached by the cursor when the test is passed. */
-	zuint8 columns_expected;
+	zuint8 columns;
 } Test;
 
 
@@ -103,28 +108,28 @@ typedef struct {
 #endif
 
 static Test const tests[22] = {
-	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexdoc.com",				C(A, E19F287A) /* 46,734,977,146 */,  8704,   0,  8704, 0x0100, 0,	TEST_FORMAT_CPM,       68, 34},
-	{Z_NULL, "Z80 Documented Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",		C(A, E4E22836) /* 46,789,699,638 */,  8716,  91,  8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
-	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexall.com",				C(A, E19F287A) /* 46,734,977,146 */,  8704,   0,  8704, 0x0100, 0,	TEST_FORMAT_CPM,       68, 34},
-	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2009)(Bobrowski, Jan)[!].tap",				C(A, E4E1B837) /* 46,789,670,967 */,  8656, 108,  8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 31},
-	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2011)(Bobrowski, Jan)(Narrowed to BIT Instructions)[!].tap", C(0, 4F67AEDF) /*  1,332,195,039 */,  8656, 108,  8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,    4, 31},
-	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2017-0x)(Harston, Jonathan Graham)[!].tap",			C(A, E4E20746) /* 46,789,691,206 */,  8704,  91,  8612, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
-	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",			C(A, E4E22836) /* 46,789,699,638 */,  8716,  91,  8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
-	{"Z80 Instruction Set Exerciser for Spectrum 2 v0.1 (2012-11-27)(Rak, Patrik)[!].zip", "zexall2-0.1/zexall2.tap",	C(C, 18A43876) /* 51,953,023,094 */,  9316,  87,  9228, 0x8000, 0x8040, TEST_FORMAT_HARSTON,   76, 31},
-	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								C(0, 9C3040EF) /*  2,620,408,047 */,  5573, 120,  5452, 0x8057, 0x80E6, TEST_FORMAT_WOODMASS,  50, 32},
-	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								C(0, 0308BF63) /*     50,904,931 */,  5573, 120,  5452, 0x8049, 0x80E6, TEST_FORMAT_WOODMASS,  61, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80full.tap",				C(0, 4303ABF1) /*  1,124,314,097 */, 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,      156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80doc.tap",				C(0, 436E8265) /*  1,131,315,813 */, 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,      156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80flags.tap",				C(0, 20ED11DC) /*    552,407,516 */, 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,      156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80docflags.tap",			C(0, 2110B9B1) /*    554,744,241 */, 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,      156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80ccf.tap",				C(0, 23AB74CA) /*    598,439,114 */, 14219,  91, 14127, 0x8000, 0x7003, TEST_FORMAT_RAK,      156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80memptr.tap",				C(0, 215CF3BD) /*    559,739,837 */, 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,      156, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80full.tap",				C(0, 4382DC6A) /*  1,132,649,578 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80doc.tap",				C(0, 43EE72CE) /*  1,139,700,430 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80flags.tap",			C(0, 212F17D5) /*    556,734,421 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80docflags.tap",			C(0, 2152FFDA) /*    559,087,578 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80ccf.tap",				C(0, 23F34E43) /*    603,147,843 */, 14875,  91, 14783, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80memptr.tap",			C(0, 219FC276) /*    564,118,134 */, 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,      164, 32}};
+	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexdoc.com",				C(A, E19F287A) /* 46,734,977,146 */, Z_UINT32(0xEDE3CB62),  8704,   0,	8704, 0x0100,	   0, TEST_FORMAT_CPM,	     68, 34},
+	{Z_NULL, "Z80 Documented Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",		C(A, E4E22836) /* 46,789,699,638 */, Z_UINT32(0x9F8B1839),  8716,  91,	8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
+	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexall.com",				C(A, E19F287A) /* 46,734,977,146 */, Z_UINT32(0xEDE3CB62),  8704,   0,	8704, 0x0100,	   0, TEST_FORMAT_CPM,	     68, 34},
+	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2009)(Bobrowski, Jan)[!].tap",				C(A, E4E1B837) /* 46,789,670,967 */, Z_UINT32(0xD4910BEE),  8656, 108,	8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 31},
+	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2011)(Bobrowski, Jan)(Narrowed to BIT Instructions)[!].tap", C(0, 4F67AEDF) /*  1,332,195,039 */, Z_UINT32(0x680D4830),  8656, 108,	8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,    4, 31},
+	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2017-0x)(Harston, Jonathan Graham)[!].tap",			C(A, E4E20746) /* 46,789,691,206 */, Z_UINT32(0x9F50D128),  8704,  91,	8612, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
+	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",			C(A, E4E22836) /* 46,789,699,638 */, Z_UINT32(0x9F50D128),  8716,  91,	8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
+	{"Z80 Instruction Set Exerciser for Spectrum 2 v0.1 (2012-11-27)(Rak, Patrik)[!].zip", "zexall2-0.1/zexall2.tap",	C(C, 18A43876) /* 51,953,023,094 */, Z_UINT32(0x05C746F7),  9316,  87,	9228, 0x8000, 0x8040, TEST_FORMAT_HARSTON,   76, 31},
+	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								C(0, 9C3040EF) /*  2,620,408,047 */, Z_UINT32(0xF787CA8E),  5573, 120,	5452, 0x8057, 0x80E6, TEST_FORMAT_WOODMASS,  50, 32},
+	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								C(0, 0308BF63) /*     50,904,931 */, Z_UINT32(0xF5AE5140),  5573, 120,	5452, 0x8049, 0x80E6, TEST_FORMAT_WOODMASS,  61, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80full.tap",				C(0, 4303ABF1) /*  1,124,314,097 */, Z_UINT32(0xB8707D12), 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	    156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80doc.tap",				C(0, 436E8265) /*  1,131,315,813 */, Z_UINT32(0x9E9DD1F5), 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	    156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80flags.tap",				C(0, 20ED11DC) /*    552,407,516 */, Z_UINT32(0x27CB27A2), 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	    156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80docflags.tap",			C(0, 2110B9B1) /*    554,744,241 */, Z_UINT32(0x3966C46C), 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	    156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80ccf.tap",				C(0, 23AB74CA) /*    598,439,114 */, Z_UINT32(0xB34ED107), 14219,  91, 14127, 0x8000, 0x7003, TEST_FORMAT_RAK,	    156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80memptr.tap",				C(0, 215CF3BD) /*    559,739,837 */, Z_UINT32(0x840ACD96), 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	    156, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80full.tap",				C(0, 4382DC6A) /*  1,132,649,578 */, Z_UINT32(0x4C578BC6), 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	    164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80doc.tap",				C(0, 43EE72CE) /*  1,139,700,430 */, Z_UINT32(0x02114A09), 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	    164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80flags.tap",			C(0, 212F17D5) /*    556,734,421 */, Z_UINT32(0x91826856), 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	    164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80docflags.tap",			C(0, 2152FFDA) /*    559,087,578 */, Z_UINT32(0x408190F0), 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	    164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80ccf.tap",				C(0, 23F34E43) /*    603,147,843 */, Z_UINT32(0x27FF6693), 14875,  91, 14783, 0x8000, 0x7003, TEST_FORMAT_RAK,	    164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80memptr.tap",			C(0, 219FC276) /*    564,118,134 */, Z_UINT32(0xDB7B18AA), 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	    164, 32}};
 
 #undef C
 
@@ -146,15 +151,15 @@ static char** search_paths	= Z_NULL;
 static zuint  search_path_count = 0;
 
 /*-----------------------------------------------------------------------------.
-| `verbosity` contains the verbosity level specified by using the `-V` option. |
+| `verbosity` contains the verbosity level specified by using the `-V` option; |
 | `show_test_output` indicates whether to print the text output of the tests.  |
 '=============================================================================*/
 static zuint8   verbosity = 4;
 static zboolean show_test_output;
 
 /*-----------------------------------------------------------------------------.
-| [0] = the byte read from even I/O ports; specified by using the `-0` option. |
-| [0] = the byte read from odd I/O ports; specified by using the `-1` option.  |
+| [0]: the byte read from even I/O ports (specified by using the `-0` option). |
+| [0]: the byte read from odd I/O ports (specified by using the `-1` option).  |
 | The default values are those from a Sinclair ZX Spectrum 48K with no devices |
 | attached.								       |
 '=============================================================================*/
@@ -167,13 +172,15 @@ static Z80    cpu;
 static zuint8 memory[65536];
 
 /*-----------------------------------------------------------------------------.
-| `completed` indicates whether the test has reached its exit address. `lines` |
-| is incremented every time the test prints a new line. `cursor_x` holds the X |
-| position of the cursor in the current line. `columns` contains the rightmost |
-| position reached by the cursor throughout the test.			       |
+| `completed` indicates whether the test has reached its exit address; `lines` |
+| is incremented every time the test prints a new line; `cursor_x` holds the X |
+| position of the cursor in the current line; `columns` contains the rightmost |
+| position reached by the cursor throughout the test; and `hash` keeps a FNV-1 |
+| hash of all bytes sent by the test to the print routine.		       |
 '=============================================================================*/
 static zboolean completed;
 static zusize   lines, cursor_x, columns;
+static zuint32  hash;
 
 /*-----------------------------------------------------------------------------.
 | `zx_spectrum_print_hook_address` contains the address of the hook that       |
@@ -252,14 +259,19 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 	if (address != 5) return OPCODE_NOP;
 
 	/* BDOS function 2 (C_WRITE) - Console output */
-	if (Z80_C(cpu) == 2) switch ((character = Z80_E(cpu)))
+	if (Z80_C(cpu) == 2)
 		{
-		case 0x0A: /* LF */ cr();
-		case 0x0D: /* CR */ break;
+		hash = Z_FNV1_32_UPDATE(hash, (character = Z80_E(cpu)));
 
-		default:
-		if (show_test_output) putchar(character);
-		cursor_x++;
+		switch (character)
+			{
+			case 0x0A: /* LF */ cr();
+			case 0x0D: /* CR */ break;
+
+			default:
+			if (show_test_output) putchar(character);
+			cursor_x++;
+			}
 		}
 
 	/* BDOS function 9 (C_WRITESTR) - Output string */
@@ -268,15 +280,20 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 		zuint16 i = Z80_DE(cpu);
 		zuint   c = 255;
 
-		while (c--) switch ((character = memory[i++]))
+		while (c--)
 			{
-			case 0x24: /* $  */ return OPCODE_RET;
-			case 0x0A: /* LF */ cr();
-			case 0x0D: /* CR */ break;
+			hash = Z_FNV1_32_UPDATE(hash, (character = memory[i++]));
 
-			default:
-			if (show_test_output) putchar(character);
-			cursor_x++;
+			switch (character)
+				{
+				case 0x24: /* $  */ return OPCODE_RET;
+				case 0x0A: /* LF */ cr();
+				case 0x0D: /* CR */ break;
+
+				default:
+				if (show_test_output) putchar(character);
+				cursor_x++;
+				}
 			}
 
 		if (show_test_output) puts(" [TRUNCATED]");
@@ -297,10 +314,13 @@ static void zx_spectrum_cpu_write(void *context, zuint16 address, zuint8 value)
 
 static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 	{
+	zuint8 character;
+
 	Z_UNUSED(context)
 	if (address != zx_spectrum_print_hook_address) return OPCODE_NOP;
+	hash = Z_FNV1_32_UPDATE(hash, (character = Z80_A(cpu)));
 
-	if (!zx_spectrum_tab) switch (Z80_A(cpu))
+	if (!zx_spectrum_tab) switch (character)
 		{
 		case 0x0D: /* CR */
 		cr();
@@ -316,9 +336,9 @@ static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 		break;
 
 		default:
-		if (Z80_A(cpu) >= 32 && Z80_A(cpu) < 127)
+		if (character >= 32 && character < 127)
 			{
-			if (show_test_output) putchar(Z80_A(cpu));
+			if (show_test_output) putchar(character);
 			cursor_x++;
 			}
 
@@ -327,7 +347,7 @@ static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 
 	else if (--zx_spectrum_tab)
 		{
-		zuint c = Z80_A(cpu) & (32 - 1), x = cursor_x & (32 - 1);
+		zuint c = character & (32 - 1), x = cursor_x & (32 - 1);
 
 		if (c < x) cr();
 		else cursor_x += (c -= x);
@@ -486,7 +506,7 @@ static zuint8 run_test(int test_index)
 	{
 	Test const *test = &tests[test_index];
 	zuint16 start_address = test->start_address;
-	zboolean passed;
+	zboolean passed, correct_output;
 	zusize cycles = 0;
 	zuint i = 0;
 
@@ -496,16 +516,14 @@ static zuint8 run_test(int test_index)
 
 	if (verbosity)
 		{
-		printf(verbosity == 1 ? "%02d" : "[%02d] ", test_index);
+		printf(verbosity == 1 ? "%02d: " : "[%02d] ", test_index);
 
 		if (verbosity >= 2)
 			{
 			if (test->archive_name == Z_NULL) printf("%s", test->file_path);
 			else printf("%s/%s", test->archive_name, test->file_path);
-			if (verbosity >= 3) printf("\n* Loading program");
+			printf(verbosity == 2 ? "... " : "\n* Loading program... ");
 			}
-
-		printf("... ");
 		}
 
 	memset(memory, 0, 65536);
@@ -601,6 +619,7 @@ static zuint8 run_test(int test_index)
 
 	memory[test->exit_address] = OPCODE_HALT;
 	Z80_PC(cpu)		   = start_address;
+	hash			   = Z_FNV1_32_INITIALIZER;
 	lines			   =
 	columns			   =
 	cursor_x		   = 0;
@@ -611,7 +630,7 @@ static zuint8 run_test(int test_index)
 	if (verbosity >= 3) printf("* Running program%s", show_test_output ? ":\n\n" : "... ");
 
 #	if Z_USIZE_WIDTH < 64
-		for (i = 0; i < test->cycles_expected[1];)
+		for (i = 0; i < test->cycles[1];)
 			{
 			cycles = RUN(&cpu, Z_UINT32_MAXIMUM / 2);
 
@@ -625,48 +644,40 @@ static zuint8 run_test(int test_index)
 			if ((j += (zuint32)cycles) < cycles) i++;
 			}
 
-		cycles = RUN(&cpu, test->cycles_expected[0] + Z_UINT32(0x10000000) - j) + j;
+		cycles = RUN(&cpu, test->cycles[0] + Z_UINT32(0x10000000) - j) + j;
 		check_results:
 #	else
-		cycles = RUN(&cpu, test->cycles_expected[0] + Z_USIZE(0x10000000));
+		cycles = RUN(&cpu, test->cycles[0] + Z_USIZE(0x10000000));
 #	endif
 
 	if (cursor_x > columns) columns = cursor_x;
 
 	/*---------------------------------------------------------------------.
-	| The test is passed if it has reached its exit address at the correct |
-	| clock cycle, has printed the correct number of lines and columns,    |
-	| and has not printed any unsupported control characters.	       |
+	| The test is considered passed if it has reached its exit address at  |
+	| the correct clock cycle, has not printed any unsupported characters, |
+	| and has printed the expected output within the correct margins.      |
 	'=====================================================================*/
 
 	passed = completed
-		&& !zx_spectrum_bad_character
-		&& lines   == test->lines_expected
-		&& columns == test->columns_expected
-		&& cycles  == test->cycles_expected[0]
+		&& cycles == test->cycles[0]
 #		if Z_USIZE_WIDTH < 64
-			&& i == test->cycles_expected[1]
+			&& i == test->cycles[1]
 #		endif
-		;
+		&& (correct_output = (
+			!zx_spectrum_bad_character
+			&& hash	   == test->hash
+			&& lines   == test->lines
+			&& columns == test->columns));
 
 	if (verbosity)
 		{
 		char const *failure_reason;
 
-		if (!passed)
-			{
-			if (!completed)
-				failure_reason = "clock cycle limit exceeded; program aborted";
-
-			else if (
-				zx_spectrum_bad_character	||
-				lines   != test->lines_expected ||
-				columns != test->columns_expected
-			)
-				failure_reason = "incorrect behavior detected";
-
-			else failure_reason = "incorrect number of clock cycles";
-			}
+		if (!passed) failure_reason = completed
+			? (correct_output
+				? "incorrect number of clock cycles"
+				: "incorrect behavior detected")
+			: "clock cycle limit exceeded; program aborted";
 
 		if (show_test_output)
 			{
@@ -790,7 +801,7 @@ int main(int argc, char **argv)
 		else if (is_option(argv[i], "-v", "--version"))
 			{
 			puts(	"test-Z80 v" Z80_LIBRARY_VERSION_STRING "\n"
-				"Copyright (C) 2021-2023 Manuel Sainz de Baranda y Goñi.\n"
+				"Copyright (C) 2021-2024 Manuel Sainz de Baranda y Goñi.\n"
 				"Released under the terms of the GNU General Public License v3.");
 
 			goto exit_without_error;
