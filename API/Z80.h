@@ -75,10 +75,10 @@
 /** @brief Maximum number of clock cycles that <tt>@ref z80_run</tt> will
   * emulate if instructed to execute 1 clock cycle.
   *
-  * This is the number of clock cycles that the longest instruction takes to
-  * execute through interrupt mode 0, not counting the M-cycle used to fetch a
-  * prefix @c 0xDD or @c 0xFD. For <tt>@ref z80_execute</tt>, this value is 4
-  * clock cycles less. */
+  * This is the number of clock cycles it takes to execute the longest
+  * instruction through interrupt mode 0, not counting the M-cycle used to fetch
+  * a @c 0xDD or @c 0xFD prefix. For <tt>@ref z80_execute</tt>, subtract 4 clock
+  * cycles from this value. */
 
 #define Z80_MAXIMUM_CYCLES_PER_STEP 25
 
@@ -403,17 +403,17 @@ struct Z80 {
 
 	ZInt16 xy;
 
-	ZInt16 memptr; /**< @brief Register MEMPTR, also known as WZ. */
-	ZInt16 af;     /**< @brief Register pair AF.  */
-	ZInt16 bc;     /**< @brief Register pair BC.  */
-	ZInt16 de;     /**< @brief Register pair DE.  */
-	ZInt16 hl;     /**< @brief Register pair HL.  */
-	ZInt16 af_;    /**< @brief Register pair AF'. */
-	ZInt16 bc_;    /**< @brief Register pair BC'. */
-	ZInt16 de_;    /**< @brief Register pair DE'. */
-	ZInt16 hl_;    /**< @brief Register pair HL'. */
-	zuint8 r;      /**< @brief Register R.        */
-	zuint8 i;      /**< @brief Register I.        */
+	ZInt16 memptr; /**< @brief Register MEMPTR, also known as WZ.        */
+	ZInt16 af;     /**< @brief Register pair AF (accumulator and flags). */
+	ZInt16 bc;     /**< @brief Register pair BC.                         */
+	ZInt16 de;     /**< @brief Register pair DE.                         */
+	ZInt16 hl;     /**< @brief Register pair HL.                         */
+	ZInt16 af_;    /**< @brief Register pair AF'.                        */
+	ZInt16 bc_;    /**< @brief Register pair BC'.                        */
+	ZInt16 de_;    /**< @brief Register pair DE'.                        */
+	ZInt16 hl_;    /**< @brief Register pair HL'.                        */
+	zuint8 r;      /**< @brief Register R (memory refresh).              */
+	zuint8 i;      /**< @brief Register I (interrupt vector base).       */
 
 	/** @brief Backup of bit 7 of the R register.
 	  *
@@ -445,8 +445,8 @@ struct Z80 {
 
 	zuint8 resume;
 
-	zuint8 iff1; /**< @brief Interrupt enable flip-flop 1 (IFF1). */
-	zuint8 iff2; /**< @brief Interrupt enable flip-flop 2 (IFF2). */
+	zuint8 iff1; /**< @brief Interrupt enable flip-flop #1 (IFF1). */
+	zuint8 iff2; /**< @brief Interrupt enable flip-flop #2 (IFF2). */
 	zuint8 q;    /**< @brief Pseudo-register Q. */
 
 	/** @brief Emulation options.
