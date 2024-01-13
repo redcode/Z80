@@ -38,7 +38,7 @@ Interrupt mode 0
 
 The interrupt mode 0 executes an instruction supplied to the CPU via the data bus. Real Z80 chips can execute any instruction, even illegal ones, and also long sequences of ``DDh/FDh`` prefixes, although most existing hardware only uses a few instructions from the control transfer groups.
 
-The Z80 library includes two different implementations of this interrupt mode: full, which emulates everything; and reduced, which emulates only the ``jp WORD``, ``call WORD`` and ``rst N`` instructions.
+The Z80 library includes two different implementations of this interrupt mode: full, which emulates everything; and reduced, which emulates only the ``jp WORD``, ``call WORD`` and ``rst N`` instructions.
 
 Enabling the full implementation of the interrupt mode 0 can increase the size of the library by 1 or 2 KB approximately (depending on the target ISA and the executable format).
 
@@ -82,11 +82,11 @@ Enabling unofficial ``reti`` opcodes will configure the instructions ``ED5Dh``, 
 
 Package maintainers should **never enable** unofficial ``reti`` opcodes.
 
-Zilog NMOS bug of the ``ld a,i`` and ``ld a,r`` instructions
+Zilog NMOS bug of the ``ld a,i`` and ``ld a,r`` instructions
 ------------------------------------------------------------
 
 The Z80 CPU models that use NMOS technology have a bug that causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of these instructions. This affects processors manufactured by Zilog, second sources, NEC and can also be found in CMOS models from SGS-Thomson (and possibly other companies).
 
-Enabling the implementation of this bug adds code in the maskable interrupt response to check whether or not the previous instruction was ``ld a,i`` or ``ld a,r``, thus making the interrupt response slightly slower.
+Enabling the implementation of this bug adds code in the maskable interrupt response to check whether or not the previous instruction was ``ld a,i`` or ``ld a,r``, thus making the interrupt response slightly slower.
 
 Package maintainers should, however, enable the implementation of this bug, as there is firmware and software that depend on it.

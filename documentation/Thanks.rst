@@ -81,7 +81,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Cooke, Simon**
 
-  * For discovering how the ``out (c),0`` instruction behaves on the Zilog Z80 CMOS. |re| |fe| :ref:`15<r15>` |ren| |ces|
+  * For discovering how the ``out (c),0`` instruction behaves on the Zilog Z80 CMOS. |re| |fe| :ref:`15<r15>` |ren| |ces|
 
 * **Cringle, Frank D.**
 

@@ -178,7 +178,7 @@ The second group of package-specific options configures the source code of the l
 
 .. option:: -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=(YES|NO)
 
-   Build the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the ``ld a,{i|r}`` instructions. |br| |nl|
+   Build the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the ``ld a,{i|r}`` instructions. |br| |nl|
    The default is ``NO``.
 
 Package maintainers are encouraged to use at least the following options for the shared library:

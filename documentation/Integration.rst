@@ -70,7 +70,7 @@ The source code of the emulator can be configured at compile time by predefining
 
 .. c:macro:: Z80_WITH_LOCAL_HEADER
 
-   Tells :file:`Z80.c` to ``#include "Z80.h"`` instead of ``<Z80.h>``.
+   Tells :file:`Z80.c` to ``#include "Z80.h"`` instead of ``<Z80.h>``.
 
 The :ref:`optional features <Introduction:Optional features>` of the emulator mentioned in the ":doc:`Installation`" section are disabled by default. If you compile :file:`Z80.c` as a part of your project, enable those features you need by predefining their respective activation macros. They have the same name as their :ref:`CMake equivalents <cmake_package_source_code_options>`:
 
@@ -100,6 +100,6 @@ The :ref:`optional features <Introduction:Optional features>` of the emulator me
 
 .. c:macro:: Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 
-   Enables the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the ``ld a,{i|r}`` instructions.
+   Enables the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the ``ld a,{i|r}`` instructions.
 
 Except for :c:macro:`Z80_DEPENDENCIES_HEADER`, the above macros can be empty; the source code only checks whether they are defined.
