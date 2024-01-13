@@ -96,7 +96,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80memptr.tap</b>
 				</a>
 				<br>
-				<sup>Tests all flags after executing <code>bit N,(hl)</code> after each instruction tested.</sup>
+				<sup>Tests all flags after executing <code>bit&nbsp;N,(hl)</code> after each instruction tested.</sup>
 			</td>
 		</tr>
 		<tr>
@@ -179,7 +179,7 @@ This set of programs is intended to help the emulator authors to reach the desir
 					<b>z80memptr.tap</b>
 				</a>
 				<br>
-				<sup>Tests all flags after executing <code>bit N,(hl)</code> after each instruction tested.</sup>
+				<sup>Tests all flags after executing <code>bit&nbsp;N,(hl)</code> after each instruction tested.</sup>
 			</td>
 		</tr>
 		<tr>
@@ -478,7 +478,7 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 	The default is `NO`.
 
 * <span id="cmake_option_z80_with_zilog_nmos_ld_a_ir_bug">**`-DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=(YES|NO)`**</span>  
-	Build the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the `ld a,{i|r}` instructions.  
+	Build the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the <code>ld&nbsp;a,{i|r}</code> instructions.  
 	The default is `NO`.
 
 Package maintainers are encouraged to use at least the following options for the shared library:
@@ -547,7 +547,7 @@ Once you have built the package, type the following to run all tests:
 ./test-Z80 -p depot/firmware -p depot/software/POSIX -p "depot/software/ZX Spectrum" -a
 ```
 
-The tool supports options and can run the tests individually (type `./test-Z80 -h` for help). If you prefer to run all tests through [CTest](https://cmake.org/cmake/help/latest/manual/ctest.1.html), use this command:
+The tool supports options and can run the tests individually (type <code>./test-Z80&nbsp;-h</code> for help). If you prefer to run all tests through [CTest](https://cmake.org/cmake/help/latest/manual/ctest.1.html), use this command:
 
 ```shell
 ctest --verbose --build-config (Debug|Release|RelWithDebInfo|MinSizeRel)
@@ -636,7 +636,7 @@ The source code of the emulator can be configured at compile time by predefining
 	This macro is required if you are building `Z80.c` as a static library, compiling it directly as a part of your project, or linking your program against the static version of the Z80 library. In either of these cases, make sure this macro is defined before including `"Z80.h"` or `<Z80.h>`.
 
 * <span id="macro_z80_with_local_header">**`#define Z80_WITH_LOCAL_HEADER`**</span>  
-	Tells `Z80.c` to `#include "Z80.h"` instead of `<Z80.h>`.
+	Tells `Z80.c` to <code>#include&nbsp;"Z80.h"</code> instead of `<Z80.h>`.
 
 The optional features of the emulator mentioned in "[Installation from sources](#installation-from-sources)" are disabled by default. If you compile `Z80.c` as a part of your project, enable those features you need by predefining their respective activation macros. They have the same name as their [CMake equivalents](#cmake_package_source_code_options):
 
@@ -705,7 +705,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Conway, Simon (BadBeard)**
 	* For validating the _"Z80 Test Suite"_ on several Z80 clones. <sup>[14](#r14)</sup>
 * **Cooke, Simon** <sup>:trophy:</sup>
-	* For discovering how the `out (c),0` instruction behaves on the Zilog Z80 CMOS. <sup>[15](#r15)</sup>
+	* For discovering how the <code>out&nbsp;(c),0</code> instruction behaves on the Zilog Z80 CMOS. <sup>[15](#r15)</sup>
 * **Cringle, Frank D.**
 	* For writing the _"Z80 Instruction Set Exerciser"_. <sup>[16](#r16)</sup>
 * **Devic, Goran**
