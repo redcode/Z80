@@ -856,7 +856,7 @@ static Z_ALWAYS_INLINE zuint8 z80_r(Z80 const *self)
 
 static Z_ALWAYS_INLINE zuint16 z80_refresh_address(Z80 const *self)
 	{
-	return (zuint16)(
+	return Z_CAST(zuint16)(
 		((zuint16)self->i << 8) |
 		((self->r - 1) & 127)   |
 		(self->r7 & 128));
@@ -871,7 +871,7 @@ static Z_ALWAYS_INLINE zuint16 z80_refresh_address(Z80 const *self)
 
 static Z_ALWAYS_INLINE zuint8 z80_in_cycle(Z80 const *self)
 	{
-	return (zuint8)(self->data.uint8_array[0] == 0xDB
+	return Z_CAST(zuint8)(self->data.uint8_array[0] == 0xDB
 		? /* in a,(BYTE) : 4+3 */
 		7
 		: /* in J,(c) / in (c) : 4+4 */
@@ -889,7 +889,7 @@ static Z_ALWAYS_INLINE zuint8 z80_in_cycle(Z80 const *self)
 
 static Z_ALWAYS_INLINE zuint8 z80_out_cycle(Z80 const *self)
 	{
-	return (zuint8)(self->data.uint8_array[0] == 0xD3
+	return Z_CAST(zuint8)(self->data.uint8_array[0] == 0xD3
 		? /* out (BYTE),a : 4+3 */
 		7
 		: /* out (c),J / out (c),0 : 4+4 */
