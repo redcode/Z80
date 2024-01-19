@@ -1,16 +1,16 @@
-<p align="center"><img src="https://zxe.io/software/Z80/assets/images/Z80.svg" width="300"></p>
-<h1 align="center">Zilog Z80 CPU Emulator</h1>
-<p align="center">
-	<a href="https://zxe.io/software/Z80/documentation/latest"><img alt="Documentation" src="https://zxe.io/software/Z80/assets/images/documentation-badge"></a>
-	<a href="https://github.com/redcode/Z80/actions/workflows/build-and-test-library.yml"><img src="https://github.com/redcode/Z80/actions/workflows/build-and-test-library.yml/badge.svg"></a>
-	<a href="https://github.com/redcode/Z80/actions/workflows/build-documentation.yml"><img src="https://github.com/redcode/Z80/actions/workflows/build-documentation.yml/badge.svg"></a>
-	<a href="https://zxe.io/software/Z80/chat"><img alt="Chat" src="https://zxe.io/software/Z80/assets/images/chat-badge"></a>
-	<img src="https://zxe.io/software/Z80/assets/images/mentioned-in-awesome-badge.svg">
-</p>
+# Zilog Z80 CPU Emulator
+
+[![](https://zxe.io/software/Z80/assets/images/documentation-badge)](https://zxe.io/software/Z80/documentation/latest)
+[![](https://github.com/redcode/Z80/actions/workflows/build-and-test-library.yml/badge.svg)](https://github.com/redcode/Z80/actions/workflows/build-and-test-library.yml)
+[![](https://github.com/redcode/Z80/actions/workflows/build-documentation.yml/badge.svg)](https://github.com/redcode/Z80/actions/workflows/build-documentation.yml)
+[![](https://zxe.io/software/Z80/assets/images/chat-badge)](https://zxe.io/software/Z80/chat)
+![](https://zxe.io/software/Z80/assets/images/mentioned-in-awesome-badge.svg)
 
 ## Introduction
 
 The [Z80 library](https://zxe.io/software/Z80) implements a fast, small and accurate [emulator](https://en.wikipedia.org/wiki/Emulator) of the [Zilog Z80](https://en.wikipedia.org/wiki/Zilog_Z80). It emulates all that is known to date about this CPU, including the undocumented behaviors, [MEMPTR](https://zxpress.ru/zxnet/zxnet.pc/5909), [Q](https://worldofspectrum.org/forums/discussion/41704) and the [special RESET](http://www.primrosebank.net/computers/z80/z80_special_reset.htm). It also has the honor of having been the first open-source project to provide full emulation of the interrupt mode 0.
+
+<img src="https://zxe.io/software/Z80/assets/images/Z80.svg" width="256" align="right">
 
 The source code is written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C) for maximum portability and is extensively commented. The aim has been to write a well-structured, easy-to-understand piece of software; something solid and elegant that can [stand the test of time](https://web.archive.org/web/20231101002815/https://josem.co/the-beauty-of-finished-software/) with no need for major changes.
 
