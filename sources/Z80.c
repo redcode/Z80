@@ -263,9 +263,9 @@ static zuint8 const pf_parity_table[256] = {
 	(((zuint##width)((lhs ^ rhs) & (lhs ^ result)) >> (width - 3)) & PF)
 
 /*-----------------------------------------------------------------------------.
-| Q is an abstraction of the latches where the CPU loads F to use and modify   |
-| the flags. From an emulation perspective, instructions that affect the flags |
-| copy the final value of F to Q, whereas instructions that do not affect them |
+| Q serves as an abstraction for a set of latches related to flag computation. |
+| From an emulation perspective, instructions that affect the flags copy the   |
+| final value of F to Q, whereas instructions that do not affect the flags     |
 | (including `ex af,af'`, `pop af`, internal NOPs and interrupt responses) set |
 | Q to 0. Q is used to compute YF and XF in the `ccf` and `scf` instructions.  |
 |									       |
@@ -2307,7 +2307,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| and cannot be disabled under software control. Its usual function is to  |
 			| provide immediate response to important signals. The CPU responds to an  |
 			| NMI by pushing PC onto the stack and jumping to the ISR located at	   |
-			| address 0066h. The interrupt enable flip-flop 1 (IFF1) is reset to	   |
+			| address 0066h. The interrupt enable flip-flop #1 (IFF1) is reset to	   |
 			| prevent any maskable interrupt from being accepted during the execution  |
 			| of this routine, which is usually exited by using a `reti` or `retn`	   |
 			| instruction to restore the original state of IFF1 [1].		   |

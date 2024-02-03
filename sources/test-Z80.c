@@ -69,8 +69,8 @@ typedef struct {
 	/* Total number of clock cycles executed when the test is passed. */
 	zusize cycles[1 + (Z_USIZE_WIDTH < 64)];
 
-	/* FNV-1 hash of the entire text output when the test is passed (i.e.,
-	   all bytes sent to the print routine). */
+	/* FNV-1 hash of the entire text output when the test is passed
+	   (i.e., of all bytes sent by the program to the print routine). */
 	zuint32 hash;
 
 	/* Size of the file. */
@@ -141,11 +141,11 @@ static struct {char const *key; zuint8 options;} const cpu_models[4] = {
 
 static char const new_line[2] = "\n";
 
-/*--------------------------------------------------------------------------.
-| The search paths specified by using the `-p` option are collected in the  |
-| `search_paths` array of size `search_path_count`. `path_buffer` is used   |
-| to compose a complete file path consisting of "<search-path>/<filename>". |
-'==========================================================================*/
+/*---------------------------------------------------------------------------.
+| The search paths specified by using the `-p` option are collected into the |
+| `search_paths` array of size `search_path_count`. `path_buffer` is used to |
+| compose a complete file path consisting of "<search-path>/<filename>".     |
+'===========================================================================*/
 static char*  path_buffer	= Z_NULL;
 static char** search_paths	= Z_NULL;
 static zuint  search_path_count = 0;
@@ -506,7 +506,7 @@ static zuint8 run_test(int test_index)
 	{
 	Test const *test = &tests[test_index];
 	zuint16 start_address = test->start_address;
-	zboolean passed, correct_output;
+	zboolean passed, has_correct_output;
 	zusize cycles = 0;
 	zuint i = 0;
 
@@ -652,18 +652,18 @@ static zuint8 run_test(int test_index)
 
 	if (cursor_x > columns) columns = cursor_x;
 
-	/*---------------------------------------------------------------------.
-	| The test is considered passed if it has reached its exit address at  |
-	| the correct clock cycle, has not printed any unsupported characters, |
-	| and has printed the expected output within the correct margins.      |
-	'=====================================================================*/
+	/*--------------------------------------------------------------------.
+	| The test is considered passed if it has reached its exit address at |
+	| the correct clock cycle, has not printed any unsupported characters |
+	| and has printed the expected output within the correct margins.     |
+	'====================================================================*/
 
 	passed = completed
 		&& cycles == test->cycles[0]
 #		if Z_USIZE_WIDTH < 64
 			&& i == test->cycles[1]
 #		endif
-		&& (correct_output = (
+		&& (has_correct_output = (
 			!zx_spectrum_bad_character
 			&& hash	   == test->hash
 			&& lines   == test->lines
@@ -674,7 +674,7 @@ static zuint8 run_test(int test_index)
 		char const *failure_reason;
 
 		if (!passed) failure_reason = completed
-			? (correct_output
+			? (has_correct_output
 				? "incorrect number of clock cycles"
 				: "incorrect behavior detected")
 			: "clock cycle limit exceeded; program aborted";
