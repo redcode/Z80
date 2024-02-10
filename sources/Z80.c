@@ -147,15 +147,15 @@ typedef zuint8 (* Insn)(Z80 *self);
 
 static Z_ALWAYS_INLINE zuint16 fetch_16(Z80 *self, zuint16 address)
 	{
-	zuint8 t = FETCH(address);
-	return (zuint16)(t | ((zuint16)FETCH(address + 1) << 8));
+	zuint8 l = FETCH(address);
+	return (zuint16)(l | ((zuint16)FETCH(address + 1) << 8));
 	}
 
 
 static Z_ALWAYS_INLINE zuint16 read_16(Z80 *self, zuint16 address)
 	{
-	zuint8 t = READ(address);
-	return (zuint16)(t | ((zuint16)READ(address + 1) << 8));
+	zuint8 l = READ(address);
+	return (zuint16)(l | ((zuint16)READ(address + 1) << 8));
 	}
 
 
@@ -176,8 +176,8 @@ static Z_ALWAYS_INLINE void write_16b(Z80 *self, zuint16 address, zuint16 value)
 #ifndef Z80_WITH_FULL_IM0
 	static Z_ALWAYS_INLINE zuint16 int_fetch_16(Z80 *self)
 		{
-		zuint8 t = self->int_fetch(CONTEXT, PC);
-		return (zuint16)(t | ((zuint16)self->int_fetch(CONTEXT, PC) << 8));
+		zuint8 l = self->int_fetch(CONTEXT, PC);
+		return (zuint16)(l | ((zuint16)self->int_fetch(CONTEXT, PC) << 8));
 		}
 #endif
 
@@ -945,7 +945,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 |    * https://github.com/MrKWatkins/ZXSpectrumNextTests		       |
 '=============================================================================*/
 
-#define INXR_OTXR(io)						      \
+#define INXR_OTXR						      \
 	if (B)	{						      \
 		FLAGS = (zuint8)(     /* ZF = 0			  */  \
 			(B & SF)    | /* SF = Bo.7		  */  \
@@ -981,7 +981,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	t = (zuint)io + (zuint8)(MEMPTR = BC memptr_operator 1); \
 	hcf = (t > 255) ? HCF : 0;				 \
 	p = (t & 7) ^ --B;					 \
-	INXR_OTXR(io);						 \
+	INXR_OTXR;						 \
 	PC += 2;						 \
 	return 16
 
@@ -994,7 +994,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	zuint8 p   = (t & 7) ^ --B;	   \
 					   \
 	OUT(BC, io);			   \
-	INXR_OTXR(io);			   \
+	INXR_OTXR;			   \
 	MEMPTR = BC memptr_operator 1;	   \
 	PC += 2;			   \
 	return 16
