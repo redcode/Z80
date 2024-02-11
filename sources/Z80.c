@@ -786,7 +786,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	return 16
 
 
-#define ADD_16(lhs, rhs)							      \
+#define ADD_16(lhs, rhs, pc_increment)						      \
 	zuint16 n = rhs;							      \
 	zuint16 t = lhs + n;							      \
 										      \
@@ -796,7 +796,9 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 		((zuint32)lhs + n > 65535);	       /* CF = carry		   */ \
 						       /* NF = 0		   */ \
 	MEMPTR = lhs + 1;							      \
-	lhs = t
+	lhs = t;								      \
+	pc_increment;								      \
+	return 11
 
 
 #define ADC_SBC_HL_SS(operator, pf_overflow_rhs, cf_test, nf_or)	    \
@@ -875,7 +877,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	return 14
 
 
-#define IN_VC						       \
+#define IN_VC(set_lhs)					       \
 	zuint8 t;					       \
 							       \
 	MEMPTR = BC + 1;				       \
@@ -885,10 +887,14 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 		(t & SYXF)   | /* SF = sign; YF = Y; XF = X */ \
 		ZF_ZERO(t)   | /* ZF = zero		    */ \
 		PF_PARITY(t) | /* PF = parity		    */ \
-		F_C)	       /* CF unchanged		    */
+		F_C);	       /* CF unchanged		    */ \
+							       \
+	set_lhs						       \
+	PC += 2;					       \
+	return 12
 
 
-#define INX_OUTX(io)							       \
+#define INX_OUTX_COMMON(io)						       \
 	FLAGS = (zuint8)(						       \
 		(B & SYXF)	       | /* SF = Bo.7; YF = Bo.5; XF = Bo.3 */ \
 		ZF_ZERO(B)	       | /* ZF = !Bo			    */ \
@@ -907,7 +913,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	WRITE(HL hl_operator, io);			       \
 	MEMPTR = BC memptr_operator 1;			       \
 	B--;						       \
-	INX_OUTX(io)
+	INX_OUTX_COMMON(io)
 
 
 #define OUTX(hl_operator, memptr_operator) \
@@ -917,7 +923,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	B--;				   \
 	MEMPTR = BC memptr_operator 1;	   \
 	OUT(BC, io);			   \
-	INX_OUTX(io)
+	INX_OUTX_COMMON(io)
 
 
 /*-----------------------------------------------------------------------------.
@@ -945,7 +951,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 |    * https://github.com/MrKWatkins/ZXSpectrumNextTests		       |
 '=============================================================================*/
 
-#define INXR_OTXR						      \
+#define INXR_OTXR_COMMON					      \
 	if (B)	{						      \
 		FLAGS = (zuint8)(     /* ZF = 0			  */  \
 			(B & SF)    | /* SF = Bo.7		  */  \
@@ -981,7 +987,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	t = (zuint)io + (zuint8)(MEMPTR = BC memptr_operator 1); \
 	hcf = (t > 255) ? HCF : 0;				 \
 	p = (t & 7) ^ --B;					 \
-	INXR_OTXR;						 \
+	INXR_OTXR_COMMON;					 \
 	PC += 2;						 \
 	return 16
 
@@ -994,7 +1000,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	zuint8 p   = (t & 7) ^ --B;	   \
 					   \
 	OUT(BC, io);			   \
-	INXR_OTXR;			   \
+	INXR_OTXR_COMMON;		   \
 	MEMPTR = BC memptr_operator 1;	   \
 	PC += 2;			   \
 	return 16
@@ -1462,10 +1468,10 @@ INSN(ei)
 |  dec XY     <--XY--><--2B-->	........  10:46	    |
 '==================================================*/
 
-INSN(add_hl_SS) {ADD_16(HL, SS0);		   PC++;    return 11;}
+INSN(add_hl_SS) {ADD_16(HL, SS0, PC++);				      }
 INSN(adc_hl_SS) {ADC_SBC_HL_SS(+, ~ss, ss + fc + HL > 65535, Z_EMPTY);}
 INSN(sbc_hl_SS) {ADC_SBC_HL_SS(-,  ss, ss + fc	    > HL,    | NF   );}
-INSN(add_XY_WW) {ADD_16(XY, WW);		   PC += 2; return 11;}
+INSN(add_XY_WW) {ADD_16(XY, WW, PC += 2);			      }
 INSN(inc_SS   ) {Q_0 (SS0)++;			   PC++;    return  6;}
 INSN(inc_XY   ) {Q_0 XY++;			   PC += 2; return  6;}
 INSN(dec_SS   ) {Q_0 (SS0)--;			   PC++;    return  6;}
@@ -1685,8 +1691,8 @@ INSN(call_Z_WORD)
 |    in the T-states of the instruction.			|
 '==============================================================*/
 
-INSN(in_J_vc ) {IN_VC; J1 = t;			  PC += 2; return 12;}
-INSN(in_vc   ) {IN_VC;				  PC += 2; return 12;}
+INSN(in_J_vc ) {IN_VC(J1 = t;);					     }
+INSN(in_vc   ) {IN_VC(Z_EMPTY);					     }
 INSN(ini     ) {INX (++, +);					     }
 INSN(inir    ) {INXR(++, +);					     }
 INSN(ind     ) {INX (--, -);					     }
@@ -1706,10 +1712,10 @@ INSN(in_a_vBYTE)
 
 	/*--------------------------------------------------------------------.
 	| In "MEMPTR, Esoteric Register of the Zilog Z80 CPU", boo_boo says   |
-	| that MEMPTR is set to `((A << 8) | BYTE) + 1`, which causes a carry |
-	| from the LSbyte of the resulting port number if BYTE is 255. This   |
+	| that MEMPTR is set to `((A << 8) | BYTE) + 1`. This causes a carry  |
+	| from the LSbyte of the port number to MEMPTRH if BYTE is 255, which |
 	| differs from all other instructions where MEMPTRH is set to A, but  |
-	| it has been confirmed to be correct by the IN-MEMPTR test.	      |
+	| it has been verified on real hardware with the IN-MEMPTR test.      |
 	'====================================================================*/
 	MEMPTR = (t = (zuint16)(((zuint16)A << 8) | FETCH((PC += 2) - 1))) + 1;
 
