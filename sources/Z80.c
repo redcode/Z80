@@ -822,6 +822,11 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	return 15
 
 
+/* rla	.-------------------------.   rra  .-------------------------.
+	|  .----.   .----A----.	  |	   |   .----A----.   .----.  |
+	'--| CF |<--| 7 <-- 0 |<--'	   '-->| 7 --> 0 |-->| CF |--'
+	   '----'   '---------'		       '---------'   '---*/
+
 #define RXA(a_to_cf, operator, fc_to_a)			  \
 	zuint8 cf = a_to_cf;				  \
 							  \
@@ -834,6 +839,12 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	PC++;						  \
 	return 4
 
+
+/* rld	 .------------------------.	 rrd   .------------------------.
+	 |			  |	       |			|
+.--------|--.	.-------------.	  |   .--------V--.   .-------------.	|
+| 7-4 | 3-0 |<--| 7-4 <-- 3-0 |<--'   | 7-4 | 3-0 |-->| 7-4 --> 3-0 |---'
+'-----A-----'	'----(HL)-----'	      '-----A-----'   '----(HL)----*/
 
 #define RXD(vhl_to_vhl, a_to_vhl, vhl_to_a)		       \
 	zuint8 t = READ(HL);				       \
