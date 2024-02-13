@@ -539,8 +539,8 @@ static zuint8 run_test(int test_index)
 		{
 		error_loading_file:
 		if (verbosity) puts(show_test_output
-			? "Error, test skipped\n"
-			: "Error, test skipped");
+			? "error, test skipped\n"
+			: "error, test skipped");
 
 		return Z_FALSE;
 		}
@@ -692,8 +692,8 @@ static zuint8 run_test(int test_index)
 			}
 
 		else	{
-			if (passed) puts ("Passed");
-			else printf("Failed: %s\n", failure_reason);
+			if (passed) puts ("passed");
+			else printf("failed: %s\n", failure_reason);
 			}
 		}
 
@@ -748,14 +748,14 @@ int main(int argc, char **argv)
 			puts(	"Usage: test-Z80 [options] (--all|<test>...)\n"
 				"\n"
 				"Options:\n"
-				"  -V, --verbosity (0..4)  Set the verbosity level [default: 4].\n"
+				"  -V, --version           Print version information and exit.\n"
 				"  -0, --even-in (0..255)  Set the byte read from even I/O ports [default: 191].\n"
 				"  -1, --odd-in (0..255)   Set the byte read from odd I/O ports [default: 255].\n"
 				"  -a, --all               Run all tests.\n"
 				"  -h, --help              Print this help message and exit.\n"
 				"  -m, --model <model>     Specify the CPU model to emulate.\n"
 				"  -p, --path <path>       Add a path where to look for the required files.\n"
-				"  -v, --version           Print version information and exit.\n"
+				"  -v, --verbosity (0..4)  Set the verbosity level [default: 4].\n"
 				"\n"
 				"CPU models:\n"
 				"  zilog-nmos  Zilog NMOS [default]\n"
@@ -798,7 +798,7 @@ int main(int argc, char **argv)
 			goto exit_without_error;
 			}
 
-		else if (is_option(argv[i], "-v", "--version"))
+		else if (is_option(argv[i], "-V", "--version"))
 			{
 			puts(	"test-Z80 v" Z80_LIBRARY_VERSION_STRING "\n"
 				"Copyright (C) 2021-2024 Manuel Sainz de Baranda y Goñi.\n"
@@ -807,7 +807,7 @@ int main(int argc, char **argv)
 			goto exit_without_error;
 			}
 
-		else if (is_option(argv[i], "-V", "--verbosity"))
+		else if (is_option(argv[i], "-v", "--verbosity"))
 			{
 			if (++i == argc) goto incomplete_option;
 
@@ -967,7 +967,7 @@ int main(int argc, char **argv)
 	/*---------------------------.
 	| Print the results summary. |
 	'===========================*/
-	printf(	"%sResults%s: %u test%s passed, %u failed\n",
+	printf(	"%sResults%s: %u test%s passed, %u failed.\n",
 		&new_line[!verbosity || show_test_output],
 		show_test_output ? " summary" : "",
 		results[1],
