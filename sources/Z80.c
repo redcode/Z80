@@ -598,8 +598,7 @@ static zuint8 ggg(Z80 *self, zuint8 offset, zuint8 value)
 
 		/* sra	    .---------.   .----.
 			.-->| 7 --> 0 |-->| CF |
-			|   '---------'   '----'
-			|     |
+			|   '-|-------'   '----'
 			'----*/
 		case 5:
 		cf = value & 1;
@@ -1127,8 +1126,8 @@ INSN(ld_vWORD_SS) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); WRITE_16F(MEMPTR++, SS1
 INSN(ld_vWORD_XY) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); WRITE_16F(MEMPTR++, XY ); return 16;}
 INSN(ld_sp_hl	) {Q_0 SP = HL;						  PC++;	   return  6;}
 INSN(ld_sp_XY	) {Q_0 SP = XY;						  PC += 2; return  6;}
-INSN(push_TT	) {Q_0 WRITE_16B(SP -= 2, TT);				  PC++;	   return 11;}
-INSN(push_XY	) {Q_0 WRITE_16B(SP -= 2, XY);				  PC += 2; return 11;}
+INSN(push_TT	) {Q_0 PUSH(TT);					  PC++;	   return 11;}
+INSN(push_XY	) {Q_0 PUSH(XY);					  PC += 2; return 11;}
 INSN(pop_TT	) {Q_0 TT = READ_16(SP); SP += 2;			  PC++;	   return 10;}
 INSN(pop_XY	) {Q_0 XY = READ_16(SP); SP += 2;			  PC += 2; return 10;}
 
