@@ -73,20 +73,20 @@ typedef struct {
 	   (i.e., of all bytes sent by the program to the print routine). */
 	zuint32 hash;
 
+	/* Memory address where to jump to start executing the program. */
+	zuint16 start_address;
+
+	/* Value of the PC register once the program completes. */
+	zuint16 exit_address;
+
 	/* Size of the file. */
 	zuint16 file_size;
-
-	/* Offset of the executable code inside the file. */
-	zuint16 code_offset;
 
 	/* Size of the executable code. */
 	zuint16 code_size;
 
-	/* Memory address where to jump to start executing the program. */
-	zuint16 start_address;
-
-	/* Value of the PC register once the test completes. */
-	zuint16 exit_address;
+	/* Offset of the executable code inside the file. */
+	zuint8 code_offset;
 
 	/* Format of the program. */
 	zuint8 format;
@@ -108,28 +108,28 @@ typedef struct {
 #endif
 
 static Test const tests[22] = {
-	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexdoc.com",				C(A, E19F287A) /* 46,734,977,146 */, Z_UINT32(0xEDE3CB62),  8704,   0,	8704, 0x0100,	   0, TEST_FORMAT_CPM,	     68, 34},
-	{Z_NULL, "Z80 Documented Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",		C(A, E4E22836) /* 46,789,699,638 */, Z_UINT32(0x9F8B1839),  8716,  91,	8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
-	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexall.com",				C(A, E19F287A) /* 46,734,977,146 */, Z_UINT32(0xEDE3CB62),  8704,   0,	8704, 0x0100,	   0, TEST_FORMAT_CPM,	     68, 34},
-	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2009)(Bobrowski, Jan)[!].tap",				C(A, E4E1B837) /* 46,789,670,967 */, Z_UINT32(0xD4910BEE),  8656, 108,	8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 31},
-	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2011)(Bobrowski, Jan)(Narrowed to BIT Instructions)[!].tap", C(0, 4F67AEDF) /*  1,332,195,039 */, Z_UINT32(0x680D4830),  8656, 108,	8547, 0x8000, 0x803D, TEST_FORMAT_HARSTON,    4, 31},
-	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2017-0x)(Harston, Jonathan Graham)[!].tap",			C(A, E4E20746) /* 46,789,691,206 */, Z_UINT32(0x9F50D128),  8704,  91,	8612, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
-	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",			C(A, E4E22836) /* 46,789,699,638 */, Z_UINT32(0x9F50D128),  8716,  91,	8624, 0x8000, 0x803D, TEST_FORMAT_HARSTON,   69, 32},
-	{"Z80 Instruction Set Exerciser for Spectrum 2 v0.1 (2012-11-27)(Rak, Patrik)[!].zip", "zexall2-0.1/zexall2.tap",	C(C, 18A43876) /* 51,953,023,094 */, Z_UINT32(0x05C746F7),  9316,  87,	9228, 0x8000, 0x8040, TEST_FORMAT_HARSTON,   76, 31},
-	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								C(0, 9C3040EF) /*  2,620,408,047 */, Z_UINT32(0xF787CA8E),  5573, 120,	5452, 0x8057, 0x80E6, TEST_FORMAT_WOODMASS,  50, 32},
-	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								C(0, 0308BF63) /*     50,904,931 */, Z_UINT32(0xF5AE5140),  5573, 120,	5452, 0x8049, 0x80E6, TEST_FORMAT_WOODMASS,  61, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80full.tap",				C(0, 4303ABF1) /*  1,124,314,097 */, Z_UINT32(0xB8707D12), 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	    156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80doc.tap",				C(0, 436E8265) /*  1,131,315,813 */, Z_UINT32(0x9E9DD1F5), 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	    156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80flags.tap",				C(0, 20ED11DC) /*    552,407,516 */, Z_UINT32(0x27CB27A2), 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	    156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80docflags.tap",			C(0, 2110B9B1) /*    554,744,241 */, Z_UINT32(0x3966C46C), 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	    156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80ccf.tap",				C(0, 23AB74CA) /*    598,439,114 */, Z_UINT32(0xB34ED107), 14219,  91, 14127, 0x8000, 0x7003, TEST_FORMAT_RAK,	    156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80memptr.tap",				C(0, 215CF3BD) /*    559,739,837 */, Z_UINT32(0x840ACD96), 13758,  91, 13666, 0x8000, 0x7003, TEST_FORMAT_RAK,	    156, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80full.tap",				C(0, 4382DC6A) /*  1,132,649,578 */, Z_UINT32(0x4C578BC6), 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	    164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80doc.tap",				C(0, 43EE72CE) /*  1,139,700,430 */, Z_UINT32(0x02114A09), 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	    164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80flags.tap",			C(0, 212F17D5) /*    556,734,421 */, Z_UINT32(0x91826856), 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	    164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80docflags.tap",			C(0, 2152FFDA) /*    559,087,578 */, Z_UINT32(0x408190F0), 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	    164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80ccf.tap",				C(0, 23F34E43) /*    603,147,843 */, Z_UINT32(0x27FF6693), 14875,  91, 14783, 0x8000, 0x7003, TEST_FORMAT_RAK,	    164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80memptr.tap",			C(0, 219FC276) /*    564,118,134 */, Z_UINT32(0xDB7B18AA), 14390,  91, 14298, 0x8000, 0x7003, TEST_FORMAT_RAK,	    164, 32}};
+	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexdoc.com",				C(A, E19F287A) /* 46,734,977,146 */, Z_UINT32(0xEDE3CB62), Z_UINT16(0x0100), Z_UINT16(     0),  8704,  8704,   0, TEST_FORMAT_CPM,	 68, 34},
+	{Z_NULL, "Z80 Documented Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",		C(A, E4E22836) /* 46,789,699,638 */, Z_UINT32(0x9F8B1839), Z_UINT16(0x8000), Z_UINT16(0x803D),  8716,  8624,  91, TEST_FORMAT_HARSTON,	 69, 32},
+	{"Yaze v1.10 (1998-01-28)(Cringle, Frank D.)(Sources)[!].tar.gz", "yaze-1.10/test/zexall.com",				C(A, E19F287A) /* 46,734,977,146 */, Z_UINT32(0xEDE3CB62), Z_UINT16(0x0100), Z_UINT16(     0),  8704,  8704,   0, TEST_FORMAT_CPM,	 68, 34},
+	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2009)(Bobrowski, Jan)[!].tap",				C(A, E4E1B837) /* 46,789,670,967 */, Z_UINT32(0xD4910BEE), Z_UINT16(0x8000), Z_UINT16(0x803D),  8656,  8547, 108, TEST_FORMAT_HARSTON,	 69, 31},
+	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2011)(Bobrowski, Jan)(Narrowed to BIT Instructions)[!].tap", C(0, 4F67AEDF) /*  1,332,195,039 */, Z_UINT32(0x680D4830), Z_UINT16(0x8000), Z_UINT16(0x803D),  8656,  8547, 108, TEST_FORMAT_HARSTON,	  4, 31},
+	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2017-0x)(Harston, Jonathan Graham)[!].tap",			C(A, E4E20746) /* 46,789,691,206 */, Z_UINT32(0x9F50D128), Z_UINT16(0x8000), Z_UINT16(0x803D),  8704,  8612,  91, TEST_FORMAT_HARSTON,	 69, 32},
+	{Z_NULL, "Z80 Full Instruction Set Exerciser for Spectrum (2018)(Harston, Jonathan Graham)[!].tap",			C(A, E4E22836) /* 46,789,699,638 */, Z_UINT32(0x9F50D128), Z_UINT16(0x8000), Z_UINT16(0x803D),  8716,  8624,  91, TEST_FORMAT_HARSTON,	 69, 32},
+	{"Z80 Instruction Set Exerciser for Spectrum 2 v0.1 (2012-11-27)(Rak, Patrik)[!].zip", "zexall2-0.1/zexall2.tap",	C(C, 18A43876) /* 51,953,023,094 */, Z_UINT32(0x05C746F7), Z_UINT16(0x8000), Z_UINT16(0x8040),  9316,  9228,  87, TEST_FORMAT_HARSTON,	 76, 31},
+	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								C(0, 9C3040EF) /*  2,620,408,047 */, Z_UINT32(0xF787CA8E), Z_UINT16(0x8057), Z_UINT16(0x80E6),  5573,  5452, 120, TEST_FORMAT_WOODMASS,	 50, 32},
+	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								C(0, 0308BF63) /*     50,904,931 */, Z_UINT32(0xF5AE5140), Z_UINT16(0x8049), Z_UINT16(0x80E6),  5573,  5452, 120, TEST_FORMAT_WOODMASS,	 61, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80full.tap",				C(0, 4303ABF1) /*  1,124,314,097 */, Z_UINT32(0xB8707D12), Z_UINT16(0x8000), Z_UINT16(0x7003), 13758, 13666,  91, TEST_FORMAT_RAK,	156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80doc.tap",				C(0, 436E8265) /*  1,131,315,813 */, Z_UINT32(0x9E9DD1F5), Z_UINT16(0x8000), Z_UINT16(0x7003), 13758, 13666,  91, TEST_FORMAT_RAK,	156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80flags.tap",				C(0, 20ED11DC) /*    552,407,516 */, Z_UINT32(0x27CB27A2), Z_UINT16(0x8000), Z_UINT16(0x7003), 13758, 13666,  91, TEST_FORMAT_RAK,	156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80docflags.tap",			C(0, 2110B9B1) /*    554,744,241 */, Z_UINT32(0x3966C46C), Z_UINT16(0x8000), Z_UINT16(0x7003), 13758, 13666,  91, TEST_FORMAT_RAK,	156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80ccf.tap",				C(0, 23AB74CA) /*    598,439,114 */, Z_UINT32(0xB34ED107), Z_UINT16(0x8000), Z_UINT16(0x7003), 14219, 14127,  91, TEST_FORMAT_RAK,	156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80memptr.tap",				C(0, 215CF3BD) /*    559,739,837 */, Z_UINT32(0x840ACD96), Z_UINT16(0x8000), Z_UINT16(0x7003), 13758, 13666,  91, TEST_FORMAT_RAK,	156, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80full.tap",				C(0, 4382DC6A) /*  1,132,649,578 */, Z_UINT32(0x4C578BC6), Z_UINT16(0x8000), Z_UINT16(0x7003), 14390, 14298,  91, TEST_FORMAT_RAK,	164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80doc.tap",				C(0, 43EE72CE) /*  1,139,700,430 */, Z_UINT32(0x02114A09), Z_UINT16(0x8000), Z_UINT16(0x7003), 14390, 14298,  91, TEST_FORMAT_RAK,	164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80flags.tap",			C(0, 212F17D5) /*    556,734,421 */, Z_UINT32(0x91826856), Z_UINT16(0x8000), Z_UINT16(0x7003), 14390, 14298,  91, TEST_FORMAT_RAK,	164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80docflags.tap",			C(0, 2152FFDA) /*    559,087,578 */, Z_UINT32(0x408190F0), Z_UINT16(0x8000), Z_UINT16(0x7003), 14390, 14298,  91, TEST_FORMAT_RAK,	164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80ccf.tap",				C(0, 23F34E43) /*    603,147,843 */, Z_UINT32(0x27FF6693), Z_UINT16(0x8000), Z_UINT16(0x7003), 14875, 14783,  91, TEST_FORMAT_RAK,	164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80memptr.tap",			C(0, 219FC276) /*    564,118,134 */, Z_UINT32(0xDB7B18AA), Z_UINT16(0x8000), Z_UINT16(0x7003), 14390, 14298,  91, TEST_FORMAT_RAK,	164, 32}};
 
 #undef C
 
@@ -169,7 +169,7 @@ static zuint8 in_values[2] = {191, 255};
 | Instance of the Z80 emulator and 64 KiB of memory. |
 '===================================================*/
 static Z80    cpu;
-static zuint8 memory[65536];
+static zuint8 memory[Z_USIZE(65536)];
 
 /*-----------------------------------------------------------------------------.
 | `completed` indicates whether the test has reached its exit address; `lines` |
@@ -526,15 +526,15 @@ static zuint8 run_test(int test_index)
 			}
 		}
 
-	memset(memory, 0, 65536);
+	memset(memory, 0, Z_USIZE(65536));
 
 	for (;	i < search_path_count &&
-		!load_test(search_paths[i], test, memory + (start_address & 0xFF00));
+		!load_test(search_paths[i], test, memory + (start_address & Z_UINT16(0xFF00)));
 		i++
 	);
 
 	if (	i == search_path_count &&
-		!load_test(Z_NULL, test, memory + (start_address & 0xFF00))
+		!load_test(Z_NULL, test, memory + (start_address & Z_UINT16(0xFF00)))
 	)
 		{
 		error_loading_file:
