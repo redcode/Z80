@@ -785,18 +785,19 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	return 16
 
 
-#define ADD_16(lhs, rhs, pc_increment)						      \
-	zuint16 n = rhs;							      \
-	zuint16 t = lhs + n;							      \
-										      \
-	FLAGS = F_SZP				     | /* SF, ZF, PF unchanged	   */ \
-		((t >> 8) & YXF)		     | /* YF = high-Y; XF = high-X */ \
-		(((zuint16)(lhs ^ n ^ t) >> 8) & HF) | /* HF = high-half-carry	   */ \
-		((zuint32)lhs + n > 65535);	       /* CF = carry		   */ \
-						       /* NF = 0		   */ \
-	MEMPTR = lhs + 1;							      \
-	lhs = t;								      \
-	pc_increment;								      \
+#define ADD_16(lhs, rhs, pc_increment)					     \
+	zuint16 n = rhs;						     \
+	zuint32 t = lhs + n;						     \
+									     \
+	FLAGS = (zuint8)(		      /* NF = 0			  */ \
+		F_SZP			    | /* SF, ZF, PF unchanged	  */ \
+		((t >> 8) & YXF)	    | /* YF = high-Y; XF = high-X */ \
+		(((lhs ^ n ^ t) >> 8) & HF) | /* HF = high-half-carry	  */ \
+		((t >> 16) & 1));	      /* CF = carry		  */ \
+									     \
+	MEMPTR = lhs + 1;						     \
+	lhs = (zuint16)t;						     \
+	pc_increment;							     \
 	return 11
 
 
@@ -1183,7 +1184,7 @@ INSN(cpdr     ) {CPXR(--);								      }
 |  V (XY+OFFSET)      <--XY-->0011010v<OFFSET>	szy|xv|.  23:443543  |
 |--------------------------------------------------------------------|
 | (*) Undocumented instruction.					     |
-| (|) The flag is explained in a previous table.		     |
+| (|) The flag is explained in table U/V.			     |
 '===================================================================*/
 
 INSN(U_a_K	   ) {U0(K0);						       PC++;	return	4;}
