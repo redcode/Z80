@@ -504,9 +504,9 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 
 static zuint8 run_test(int test_index)
 	{
+	char const *failure = Z_NULL;
 	Test const *test = &tests[test_index];
 	zuint16 start_address = test->start_address;
-	zboolean passed, has_correct_output;
 	zusize cycles = 0;
 	zuint i = 0;
 
@@ -658,46 +658,45 @@ static zuint8 run_test(int test_index)
 	| and has printed the expected output within the correct margins.     |
 	'====================================================================*/
 
-	passed = completed
-		&& cycles == test->cycles[0]
+	if (!completed) failure = "clock cycle limit exceeded; program aborted";
+
+	else if (
+		zx_spectrum_bad_character ||
+		hash	!= test->hash	  ||
+		lines   != test->lines    ||
+		columns != test->columns
+	)
+		failure = "incorrect behavior detected";
+
+	else if (
 #		if Z_USIZE_WIDTH < 64
-			&& i == test->cycles[1]
+			i != test->cycles[1] ||
 #		endif
-		&& (has_correct_output = (
-			!zx_spectrum_bad_character
-			&& hash	   == test->hash
-			&& lines   == test->lines
-			&& columns == test->columns));
+		cycles != test->cycles[0]
+	)
+		failure = "incorrect number of clock cycles";
 
 	if (verbosity)
 		{
-		char const *failure_reason;
-
-		if (!passed) failure_reason = completed
-			? (has_correct_output
-				? "incorrect number of clock cycles"
-				: "incorrect behavior detected")
-			: "clock cycle limit exceeded; program aborted";
-
 		if (show_test_output)
 			{
 			zuint has_final_new_line = test->format == TEST_FORMAT_RAK;
 
-			if (passed) puts(&new_line[has_final_new_line]);
+			if (failure == Z_NULL) puts(&new_line[has_final_new_line]);
 
-			else printf(
+ 			else printf(
 				"%s>>> Test failed: %s.\n\n",
 				&new_line[!lines || (completed && has_final_new_line)],
-				failure_reason);
+				failure);
 			}
 
 		else	{
-			if (passed) puts ("passed");
-			else printf("failed: %s\n", failure_reason);
+			if (failure == Z_NULL) puts ("passed");
+			else printf("failed: %s\n", failure);
 			}
 		}
 
-	return passed;
+	return failure == Z_NULL;
 	}
 
 
@@ -834,7 +833,7 @@ int main(int argc, char **argv)
 			{
 			if (++i == argc) goto incomplete_option;
 
-			for (j = 0; j < Z_ARRAY_SIZE(cpu_models); j++)
+			for (j = 0; j < (int)Z_ARRAY_SIZE(cpu_models); j++)
 				if (!strcmp(argv[i], cpu_models[j].key))
 					{
 					cpu.options = cpu_models[j].options;
