@@ -350,7 +350,7 @@ static zusize const s_table[4] = {
 	Z_MEMBER_OFFSET(Z80, bc.uint16_value),
 	Z_MEMBER_OFFSET(Z80, de.uint16_value),
 	Z_MEMBER_OFFSET(Z80, hl.uint16_value),
-	Z_MEMBER_OFFSET(Z80, sp)};
+	Z_MEMBER_OFFSET(Z80, sp.uint16_value)};
 
 static zusize const t_table[4] = {
 	Z_MEMBER_OFFSET(Z80, bc.uint16_value),
@@ -362,7 +362,7 @@ static zusize const w_table[4] = {
 	Z_MEMBER_OFFSET(Z80, bc.uint16_value),
 	Z_MEMBER_OFFSET(Z80, de.uint16_value),
 	Z_MEMBER_OFFSET(Z80, xy.uint16_value),
-	Z_MEMBER_OFFSET(Z80, sp)};
+	Z_MEMBER_OFFSET(Z80, sp.uint16_value)};
 
 #define REGISTER_16(table, offset) \
 	*(zuint16 *)(void *)((zchar *)self + table[(DATA[offset] >> 4) & 3])
