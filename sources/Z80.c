@@ -625,12 +625,12 @@ static zuint8 ggg(Z80 *self, zuint8 offset, zuint8 value)
 		/*default: cf = 0;*/
 		}
 
-	FLAGS = (zuint8)(
+	FLAGS = (zuint8)(	   /* HF, NF = 0		*/
 		(value & SYXF)	 | /* SF = sign; YF = Y; XF = X */
 		ZF_ZERO(value)	 | /* ZF = zero			*/
 		PF_PARITY(value) | /* PF = parity		*/
 		cf);		   /* CF already computed	*/
-				   /* HF, NF = 0		*/
+
 	return value;
 	}
 
@@ -801,23 +801,22 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	return 11
 
 
-#define ADC_SBC_HL_SS(operator, pf_overflow_rhs, cf_test, nf_or)	    \
-	zuint8	fc = F_C;						    \
+#define ADC_SBC_HL_SS(operator, pf_overflow_rhs, or_nf)			    \
 	zuint16 ss = SS1;						    \
-	zuint16 t  = HL operator ss operator fc;			    \
+	zuint32 t  = HL operator ss operator F_C;			    \
 									    \
 	FLAGS = (zuint8)(						    \
 		((t >> 8) & SYXF) /* SF = sign; YF = high-Y; XF = high-X */ \
-		| ZF_ZERO(t)	  /* ZF = zero				 */ \
+		| (zuint8)ZF_ZERO((zuint16)t) /* ZF = zero		 */ \
 		/* HF = high-half-carry (adc), high-half-borrow (sbc)	 */ \
-		| (((zuint16)(HL ^ ss ^ t) >> 8) & HF)			    \
-		/* PF = overflow */					    \
+		| (((HL ^ ss ^ t) >> 8) & HF)				    \
+		/* PF = overflow					 */ \
 		| PF_OVERFLOW(16, t, HL, pf_overflow_rhs)		    \
-		| ((zuint32)cf_test) /* CF = carry (adc), borrow (sbc)	 */ \
-		nf_or);		     /* NF = 0 (adc), 1 (sbc)		 */ \
+		| ((t >> 16) & 1) /* CF = carry (adc), borrow (sbc)	 */ \
+		or_nf);		  /* NF = 0 (adc), 1 (sbc)		 */ \
 									    \
 	MEMPTR = HL + 1;						    \
-	HL = t;								    \
+	HL = (zuint16)t;						    \
 	PC += 2;							    \
 	return 15
 
@@ -1479,14 +1478,14 @@ INSN(ei)
 |  dec XY     <--XY--><--2B-->	........  10:46	    |
 '==================================================*/
 
-INSN(add_hl_SS) {ADD_16(HL, SS0, PC++);				      }
-INSN(adc_hl_SS) {ADC_SBC_HL_SS(+, ~ss, ss + fc + HL > 65535, Z_EMPTY);}
-INSN(sbc_hl_SS) {ADC_SBC_HL_SS(-,  ss, ss + fc	    > HL,    | NF   );}
-INSN(add_XY_WW) {ADD_16(XY, WW, PC += 2);			      }
-INSN(inc_SS   ) {Q_0 (SS0)++;			   PC++;    return  6;}
-INSN(inc_XY   ) {Q_0 XY++;			   PC += 2; return  6;}
-INSN(dec_SS   ) {Q_0 (SS0)--;			   PC++;    return  6;}
-INSN(dec_XY   ) {Q_0 XY--;			   PC += 2; return  6;}
+INSN(add_hl_SS) {ADD_16(HL, SS0, PC++);		}
+INSN(adc_hl_SS) {ADC_SBC_HL_SS(+, ~ss, Z_EMPTY);}
+INSN(sbc_hl_SS) {ADC_SBC_HL_SS(-,  ss, | NF   );}
+INSN(add_XY_WW) {ADD_16(XY, WW, PC += 2);	}
+INSN(inc_SS   ) {Q_0 (SS0)++; PC++;    return 6;}
+INSN(inc_XY   ) {Q_0 XY++;    PC += 2; return 6;}
+INSN(dec_SS   ) {Q_0 (SS0)--; PC++;    return 6;}
+INSN(dec_XY   ) {Q_0 XY--;    PC += 2; return 6;}
 
 
 /* MARK: - Instructions: Rotate and Shift Group */
