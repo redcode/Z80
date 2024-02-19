@@ -411,4 +411,8 @@ if(${PROJECT_NAME}_WITH_TESTS)
 	unset(_depot_dir)
 endif()
 
+if(NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+	message("${PROJECT_NAME} END")
+endif()
+
 # CMakeLists.txt EOF
