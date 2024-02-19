@@ -310,15 +310,15 @@ if(${PROJECT_NAME}_WITH_TESTS)
 	endif()
 
 	if(${PROJECT_NAME}_FETCH_TEST_FILES)
-		function(_fetch_files file_list location destination_dir)
-			file(STRINGS "${file_list}" _lines)
+		function(_fetch_files _file_list _location _destination_dir)
+			file(STRINGS "${_file_list}" _lines)
 
-			if(location MATCHES ".*://.*")
+			if(_location MATCHES ".*://.*")
 				set(_message_action "Downloading")
 			else()
 				set(_message_action "Copying")
-				get_filename_component(location "${location}" ABSOLUTE)
-				set(location "file://${location}")
+				get_filename_component(_location "${_location}" ABSOLUTE)
+				set(_location "file://${_location}")
 			endif()
 
 			foreach(_line ${_lines})
@@ -327,7 +327,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				string(SUBSTRING "${_line}" 130 -1 _file_path)
 				get_filename_component(_file_name "${_file_path}" NAME)
 
-				set(_file_url "${location}/${_file_path}")
+				set(_file_url "${_location}/${_file_path}")
 				string(REPLACE " " "%20" _file_url "${_file_url}")
 				string(REPLACE "!" "%21" _file_url "${_file_url}")
 				string(REPLACE "(" "%28" _file_url "${_file_url}")
@@ -358,8 +358,8 @@ if(${PROJECT_NAME}_WITH_TESTS)
 						endif()
 
 						file(	ARCHIVE_EXTRACT
-							INPUT "${destination_dir}/${_file_path}"
-							DESTINATION "${destination_dir}/${_subdirectory}"
+							INPUT "${_destination_dir}/${_file_path}"
+							DESTINATION "${_destination_dir}/${_subdirectory}"
 							PATTERNS "${_extract_pattern}"
 							VERBOSE)
 					endif()
