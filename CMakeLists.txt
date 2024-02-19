@@ -340,7 +340,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 
 				file(	DOWNLOAD
 					"${_file_url}"
-					"${destination_dir}/${_file_path}"
+					"${_destination_dir}/${_file_path}"
 					EXPECTED_HASH SHA3_512=${_file_hash})
 
 				if(	NOT "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.18 AND
