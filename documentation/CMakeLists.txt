@@ -11,28 +11,43 @@ find_package(Doxygen REQUIRED)
 find_package(Sphinx  REQUIRED)
 find_package(Breathe REQUIRED)
 
-set(DOXYGEN_INPUT_DIR  "${PROJECT_SOURCE_DIR}/API"		)
-set(DOXYGEN_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}"		)
-set(DOXYGEN_XML_OUTPUT "API-XML"				)
-set(_doxyfile_in       "${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in")
-set(_doxyfile	       "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile"	)
+set(_api_xml_output "${CMAKE_CURRENT_BINARY_DIR}/API-XML")
+
+set(DOXYGEN_BRIEF_MEMBER_DESC	  YES			     )
+set(DOXYGEN_ENABLE_PREPROCESSING  YES			     )
+set(DOXYGEN_EXPAND_ONLY_PREDEF	  NO			     )
+set(DOXYGEN_FILE_PATTERNS	  "*.h"			     )
+set(DOXYGEN_FULL_PATH_NAMES	  YES			     )
+set(DOXYGEN_GENERATE_DOCBOOK	  NO			     )
+set(DOXYGEN_GENERATE_HTML	  NO			     )
+set(DOXYGEN_GENERATE_LATEX	  NO			     )
+set(DOXYGEN_GENERATE_MAN	  NO			     )
+set(DOXYGEN_GENERATE_RTF	  NO			     )
+set(DOXYGEN_GENERATE_XML	  YES			     )
+set(DOXYGEN_INLINE_INFO		  YES			     )
+set(DOXYGEN_INPUT_ENCODING	  "UTF-8"		     )
+set(DOXYGEN_MACRO_EXPANSION	  YES			     )
+set(DOXYGEN_MARKDOWN_SUPPORT	  YES			     )
+set(DOXYGEN_OPTIMIZE_OUTPUT_FOR_C YES			     )
+set(DOXYGEN_PREDEFINED		  "Z_ALWAYS_INLINE=inline"   )
+set(DOXYGEN_REPEAT_BRIEF	  YES			     )
+set(DOXYGEN_SEARCH_INCLUDES	  YES			     )
+set(DOXYGEN_SHOW_INCLUDE_FILES	  YES			     )
+set(DOXYGEN_SKIP_FUNCTION_MACROS  NO			     )
+set(DOXYGEN_STRIP_FROM_PATH	  "${PROJECT_SOURCE_DIR}/API")
+set(DOXYGEN_WARN_IF_DOC_ERROR	  YES			     )
+set(DOXYGEN_WARN_IF_UNDOCUMENTED  YES			     )
+set(DOXYGEN_WARNINGS		  YES			     )
+set(DOXYGEN_XML_OUTPUT		  "API-XML"		     )
+set(DOXYGEN_XML_PROGRAMLISTING	  YES			     )
 
 get_target_property(DOXYGEN_INCLUDE_PATH Zeta INTERFACE_INCLUDE_DIRECTORIES)
-configure_file("${_doxyfile_in}" "${_doxyfile}" @ONLY)
 
-file(GLOB_RECURSE _public_headers "${DOXYGEN_INPUT_DIR}/*.h")
-set(_api_xml_output "${DOXYGEN_OUTPUT_DIR}/${DOXYGEN_XML_OUTPUT}")
-
-add_custom_command(
-	OUTPUT  "${_api_xml_output}"
-	DEPENDS ${_public_headers}
-	COMMAND "${DOXYGEN_EXECUTABLE}" "${_doxyfile}"
-	MAIN_DEPENDENCY "${_doxyfile}"
+doxygen_add_docs(
+	${PROJECT_NAME}-API-XML
+	"${PROJECT_SOURCE_DIR}/API"
+	ALL
 	COMMENT "Extracting API reference from ${PROJECT_NAME}")
-
-add_custom_target(
-	${PROJECT_NAME}-API-XML ALL
-	DEPENDS "${_api_xml_output}")
 
 if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION)
 	set(_html_documentation_output "${CMAKE_CURRENT_BINARY_DIR}/HTML")
@@ -48,10 +63,10 @@ if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION)
 		COMMAND "${SPHINX_BUILD_EXECUTABLE}"
 			-b html
 			${_html_theme_option}
-			"-Dbreathe_projects.${PROJECT_NAME}=${_api_xml_output}"
+			-Dbreathe_projects.${PROJECT_NAME}="${_api_xml_output}"
 			"${CMAKE_CURRENT_SOURCE_DIR}"
 			"${_html_documentation_output}"
-		MAIN_DEPENDENCY "${_api_xml_output}"
+		DEPENDS ${PROJECT_NAME}-API-XML
 		WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 		COMMENT "Generating documentation in HTML format for ${PROJECT_NAME}")
 
@@ -75,10 +90,10 @@ if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
 		OUTPUT  "${_latex_documentation_output}"
 		COMMAND "${SPHINX_BUILD_EXECUTABLE}"
 			-b latex
-			"-Dbreathe_projects.${PROJECT_NAME}=${_api_xml_output}"
+			-Dbreathe_projects.${PROJECT_NAME}="${_api_xml_output}"
 			"${CMAKE_CURRENT_SOURCE_DIR}"
 			"${_latex_documentation_output}"
-		MAIN_DEPENDENCY "${_api_xml_output}"
+		DEPENDS ${PROJECT_NAME}-API-XML
 		WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 		COMMENT "Generating documentation in LaTeX format for ${PROJECT_NAME}")
 
