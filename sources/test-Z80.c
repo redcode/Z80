@@ -806,17 +806,6 @@ int main(int argc, char **argv)
 			goto exit_without_error;
 			}
 
-		else if (is_option(argv[i], "-v", "--verbosity"))
-			{
-			if (++i == argc) goto incomplete_option;
-
-			if (!to_uint8(argv[i], 4, &verbosity))
-				{
-				invalid = "verbosity level";
-				goto invalid_argument;
-				}
-			}
-
 		else if (is_option(argv[i], "-0", "--even-in"))
 			{
 			if (++i == argc) goto incomplete_option;
@@ -828,6 +817,9 @@ int main(int argc, char **argv)
 			if (++i == argc) goto incomplete_option;
 			if (!to_uint8(argv[i], 255, &in_values[1])) goto invalid_io_value;
 			}
+
+		else if (is_option(argv[i], "-a", "--all"))
+			all = Z_TRUE;
 
 		else if (is_option(argv[i], "-m", "--model"))
 			{
@@ -862,8 +854,16 @@ int main(int argc, char **argv)
 			search_paths[search_path_count++] = argv[i];
 			}
 
-		else if (is_option(argv[i], "-a", "--all"))
-			all = Z_TRUE;
+		else if (is_option(argv[i], "-v", "--verbosity"))
+			{
+			if (++i == argc) goto incomplete_option;
+
+			if (!to_uint8(argv[i], 4, &verbosity))
+				{
+				invalid = "verbosity level";
+				goto invalid_argument;
+				}
+			}
 
 		else	{
 			invalid = "option";
