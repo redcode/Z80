@@ -3,7 +3,7 @@
       /\___  \/\  __ \\  __ \
  ____ \/__/  /\_\  __ \\ \/\ \ ________________________________________________
 |        /\_____\\_____\\_____\                                                |
-|  Zilog \/_____//_____//_____/ CPU Emulator - Test Tool                       |
+|  Zilog \/_____//_____//_____/ CPU Emulator - Testing Tool                    |
 |  Copyright (C) 2021-2024 Manuel Sainz de Baranda y Goñi.                     |
 |                                                                              |
 |  This program is free software: you can redistribute it and/or modify it     |
@@ -742,7 +742,16 @@ int main(int argc, char **argv)
 
 	while (++i < argc && *argv[i] == '-')
 		{
-		if (is_option(argv[i], "-h", "--help"))
+		if (is_option(argv[i], "-V", "--version"))
+			{
+			puts(	"test-Z80 v" Z80_LIBRARY_VERSION_STRING "\n"
+				"Copyright (C) 2021-2024 Manuel Sainz de Baranda y Goñi.\n"
+				"Released under the terms of the GNU General Public License v3.");
+
+			goto exit_without_error;
+			}
+
+		else if (is_option(argv[i], "-h", "--help"))
 			{
 			puts(	"Usage: test-Z80 [options] (--all|<test>...)\n"
 				"\n"
@@ -793,15 +802,6 @@ int main(int argc, char **argv)
 				"\n"
 				"Email bug reports and questions to <manuel@zxe.io>\n"
 				"Open issues at <https://github.com/redcode/Z80>");
-
-			goto exit_without_error;
-			}
-
-		else if (is_option(argv[i], "-V", "--version"))
-			{
-			puts(	"test-Z80 v" Z80_LIBRARY_VERSION_STRING "\n"
-				"Copyright (C) 2021-2024 Manuel Sainz de Baranda y Goñi.\n"
-				"Released under the terms of the GNU General Public License v3.");
 
 			goto exit_without_error;
 			}
