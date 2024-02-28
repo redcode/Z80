@@ -151,7 +151,7 @@ static char** search_paths	= Z_NULL;
 static zuint  search_path_count = 0;
 
 /*-----------------------------------------------------------------------------.
-| `verbosity` contains the verbosity level specified by using the `-V` option; |
+| `verbosity` contains the verbosity level specified by using the `-v` option; |
 | `show_test_output` indicates whether to print the text output of the tests.  |
 '=============================================================================*/
 static zuint8   verbosity = 4;
