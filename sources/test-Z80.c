@@ -704,13 +704,13 @@ static zboolean is_option(char const* string, char const* short_option, char con
 	{return !strcmp(string, short_option) || !strcmp(string, long_option);}
 
 
-static zboolean to_uint8(char const* string, zuint8 maximum_value, zuint8 *byte)
+static zboolean to_uint8(char const* string, zuint8 maximum, zuint8 *byte)
 	{
 	char *end;
 	zulong value = strtoul(string, &end, 0);
 
-	if (end == string || *end || value > maximum_value) return Z_FALSE;
-	if (byte != Z_NULL) *byte = (zuint8)value;
+	if (end == string || *end || value > maximum) return Z_FALSE;
+	*byte = (zuint8)value;
 	return Z_TRUE;
 	}
 
