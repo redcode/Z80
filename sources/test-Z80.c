@@ -515,7 +515,7 @@ static zuint8 run_test(int test_index)
 
 	if (verbosity)
 		{
-		printf(verbosity == 1 ? "%02d: " : "[%02d] ", test_index);
+		printf("[%02d] ", test_index);
 
 		if (verbosity >= 2)
 			{
