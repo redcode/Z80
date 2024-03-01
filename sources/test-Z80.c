@@ -363,10 +363,9 @@ static zuint8 zx_spectrum_cpu_fetch_opcode(void *context, zuint16 address)
 	{
 	Z_UNUSED(context)
 
-	return (address == 0x0D6B /* 0D6B: THE 'CLS' COMMAND ROUTINE  */ ||
-		address == 0x1601 /* 1601: THE 'CHAN_OPEN' SUBROUTINE */
-	)
-		? OPCODE_RET : memory[address];
+	return	address == 0x0D6B /* THE 'CLS' COMMAND ROUTINE  */ ||
+		address == 0x1601 /* THE 'CHAN_OPEN' SUBROUTINE */
+			? OPCODE_RET : memory[address];
 	}
 
 
@@ -877,7 +876,7 @@ int main(int argc, char **argv)
 	'================================================*/
 	if (i == argc && !all)
 		{
-		fputs("No test specified.\n", stderr);
+		fputs("test-Z80: No test specified.\n", stderr);
 		goto bad_syntax;
 		}
 
@@ -901,7 +900,7 @@ int main(int argc, char **argv)
 	)
 		{
 		not_enough_memory_available:
-		fputs("Error: not enough memory available.", stderr);
+		fputs("test-Z80: Not enough memory available.", stderr);
 		goto exit_with_error;
 		}
 
@@ -931,10 +930,11 @@ int main(int argc, char **argv)
 	cpu.retn      = Z_NULL;
 	cpu.illegal   = Z_NULL;
 
-	/*---------------------------------------------------------------------.
-	| It is not necessary to distinguish between memory read and internal  |
-	| NOP, as no test program require precise timing or memory contention. |
-	'=====================================================================*/
+	/*------------------------------------------------------------------.
+	| It is not necessary to distinguish between opcode fetch, internal |
+	| NOP and memory read, as the test programs require neither precise |
+	| timing nor memory contention.					    |
+	'==================================================================*/
 	cpu.fetch =
 	cpu.read  =
 	cpu.nop	  = cpu_read;
@@ -979,17 +979,17 @@ int main(int argc, char **argv)
 	return results[0] ? -1 : 0;
 
 	incomplete_option:
-	fprintf(stderr, "Incomplete option: '%s'\n", argv[i - 1]);
+	fprintf(stderr, "test-Z80: Incomplete option: '%s'\n", argv[i - 1]);
 	goto bad_syntax;
 
 	invalid_io_value:
 	invalid = "I/O value";
 
 	invalid_argument:
-	fprintf(stderr, "Invalid %s: '%s'\n", invalid, argv[i]);
+	fprintf(stderr, "test-Z80: Invalid %s: '%s'\n", invalid, argv[i]);
 
 	bad_syntax:
-	fputs("Type 'test-Z80 -h' for help.\n", stderr);
+	fputs("test-Z80: Type 'test-Z80 -h' for help.\n", stderr);
 
 	exit_with_error:
 	free(search_paths);
