@@ -146,6 +146,7 @@ static char const new_line[2] = "\n";
 | `search_paths` array of size `search_path_count`. `path_buffer` is used to |
 | compose a complete file path consisting of "<search-path>/<filename>".     |
 '===========================================================================*/
+
 static char*  path_buffer	= Z_NULL;
 static char** search_paths	= Z_NULL;
 static zuint  search_path_count = 0;
@@ -154,6 +155,7 @@ static zuint  search_path_count = 0;
 | `verbosity` contains the verbosity level specified by using the `-v` option; |
 | `show_test_output` indicates whether to print the text output of the tests.  |
 '=============================================================================*/
+
 static zuint8   verbosity = 4;
 static zboolean show_test_output;
 
@@ -163,11 +165,13 @@ static zboolean show_test_output;
 | The default values are those from a Sinclair ZX Spectrum 48K with no devices |
 | attached.								       |
 '=============================================================================*/
+
 static zuint8 in_values[2] = {191, 255};
 
 /*---------------------------------------------------.
 | Instance of the Z80 emulator and 64 KiB of memory. |
 '===================================================*/
+
 static Z80    cpu;
 static zuint8 memory[Z_USIZE(65536)];
 
@@ -178,6 +182,7 @@ static zuint8 memory[Z_USIZE(65536)];
 | position reached by the cursor throughout the test; and `hash` keeps a FNV-1 |
 | hash of all bytes sent by the test to the print routine.		       |
 '=============================================================================*/
+
 static zboolean completed;
 static zusize   lines, cursor_x, columns;
 static zuint32  hash;
@@ -198,6 +203,7 @@ static zuint32  hash;
 |									       |
 | These three variables are only used for ZX Spectrum tests.		       |
 '=============================================================================*/
+
 static zuint16	zx_spectrum_print_hook_address;
 static zuint	zx_spectrum_tab;
 static zboolean zx_spectrum_bad_character;
@@ -828,14 +834,12 @@ int main(int argc, char **argv)
 				if (!strcmp(argv[i], cpu_models[j].key))
 					{
 					cpu.options = cpu_models[j].options;
-					break;
+					goto cpu_model_found;
 					}
 
-			if (j == Z_ARRAY_SIZE(cpu_models))
-				{
-				invalid = "CPU model";
-				goto invalid_argument;
-				}
+			invalid = "CPU model";
+			goto invalid_argument;
+			cpu_model_found: continue;
 			}
 
 		else if (is_option(argv[i], "-p", "--path"))
