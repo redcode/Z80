@@ -940,8 +940,8 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 | Block instructions produce an extra M-cycle of 5 T-states to decrement PC if |
 | the loop condition is met. In 2018, David Banks (AKA hoglet) discovered that |
 | the Z80 CPU performs additional flag changes during this M-cycle and managed |
-| to crack the behaviors. All block instructions copy bits 13 and 11 of PCi to |
-| YF and XF, respectively [1.1], but `inir`, `indr`, `otir` and `otdr` also    |
+| to decipher the behaviors. All block instructions copy bits 13 and 11 of PCi |
+| to YF and XF, respectively [1.1], but `inir`, `indr`, `otir` and `otdr` also |
 | modify HF and PF in a very complicated way [1.2]. These two flags are not    |
 | commented here because the explanation would not be simpler than the code    |
 | itself, so please refer to David Banks' paper [2] for more information.      |
@@ -949,6 +949,11 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 | David Banks' discoveries have been corroborated thanks to Peter Helcmanovsky |
 | (AKA Ped7g), who wrote a test that covers most of the cases that can be      |
 | verified on a ZX Spectrum [3].					       |
+|									       |
+| In 2022, rofl0r discovered that `otir` and `otdr` set MEMPTR to `PCi + 1`    |
+| during the extra M-cycle [4]. This went unnoticed by the emulation community |
+| until 2023, when Manuel Sainz de Baranda y Goñi rediscovered this behaviour  |
+| in `inir`, `indr`, `otir` and `otdr` [5].				       |
 |									       |
 | References:								       |
 | 1. https://stardot.org.uk/forums/viewtopic.php?t=15464		       |
@@ -959,6 +964,8 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 |    * https://stardot.org.uk/forums/download/file.php?id=39831		       |
 | 3. Helcmanovsky, Peter (2021/2022). "Z80 Block Flags Test".		       |
 |    * https://github.com/MrKWatkins/ZXSpectrumNextTests		       |
+| 4. https://github.com/hoglet67/Z80Decoder/issues/2			       |
+| 5. https://spectrumcomputing.co.uk/forums/viewtopic.php?t=10555	       |
 '=============================================================================*/
 
 #define INXR_OTXR_COMMON					      \
@@ -1277,7 +1284,7 @@ INSN(neg)
 /*---------------------------------------------------------------------------.
 | `ccf` and `scf` are the only instructions in which Q affects the flags.    |
 | Patrik Rak cracked the behavior of YF and XF in 2012, confirming that they |
-| are taken, respectively, from bits 5 and 3 of the result of "(Q ^ F) | A"  |
+| are taken, respectively, from bits 5 and 3 of the result of `(Q ^ F) | A`  |
 | [1,2]. This applies to all Zilog Z80 models, both NMOS and CMOS. In 2018,  |
 | David Banks (AKA hoglet) discovered that at least some ST CMOS models do   |
 | not set XF according to this formula and instead take this flag from bit 3 |
