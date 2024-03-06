@@ -404,13 +404,12 @@ static zboolean load_file(
 
 	if (file != Z_NULL)
 		{
-		fseek(file, 0, SEEK_END);
-
-		if (ftell(file) == file_size)
-			{
-			fseek(file, offset, SEEK_SET);
-			ok = fread(buffer, size, 1, file) == 1;
-			}
+		if (	!fseek(file, 0, SEEK_END)      &&
+			ftell(file) == file_size       &&
+			!fseek(file, offset, SEEK_SET) &&
+			fread(buffer, size, 1, file) == 1
+		)
+			ok = Z_TRUE;
 
 		fclose(file);
 		}
