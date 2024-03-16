@@ -942,18 +942,20 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 | the Z80 CPU performs additional flag changes during this M-cycle and managed |
 | to decipher the behaviors. All block instructions copy bits 13 and 11 of PCi |
 | to YF and XF, respectively [1.1], but `inir`, `indr`, `otir` and `otdr` also |
-| modify HF and PF in a very complicated way [1.2]. These two flags are not    |
-| commented here because the explanation would not be simpler than the code    |
-| itself, so please refer to David Banks' paper [2] for more information.      |
+| modify HF and PF in a very complicated way [1.2]. These latter two flags are |
+| not commented here because the explanation would not be simpler than the     |
+| code itself, so please refer to David Banks' paper [2] for more information. |
 |									       |
 | David Banks' discoveries have been corroborated thanks to Peter Helcmanovsky |
 | (AKA Ped7g), who wrote a test that covers most of the cases that can be      |
 | verified on a ZX Spectrum [3].					       |
 |									       |
-| In 2022, rofl0r discovered that `otir` and `otdr` set MEMPTR to `PCi + 1`    |
-| during the extra M-cycle [4]. This went unnoticed by the emulation community |
-| until 2023, when Manuel Sainz de Baranda y Goñi rediscovered this behaviour  |
-| in `inir`, `indr`, `otir` and `otdr` [5].				       |
+| In 2022, rofl0r discovered that the instructions `otir` and `otdr` also set  |
+| MEMPTR to `PCi + 1` during the extra M-cycle [4]. However, this information  |
+| was not announced anywhere and went unnoticed by the emulation community     |
+| until 2023, when Manuel Sainz de Baranda y Goñi rediscovered the same	       |
+| behaviour in all four I/O block instructions: `inir`, `indr`, `otir` and     |
+| `otdr` [5].								       |
 |									       |
 | References:								       |
 | 1. https://stardot.org.uk/forums/viewtopic.php?t=15464		       |
