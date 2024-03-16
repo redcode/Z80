@@ -1,4 +1,4 @@
-﻿/* IMPORTANT: This file MUST be saved using "UTF-8 with BOM" encoding. */
+﻿/* IMPORTANT: This file MUST be saved using the "UTF-8 with BOM" encoding. */
 
 1 VERSIONINFO
 	FILEVERSION    @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
