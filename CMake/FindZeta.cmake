@@ -1,8 +1,8 @@
 # Zeta - FindZeta.cmake
-#  ______ ____________  ___
-# |__   /|  ___|__  __|/   \
-#   /  /_|  __|  |  | /  *  \
-#  /_____|_____| |__|/__/ \__\
+#  ______  ______________  ___
+# |__   / |  ___|___  ___|/   \
+#   /  /__|  __|   |  |  /  -  \
+#  /______|_____|  |__| /__/ \__\
 # Copyright (C) 2006-2024 Manuel Sainz de Baranda y Goñi.
 # This "find module" is DISTRIBUTED AS PUBLIC DOMAIN. No restrictions apply.
 
@@ -51,8 +51,6 @@ if(NOT DEFINED Zeta_FIND_RELATIVE OR Zeta_FIND_RELATIVE)
 			"${PROJECT_SOURCE_DIR}/external"
 			"${PROJECT_SOURCE_DIR}/externals/Zeta/API"
 			"${PROJECT_SOURCE_DIR}/externals"
-			"${PROJECT_SOURCE_DIR}/kits/Zeta/API"
-			"${PROJECT_SOURCE_DIR}/kits"
 			"${PROJECT_SOURCE_DIR}/../zeta-src/API"
 			"${PROJECT_SOURCE_DIR}/../Zeta/API"
 			"${PROJECT_SOURCE_DIR}/.."
