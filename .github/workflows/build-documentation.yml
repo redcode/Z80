@@ -20,7 +20,6 @@ env:
   ZETA_TARBALL_URL: 'http://zxe.io/software/Zeta/download/Zeta-latest.tar.xz'
   BUILD_SHARED_LIBS: NO
   CMAKE_BUILD_TYPE: Release
-  CMAKE_VERBOSE_MAKEFILE: YES
   Z80_FETCH_TEST_FILES: NO
   Z80_WITH_CMAKE_SUPPORT: NO
   Z80_WITH_HTML_DOCUMENTATION: YES
@@ -34,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install build tools
       run: |
@@ -56,7 +55,6 @@ jobs:
         -B "${{github.workspace}}/build"
         -DBUILD_SHARED_LIBS=${{env.BUILD_SHARED_LIBS}}
         -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}}
-        -DCMAKE_VERBOSE_MAKEFILE=${{env.CMAKE_VERBOSE_MAKEFILE}}
         -DZ80_FETCH_TEST_FILES=${{env.Z80_FETCH_TEST_FILES}}
         -DZ80_WITH_CMAKE_SUPPORT=${{env.Z80_WITH_CMAKE_SUPPORT}}
         -DZ80_WITH_HTML_DOCUMENTATION=${{env.Z80_WITH_HTML_DOCUMENTATION}}
@@ -66,7 +64,7 @@ jobs:
         -DZ80_WITH_TESTS=${{env.Z80_WITH_TESTS}}
 
     - name: Build HTML documentation
-      run: cmake --build "${{github.workspace}}/build" --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-HTML
+      run: cmake --build "${{github.workspace}}/build" --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-HTML --verbose
 
     - name: Build PDF documentation
-      run: cmake --build "${{github.workspace}}/build" --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-PDF
+      run: cmake --build "${{github.workspace}}/build" --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-PDF --verbose

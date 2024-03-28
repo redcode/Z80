@@ -24,7 +24,6 @@ env:
   ZETA_TARBALL_URL: 'http://zxe.io/software/Zeta/download/Zeta-latest.tar.xz'
   BUILD_SHARED_LIBS: YES
   CMAKE_BUILD_TYPE: Release
-  CMAKE_VERBOSE_MAKEFILE: YES
   Z80_FETCH_TEST_FILES: YES
   Z80_NOSTDLIB_FLAGS: Auto
   Z80_WITH_CMAKE_SUPPORT: NO
@@ -50,7 +49,7 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install dependencies (POSIX)
       if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
@@ -72,7 +71,6 @@ jobs:
         -B "${{github.workspace}}/build"
         -DBUILD_SHARED_LIBS=${{env.BUILD_SHARED_LIBS}}
         -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}}
-        -DCMAKE_VERBOSE_MAKEFILE=${{env.CMAKE_VERBOSE_MAKEFILE}}
         -DZ80_FETCH_TEST_FILES=${{env.Z80_FETCH_TEST_FILES}}
         -DZ80_NOSTDLIB_FLAGS=${{env.Z80_NOSTDLIB_FLAGS}}
         -DZ80_WITH_CMAKE_SUPPORT=${{env.Z80_WITH_CMAKE_SUPPORT}}
@@ -90,8 +88,8 @@ jobs:
         -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=${{env.Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG}}
 
     - name: Build
-      run: cmake --build "${{github.workspace}}/build" --config ${{env.CMAKE_BUILD_TYPE}}
+      run: cmake --build "${{github.workspace}}/build" --config ${{env.CMAKE_BUILD_TYPE}} --verbose
 
     - name: Test
       working-directory: ${{github.workspace}}/build
-      run: ctest --output-on-failure --build-config ${{env.CMAKE_BUILD_TYPE}}
+      run: ctest --build-config ${{env.CMAKE_BUILD_TYPE}} --output-on-failure
