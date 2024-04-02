@@ -126,7 +126,7 @@ NO)
 
 option(${PROJECT_NAME}_WITH_UNOFFICIAL_RETI
 "${PROJECT_NAME}: \
-Configure the ED5Dh, ED6Dh and ED7Dh undocumented instructions as `reti` \
+Configure the undocumented instructions ED5Dh, ED6Dh and ED7Dh as `reti` \
 instead of `retn`."
 NO)
 
