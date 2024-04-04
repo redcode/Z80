@@ -419,80 +419,80 @@ static Z_ALWAYS_INLINE zsint zzz(Z80 const *self, zuint8 mask)
 	       | 101 = dec  szybxv1. |
 	       '--------------------*/
 
-static void uuu(Z80 *self, zuint8 offset, zuint8 value)
+static void uuu(Z80 *self, zuint8 offset, zuint8 rhs)
 	{
 	zuint8 t, f;
 
 	switch ((DATA[offset] >> 3) & 7)
 		{
 		case 0: /* add */
-		t = A + value;
+		t = A + rhs;
 
-		f =	((zuint)A + value > 255)     | /* CF = carry	  */
-			PF_OVERFLOW(8, t, A, ~value) | /* PF = overflow	  */
-			((A ^ value ^ t) & HF);	       /* HF = half-carry */
-						       /* NF = 0	  */
+		f =	((zuint)A + rhs > 255)     | /* CF = carry	*/
+			PF_OVERFLOW(8, t, A, ~rhs) | /* PF = overflow	*/
+			((A ^ rhs ^ t) & HF);	     /* HF = half-carry */
+						     /* NF = 0		*/
 		A = t;
 		break;
 
 		case 1: /* adc */
-		t = A + value + (f = F_C);
+		t = A + rhs + (f = F_C);
 
-		f =	((zuint)A + value + f > 255) | /* CF = carry	  */
-			PF_OVERFLOW(8, t, A, ~value) | /* PF = overflow	  */
-			((A ^ value ^ t) & HF);	       /* HF = half-carry */
-						       /* NF = 0	  */
+		f =	((zuint)A + rhs + f > 255) | /* CF = carry	*/
+			PF_OVERFLOW(8, t, A, ~rhs) | /* PF = overflow	*/
+			((A ^ rhs ^ t) & HF);	     /* HF = half-carry */
+						     /* NF = 0		*/
 		A = t;
 		break;
 
 		case 2: /* sub */
-		t = A - value;
+		t = A - rhs;
 
-		f =	(A < value)		    | /* CF = borrow	  */
-			NF			    | /* NF = 1		  */
-			PF_OVERFLOW(8, t, A, value) | /* PF = overflow	  */
-			((A ^ value ^ t) & HF);	      /* HF = half-borrow */
+		f =	(A < rhs)		  | /* CF = borrow	*/
+			NF			  | /* NF = 1		*/
+			PF_OVERFLOW(8, t, A, rhs) | /* PF = overflow	*/
+			((A ^ rhs ^ t) & HF);	    /* HF = half-borrow */
 
 		A = t;
 		break;
 
 		case 3: /* sbc */
-		t = A - value - (f = F_C);
+		t = A - rhs - (f = F_C);
 
-		f =	((zsint)A - value - f < 0)  | /* CF = borrow	  */
-			NF			    | /* NF = 1		  */
-			PF_OVERFLOW(8, t, A, value) | /* PF = overflow	  */
-			((A ^ value ^ t) & HF);	      /* HF = half-borrow */
+		f =	((zsint)A - rhs - f < 0)  | /* CF = borrow	*/
+			NF			  | /* NF = 1		*/
+			PF_OVERFLOW(8, t, A, rhs) | /* PF = overflow	*/
+			((A ^ rhs ^ t) & HF);	    /* HF = half-borrow */
 
 		A = t;
 		break;
 
 		case 4: /* and */
-		A &= value;
+		A &= rhs;
 		f = HF | PF_PARITY(A); /* HF = 1; PF = parity */
 		break;		       /* NF, CF = 0	      */
 
 		case 5: /* xor */
-		A ^= value;
+		A ^= rhs;
 		f = PF_PARITY(A); /* PF = parity    */
 		break;		  /* HF, NF, CF = 0 */
 
 		case 6: /* or */
-		A |= value;
+		A |= rhs;
 		f = PF_PARITY(A); /* PF = parity    */
 		break;		  /* HF, NF, CF = 0 */
 
 		case 7: /* cp */
-		t = A - value;
+		t = A - rhs;
 
 		FLAGS = (zuint8)(
-			(t & SF)		    | /* SF = sign		*/
-			ZF_ZERO(t)		    | /* ZF = zero		*/
-			((A ^ value ^ t) & HF)	    | /* HF = half-borrow	*/
-			PF_OVERFLOW(8, t, A, value) | /* PF = overflow		*/
-			(A < value)		    | /* CF = borrow		*/
-			(value & YXF)		    | /* YF = rhs.5; XF = rhs.3 */
-			NF);			      /* NF = 1			*/
+			(t & SF)		  | /* SF = sign	      */
+			ZF_ZERO(t)		  | /* ZF = zero	      */
+			((A ^ rhs ^ t) & HF)	  | /* HF = half-borrow	      */
+			PF_OVERFLOW(8, t, A, rhs) | /* PF = overflow	      */
+			(A < rhs)		  | /* CF = borrow	      */
+			(rhs & YXF)		  | /* YF = rhs.5; XF = rhs.3 */
+			NF);			    /* NF = 1		      */
 
 		return;
 		}
