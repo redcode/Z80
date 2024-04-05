@@ -1,9 +1,9 @@
 # Zilog Z80 CPU Emulator
 
-[![](https://zxe.io/software/Z80/assets/images/documentation-badge)](https://zxe.io/software/Z80/documentation/latest)
+[![](https://zxe.io/software/Z80/assets/images/documentation-badge.svg)](https://zxe.io/software/Z80/documentation/latest)
 [![](https://github.com/redcode/Z80/actions/workflows/build-and-test-library.yml/badge.svg)](https://github.com/redcode/Z80/actions/workflows/build-and-test-library.yml)
 [![](https://github.com/redcode/Z80/actions/workflows/build-documentation.yml/badge.svg)](https://github.com/redcode/Z80/actions/workflows/build-documentation.yml)
-[![](https://zxe.io/software/Z80/assets/images/chat-badge)](https://zxe.io/software/Z80/chat)
+[![](https://zxe.io/software/Z80/assets/images/chat-badge.svg)](https://zxe.io/software/Z80/chat)
 ![](https://zxe.io/software/Z80/assets/images/mentioned-in-awesome-badge.svg)
 
 ## Introduction
