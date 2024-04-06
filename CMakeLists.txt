@@ -114,6 +114,13 @@ Enable optional notifications for any `reti` or `retn` instruction \
 executed during the interrupt mode 0 response."
 NO)
 
+option(${PROJECT_NAME}_WITH_PARITY_COMPUTATION
+"${PROJECT_NAME}: \
+Enable actual parity calculation for the P/V flag instead of using a \
+table of precomputed values (this is for benchmarks, DO NOT ENABLE in \
+production builds)."
+NO)
+
 option(${PROJECT_NAME}_WITH_Q
 "${PROJECT_NAME}: \
 Build the implementation of Q."
@@ -212,6 +219,7 @@ target_compile_definitions(
 	$<$<BOOL:${${PROJECT_NAME}_WITH_EXECUTE}>:Z80_WITH_EXECUTE>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_FULL_IM0}>:Z80_WITH_FULL_IM0>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_IM0_RETX_NOTIFICATIONS}>:Z80_WITH_IM0_RETX_NOTIFICATIONS>
+	$<$<BOOL:${${PROJECT_NAME}_WITH_PARITY_COMPUTATION}>:Z80_WITH_PARITY_COMPUTATION>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_Q}>:Z80_WITH_Q>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_SPECIAL_RESET}>:Z80_WITH_SPECIAL_RESET>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_UNOFFICIAL_RETI}>:Z80_WITH_UNOFFICIAL_RETI>
