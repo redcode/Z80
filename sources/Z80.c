@@ -520,9 +520,9 @@ static zuint8 vvv(Z80 *self, zuint8 offset, zuint8 value)
 	FLAGS = (zuint8)(
 		(t & SYXF)		    | /* SF = sign; YF = Y; XF = X */
 		ZF_ZERO(t)		    | /* ZF = zero		   */
-		((value ^ t) & HF)	    | /* HF = half-carry/borrow    */
+		((value ^ t) & HF)	    | /* HF = half-carry/borrow	   */
 		((value == 127 + dec) << 2) | /* PF = overflow		   */
-		nf			    | /* NF = 0 (inc), 1 (dec)     */
+		nf			    | /* NF = 0 (inc), 1 (dec)	   */
 		F_C);			      /* CF unchanged		   */
 
 	return t;
