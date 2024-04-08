@@ -513,27 +513,17 @@ static void uuu(Z80 *self, zuint8 offset, zuint8 rhs)
 
 static zuint8 vvv(Z80 *self, zuint8 offset, zuint8 value)
 	{
-	zuint8 t, pnf;
-
-	/* dec */
-	if (DATA[offset] & 1)
-		{
-		pnf = (zuint8)(((value == 128) << 2) | NF); /* PF = overflow; NF = 1 */
-		t = value - 1;
-		}
-
-	/* inc */
-	else	{
-		pnf = (zuint8)((value == 127) << 2); /* PF = overflow; NF = 0 */
-		t = value + 1;
-		}
+	zuint8 dec = DATA[offset] & 1;
+	zuint8 nf  = dec << 1;
+	zuint8 t   = value + 1 - nf;
 
 	FLAGS = (zuint8)(
-		pnf		   | /* PF and NF already computed */
-		(t & SYXF)	   | /* SF = sign; YF = Y; XF = X  */
-		ZF_ZERO(t)	   | /* ZF = zero		   */
-		((value ^ t) & HF) | /* HF = half-carry/borrow	   */
-		F_C);		     /* CF unchanged		   */
+		(t & SYXF)		      | /* SF = sign; YF = Y; XF = X */
+		ZF_ZERO(t)		      | /* ZF = zero		     */
+		((value ^ t) & HF)	      | /* HF = half-carry/borrow    */
+		((value == (127 + dec)) << 2) | /* PF = overflow	     */
+		nf			      | /* NF = 0 (inc), 1 (dec)     */
+		F_C);				/* CF unchanged		     */
 
 	return t;
 	}
