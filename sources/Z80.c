@@ -514,7 +514,7 @@ static void uuu(Z80 *self, zuint8 offset, zuint8 rhs)
 static zuint8 vvv(Z80 *self, zuint8 offset, zuint8 value)
 	{
 	zuint8 dec = DATA[offset] & 1;
-	zuint8 nf  = dec << 1;
+	zuint8 nf  = (zuint8)(dec << 1);
 	zuint8 t   = value + 1 - nf;
 
 	FLAGS = (zuint8)(
@@ -849,7 +849,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	WRITE(HL, (zuint8)((t vhl_to_vhl) | (A a_to_vhl)));    \
 	A = (A & 0xF0) | (t vhl_to_a);			       \
 							       \
-	FLAGS = (zuint8)(      /* HF, NF = 0;		    */ \
+	FLAGS = (zuint8)(      /* HF, NF = 0		    */ \
 		A_SYX	     | /* SF = sign; YF = Y; XF = X */ \
 		ZF_ZERO(A)   | /* ZF = zero		    */ \
 		PF_PARITY(A) | /* PF = parity		    */ \
