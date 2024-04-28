@@ -666,7 +666,6 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **[tihle: a unique TI calculator emulator](https://www.taricorp.net/2020/introducing-tihle/)** <sub>_by [Peter Marheine](https://www.taricorp.net/about/)_</sub> ⟩ [GitHub](https://github.com/tari/tihle) · [GitLab](https://gitlab.com/taricorp/tihle)
 * **[TileMap](https://simonowen.com/spectrum/tilemap/)** <sub>_by [Simon Owen](https://simonowen.com/)_</sub> ⟩ [GitHub](https://github.com/simonowen/tilemap)
 * **<a href="https://eaw.app/tranzputer-fusionx">tranZPUter<sup>FusionX</sup></a>** <sub>_by [Philip Smart](https://eaw.app/about/)_</sub> ⟩ [GitHub](https://github.com/pdsmart/tzpuFusionX)
-* **Z80InsnClock** <sub>_by [Sofía Ortega Sosa](https://github.com/agaxia)_</sub> ⟩ [GitHub](https://github.com/agaxia/Z80InsnClock)
 * **Zemu** <sub>_by [Jay Valentine](https://jayvalentine.github.io/)_</sub> ⟩ [GitHub](https://github.com/jayvalentine/zemu) · [RubyGems](https://rubygems.org/gems/zemu)
 
 ## Thanks
