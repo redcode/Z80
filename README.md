@@ -733,6 +733,8 @@ Many thanks to the following individuals (in alphabetical order):
 	4. For writing the _"Z80 INT Skip"_ test. <sup>[28](#r28)</sup>
 	5. For his research on the unstable flag behavior of the `ccf/scf` instructions.
 	6. For his invaluable help.
+* **Iborra Debón, Víctor (Eremus)**
+	* For validating tests on real hardware.
 * **icebear**
 	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **ICEknight**
@@ -772,7 +774,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Sánchez Ordiñana, José Ismael (Vaporatorius)**
 	* For validating tests on real hardware. <sup>[34](#r34), [35](#r35)</sup>
 * **Sevillano Mancilla, Marta (TheMartian)**
-	* For validating tests on real hardware.
+	* For validating tests on real hardware. <sup>[13](#r13)</sup>
 * **Stevenson, Dave**
 	1. For testing the special RESET on real hardware. <sup>[11](#r11)</sup>
 	2. For conducting low-level tests on real hardware. <sup>[36](#r36)</sup>

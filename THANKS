@@ -65,6 +65,8 @@ Many thanks to the following individuals (in alphabetical order):
     5. For his research on the unstable flag behavior of the `ccf/scf`
        instructions.
     6. For his invaluable help.
+* Iborra Debón, Víctor (Eremus)
+    For validating tests on real hardware.
 * icebear
     For testing the behavior of the MEMPTR register on real Z80 chips [6,7,8,9].
 * ICEknight
@@ -106,7 +108,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Sánchez Ordiñana, José Ismael (Vaporatorius)
     For validating tests on real hardware [34,35].
 * Sevillano Mancilla, Marta (TheMartian)
-    For validating tests on real hardware.
+    For validating tests on real hardware [13].
 * Stevenson, Dave
     1. For testing the special RESET on real hardware [11].
     2. For conducting low-level tests on real hardware [36].
