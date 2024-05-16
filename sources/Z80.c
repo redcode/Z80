@@ -2341,9 +2341,10 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| T-states, as has been confirmed by low-level tests [2] and electronic	   |
 			| simulations [3].							   |
 			|									   |
-			| The CPU does not accept a second NMI during the NMI response. Therefore, |
-			| it is not possible to chain two NMI responses in a row without executing |
-			| at least one instruction between them [3,4,5].			   |
+			| In 2022, Manuel Sainz de Baranda y Goñi discovered that the CPU does not |
+ 			| accept a second NMI during the NMI response [4,5]. Therefore, it is not  |
+ 			| possible to chain two NMI responses in a row without executing at least  |
+			| one instruction between them [3,4,5].					   |
 			|									   |
 			| References:								   |
 			| 1. Zilog (1978-05). "Z80 Family Program Interrupt Structure, The",	   |
@@ -2387,14 +2388,15 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| the danger of being interrupted immediately after re-enabling interrupts |
 			| if the /INT line is still active, which could cause a stack overflow.	   |
 			|									   |
-			| As in `ei`, all forms of `reti` and `retn` defer the acceptance of the   |
-			| maskable interrupt for one instruction, but this only occurs when IFF1   |
-			| and IFF2 do not have the same state prior to the execution of either of  |
-			| these instructions, which can only be caused by an earlier NMI response  |
-			| [1,2,3].								   |
+			| In 2021, Andre Weissflog (aka Floh) discovered that `reti` and `retn` do |
+			| not accept the maskable interrupt if IFF1 and IFF2 do not have the same  |
+			| state prior to the execution of the instruction, which can only be	   |
+			| caused by an earlier NMI response [1]. This behavior was rediscovered in |
+			| 2022 by Manuel Sainz de Baranda y Goñi [2,3].				   |
 			|									   |
 			| References:								   |
-			| 1. https://floooh.github.io/2021/12/17/cycle-stepped-z80.html		   |
+			| 1. Weissflog, Andre (2021-12-17). "New Cycle-Stepped Z80 Emulator, A".   |
+			|    * https://floooh.github.io/2021/12/17/cycle-stepped-z80.html	   |
 			| 2. https://spectrumcomputing.co.uk/forums/viewtopic.php?t=7086	   |
 			| 3. https://stardot.org.uk/forums/viewtopic.php?t=24662		   |
 			'=========================================================================*/
