@@ -674,13 +674,13 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Akimov, Vadim (lvd)**
 	* For testing the library on many different platforms and CPU architectures.
-* **azesmbog** <sup>:medal_military:</sup>
+* **azesmbog** <sup>:trophy:</sup>
 	1. For validating tests on real hardware. <sup>[1](#r1)</sup>
-	2. For his research on the unstable flag behavior of the `ccf/scf` instructions.
+	2. For discovering the unstable behavior of the `ccf/scf` instructions.
 	3. For his invaluable help.
 * **Banks, David (hoglet)** <sup>:trophy:</sup>
 	1. For cracking the flag behavior of the block instructions. <sup>[2](#r2), [3](#r3)</sup>
-	2. For his research on the flag behavior of the `ccf/scf` instructions. <sup>[3](#r3)</sup>
+	2. For his research on the behavior of the `ccf/scf` instructions. <sup>[3](#r3)</sup>
 * **Beliansky, Anatoly (Tolik_Trek)**
 	* For validating tests on real hardware. <sup>[4](#r4)</sup>
 * **Bobrowski, Jan**  
@@ -688,7 +688,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **boo_boo** <sup>:trophy:</sup>
 	* For cracking the behavior of the MEMPTR register. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Brady, Stuart**
-	* For his research on the flag behavior of the `ccf/scf` instructions. <sup>[10](#r10)</sup>
+	* For his research on the behavior of the `ccf/scf` instructions. <sup>[10](#r10)</sup>
 * **Brewer, Tony** <sup>:trophy:</sup>
 	1. For his research on the special RESET. <sup>[11](#r11), [12](#r12)</sup>
 	2. For helping to crack the flag behavior of the block instructions. <sup>[2](#r2)</sup>
@@ -721,7 +721,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **goodboy**
 	* For testing the behavior of the MEMPTR register on real Z80 chips. <sup>[6](#r6), [7](#r7), [8](#r8), [9](#r9)</sup>
 * **Greenway, Ian**
-	* For testing the flag behavior of the `ccf/scf` instructions on real hardware. <sup>[10](#r10), [22](#r22)</sup>
+	* For testing the behavior of the `ccf/scf` instructions on real hardware. <sup>[10](#r10), [22](#r22)</sup>
 * **Harston, Jonathan Graham**
 	1. For his research work.
 	2. For his technical documents about the Zilog Z80. <sup>[23](#r23), [24](#r24), [25](#r25)</sup>
@@ -731,7 +731,7 @@ Many thanks to the following individuals (in alphabetical order):
 	2. For writing the _"Z80 Block Flags Test"_. <sup>[27](#r27), [28](#r28)</sup>
 	3. For writing the _"Z80 CCF SCF Outcome Stability"_ test. <sup>[28](#r28)</sup>
 	4. For writing the _"Z80 INT Skip"_ test. <sup>[28](#r28)</sup>
-	5. For his research on the unstable flag behavior of the `ccf/scf` instructions.
+	5. For his research on the unstable behavior of the `ccf/scf` instructions.
 	6. For his invaluable help.
 * **Iborra Debón, Víctor (Eremus)**
 	* For validating tests on real hardware.
@@ -752,7 +752,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Nair, Arjun**
 	* For validating tests on real hardware. <sup>[27](#r27)</sup>
 * **Nicolás-González, César**
-	* For helping me to research the unstable flag behavior of the `ccf/scf` instructions.
+	* For helping me to investigate the unstable behavior of the `ccf/scf` instructions.
 * **Ortega Sosa, Sofía**
 	1. For optimizing the emulator.
 	2. For her support.
@@ -762,9 +762,9 @@ Many thanks to the following individuals (in alphabetical order):
 	* For his research on the state of the registers after POWER-ON. <sup>[30](#r30)</sup>
 * **Rak, Patrik** <sup>:trophy:</sup>
 	1. For improving the _"Z80 Instruction Set Exerciser for Spectrum"_. <sup>[31](#r31)</sup>
-	2. For cracking the flag behavior of the `ccf/scf` instructions. <sup>[14](#r14), [31](#r31)</sup>
+	2. For cracking the behavior of the `ccf/scf` instructions. <sup>[14](#r14), [31](#r31)</sup>
 	3. For writing the _"Zilog Z80 CPU Test Suite"_. <sup>[31](#r31), [32](#r32)</sup>
-	4. For his research on the unstable flag behavior of the `ccf/scf` instructions.
+	4. For his research on the unstable behavior of the `ccf/scf` instructions.
 * **Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)**
 	* For his research on the state of the registers after POWER-ON/RESET. <sup>[33](#r33)</sup>
 * **Rodríguez Palomino, Mario (r-lyeh)**
@@ -790,7 +790,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Woodmass, Mark (Woody)** <sup>:medal_military:</sup>
 	1. For his invaluable contributions to the emuscene.
 	2. For writing the _"Z80 Test Suite"_. <sup>[14](#r14)</sup>
-	3. For his research on the flag behavior of the `ccf/scf` instructions. <sup>[39](#r39)</sup>
+	3. For his research on the behavior of the `ccf/scf` instructions. <sup>[39](#r39)</sup>
 	4. For writing the _"HALT2INT"_ test.
 	5. For writing the _"EIHALT"_ test.
 * **Young, Sean** <sup>:trophy:</sup>
