@@ -688,7 +688,7 @@ static zuint8 run_test(int test_index)
 
 			if (failure == Z_NULL) puts(&new_line[has_final_new_line]);
 
- 			else printf(
+			else printf(
 				"%s>>> Test failed: %s.\n\n",
 				&new_line[!lines || (completed && has_final_new_line)],
 				failure);

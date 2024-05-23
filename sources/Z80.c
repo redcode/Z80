@@ -2342,8 +2342,8 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| simulations [3].							   |
 			|									   |
 			| In 2022, Manuel Sainz de Baranda y Goñi discovered that the CPU does not |
- 			| accept a second NMI during the NMI response [4,5]. Therefore, it is not  |
- 			| possible to chain two NMI responses in a row without executing at least  |
+			| accept a second NMI during the NMI response [4,5]. Therefore, it is not  |
+			| possible to chain two NMI responses in a row without executing at least  |
 			| one instruction between them [3,4,5].					   |
 			|									   |
 			| References:								   |
