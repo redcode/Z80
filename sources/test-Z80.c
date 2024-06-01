@@ -704,11 +704,11 @@ static zuint8 run_test(int test_index)
 	}
 
 
-static zboolean is_option(char const* string, char const* short_option, char const* long_option)
+static zboolean string_is_option(char const* string, char const* short_option, char const* long_option)
 	{return !strcmp(string, short_option) || !strcmp(string, long_option);}
 
 
-static zboolean to_uint8(char const* string, zuint8 maximum, zuint8 *value)
+static zboolean string_to_uint8(char const* string, zuint8 maximum, zuint8 *value)
 	{
 	char *end;
 	zulong parsed = strtoul(string, &end, 0);
@@ -746,7 +746,7 @@ int main(int argc, char **argv)
 
 	while (++i < argc && *argv[i] == '-')
 		{
-		if (is_option(argv[i], "-V", "--version"))
+		if (string_is_option(argv[i], "-V", "--version"))
 			{
 			puts(	"test-Z80 v" Z80_LIBRARY_VERSION_STRING "\n"
 				"Copyright (C) 2021-2024 Manuel Sainz de Baranda y Goñi.\n"
@@ -755,7 +755,7 @@ int main(int argc, char **argv)
 			goto exit_without_error;
 			}
 
-		else if (is_option(argv[i], "-h", "--help"))
+		else if (string_is_option(argv[i], "-h", "--help"))
 			{
 			puts(	"Usage: test-Z80 [options] (--all|<test>...)\n"
 				"\n"
@@ -810,22 +810,22 @@ int main(int argc, char **argv)
 			goto exit_without_error;
 			}
 
-		else if (is_option(argv[i], "-0", "--even-in"))
+		else if (string_is_option(argv[i], "-0", "--even-in"))
 			{
 			if (++i == argc) goto incomplete_option;
-			if (!to_uint8(argv[i], 255, &in_values[0])) goto invalid_io_value;
+			if (!string_to_uint8(argv[i], 255, &in_values[0])) goto invalid_io_value;
 			}
 
-		else if (is_option(argv[i], "-1", "--odd-in"))
+		else if (string_is_option(argv[i], "-1", "--odd-in"))
 			{
 			if (++i == argc) goto incomplete_option;
-			if (!to_uint8(argv[i], 255, &in_values[1])) goto invalid_io_value;
+			if (!string_to_uint8(argv[i], 255, &in_values[1])) goto invalid_io_value;
 			}
 
-		else if (is_option(argv[i], "-a", "--all"))
+		else if (string_is_option(argv[i], "-a", "--all"))
 			all = Z_TRUE;
 
-		else if (is_option(argv[i], "-m", "--model"))
+		else if (string_is_option(argv[i], "-m", "--model"))
 			{
 			if (++i == argc) goto incomplete_option;
 
@@ -841,7 +841,7 @@ int main(int argc, char **argv)
 			cpu_model_found: continue;
 			}
 
-		else if (is_option(argv[i], "-p", "--path"))
+		else if (string_is_option(argv[i], "-p", "--path"))
 			{
 			zusize s;
 			char **p;
@@ -856,11 +856,11 @@ int main(int argc, char **argv)
 			search_paths[search_path_count++] = argv[i];
 			}
 
-		else if (is_option(argv[i], "-v", "--verbosity"))
+		else if (string_is_option(argv[i], "-v", "--verbosity"))
 			{
 			if (++i == argc) goto incomplete_option;
 
-			if (!to_uint8(argv[i], 4, &verbosity))
+			if (!string_to_uint8(argv[i], 4, &verbosity))
 				{
 				invalid = "verbosity level";
 				goto invalid_argument;
