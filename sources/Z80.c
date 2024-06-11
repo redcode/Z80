@@ -2243,7 +2243,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		/*------------------------------------------------------------.
 		| The CPU is halted. To avoid affecting the speed of the main |
 		| execution loop, this state is executed by a dedicated loop  |
-		| within the function that emulates the `halt` instruction.   |
+		| in the function that emulates the `halt` instruction.	      |
 		'============================================================*/
 		case Z80_RESUME_HALT:
 		if (REQUEST)

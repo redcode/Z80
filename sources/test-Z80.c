@@ -66,14 +66,14 @@ typedef struct {
 	   is compressed. */
 	char const* file_path;
 
-	/* Total number of clock cycles executed when the test is passed. */
+	/* Total number of clock cycles executed when the test passes. */
 	zusize cycles[1 + (Z_USIZE_WIDTH < 64)];
 
-	/* FNV-1 hash of the entire text output when the test is passed
+	/* FNV-1 hash of the entire text output when the test passes
 	   (i.e., of all bytes sent by the program to the print routine). */
 	zuint32 hash;
 
-	/* Memory address where to jump to start executing the program. */
+	/* Memory address to jump to in order to start executing the program. */
 	zuint16 start_address;
 
 	/* Value of the PC register once the program completes. */
@@ -91,10 +91,10 @@ typedef struct {
 	/* Format of the program. */
 	zuint8 format;
 
-	/* Number of lines printed when the test is passed. */
+	/* Number of lines printed when the test passes. */
 	zuint8 lines;
 
-	/* Rightmost position reached by the cursor when the test is passed. */
+	/* Rightmost position reached by the cursor when the test passes. */
 	zuint8 columns;
 } Test;
 
@@ -161,9 +161,9 @@ static zboolean show_test_output;
 
 /*-----------------------------------------------------------------------------.
 | [0]: the byte read from even I/O ports (specified by using the `-0` option). |
-| [0]: the byte read from odd I/O ports (specified by using the `-1` option).  |
-| The default values are those from a Sinclair ZX Spectrum 48K with no devices |
-| attached.								       |
+| [1]: the byte read from odd I/O ports (specified by using the `-1` option).  |
+| The default values are those of a Sinclair ZX Spectrum 48K with no devices   |
+| connected.								       |
 '=============================================================================*/
 
 static zuint8 in_values[2] = {191, 255};
@@ -399,7 +399,7 @@ static zboolean load_file(
 	void*	    buffer
 )
 	{
-	zboolean ok = Z_FALSE;
+	zboolean success = Z_FALSE;
 	FILE *file = fopen(compose_path(search_path, file_path), "rb");
 
 	if (file != Z_NULL)
@@ -409,23 +409,23 @@ static zboolean load_file(
 			!fseek(file, offset, SEEK_SET) &&
 			fread(buffer, size, 1, file) == 1
 		)
-			ok = Z_TRUE;
+			success = Z_TRUE;
 
 		fclose(file);
 		}
 
-	return ok;
+	return success;
 	}
 
 
 static zboolean load_test(char const *search_path, Test const *test, void *buffer)
 	{
 #	ifdef TEST_Z80_WITH_ARCHIVE_EXTRACTION
-		zboolean ok = load_file(
+		zboolean success = load_file(
 			search_path, test->file_path, test->file_size,
 			test->code_offset, test->code_size, buffer);
 
-		if (!ok && test->archive_name != Z_NULL)
+		if (!success && test->archive_name != Z_NULL)
 			{
 			search_path = compose_path(search_path, test->archive_name);
 
@@ -450,7 +450,8 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 
 						if (!strcmp(test->file_path, (char const *)header.fields.name))
 							{
-							ok =	file_size				== test->file_size &&
+							success =
+								file_size				== test->file_size &&
 								gzseek(gz, test->code_offset, SEEK_CUR) != -1		   &&
 								gzread(gz, buffer, test->code_size)	== test->code_size;
 
@@ -486,7 +487,7 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 						if (	zip_fread(file, buffer, test->code_offset) == test->code_offset &&
 							zip_fread(file, buffer, test->code_size)   == test->code_size
 						)
-							ok = Z_TRUE;
+							success = Z_TRUE;
 
 						zip_fclose(file);
 						}
@@ -496,7 +497,7 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 				}
 			}
 
-		return ok;
+		return success;
 
 #	else
 		return load_file(
@@ -850,7 +851,7 @@ int main(int argc, char **argv)
 			if (s > maximum_search_path_size) maximum_search_path_size = s;
 
 			if ((p = realloc(search_paths, (search_path_count + 1) * sizeof(char *))) == Z_NULL)
-				goto not_enough_memory_available;
+				goto cannot_allocate_memory;
 
 			search_paths = p;
 			search_paths[search_path_count++] = argv[i];
@@ -902,8 +903,8 @@ int main(int argc, char **argv)
 		(path_buffer = malloc(maximum_search_path_size + 110)) == Z_NULL
 	)
 		{
-		not_enough_memory_available:
-		fputs("test-Z80: Not enough memory available.", stderr);
+		cannot_allocate_memory:
+		fputs("test-Z80: Cannot allocate memory.", stderr);
 		goto exit_with_error;
 		}
 
