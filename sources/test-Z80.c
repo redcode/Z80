@@ -847,7 +847,14 @@ int main(int argc, char **argv)
 			zusize s;
 			char **p;
 
-			if (++i == argc || !(s = strlen(argv[i]))) goto incomplete_option;
+			if (++i == argc) goto incomplete_option;
+
+			if (!(s = strlen(argv[i])))
+				{
+				invalid = "path";
+				goto invalid_argument;
+				}
+
 			if (s > maximum_search_path_size) maximum_search_path_size = s;
 
 			if ((p = realloc(search_paths, (search_path_count + 1) * sizeof(char *))) == Z_NULL)
