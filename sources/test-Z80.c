@@ -160,8 +160,8 @@ static zuint8   verbosity = 4;
 static zboolean show_test_output;
 
 /*-----------------------------------------------------------------------------.
-| [0]: the byte read from even I/O ports (specified by using the `-0` option). |
-| [1]: the byte read from odd I/O ports (specified by using the `-1` option).  |
+| [0]: The byte read from even I/O ports (specified by using the `-0` option). |
+| [1]: The byte read from odd I/O ports (specified by using the `-1` option).  |
 | The default values are those of a Sinclair ZX Spectrum 48K with no devices   |
 | connected.								       |
 '=============================================================================*/
@@ -195,7 +195,7 @@ static zuint32  hash;
 | bytes before continuing to print characters. `zx_spectrum_bad_character` is  |
 | set to `Z_TRUE` if the test prints any unsupported control characters.       |
 |									       |
-| To learn more about the TAB control sequence of the ZX Spectrum, read:       |
+| For more information about the TAB control sequence of the ZX Spectrum, see: |
 | * Sinclair Research (1983). "Sinclair ZX Spectrum BASIC Programming" 2nd     |
 |   ed., pp. 103, 196.							       |
 | * Ardley, Neil (1984). "ZX Spectrum + User Guide" (Dorling Kindersley;       |
