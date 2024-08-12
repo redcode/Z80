@@ -67,8 +67,6 @@ jobs:
     - name: Configure CMake
       run: >-
         cmake
-        -S "${{github.workspace}}"
-        -B "${{github.workspace}}/build"
         -DBUILD_SHARED_LIBS=${{env.BUILD_SHARED_LIBS}}
         -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}}
         -DZ80_FETCH_TEST_FILES=${{env.Z80_FETCH_TEST_FILES}}
@@ -86,6 +84,8 @@ jobs:
         -DZ80_WITH_SPECIAL_RESET=${{env.Z80_WITH_SPECIAL_RESET}}
         -DZ80_WITH_UNOFFICIAL_RETI=${{env.Z80_WITH_UNOFFICIAL_RETI}}
         -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=${{env.Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG}}
+        -B "${{github.workspace}}/build"
+        -S "${{github.workspace}}"
 
     - name: Build
       run: cmake --build "${{github.workspace}}/build" --config ${{env.CMAKE_BUILD_TYPE}} --verbose

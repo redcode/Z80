@@ -51,8 +51,6 @@ jobs:
     - name: Configure CMake
       run: >-
         cmake
-        -S "${{github.workspace}}"
-        -B "${{github.workspace}}/build"
         -DBUILD_SHARED_LIBS=${{env.BUILD_SHARED_LIBS}}
         -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}}
         -DZ80_FETCH_TEST_FILES=${{env.Z80_FETCH_TEST_FILES}}
@@ -62,6 +60,8 @@ jobs:
         -DZ80_WITH_PKGCONFIG_SUPPORT=${{env.Z80_WITH_PKGCONFIG_SUPPORT}}
         -DZ80_WITH_STANDARD_DOCUMENTS=${{env.Z80_WITH_STANDARD_DOCUMENTS}}
         -DZ80_WITH_TESTS=${{env.Z80_WITH_TESTS}}
+        -B "${{github.workspace}}/build"
+        -S "${{github.workspace}}"
 
     - name: Build HTML documentation
       run: cmake --build "${{github.workspace}}/build" --config ${{env.CMAKE_BUILD_TYPE}} --target Z80-Documentation-HTML --verbose
