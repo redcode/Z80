@@ -261,6 +261,7 @@ subproject will automatically find Zeta and import it as an interface library).
 It is advisable to configure the Z80 library in the CMakeLists.txt of the parent
 project. This will prevent the user from having to specify configuration options
 for the Z80 subproject through the command line when building the main project.
+See section 3 of this document for a list of available configuration options.
 
 Example:
 
