@@ -393,7 +393,7 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				"test-Z80 to be built without archive extraction support. When "
 				"this happens, the build system extracts the test files that "
 				"are compressed so that test-Z80 can use them later, but this "
-				"has failed because the version of CMake you are using is too"
+				"has failed because the version of CMake you are using is too "
 				"old and does not support archive extraction.\n"
 				"To fix this, extract all files with `.tar.gz` or `.zip` extension "
 				"located in "
