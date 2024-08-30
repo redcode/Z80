@@ -159,7 +159,7 @@ static zuint  search_path_count = 0;
 
 static zuint8	   verbosity = 4;
 static zboolean	   show_test_output;
-static const char *test_spacing;
+static const char* test_spacing;
 
 /*-----------------------------------------------------------------------------.
 | [0]: The byte read from even I/O ports (specified by using the `-0` option). |
