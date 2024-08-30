@@ -8,4 +8,4 @@ It is required that contributors assign copyright to the original author so that
 
 By submitting this PR, you agree to the following:
 
-> You hereby assign copyright in this PR's code to the original author of the Z80 library, Manuel Sainz de Baranda y Goñi, to be licensed under the same terms as the rest of the code. You agree to relinquish any and all copyright interest in the software, to the detriment of your heirs and successors.
+> You hereby assign the copyright in the code of this pull request to the original author of the Z80 library, Manuel Sainz de Baranda y Goñi, to be licensed under the same terms as the rest of the code. You agree to relinquish any and all copyright interest in the software, to the detriment of your heirs and successors.
