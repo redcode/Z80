@@ -153,11 +153,13 @@ static zuint  search_path_count = 0;
 
 /*-----------------------------------------------------------------------------.
 | `verbosity` contains the verbosity level specified by using the `-v` option; |
-| `show_test_output` indicates whether to print the text output of the tests.  |
+| `show_test_output` indicates whether to print the text output of the tests;  |
+| `test_spacing` points to the string to print beetween each test: "\n" or "". |
 '=============================================================================*/
 
-static zuint8   verbosity = 4;
-static zboolean show_test_output;
+static zuint8	   verbosity = 4;
+static zboolean	   show_test_output;
+static const char *test_spacing;
 
 /*-----------------------------------------------------------------------------.
 | [0]: The byte read from even I/O ports (specified by using the `-0` option). |
@@ -543,10 +545,7 @@ static zuint8 run_test(int test_index)
 	)
 		{
 		error_loading_file:
-		if (verbosity) puts(show_test_output
-			? "error, test skipped\n"
-			: "error, test skipped");
-
+		if (verbosity) printf("error, test skipped\n%s", test_spacing);
 		return Z_FALSE;
 		}
 
@@ -690,14 +689,14 @@ static zuint8 run_test(int test_index)
 			if (failure == Z_NULL) puts(&new_line[has_final_new_line]);
 
 			else printf(
-				"%s>>> Test failed: %s.\n\n",
+				"%s> Test failed: %s.\n\n",
 				&new_line[!lines || (completed && has_final_new_line)],
 				failure);
 			}
 
 		else	{
-			if (failure == Z_NULL) puts ("passed");
-			else printf("failed: %s\n", failure);
+			if (failure == Z_NULL) printf("passed\n%s", test_spacing);
+			else printf("failed: %s\n%s", failure, test_spacing);
 			}
 		}
 
@@ -915,12 +914,14 @@ int main(int argc, char **argv)
 		goto exit_with_error;
 		}
 
+	show_test_output = verbosity == 4;
+	test_spacing = &new_line[verbosity < 3];
+
 	/*---------------------------------------------------------------.
 	| Disable output buffering if verbosity is enabled, so that the  |
 	| messages are visible immediately rather than after each ENTER. |
 	'===============================================================*/
 	if (verbosity) setvbuf(stdout, Z_NULL, _IONBF, 0);
-	show_test_output = verbosity == 4;
 
 	/* Configure the Z80 CPU emulator. */
 
@@ -978,7 +979,7 @@ int main(int argc, char **argv)
 	| Print the results summary. |
 	'===========================*/
 	printf(	"%sResults%s: %u test%s passed, %u failed.\n",
-		&new_line[!verbosity || show_test_output],
+		&new_line[!verbosity || *test_spacing],
 		show_test_output ? " summary" : "",
 		results[1],
 		results[1] == 1 ? "" : "s",
