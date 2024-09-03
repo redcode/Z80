@@ -535,14 +535,12 @@ static zuint8 run_test(int test_index)
 
 	memset(memory, 0, Z_USIZE(65536));
 
-	for (;	i < search_path_count &&
-		!load_test(search_paths[i], test, memory + (start_address & Z_UINT16(0xFF00)));
-		i++
+	for (	i = search_path_count;
+		i && !load_test(search_paths[i - 1], test, &memory[start_address & Z_UINT16(0xFF00)]);
+		i--
 	);
 
-	if (	i == search_path_count &&
-		!load_test(Z_NULL, test, memory + (start_address & Z_UINT16(0xFF00)))
-	)
+	if (!i && !load_test(Z_NULL, test, &memory[start_address & Z_UINT16(0xFF00)]))
 		{
 		error_loading_file:
 		if (verbosity) printf("error, test skipped\n%s", test_spacing);
@@ -571,15 +569,12 @@ static zuint8 run_test(int test_index)
 			{
 			if (verbosity >= 3) printf("* Loading firmware... ");
 
-			for (	i = 0;
-				i < search_path_count &&
-				!load_file(search_paths[i], "ZX Spectrum.rom", 16384, 0, 16384, memory);
-				i++
+			for (	i = search_path_count;
+				i && !load_file(search_paths[i - 1], "ZX Spectrum.rom", 16384, 0, 16384, memory);
+				i--
 			);
 
-			if (	i == search_path_count &&
-				!load_file(Z_NULL, "ZX Spectrum.rom", 16384, 0, 16384, memory)
-			)
+			if (!i && !load_file(Z_NULL, "ZX Spectrum.rom", 16384, 0, 16384, memory))
 				goto error_loading_file;
 
 			if (verbosity >= 3) puts("OK");
