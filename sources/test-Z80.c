@@ -511,14 +511,14 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 
 static zuint8 run_test(int test_index)
 	{
-	char const *failure = Z_NULL;
+	char const *failure;
 	Test const *test = &tests[test_index];
 	zuint16 start_address = test->start_address;
-	zusize cycles = 0;
-	zuint i = 0;
+	zusize cycles;
+	zuint i;
 
 #	if Z_USIZE_WIDTH < 64
-		zuint32 j = 0;
+		zuint32 j;
 #	endif
 
 	if (verbosity)
@@ -629,6 +629,8 @@ static zuint8 run_test(int test_index)
 	if (verbosity >= 3) printf("* Running program%s", show_test_output ? ":\n\n" : "... ");
 
 #	if Z_USIZE_WIDTH < 64
+		j = 0;
+
 		for (i = 0; i < test->cycles[1];)
 			{
 			cycles = RUN(&cpu, Z_UINT32_MAXIMUM / 2);
@@ -675,6 +677,8 @@ static zuint8 run_test(int test_index)
 	)
 		failure = "incorrect number of clock cycles";
 
+	else failure = Z_NULL;
+
 	if (verbosity)
 		{
 		if (show_test_output)
@@ -717,8 +721,8 @@ static zboolean string_to_uint8(char const* string, zuint8 maximum, zuint8 *valu
 int main(int argc, char **argv)
 	{
 	zboolean all = Z_FALSE;
-	zuint32 tests_run = 0;
 	zusize maximum_search_path_size = 0;
+	zuint32 tests_run;
 	int j, i = 0;
 
 	/*--------------------------------------------.
@@ -957,7 +961,7 @@ int main(int argc, char **argv)
 	/*------------------------------------------------------------.
 	| Run the tests whose numbers have been explicitly specified. |
 	'============================================================*/
-	while (j < argc)
+	for (tests_run = 0; j < argc;)
 		{
 		tests_run |= Z_UINT32(1) << (i = atoi(argv[j++]));
 		results[run_test(i)]++;
