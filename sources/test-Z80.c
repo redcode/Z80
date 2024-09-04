@@ -438,19 +438,19 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 
 				if (gz != Z_NULL)
 					{
-					union {zuint8 data[Z_TAR_BLOCK_SIZE]; Z_TARPOSIXHeader fields;} header;
+					union {zuint8 data[Z_TAR_BLOCK_SIZE]; Z_TARPOSIXHeader header;} block;
 
 					while (!gzeof(gz))
 						{
 						char *end;
 						zulong file_size, block_tail_size;
 
-						if (gzread(gz, header.data, Z_TAR_BLOCK_SIZE) != Z_TAR_BLOCK_SIZE) break;
-						header.fields.size[Z_ARRAY_SIZE(header.fields.size) - 1] = 0;
-						file_size = strtoul((char const *)header.fields.size, &end, 8);
-						if ((zuint8 *)end == header.fields.size || *end) break;
+						if (gzread(gz, block.data, Z_TAR_BLOCK_SIZE) != Z_TAR_BLOCK_SIZE) break;
+						block.header.size[Z_ARRAY_SIZE(block.header.size) - 1] = 0;
+						file_size = strtoul((char const *)block.header.size, &end, 8);
+						if ((zuint8 *)end == block.header.size || *end) break;
 
-						if (!strcmp(test->file_path, (char const *)header.fields.name))
+						if (!strcmp(test->file_path, (char const *)block.header.name))
 							{
 							success =
 								file_size				== test->file_size &&
@@ -460,9 +460,12 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 							break;
 							}
 
-						if (-1 == gzseek(gz, (block_tail_size = (file_size % Z_TAR_BLOCK_SIZE))
-							? file_size + (Z_TAR_BLOCK_SIZE - block_tail_size)
-							: file_size, SEEK_CUR)
+						if (-1 == gzseek(
+							gz,
+							(block_tail_size = (file_size % Z_TAR_BLOCK_SIZE))
+								? file_size + (Z_TAR_BLOCK_SIZE - block_tail_size)
+								: file_size,
+							SEEK_CUR)
 						)
 							break;
 						}
