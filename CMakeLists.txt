@@ -395,9 +395,9 @@ if(${PROJECT_NAME}_WITH_TESTS)
 				"are compressed so that test-Z80 can use them later, but this "
 				"has failed because the version of CMake you are using is too "
 				"old and does not support archive extraction.\n"
-				"To fix this, extract all files with `.tar.gz` or `.zip` extension "
-				"located in "
-				"`${CMAKE_CURRENT_BINARY_DIR}/depot/software/**/`")
+				"To fix this, expand all archives with \".tar.gz\" or \".zip\" "
+				"extension located in "
+				"\"${CMAKE_CURRENT_BINARY_DIR}/depot/software/**/\".")
 		endif()
 	endif()
 
