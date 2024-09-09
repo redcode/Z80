@@ -545,8 +545,10 @@ static zuint8 run_test(int test_index)
 
 	if (!i && !load_test(Z_NULL, test, &memory[start_address & Z_UINT16(0xFF00)]))
 		{
+		failure = "program";
 		error_loading_file:
-		if (verbosity) printf("error, test skipped\n%s", test_spacing);
+		if (verbosity > 2) printf("error\n%s", test_spacing);
+		else if (verbosity) printf("error: cannot load %s\n%s", failure, test_spacing);
 		return Z_FALSE;
 		}
 
@@ -578,7 +580,10 @@ static zuint8 run_test(int test_index)
 			);
 
 			if (!i && !load_file(Z_NULL, "ZX Spectrum.rom", 16384, 0, 16384, memory))
+				{
+				failure = "firmware";
 				goto error_loading_file;
+				}
 
 			if (verbosity >= 3) puts("OK");
 			Z80_SP(cpu) = 0x7FE8;
@@ -845,8 +850,8 @@ int main(int argc, char **argv)
 
 		else if (string_is_option(argv[i], "-p", "--path"))
 			{
-			zusize s;
 			char **p;
+			zusize s;
 
 			if (++i == argc) goto incomplete_option;
 
