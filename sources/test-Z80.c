@@ -393,22 +393,22 @@ static char const *compose_path(char const *base_path, char const *file_path)
 
 
 static zboolean load_file(
-	char const* search_path,
+	char const* base_path,
 	char const* file_path,
-	zuint32	    file_size,
+	zuint16	    file_size,
 	zuint16	    offset,
 	zuint16	    size,
 	void*	    buffer
 )
 	{
 	zboolean success = Z_FALSE;
-	FILE *file = fopen(compose_path(search_path, file_path), "rb");
+	FILE *file = fopen(compose_path(base_path, file_path), "rb");
 
 	if (file != Z_NULL)
 		{
-		if (	!fseek(file, 0, SEEK_END)      &&
-			ftell(file) == file_size       &&
-			!fseek(file, offset, SEEK_SET) &&
+		if (	!fseek(file, 0, SEEK_END)	 &&
+			(zulong)ftell(file) == file_size &&
+			!fseek(file, offset, SEEK_SET)	 &&
 			fread(buffer, size, 1, file) == 1
 		)
 			success = Z_TRUE;
@@ -443,7 +443,7 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 					while (!gzeof(gz))
 						{
 						char *end;
-						zulong file_size, block_tail_size;
+						zulong file_size;
 
 						if (gzread(gz, block.data, Z_TAR_BLOCK_SIZE) != Z_TAR_BLOCK_SIZE) break;
 						block.header.size[Z_ARRAY_SIZE(block.header.size) - 1] = 0;
@@ -453,23 +453,26 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 						if (!strcmp(test->file_path, (char const *)block.header.name))
 							{
 							success =
-								file_size				== test->file_size &&
-								gzseek(gz, test->code_offset, SEEK_CUR) != -1		   &&
-								gzread(gz, buffer, test->code_size)	== test->code_size;
+								file_size == test->file_size			       &&
+								gzseek(gz, (z_off_t)test->code_offset, SEEK_CUR) != -1 &&
+								(zuint)gzread(gz, buffer, test->code_size) == test->code_size;
 
 							break;
 							}
 
-						if (-1 == gzseek(
-							gz,
-							(block_tail_size = (file_size % Z_TAR_BLOCK_SIZE))
-								? file_size + (Z_TAR_BLOCK_SIZE - block_tail_size)
-								: file_size,
-							SEEK_CUR)
+						if (file_size % Z_TAR_BLOCK_SIZE)
+							file_size += Z_TAR_BLOCK_SIZE - (file_size % Z_TAR_BLOCK_SIZE);
+
+						for (;	file_size  > (zulong)(Z_SINT_MAXIMUM / 2);
+							file_size -= (zulong)(Z_SINT_MAXIMUM / 2)
 						)
-							break;
+							if (gzseek(gz, (z_off_t)(Z_SINT_MAXIMUM / 2), SEEK_CUR) == -1)
+								goto close_gz;
+
+						if (gzseek(gz, (z_off_t)file_size, SEEK_CUR) == -1) break;
 						}
 
+					close_gz:
 					gzclose(gz);
 					}
 				}
@@ -490,7 +493,7 @@ static zboolean load_test(char const *search_path, Test const *test, void *buffe
 					)
 						{
 						if (	zip_fread(file, buffer, test->code_offset) == test->code_offset &&
-							zip_fread(file, buffer, test->code_size)   == test->code_size
+							zip_fread(file, buffer, test->code_size  ) == test->code_size
 						)
 							success = Z_TRUE;
 
