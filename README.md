@@ -385,6 +385,10 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 	Choose the type of build (configuration) to generate.  
 	The default is `Release`.
 
+* <span id="cmake_option_cmake_install_name_dir">**<code>-D[CMAKE_INSTALL_NAME_DIR](https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_NAME_DIR.html)="\<path\>"</code>**</span>  
+	Specify the [directory portion](https://developer.apple.com/documentation/xcode/build-settings-reference#Dynamic-Library-Install-Name-Base) of the [dynamic library install name](https://developer.apple.com/documentation/xcode/build-settings-reference#Dynamic-Library-Install-Name) on Apple platforms (for installed shared libraries).  
+	Not defined by default.
+
 * <span id="cmake_option_cmake_install_prefix">**<code>-D[CMAKE_INSTALL_PREFIX](https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html)="\<path\>"</code>**</span>  
 	Specify the installation prefix.  
 	The default is `"/usr/local"` (on [UNIX](https://en.wikipedia.org/wiki/Unix) and [UNIX-like](https://en.wikipedia.org/wiki/Unix-like) operating systems).
@@ -512,7 +516,7 @@ cd Zeta
 mkdir build && cd build
 cmake \
 	-DCMAKE_BUILD_TYPE=Release \
-	-DCMAKE_INSTALL_PREFIX=$HOME/.local \
+	-DCMAKE_INSTALL_PREFIX="$HOME/.local" \
 	-DZeta_WITH_CMAKE_SUPPORT=YES \
 	-DZeta_WITH_PKGCONFIG_SUPPORT=YES \
 	..
@@ -522,7 +526,8 @@ mkdir build && cd build
 cmake \
 	-DBUILD_SHARED_LIBS=YES \
 	-DCMAKE_BUILD_TYPE=Release \
-	-DCMAKE_INSTALL_PREFIX=$HOME/.local \
+	-DCMAKE_INSTALL_NAME_DIR="\${CMAKE_INSTALL_LIBDIR}" \
+	-DCMAKE_INSTALL_PREFIX="$HOME/.local" \
 	-DZ80_WITH_CMAKE_SUPPORT=YES \
 	-DZ80_WITH_PKGCONFIG_SUPPORT=YES \
 	-DZ80_WITH_EXECUTE=YES \

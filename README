@@ -98,6 +98,11 @@ options. The following are some of the most relevant standard options of CMake:
         Choose the type of build (configuration) to generate.
         The default is `Release`.
 
+    -DCMAKE_INSTALL_NAME_DIR="<path>"
+        Specify the directory portion of the dynamic library install name on
+        Apple platforms (for installed shared libraries).
+        Not defined by default.
+
     -DCMAKE_INSTALL_PREFIX="<path>"
         Specify the installation prefix.
         The default is `/usr/local` (on UNIX and UNIX-like operating systems).
@@ -337,4 +342,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2024-08-25                                               README EOF
+Last update: 2024-09-11                                               README EOF

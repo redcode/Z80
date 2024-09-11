@@ -59,6 +59,11 @@ If in doubt, read the `CMake documentation <https://cmake.org/documentation/>`_ 
    Choose the type of build (configuration) to generate. |br| |nl|
    The default is ``Release``.
 
+.. option:: -DCMAKE_INSTALL_NAME_DIR="<path>"
+
+   Specify the `directory portion <https://developer.apple.com/documentation/xcode/build-settings-reference#Dynamic-Library-Install-Name-Base>`_ of the `dynamic library install name <https://developer.apple.com/documentation/xcode/build-settings-reference#Dynamic-Library-Install-Name>`_ on Apple platforms (for installed shared libraries). |br| |nl|
+   Not defined by default.
+
 .. option:: -DCMAKE_INSTALL_PREFIX="<path>"
 
    Specify the installation prefix. |br| |nl|
