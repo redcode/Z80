@@ -920,7 +920,7 @@ int main(int argc, char **argv)
 	)
 		{
 		cannot_allocate_memory:
-		fputs("test-Z80: Cannot allocate memory.", stderr);
+		fputs("test-Z80: Cannot allocate memory.\n", stderr);
 		goto exit_with_error;
 		}
 
