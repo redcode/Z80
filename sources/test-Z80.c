@@ -241,7 +241,7 @@ static void cpu_halt(void *context, zuint8 state)
 
 /* MARK: - CPU Callbacks: Auxiliary Functions */
 
-static void cr(void)
+static void lf(void)
 	{
 	if (show_test_output) putchar('\n');
 	if (cursor_x > columns) columns = cursor_x;
@@ -273,7 +273,7 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 
 		switch (character)
 			{
-			case 0x0A: /* LF */ cr();
+			case 0x0A: /* LF */ lf();
 			case 0x0D: /* CR */ break;
 
 			default:
@@ -295,7 +295,7 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 			switch (character)
 				{
 				case 0x24: /* $  */ return OPCODE_RET;
-				case 0x0A: /* LF */ cr();
+				case 0x0A: /* LF */ lf();
 				case 0x0D: /* CR */ break;
 
 				default:
@@ -330,8 +330,8 @@ static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 
 	if (!zx_spectrum_tab) switch (character)
 		{
-		case 0x0D: /* CR */
-		cr();
+		case 0x0D: /* ENTER */
+		lf();
 		break;
 
 		case 0x17: /* TAB */
@@ -357,7 +357,7 @@ static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 		{
 		zuint c = character & (32 - 1), x = cursor_x & (32 - 1);
 
-		if (c < x) cr();
+		if (c < x) lf();
 		else cursor_x += (c -= x);
 		if (show_test_output) while (c--) putchar(' ');
 		}
