@@ -34,9 +34,9 @@
   * @date 2024
   * @author Manuel Sainz de Baranda y Goñi */
 
-#ifdef Z80_DEPENDENCIES_HEADER
+#ifdef Z80_EXTERNAL_HEADER
 #	define  Z80_H
-#	include Z80_DEPENDENCIES_HEADER
+#	include Z80_EXTERNAL_HEADER
 #	undef   Z80_H
 #else
 #	include <Z/macros/language.h>

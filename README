@@ -287,7 +287,7 @@ The source code of the emulator can be configured at compile time by predefining
 a series of macros. Both Z80.h and Z80.c obey the first two explained below. The
 rest of the macros are only relevant when compiling Z80.c:
 
-    #define Z80_DEPENDENCIES_HEADER "header-name.h"
+    #define Z80_EXTERNAL_HEADER "header-name.h"
         Specifies the only external header to `#include`, replacing all others.
         Predefine this macro to provide a header file that defines the external
         types and macros used by the emulator, thus preventing your project from
@@ -318,8 +318,8 @@ have the same name as their CMake equivalents:
     #define Z80_WITH_UNOFFICIAL_RETI
     #define Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 
-Except for `Z80_DEPENDENCIES_HEADER`, the above macros can be empty; the source
-code only checks whether they are defined.
+Except for `Z80_EXTERNAL_HEADER`, the above macros can be empty; the source code
+only checks whether they are defined.
 
 Please note that the activation of some of the optional features affects the
 speed of the emulator due to various factors (read the documentation for more
@@ -342,4 +342,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2024-09-11                                               README EOF
+Last update: 2024-09-19                                               README EOF

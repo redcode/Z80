@@ -54,7 +54,7 @@
 |                                                                              |
 '=============================================================================*/
 
-#ifndef Z80_DEPENDENCIES_HEADER
+#ifndef Z80_EXTERNAL_HEADER
 #	include <Z/constants/pointer.h>
 #	include <Z/macros/bitwise.h>
 #	include <Z/macros/structure.h>

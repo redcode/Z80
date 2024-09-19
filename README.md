@@ -632,7 +632,7 @@ It is important to set the [`Z80_SHARED_LIBS`](#cmake_option_z80_shared_libs) op
 
 The source code of the emulator can be configured at compile time by predefining a series of macros. Both [`Z80.h`](API/Z80.h) and [`Z80.c`](sources/Z80.c) obey the first two explained below. The rest of the macros are only relevant when compiling `Z80.c`:
 
-* <span id="macro_z80_dependencies_header">**`#define Z80_DEPENDENCIES_HEADER "header-name.h"`**</span>  
+* <span id="macro_z80_external_header">**`#define Z80_EXTERNAL_HEADER "header-name.h"`**</span>  
 	Specifies the only external header to `#include`, replacing all others.  
 	Predefine this macro to provide a header file that defines the external types and macros used by the emulator, thus preventing your project from depending on [Zeta](https://zeta.st). You can use this when compiling `Z80.c` as a part of your project or (if your types do not break the binary compatibility) when including `<Z80.h>` and linking against a pre-built Z80 library.
 
@@ -653,7 +653,7 @@ The optional features of the emulator mentioned in "[Installation from sources](
 * **<code>#define [Z80_WITH_UNOFFICIAL_RETI](#cmake_option_z80_with_unofficial_reti)</code>**
 * **<code>#define [Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG](#cmake_option_z80_with_zilog_nmos_ld_a_ir_bug)</code>**
 
-Except for [`Z80_DEPENDENCIES_HEADER`](#macro_z80_dependencies_header), the above macros can be empty; the source code only checks whether they are defined.
+Except for [`Z80_EXTERNAL_HEADER`](#macro_z80_external_header), the above macros can be empty; the source code only checks whether they are defined.
 
 > [!NOTE]
 > The activation of some of the optional features affects the speed of the emulator due to various factors (read the [documentation](https://zxe.io/software/Z80/documentation/latest/Introduction.html#optional-features) for more details).

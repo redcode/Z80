@@ -50,7 +50,7 @@ Non-CMake-based projects
 
 The source code of the emulator can be configured at compile time by predefining a series of macros. Both :file:`Z80.h` and :file:`Z80.c` obey the first two explained below. The rest of the macros are only relevant when compiling :file:`Z80.c`:
 
-.. c:macro:: Z80_DEPENDENCIES_HEADER
+.. c:macro:: Z80_EXTERNAL_HEADER
 
    Specifies the only external header to ``#include``, replacing all others.
 
@@ -102,4 +102,4 @@ The :ref:`optional features <Introduction:Optional features>` of the emulator me
 
    Enables the implementation of the bug affecting the Zilog Z80 NMOS, which causes the P/V flag to be reset when a maskable interrupt is accepted during the execution of the ``ld a,{i|r}`` instructions.
 
-Except for :c:macro:`Z80_DEPENDENCIES_HEADER`, the above macros can be empty; the source code only checks whether they are defined.
+Except for :c:macro:`Z80_EXTERNAL_HEADER`, the above macros can be empty; the source code only checks whether they are defined.
