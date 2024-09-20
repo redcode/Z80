@@ -447,7 +447,7 @@ struct Z80 {
 
 	zuint8 iff1; /**< @brief Interrupt enable flip-flop #1 (IFF1). */
 	zuint8 iff2; /**< @brief Interrupt enable flip-flop #2 (IFF2). */
-	zuint8 q;    /**< @brief Pseudo-register Q. */
+	zuint8 q;    /**< @brief Q factor. */
 
 	/** @brief Emulation options.
 	  *
@@ -831,7 +831,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles);
   *
   * This function should only be used inside callback functions. It zeroes
   * <tt>@ref Z80::cycle_limit</tt>, thus breaking the emulation loop after the
-  * ongoing emulation step has finished executing.
+  * completion of the ongoing emulation step.
   *
   * @param self Pointer to the object on which the function is called. */
 
