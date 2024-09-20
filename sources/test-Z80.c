@@ -44,11 +44,10 @@
 #	define RUN z80_run
 #endif
 
-#define OPCODE_NOP	 0x00
-#define OPCODE_RET	 0xC9
-#define OPCODE_HALT	 0x76
-#define OPCODE_CALL_WORD 0xCD
-#define OPCODE_JP_WORD	 0xC3
+#define OPCODE_NOP     0x00
+#define OPCODE_RET     0xC9
+#define OPCODE_HALT    0x76
+#define OPCODE_JP_WORD 0xC3
 
 #define TEST_FORMAT_CPM	     0 /* CP/M program in COM format.		      */
 #define TEST_FORMAT_HARSTON  1 /* Z80 Instruction Set Exerciser for Spectrum. */
@@ -63,17 +62,19 @@ typedef struct {
 	char const* archive_name;
 
 	/* Name of the file, or path to the file inside the archive if the file
-	   is compressed. */
+	 * is compressed. */
 	char const* file_path;
 
 	/* Total number of clock cycles executed when the test passes. */
 	zusize cycles[1 + (Z_USIZE_WIDTH < 64)];
 
 	/* FNV-1 hash of the entire text output when the test passes
-	   (i.e., of all bytes sent by the program to the print routine). */
+	 * (i.e., of all bytes sent by the program to the print routine). */
 	zuint32 hash;
 
-	/* Memory address to jump to in order to start executing the program. */
+	/* Memory address to jump to in order to start executing the program.
+	 * The lower byte is zeroed to obtain the address where to load the
+	 * executable code. */
 	zuint16 start_address;
 
 	/* Value of the PC register once the program completes. */
@@ -118,18 +119,18 @@ static Test const tests[22] = {
 	{"Z80 Instruction Set Exerciser for Spectrum 2 v0.1 (2012-11-27)(Rak, Patrik)[!].zip", "zexall2-0.1/zexall2.tap",	CYCLES(C, 18A43876) /* 51,953,023,094 */, Z_UINT32(0x05C746F7), Z_UINT16(0x8000), Z_UINT16(0x8040),  9316,  9228,  87, TEST_FORMAT_HARSTON,   76, 31},
 	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								CYCLES(0, 9C3040EF) /*	2,620,408,047 */, Z_UINT32(0xF787CA8E), Z_UINT16(0x8057), Z_UINT16(0x80E6),  5573,  5452, 120, TEST_FORMAT_WOODMASS,  50, 32},
 	{Z_NULL, "Z80 Test Suite (2008)(Woodmass, Mark)[!].tap",								CYCLES(0, 0308BF63) /*	   50,904,931 */, Z_UINT32(0xF5AE5140), Z_UINT16(0x8049), Z_UINT16(0x80E6),  5573,  5452, 120, TEST_FORMAT_WOODMASS,  61, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80full.tap",				CYCLES(0, 4303ABF1) /*	1,124,314,097 */, Z_UINT32(0xB8707D12), Z_UINT16(0x8000), Z_UINT16(0x7003), 13758, 13666,  91, TEST_FORMAT_RAK,	     156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80doc.tap",				CYCLES(0, 436E8265) /*	1,131,315,813 */, Z_UINT32(0x9E9DD1F5), Z_UINT16(0x8000), Z_UINT16(0x7003), 13758, 13666,  91, TEST_FORMAT_RAK,	     156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80flags.tap",				CYCLES(0, 20ED11DC) /*	  552,407,516 */, Z_UINT32(0x27CB27A2), Z_UINT16(0x8000), Z_UINT16(0x7003), 13758, 13666,  91, TEST_FORMAT_RAK,	     156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80docflags.tap",			CYCLES(0, 2110B9B1) /*	  554,744,241 */, Z_UINT32(0x3966C46C), Z_UINT16(0x8000), Z_UINT16(0x7003), 13758, 13666,  91, TEST_FORMAT_RAK,	     156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80ccf.tap",				CYCLES(0, 23AB74CA) /*	  598,439,114 */, Z_UINT32(0xB34ED107), Z_UINT16(0x8000), Z_UINT16(0x7003), 14219, 14127,  91, TEST_FORMAT_RAK,	     156, 32},
-	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80memptr.tap",				CYCLES(0, 215CF3BD) /*	  559,739,837 */, Z_UINT32(0x840ACD96), Z_UINT16(0x8000), Z_UINT16(0x7003), 13758, 13666,  91, TEST_FORMAT_RAK,	     156, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80full.tap",				CYCLES(0, 4382DC6A) /*	1,132,649,578 */, Z_UINT32(0x4C578BC6), Z_UINT16(0x8000), Z_UINT16(0x7003), 14390, 14298,  91, TEST_FORMAT_RAK,	     164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80doc.tap",				CYCLES(0, 43EE72CE) /*	1,139,700,430 */, Z_UINT32(0x02114A09), Z_UINT16(0x8000), Z_UINT16(0x7003), 14390, 14298,  91, TEST_FORMAT_RAK,	     164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80flags.tap",			CYCLES(0, 212F17D5) /*	  556,734,421 */, Z_UINT32(0x91826856), Z_UINT16(0x8000), Z_UINT16(0x7003), 14390, 14298,  91, TEST_FORMAT_RAK,	     164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80docflags.tap",			CYCLES(0, 2152FFDA) /*	  559,087,578 */, Z_UINT32(0x408190F0), Z_UINT16(0x8000), Z_UINT16(0x7003), 14390, 14298,  91, TEST_FORMAT_RAK,	     164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80ccf.tap",				CYCLES(0, 23F34E43) /*	  603,147,843 */, Z_UINT32(0x27FF6693), Z_UINT16(0x8000), Z_UINT16(0x7003), 14875, 14783,  91, TEST_FORMAT_RAK,	     164, 32},
-	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80memptr.tap",			CYCLES(0, 219FC276) /*	  564,118,134 */, Z_UINT32(0xDB7B18AA), Z_UINT16(0x8000), Z_UINT16(0x7003), 14390, 14298,  91, TEST_FORMAT_RAK,	     164, 32}};
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80full.tap",				CYCLES(0, 4303ABE0) /*	1,124,314,097 */, Z_UINT32(0xB8707D12), Z_UINT16(0x8000), Z_UINT16(	0), 13758, 13666,  91, TEST_FORMAT_RAK,	     156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80doc.tap",				CYCLES(0, 436E8254) /*	1,131,315,813 */, Z_UINT32(0x9E9DD1F5), Z_UINT16(0x8000), Z_UINT16(	0), 13758, 13666,  91, TEST_FORMAT_RAK,	     156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80flags.tap",				CYCLES(0, 20ED11CB) /*	  552,407,516 */, Z_UINT32(0x27CB27A2), Z_UINT16(0x8000), Z_UINT16(	0), 13758, 13666,  91, TEST_FORMAT_RAK,	     156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80docflags.tap",			CYCLES(0, 2110B9A0) /*	  554,744,241 */, Z_UINT32(0x3966C46C), Z_UINT16(0x8000), Z_UINT16(	0), 13758, 13666,  91, TEST_FORMAT_RAK,	     156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80ccf.tap",				CYCLES(0, 23AB74B9) /*	  598,439,114 */, Z_UINT32(0xB34ED107), Z_UINT16(0x8000), Z_UINT16(	0), 14219, 14127,  91, TEST_FORMAT_RAK,	     156, 32},
+	{"Zilog Z80 CPU Test Suite v1.0 (2012-12-08)(Rak, Patrik)[!].zip", "z80test-1.0/z80memptr.tap",				CYCLES(0, 215CF3AC) /*	  559,739,837 */, Z_UINT32(0x840ACD96), Z_UINT16(0x8000), Z_UINT16(	0), 13758, 13666,  91, TEST_FORMAT_RAK,	     156, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80full.tap",				CYCLES(0, 4382DC59) /*	1,132,649,578 */, Z_UINT32(0x4C578BC6), Z_UINT16(0x8000), Z_UINT16(	0), 14390, 14298,  91, TEST_FORMAT_RAK,	     164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80doc.tap",				CYCLES(0, 43EE72BD) /*	1,139,700,430 */, Z_UINT32(0x02114A09), Z_UINT16(0x8000), Z_UINT16(	0), 14390, 14298,  91, TEST_FORMAT_RAK,	     164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80flags.tap",			CYCLES(0, 212F17C4) /*	  556,734,421 */, Z_UINT32(0x91826856), Z_UINT16(0x8000), Z_UINT16(	0), 14390, 14298,  91, TEST_FORMAT_RAK,	     164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80docflags.tap",			CYCLES(0, 2152FFC9) /*	  559,087,578 */, Z_UINT32(0x408190F0), Z_UINT16(0x8000), Z_UINT16(	0), 14390, 14298,  91, TEST_FORMAT_RAK,	     164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80ccf.tap",				CYCLES(0, 23F34E32) /*	  603,147,843 */, Z_UINT32(0x27FF6693), Z_UINT16(0x8000), Z_UINT16(	0), 14875, 14783,  91, TEST_FORMAT_RAK,	     164, 32},
+	{"Zilog Z80 CPU Test Suite v1.2a (2023-12-02)(Rak, Patrik)[!].zip", "z80test-1.2a/z80memptr.tap",			CYCLES(0, 219FC265) /*	  564,118,134 */, Z_UINT32(0xDB7B18AA), Z_UINT16(0x8000), Z_UINT16(	0), 14390, 14298,  91, TEST_FORMAT_RAK,	     164, 32}};
 
 #undef CYCLES
 
@@ -211,6 +212,17 @@ static zuint	zx_spectrum_tab;
 static zboolean zx_spectrum_bad_character;
 
 
+/* MARK: - CPU Callbacks: Auxiliary Functions */
+
+static void lf(void)
+	{
+	if (show_test_output) putchar('\n');
+	if (cursor_x > columns) columns = cursor_x;
+	cursor_x = 0;
+	lines++;
+	}
+
+
 /* MARK: - CPU Callbacks: Common */
 
 static zuint8 cpu_read(void *context, zuint16 address)
@@ -236,17 +248,6 @@ static void cpu_halt(void *context, zuint8 state)
 	Z_UNUSED(context) Z_UNUSED(state)
 	completed = Z_TRUE;
 	z80_break(&cpu);
-	}
-
-
-/* MARK: - CPU Callbacks: Auxiliary Functions */
-
-static void lf(void)
-	{
-	if (show_test_output) putchar('\n');
-	if (cursor_x > columns) columns = cursor_x;
-	cursor_x = 0;
-	lines++;
 	}
 
 
@@ -371,9 +372,8 @@ static zuint8 zx_spectrum_cpu_fetch_opcode(void *context, zuint16 address)
 	{
 	Z_UNUSED(context)
 
-	return	address == 0x0D6B /* THE 'CLS' COMMAND ROUTINE  */ ||
-		address == 0x1601 /* THE 'CHAN_OPEN' SUBROUTINE */
-			? OPCODE_RET : memory[address];
+	return address == 0x1601 /* 1601: THE 'CHAN_OPEN' SUBROUTINE */
+		? OPCODE_RET : memory[address];
 	}
 
 
@@ -568,11 +568,6 @@ static zuint8 run_test(int test_index)
 		}
 
 	else	{
-		cpu.write = zx_spectrum_cpu_write;
-		cpu.hook  = zx_spectrum_cpu_hook;
-		cpu.im	  = 1;
-		cpu.i	  = 0x3F;
-
 		if (test->format == TEST_FORMAT_WOODMASS)
 			{
 			if (verbosity >= 3) printf("* Loading firmware... ");
@@ -589,10 +584,10 @@ static zuint8 run_test(int test_index)
 				}
 
 			if (verbosity >= 3) puts("OK");
-			Z80_SP(cpu) = 0x7FE8;
-			Z80_AF(cpu) = 0x3222;
 
 			cpu.fetch_opcode = zx_spectrum_cpu_fetch_opcode;
+			Z80_SP(cpu) = 0x7FE8;
+			Z80_AF(cpu) = 0x3222;
 
 			/* 0010: THE 'PRINT A CHARACTER' RESTART */
 			memory[0x0010] = OPCODE_JP_WORD; /* jp PRINT */
@@ -605,26 +600,22 @@ static zuint8 run_test(int test_index)
 
 		else	{
 			cpu.fetch_opcode = cpu_read;
+			if (test->format == TEST_FORMAT_RAK) Z80_SP(cpu) -= 2;
 
 			/* 0010: THE 'PRINT A CHARACTER' RESTART */
 			memory[zx_spectrum_print_hook_address = 0x0010] = Z80_HOOK;
 
-			/* 0D6B: THE 'CLS' COMMAND ROUTINE */
-			memory[0x0D6B] = OPCODE_RET;
-
 			/* 1601: THE 'CHAN_OPEN' SUBROUTINE */
 			memory[0x1601] = OPCODE_RET;
-
-			if (test->format == TEST_FORMAT_RAK)
-				{
-				/* 7000: START */
-				memory[0x7000] = OPCODE_CALL_WORD;
-				memory[0x7001] = (zuint8)start_address;
-				memory[0x7002] = (zuint8)(start_address >> 8);
-				/*memory[0x7003] = HALT;*/
-				start_address = 0x7000;
-				}
 			}
+
+		cpu.write = zx_spectrum_cpu_write;
+		cpu.hook  = zx_spectrum_cpu_hook;
+		cpu.im	  = 1;
+		cpu.i	  = 0x3F;
+
+		/* 0D6B: THE 'CLS' COMMAND ROUTINE */
+		memory[0x0D6B] = OPCODE_RET;
 		}
 
 	memory[test->exit_address] = OPCODE_HALT;
