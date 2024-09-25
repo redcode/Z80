@@ -121,7 +121,7 @@ if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
 
 	install(FILES "${_pdf_documentation_output}"
 		DESTINATION "${CMAKE_INSTALL_DOCDIR}"
-		RENAME "${PROJECT_NAME} v${PROJECT_VERSION}.pdf"
+		RENAME "${PROJECT_NAME}-${PROJECT_VERSION}-documentation.pdf"
 		COMPONENT ${PROJECT_NAME}_Documentation)
 endif()
 
