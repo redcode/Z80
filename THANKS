@@ -15,7 +15,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Bobrowski, Jan
     For fixing the "Z80 Full Instruction Set Exerciser for Spectrum" [6].
 * boo_boo
-    For deciphering the behavior of the MEMPTR register [7,8,9,10].
+    For deciphering the behavior of MEMPTR [7,8,9,10].
 * Brady, Stuart
     For his research on the behavior of the `ccf/scf` instructions [11].
 * Brewer, Tony
@@ -29,7 +29,7 @@ Many thanks to the following individuals (in alphabetical order):
     1. For his corrections to the documentation.
     2. For validating tests on real hardware [14].
 * Chunin, Roman (CHRV)
-    For testing the behavior of the MEMPTR register on real hardware [7,8,9,10].
+    For testing the behavior of MEMPTR on real hardware [7,8,9,10].
 * Conway, Simon (BadBeard)
     For validating the "Z80 Test Suite" on several Z80 clones [15].
 * Cooke, Simon
@@ -49,7 +49,7 @@ Many thanks to the following individuals (in alphabetical order):
     1. For his research work [20].
     2. For writing the first-ever ZX Spectrum emulator [21,22].
 * goodboy
-    For testing the behavior of the MEMPTR register on real hardware [7,8,9,10].
+    For testing the behavior of MEMPTR on real hardware [7,8,9,10].
 * Greenway, Ian
     For testing the behavior of the `ccf/scf` instructions on real hardware [11,
     23].
@@ -67,11 +67,11 @@ Many thanks to the following individuals (in alphabetical order):
 * Iborra Debón, Víctor (Eremus)
     For validating tests on real hardware.
 * icebear
-    For testing the behavior of the MEMPTR register on real hardware [7,8,9,10].
+    For testing the behavior of MEMPTR on real hardware [7,8,9,10].
 * ICEknight
     For validating tests on real hardware.
 * Kladov, Vladimir
-    For deciphering the behavior of the MEMPTR register [7,8,9,10].
+    For deciphering the behavior of MEMPTR [7,8,9,10].
 * Krook, Magnus
     For validating tests on real hardware [30].
 * London, Matthew (mattinx)
@@ -79,7 +79,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Martínez Cantero, Ricardo (Kyp)
     For validating tests on real hardware.
 * Molodtsov, Aleksandr
-    For testing the behavior of the MEMPTR register on real hardware [7,8,9,10].
+    For testing the behavior of MEMPTR on real hardware [7,8,9,10].
 * Nair, Arjun
     For validating tests on real hardware [28].
 * Nicolás-González, César
@@ -119,7 +119,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Wilkinson, Oli (evolutional)
     For validating tests on real hardware [28].
 * Wlodek
-    For testing the behavior of the MEMPTR register on real hardware [7,8,9,10].
+    For testing the behavior of MEMPTR on real hardware [7,8,9,10].
 * Woodmass, Mark (Woody)
     1. For his invaluable contributions to the emuscene.
     2. For writing the "Z80 Test Suite" [15].

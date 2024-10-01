@@ -49,7 +49,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **boo_boo**
 
-  * For deciphering the behavior of the MEMPTR register. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
+  * For deciphering the behavior of MEMPTR. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
 
 * **Brady, Stuart**
 
@@ -73,7 +73,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Chunin, Roman (CHRV)**
 
-  * For testing the behavior of the MEMPTR register on real hardware. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
+  * For testing the behavior of MEMPTR on real hardware. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
 
 * **Conway, Simon (BadBeard)**
 
@@ -110,7 +110,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **goodboy**
 
-  * For testing the behavior of the MEMPTR register on real hardware. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
+  * For testing the behavior of MEMPTR on real hardware. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
 
 * **Greenway, Ian**
 
@@ -137,7 +137,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **icebear**
 
-  * For testing the behavior of the MEMPTR register on real hardware. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
+  * For testing the behavior of MEMPTR on real hardware. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
 
 * **ICEknight**
 
@@ -145,7 +145,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Kladov, Vladimir**
 
-  * For deciphering the behavior of the MEMPTR register. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
+  * For deciphering the behavior of MEMPTR. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
 
 * **Krook, Magnus**
 
@@ -161,7 +161,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Molodtsov, Aleksandr**
 
-  * For testing the behavior of the MEMPTR register on real hardware. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
+  * For testing the behavior of MEMPTR on real hardware. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
 
 * **Nair, Arjun**
 
@@ -231,7 +231,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Wlodek**
 
-  * For testing the behavior of the MEMPTR register on real hardware. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
+  * For testing the behavior of MEMPTR on real hardware. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
 
 * **Woodmass, Mark (Woody)**
 

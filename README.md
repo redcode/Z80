@@ -693,7 +693,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Bobrowski, Jan**  
 	* For fixing the _"Z80 Full Instruction Set Exerciser for Spectrum"_. <sup>[6](#r6)</sup>
 * **boo_boo** <sup>:trophy:</sup>
-	* For deciphering the behavior of the MEMPTR register. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
+	* For deciphering the behavior of MEMPTR. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
 * **Brady, Stuart**
 	* For his research on the behavior of the `ccf/scf` instructions. <sup>[11](#r11)</sup>
 * **Brewer, Tony** <sup>:trophy:</sup>
@@ -707,7 +707,7 @@ Many thanks to the following individuals (in alphabetical order):
 	1. For his corrections to the documentation.
 	2. For validating tests on real hardware. <sup>[14](#r14)</sup>
 * **Chunin, Roman (CHRV)**
-	* For testing the behavior of the MEMPTR register on real hardware. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
+	* For testing the behavior of MEMPTR on real hardware. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
 * **Conway, Simon (BadBeard)**
 	* For validating the _"Z80 Test Suite"_ on several Z80 clones. <sup>[15](#r15)</sup>
 * **Cooke, Simon** <sup>:trophy:</sup>
@@ -726,7 +726,7 @@ Many thanks to the following individuals (in alphabetical order):
 	1. For his research work. <sup>[20](#r20)</sup>
 	2. For writing the first-ever ZX Spectrum emulator. <sup>[21](#r21), [22](#r22)</sup>
 * **goodboy**
-	* For testing the behavior of the MEMPTR register on real hardware. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
+	* For testing the behavior of MEMPTR on real hardware. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
 * **Greenway, Ian**
 	* For testing the behavior of the `ccf/scf` instructions on real hardware. <sup>[11](#r11), [23](#r23)</sup>
 * **Harston, Jonathan Graham**
@@ -743,11 +743,11 @@ Many thanks to the following individuals (in alphabetical order):
 * **Iborra Debón, Víctor (Eremus)**
 	* For validating tests on real hardware.
 * **icebear**
-	* For testing the behavior of the MEMPTR register on real hardware. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
+	* For testing the behavior of MEMPTR on real hardware. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
 * **ICEknight**
 	* For validating tests on real hardware.
 * **Kladov, Vladimir** <sup>:trophy:</sup>
-	* For deciphering the behavior of the MEMPTR register. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
+	* For deciphering the behavior of MEMPTR. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
 * **Krook, Magnus**
 	* For validating tests on real hardware. <sup>[30](#r30)</sup>
 * **London, Matthew (mattinx)**
@@ -755,7 +755,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Martínez Cantero, Ricardo (Kyp)**
 	* For validating tests on real hardware.
 * **Molodtsov, Aleksandr**
-	* For testing the behavior of the MEMPTR register on real hardware. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
+	* For testing the behavior of MEMPTR on real hardware. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
 * **Nair, Arjun**
 	* For validating tests on real hardware. <sup>[28](#r28)</sup>
 * **Nicolás-González, César**
@@ -793,7 +793,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Wilkinson, Oli (evolutional)**
 	* For validating tests on real hardware. <sup>[28](#r28)</sup>
 * **Wlodek**
-	* For testing the behavior of the MEMPTR register on real hardware. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
+	* For testing the behavior of MEMPTR on real hardware. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
 * **Woodmass, Mark (Woody)** <sup>:medal_military:</sup>
 	1. For his invaluable contributions to the emuscene.
 	2. For writing the _"Z80 Test Suite"_. <sup>[15](#r15)</sup>
