@@ -685,19 +685,19 @@ Many thanks to the following individuals (in alphabetical order):
 	2. For discovering the unstable behavior of the `ccf/scf` instructions.
 	3. For his invaluable help.
 * **Banks, David (hoglet)** <sup>:trophy:</sup>
-	1. For cracking the flag behavior of the block instructions. <sup>[2](#r2), [3](#r3)</sup>
+	1. For deciphering the additional flag changes of the block instructions. <sup>[2](#r2), [3](#r3)</sup>
 	2. For his research on the behavior of the `ccf/scf` instructions. <sup>[3](#r3), [4](#r4)</sup>
 * **Beliansky, Anatoly (Tolik_Trek)**
 	* For validating tests on real hardware. <sup>[5](#r5)</sup>
 * **Bobrowski, Jan**  
 	* For fixing the _"Z80 Full Instruction Set Exerciser for Spectrum"_. <sup>[6](#r6)</sup>
 * **boo_boo** <sup>:trophy:</sup>
-	* For cracking the behavior of the MEMPTR register. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
+	* For deciphering the behavior of the MEMPTR register. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
 * **Brady, Stuart**
 	* For his research on the behavior of the `ccf/scf` instructions. <sup>[11](#r11)</sup>
 * **Brewer, Tony** <sup>:trophy:</sup>
 	1. For his research on the special RESET. <sup>[12](#r12), [13](#r13)</sup>
-	2. For helping to crack the flag behavior of the block instructions. <sup>[2](#r2)</sup>
+	2. For helping to decipher the flag behavior of the block instructions. <sup>[2](#r2)</sup>
 	3. For conducting low-level tests on real hardware. <sup>[2](#r2)</sup>
 	4. For helping me to test different undocumented behaviors of the Zilog Z80.
 * **Bystrov, Dmitry (Alone Coder)**
@@ -746,7 +746,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **ICEknight**
 	* For validating tests on real hardware.
 * **Kladov, Vladimir** <sup>:trophy:</sup>
-	* For cracking the behavior of the MEMPTR register. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
+	* For deciphering the behavior of the MEMPTR register. <sup>[7](#r7), [8](#r8), [9](#r9), [10](#r10)</sup>
 * **Krook, Magnus**
 	* For validating tests on real hardware. <sup>[30](#r30)</sup>
 * **London, Matthew (mattinx)**
@@ -768,7 +768,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For his research on the state of the registers after POWER-ON. <sup>[31](#r31)</sup>
 * **Rak, Patrik** <sup>:trophy:</sup>
 	1. For improving the _"Z80 Instruction Set Exerciser for Spectrum"_. <sup>[32](#r32)</sup>
-	2. For cracking the behavior of the `ccf/scf` instructions. <sup>[15](#r15), [32](#r32)</sup>
+	2. For deciphering the behavior of the `ccf/scf` instructions. <sup>[15](#r15), [32](#r32)</sup>
 	3. For writing the _"Zilog Z80 CPU Test Suite"_. <sup>[32](#r32), [33](#r33)</sup>
 	4. For his research on the unstable behavior of the `ccf/scf` instructions.
 * **Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)**

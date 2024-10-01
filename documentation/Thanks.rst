@@ -36,7 +36,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Banks, David (hoglet)**
 
-  1. For cracking the flag behavior of the block instructions. |re| |fe| :ref:`2<r2>`, :ref:`3<r3>` |ren| |ces|
+  1. For deciphering the additional flag changes of the block instructions. |re| |fe| :ref:`2<r2>`, :ref:`3<r3>` |ren| |ces|
   2. For his research on the behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`3<r3>`, :ref:`4<r4>` |ren| |ces|
 
 * **Beliansky, Anatoly (Tolik_Trek)**
@@ -49,7 +49,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **boo_boo**
 
-  * For cracking the behavior of the MEMPTR register. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
+  * For deciphering the behavior of the MEMPTR register. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
 
 * **Brady, Stuart**
 
@@ -58,7 +58,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Brewer, Tony**
 
   1. For his research on the special RESET. |re| |fe| :ref:`12<r12>`, :ref:`13<r13>` |ren| |ces|
-  2. For helping to crack the flag behavior of the block instructions. |re| |fe| :ref:`2<r2>` |ren| |ces|
+  2. For helping to decipher the flag behavior of the block instructions. |re| |fe| :ref:`2<r2>` |ren| |ces|
   3. For conducting low-level tests on real hardware. |re| |fe| :ref:`2<r2>` |ren| |ces|
   4. For helping me to test different undocumented behaviors of the Zilog Z80.
 
@@ -145,7 +145,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Kladov, Vladimir**
 
-  * For cracking the behavior of the MEMPTR register. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
+  * For deciphering the behavior of the MEMPTR register. |re| |fe| :ref:`7<r7>`, :ref:`8<r8>`, :ref:`9<r9>`, :ref:`10<r10>` |ren| |ces|
 
 * **Krook, Magnus**
 
@@ -187,7 +187,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Rak, Patrik**
 
   1. For improving the *"Z80 Instruction Set Exerciser for Spectrum"*. |re| |fe| :ref:`32<r32>` |ren| |ces|
-  2. For cracking the behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`15<r15>`, :ref:`32<r32>` |ren| |ces|
+  2. For deciphering the behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`15<r15>`, :ref:`32<r32>` |ren| |ces|
   3. For writing the *"Zilog Z80 CPU Test Suite"*. |re| |fe| :ref:`32<r32>`, :ref:`33<r33>` |ren| |ces|
   4. For his research on the unstable behavior of the ``ccf/scf`` instructions.
 

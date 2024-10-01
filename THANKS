@@ -7,19 +7,20 @@ Many thanks to the following individuals (in alphabetical order):
     2. For discovering the unstable behavior of the `ccf/scf` instructions.
     3. For his invaluable help.
 * Banks, David (hoglet)
-    1. For cracking the flag behavior of the block instructions [2,3].
+    1. For deciphering the additional flag changes of the block instructions
+       [2,3].
     2. For his research on the behavior of the `ccf/scf` instructions [3,4].
 * Beliansky, Anatoly (Tolik_Trek)
     For validating tests on real hardware [5].
 * Bobrowski, Jan
     For fixing the "Z80 Full Instruction Set Exerciser for Spectrum" [6].
 * boo_boo
-    For cracking the behavior of the MEMPTR register [7,8,9,10].
+    For deciphering the behavior of the MEMPTR register [7,8,9,10].
 * Brady, Stuart
     For his research on the behavior of the `ccf/scf` instructions [11].
 * Brewer, Tony
     1. For his research on the special RESET [12,13].
-    2. For helping to crack the flag behavior of the block instructions [2].
+    2. For helping to decipher the flag behavior of the block instructions [2].
     3. For conducting low-level tests on real hardware [2].
     4. For helping me to test different undocumented behaviors of the Zilog Z80.
 * Bystrov, Dmitry (Alone Coder)
@@ -70,7 +71,7 @@ Many thanks to the following individuals (in alphabetical order):
 * ICEknight
     For validating tests on real hardware.
 * Kladov, Vladimir
-    For cracking the behavior of the MEMPTR register [7,8,9,10].
+    For deciphering the behavior of the MEMPTR register [7,8,9,10].
 * Krook, Magnus
     For validating tests on real hardware [30].
 * London, Matthew (mattinx)
@@ -93,7 +94,7 @@ Many thanks to the following individuals (in alphabetical order):
     For his research on the state of the registers after POWER-ON [31].
 * Rak, Patrik
     1. For improving the "Z80 Instruction Set Exerciser for Spectrum" [32].
-    2. For cracking the behavior of the `ccf/scf` instructions [15,32].
+    2. For deciphering the behavior of the `ccf/scf` instructions [15,32].
     3. For writing the "Zilog Z80 CPU Test Suite" [32,33].
     4. For his research on the unstable behavior of the `ccf/scf` instructions.
 * Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)
