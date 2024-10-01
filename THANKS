@@ -20,7 +20,8 @@ Many thanks to the following individuals (in alphabetical order):
     For his research on the behavior of the `ccf/scf` instructions [11].
 * Brewer, Tony
     1. For his research on the special RESET [12,13].
-    2. For helping to decipher the flag behavior of the block instructions [2].
+    2. For helping to decipher the additional flag changes of the block
+       instructions [2].
     3. For conducting low-level tests on real hardware [2].
     4. For helping me to test different undocumented behaviors of the Zilog Z80.
 * Bystrov, Dmitry (Alone Coder)

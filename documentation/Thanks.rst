@@ -58,7 +58,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Brewer, Tony**
 
   1. For his research on the special RESET. |re| |fe| :ref:`12<r12>`, :ref:`13<r13>` |ren| |ces|
-  2. For helping to decipher the flag behavior of the block instructions. |re| |fe| :ref:`2<r2>` |ren| |ces|
+  2. For helping to decipher the additional flag changes of the block instructions. |re| |fe| :ref:`2<r2>` |ren| |ces|
   3. For conducting low-level tests on real hardware. |re| |fe| :ref:`2<r2>` |ren| |ces|
   4. For helping me to test different undocumented behaviors of the Zilog Z80.
 

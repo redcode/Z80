@@ -698,7 +698,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For his research on the behavior of the `ccf/scf` instructions. <sup>[11](#r11)</sup>
 * **Brewer, Tony** <sup>:trophy:</sup>
 	1. For his research on the special RESET. <sup>[12](#r12), [13](#r13)</sup>
-	2. For helping to decipher the flag behavior of the block instructions. <sup>[2](#r2)</sup>
+	2. For helping to decipher the additional flag changes of the block instructions. <sup>[2](#r2)</sup>
 	3. For conducting low-level tests on real hardware. <sup>[2](#r2)</sup>
 	4. For helping me to test different undocumented behaviors of the Zilog Z80.
 * **Bystrov, Dmitry (Alone Coder)**
