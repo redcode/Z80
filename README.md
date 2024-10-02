@@ -663,6 +663,7 @@ Except for [`Z80_EXTERNAL_HEADER`](#macro_z80_external_header), the above macros
 This emulator has been used by the following projects (listed in alphabetical order):
 
 * **[Augmentinel](https://simonowen.com/spectrum/augmentinel/)** <sub>_by [Simon Owen](https://simonowen.com)_</sub> ⟩ [GitHub](https://github.com/simonowen/augmentinel)
+* **ceda-cemu** <sub>_by [Retrofficina GLG Programs](https://retrofficina.glgprograms.it)_</sub> ⟩ [GitHub](https://github.com/GLGPrograms/ceda-cemu)
 * **CPM-Emulator** <sub>_by [Marc Sibert](https://github.com/Marcussacapuces91)_</sub> ⟩ [GitHub](https://github.com/Marcussacapuces91/CPM-Emulator)
 * **F80: simple Z80 system running on an FPGA** <sub>_by [Richard J. Prinz](https://www.min.at/prinz)_</sub> ⟩ [GitHub](https://github.com/rprinz08/f80)
 * **[Google Capture the Flag (2021)](https://capturetheflag.withgoogle.com)** <sub>_by [Google](https://www.google.com)_</sub> ⟩ [GitHub](https://github.com/google/google-ctf)
