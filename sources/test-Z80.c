@@ -611,7 +611,6 @@ static zuint8 run_test(int test_index)
 
 		cpu.write = zx_spectrum_cpu_write;
 		cpu.hook  = zx_spectrum_cpu_hook;
-		cpu.im	  = 1;
 		cpu.i	  = 0x3F;
 
 		/* 0D6B: THE 'CLS' COMMAND ROUTINE */
