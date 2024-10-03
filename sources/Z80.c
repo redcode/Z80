@@ -957,13 +957,13 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 |									       |
 | References:								       |
 | 1. https://stardot.org.uk/forums/viewtopic.php?t=15464		       |
-|    1. https://stardot.org.uk/forums/viewtopic.php?p=211042#p211042	       |
-|    2. https://stardot.org.uk/forums/viewtopic.php?p=212021#p212021	       |
+|     1. https://stardot.org.uk/forums/viewtopic.php?p=211042#p211042	       |
+|     2. https://stardot.org.uk/forums/viewtopic.php?p=212021#p212021	       |
 | 2. Banks, David (2018-08-21). "Undocumented Z80 Flags" rev. 1.0.	       |
-|    * https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags	       |
-|    * https://stardot.org.uk/forums/download/file.php?id=39831		       |
+|     * https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags	       |
+|     * https://stardot.org.uk/forums/download/file.php?id=39831	       |
 | 3. Helcmanovsky, Peter (2021/2022). "Z80 Block Flags Test".		       |
-|    * https://github.com/MrKWatkins/ZXSpectrumNextTests		       |
+|     * https://github.com/MrKWatkins/ZXSpectrumNextTests		       |
 | 4. https://github.com/hoglet67/Z80Decoder/issues/2			       |
 | 5. https://spectrumcomputing.co.uk/forums/viewtopic.php?t=10555	       |
 '=============================================================================*/
@@ -2396,7 +2396,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			|									   |
 			| References:								   |
 			| 1. Weissflog, Andre (2021-12-17). "New Cycle-Stepped Z80 Emulator, A".   |
-			|    * https://floooh.github.io/2021/12/17/cycle-stepped-z80.html	   |
+			|     * https://floooh.github.io/2021/12/17/cycle-stepped-z80.html	   |
 			| 2. https://spectrumcomputing.co.uk/forums/viewtopic.php?t=7086	   |
 			| 3. https://stardot.org.uk/forums/viewtopic.php?t=24662		   |
 			'=========================================================================*/
@@ -2422,6 +2422,12 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				/*-------------------------------------------------------------------.
 				| Due to a bug, the Zilog Z80 NMOS resets PF when an INT is accepted |
 				| during the execution of the `ld a,{i|r}` instructions.	     |
+				|								     |
+				| References:							     |
+				| * Zilog (1989-01). "Z80 Family Data Book Zilog", pp. 412-413.	     |
+				| * Roshchin, Ivan (1998-11-13). "Undocumented Feature of the Z80    |
+				|   Processor".							     |
+				|     * http://code-zx.zxnet-archive.ru/id/465			     |
 				'===================================================================*/
 #				ifdef Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 					if (	(OPTIONS & Z80_OPTION_LD_A_IR_BUG) &&

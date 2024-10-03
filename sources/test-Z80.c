@@ -883,7 +883,7 @@ int main(int argc, char **argv)
 
 	/*------------------------------------------------.
 	| The user must specify at least one test number, |
-	| or the `-a` option in its absence.		  |
+	| or the `-a` option otherwise.			  |
 	'================================================*/
 	if (i == argc && !all)
 		{
@@ -891,9 +891,9 @@ int main(int argc, char **argv)
 		goto bad_syntax;
 		}
 
-	/*------------------------------------------.
-	| All test numbers specified must be valid. |
-	'==========================================*/
+	/*-------------------------------------------------------------.
+	| Check that all test numbers specified by the user are valid. |
+	'=============================================================*/
 	for (j = i; i < argc; i++)
 		{
 		char const *string = argv[i];
@@ -915,25 +915,40 @@ int main(int argc, char **argv)
 		goto exit_with_error;
 		}
 
+	/*--------------------------------------------------------------.
+	| Disable buffering on stdout if the verbosity level is greater |
+	| than 0 so that progress messages are visible immediately.	|
+	'==============================================================*/
+	if (verbosity) setvbuf(stdout, Z_NULL, _IONBF, 0);
+
+	/*------------------------------------------------------------------.
+	| The output of the test programs will only be printed at verbosity |
+	| level 4. For levels 3 and 4, we also have to print an extra line  |
+	| feed between tests to make everything look pretty.		    |
+	'==================================================================*/
 	show_test_output = verbosity == 4;
 	test_spacing = &new_line[verbosity < 3];
 
-	/*---------------------------------------------------------------.
-	| Disable output buffering if verbosity is enabled, so that the  |
-	| messages are visible immediately rather than after each ENTER. |
-	'===============================================================*/
-	if (verbosity) setvbuf(stdout, Z_NULL, _IONBF, 0);
-
-	/* Configure the Z80 CPU emulator. */
-
-	/*---------------------------------------------------------------.
-	| No CPU context is needed, since we are using global variables. |
-	'===============================================================*/
-	cpu.context = Z_NULL;
-
-	/*---------------------------------------------------.
-	| No test program requires these optional callbacks. |
-	'===================================================*/
+	/*------------------------------------------------------------------.
+	| Initialize the Z80 CPU emulator members:			    |
+	| * `context` is not necessary, as we are using global variables.   |
+	| * `fetch_opcode`, `write`, and `hook` are set by `run_test()`.    |
+	| * `fetch` and `read` use the same function because it is not	    |
+	|   necessary to distinguish between different cases of memory read |
+	|   M-cycles, as the test programs require neither precise timing   |
+	|   nor memory contention.					    |
+	| * `nmia`, `inta`, and `int_fetch` will never be called because    |
+	|   the test programs do not require interrupts.		    |
+	| * There is no need to use `nop`, `ld_i_a`, `ld_r_a`, `reti`,	    |
+	|   `retn`, or `illegal` either.				    |
+	'==================================================================*/
+	cpu.context   = Z_NULL;
+	cpu.fetch     =
+	cpu.read      = cpu_read;
+	cpu.in	      = cpu_in;
+	cpu.out	      = cpu_out;
+	cpu.halt      = cpu_halt;
+	cpu.nop	      =
 	cpu.nmia      =
 	cpu.inta      =
 	cpu.int_fetch = Z_NULL;
@@ -942,23 +957,6 @@ int main(int argc, char **argv)
 	cpu.reti      =
 	cpu.retn      = Z_NULL;
 	cpu.illegal   = Z_NULL;
-
-	/*------------------------------------------------------------------.
-	| It is not necessary to distinguish between opcode fetch, internal |
-	| NOP and memory read, as the test programs require neither precise |
-	| timing nor memory contention.					    |
-	'==================================================================*/
-	cpu.fetch =
-	cpu.read  =
-	cpu.nop	  = cpu_read;
-
-	cpu.in	  = cpu_in;
-	cpu.out	  = cpu_out;
-
-	/*-------------------------------------------------------------------.
-	| Entering the HALT state means that the test program has completed. |
-	'===================================================================*/
-	cpu.halt = cpu_halt;
 
 	/*------------------------------------------------------------.
 	| Run the tests whose numbers have been explicitly specified. |
@@ -969,16 +967,16 @@ int main(int argc, char **argv)
 		results[run_test(i)]++;
 		}
 
-	/*-----------------------------------------------------.
-	| If the `-a` option has been specified, run all tests |
-	| without repeating those that have already been run.  |
-	'=====================================================*/
+	/*-----------------------------------------------.
+	| If the "-a" option has been specified, run all |
+	| tests except those that have already been run. |
+	'===============================================*/
 	if (all) for (i = 0; i < (int)Z_ARRAY_SIZE(tests); i++)
 		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test(i)]++;
 
-	/*---------------------------.
-	| Print the results summary. |
-	'===========================*/
+	/*---------------------------------------------------.
+	| Finaly, print results, deallocate memory and exit. |
+	'===================================================*/
 	printf(	"%sResults%s: %u test%s passed, %u failed.\n",
 		&new_line[!verbosity || *test_spacing],
 		show_test_output ? " summary" : "",
