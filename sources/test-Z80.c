@@ -967,7 +967,7 @@ int main(int argc, char **argv)
 		}
 
 	/*-----------------------------------------------.
-	| If the "-a" option has been specified, run all |
+	| If the `-a` option has been specified, run all |
 	| tests except those that have already been run. |
 	'===============================================*/
 	if (all) for (i = 0; i < (int)Z_ARRAY_SIZE(tests); i++)
