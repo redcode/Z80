@@ -2419,16 +2419,16 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 				REQUEST = IFF1 = IFF2 = 0;
 				if (HALT_LINE) {EXIT_HALT;}
 
-				/*-------------------------------------------------------------------.
-				| Due to a bug, the Zilog Z80 NMOS resets PF when an INT is accepted |
-				| during the execution of the `ld a,{i|r}` instructions.	     |
-				|								     |
-				| References:							     |
-				| * Zilog (1989-01). "Z80 Family Data Book Zilog", pp. 412-413.	     |
-				| * Roshchin, Ivan (1998-11-13). "Undocumented Feature of the Z80    |
-				|   Processor".							     |
-				|     * http://code-zx.zxnet-archive.ru/id/465			     |
-				'===================================================================*/
+				/*----------------------------------------------------------------------.
+				| Due to a bug, the Zilog Z80 NMOS resets PF when an INT is accepted	|
+				| during the execution of the `ld a,{i|r}` instructions.		|
+				|									|
+				| References:								|
+				| * Zilog (1989-01). "Z80 Family Data Book", pp. 412-413.		|
+				| * Roshchin, Ivan (1998). "Undocumented Feature of the Z80 Processor". |
+				|     * https://zxpress.ru/article.php?id=7820				|
+				|     * http://code-zx.zxnet-archive.ru/id/123456			|
+				'======================================================================*/
 #				ifdef Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 					if (	(OPTIONS & Z80_OPTION_LD_A_IR_BUG) &&
 						(self->data.uint16_array[0] & Z_UINT16_BIG_ENDIAN(Z_UINT16(0xFFF7)))
