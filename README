@@ -59,8 +59,8 @@ Test Suite", Patrik Rak's "Zilog Z80 CPU Test Suite" and Peter Helcmanovsky's
 "Z80 Block Flags Test", to name a few.
 
 
-3.  Installation
-================
+3.  Installation from sources
+=============================
 
 You will need CMake v3.14 or later to build the package and, optionally, recent
 versions of Doxygen, Sphinx and Breathe to compile the documentation. Also, make
@@ -342,4 +342,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2024-09-19                                               README EOF
+Last update: 2024-10-06                                               README EOF

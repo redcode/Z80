@@ -12,7 +12,7 @@ Z80
    :caption: Contents
 
    Introduction
-   Installation
+   InstallationFromSources
    Tests
    Integration
    Usage
