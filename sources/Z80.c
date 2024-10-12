@@ -1341,12 +1341,13 @@ INSN(scf)
 | that the instruction is re-executed" as Sean Young writes in section 5.4 of  |
 | "The Undocumented Z80 Documented". During the HALT state, the CPU repeatedly |
 | executes an internal NOP operation. Each NOP consists of 1 M1 cycle of 4     |
-| T-states that fetches and disregards the next opcode after `halt` without    |
+| T-states that fetches (and disregards) the next opcode after `halt` without  |
 | incrementing PC. This opcode is read again and again until an exit condition |
 | occurs (i.e., INT, NMI or RESET).					       |
 |									       |
-| This was first documented by Tony Brewer in 2014, and was later re-confirmed |
-| by the HALT2INT test written by Mark Woodmass (AKA Woody) in 2021.	       |
+| This was first documented by Tony Brewer in 2014, and was later verified on  |
+| real hardware with the HALT2INT test written by Mark Woodmass (AKA Woody) in |
+| 2021.									       |
 |									       |
 | References:								       |
 | * Brewer, Tony (2014-12). "Z80 Special Reset".			       |
@@ -2344,15 +2345,15 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| In 2022, Manuel Sainz de Baranda y Goñi discovered that the CPU does not |
 			| accept a second NMI during the NMI response [4,5]. Therefore, it is not  |
 			| possible to chain two NMI responses in a row without executing at least  |
-			| one instruction between them [3,4,5].					   |
+			| one instruction between them [3].					   |
 			|									   |
 			| References:								   |
 			| 1. Zilog (1978-05). "Z80 Family Program Interrupt Structure, The",	   |
 			|    pp. 4-5.								   |
 			| 2. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm	   |
 			| 3. Checked with "Visual Z80 Remix".					   |
-			| 4. https://spectrumcomputing.co.uk/forums/viewtopic.php?t=7086	   |
-			| 5. https://stardot.org.uk/forums/viewtopic.php?t=24662		   |
+			| 4. https://spectrumcomputing.co.uk/forums/viewtopic.php?p=91405#p91405   |
+			| 5. https://stardot.org.uk/forums/viewtopic.php?p=356579#p356579	   |
 			'=========================================================================*/
 			if (REQUEST & Z80_REQUEST_REJECT_NMI)
 				REQUEST = 0;
