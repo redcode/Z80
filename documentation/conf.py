@@ -16,10 +16,8 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Z80'
-copyright = u'1999-2024 Manuel Sainz de Baranda y Goñi'
 author = u'Manuel Sainz de Baranda y Goñi'
-version = '0.2'
+copyright = u'1999-2024 Manuel Sainz de Baranda y Goñi'
 
 # -- General configuration ---------------------------------------------------
 
@@ -32,7 +30,6 @@ extensions = ['sphinx.ext.autosectionlabel', 'breathe']
 autosectionlabel_prefix_document = True
 
 # Breathe
-breathe_default_project = 'Z80'
 breathe_domain_by_extension = {'h': 'c'}
 
 # Add any paths that contain templates here, relative to this directory.

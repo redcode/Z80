@@ -62,7 +62,12 @@ if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION)
 		OUTPUT  "${_html_documentation_output}"
 		COMMAND "${SPHINX_BUILD_EXECUTABLE}"
 			-b html
+			-Dproject="${PROJECT_NAME}"
+			-Dversion="${PROJECT_VERSION}"
+			-Drelease="${PROJECT_VERSION}"
 			${_html_theme_option}
+			-Dhtml_title="${PROJECT_NAME}"
+			-Dbreathe_default_project="${PROJECT_NAME}"
 			-Dbreathe_projects.${PROJECT_NAME}="${_api_xml_output}"
 			"${CMAKE_CURRENT_SOURCE_DIR}"
 			"${_html_documentation_output}"
@@ -90,6 +95,11 @@ if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
 		OUTPUT  "${_latex_documentation_output}"
 		COMMAND "${SPHINX_BUILD_EXECUTABLE}"
 			-b latex
+			-Dproject="${PROJECT_NAME}"
+			-Dversion="${PROJECT_VERSION}"
+			-Drelease="${PROJECT_VERSION}"
+			-Dhtml_title="${PROJECT_NAME}"
+			-Dbreathe_default_project="${PROJECT_NAME}"
 			-Dbreathe_projects.${PROJECT_NAME}="${_api_xml_output}"
 			"${CMAKE_CURRENT_SOURCE_DIR}"
 			"${_latex_documentation_output}"
