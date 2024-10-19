@@ -121,6 +121,12 @@ table of precomputed values (this is for benchmarks, DO NOT ENABLE in \
 production builds)."
 NO)
 
+option(${PROJECT_NAME}_WITH_PRECOMPUTED_DAA
+"${PROJECT_NAME}: \
+Use a table of precomputed values in the `daa` instruction (this is for \
+benchmarks, DO NOT ENABLE in production builds)."
+NO)
+
 option(${PROJECT_NAME}_WITH_Q
 "${PROJECT_NAME}: \
 Build the implementation of Q."
@@ -220,6 +226,7 @@ target_compile_definitions(
 	$<$<BOOL:${${PROJECT_NAME}_WITH_FULL_IM0}>:Z80_WITH_FULL_IM0>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_IM0_RETX_NOTIFICATIONS}>:Z80_WITH_IM0_RETX_NOTIFICATIONS>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_PARITY_COMPUTATION}>:Z80_WITH_PARITY_COMPUTATION>
+	$<$<BOOL:${${PROJECT_NAME}_WITH_PRECOMPUTED_DAA}>:Z80_WITH_PRECOMPUTED_DAA>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_Q}>:Z80_WITH_Q>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_SPECIAL_RESET}>:Z80_WITH_SPECIAL_RESET>
 	$<$<BOOL:${${PROJECT_NAME}_WITH_UNOFFICIAL_RETI}>:Z80_WITH_UNOFFICIAL_RETI>

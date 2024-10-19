@@ -47,26 +47,28 @@ This is an important update that addresses a number of issues and also includes 
 34. Added optional emulation of Q. If enabled at compile-time, the ``ccf`` and ``scf`` instructions will produce a correct value of F.
 35. Added emulation of the ``out (c),255`` instruction (Zilog Z80 CMOS).
 36. Added optional emulation of the bug affecting the ``ld a,{i|r}`` instructions (Zilog Z80 NMOS). If enabled at compile-time and configured at runtime, the P/V flag will be reset if an INT is accepted during the execution of these instructions.
-37. Increased granularity. The emulator can now stop directly after fetching a prefix ``DDh`` or ``FDh`` if it runs out of clock cycles. This also works during the INT response in mode 0.
-38. Reimplemented the HALT state. The emulation should now be fully accurate. HALTskip optimization is also supported.
-39. Fixed a bug in the ``sll`` instruction.
-40. Fixed a bug in the ``INX`` and ``OUTX`` macros affecting the S and N flags.
-41. Fixed a bug in the ``OUTX`` macro affecting the MSByte of the port number.
-42. Fixed the clock cycles of the ``dec XY`` and ``in (c)`` instructions.
-43. Fixed the ``read_16`` function so that the order of the memory read operations is not determined by the order in which the compiler evaluates expressions.
-44. Fixed the order in which the memory write operations are performed when the SP register is involved. This affects the NMI response, the INT response in modes 1 and 2, and the following instructions: ``ex (sp),{hl|XY}``, ``push TT``, ``push XY``, ``call WORD``, ``call Z,WORD`` and ``rst N``.
-45. Fixed the handling of illegal instructions to avoid stack overflows in long sequences of ``DDh/FDh`` prefixes.
-46. Fixed several implicit conversions to avoid warnings about loss of sign and precision.
-47. Fixed some bitwise operations to avoid undefined behavior and arithmetic right shifts on signed integers.
-48. Fixed violations of the C standard in several identifiers.
-49. Renamed the 8-bit register lists: ``X/Y`` to ``J/K``; ``J/K`` and ``P/Q`` to ``O/P``.
-50. Replaced all P/V overflow computation functions with a single, faster macro.
-51. Replaced all register resolution functions with macros.
-52. Replaced all ``ld {J,K|O,P}`` instructions that have the same destination and source register with NOPs. In addition, the "illegal" forms of the following instructions are now executed without using the illegal instruction handler: ``ld O,P``, ``ld O,BYTE``, ``U [a,]P`` and ``V O``.
-53. Optimizations in flag computation and condition evaluation.
-54. New source code comments and improvements to existing ones.
-55. Improved code aesthetics.
-56. Other improvements, optimizations and minor changes.
+37. Added an optional implementation of the parity calculation for the P/V flag that performs the actual computation instead of using a table of precomputed values.
+38. Added an optional implementation of the ``daa`` instruction that uses a table of precomputed values.
+39. Increased granularity. The emulator can now stop directly after fetching a prefix ``DDh`` or ``FDh`` if it runs out of clock cycles. This also works during the INT response in mode 0.
+40. Reimplemented the HALT state. The emulation should now be fully accurate. HALTskip optimization is also supported.
+41. Fixed a bug in the ``sll`` instruction.
+42. Fixed a bug in the ``INX`` and ``OUTX`` macros affecting the S and N flags.
+43. Fixed a bug in the ``OUTX`` macro affecting the MSByte of the port number.
+44. Fixed the clock cycles of the ``dec XY`` and ``in (c)`` instructions.
+45. Fixed the ``read_16`` function so that the order of the memory read operations is not determined by the order in which the compiler evaluates expressions.
+46. Fixed the order in which the memory write operations are performed when the SP register is involved. This affects the NMI response, the INT response in modes 1 and 2, and the following instructions: ``ex (sp),{hl|XY}``, ``push TT``, ``push XY``, ``call WORD``, ``call Z,WORD`` and ``rst N``.
+47. Fixed the handling of illegal instructions to avoid stack overflows in long sequences of ``DDh/FDh`` prefixes.
+48. Fixed several implicit conversions to avoid warnings about loss of sign and precision.
+49. Fixed some bitwise operations to avoid undefined behavior and arithmetic right shifts on signed integers.
+50. Fixed violations of the C standard in several identifiers.
+51. Renamed the 8-bit register lists: ``X/Y`` to ``J/K``; ``J/K`` and ``P/Q`` to ``O/P``.
+52. Replaced all P/V overflow computation functions with a single, faster macro.
+53. Replaced all register resolution functions with macros.
+54. Replaced all ``ld {J,K|O,P}`` instructions that have the same destination and source register with NOPs. In addition, the "illegal" forms of the following instructions are now executed without using the illegal instruction handler: ``ld O,P``, ``ld O,BYTE``, ``U [a,]P`` and ``V O``.
+55. Optimizations in flag computation and condition evaluation.
+56. New source code comments and improvements to existing ones.
+57. Improved code aesthetics.
+58. Other improvements, optimizations and minor changes.
 
 Z80 v0.1
 ========
