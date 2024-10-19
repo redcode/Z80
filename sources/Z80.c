@@ -233,7 +233,7 @@ static Z_ALWAYS_INLINE void write_16b(Z80 *self, zuint16 address, zuint16 value)
 
 #ifdef Z80_WITH_PARITY_COMPUTATION
 	static Z_ALWAYS_INLINE zuint8 pf_parity(zuint8 value)
-		{return (((0x9669U >> ((value ^ (value >> 4)) & 0xF)) & 1) << 2);}
+		{return (zuint8)(((0x9669U >> ((value ^ (value >> 4)) & 0xF)) & 1) << 2);}
 
 #	define PF_PARITY pf_parity
 #else
