@@ -690,7 +690,7 @@ Many thanks to the following individuals (in alphabetical order):
 	4. For his invaluable help.
 * **Banks, David (hoglet)** <sup>:trophy:</sup>
 	1. For deciphering the additional flag changes of the block instructions. <sup>[4.1](#r_4_1), [4.2](#r_4_2), [5](#r_5)</sup>
-	2. For his research on the behavior of the `ccf/scf` instructions. <sup>[5](#r_5), [6](#r_6)</sup>
+	2. For his research on the `ccf/scf` instructions. <sup>[5](#r_5), [6](#r_6)</sup>
 * **Beliansky, Anatoly (Tolik_Trek)**
 	* For validating tests on real hardware. <sup>[1.2](#r_1_2)</sup>
 * **Bobrowski, Jan**  
@@ -698,7 +698,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **boo_boo** <sup>:trophy:</sup>
 	* For deciphering the behavior of MEMPTR. <sup>[8](#r_8), [9](#r_9), [10](#r_10), [11](#r_11)</sup>
 * **Brady, Stuart**
-	* For his research on the behavior of the `ccf/scf` instructions. <sup>[12](#r_12)</sup>
+	* For his research on the `ccf/scf` instructions. <sup>[12](#r_12)</sup>
 * **Brewer, Tony** <sup>:trophy:</sup>
 	1. For his research on the special RESET. <sup>[4.3](#r_4_3), [13](#r_13)</sup>
 	2. For helping to decipher the additional flag changes of the block instructions. <sup>[4](#r_4)</sup>
@@ -788,6 +788,8 @@ Many thanks to the following individuals (in alphabetical order):
 * **Stevenson, Dave**
 	1. For testing the special RESET on real hardware. <sup>[13](#r_13)</sup>
 	2. For conducting low-level tests on real hardware. <sup>[4.4](#r_4_4)</sup>
+* **Titov, Andrey (Titus)**
+	* For his research on the `ccf/scf` instructions. <sup>[2](#r_2), [3](#r_3)</sup>
 * **Vučenović, Zoran**
 	* For writing the [Pascal binding](sources/Z80.pas).
 * **Weissflog, Andre (Floh)** <sup>:trophy:</sup>
@@ -800,7 +802,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Woodmass, Mark (Woody)** <sup>:medal_military:</sup>
 	1. For his invaluable contributions to the emuscene.
 	2. For writing the _"Z80 Test Suite"_. <sup>[15](#r_15)</sup>
-	3. For his research on the behavior of the `ccf/scf` instructions. <sup>[36](#r_36)</sup>
+	3. For his research on the `ccf/scf` instructions. <sup>[36](#r_36)</sup>
 	4. For writing the _"HALT2INT"_ test.
 	5. For writing the _"EIHALT"_ test.
 * **Young, Sean** <sup>:trophy:</sup>

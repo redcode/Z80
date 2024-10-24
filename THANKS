@@ -10,7 +10,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Banks, David (hoglet)
     1. For deciphering the additional flag changes of the block instructions
        [4.1,4.2,5].
-    2. For his research on the behavior of the `ccf/scf` instructions [5,6].
+    2. For his research on the `ccf/scf` instructions [5,6].
 * Beliansky, Anatoly (Tolik_Trek)
     For validating tests on real hardware [1.2].
 * Bobrowski, Jan
@@ -18,7 +18,7 @@ Many thanks to the following individuals (in alphabetical order):
 * boo_boo
     For deciphering the behavior of MEMPTR [8,9,10,11].
 * Brady, Stuart
-    For his research on the behavior of the `ccf/scf` instructions [12].
+    For his research on the `ccf/scf` instructions [12].
 * Brewer, Tony
     1. For his research on the special RESET [4.3,13].
     2. For helping to decipher the additional flag changes of the block
@@ -111,6 +111,8 @@ Many thanks to the following individuals (in alphabetical order):
 * Stevenson, Dave
     1. For testing the special RESET on real hardware [13].
     2. For conducting low-level tests on real hardware [4.4].
+* Titov, Andrey (Titus)
+    For his research on the `ccf/scf` instructions [2,3].
 * Vučenović, Zoran
     For writing the Pascal binding.
 * Weissflog, Andre (Floh)
@@ -124,7 +126,7 @@ Many thanks to the following individuals (in alphabetical order):
 * Woodmass, Mark (Woody)
     1. For his invaluable contributions to the emuscene.
     2. For writing the "Z80 Test Suite" [15].
-    3. For his research on the behavior of the `ccf/scf` instructions [36].
+    3. For his research on the `ccf/scf` instructions [36].
     4. For writing the "HALT2INT" test.
     5. For writing the "EIHALT" test.
 * Young, Sean

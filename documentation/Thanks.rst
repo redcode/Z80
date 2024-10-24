@@ -38,7 +38,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Banks, David (hoglet)**
 
   1. For deciphering the additional flag changes of the block instructions. |re| |fe| :ref:`4.1<r_4_1>`, :ref:`4.2<r_4_2>`, :ref:`5<r_5>` |ren| |ces|
-  2. For his research on the behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`5<r_5>`, :ref:`6<r_6>` |ren| |ces|
+  2. For his research on the ``ccf/scf`` instructions. |re| |fe| :ref:`5<r_5>`, :ref:`6<r_6>` |ren| |ces|
 
 * **Beliansky, Anatoly (Tolik_Trek)**
 
@@ -54,7 +54,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Brady, Stuart**
 
-  * For his research on the behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`12<r_12>` |ren| |ces|
+  * For his research on the ``ccf/scf`` instructions. |re| |fe| :ref:`12<r_12>` |ren| |ces|
 
 * **Brewer, Tony**
 
@@ -129,7 +129,7 @@ Many thanks to the following individuals (in alphabetical order):
   2. For writing the *"Z80 Block Flags Test"*. |re| |fe| :ref:`1<r_1>`, :ref:`28<r_28>` |ren| |ces|
   3. For writing the *"Z80 CCF SCF Outcome Stability"* test. |re| |fe| :ref:`28<r_28>` |ren| |ces|
   4. For writing the *"Z80 INT Skip"* test. |re| |fe| :ref:`28<r_28>` |ren| |ces|
-  5. For his research on the unstable behavior of the ``ccf/scf`` instructions.
+  5. For his research on the ``ccf/scf`` instructions.
   6. For his invaluable help.
 
 * **Iborra Debón, Víctor (Eremus)**
@@ -216,6 +216,10 @@ Many thanks to the following individuals (in alphabetical order):
 
   1. For testing the special RESET on real hardware. |re| |fe| :ref:`13<r_13>` |ren| |ces|
   2. For conducting low-level tests on real hardware. |re| |fe| :ref:`4.4<r_4_4>` |ren| |ces|
+
+* **Titov, Andrey (Titus)**
+
+  * For his research on the ``ccf/scf`` instructions. |re| |fe| :ref:`2<r_2>`, :ref:`3<r_3>` |ren| |ces|
 
 * **Vučenović, Zoran**
 
