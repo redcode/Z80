@@ -684,7 +684,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Akimov, Vadim (lvd)**
 	* For testing the library on many different platforms and CPU architectures.
 * **azesmbog** <sup>:trophy:</sup>
-	1. For validating tests on real hardware. <sup>[1.1](#r_1)</sup>
+	1. For validating tests on real hardware. <sup>[1.1](#r_1_1)</sup>
 	2. For discovering the unstable behavior of the `ccf/scf` instructions.
 	3. For testing the `ccf/scf` instructions on real hardware. <sup>[2](#r_2), [3](#r_3)</sup>
 	4. For his invaluable help.
@@ -820,13 +820,13 @@ Many thanks to the following individuals (in alphabetical order):
 4. <span id="r_4">https://stardot.org.uk/forums/viewtopic.php?t=15464</span>
 	1. <span id="r_4_1">https://stardot.org.uk/forums/viewtopic.php?p=211042#p211042</span>
 	2. <span id="r_4_2">https://stardot.org.uk/forums/viewtopic.php?p=212021#p212021</span>
-	3. <span id="4_4_3">https://stardot.org.uk/forums/viewtopic.php?p=357136#p357136</span>
-	4. <span id="4_4_4">https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360</span>
+	3. <span id="r_4_3">https://stardot.org.uk/forums/viewtopic.php?p=357136#p357136</span>
+	4. <span id="r_4_4">https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360</span>
 5. <span id="r_5">Banks, David (2018-08-21). _"Undocumented Z80 Flags"_ rev. 1.0.</span>
 	* https://stardot.org.uk/forums/download/file.php?id=39831
 	* https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags
 6. <span id="r_6">https://github.com/hoglet67/Z80Decoder/wiki/Unstable-CCF-SCF-Behaviour</span>
-7. <span id="r_8">http://wizard.ae.krakow.pl/~jb/qaop/tests.html</span>
+7. <span id="r_7">http://wizard.ae.krakow.pl/~jb/qaop/tests.html</span>
 8. <span id="r_8">https://zxpress.ru/zxnet/zxnet.pc/5909</span>
 9. <span id="r_9">https://zx-pk.ru/threads/2506-komanda-bit-n-(hl).html</span>
 10. <span id="r_10">https://zx-pk.ru/threads/2586-prosba-realshchikam-ot-emulyatorshchikov.html</span>
