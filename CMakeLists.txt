@@ -202,7 +202,7 @@ else()
 
 	if(${PROJECT_NAME}_NOSTDLIB_FLAGS STREQUAL "Auto")
 		if(MSVC)
-			target_compile_definitions(${PROJECT_NAME} PRIVATE Z80_WITH_WINDOWS_DLL_MAIN)
+			target_compile_definitions(${PROJECT_NAME} PRIVATE Z80_WITH_WINDOWS_DLL_MAIN_CRT_STARTUP)
 			target_link_options(${PROJECT_NAME} PRIVATE "/NODEFAULTLIB")
 		elseif(APPLE)
 			if(CMAKE_C_COMPILER_ID MATCHES "^(AppleClang|Clang|GNU)$")

@@ -2932,7 +2932,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 	}
 
 
-#ifdef Z80_WITH_WINDOWS_DLL_MAIN
+#ifdef Z80_WITH_WINDOWS_DLL_MAIN_CRT_STARTUP
 	int Z_MICROSOFT_STD_CALL _DllMainCRTStartup(void *hDllHandle, unsigned long dwReason, void *lpReserved)
 		{return 1;}
 #endif
