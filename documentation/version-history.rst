@@ -11,7 +11,7 @@ This is an important update that addresses a number of issues and also includes 
 
 **Changes:**
 
-1. Changed the :doc:`license <License>` from GPL to LGPL (by popular request).
+1. Changed the :doc:`license <license>` from GPL to LGPL (by popular request).
 2. Moved the public header from ``<emulation/CPU/Z80.h>`` to ``<Z80.h>``.
 3. Removed the Xcode project.
 4. Switched the build system from Premake to `CMake <https://cmake.org>`_.
@@ -22,7 +22,7 @@ This is an important update that addresses a number of issues and also includes 
 9. Added Pascal binding, courtesy of Zoran Vučenović.
 10. Added tests.
 11. Renamed the macros ``CPU_Z80_DEPENDENCIES_H`` and ``CPU_Z80_STATIC`` to :c:macro:`Z80_EXTERNAL_HEADER` and :c:macro:`Z80_STATIC`, respectively.
-12. Added :ref:`public macros <APIReference:Macros>` for checking the library version, working with flags, accessing the 16-bit registers and other purposes.
+12. Added :ref:`public macros <api-reference:Macros>` for checking the library version, working with flags, accessing the 16-bit registers and other purposes.
 13. Added the ability to end the emulation loop immediately, and the :c:func:`z80_break` function.
 14. Added the :c:func:`z80_execute` function for running a simplified emulation without RESET and interrupts.
 15. Added the :c:func:`z80_in_cycle` and :c:func:`z80_out_cycle` functions for obtaining the clock cycle at which the I/O M-cycle begins, relative to the start of the instruction.
@@ -37,7 +37,7 @@ This is an important update that addresses a number of issues and also includes 
 24. Added four callbacks for notifying the execution of important instructions: :c:data:`Z80::ld_i_a<Z80.ld_i_a>`, :c:data:`Z80::ld_r_a<Z80.ld_r_a>`, :c:data:`Z80::reti<Z80.reti>` and :c:data:`Z80::retn<Z80.retn>`.
 25. Added hooking functionality through the ``ld h,h`` instruction and the new :c:data:`Z80::hook<Z80.hook>` callback.
 26. Added the :c:data:`Z80::illegal<Z80.illegal>` callback for delegating the emulation of illegal instructions.
-27. Added :ref:`emulation options <APIReference:Configuration>` that can be configured at runtime.
+27. Added :ref:`emulation options <api-reference:Configuration>` that can be configured at runtime.
 28. Removed ``Z80::state``. Replaced with individual members for the registers, the interrupt enable flip-flops and the interrupt mode.
 29. Removed the superfluous EI flag. The previous opcode is checked instead, which is faster and makes the :c:type:`Z80` object smaller.
 30. Removed all module-related stuff.

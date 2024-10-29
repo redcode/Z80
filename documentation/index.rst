@@ -10,14 +10,14 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-   Introduction
-   InstallationFromSources
-   Tests
-   Integration
-   Usage
-   APIReference
-   Thanks
-   VersionHistory
-   License
+   introduction
+   installation-from-sources
+   tests
+   integration
+   usage
+   api-reference
+   thanks
+   version-history
+   license
    genindex
    search

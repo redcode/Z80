@@ -75,7 +75,7 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 
 .. option:: -DZ80_DEPOT_LOCATION="<location>"
 
-   Specify the directory or URL of the depot containing the test files (i.e., the firmware and software required by the :doc:`testing tool <Tests>`). |br| |nl|
+   Specify the directory or URL of the depot containing the test files (i.e., the firmware and software required by the :doc:`testing tool <tests>`). |br| |nl|
    The default is ``"http://zxe.io/depot"``.
 
 .. option:: -DZ80_FETCH_TEST_FILES=(YES|NO)
@@ -144,7 +144,7 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 
 .. option:: -DZ80_WITH_TESTS=(YES|NO)
 
-   Build the :doc:`testing tool <Tests>`. |br| |nl|
+   Build the :doc:`testing tool <tests>`. |br| |nl|
    The default is ``NO``.
 
 .. _cmake_package_source_code_options:
