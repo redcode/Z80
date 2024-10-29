@@ -18,7 +18,7 @@ The source code is written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C) for
 
 This Z80 CPU emulator has a classic design with instruction-level granularity that delivers the best performance, whilst offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/agaxia/Z80InsnClock).
 
-Instruction-level granularity implies that, except in a few well-defined cases, the execution of a given instruction cannot stop until all its internal M-cycles have been processed (i.e., instructions are not divided into micro-operations). Moreover, registers are modified only once per instruction and the [T-state counter](https://zxe.io/software/Z80/documentation/latest/APIReference.html#c.Z80.cycles) is normally updated after a full instruction has been executed.
+Instruction-level granularity implies that, except in a few well-defined cases, the execution of a given instruction cannot stop until all its internal M-cycles have been processed (i.e., instructions are not divided into micro-operations). Moreover, registers are modified only once per instruction and the [T-state counter](https://zxe.io/software/Z80/documentation/latest/api-reference.html#c.Z80.cycles) is normally updated after a full instruction has been executed.
 
 That said, instructions, flags, memory accesses, interrupts, clock cycles, etc., are accurately emulated according to the available [technical documentation](https://github.com/redcode/Z80/wiki/Technical-literature), the findings made after decades of research on the Z80 and [electronic simulations](https://github.com/redcode/Z80/wiki/Simulators). And, of course, the emulator passes the most exhaustive [tests](https://github.com/redcode/Z80/wiki/Tests) written to date, including all three major test suites:
 
@@ -455,10 +455,10 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 	Build the [testing tool](#running-the-tests).  
 	The default is `NO`.
 
-<span id="cmake_package_source_code_options">The second group of package-specific options</span> configures the source code of the library by predefining macros that enable [optional features](https://zxe.io/software/Z80/documentation/latest/Introduction.html#optional-features):
+<span id="cmake_package_source_code_options">The second group of package-specific options</span> configures the source code of the library by predefining macros that enable [optional features](https://zxe.io/software/Z80/documentation/latest/introduction.html#optional-features):
 
 * <span id="cmake_option_z80_with_execute">**`-DZ80_WITH_EXECUTE=(YES|NO)`**</span>  
-	Build the implementation of the [`z80_execute`](https://zxe.io/software/Z80/documentation/latest/APIReference.html#c.z80_execute) function.  
+	Build the implementation of the [`z80_execute`](https://zxe.io/software/Z80/documentation/latest/api-reference.html#c.z80_execute) function.  
 	The default is `NO`.
 
 * <span id="cmake_option_z80_with_full_im0">**`-DZ80_WITH_FULL_IM0=(YES|NO)`**</span>  
@@ -656,7 +656,7 @@ The optional features of the emulator mentioned in "[Installation from sources](
 Except for [`Z80_EXTERNAL_HEADER`](#macro_z80_external_header), the above macros can be empty; the source code only checks whether they are defined.
 
 > [!NOTE]
-> The activation of some of the optional features affects the speed of the emulator due to various factors (read the [documentation](https://zxe.io/software/Z80/documentation/latest/Introduction.html#optional-features) for more details).
+> The activation of some of the optional features affects the speed of the emulator due to various factors (read the [documentation](https://zxe.io/software/Z80/documentation/latest/introduction.html#optional-features) for more details).
 
 ## Showcase
 
