@@ -28,7 +28,7 @@ When not specified as a component, the linking method is selected according to :
 As a CMake subproject
 =====================
 
-To embed the Z80 library as a CMake subproject, extract the source code tarballs of `Zeta <https://zeta.st/download>`_ and `Z80 <https://zxe.io/software/Z80/download>`_ (or clone their respective repositories) into a subdirectory of another project. Then use |add_subdirectory|_ in the parent project to add the Z80 source code tree to the build process (N.B., the Z80 subproject will automatically find Zeta and import it as an `interface library <https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#interface-libraries>`_).
+To embed the Z80 library as a CMake subproject, extract the source code tarballs of `Zeta <https://zeta.st/download>`__ and `Z80 <https://zxe.io/software/Z80/download>`_ (or clone their respective repositories) into a subdirectory of another project. Then use |add_subdirectory|_ in the parent project to add the Z80 source code tree to the build process (N.B., the Z80 subproject will automatically find Zeta and import it as an `interface library <https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#interface-libraries>`_).
 
 It is advisable to configure the Z80 library in the :file:`CMakeLists.txt` of the parent project. This will prevent the user from having to specify :ref:`configuration options for the Z80 subproject <cmake_package_options>` through the command line when building the main project.
 
@@ -54,7 +54,7 @@ The source code of the emulator can be configured at compile time by predefining
 
    Specifies the only external header to ``#include``, replacing all others.
 
-   Predefine this macro to provide a header file that defines the external types and macros used by the emulator, thus preventing your project from depending on `Zeta <https://zeta.st>`_:
+   Predefine this macro to provide a header file that defines the external types and macros used by the emulator, thus preventing your project from depending on `Zeta <https://zeta.st>`__:
 
    * Macros: ``Z_ALWAYS_INLINE``, ``Z_API_EXPORT``, ``Z_API_IMPORT``, ``Z_CAST``, ``Z_EMPTY``, ``Z_EXTERN_C_BEGIN``, ``Z_EXTERN_C_END``, ``Z_MEMBER_OFFSET``, ``Z_NULL``, ``Z_UINT8_ROTATE_LEFT``, ``Z_UINT8_ROTATE_RIGHT``, ``Z_UINT16``, ``Z_UINT16_BIG_ENDIAN``, ``Z_UINT32``, ``Z_UINT32_BIG_ENDIAN``, ``Z_UNUSED``, ``Z_USIZE`` and ``Z_USIZE_MAXIMUM``.
 
