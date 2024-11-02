@@ -85,12 +85,12 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 
 .. option:: -DZ80_INSTALL_CMAKEDIR="<path>"
 
-   Specify the directory in which to install the CMake `config-file package <https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages>`_. |br| |nl|
+   Specify the directory in which to install the CMake `config-file package`_. |br| |nl|
    The default is ``"${CMAKE_INSTALL_LIBDIR}/cmake/Z80"``.
 
 .. option:: -DZ80_INSTALL_PKGCONFIGDIR="<path>"
 
-   Specify the directory in which to install the `pkg-config <https://www.freedesktop.org/wiki/Software/pkg-config>`_ `file <https://people.freedesktop.org/~dbn/pkg-config-guide.html>`_. |br| |nl|
+   Specify the directory in which to install the `pkg-config`_ `file`_. |br| |nl|
    The default is ``"${CMAKE_INSTALL_LIBDIR}/pkgconfig"``.
 
 .. option:: -DZ80_NOSTDLIB_FLAGS=(Auto|"[<flag>[;<flag>...]]")
@@ -117,7 +117,7 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 
 .. option:: -DZ80_WITH_CMAKE_SUPPORT=(YES|NO)
 
-   Generate and install the CMake `config-file package <https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages>`_. |br| |nl|
+   Generate and install the CMake `config-file package`_. |br| |nl|
    The default is ``NO``.
 
 .. option:: -DZ80_WITH_HTML_DOCUMENTATION=(YES|NO)
@@ -134,7 +134,7 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 
 .. option:: -DZ80_WITH_PKGCONFIG_SUPPORT=(YES|NO)
 
-   Generate and install the `pkg-config <https://www.freedesktop.org/wiki/Software/pkg-config>`_ `file <https://people.freedesktop.org/~dbn/pkg-config-guide.html>`_. |br| |nl|
+   Generate and install the `pkg-config`_ `file`_. |br| |nl|
    The default is ``NO``.
 
 .. option:: -DZ80_WITH_STANDARD_DOCUMENTS=(YES|NO)
@@ -226,3 +226,7 @@ The |cmake_option_build_config|_ option is only necessary for those `CMake gener
 
    * Documentation in HTML format.
    * Documentation in PDF format.
+
+.. _config-file package: https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages
+.. _file: https://people.freedesktop.org/~dbn/pkg-config-guide.html
+.. _pkg-config: https://www.freedesktop.org/wiki/Software/pkg-config
