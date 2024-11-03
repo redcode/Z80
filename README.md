@@ -372,7 +372,7 @@ cmake [options] <Z80-project-directory>
 The resulting build files can be configured by passing options to `cmake`. To show a complete list of those available along with their current settings, type the following:
 
 ```shell
-cmake -LAH
+cmake -LAH -N -B .
 ```
 
 If in doubt, read the [CMake documentation](https://cmake.org/documentation/) for more information on configuration options. The following are some of the most relevant standard options of CMake:

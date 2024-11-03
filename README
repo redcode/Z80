@@ -85,7 +85,7 @@ The resulting build files can be configured by passing options to cmake. To show
 a complete list of those available along with their current settings, type the
 following:
 
-    $ cmake -LAH
+    $ cmake -LAH -N -B .
 
 If in doubt, read the CMake documentation for more information on configuration
 options. The following are some of the most relevant standard options of CMake:
@@ -342,4 +342,4 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library. If not, see <http://www.gnu.org/licenses/>.
 
 ________________________________________________________________________________
-Last update: 2024-10-06                                               README EOF
+Last update: 2024-11-03                                               README EOF

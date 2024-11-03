@@ -45,7 +45,7 @@ The resulting build files can be configured by passing options to ``cmake``. To 
 
 .. code-block:: sh
 
-   cmake -LAH
+   cmake -LAH -N -B .
 
 If in doubt, read the `CMake documentation <https://cmake.org/documentation/>`_ for more information on configuration options. The following are some of the most relevant standard options of CMake:
 
