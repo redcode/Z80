@@ -54,7 +54,7 @@ endif()
 
 find_package_handle_standard_args(
 	Breathe
-	REQUIRED_VARS Breathe_APIDOC_EXECUTABLE
+	REQUIRED_VARS Breathe_APIDOC_EXECUTABLE Breathe_APIDOC_VERSION
 	VERSION_VAR Breathe_VERSION)
 
 mark_as_advanced(Breathe_APIDOC_EXECUTABLE)

@@ -208,7 +208,7 @@ endif()
 find_package_handle_standard_args(
 	Zeta
 	FOUND_VAR Zeta_FOUND
-	REQUIRED_VARS Zeta_INCLUDE_DIR
+	REQUIRED_VARS Zeta_INCLUDE_DIR Zeta_VERSION
 	VERSION_VAR Zeta_VERSION)
 
 if(Zeta_FOUND AND NOT TARGET Zeta)

@@ -69,6 +69,10 @@ foreach(_Sphinx_tool IN LISTS Sphinx_FIND_COMPONENTS)
 
 	string(TOUPPER ${_Sphinx_tool} _Sphinx_tool_uppercase)
 	set(_Sphinx_tool_executable_var Sphinx_${_Sphinx_tool_uppercase}_EXECUTABLE)
+	set(_Sphinx_tool_version_var Sphinx_${_Sphinx_tool_uppercase}_VERSION)
+
+	list(	APPEND _Sphinx_required_vars
+		${_Sphinx_tool_executable_var} ${_Sphinx_tool_version_var})
 
 	if(NOT DEFINED ${_Sphinx_tool_executable_var})
 		find_program(
@@ -82,19 +86,20 @@ foreach(_Sphinx_tool IN LISTS Sphinx_FIND_COMPONENTS)
 				OUTPUT_VARIABLE _Sphinx_output)
 
 			if("${_Sphinx_output}" MATCHES ".* ([0-9]+(\\.[0-9]+(\\.[0-9]+)?)?).*\n")
-				list(APPEND _Sphinx_required_vars ${_Sphinx_tool_executable_var})
-				mark_as_advanced(${_Sphinx_tool_executable_var})
-				set(Sphinx_${_Sphinx_tool_uppercase}_VERSION "${CMAKE_MATCH_1}")
+				set(${_Sphinx_tool_version_var} "${CMAKE_MATCH_1}")
 
 				if(NOT DEFINED Sphinx_VERSION)
-					set(Sphinx_VERSION ${Sphinx_${_Sphinx_tool_uppercase}_VERSION})
+					set(Sphinx_VERSION ${${_Sphinx_tool_version_var}})
 				endif()
 			endif()
 
 			unset(_Sphinx_output)
 		endif()
+
+		mark_as_advanced(${_Sphinx_tool_executable_var})
 	endif()
 
+	unset(_Sphinx_tool_version_var)
 	unset(_Sphinx_tool_executable_var)
 	unset(_Sphinx_tool_uppercase)
 endforeach()
