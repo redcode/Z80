@@ -1,7 +1,4 @@
-cmake_minimum_required(
-	# 3.12: cmake_minimum_required(VERSION <min>[...<max>])
-	VERSION 3.12...${CMAKE_VERSION})
-
+cmake_minimum_required(VERSION 3.0...${CMAKE_VERSION})
 set(@PROJECT_NAME@_component_Static NO)
 set(@PROJECT_NAME@_component_Shared NO)
 
