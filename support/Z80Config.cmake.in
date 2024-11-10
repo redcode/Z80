@@ -1,13 +1,12 @@
 cmake_minimum_required(
-	# 3.3: IN_LIST
-	VERSION 3.3...${CMAKE_VERSION})
+	# 3.12: cmake_minimum_required(VERSION <min>[...<max>])
+	VERSION 3.12...${CMAKE_VERSION})
 
-set(@PROJECT_NAME@_known_components Static Shared)
 set(@PROJECT_NAME@_component_Static NO)
 set(@PROJECT_NAME@_component_Shared NO)
 
 foreach(@PROJECT_NAME@_component IN LISTS ${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)
-	if(@PROJECT_NAME@_component IN_LIST @PROJECT_NAME@_known_components)
+	if(@PROJECT_NAME@_component MATCHES "^(Static|Shared)$")
 		set(@PROJECT_NAME@_component_${@PROJECT_NAME@_component} YES)
 	else()
 		set(	${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
