@@ -2235,10 +2235,11 @@ INSN(xy_xy)
 
 /* MARK: - Instructions: Illegal */
 
-/*----------------------------------------------------------------.
-| The CPU ignores illegal opcodes prefixed with EDh. In practice, |
-| they are all equivalent to two `nop` instructions (8 T-states). |
-'================================================================*/
+/*------------------------------------------------------------------------.
+| Illegal opcodes prefixed with EDh are ignored by the CPU. Functionally, |
+| these instructions are equivalent to two consecutive `nop` instructions |
+| and take a total of 8 T-states.					  |
+'========================================================================*/
 
 INSN(ed_illegal)
 	{
@@ -2254,11 +2255,11 @@ INSN(ed_illegal)
 	}
 
 
-/*-----------------------------------------------------------------------.
-| Illegal opcodes with the prefix DDh or FDh cause the CPU to ignore the |
-| prefix, i.e., the byte immediately following the prefix is interpreted |
-| as the first byte of a new instruction. The prefix takes 4 T-states.	 |
-'=======================================================================*/
+/*-------------------------------------------------------------------------.
+| Illegal opcodes prefixed with DDh or FDh make the CPU ignore the prefix, |
+| As a result, the byte that immediately follows the prefix is treated as  |
+| the first byte of a new instruction. The prefix takes 4 T-states.	   |
+'=========================================================================*/
 
 INSN(xy_illegal)
 	{
