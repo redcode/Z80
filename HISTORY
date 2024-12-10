@@ -12,8 +12,7 @@ Changes:
  4. Switched the build system from Premake to CMake.
  5. Switched to Zeta v0.1.
  6. Added pkg-config support.
- 7. Added the following files to the project: .vimrc, CITATION.cff, file_id.diz
-    and THANKS.
+ 7. Added the following files to the project: .vimrc, CITATION.cff and THANKS.
  8. Added detailed documentation.
  9. Added Pascal binding, courtesy of Zoran Vučenović.
 10. Added tests.

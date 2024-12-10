@@ -17,7 +17,7 @@ This is an important update that addresses a number of issues and also includes 
 4. Switched the build system from Premake to `CMake <https://cmake.org>`_.
 5. Switched to `Zeta <https://zeta.st>`_ v0.1.
 6. Added `pkg-config <https://www.freedesktop.org/wiki/Software/pkg-config>`_ support.
-7. Added the following files to the project: :file:`.vimrc`, :file:`CITATION.cff`, :file:`file_id.diz` and :file:`THANKS`.
+7. Added the following files to the project: :file:`.vimrc`, :file:`CITATION.cff` and :file:`THANKS`.
 8. Added detailed documentation.
 9. Added Pascal binding, courtesy of Zoran Vučenović.
 10. Added tests.
