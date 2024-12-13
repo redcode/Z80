@@ -1463,7 +1463,7 @@ INSN(daa)
 #	ifdef Z80_WITH_PRECOMPUTED_DAA
 		zuint16 af = AF;
 
-#		if Z80_WITH_Q
+#		ifdef Z80_WITH_Q
 			Q = (zuint8)
 #		endif
 		(AF = daa_af_table[
