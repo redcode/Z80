@@ -92,9 +92,14 @@ Install the standard text documents distributed with the package: \
 AUTHORS, COPYING, COPYING.LESSER, HISTORY, README and THANKS."
 NO)
 
+option(${PROJECT_NAME}_WITH_STEP_TESTS
+"${PROJECT_NAME}: \
+Build the testing tool for JSON-based unit tests."
+NO)
+
 option(${PROJECT_NAME}_WITH_TESTS
 "${PROJECT_NAME}: \
-Build the testing tool."
+Build the testing tool that runs CP/M and ZX Spectrum programs."
 NO)
 
 option(${PROJECT_NAME}_WITH_EXECUTE
@@ -306,11 +311,19 @@ if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION OR ${PROJECT_NAME}_WITH_PDF_DOCUMENTA
 	add_subdirectory(documentation)
 endif()
 
+if(${PROJECT_NAME}_WITH_STEP_TESTS)
+	find_package(cJSON	  REQUIRED)
+	find_package(Z80InsnClock REQUIRED)
+
+	add_executable(step-test-${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/sources/step-test-Z80.c")
+	target_link_libraries(step-test-${PROJECT_NAME} PRIVATE ${PROJECT_NAME} cjson Z80InsnClock)
+endif()
+
 if(${PROJECT_NAME}_WITH_TESTS)
 	include(CTest)
 
-	find_package(ZLIB   QUIET)
 	find_package(libzip QUIET)
+	find_package(ZLIB   QUIET)
 
 	add_executable(test-${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/sources/test-Z80.c")
 	target_link_libraries(test-${PROJECT_NAME} PRIVATE ${PROJECT_NAME})
