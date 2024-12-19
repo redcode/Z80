@@ -94,7 +94,7 @@ NO)
 
 option(${PROJECT_NAME}_WITH_STEP_TESTS
 "${PROJECT_NAME}: \
-Build the testing tool for JSON-based unit tests."
+Build the testing tool that uses unit tests in JSON format."
 NO)
 
 option(${PROJECT_NAME}_WITH_TESTS
@@ -317,6 +317,11 @@ if(${PROJECT_NAME}_WITH_STEP_TESTS)
 
 	add_executable(step-test-${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/sources/step-test-Z80.c")
 	target_link_libraries(step-test-${PROJECT_NAME} PRIVATE ${PROJECT_NAME} cjson Z80InsnClock)
+
+	install(TARGETS step-test-${PROJECT_NAME}
+		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+		COMPONENT ${PROJECT_NAME}_Testing
+		EXCLUDE_FROM_ALL)
 endif()
 
 if(${PROJECT_NAME}_WITH_TESTS)
@@ -336,6 +341,11 @@ if(${PROJECT_NAME}_WITH_TESTS)
 	if(${PROJECT_NAME}_WITH_EXECUTE)
 		target_compile_definitions(test-${PROJECT_NAME} PRIVATE TEST_Z80_WITH_EXECUTE)
 	endif()
+
+	install(TARGETS test-${PROJECT_NAME}
+		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+		COMPONENT ${PROJECT_NAME}_Testing
+		EXCLUDE_FROM_ALL)
 
 	if(${PROJECT_NAME}_FETCH_TEST_FILES)
 		function(_fetch_files _file_list _location _destination_dir)
