@@ -26,6 +26,7 @@ env:
   Z80_WITH_PDF_DOCUMENTATION: YES
   Z80_WITH_PKGCONFIG_SUPPORT: NO
   Z80_WITH_STANDARD_DOCUMENTS: NO
+  Z80_WITH_STEP_TESTS: NO
   Z80_WITH_TESTS: NO
 
 jobs:
@@ -46,7 +47,7 @@ jobs:
     - name: Install dependencies
       run: |
         mkdir -p "${{github.workspace}}/build"
-        curl -L "${{env.ZETA_TARBALL_URL}}" | xz -cd | tar -C "${{github.workspace}}/build" --strip-components=2 -xvf - Zeta/API/Z
+        curl -L "${{env.ZETA_TARBALL_URL}}" | xz -cd | tar -C "${{github.workspace}}/build" --strip-components=2 -xf - Zeta/API/Z
 
     - name: Configure CMake
       run: >-
@@ -59,6 +60,7 @@ jobs:
         -DZ80_WITH_PDF_DOCUMENTATION=${{env.Z80_WITH_PDF_DOCUMENTATION}}
         -DZ80_WITH_PKGCONFIG_SUPPORT=${{env.Z80_WITH_PKGCONFIG_SUPPORT}}
         -DZ80_WITH_STANDARD_DOCUMENTS=${{env.Z80_WITH_STANDARD_DOCUMENTS}}
+        -DZ80_WITH_STEP_TESTS=${{env.Z80_WITH_STEP_TESTS}}
         -DZ80_WITH_TESTS=${{env.Z80_WITH_TESTS}}
         -B "${{github.workspace}}/build"
         -S "${{github.workspace}}"
