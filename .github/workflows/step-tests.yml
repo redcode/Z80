@@ -1,29 +1,24 @@
-name: Build and test library
+name: Step tests
 
 on:
   push:
     paths:
-    - '.github/workflows/build-and-test-library.yml'
+    - '.github/workflows/step-tests.yml'
     - 'API/**'
     - 'CMake/FindZeta.cmake'
-    - 'sources/test-Z80.c'
+    - 'sources/step-test-Z80.c'
     - 'sources/Z80.c'
-    - 'sources/Z80.rc.in'
-    - 'support/*.sha3-512'
     - 'CMakeLists.txt'
   pull_request:
     paths:
-    - '.github/workflows/build-and-test-library.yml'
+    - '.github/workflows/step-tests.yml'
     - 'API/**'
     - 'CMake/FindZeta.cmake'
-    - 'sources/test-Z80.c'
+    - 'sources/step-test-Z80.c'
     - 'sources/Z80.c'
-    - 'sources/Z80.rc.in'
-    - 'support/*.sha3-512'
     - 'CMakeLists.txt'
 
 env:
-  ZETA_TARBALL_URL: 'http://zxe.io/software/Zeta/download/Zeta-latest.tar.xz'
   BUILD_SHARED_LIBS: YES
   CMAKE_BUILD_TYPE: Release
   Z80_FETCH_TEST_FILES: YES
@@ -33,8 +28,8 @@ env:
   Z80_WITH_PDF_DOCUMENTATION: NO
   Z80_WITH_PKGCONFIG_SUPPORT: NO
   Z80_WITH_STANDARD_DOCUMENTS: NO
-  Z80_WITH_STEP_TESTS: NO
-  Z80_WITH_TESTS: YES
+  Z80_WITH_STEP_TESTS: YES
+  Z80_WITH_TESTS: NO
   Z80_WITH_EXECUTE: YES
   Z80_WITH_FULL_IM0: YES
   Z80_WITH_IM0_RETX_NOTIFICATIONS: YES
@@ -44,28 +39,26 @@ env:
   Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG: YES
 
 jobs:
-  build-and-test-library:
-    runs-on: ${{matrix.os}}
-
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+  step-tests:
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install dependencies (POSIX)
-      if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
+    - name: Install dependencies
       run: |
-        mkdir -p "${{github.workspace}}/build"
-        curl -L "${{env.ZETA_TARBALL_URL}}" | xz -cd | tar -C "${{github.workspace}}/build" --strip-components=2 -xf - Zeta/API/Z
+        curl -L https://zxe.io/scripts/add-zxe-apt-repo.sh | sudo sh
+        sudo apt-get update
+        sudo apt-get -y install libcjson-dev
+        sudo apt-get -y install libz80insnclock-dev
 
-    - name: Install dependencies (Windows)
-      if: startsWith(matrix.os, 'windows')
-      shell: cmd
+    - name: Fetch unit tests
       run: |
-        mkdir "${{github.workspace}}\build"
-        curl -L "${{env.ZETA_TARBALL_URL}}" | 7z x -txz -si -so | 7z x -si -ttar -o"${{github.workspace}}\build" Zeta/API/Z
+        mkdir -p "${{github.workspace}}/build/SingleStepTests-Z80"
+        curl -L $(
+          curl -s https://api.github.com/repos/SingleStepTests/z80/releases/latest |
+          grep tarball_url | cut -d : -f 2,3 | tr -d '" ,'
+        ) | gzip -cd | tar -C "${{github.workspace}}/build/SingleStepTests-Z80" --strip-components=2 -xf - "SingleStepTests**/v1"
 
     - name: Configure CMake
       run: >-
@@ -96,4 +89,4 @@ jobs:
 
     - name: Test
       working-directory: ${{github.workspace}}/build
-      run: ctest --build-config ${{env.CMAKE_BUILD_TYPE}} --output-on-failure
+      run: ./step-test-Z80 SingleStepTests-Z80/*.json
