@@ -948,23 +948,33 @@ int main(int argc, char **argv)
 
 					/* Check cycles */
 
-					for (j = 0; j != expected_cycle_count; j++)
+					if (test_pins)
 						{
-						cJSON *subitem_1 = cJSON_GetArrayItem(expected_cycles, j);
-						Cycle expected = read_cycle_item(subitem_1);
+						for (j = 0; j != expected_cycle_count; j++)
+							{
+							cJSON *subitem_1 = cJSON_GetArrayItem(expected_cycles, j);
+							Cycle expected = read_cycle_item(subitem_1);
 
-						if (j >= cycles_index)
-							print_cycle_mismatch(test, j, Z_NULL, &expected);
+							if (j >= cycles_index)
+								print_cycle_mismatch(test, j, Z_NULL, &expected);
 
-						else if (memcmp(cycles + j, &expected, sizeof(Cycle)))
-							print_cycle_mismatch(test, j, cycles + j, &expected);
+							else if (memcmp(cycles + j, &expected, sizeof(Cycle)))
+								print_cycle_mismatch(test, j, cycles + j, &expected);
+							}
+
+						if (j < cycles_index)
+							for (; j != cycles_index; j++)
+								print_cycle_mismatch(test, j, cycles + j, Z_NULL);
+
+						array_check_end();
 						}
 
-					if (j < cycles_index)
-						for (; j != cycles_index; j++)
-							print_cycle_mismatch(test, j, cycles + j, Z_NULL);
-
-					array_check_end();
+					else if (cycles_index != expected_cycle_count)
+						{
+						mismatch_found(test);
+						printf("%s Cycles: %d/%d", field_separator, cycles_index, expected_cycle_count);
+						field_separator = ",";
+						}
 
 					/* Check ports */
 
