@@ -708,7 +708,7 @@ int main(int argc, char **argv)
 			do	{
 				if ((json = realloc(json, (buffer_size += INPUT_BLOCK_SIZE) + 1)) == Z_NULL)
 					{
-					error = "cannot allocate memory";
+					error = "cannot allocate memory 1";
 					break;
 					}
 
@@ -744,7 +744,7 @@ int main(int argc, char **argv)
 				error = "cannot determine file size";
 
 			else if ((json = malloc(file_size + 1)) == Z_NULL)
-				error = "cannot allocate memory";
+				error = "cannot allocate memory 2";
 
 			else if (fread(json, file_size, 1, file) != 1)
 				error = "I/O error";
@@ -782,8 +782,8 @@ int main(int argc, char **argv)
 			else	{
 				cJSON *test;
 
-				if (	(cycles = realloc(cycles, cycles_size * sizeof(Cycle))) == Z_NULL ||
-					(ports	= realloc(ports,  ports_size  * sizeof(Port ))) == Z_NULL
+				if (	((cycles = realloc(cycles, cycles_size * sizeof(Cycle))) == Z_NULL && cycles_size) ||
+					((ports	 = realloc(ports,  ports_size  * sizeof(Port ))) == Z_NULL && ports_size )
 				)
 					{
 					cannot_allocate_memory:
@@ -850,7 +850,7 @@ int main(int argc, char **argv)
 					/* Run test */
 					z80_run(&cpu, expected_cycle_count);
 
-					if (cycles == Z_NULL || ports == Z_NULL)
+					if ((cycles_size && cycles == Z_NULL) || (ports_size && ports == Z_NULL))
 						goto cannot_allocate_memory;
 
 					test_failed = array_failed = Z_FALSE;
