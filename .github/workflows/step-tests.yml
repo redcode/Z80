@@ -58,7 +58,7 @@ jobs:
         curl -L $(
           curl -s https://api.github.com/repos/SingleStepTests/z80/releases/latest |
           grep tarball_url | cut -d : -f 2,3 | tr -d '" ,'
-        ) | gzip -cd | tar -C "${{github.workspace}}/build/SingleStepTests-Z80" --strip-components=2 -xf - "SingleStepTests**/v1"
+        ) | gzip -cd | tar -C "${{github.workspace}}/build/SingleStepTests-Z80" --strip-components=2 -xf - --wildcards "SingleStepTests*/v1"
 
     - name: Configure CMake
       run: >-
