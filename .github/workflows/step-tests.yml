@@ -19,7 +19,7 @@ on:
     - 'CMakeLists.txt'
 
 env:
-  STEP_TESTS_QUERY_URL: https://api.github.com/repos/SingleStepTests/z80/releases/latest
+  STEP_TESTS_QUERY_URL: 'https://api.github.com/repos/SingleStepTests/z80/releases/latest'
   STEP_TESTS_PATH: '*/v1'
   BUILD_SHARED_LIBS: YES
   CMAKE_BUILD_TYPE: Release
@@ -71,13 +71,13 @@ jobs:
     - name: Fetch test files (macOS)
       if: startsWith(matrix.os, 'macos')
       run: |
-        curl -L $(curl -s ${{env.STEP_TESTS_QUERY_URL}} | grep tarball_url | cut -d : -f 2,3 | tr -d '" ,') |
+        curl -L $(curl -s "${{env.STEP_TESTS_QUERY_URL}}" | grep tarball_url | cut -d : -f 2,3 | tr -d '" ,') |
         gzip -cd | tar -C "${{github.workspace}}/build/step-tests" --strip-components=2 -xf - "${{env.STEP_TESTS_PATH}}"
 
     - name: Fetch test files (Ubuntu)
       if: startsWith(matrix.os, 'ubuntu')
       run: |
-        curl -L $(curl -s ${{env.STEP_TESTS_QUERY_URL}} | grep tarball_url | cut -d : -f 2,3 | tr -d '" ,') |
+        curl -L $(curl -s "${{env.STEP_TESTS_QUERY_URL}}" | grep tarball_url | cut -d : -f 2,3 | tr -d '" ,') |
         gzip -cd | tar -C "${{github.workspace}}/build/step-tests" --strip-components=2 -xf - --wildcards "${{env.STEP_TESTS_PATH}}"
 
     - name: Configure CMake
