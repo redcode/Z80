@@ -72,7 +72,7 @@ jobs:
       if: startsWith(matrix.os, 'macos')
       run: |
         curl -L $(
-          curl -s ${{env.STEP_TESTS_QUERY_URL}} |
+          curl -s $(echo ${{env.STEP_TESTS_QUERY_URL}}) |
           grep tarball_url | cut -d : -f 2,3 | tr -d '" ,'
         ) | gzip -cd | tar -C "${{github.workspace}}/build/step-tests" --strip-components=2 -xf - "${{env.STEP_TESTS_PATH}}"
 
@@ -80,7 +80,7 @@ jobs:
       if: startsWith(matrix.os, 'ubuntu')
       run: |
         curl -L $(
-          curl -s ${{env.STEP_TESTS_QUERY_URL}} |
+          curl -s $(echo ${{env.STEP_TESTS_QUERY_URL}}) |
           grep tarball_url | cut -d : -f 2,3 | tr -d '" ,'
         ) | gzip -cd | tar -C "${{github.workspace}}/build/step-tests" --strip-components=2 -xf - --wildcards "${{env.STEP_TESTS_PATH}}"
 
