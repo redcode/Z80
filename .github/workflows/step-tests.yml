@@ -19,6 +19,8 @@ on:
     - 'CMakeLists.txt'
 
 env:
+  STEP_TESTS_QUERY_URL: https://api.github.com/repos/SingleStepTests/z80/releases/latest
+  STEP_TESTS_PATH: '*/v1'
   BUILD_SHARED_LIBS: YES
   CMAKE_BUILD_TYPE: Release
   Z80_FETCH_TEST_FILES: NO
@@ -40,25 +42,43 @@ env:
 
 jobs:
   step-tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install dependencies
+    - name: Install dependencies (macOS)
+      if: startsWith(matrix.os, 'macos')
+      run: |
+        brew install cjson
+        brew install redcode/zxe/z80insnclock
+
+    - name: Install dependencies (Ubuntu)
+      if: startsWith(matrix.os, 'ubuntu')
       run: |
         curl -L https://zxe.io/scripts/add-zxe-apt-repo.sh | sudo sh
         sudo apt-get update
         sudo apt-get -y install libcjson-dev
         sudo apt-get -y install libz80insnclock-dev
 
-    - name: Fetch unit tests
-      run: |
-        mkdir -p "${{github.workspace}}/build/SingleStepTests-Z80"
-        curl -L $(
-          curl -s https://api.github.com/repos/SingleStepTests/z80/releases/latest |
-          grep tarball_url | cut -d : -f 2,3 | tr -d '" ,'
-        ) | gzip -cd | tar -C "${{github.workspace}}/build/SingleStepTests-Z80" --strip-components=2 -xf - --wildcards "SingleStepTests*/v1"
+    - name: Create subdirectory for test files
+      run: mkdir -p "${{github.workspace}}/build/step-tests"
+
+    - name: Fetch test files (macOS)
+      if: startsWith(matrix.os, 'macos')
+      run: >-
+        curl -L $(curl -s ${{env.STEP_TESTS_QUERY_URL}} | grep tarball_url | cut -d : -f 2,3 | tr -d '" ,') |
+        gzip -cd | tar -C "${{github.workspace}}/build/step-tests" --strip-components=2 -xf - "${{env.STEP_TESTS_PATH}}"
+
+    - name: Fetch test files (Ubuntu)
+      if: startsWith(matrix.os, 'ubuntu')
+      run: >-
+        curl -L $(curl -s ${{env.STEP_TESTS_QUERY_URL}} | grep tarball_url | cut -d : -f 2,3 | tr -d '" ,') |
+        gzip -cd | tar -C "${{github.workspace}}/build/step-tests" --strip-components=2 -xf - --wildcards "${{env.STEP_TESTS_PATH}}"
 
     - name: Configure CMake
       run: >-
@@ -89,4 +109,4 @@ jobs:
 
     - name: Test
       working-directory: ${{github.workspace}}/build
-      run: ./step-test-Z80 SingleStepTests-Z80/*.json
+      run: ./step-test-Z80 step-tests/*.json
