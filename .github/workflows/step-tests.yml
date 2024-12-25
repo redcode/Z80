@@ -70,7 +70,7 @@ jobs:
 
     - name: Fetch test files (macOS)
       if: startsWith(matrix.os, 'macos')
-      run: |
+      run: >-
         curl -L $(
           curl -s ${{env.STEP_TESTS_QUERY_URL}} |
           grep tarball_url | cut -d : -f 2,3 | tr -d '" ,'
@@ -78,7 +78,7 @@ jobs:
 
     - name: Fetch test files (Ubuntu)
       if: startsWith(matrix.os, 'ubuntu')
-      run: |
+      run: >-
         curl -L $(
           curl -s ${{env.STEP_TESTS_QUERY_URL}} |
           grep tarball_url | cut -d : -f 2,3 | tr -d '" ,'
