@@ -45,7 +45,7 @@ env:
 
 jobs:
   build-and-test-library:
-    runs-on: ${{matrix.os}}
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
@@ -57,43 +57,43 @@ jobs:
     - name: Install dependencies (POSIX)
       if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
       run: |
-        mkdir -p "${{github.workspace}}/build"
-        curl -L "${{env.ZETA_TARBALL_URL}}" | xz -cd | tar -C "${{github.workspace}}/build" --strip-components=2 -xf - Zeta/API/Z
+        mkdir -p "${{ github.workspace }}/build"
+        curl -L "${{ env.ZETA_TARBALL_URL }}" | xz -cd | tar -C "${{ github.workspace }}/build" --strip-components=2 -xf - Zeta/API/Z
 
     - name: Install dependencies (Windows)
       if: startsWith(matrix.os, 'windows')
       shell: cmd
       run: |
-        mkdir "${{github.workspace}}\build"
-        curl -L "${{env.ZETA_TARBALL_URL}}" | 7z x -txz -si -so | 7z x -si -ttar -o"${{github.workspace}}\build" Zeta/API/Z
+        mkdir "${{ github.workspace }}\build"
+        curl -L "${{ env.ZETA_TARBALL_URL }}" | 7z x -txz -si -so | 7z x -si -ttar -o"${{ github.workspace }}\build" Zeta/API/Z
 
     - name: Configure CMake
       run: >-
         cmake
-        -DBUILD_SHARED_LIBS=${{env.BUILD_SHARED_LIBS}}
-        -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}}
-        -DZ80_FETCH_TEST_FILES=${{env.Z80_FETCH_TEST_FILES}}
-        -DZ80_NOSTDLIB_FLAGS=${{env.Z80_NOSTDLIB_FLAGS}}
-        -DZ80_WITH_CMAKE_SUPPORT=${{env.Z80_WITH_CMAKE_SUPPORT}}
-        -DZ80_WITH_HTML_DOCUMENTATION=${{env.Z80_WITH_HTML_DOCUMENTATION}}
-        -DZ80_WITH_PDF_DOCUMENTATION=${{env.Z80_WITH_PDF_DOCUMENTATION}}
-        -DZ80_WITH_PKGCONFIG_SUPPORT=${{env.Z80_WITH_PKGCONFIG_SUPPORT}}
-        -DZ80_WITH_STANDARD_DOCUMENTS=${{env.Z80_WITH_STANDARD_DOCUMENTS}}
-        -DZ80_WITH_STEP_TESTS=${{env.Z80_WITH_STEP_TESTS}}
-        -DZ80_WITH_TESTS=${{env.Z80_WITH_TESTS}}
-        -DZ80_WITH_EXECUTE=${{env.Z80_WITH_EXECUTE}}
-        -DZ80_WITH_FULL_IM0=${{env.Z80_WITH_FULL_IM0}}
-        -DZ80_WITH_IM0_RETX_NOTIFICATIONS=${{env.Z80_WITH_IM0_RETX_NOTIFICATIONS}}
-        -DZ80_WITH_Q=${{env.Z80_WITH_Q}}
-        -DZ80_WITH_SPECIAL_RESET=${{env.Z80_WITH_SPECIAL_RESET}}
-        -DZ80_WITH_UNOFFICIAL_RETI=${{env.Z80_WITH_UNOFFICIAL_RETI}}
-        -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=${{env.Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG}}
-        -B "${{github.workspace}}/build"
-        -S "${{github.workspace}}"
+        -DBUILD_SHARED_LIBS=${{ env.BUILD_SHARED_LIBS }}
+        -DCMAKE_BUILD_TYPE=${{ env.CMAKE_BUILD_TYPE }}
+        -DZ80_FETCH_TEST_FILES=${{ env.Z80_FETCH_TEST_FILES }}
+        -DZ80_NOSTDLIB_FLAGS=${{ env.Z80_NOSTDLIB_FLAGS }}
+        -DZ80_WITH_CMAKE_SUPPORT=${{ env.Z80_WITH_CMAKE_SUPPORT }}
+        -DZ80_WITH_HTML_DOCUMENTATION=${{ env.Z80_WITH_HTML_DOCUMENTATION }}
+        -DZ80_WITH_PDF_DOCUMENTATION=${{ env.Z80_WITH_PDF_DOCUMENTATION }}
+        -DZ80_WITH_PKGCONFIG_SUPPORT=${{ env.Z80_WITH_PKGCONFIG_SUPPORT }}
+        -DZ80_WITH_STANDARD_DOCUMENTS=${{ env.Z80_WITH_STANDARD_DOCUMENTS }}
+        -DZ80_WITH_STEP_TESTS=${{ env.Z80_WITH_STEP_TESTS }}
+        -DZ80_WITH_TESTS=${{ env.Z80_WITH_TESTS }}
+        -DZ80_WITH_EXECUTE=${{ env.Z80_WITH_EXECUTE }}
+        -DZ80_WITH_FULL_IM0=${{ env.Z80_WITH_FULL_IM0 }}
+        -DZ80_WITH_IM0_RETX_NOTIFICATIONS=${{ env.Z80_WITH_IM0_RETX_NOTIFICATIONS }}
+        -DZ80_WITH_Q=${{ env.Z80_WITH_Q }}
+        -DZ80_WITH_SPECIAL_RESET=${{ env.Z80_WITH_SPECIAL_RESET }}
+        -DZ80_WITH_UNOFFICIAL_RETI=${{ env.Z80_WITH_UNOFFICIAL_RETI }}
+        -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=${{ env.Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG }}
+        -B "${{ github.workspace }}/build"
+        -S "${{ github.workspace }}"
 
     - name: Build
-      run: cmake --build "${{github.workspace}}/build" --config ${{env.CMAKE_BUILD_TYPE}} --verbose
+      run: cmake --build "${{ github.workspace }}/build" --config ${{ env.CMAKE_BUILD_TYPE }} --verbose
 
     - name: Test
-      working-directory: ${{github.workspace}}/build
-      run: ctest --build-config ${{env.CMAKE_BUILD_TYPE}} --output-on-failure
+      working-directory: ${{ github.workspace }}/build
+      run: ctest --build-config ${{ env.CMAKE_BUILD_TYPE }} --output-on-failure
