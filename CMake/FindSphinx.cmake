@@ -34,7 +34,7 @@ This module will set the following variables in your project:
 ``Sphinx_FOUND``
   ``TRUE`` if all requested Sphinx tools were found.
 
-``Sphinx_<TOOL>_VERSION``
+``Sphinx_<COMPONENT>_VERSION``
   The version of the ``sphinx-<component>`` executable that was found, where
   ``<COMPONENT>`` and ``<component>`` are the uppercase and lowercase names of
   the component, respectively.
