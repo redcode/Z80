@@ -94,12 +94,13 @@ NO)
 
 option(${PROJECT_NAME}_WITH_STEP_TESTS
 "${PROJECT_NAME}: \
-Build the testing tool that uses unit tests in JSON format."
+Build `step-test-Z80`, a tool for unit tests in JSON format."
 NO)
 
 option(${PROJECT_NAME}_WITH_TESTS
 "${PROJECT_NAME}: \
-Build the testing tool that runs CP/M and ZX Spectrum programs."
+Build `test-Z80`, a tool that runs various Z80-specific tests for CP/M
+and ZX Spectrum."
 NO)
 
 option(${PROJECT_NAME}_WITH_EXECUTE
