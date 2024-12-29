@@ -4,7 +4,7 @@
  ____ \/__/  /\_\  __ \\ \/\ \ ________________________________________________
 |        /\_____\\_____\\_____\                                                |
 |  Zilog \/_____//_____//_____/ CPU Emulator - Step Testing Tool               |
-|  Copyright (C) 2021-2024 Manuel Sainz de Baranda y Goñi.                     |
+|  Copyright (C) 2024 Manuel Sainz de Baranda y Goñi.                          |
 |                                                                              |
 |  This program is free software: you can redistribute it and/or modify it     |
 |  under the terms of the GNU General Public License as published by the Free  |
@@ -27,6 +27,7 @@
 #include <Z/macros/structure.h>
 #include <Z80.h>
 #include <Z80InsnClock.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -56,7 +57,7 @@ typedef struct {
 } Port;
 
 
-/* MARK: - Global variables */
+/* MARK: - Global Variables */
 
 static struct {char const *key; zuint8 options;} const cpu_models[] = {
 	{"zilog-nmos", Z80_MODEL_ZILOG_NMOS},
@@ -94,11 +95,11 @@ static Z80 cpu;
 static Z80InsnClock insn_clock;
 static zuint8 memory[65536];
 
-static Cycle *cycles = Z_NULL;
+static Cycle *cycles;
 static int cycles_size;
 static int cycles_index;
 
-static Port *ports = Z_NULL;
+static Port *ports;
 static int ports_size;
 static int ports_index;
 
@@ -107,7 +108,6 @@ static int expected_port_count;
 
 static zboolean file_failed, test_failed, array_failed;
 static char const *field_separator = "";
-static char const *my_name;
 
 
 static void add_cycle(zuint16 address, zsint16 value, char const *pins)
@@ -162,7 +162,7 @@ static void add_port(zuint16 port, zuint8 value, char direction)
 	}
 
 
-/* CPU callbacks */
+/* CPU Callbacks */
 
 static zuint8 cpu_fetch_opcode(void *context, zuint16 address)
 	{
@@ -255,11 +255,13 @@ static void cpu_out(void *context, zuint16 port, zuint8 value)
 	}
 
 
-static zuint8 cpu_clock_direct_read(void *context, zuint16 address)
+/* Instruction Clock Callback */
+
+static zuint8 insn_clock_read(void *context, zuint16 address)
 	{return memory[address];}
 
 
-/* Member lookup */
+/* Member Lookup */
 
 static Member *find_member(char const *key)
 	{
@@ -285,7 +287,7 @@ static zuint8 expected_ram_address_value(cJSON *ram, zuint16 address)
 	}
 
 
-/* JSON validation */
+/* JSON Validation */
 
 static zboolean is_number_between(cJSON *number, zuint min, zuint max)
 	{
@@ -355,6 +357,8 @@ static zboolean validate_tests(cJSON *tests)
 		int size;
 
 		if (	!cJSON_IsObject(test)					||
+			(item = cJSON_GetObjectItem(test, "name")) == Z_NULL	||
+			!cJSON_IsString(item)					||
 			(item = cJSON_GetObjectItem(test, "initial")) == Z_NULL ||
 			!validate_test_state(item)				||
 			(item = cJSON_GetObjectItem(test, "final"  )) == Z_NULL ||
@@ -552,17 +556,6 @@ static zboolean string_is_option(char const* string, char const* short_option, c
 	{return !strcmp(string, short_option) || !strcmp(string, long_option);}
 
 
-static zboolean string_to_uint8(char const* string, zuint8 maximum, zuint8 *value)
-	{
-	char *end;
-	zulong parsed = strtoul(string, &end, 0);
-
-	if (end == string || *end || parsed > maximum) return Z_FALSE;
-	*value = (zuint8)parsed;
-	return Z_TRUE;
-	}
-
-
 int main(int argc, char **argv)
 	{
 	char const *invalid;
@@ -572,17 +565,14 @@ int main(int argc, char **argv)
 	int bad_file_count    = 0;
 	int passed_file_count = 0;
 	int failed_file_count = 0;
+	int test_count;
 	int passed_test_count = 0;
 	int failed_test_count = 0;
 	zboolean test_format_and_exit = Z_FALSE;
 	zboolean produce_json_output  = Z_FALSE;
 	zboolean test_pins	      = Z_FALSE;
-	zboolean stdin_read	      = Z_FALSE;
+	zboolean read_from_stdin      = Z_FALSE;
 	zuint8 verbosity = 2;
-
-	/* Get the name of the program. */
-	my_name = strrchr(*argv, '/');
-	my_name = my_name == Z_NULL || my_name[1] == '\0' ? *argv : &my_name[1];
 
 	/* The emulator is set to Zilog NMOS by default */
 	cpu.options = Z80_MODEL_ZILOG_NMOS;
@@ -602,7 +592,7 @@ int main(int argc, char **argv)
 
 		else if (string_is_option(argv[i], "-h", "--help"))
 			{
-			printf(	"Usage: %s [options] (<JSON-file>...|-)\n"
+			printf(	"Usage: step-test-Z80 [options] <JSON-file>...\n"
 				"\n"
 				"Options:\n"
 				"  -V, --version           Print version information and exit.\n"
@@ -618,9 +608,8 @@ int main(int argc, char **argv)
 				"  zilog-cmos  Zilog CMOS\n"
 				"  nec-nmos    NEC NMOS\n"
 				"\n"
-				"Email bug reports and questions to <manuel@zxe.io>\n"
-				"Open issues at <https://github.com/redcode/Z80>\n",
-				my_name);
+				"Email bug reports to <manuel@zxe.io>\n"
+				"Open issues at <https://github.com/redcode/Z80>\n");
 
 			return 0;
 			}
@@ -652,32 +641,43 @@ int main(int argc, char **argv)
 
 		else if (string_is_option(argv[i], "-v", "--verbosity"))
 			{
-			if (++i == argc) goto incomplete_option;
+			char *end;
+			zulong parsed;
 
-			if (!string_to_uint8(argv[i], 3, &verbosity))
+			if (++i == argc) goto incomplete_option;
+			parsed = strtoul(argv[i], &end, 0);
+
+			if (end == argv[i] || *end || parsed > 2)
 				{
 				invalid = "verbosity level";
 				goto invalid_argument;
 				}
+
+			verbosity = (zuint8)parsed;
+			}
+
+		else	{
+			invalid = "option";
+			goto invalid_argument;
 			}
 		}
 
 	if (!(file_count = argc - i))
 		{
-		fprintf(stderr, "%s: No test file specified.\n", my_name);
+		fputs("step-test-Z80: No file specified.\n", stderr);
 		goto bad_syntax;
 		}
 
 	/* Initialize CPU */
 
 	cpu.context	 = Z_NULL;
-	cpu.fetch_opcode = (Z80Read )cpu_fetch_opcode;
-	cpu.nop		 = (Z80Read )cpu_nop;
+	cpu.fetch_opcode = cpu_fetch_opcode;
+	cpu.nop		 = cpu_nop;
 	cpu.fetch	 =
-	cpu.read	 = (Z80Read )cpu_read;
-	cpu.write	 = (Z80Write)cpu_write;
-	cpu.in		 = (Z80Read )cpu_in;
-	cpu.out		 = (Z80Write)cpu_out;
+	cpu.read	 = cpu_read;
+	cpu.write	 = cpu_write;
+	cpu.in		 = cpu_in;
+	cpu.out		 = cpu_out;
 	cpu.halt	 = Z_NULL;
 	cpu.ld_i_a	 =
 	cpu.ld_r_a	 =
@@ -686,35 +686,33 @@ int main(int argc, char **argv)
 	cpu.hook	 = Z_NULL;
 	cpu.illegal	 = Z_NULL;
 
-	z80_insn_clock_initialize(&insn_clock, &cpu.af, &cpu.bc, &cpu.hl, &cpu, cpu_clock_direct_read);
+	z80_insn_clock_initialize(&insn_clock, &cpu.af, &cpu.bc, &cpu.hl, &cpu, insn_clock_read);
+
+	cycles = Z_NULL;
+	ports  = Z_NULL;
 
 	if (verbosity && !produce_json_output)
 		setvbuf(stdout, Z_NULL, _IONBF, 0);
 
-	for (; !stdin_read && i != argc; i++)
+	for (; !read_from_stdin && i != argc; i++)
 		{
+		char const *error = Z_NULL, *parse_end;
 		char *json = Z_NULL;
-		char const *error = Z_NULL;
-		cJSON *tests;
 		zusize json_size;
+		cJSON *tests = Z_NULL;
 
 		if (argv[i][0] == '-' && argv[i][1] == '\0')
 			{
 			zusize buffer_size = 0;
 
-			stdin_read = Z_TRUE;
+			read_from_stdin = Z_TRUE;
 			printf("-: ");
 
 			do	{
 				if ((json = realloc(json, (buffer_size += INPUT_BLOCK_SIZE) + 1)) == Z_NULL)
-					{
-					error = "cannot allocate memory 1";
-					break;
-					}
+					goto cannot_allocate_memory;
 
-				json_size = fread(
-					json + buffer_size - INPUT_BLOCK_SIZE,
-					1, INPUT_BLOCK_SIZE, stdin);
+				json_size = fread(json + buffer_size - INPUT_BLOCK_SIZE, 1, INPUT_BLOCK_SIZE, stdin);
 
 				if (ferror(stdin))
 					{
@@ -726,8 +724,8 @@ int main(int argc, char **argv)
 
 			json_size += buffer_size - INPUT_BLOCK_SIZE;
 			}
-		else
-			{
+
+		else	{
 			FILE *file = Z_NULL;
 			long file_size;
 
@@ -736,44 +734,61 @@ int main(int argc, char **argv)
 			if ((file = fopen(argv[i], "r")) == Z_NULL)
 				error = "cannot open file";
 
-			else if (
-				fseek(file, 0, SEEK_END)      ||
-				(file_size = ftell(file)) < 0 ||
-				fseek(file, 0, SEEK_SET)
-			)
-				error = "cannot determine file size";
+			else	{
+				if (	fseek(file, 0, SEEK_END)      ||
+					(file_size = ftell(file)) < 0 ||
+					fseek(file, 0, SEEK_SET)
+				)
+					error = "cannot determine file size";
 
-			else if ((json = malloc(file_size + 1)) == Z_NULL)
-				error = "cannot allocate memory 2";
+				else if ((json_size = (zusize)file_size))
+					{
+					if ((json = malloc(json_size)) == Z_NULL)
+						{
+						fclose(file);
+						goto cannot_allocate_memory;
+						}
 
-			else if (fread(json, file_size, 1, file) != 1)
-				error = "I/O error";
+					if (fread(json, json_size, 1, file) != 1)
+						error = "I/O error";
+					}
 
-			if (file != Z_NULL) fclose(file);
-
-			json_size = (zusize)file_size;
+				fclose(file);
+				}
 			}
 
-		if (error)
+		if (!json_size)
 			{
-			printf("Error: %s\n", error);
-			free(json);
-			read_error_count++;
-			continue;
-			}
-
-		json[json_size] = '\0';
-		tests = cJSON_Parse(json);
-		free(json);
-
-		if (!validate_tests(tests))
-			{
+			invalid_format:
 			puts("Invalid format");
 			bad_file_count++;
 			}
 
+		else if (error)
+			{
+			file_load_error:
+			free(json);
+			printf("Error: %s\n", error);
+			read_error_count++;
+			}
+
+		else if ((tests = cJSON_ParseWithLengthOpts(json, json_size, &parse_end, Z_FALSE)) == Z_NULL)
+			{
+			free(json);
+			if (errno == ENOMEM) goto cannot_allocate_memory;
+			goto invalid_format;
+			}
+
 		else	{
-			if (test_format_and_exit)
+			free(json);
+
+			if (!validate_tests(tests))
+				{
+				cJSON_Delete(tests);
+				goto invalid_format;
+				}
+
+			else if (test_format_and_exit)
 				{
 				passed_file_count++;
 				puts("OK");
@@ -782,16 +797,11 @@ int main(int argc, char **argv)
 			else	{
 				cJSON *test;
 
-				if (	((cycles = realloc(cycles, cycles_size * sizeof(Cycle))) == Z_NULL && cycles_size) ||
-					((ports	 = realloc(ports,  ports_size  * sizeof(Port ))) == Z_NULL && ports_size )
-				)
-					{
-					cannot_allocate_memory:
-					cJSON_Delete(tests);
-					puts("Error");
-					fprintf(stderr, "%s: Cannot allocate memory.\n", my_name);
-					goto exit_with_error;
-					}
+				if (cycles_size && (cycles = malloc(cycles_size * sizeof(Cycle))) == Z_NULL)
+					goto cannot_allocate_memory;
+
+				if (ports_size && (ports = malloc(ports_size * sizeof(Port))) == Z_NULL)
+					goto cannot_allocate_memory;
 
 				file_failed = Z_FALSE;
 
@@ -1012,16 +1022,42 @@ int main(int argc, char **argv)
 					puts("OK");
 					}
 				}
+
+			cJSON_Delete(tests ); tests  = Z_NULL;
+			free	    (ports ); ports  = Z_NULL;
+			free	    (cycles); cycles = Z_NULL;
 			}
 
-		cJSON_Delete(tests);
+		continue;
+
+		cannot_allocate_memory:
+		free(ports );
+		free(cycles);
+		if (tests != Z_NULL) cJSON_Delete(tests);
+		puts("Error");
+		fputs("step-test-Z80: Cannot allocate memory.\n", stderr);
+		return -1;
 		}
 
 	/* Print results summary */
 
-	printf("\nResults:%c%d files in total", test_format_and_exit ? ' ' : '\n', file_count);
+	printf(	"\nResults:%c%d file%s in total",
+		test_format_and_exit ? ' ' : '\n',
+		file_count,
+		file_count > 1 ? "s" : "");
 
-	if (file_count == passed_file_count) printf(", all passed");
+	if (file_count == 1) printf(
+		", %s",
+		passed_file_count
+			? "passed"
+			: (failed_file_count
+				? "failed"
+				: (bad_file_count ? "invalid" : "unreadable")));
+
+	else if (file_count == passed_file_count) printf(", all passed"	   );
+	else if (file_count == failed_file_count) printf(", all failed"	   );
+	else if (file_count == bad_file_count	) printf(", all invalid"   );
+	else if (file_count == read_error_count	) printf(", all unreadable");
 
 	else	{
 		if (passed_file_count) printf(", %d passed",	 passed_file_count);
@@ -1030,16 +1066,16 @@ int main(int argc, char **argv)
 		if (read_error_count ) printf(", %d unreadable", read_error_count );
 		}
 
-	if (!test_format_and_exit)
+	if (!test_format_and_exit && (test_count = passed_test_count + failed_test_count))
 		{
-		printf(".\n%d tests in total", passed_test_count + failed_test_count);
+		printf(	".\n%d%s test%s in total",
+			test_count,
+			bad_file_count || read_error_count ? " valid" : "",
+			test_count > 1 ? "s" : "");
 
-		if (!failed_test_count) printf(", all passed");
-
-		else	{
-			if (passed_test_count) printf(", %d passed", passed_test_count);
-			if (failed_test_count) printf(", %d failed", failed_test_count);
-			}
+		if (!failed_test_count) printf(",%s passed", passed_test_count > 1 ? " all" : "");
+		else if (!passed_test_count) printf(",%s failed", failed_test_count > 1 ? " all" : "");
+		else printf(", %d passed, %d failed", passed_test_count, failed_test_count);
 		}
 
 	puts(".");
@@ -1048,16 +1084,14 @@ int main(int argc, char **argv)
 	return read_error_count + bad_file_count + failed_file_count == 0 ? 0 : -1;
 
 	incomplete_option:
-	fprintf(stderr, "%s: Incomplete option: '%s'\n", my_name, argv[i - 1]);
+	fprintf(stderr, "step-test-Z80: Incomplete option: %s\n", argv[i - 1]);
 	goto bad_syntax;
 
 	invalid_argument:
-	fprintf(stderr, "%s: Invalid %s: '%s'\n", my_name, invalid, argv[i]);
+	fprintf(stderr, "step-test-Z80: Invalid %s: %s\n", invalid, argv[i]);
 
 	bad_syntax:
-	fprintf(stderr, "%s: Type '%s -h' for help.\n", my_name, my_name);
-
-	exit_with_error:
+	fputs("step-test-Z80: Type 'step-test-Z80 -h' for help.\n", stderr);
 	return -1;
 	}
 

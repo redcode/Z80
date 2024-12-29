@@ -757,7 +757,9 @@ int main(int argc, char **argv)
 
 		else if (string_is_option(argv[i], "-h", "--help"))
 			{
-			puts(	"Usage: test-Z80 [options] (--all|<test>...)\n"
+			puts(	"Usage:\n"
+				"  test-Z80 [options] --all [<test>...]\n"
+				"  test-Z80 [options] <test>...\n"
 				"\n"
 				"Options:\n"
 				"  -V, --version           Print version information and exit.\n"
@@ -804,7 +806,7 @@ int main(int argc, char **argv)
 				"    20  Tests all flags after executing `ccf` after each instruction.\n"
 				"    21  Tests all flags after executing `bit N,(hl)` after each instruction.\n"
 				"\n"
-				"Email bug reports and questions to <manuel@zxe.io>\n"
+				"Email bug reports to <manuel@zxe.io>\n"
 				"Open issues at <https://github.com/redcode/Z80>");
 
 			goto exit_without_error;
