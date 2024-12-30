@@ -95,11 +95,11 @@ static Z80 cpu;
 static Z80InsnClock insn_clock;
 static zuint8 memory[65536];
 
-static Cycle *cycles;
+static Cycle *cycles = Z_NULL;
 static int cycles_size;
 static int cycles_index;
 
-static Port *ports;
+static Port *ports = Z_NULL;
 static int ports_size;
 static int ports_index;
 
@@ -109,6 +109,8 @@ static int expected_port_count;
 static zboolean file_failed, test_failed, array_failed;
 static char const *field_separator = "";
 
+static zboolean cpu_break = Z_FALSE;
+
 
 static void add_cycle(zuint16 address, zsint16 value, char const *pins)
 	{
@@ -116,20 +118,22 @@ static void add_cycle(zuint16 address, zsint16 value, char const *pins)
 
 	if (cycles_index == cycles_size)
 		{
-		if (cpu.cycles == cpu.cycle_limit) return;
+		if (cpu_break) return;
 		cycles_size += Z80_MAXIMUM_CYCLES_PER_STEP;
 
-		if ((cycles = realloc(cycles, cycles_size * sizeof(Cycle))) == Z_NULL)
+		if ((c = realloc(cycles, cycles_size * sizeof(Cycle))) == Z_NULL)
 			{
 			z80_break(&cpu);
 			return;
 			}
+
+		cycles = c;
 		}
 
-	c = cycles + cycles_index;
-	c->address = address;
-	c->value   = value;
-	memcpy(c->pins, pins, 4);
+	c		    = cycles + cycles_index;
+	c->address	    = address;
+	c->value	    = value;
+	*(zuint32 *)c->pins = *(zuint32 *)pins;
 	cycles_index++;
 	}
 
@@ -144,17 +148,18 @@ static void add_port(zuint16 port, zuint8 value, char direction)
 
 	if (ports_index == ports_size)
 		{
-		if (cpu.cycles == cpu.cycle_limit) return;
+		if (cpu_break) return;
 		ports_size += Z80_MAXIMUM_CYCLES_PER_STEP;
 
-		if ((ports = realloc(ports, ports_size * sizeof(Port))) == Z_NULL)
+		if ((p = realloc(ports, ports_size * sizeof(Port))) == Z_NULL)
 			{
 			z80_break(&cpu);
+			cpu_break = Z_TRUE;
 			return;
 			}
 		}
 
-	p = ports + ports_index;
+	p	     = ports + ports_index;
 	p->port	     = port;
 	p->value     = value;
 	p->direction = direction;
@@ -310,7 +315,7 @@ static zboolean validate_test_state(cJSON *state)
 
 	cJSON_ArrayForEach(item, state)
 		{
-		const char *key = item->string;
+		char const *key = item->string;
 
 		if (!strcmp(key, "ram"))
 			{
@@ -807,25 +812,22 @@ int main(int argc, char **argv)
 
 				cJSON_ArrayForEach(test, tests)
 					{
-					cJSON* item;
-					cJSON* initial		    = cJSON_GetObjectItem(test, "initial");
-					cJSON* final		    = cJSON_GetObjectItem(test, "final"  );
-					cJSON* expected_cycles	    = cJSON_GetObjectItem(test, "cycles" );
-					int    expected_cycle_count = cJSON_GetArraySize (expected_cycles);
-					cJSON *subitem_1, *subitem_2;
+					cJSON *item, *subitem_1, *subitem_2;
+					cJSON *initial		   = cJSON_GetObjectItem(test, "initial");
+					cJSON *final		   = cJSON_GetObjectItem(test, "final"  );
+					cJSON *expected_cycles	   = cJSON_GetObjectItem(test, "cycles" );
+					int   expected_cycle_count = cJSON_GetArraySize (expected_cycles);
 					zuint address, actual, expected;
 
-					/* Clean memory */
+					/* Clean memory, power on CPU and start instruction clock. */
 					memset(memory, 0, sizeof(memory));
-
-					/* Power on CPU */
 					z80_power(&cpu, Z_TRUE);
 					z80_insn_clock_start(&insn_clock, cpu.resume);
 
-					/* Set initial CPU state */
-					for (j= 0; j != Z_ARRAY_SIZE(members) - 2; j++)
+					/* Set initial CPU state. */
+					for (j = 0; j != Z_ARRAY_SIZE(members) - 2; j++)
 						{
-						const Member *member = members + j;
+						Member const *member = members + j;
 						cJSON *value;
 						double v = cJSON_GetNumberValue(cJSON_GetObjectItem(initial, member->key));
 
@@ -844,7 +846,7 @@ int main(int argc, char **argv)
 						cpu.data.uint8_array[1] = 0x57;
 						}
 
-					/* Set initial memory state */
+					/* Set initial memory state. */
 					item = cJSON_GetObjectItem(initial, "ram");
 
 					cJSON_ArrayForEach(subitem_1, item) memory[
@@ -857,19 +859,18 @@ int main(int argc, char **argv)
 						? cJSON_GetArraySize(expected_ports)
 						: 0;
 
-					/* Run test */
+					/* Run the test. */
+					cpu_break = Z_FALSE;
 					z80_run(&cpu, expected_cycle_count);
-
-					if ((cycles_size && cycles == Z_NULL) || (ports_size && ports == Z_NULL))
-						goto cannot_allocate_memory;
+					if (cpu_break) goto cannot_allocate_memory;
 
 					test_failed = array_failed = Z_FALSE;
 					field_separator = "";
 
-					/* Check final CPU state */
+					/* Check final CPU state. */
 					for (j = 0; j != Z_ARRAY_SIZE(members) - 2; j++)
 						{
-						const Member *member = members + j;
+						Member const *member = members + j;
 
 						expected = (zuint)cJSON_GetNumberValue(cJSON_GetObjectItem(final, member->key));
 
@@ -913,7 +914,7 @@ int main(int argc, char **argv)
 						field_separator = ",";
 						}
 
-					/* Check final memory state */
+					/* Check final memory state. */
 					item = cJSON_GetObjectItem(final, "ram");
 
 					cJSON_ArrayForEach(subitem_1, item)
@@ -956,7 +957,7 @@ int main(int argc, char **argv)
 
 					array_check_end();
 
-					/* Check cycles */
+					/* Check cycles. */
 
 					if (test_pins)
 						{
@@ -986,7 +987,7 @@ int main(int argc, char **argv)
 						field_separator = ",";
 						}
 
-					/* Check ports */
+					/* Check ports. */
 
 					for (j = 0; j != expected_port_count; j++)
 						{
@@ -1039,7 +1040,7 @@ int main(int argc, char **argv)
 		return -1;
 		}
 
-	/* Print results summary */
+	/* Print results summary. */
 
 	printf(	"\nResults:%c%d file%s in total",
 		test_format_and_exit ? ' ' : '\n',
