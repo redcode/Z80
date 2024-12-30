@@ -2385,7 +2385,7 @@ Z80_API void z80_nmi(Z80 *self)
 			self->cycles += insn_table[DATA[0] = FETCH_OPCODE(PC)](self);
 			}
 
-		R = R_ALL; /* Restore R7 bit */
+		R = R_ALL;
 		return self->cycles;
 		}
 #endif
@@ -2574,9 +2574,9 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #				ifdef Z80_WITH_SPECIAL_RESET
 					(REQUEST & Z80_REQUEST_INT) &&
 #				endif
-				/* if the previous instruction is not `ei` */
+				/* if the previous instruction is not `ei` and... */
 				DATA[0] != 0xFB &&
-				/* if the previous instruction is not `reti/retn` or IFF1 has not changed */
+				/* the previous instruction is not `reti/retn` or IFF1 has not changed. */
 				(self->data.uint32_value & Z_UINT32_BIG_ENDIAN(Z_UINT32(0xFFC70100)))
 				!=			   Z_UINT32_BIG_ENDIAN(Z_UINT32(0xED450000))
 			)
@@ -2626,7 +2626,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					PC >>= special_reset;
 #				endif
 
-				switch (IM) /* response */
+				switch (IM)
 					{
 					/*-------------------------------------------------------------------------.
 					| Interrupt Mode 0: Execute Instruction	     | T-states: 2*n + instruction |
@@ -2707,7 +2707,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							self->cycles += 2 + insn_table[ird](self);
 							}
 
-						/* halt */
+						/* `halt` */
 						else if (ird == 0x76) HALT_LINE = 1;
 
 						/*---------------------------------------------------------------.
@@ -2721,7 +2721,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							self->cycles += 4 + cb_insn_table[DATA[1] = self->inta(im0.context, im0.pc)](self);
 							}
 
-						/* Instructions with the EDh prefix */
+						/* Instructions with the EDh prefix. */
 						else if (ird == 0xED)
 							{
 							Insn insn;
@@ -2746,8 +2746,8 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #								endif
 
 								PC -= ((ird & 0xC7) == 0x43)
-									? 4 /* `ld SS,(WORD)` and `ld (WORD),SS` */
-									: 2 /* All others */;
+									? 4 /* `ld SS,(WORD)` and `ld (WORD),SS`. */
+									: 2 /* All other instructions. */;
 
 								self->cycles += 4 + insn(self);
 
@@ -2766,7 +2766,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 								}
 							}
 
-						/* Instructions with the prefix DDh, FDh, DDCBh or FDCBh */
+						/* Instructions with the prefix DDh, FDh, DDCBh or FDCBh. */
 						else if (IS_XY_PREFIX(ird))
 							{
 							Insn insn;
@@ -2801,7 +2801,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							self->cycles += 2 + insn(self);
 							xy->uint16_value = XY;
 
-							/* Restore PC, except for `jp (XY)` */
+							/* Restore PC, except for `jp (XY)`. */
 							if (ird != 0xE9) PC = im0.pc;
 							}
 
@@ -2833,13 +2833,13 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #					else
 						switch (ird)
 							{
-							case 0xC3: /* jp WORD */
+							case 0xC3: /* `jp WORD` */
 							Q_0
 							MEMPTR = PC = int_fetch_16(self);
 							self->cycles += 2 + 10;
 							continue;
 
-							case 0xCD: /* call WORD */
+							case 0xCD: /* `call WORD` */
 							Q_0
 							MEMPTR = int_fetch_16(self);
 							PUSH(PC);
@@ -2847,7 +2847,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							self->cycles += 2 + 17;
 							continue;
 
-							default: /* `rst N` is assumed for all other instructions */
+							default: /* `rst N` is assumed for all other instructions. */
 							Q_0
 							PUSH(PC);
 							MEMPTR = PC = ird & 56;
@@ -2928,7 +2928,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		self->cycles += insn_table[DATA[0] = FETCH_OPCODE(PC)](self);
 		}
 
-	R = R_ALL; /* Restore R7 bit */
+	R = R_ALL; /* Restore R7 bit. */
 	return self->cycles;
 	}
 
