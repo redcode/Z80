@@ -123,14 +123,13 @@ NO)
 option(${PROJECT_NAME}_WITH_PARITY_COMPUTATION
 "${PROJECT_NAME}: \
 Enable actual parity calculation for the P/V flag instead of using a \
-table of precomputed values (this is for benchmarks, DO NOT ENABLE in \
-production builds)."
+table of precomputed values (NOT RECOMMENDED for production builds)."
 NO)
 
 option(${PROJECT_NAME}_WITH_PRECOMPUTED_DAA
 "${PROJECT_NAME}: \
-Use a table of precomputed values in the `daa` instruction (this is for \
-benchmarks, DO NOT ENABLE in production builds)."
+Use a table of precomputed values to emulate the `daa` instruction (NOT \
+RECOMMENDED for production builds)."
 NO)
 
 option(${PROJECT_NAME}_WITH_Q

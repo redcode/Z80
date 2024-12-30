@@ -166,6 +166,16 @@ The second group of package-specific options configures the source code of the l
    Enable optional notifications for any ``reti`` or ``retn`` instruction executed during the interrupt mode 0 response. |br| |nl|
    The default is ``NO``.
 
+.. option:: -DZ80_WITH_PARITY_COMPUTATION=(YES|NO)
+
+   Enable actual parity calculation for the P/V flag instead of using a table of precomputed values (NOT RECOMMENDED for production builds). |br| |nl|
+   The default is ``NO``.
+
+.. option:: -DZ80_WITH_PRECOMPUTED_DAA=(YES|NO)
+
+   Use a table of precomputed values to emulate the ``daa`` instruction (NOT RECOMMENDED for production builds). |br| |nl|
+   The default is ``NO``.
+
 .. option:: -DZ80_WITH_Q=(YES|NO)
 
    Build the implementation of `Q <https://worldofspectrum.org/forums/discussion/41704>`_. |br| |nl|

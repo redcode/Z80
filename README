@@ -194,6 +194,16 @@ library by predefining macros that enable optional features:
         executed during the interrupt mode 0 response.
         The default is `NO`.
 
+    -DZ80_WITH_PARITY_COMPUTATION=(YES|NO)
+        Enable actual parity calculation for the P/V flag instead of using a
+        table of precomputed values (NOT RECOMMENDED for production builds).
+        The default is `NO`.
+
+    -DZ80_WITH_PRECOMPUTED_DAA=(YES|NO)
+        Use a table of precomputed values to emulate the `daa` instruction (NOT
+        RECOMMENDED for production builds).
+        The default is `NO`.
+
     -DZ80_WITH_Q=(YES|NO)
         Build the implementation of Q.
         The default is `NO`.
@@ -313,6 +323,8 @@ have the same name as their CMake equivalents:
     #define Z80_WITH_EXECUTE
     #define Z80_WITH_FULL_IM0
     #define Z80_WITH_IM0_RETX_NOTIFICATIONS
+    #define Z80_WITH_PARITY_COMPUTATION
+    #define Z80_WITH_PRECOMPUTED_DAA
     #define Z80_WITH_Q
     #define Z80_WITH_SPECIAL_RESET
     #define Z80_WITH_UNOFFICIAL_RETI
@@ -343,4 +355,4 @@ with this library. If not, see <http://www.gnu.org/licenses/>.
 
 
 ________________________________________________________________________________
-Last update: 2024-11-18                                               README EOF
+Last update: 2024-12-30                                               README EOF

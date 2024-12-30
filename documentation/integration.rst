@@ -86,6 +86,14 @@ The :ref:`optional features <Introduction:Optional features>` of the emulator me
 
    Enables optional notifications for any ``reti`` or ``retn`` instruction executed during the interrupt mode 0 response.
 
+.. c:macro:: Z80_WITH_PARITY_COMPUTATION
+
+   Enables actual parity calculation for the P/V flag instead of using a table of precomputed values.
+
+.. c:macro:: Z80_WITH_PRECOMPUTED_DAA
+
+   Enables the use of a table of precomputed values to emulate the ``daa`` instruction.
+
 .. c:macro:: Z80_WITH_Q
 
    Enables the implementation of `Q <https://worldofspectrum.org/forums/discussion/41704>`_.

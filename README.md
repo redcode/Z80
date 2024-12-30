@@ -470,6 +470,14 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 	Enable optional notifications for any `reti` or `retn` instruction executed during the interrupt mode 0 response.  
 	The default is `NO`.
 
+* <span id="cmake_option_z80_with_parity_computation">**`-DZ80_WITH_PARITY_COMPUTATION=(YES|NO)`**</span>  
+	Enable actual parity calculation for the P/V flag instead of using a table of precomputed values (NOT RECOMMENDED for production builds).  
+	The default is `NO`.
+
+* <span id="cmake_option_z80_with_precomputed_daa">**`-DZ80_WITH_PRECOMPUTED_DAA=(YES|NO)`**</span>  
+	Use a table of precomputed values to emulate the `daa` instruction (NOT RECOMMENDED for production builds).  
+	The default is `NO`.
+
 * <span id="cmake_option_z80_with_q">**`-DZ80_WITH_Q=(YES|NO)`**</span>  
 	Build the implementation of [Q](https://worldofspectrum.org/forums/discussion/41704).  
 	The default is `NO`.
@@ -649,6 +657,8 @@ The optional features of the emulator mentioned in "[Installation from sources](
 * **<code>#define [Z80_WITH_EXECUTE](#cmake_option_z80_with_execute)</code>**
 * **<code>#define [Z80_WITH_FULL_IM0](#cmake_option_z80_with_full_im0)</code>**
 * **<code>#define [Z80_WITH_IM0_RETX_NOTIFICATIONS](#cmake_option_z80_with_im0_retx_notifications)</code>**
+* **<code>#define [Z80_WITH_PARITY_COMPUTATION](#cmake_option_z80_with_parity_computation)</code>**
+* **<code>#define [Z80_WITH_PRECOMPUTED_DAA](#cmake_option_z80_with_precomputed_daa)</code>**
 * **<code>#define [Z80_WITH_Q](#cmake_option_z80_with_q)</code>**
 * **<code>#define [Z80_WITH_SPECIAL_RESET](#cmake_option_z80_with_special_reset)</code>**
 * **<code>#define [Z80_WITH_UNOFFICIAL_RETI](#cmake_option_z80_with_unofficial_reti)</code>**
