@@ -4,7 +4,7 @@
 #    \/__/  /\_\  __ \\ \/\ \
 #       /\_____\\_____\\_____\
 # Zilog \/_____//_____//_____/ CPU Emulator
-# Copyright (C) 1999-2024 Manuel Sainz de Baranda y Goñi.
+# Copyright (C) 1999-2025 Manuel Sainz de Baranda y Goñi.
 # Released under the terms of the GNU Lesser General Public License v3.
 
 cmake_minimum_required(
@@ -420,9 +420,9 @@ if(${PROJECT_NAME}_WITH_TESTS)
 		)
 			message(WARNING
 				"libzip or zlib were not found on your system, which will cause "
-				"test-Z80 to be built without archive extraction support. When "
+				"`test-Z80` to be built without archive extraction support. When "
 				"this happens, the build system extracts the test files that "
-				"are compressed so that test-Z80 can use them later, but this "
+				"are compressed so that `test-Z80` can use them later, but this "
 				"has failed because the version of CMake you are using is too "
 				"old and does not support archive extraction.\n"
 				"To fix this, expand all archives with \".tar.gz\" or \".zip\" "
