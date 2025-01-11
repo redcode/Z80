@@ -679,6 +679,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **f80** <sub>_by [Richard J. Prinz](https://www.min.at/prinz)_</sub> ⟩ [GitHub](https://github.com/rprinz08/f80)
 * **[Google Capture the Flag (2021)](https://capturetheflag.withgoogle.com)** <sub>_by [Google](https://www.google.com)_</sub> ⟩ [GitHub](https://github.com/google/google-ctf)
 * **[King of the Grid](https://kingofthegrid.com)** <sub>_by [Alex Siryi](https://github.com/desertkun)_</sub> ⟩ [GitHub](https://github.com/kingofthegrid/king-of-the-grid)
+* **MSX1 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/msxemulator)
 * **MZ-1500 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/mz1500emulator)
 * **MZ-2000/80B Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/mz2000emulator)
 * **PC-6001mkII Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/p6mk2emulator)
