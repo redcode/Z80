@@ -44,19 +44,38 @@ env:
 
 jobs:
   step-tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install dependencies
+    - name: Install dependencies (macOS)
+      if: startsWith(matrix.os, 'macos')
+      run: |
+        brew install cjson
+        brew install redcode/zxe/z80insnclock
+
+    - name: Install dependencies (Ubuntu)
+      if: startsWith(matrix.os, 'ubuntu')
       run: |
         curl -L https://zxe.io/scripts/add-zxe-apt-repo.sh | sudo sh
         sudo apt-get update
         sudo apt-get -y install libcjson-dev
         sudo apt-get -y install libz80insnclock-dev
 
-    - name: Fetch test files
+    - name: Fetch test files (macOS)
+      if: startsWith(matrix.os, 'macos')
+      run: |
+        mkdir -p "${{ github.workspace }}/build/step-tests"
+        curl -L $(curl -L -s "${{ env.TEST_FILES_QUERY_URL }}" | grep tarball_url | cut -d ":" -f 2,3 | tr -d '" ,') |
+        gzip -cd | tar -C "${{ github.workspace }}/build/step-tests" --strip-components=2 -xf - "${{ env.TEST_FILES_PATH }}"
+
+    - name: Fetch test files (Ubuntu)
+      if: startsWith(matrix.os, 'ubuntu')
       run: |
         mkdir -p "${{ github.workspace }}/build/step-tests"
         curl -L $(curl -L -s "${{ env.TEST_FILES_QUERY_URL }}" | grep tarball_url | cut -d ":" -f 2,3 | tr -d '" ,') |
