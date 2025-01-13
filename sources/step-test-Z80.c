@@ -4,7 +4,7 @@
  ____ \/__/  /\_\  __ \\ \/\ \ ________________________________________________
 |        /\_____\\_____\\_____\                                                |
 |  Zilog \/_____//_____//_____/ CPU Emulator - Step Testing Tool               |
-|  Copyright (C) 2024 Manuel Sainz de Baranda y Goñi.                          |
+|  Copyright (C) 2024-2025 Manuel Sainz de Baranda y Goñi.                     |
 |                                                                              |
 |  This program is free software: you can redistribute it and/or modify it     |
 |  under the terms of the GNU General Public License as published by the Free  |
@@ -32,7 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define INPUT_BLOCK_SIZE (750 * 1024)
+#define INPUT_BLOCK_SIZE (512 * 1024)
 
 
 /* MARK: - Types */
@@ -95,21 +95,21 @@ static Z80 cpu;
 static Z80InsnClock insn_clock;
 static zuint8 memory[65536];
 
-static Cycle *cycles = Z_NULL;
+static Cycle *cycles;
 static int cycles_size;
 static int cycles_index;
 
-static Port *ports = Z_NULL;
+static Port *ports;
 static int ports_size;
 static int ports_index;
 
-static cJSON *expected_ports = Z_NULL;
+static cJSON *expected_ports;
 static int expected_port_count;
 
 static zboolean file_failed, test_failed, array_failed;
 static char const *field_separator = "";
 
-static zboolean cpu_break = Z_FALSE;
+static zboolean cpu_break;
 
 
 static void add_cycle(zuint16 address, zsint16 value, char const *pins)
@@ -215,7 +215,6 @@ static zuint8 cpu_read(void *context, zuint16 address)
 
 static void cpu_write(void *context, zuint16 address, zuint8 value)
 	{
-	Cycle* cycle = cycles + cycles_index;
 	zuint8 extra = z80_insn_clock_extra_m(&insn_clock);
 
 	Z_UNUSED(context)
@@ -230,7 +229,6 @@ static void cpu_write(void *context, zuint16 address, zuint8 value)
 
 static zuint8 cpu_in(void *context, zuint16 port)
 	{
-	Cycle* cycle = cycles + cycles_index;
 	zuint8 value = (zuint8)cJSON_GetNumberValue(cJSON_GetArrayItem(
 		cJSON_GetArrayItem(expected_ports, ports_index), 1));
 
@@ -247,7 +245,6 @@ static zuint8 cpu_in(void *context, zuint16 port)
 
 static void cpu_out(void *context, zuint16 port, zuint8 value)
 	{
-	Cycle* cycle = cycles + cycles_index;
 	zuint8 extra = z80_insn_clock_extra_out(&insn_clock);
 
 	Z_UNUSED(context)
@@ -358,7 +355,7 @@ static zboolean validate_tests(cJSON *tests)
 
 	cJSON_ArrayForEach(test, tests)
 		{
-		cJSON *item, *array, *subarray;
+		cJSON *item, *array;
 		int size;
 
 		if (	!cJSON_IsObject(test)					||
@@ -589,7 +586,7 @@ int main(int argc, char **argv)
 		if (string_is_option(argv[i], "-V", "--version"))
 			{
 			puts(	"step-test-Z80 v" Z80_LIBRARY_VERSION_STRING "\n"
-				"Copyright (C) 2024 Manuel Sainz de Baranda y Goñi.\n"
+				"Copyright (C) 2024-2025 Manuel Sainz de Baranda y Goñi.\n"
 				"Released under the terms of the GNU General Public License v3.");
 
 			return 0;
@@ -673,7 +670,7 @@ int main(int argc, char **argv)
 		goto bad_syntax;
 		}
 
-	/* Initialize CPU */
+	/* Initialize the CPU emulator and the instruction clock. */
 
 	cpu.context	 = Z_NULL;
 	cpu.fetch_opcode = cpu_fetch_opcode;
@@ -701,7 +698,7 @@ int main(int argc, char **argv)
 
 	for (; !read_from_stdin && i != argc; i++)
 		{
-		char const *error = Z_NULL, *parse_end;
+		char const *error = Z_NULL, *parse_end = Z_NULL;
 		char *json = Z_NULL;
 		zusize json_size;
 		cJSON *tests = Z_NULL;
@@ -780,7 +777,7 @@ int main(int argc, char **argv)
 		else if ((tests = cJSON_ParseWithLengthOpts(json, json_size, &parse_end, Z_FALSE)) == Z_NULL)
 			{
 			free(json);
-			if (errno == ENOMEM) goto cannot_allocate_memory;
+			if (parse_end == Z_NULL) goto cannot_allocate_memory;
 			goto invalid_format;
 			}
 
