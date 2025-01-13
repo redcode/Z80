@@ -121,7 +121,7 @@ static void add_cycle(zuint16 address, zsint16 value, char const *pins)
 		if (cpu_break) return;
 		cycles_size += Z80_MAXIMUM_CYCLES_PER_STEP;
 
-		if ((c = realloc(cycles, cycles_size * sizeof(Cycle))) == Z_NULL)
+		if ((c = realloc(cycles, (zusize)cycles_size * sizeof(Cycle))) == Z_NULL)
 			{
 			z80_break(&cpu);
 			return;
@@ -151,7 +151,7 @@ static void add_port(zuint16 port, zuint8 value, char direction)
 		if (cpu_break) return;
 		ports_size += Z80_MAXIMUM_CYCLES_PER_STEP;
 
-		if ((p = realloc(ports, ports_size * sizeof(Port))) == Z_NULL)
+		if ((p = realloc(ports, (zusize)ports_size * sizeof(Port))) == Z_NULL)
 			{
 			z80_break(&cpu);
 			cpu_break = Z_TRUE;
@@ -260,32 +260,23 @@ static void cpu_out(void *context, zuint16 port, zuint8 value)
 /* Instruction Clock Callback */
 
 static zuint8 insn_clock_read(void *context, zuint16 address)
-	{return memory[address];}
+	{
+	Z_UNUSED(context)
+	return memory[address];
+	}
 
 
 /* Member Lookup */
 
-static Member *find_member(char const *key)
+static Member const *find_member(char const *key)
 	{
-	zusize i;
+	int i;
 
-	for (i = 0; i != Z_ARRAY_SIZE(members); i++)
+	for (i = 0; i != (int)Z_ARRAY_SIZE(members); i++)
 		if (!strcmp(key, members[i].key))
-			return (Member *)&members[i];
+			return (Member const *)&members[i];
 
 	return Z_NULL;
-	}
-
-
-static zuint8 expected_ram_address_value(cJSON *ram, zuint16 address)
-	{
-	cJSON *element;
-
-	cJSON_ArrayForEach(element, ram)
-		if ((zuint16)cJSON_GetNumberValue(cJSON_GetArrayItem(element, 0)) == address)
-			return (zuint8)cJSON_GetNumberValue(cJSON_GetArrayItem(element, 1));
-
-	return 0;
 	}
 
 
@@ -306,7 +297,7 @@ static zboolean validate_test_state(cJSON *state)
 	cJSON *item = Z_NULL;
 
 	if (	!cJSON_IsObject(state) ||
-		cJSON_GetArraySize(state) != Z_ARRAY_SIZE(members) + /* "ram" */ 1
+		cJSON_GetArraySize(state) != (int)Z_ARRAY_SIZE(members) + /* "ram" */ 1
 	)
 		return Z_FALSE;
 
@@ -330,7 +321,7 @@ static zboolean validate_test_state(cJSON *state)
 			}
 
 		else	{
-			Member *member;
+			Member const *member;
 
 			if (	(member = find_member(key)) == NULL ||
 				!is_number_between(item, 0, member->maximum_value)
@@ -395,7 +386,7 @@ static zboolean validate_tests(cJSON *tests)
 
 		if ((item = cJSON_GetObjectItem(test, "ports")) != NULL)
 			{
-			if (!cJSON_IsArray(item) || !(size = cJSON_GetArraySize(item)))
+			if (!cJSON_IsArray(item) || !(size = (zusize)cJSON_GetArraySize(item)))
 				return Z_FALSE;
 
 			if (size > ports_size) ports_size = size;
@@ -560,21 +551,21 @@ static zboolean string_is_option(char const* string, char const* short_option, c
 
 int main(int argc, char **argv)
 	{
-	char const *invalid;
-	int i = 0, j;
-	int file_count;
-	int read_error_count  = 0;
-	int bad_file_count    = 0;
-	int passed_file_count = 0;
-	int failed_file_count = 0;
-	int test_count;
-	int passed_test_count = 0;
-	int failed_test_count = 0;
 	zboolean test_format_and_exit = Z_FALSE;
 	zboolean produce_json_output  = Z_FALSE;
 	zboolean test_pins	      = Z_FALSE;
 	zboolean read_from_stdin      = Z_FALSE;
-	zuint8 verbosity = 2;
+	zuint8 verbosity	      = 2;
+	int file_count;
+	int read_error_count	      = 0;
+	int bad_file_count	      = 0;
+	int passed_file_count	      = 0;
+	int failed_file_count	      = 0;
+	int test_count;
+	int passed_test_count	      = 0;
+	int failed_test_count	      = 0;
+	int j, i		      = 0;
+	char const *invalid;
 
 	/* The emulator is set to Zilog NMOS by default */
 	cpu.options = Z80_MODEL_ZILOG_NMOS;
@@ -711,7 +702,7 @@ int main(int argc, char **argv)
 			printf("-: ");
 
 			do	{
-				if ((json = realloc(json, (buffer_size += INPUT_BLOCK_SIZE) + 1)) == Z_NULL)
+				if ((json = realloc(json, buffer_size += INPUT_BLOCK_SIZE)) == Z_NULL)
 					goto cannot_allocate_memory;
 
 				json_size = fread(json + buffer_size - INPUT_BLOCK_SIZE, 1, INPUT_BLOCK_SIZE, stdin);
@@ -759,19 +750,19 @@ int main(int argc, char **argv)
 				}
 			}
 
-		if (!json_size)
+		if (error)
 			{
-			invalid_format:
-			puts("Invalid format");
-			bad_file_count++;
-			}
-
-		else if (error)
-			{
-			file_load_error:
 			free(json);
 			printf("Error: %s\n", error);
 			read_error_count++;
+			}
+
+		else if (!json_size)
+			{
+			free(json);
+			invalid_format:
+			puts("Invalid format");
+			bad_file_count++;
 			}
 
 		else if ((tests = cJSON_ParseWithLengthOpts(json, json_size, &parse_end, Z_FALSE)) == Z_NULL)
@@ -799,21 +790,21 @@ int main(int argc, char **argv)
 			else	{
 				cJSON *test;
 
-				if (cycles_size && (cycles = malloc(cycles_size * sizeof(Cycle))) == Z_NULL)
+				if (cycles_size && (cycles = malloc((zusize)cycles_size * sizeof(Cycle))) == Z_NULL)
 					goto cannot_allocate_memory;
 
-				if (ports_size && (ports = malloc(ports_size * sizeof(Port))) == Z_NULL)
+				if (ports_size && (ports = malloc((zusize)ports_size * sizeof(Port))) == Z_NULL)
 					goto cannot_allocate_memory;
 
 				file_failed = Z_FALSE;
 
 				cJSON_ArrayForEach(test, tests)
 					{
-					cJSON *item, *subitem_1, *subitem_2;
-					cJSON *initial		   = cJSON_GetObjectItem(test, "initial");
-					cJSON *final		   = cJSON_GetObjectItem(test, "final"  );
-					cJSON *expected_cycles	   = cJSON_GetObjectItem(test, "cycles" );
-					int   expected_cycle_count = cJSON_GetArraySize (expected_cycles);
+					cJSON *item, *subitem;
+					cJSON *initial		 = cJSON_GetObjectItem(test, "initial");
+					cJSON *final		 = cJSON_GetObjectItem(test, "final"  );
+					cJSON *expected_cycles	 = cJSON_GetObjectItem(test, "cycles" );
+					int expected_cycle_count = cJSON_GetArraySize (expected_cycles);
 					zuint address, actual, expected;
 
 					/* Clean memory, power on CPU and start instruction clock. */
@@ -822,10 +813,9 @@ int main(int argc, char **argv)
 					z80_insn_clock_start(&insn_clock, cpu.resume);
 
 					/* Set initial CPU state. */
-					for (j = 0; j != Z_ARRAY_SIZE(members) - 2; j++)
+					for (j = 0; j != (int)Z_ARRAY_SIZE(members) - 2; j++)
 						{
 						Member const *member = members + j;
-						cJSON *value;
 						double v = cJSON_GetNumberValue(cJSON_GetObjectItem(initial, member->key));
 
 						if (member->maximum_value == 65535)
@@ -846,9 +836,9 @@ int main(int argc, char **argv)
 					/* Set initial memory state. */
 					item = cJSON_GetObjectItem(initial, "ram");
 
-					cJSON_ArrayForEach(subitem_1, item) memory[
-						(zuint16)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem_1, 0))] =
-						(zuint8 )cJSON_GetNumberValue(cJSON_GetArrayItem(subitem_1, 1));
+					cJSON_ArrayForEach(subitem, item) memory[
+						(zuint16)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem, 0))] =
+						(zuint8 )cJSON_GetNumberValue(cJSON_GetArrayItem(subitem, 1));
 
 					cycles_index = ports_index = 0;
 
@@ -858,14 +848,14 @@ int main(int argc, char **argv)
 
 					/* Run the test. */
 					cpu_break = Z_FALSE;
-					z80_run(&cpu, expected_cycle_count);
+					z80_run(&cpu, (zusize)expected_cycle_count);
 					if (cpu_break) goto cannot_allocate_memory;
 
 					test_failed = array_failed = Z_FALSE;
 					field_separator = "";
 
 					/* Check final CPU state. */
-					for (j = 0; j != Z_ARRAY_SIZE(members) - 2; j++)
+					for (j = 0; j != (int)Z_ARRAY_SIZE(members) - 2; j++)
 						{
 						Member const *member = members + j;
 
@@ -907,27 +897,27 @@ int main(int argc, char **argv)
 					)
 						{
 						mismatch_found(test);
-						printf("%s P: %u/%u", field_separator, (zuint)cpu.data.uint8_array[0], 0xFB);
+						printf("%s P: %u/%u", field_separator, (zuint)cpu.data.uint8_array[0], 0xFBU);
 						field_separator = ",";
 						}
 
 					/* Check final memory state. */
 					item = cJSON_GetObjectItem(final, "ram");
 
-					cJSON_ArrayForEach(subitem_1, item)
+					cJSON_ArrayForEach(subitem, item)
 						{
-						zuint address  = (zuint)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem_1, 0));
-						zuint actual   = memory[address];
-						zuint expected = (zuint)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem_1, 1));
+						address	 = (zuint)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem, 0));
+						actual	 = memory[address];
+						expected = (zuint)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem, 1));
 
 						if (actual == expected) memory[address] = 0;
-						else if (!actual) memory[address] = expected;
+						else if (!actual) memory[address] = (zuint8)expected;
 						}
 
 					for (address = 0; address != 65536; address++)
 						if (memory[address])
 							{
-							zuint8 expected = 0;
+							expected = 0;
 
 							mismatch_found(test);
 
@@ -939,17 +929,17 @@ int main(int argc, char **argv)
 								field_separator = ",";
 								}
 
-							cJSON_ArrayForEach(subitem_1, item)
-								if ((zuint)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem_1, 0)) == address)
+							cJSON_ArrayForEach(subitem, item)
+								if ((zuint)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem, 0)) == address)
 									{
-									expected = (zuint)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem_1, 1));
+									expected = (zuint)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem, 1));
 									break;
 									}
 
 							printf(	"%04X %02X/%02X",
-								address,
-								memory[address] == expected ? 0 : memory[address],
-								expected);
+								(zuint)address,
+								(zuint)(memory[address] == expected ? 0 : memory[address]),
+								(zuint)expected);
 							}
 
 					array_check_end();
@@ -960,14 +950,13 @@ int main(int argc, char **argv)
 						{
 						for (j = 0; j != expected_cycle_count; j++)
 							{
-							cJSON *subitem_1 = cJSON_GetArrayItem(expected_cycles, j);
-							Cycle expected = read_cycle_item(subitem_1);
+							Cycle expected_cycle = read_cycle_item(cJSON_GetArrayItem(expected_cycles, j));
 
 							if (j >= cycles_index)
-								print_cycle_mismatch(test, j, Z_NULL, &expected);
+								print_cycle_mismatch(test, j, Z_NULL, &expected_cycle);
 
-							else if (memcmp(cycles + j, &expected, sizeof(Cycle)))
-								print_cycle_mismatch(test, j, cycles + j, &expected);
+							else if (memcmp(cycles + j, &expected_cycle, sizeof(Cycle)))
+								print_cycle_mismatch(test, j, cycles + j, &expected_cycle);
 							}
 
 						if (j < cycles_index)
@@ -980,7 +969,7 @@ int main(int argc, char **argv)
 					else if (cycles_index != expected_cycle_count)
 						{
 						mismatch_found(test);
-						printf("%s Cycles: %d/%d", field_separator, cycles_index, expected_cycle_count);
+						printf(	"%s Cycles: %d/%d", field_separator, cycles_index, expected_cycle_count);
 						field_separator = ",";
 						}
 
@@ -988,14 +977,13 @@ int main(int argc, char **argv)
 
 					for (j = 0; j != expected_port_count; j++)
 						{
-						cJSON *subitem_1 = cJSON_GetArrayItem(expected_ports, j);
-						Port expected = read_port_item(subitem_1);
+						Port expected_port = read_port_item(cJSON_GetArrayItem(expected_ports, j));
 
 						if (j >= ports_index)
-							print_port_mismatch(test, j, Z_NULL, &expected);
+							print_port_mismatch(test, j, Z_NULL, &expected_port);
 
-						else if (memcmp(ports + j, &expected, sizeof(Port)))
-							print_port_mismatch(test, j, ports + j, &expected);
+						else if (memcmp(ports + j, &expected_port, sizeof(Port)))
+							print_port_mismatch(test, j, ports + j, &expected_port);
 						}
 
 					if (j < ports_index)
@@ -1077,8 +1065,6 @@ int main(int argc, char **argv)
 		}
 
 	puts(".");
-
-	exit_without_error:
 	return read_error_count + bad_file_count + failed_file_count == 0 ? 0 : -1;
 
 	incomplete_option:
