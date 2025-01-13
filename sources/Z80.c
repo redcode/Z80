@@ -1525,7 +1525,7 @@ INSN(neg)
 | `ccf` and `scf` are the only instructions in which Q affects the flags.    |
 | Patrik Rak cracked the behavior of YF and XF in 2012, confirming that they |
 | are taken, respectively, from bits 5 and 3 of the result of `(Q ^ F) | A`  |
-| [1,2]. This applies to all Zilog Z80 models, both NMOS and CMOS. In 2018,  |
+| [1, 2]. This applies to all Zilog Z80 models, both NMOS and CMOS. In 2018, |
 | David Banks (AKA hoglet) discovered that at least some ST CMOS models do   |
 | not set XF according to this formula and instead take this flag from bit 3 |
 | of A, whereas NEC NMOS models take both flags from A [3].		     |
@@ -1994,19 +1994,19 @@ INSN(out_vBYTE_a)
 	}
 
 
-/*----------------------------------------------------------------------------.
-| The `out (c),0` instruction behaves as `out (c),255` on the Zilog Z80 CMOS. |
-| This was first discovered by Simon Cooke, who reported it on Usenet in 1996 |
-| [1,2]. Later, in 2004, Colin Piggot rediscovered it with his SAM Coupé when |
-| running a demo for SCPDU 6, coincidentally written by Simon Cooke [1]. In   |
-| 2008, this was once again rediscovered by the MSX community [1,3].	      |
-|									      |
-| References:								      |
-| 1. https://sinclair.wiki.zxnet.co.uk/wiki/Z80				      |
-| 2. https://groups.google.com/g/comp.os.cpm/c/HfSTFpaIkuU/m/KotvMWu3bZoJ     |
-| 3. https://msx.org/forum/development/msx-development/bug-z80-emulation-or-  |
-|    tr-hw								      |
-'============================================================================*/
+/*-----------------------------------------------------------------------------.
+| The `out (c),0` instruction behaves as `out (c),255` on the Zilog Z80 CMOS.  |
+| This was first discovered by Simon Cooke, who reported it on Usenet in 1996  |
+| [1, 2]. Later, in 2004, Colin Piggot rediscovered it with his SAM Coupé when |
+| running a demo for SCPDU 6, coincidentally written by Simon Cooke [1]. In    |
+| 2008, this was once again rediscovered by the MSX community [1, 3].	       |
+|									       |
+| References:								       |
+| 1. https://sinclair.wiki.zxnet.co.uk/wiki/Z80				       |
+| 2. https://groups.google.com/g/comp.os.cpm/c/HfSTFpaIkuU/m/KotvMWu3bZoJ      |
+| 3. https://msx.org/forum/development/msx-development/bug-z80-emulation-or-tr |
+|    -hw								       |
+'=============================================================================*/
 
 INSN(out_vc_0)
 	{
@@ -2286,21 +2286,21 @@ INSN(hook)
 
 /* MARK: - Public Functions */
 
-/*----------------------------------------------------------------------.
-| On POWER-ON, the CPU zeroes PC, I and R, sets SP, IX, IY, AF, BC, DE,	|
-| HL, AF', BC', DE' and HL' to FFFFh [1,2], resets the interrupt enable |
-| flip-flops (IFF1 and IFF2) and selects interrupt mode 0 [3]. On Zilog |
-| NMOS models, F is sometimes set to FDh (NF reset) [1].		|
-|									|
-| There is no information about the initial state of MEMPTR and Q, so	|
-| they are assumed to be 0.						|
-|									|
-| References:								|
-| 1. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm |
-| 2. https://worldofspectrum.org/forums/discussion/34574		|
-| 3. Young, Sean (2005-09-18). "Undocumented Z80 Documented, The"	|
-|    v0.91, p. 20.							|
-'======================================================================*/
+/*-----------------------------------------------------------------------.
+| On POWER-ON, the CPU zeroes PC, I and R, sets SP, IX, IY, AF, BC, DE,	 |
+| HL, AF', BC', DE' and HL' to FFFFh [1, 2], resets the interrupt enable |
+| flip-flops (IFF1 and IFF2) and selects interrupt mode 0 [3]. On Zilog  |
+| NMOS models, F is sometimes set to FDh (NF reset) [1].		 |
+|									 |
+| There is no information about the initial state of MEMPTR and Q, so	 |
+| they are assumed to be 0.						 |
+|									 |
+| References:								 |
+| 1. https://baltazarstudios.com/webshare/Z80-undocumented-behavior.htm  |
+| 2. https://worldofspectrum.org/forums/discussion/34574		 |
+| 3. Young, Sean (2005-09-18). "Undocumented Z80 Documented, The" v0.91, |
+|    p. 20.								 |
+'=======================================================================*/
 
 Z80_API void z80_power(Z80 *self, zboolean state)
 	{
@@ -2313,9 +2313,9 @@ Z80_API void z80_power(Z80 *self, zboolean state)
 
 
 /*-------------------------------------------------------------------------.
-| The normal RESET zeroes PC, I, and R [1,2,3,4,5,6], resets the interrupt |
-| enable flip-flops (IFF1 and IFF2) [1,2,3,4,5] and selects interrupt mode |
-| 0 [1,2,3,4,7].							   |
+| The normal RESET zeroes PC, I, and R [1, 2, 3, 4, 5, 6], resets the	   |
+| interrupt enable flip-flops (IFF1 and IFF2) [1, 2, 3, 4, 5] and selects  |
+| interrupt mode 0 [1, 2, 3, 4, 7].					   |
 |									   |
 | References:								   |
 | 1. Zilog (2016-09). "Z80 CPU User Manual" rev. 11, p. 6.		   |
@@ -2512,7 +2512,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| simulations [3].							   |
 			|									   |
 			| In 2022, Manuel Sainz de Baranda y Goñi discovered that the CPU does not |
-			| accept a second NMI during the NMI response [4,5]. Therefore, it is not  |
+			| accept a second NMI during the NMI response [4, 5]. Therefore, it is not |
 			| possible to chain two NMI responses in a row without executing at least  |
 			| one instruction between them [3].					   |
 			|									   |
@@ -2562,7 +2562,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| not accept the maskable interrupt if IFF1 and IFF2 do not have the same  |
 			| state prior to the execution of the instruction, which can only be	   |
 			| caused by an earlier NMI response [1]. This behavior was rediscovered in |
-			| 2022 by Manuel Sainz de Baranda y Goñi [2,3].				   |
+			| 2022 by Manuel Sainz de Baranda y Goñi [2, 3].			   |
 			|									   |
 			| References:								   |
 			| 1. Weissflog, Andre (2021-12-17). "New Cycle-Stepped Z80 Emulator, A".   |
@@ -2637,10 +2637,10 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| the instruction is fetched [1]. Each INTA M-cycle takes as many T-states |
 					| as its normal M1 counterpart (the opcode fetch M-cycle) plus the 2 wait  |
 					| T-states mentioned above [1]. Subsequent bytes of the instruction are	   |
-					| fetched by using normal memory read M-cycles [1,2], during which the	   |
+					| fetched by using normal memory read M-cycles [1, 2], during which the	   |
 					| interrupting I/O device must still supply the data [2]. The PC register, |
 					| however, remains at its pre-interrupt state, not being incremented as a  |
-					| result of the instruction fetch [1,2].				   |
+					| result of the instruction fetch [1, 2].				   |
 					|									   |
 					| References:								   |
 					| 1. Checked with "Visual Z80 Remix".					   |
