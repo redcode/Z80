@@ -44,17 +44,17 @@ typedef struct {
 	zuint16 maximum_value;
 } Member;
 
-typedef struct {
+typedef Z_PACKED_STRUCTURE_BEGIN {
 	zuint16 address;
 	zsint16 value;
 	char pins[4];
-} Cycle;
+} Z_PACKED_STRUCTURE_END Cycle;
 
-typedef struct {
+typedef Z_PACKED_STRUCTURE_BEGIN {
 	zuint16 port;
 	zuint8 value;
 	char direction;
-} Port;
+} Z_PACKED_STRUCTURE_END Port;
 
 
 /* MARK: - Global Variables */
@@ -65,46 +65,46 @@ static struct {char const *key; zuint8 options;} const cpu_models[] = {
 	{"nec-nmos",   Z80_MODEL_NEC_NMOS  }};
 
 static Member const members[] = {
-	{"A",	 "a",	 Z_MEMBER_OFFSET(Z80, af.uint8_values.at_1 ),	255},
-	{"AF'",	 "af_",	 Z_MEMBER_OFFSET(Z80, af_.uint16_value     ), 65535},
-	{"B",	 "b",	 Z_MEMBER_OFFSET(Z80, bc.uint8_values.at_1 ),	255},
-	{"BC'",	 "bc_",	 Z_MEMBER_OFFSET(Z80, bc_.uint16_value     ), 65535},
-	{"C",	 "c",	 Z_MEMBER_OFFSET(Z80, bc.uint8_values.at_0 ),	255},
-	{"D",	 "d",	 Z_MEMBER_OFFSET(Z80, de.uint8_values.at_1 ),	255},
-	{"DE'",	 "de_",	 Z_MEMBER_OFFSET(Z80, de_.uint16_value     ), 65535},
-	{"E",	 "e",	 Z_MEMBER_OFFSET(Z80, de.uint8_values.at_0 ),	255},
-	{"F",	 "f",	 Z_MEMBER_OFFSET(Z80, af.uint8_values.at_0 ),	255},
-	{"H",	 "h",	 Z_MEMBER_OFFSET(Z80, hl.uint8_values.at_1 ),	255},
-	{"HL'",	 "hl_",	 Z_MEMBER_OFFSET(Z80, hl_.uint16_value     ), 65535},
-	{"I",	 "i",	 Z_MEMBER_OFFSET(Z80, i			   ),	255},
-	{"IFF1", "iff1", Z_MEMBER_OFFSET(Z80, iff1		   ),	  1},
-	{"IFF2", "iff2", Z_MEMBER_OFFSET(Z80, iff2		   ),	  1},
-	{"IM",	 "im",	 Z_MEMBER_OFFSET(Z80, im		   ),	  2},
-	{"IX",	 "ix",	 Z_MEMBER_OFFSET(Z80, ix_iy[0].uint16_value), 65535},
-	{"IY",	 "iy",	 Z_MEMBER_OFFSET(Z80, ix_iy[1].uint16_value), 65535},
-	{"L",	 "l",	 Z_MEMBER_OFFSET(Z80, hl.uint8_values.at_0 ),	255},
-	{"PC",	 "pc",	 Z_MEMBER_OFFSET(Z80, pc.uint16_value	   ), 65535},
-	{"Q",	 "q",	 Z_MEMBER_OFFSET(Z80, q			   ),	255},
-	{"SP",	 "sp",	 Z_MEMBER_OFFSET(Z80, sp.uint16_value	   ), 65535},
-	{"R",	 "r",	 Z_MEMBER_OFFSET(Z80, r			   ),	255},
-	{"WZ",	 "wz",	 Z_MEMBER_OFFSET(Z80, memptr.uint16_value  ), 65535},
-	{"EI",	 "ei",	 0,						  1},
-	{"P",	 "p",	 0,						  1}};
+	{"A",	 "a",	 Z_MEMBER_OFFSET(Z80, af.uint8_values.at_1 ), Z_UINT8_MAXIMUM },
+	{"AF'",	 "af_",	 Z_MEMBER_OFFSET(Z80, af_.uint16_value     ), Z_UINT16_MAXIMUM},
+	{"B",	 "b",	 Z_MEMBER_OFFSET(Z80, bc.uint8_values.at_1 ), Z_UINT8_MAXIMUM },
+	{"BC'",	 "bc_",	 Z_MEMBER_OFFSET(Z80, bc_.uint16_value     ), Z_UINT16_MAXIMUM},
+	{"C",	 "c",	 Z_MEMBER_OFFSET(Z80, bc.uint8_values.at_0 ), Z_UINT8_MAXIMUM },
+	{"D",	 "d",	 Z_MEMBER_OFFSET(Z80, de.uint8_values.at_1 ), Z_UINT8_MAXIMUM },
+	{"DE'",	 "de_",	 Z_MEMBER_OFFSET(Z80, de_.uint16_value     ), Z_UINT16_MAXIMUM},
+	{"E",	 "e",	 Z_MEMBER_OFFSET(Z80, de.uint8_values.at_0 ), Z_UINT8_MAXIMUM },
+	{"F",	 "f",	 Z_MEMBER_OFFSET(Z80, af.uint8_values.at_0 ), Z_UINT8_MAXIMUM },
+	{"H",	 "h",	 Z_MEMBER_OFFSET(Z80, hl.uint8_values.at_1 ), Z_UINT8_MAXIMUM },
+	{"HL'",	 "hl_",	 Z_MEMBER_OFFSET(Z80, hl_.uint16_value     ), Z_UINT16_MAXIMUM},
+	{"I",	 "i",	 Z_MEMBER_OFFSET(Z80, i			   ), Z_UINT8_MAXIMUM },
+	{"IFF1", "iff1", Z_MEMBER_OFFSET(Z80, iff1		   ), 1		      },
+	{"IFF2", "iff2", Z_MEMBER_OFFSET(Z80, iff2		   ), 1		      },
+	{"IM",	 "im",	 Z_MEMBER_OFFSET(Z80, im		   ), 2		      },
+	{"IX",	 "ix",	 Z_MEMBER_OFFSET(Z80, ix_iy[0].uint16_value), Z_UINT16_MAXIMUM},
+	{"IY",	 "iy",	 Z_MEMBER_OFFSET(Z80, ix_iy[1].uint16_value), Z_UINT16_MAXIMUM},
+	{"L",	 "l",	 Z_MEMBER_OFFSET(Z80, hl.uint8_values.at_0 ), Z_UINT8_MAXIMUM },
+	{"PC",	 "pc",	 Z_MEMBER_OFFSET(Z80, pc.uint16_value	   ), Z_UINT16_MAXIMUM},
+	{"Q",	 "q",	 Z_MEMBER_OFFSET(Z80, q			   ), Z_UINT8_MAXIMUM },
+	{"SP",	 "sp",	 Z_MEMBER_OFFSET(Z80, sp.uint16_value	   ), Z_UINT16_MAXIMUM},
+	{"R",	 "r",	 Z_MEMBER_OFFSET(Z80, r			   ), Z_UINT8_MAXIMUM },
+	{"WZ",	 "wz",	 Z_MEMBER_OFFSET(Z80, memptr.uint16_value  ), Z_UINT16_MAXIMUM},
+	{"EI",	 "ei",	 0,					      1		      },
+	{"P",	 "p",	 0,					      1		      }};
 
 static Z80 cpu;
 static Z80InsnClock insn_clock;
-static zuint8 memory[65536];
+static zuint8 memory[Z_USIZE(65536)];
 
 static Cycle *cycles;
-static int cycles_size;
-static int cycles_index;
+static zuint cycles_size;
+static zuint cycles_index;
 
 static Port *ports;
-static int ports_size;
-static int ports_index;
+static zuint ports_size;
+static zuint ports_index;
 
 static cJSON *expected_ports;
-static int expected_port_count;
+static zuint expected_port_count;
 
 static zboolean file_failed, test_failed, array_failed;
 static char const *field_separator = "";
@@ -121,7 +121,7 @@ static void add_cycle(zuint16 address, zsint16 value, char const *pins)
 		if (cpu_break) return;
 		cycles_size += Z80_MAXIMUM_CYCLES_PER_STEP;
 
-		if ((c = realloc(cycles, (zusize)cycles_size * sizeof(Cycle))) == Z_NULL)
+		if ((c = realloc(cycles, cycles_size * sizeof(Cycle))) == Z_NULL)
 			{
 			z80_break(&cpu);
 			return;
@@ -133,7 +133,7 @@ static void add_cycle(zuint16 address, zsint16 value, char const *pins)
 	c		    = cycles + cycles_index;
 	c->address	    = address;
 	c->value	    = value;
-	*(zuint32 *)c->pins = *(zuint32 *)pins;
+	*(zuint32 *)c->pins = *(zuint32 const *)pins;
 	cycles_index++;
 	}
 
@@ -151,7 +151,7 @@ static void add_port(zuint16 port, zuint8 value, char direction)
 		if (cpu_break) return;
 		ports_size += Z80_MAXIMUM_CYCLES_PER_STEP;
 
-		if ((p = realloc(ports, (zusize)ports_size * sizeof(Port))) == Z_NULL)
+		if ((p = realloc(ports, ports_size * sizeof(Port))) == Z_NULL)
 			{
 			z80_break(&cpu);
 			cpu_break = Z_TRUE;
@@ -167,7 +167,7 @@ static void add_port(zuint16 port, zuint8 value, char direction)
 	}
 
 
-/* CPU Callbacks */
+/* MARK: - Callbacks */
 
 static zuint8 cpu_fetch_opcode(void *context, zuint16 address)
 	{
@@ -230,7 +230,7 @@ static void cpu_write(void *context, zuint16 address, zuint8 value)
 static zuint8 cpu_in(void *context, zuint16 port)
 	{
 	zuint8 value = (zuint8)cJSON_GetNumberValue(cJSON_GetArrayItem(
-		cJSON_GetArrayItem(expected_ports, ports_index), 1));
+		cJSON_GetArrayItem(expected_ports, (int)ports_index), 1));
 
 	Z_UNUSED(context)
 	z80_insn_clock_extra_add_in(&insn_clock);
@@ -257,8 +257,6 @@ static void cpu_out(void *context, zuint16 port, zuint8 value)
 	}
 
 
-/* Instruction Clock Callback */
-
 static zuint8 insn_clock_read(void *context, zuint16 address)
 	{
 	Z_UNUSED(context)
@@ -280,15 +278,15 @@ static Member const *find_member(char const *key)
 	}
 
 
-/* JSON Validation */
+/* MARK: - JSON Validation */
 
-static zboolean is_number_between(cJSON *number, zuint min, zuint max)
+static zboolean is_number_between(cJSON *number, int minimum, int maximum)
 	{
-	int value;
+	double value;
 
-	return	cJSON_IsNumber(number)			      &&
-		(value = cJSON_GetNumberValue(number)) >= min &&
-		value <= max;
+	return	cJSON_IsNumber(number)				  &&
+		(value = cJSON_GetNumberValue(number)) >= minimum &&
+		value <= maximum;
 	}
 
 
@@ -312,10 +310,10 @@ static zboolean validate_test_state(cJSON *state)
 			if (!cJSON_IsArray(item)) return Z_FALSE;
 
 			cJSON_ArrayForEach(subitem, item) if (
-				!cJSON_IsArray(subitem)					     ||
-				cJSON_GetArraySize(subitem) != 2			     ||
-				!is_number_between(cJSON_GetArrayItem(subitem, 0), 0, 65535) ||
-				!is_number_between(cJSON_GetArrayItem(subitem, 1), 0,   255)
+				!cJSON_IsArray(subitem)							||
+				cJSON_GetArraySize(subitem) != 2					||
+				!is_number_between(cJSON_GetArrayItem(subitem, 0), 0, Z_UINT16_MAXIMUM) ||
+				!is_number_between(cJSON_GetArrayItem(subitem, 1), 0, Z_UINT8_MAXIMUM)
 			)
 				return Z_FALSE;
 			}
@@ -362,7 +360,7 @@ static zboolean validate_tests(cJSON *tests)
 		)
 			return Z_FALSE;
 
-		if (size > cycles_size) cycles_size = size;
+		if (size > (int)cycles_size) cycles_size = (zuint)size;
 
 		cJSON_ArrayForEach(array, item)
 			{
@@ -386,20 +384,20 @@ static zboolean validate_tests(cJSON *tests)
 
 		if ((item = cJSON_GetObjectItem(test, "ports")) != NULL)
 			{
-			if (!cJSON_IsArray(item) || !(size = (zusize)cJSON_GetArraySize(item)))
+			if (!cJSON_IsArray(item) || !(size = cJSON_GetArraySize(item)))
 				return Z_FALSE;
 
-			if (size > ports_size) ports_size = size;
+			if (size > (int)ports_size) ports_size = (zuint)size;
 
 			cJSON_ArrayForEach(array, item)
 				{
 				cJSON *io_item;
 
-				if (	!cJSON_IsArray(array)					       ||
-					cJSON_GetArraySize(array) != 3				       ||
-					!is_number_between(cJSON_GetArrayItem(array, 0), 0.0, 65535.0) ||
-					!is_number_between(cJSON_GetArrayItem(array, 1), 0.0,	255.0) ||
-					!cJSON_IsString(io_item = cJSON_GetArrayItem(array, 2))	       ||
+				if (	!cJSON_IsArray(array)						      ||
+					cJSON_GetArraySize(array) != 3					      ||
+					!is_number_between(cJSON_GetArrayItem(array, 0), 0, Z_UINT16_MAXIMUM) ||
+					!is_number_between(cJSON_GetArrayItem(array, 1), 0, Z_UINT8_MAXIMUM ) ||
+					!cJSON_IsString(io_item = cJSON_GetArrayItem(array, 2))		      ||
 					(	strcmp(io_item->valuestring, "r") &&
 						strcmp(io_item->valuestring, "w"))
 				)
@@ -428,17 +426,17 @@ static void mismatch_found(cJSON *test)
 	}
 
 
-static zuint16 data_bus_value_to_string(int value)
+static zuint16 data_bus_value_to_string(zsint16 value)
 	{
 	char string[3];
 
 	if (value == -1) return (zuint16)('-' | ((zuint16)'-' << 8));
-	sprintf(string, "%02X", value);
+	sprintf(string, "%02X", (zuint)value);
 	return *(zuint16 *)string;
 	}
 
 
-static void print_cycle_mismatch(cJSON *test, int index, Cycle const *actual, Cycle const *expected)
+static void print_cycle_mismatch(cJSON *test, zuint index, Cycle const *actual, Cycle const *expected)
 	{
 	char actual_value[2], expected_value[2];
 
@@ -455,7 +453,7 @@ static void print_cycle_mismatch(cJSON *test, int index, Cycle const *actual, Cy
 	if (actual   != Z_NULL) *(zuint16 *)actual_value   = data_bus_value_to_string(actual  ->value);
 	if (expected != Z_NULL) *(zuint16 *)expected_value = data_bus_value_to_string(expected->value);
 
-	printf("%d", index + 1);
+	printf("%u", index + 1);
 
 	if (actual == Z_NULL)
 		printf(" ****""/%04X **""/%.2s ****""/%.4s", expected->address, expected_value, expected->pins);
@@ -476,7 +474,7 @@ static void print_cycle_mismatch(cJSON *test, int index, Cycle const *actual, Cy
 	}
 
 
-static void print_port_mismatch(cJSON *test, int index, Port const *actual, Port const *expected)
+static void print_port_mismatch(cJSON *test, zuint index, Port const *actual, Port const *expected)
 	{
 	mismatch_found(test);
 
@@ -488,7 +486,7 @@ static void print_port_mismatch(cJSON *test, int index, Port const *actual, Port
 		field_separator = ",";
 		}
 
-	printf("%d", index + 1);
+	printf("%u", index + 1);
 
 	if (actual == Z_NULL)
 		printf(" ****""/%04X **""/%02X *""/%c", expected->port, expected->value, expected->direction);
@@ -556,15 +554,16 @@ int main(int argc, char **argv)
 	zboolean test_pins	      = Z_FALSE;
 	zboolean read_from_stdin      = Z_FALSE;
 	zuint8 verbosity	      = 2;
-	int file_count;
-	int read_error_count	      = 0;
-	int bad_file_count	      = 0;
-	int passed_file_count	      = 0;
-	int failed_file_count	      = 0;
-	int test_count;
-	int passed_test_count	      = 0;
-	int failed_test_count	      = 0;
-	int j, i		      = 0;
+	zuint file_count;
+	zuint read_error_count	      = 0;
+	zuint bad_file_count	      = 0;
+	zuint passed_file_count	      = 0;
+	zuint failed_file_count	      = 0;
+	zuint test_count;
+	zuint passed_test_count	      = 0;
+	zuint failed_test_count	      = 0;
+	int i			      = 0;
+	zuint j;
 	char const *invalid;
 
 	/* The emulator is set to Zilog NMOS by default */
@@ -614,7 +613,7 @@ int main(int argc, char **argv)
 			{
 			if (++i == argc) goto incomplete_option;
 
-			for (j = 0; j < (int)Z_ARRAY_SIZE(cpu_models); j++)
+			for (j = 0; j < Z_ARRAY_SIZE(cpu_models); j++)
 				if (!strcmp(argv[i], cpu_models[j].key))
 					{
 					cpu.options = cpu_models[j].options;
@@ -655,7 +654,7 @@ int main(int argc, char **argv)
 			}
 		}
 
-	if (!(file_count = argc - i))
+	if (!(file_count = (zuint)(argc - i)))
 		{
 		fputs("step-test-Z80: No file specified.\n", stderr);
 		goto bad_syntax;
@@ -790,10 +789,10 @@ int main(int argc, char **argv)
 			else	{
 				cJSON *test;
 
-				if (cycles_size && (cycles = malloc((zusize)cycles_size * sizeof(Cycle))) == Z_NULL)
+				if (cycles_size && (cycles = malloc(cycles_size * sizeof(Cycle))) == Z_NULL)
 					goto cannot_allocate_memory;
 
-				if (ports_size && (ports = malloc((zusize)ports_size * sizeof(Port))) == Z_NULL)
+				if (ports_size && (ports = malloc(ports_size * sizeof(Port))) == Z_NULL)
 					goto cannot_allocate_memory;
 
 				file_failed = Z_FALSE;
@@ -801,11 +800,12 @@ int main(int argc, char **argv)
 				cJSON_ArrayForEach(test, tests)
 					{
 					cJSON *item, *subitem;
-					cJSON *initial		 = cJSON_GetObjectItem(test, "initial");
-					cJSON *final		 = cJSON_GetObjectItem(test, "final"  );
-					cJSON *expected_cycles	 = cJSON_GetObjectItem(test, "cycles" );
-					int expected_cycle_count = cJSON_GetArraySize (expected_cycles);
-					zuint address, actual, expected;
+					cJSON *initial		   = cJSON_GetObjectItem(test, "initial");
+					cJSON *final		   = cJSON_GetObjectItem(test, "final"  );
+					cJSON *expected_cycles	   = cJSON_GetObjectItem(test, "cycles" );
+					zuint expected_cycle_count = (zuint)cJSON_GetArraySize(expected_cycles);
+					zuint actual, expected;
+					zuint32 address;
 
 					/* Clean memory, power on CPU and start instruction clock. */
 					memset(memory, 0, sizeof(memory));
@@ -813,12 +813,12 @@ int main(int argc, char **argv)
 					z80_insn_clock_start(&insn_clock, cpu.resume);
 
 					/* Set initial CPU state. */
-					for (j = 0; j != (int)Z_ARRAY_SIZE(members) - 2; j++)
+					for (j = 0; j != Z_ARRAY_SIZE(members) - 2; j++)
 						{
 						Member const *member = members + j;
 						double v = cJSON_GetNumberValue(cJSON_GetObjectItem(initial, member->key));
 
-						if (member->maximum_value == 65535)
+						if (member->maximum_value == Z_UINT16_MAXIMUM)
 							*(zuint16 *)(void *)((char *)&cpu + member->offset) = (zuint16)v;
 
 						else *(zuint8 *)(void *)((char *)&cpu + member->offset) = (zuint8)v;
@@ -843,25 +843,25 @@ int main(int argc, char **argv)
 					cycles_index = ports_index = 0;
 
 					expected_port_count = (expected_ports = cJSON_GetObjectItem(test, "ports")) != Z_NULL
-						? cJSON_GetArraySize(expected_ports)
-						: 0;
+						? (zuint)cJSON_GetArraySize(expected_ports)
+						: 0U;
 
 					/* Run the test. */
 					cpu_break = Z_FALSE;
-					z80_run(&cpu, (zusize)expected_cycle_count);
+					z80_run(&cpu, expected_cycle_count);
 					if (cpu_break) goto cannot_allocate_memory;
 
 					test_failed = array_failed = Z_FALSE;
 					field_separator = "";
 
 					/* Check final CPU state. */
-					for (j = 0; j != (int)Z_ARRAY_SIZE(members) - 2; j++)
+					for (j = 0; j != Z_ARRAY_SIZE(members) - 2; j++)
 						{
 						Member const *member = members + j;
 
 						expected = (zuint)cJSON_GetNumberValue(cJSON_GetObjectItem(final, member->key));
 
-						if (member->maximum_value == 65535)
+						if (member->maximum_value == Z_UINT16_MAXIMUM)
 							actual = *(zuint16 *)(void *)((char *)&cpu + member->offset);
 
 						else actual = *(zuint8 *)(void *)((char *)&cpu + member->offset);
@@ -870,9 +870,9 @@ int main(int argc, char **argv)
 							{
 							mismatch_found(test);
 
-							printf(	member->maximum_value == 65535
+							printf(	member->maximum_value == Z_UINT16_MAXIMUM
 								? "%s %s: %04X/%04X"
-								: (member->maximum_value == 255
+								: (member->maximum_value == Z_UINT8_MAXIMUM
 									? "%s %s: %02X/%02X"
 									: "%s %s: %u/%u"),
 								field_separator, member->caption, actual, expected);
@@ -897,7 +897,7 @@ int main(int argc, char **argv)
 					)
 						{
 						mismatch_found(test);
-						printf("%s P: %u/%u", field_separator, (zuint)cpu.data.uint8_array[0], 0xFBU);
+						printf("%s P: %u/%u", field_separator, cpu.data.uint8_array[0], 0xFBU);
 						field_separator = ",";
 						}
 
@@ -906,7 +906,7 @@ int main(int argc, char **argv)
 
 					cJSON_ArrayForEach(subitem, item)
 						{
-						address	 = (zuint)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem, 0));
+						address	 = (zuint32)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem, 0));
 						actual	 = memory[address];
 						expected = (zuint)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem, 1));
 
@@ -914,11 +914,10 @@ int main(int argc, char **argv)
 						else if (!actual) memory[address] = (zuint8)expected;
 						}
 
-					for (address = 0; address != 65536; address++)
+					for (address = 0; address != Z_UINT32(65536); address++)
 						if (memory[address])
 							{
 							expected = 0;
-
 							mismatch_found(test);
 
 							if (array_failed) printf(", ");
@@ -930,16 +929,16 @@ int main(int argc, char **argv)
 								}
 
 							cJSON_ArrayForEach(subitem, item)
-								if ((zuint)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem, 0)) == address)
+								if ((zuint32)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem, 0)) == address)
 									{
 									expected = (zuint)cJSON_GetNumberValue(cJSON_GetArrayItem(subitem, 1));
 									break;
 									}
 
 							printf(	"%04X %02X/%02X",
-								(zuint)address,
-								(zuint)(memory[address] == expected ? 0 : memory[address]),
-								(zuint)expected);
+								address,
+								memory[address] == expected ? 0U : memory[address],
+								expected);
 							}
 
 					array_check_end();
@@ -950,7 +949,7 @@ int main(int argc, char **argv)
 						{
 						for (j = 0; j != expected_cycle_count; j++)
 							{
-							Cycle expected_cycle = read_cycle_item(cJSON_GetArrayItem(expected_cycles, j));
+							Cycle expected_cycle = read_cycle_item(cJSON_GetArrayItem(expected_cycles, (int)j));
 
 							if (j >= cycles_index)
 								print_cycle_mismatch(test, j, Z_NULL, &expected_cycle);
@@ -969,7 +968,7 @@ int main(int argc, char **argv)
 					else if (cycles_index != expected_cycle_count)
 						{
 						mismatch_found(test);
-						printf(	"%s Cycles: %d/%d", field_separator, cycles_index, expected_cycle_count);
+						printf(	"%s Cycles: %u/%u", field_separator, cycles_index, expected_cycle_count);
 						field_separator = ",";
 						}
 
@@ -977,7 +976,7 @@ int main(int argc, char **argv)
 
 					for (j = 0; j != expected_port_count; j++)
 						{
-						Port expected_port = read_port_item(cJSON_GetArrayItem(expected_ports, j));
+						Port expected_port = read_port_item(cJSON_GetArrayItem(expected_ports, (int)j));
 
 						if (j >= ports_index)
 							print_port_mismatch(test, j, Z_NULL, &expected_port);
@@ -1027,7 +1026,7 @@ int main(int argc, char **argv)
 
 	/* Print results summary. */
 
-	printf(	"\nResults:%c%d file%s in total",
+	printf(	"\nResults:%c%u file%s in total",
 		test_format_and_exit ? ' ' : '\n',
 		file_count,
 		file_count > 1 ? "s" : "");
@@ -1046,22 +1045,22 @@ int main(int argc, char **argv)
 	else if (file_count == read_error_count	) printf(", all unreadable");
 
 	else	{
-		if (passed_file_count) printf(", %d passed",	 passed_file_count);
-		if (failed_file_count) printf(", %d failed",	 failed_file_count);
-		if (bad_file_count   ) printf(", %d invalid",	 bad_file_count	  );
-		if (read_error_count ) printf(", %d unreadable", read_error_count );
+		if (passed_file_count) printf(", %u passed",	 passed_file_count);
+		if (failed_file_count) printf(", %u failed",	 failed_file_count);
+		if (bad_file_count   ) printf(", %u invalid",	 bad_file_count	  );
+		if (read_error_count ) printf(", %u unreadable", read_error_count );
 		}
 
 	if (!test_format_and_exit && (test_count = passed_test_count + failed_test_count))
 		{
-		printf(	".\n%d%s test%s in total",
+		printf(	".\n%u%s test%s in total",
 			test_count,
 			bad_file_count || read_error_count ? " valid" : "",
 			test_count > 1 ? "s" : "");
 
 		if (!failed_test_count) printf(",%s passed", passed_test_count > 1 ? " all" : "");
 		else if (!passed_test_count) printf(",%s failed", failed_test_count > 1 ? " all" : "");
-		else printf(", %d passed, %d failed", passed_test_count, failed_test_count);
+		else printf(", %u passed, %u failed", passed_test_count, failed_test_count);
 		}
 
 	puts(".");
