@@ -2737,7 +2737,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 								self->ld_i_a = (Z80Notify)im0_ld_i_a;
 								self->ld_r_a = (Z80Notify)im0_ld_r_a;
 
-#								ifdef Z80_WITH_RETX_NOTIFICATIONS_IN_IM0
+#								ifdef Z80_WITH_IM0_RETX_NOTIFICATIONS
 									self->reti = (Z80Notify)im0_reti;
 									self->retn = (Z80Notify)im0_retn;
 #								else
