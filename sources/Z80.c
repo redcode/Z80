@@ -2302,7 +2302,7 @@ INSN(hook)
 |    p. 20.								 |
 '=======================================================================*/
 
-Z80_API void z80_power(Z80 *self, zboolean state)
+Z80_API void z80_power(Z80 *self, zbool state)
 	{
 	MEMPTR = PC = R = I = IFF1 = IFF2 = IM = Q =
 	DATA[0] = HALT_LINE = INT_LINE = RESUME = REQUEST = 0;
@@ -2344,7 +2344,7 @@ Z80_API void z80_instant_reset(Z80 *self)
 #endif
 
 
-Z80_API void z80_int(Z80 *self, zboolean state)
+Z80_API void z80_int(Z80 *self, zbool state)
 	{
 	if (!(INT_LINE = state)) REQUEST &= ~(zuint8)Z80_REQUEST_INT;
 	else if (IFF1) REQUEST |= Z80_REQUEST_INT;

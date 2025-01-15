@@ -96,7 +96,7 @@ Usage
 		}
 
 
-	void machine_power(Machine *self, zboolean state)
+	void machine_power(Machine *self, zbool state)
 		{
 		if (state)
 			{

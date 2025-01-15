@@ -106,10 +106,10 @@ static zuint ports_index;
 static cJSON *expected_ports;
 static zuint expected_port_count;
 
-static zboolean file_failed, test_failed, array_failed;
+static zbool file_failed, test_failed, array_failed;
 static char const *field_separator = "";
 
-static zboolean cpu_break;
+static zbool cpu_break;
 
 
 static void add_cycle(zuint16 address, zsint16 value, char const *pins)
@@ -280,7 +280,7 @@ static Member const *find_member(char const *key)
 
 /* MARK: - JSON Validation */
 
-static zboolean is_number_between(cJSON *number, int minimum, int maximum)
+static zbool is_number_between(cJSON *number, int minimum, int maximum)
 	{
 	double value;
 
@@ -290,7 +290,7 @@ static zboolean is_number_between(cJSON *number, int minimum, int maximum)
 	}
 
 
-static zboolean validate_test_state(cJSON *state)
+static zbool validate_test_state(cJSON *state)
 	{
 	cJSON *item = Z_NULL;
 
@@ -335,7 +335,7 @@ static zboolean validate_test_state(cJSON *state)
 	}
 
 
-static zboolean validate_tests(cJSON *tests)
+static zbool validate_tests(cJSON *tests)
 	{
 	cJSON *test;
 
@@ -543,26 +543,26 @@ static Port read_port_item(cJSON const *item)
 	}
 
 
-static zboolean string_is_option(char const* string, char const* short_option, char const* long_option)
+static zbool string_is_option(char const* string, char const* short_option, char const* long_option)
 	{return !strcmp(string, short_option) || !strcmp(string, long_option);}
 
 
 int main(int argc, char **argv)
 	{
-	zboolean test_format_and_exit = Z_FALSE;
-	zboolean produce_json_output  = Z_FALSE;
-	zboolean test_pins	      = Z_FALSE;
-	zboolean read_from_stdin      = Z_FALSE;
-	zuint8 verbosity	      = 2;
+	zbool test_format_and_exit = Z_FALSE;
+	zbool produce_json_output  = Z_FALSE;
+	zbool test_pins		   = Z_FALSE;
+	zbool read_from_stdin	   = Z_FALSE;
+	zuint8 verbosity	   = 2;
 	zuint file_count;
-	zuint read_error_count	      = 0;
-	zuint bad_file_count	      = 0;
-	zuint passed_file_count	      = 0;
-	zuint failed_file_count	      = 0;
+	zuint read_error_count	   = 0;
+	zuint bad_file_count	   = 0;
+	zuint passed_file_count	   = 0;
+	zuint failed_file_count	   = 0;
 	zuint test_count;
-	zuint passed_test_count	      = 0;
-	zuint failed_test_count	      = 0;
-	int i			      = 0;
+	zuint passed_test_count	   = 0;
+	zuint failed_test_count	   = 0;
+	int i			   = 0;
 	zuint j;
 	char const *invalid;
 

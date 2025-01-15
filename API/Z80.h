@@ -775,7 +775,7 @@ Z_EXTERN_C_BEGIN
   *   @c Z_TRUE  = power on;
   *   @c Z_FALSE = power off. */
 
-Z80_API void z80_power(Z80 *self, zboolean state);
+Z80_API void z80_power(Z80 *self, zbool state);
 
 /** @brief Performs an instantaneous normal RESET on a <tt>@ref Z80</tt>.
   *
@@ -800,7 +800,7 @@ Z80_API void z80_special_reset(Z80 *self);
   *   @c Z_TRUE  = set line low;
   *   @c Z_FALSE = set line high. */
 
-Z80_API void z80_int(Z80 *self, zboolean state);
+Z80_API void z80_int(Z80 *self, zbool state);
 
 /** @brief Triggers the NMI line of a <tt>@ref Z80</tt>.
   *

@@ -58,7 +58,7 @@ The source code of the emulator can be configured at compile time by predefining
 
    * Macros: ``Z_ALWAYS_INLINE``, ``Z_API_EXPORT``, ``Z_API_IMPORT``, ``Z_CAST``, ``Z_EMPTY``, ``Z_EXTERN_C_BEGIN``, ``Z_EXTERN_C_END``, ``Z_MEMBER_OFFSET``, ``Z_NULL``, ``Z_UINT8_ROTATE_LEFT``, ``Z_UINT8_ROTATE_RIGHT``, ``Z_UINT16``, ``Z_UINT16_BIG_ENDIAN``, ``Z_UINT32``, ``Z_UINT32_BIG_ENDIAN``, ``Z_UNUSED``, ``Z_USIZE`` and ``Z_USIZE_MAXIMUM``.
 
-   * Types: ``zboolean``, ``zchar``, ``zsint``, ``zsint8``, ``zuint``, ``zuint8``, ``zuint16``, ``zuint32``, ``zusize``, ``ZInt16`` and ``ZInt32``.
+   * Types: ``zbool``, ``zchar``, ``zsint``, ``zsint8``, ``zuint``, ``zuint8``, ``zuint16``, ``zuint32``, ``zusize``, ``ZInt16`` and ``ZInt32``.
 
    You can use this macro when compiling :file:`Z80.c` as a part of your project or (if your types do not break the binary compatibility) when including ``<Z80.h>`` and linking against a pre-built Z80 library.
 

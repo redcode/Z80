@@ -159,7 +159,7 @@ static zuint  search_path_count = 0;
 '=============================================================================*/
 
 static zuint8	   verbosity = 4;
-static zboolean	   show_test_output;
+static zbool	   show_test_output;
 static char const* test_spacing;
 
 /*-----------------------------------------------------------------------------.
@@ -186,9 +186,9 @@ static zuint8 memory[Z_USIZE(65536)];
 | hash of all bytes sent by the test to the print routine.		       |
 '=============================================================================*/
 
-static zboolean completed;
-static zusize   lines, cursor_x, columns;
-static zuint32  hash;
+static zbool   completed;
+static zusize  lines, cursor_x, columns;
+static zuint32 hash;
 
 /*-----------------------------------------------------------------------------.
 | `zx_spectrum_print_hook_address` contains the address of the hook that       |
@@ -207,9 +207,9 @@ static zuint32  hash;
 | These three variables are only used for ZX Spectrum tests.		       |
 '=============================================================================*/
 
-static zuint16	zx_spectrum_print_hook_address;
-static zuint	zx_spectrum_tab;
-static zboolean zx_spectrum_bad_character;
+static zuint16 zx_spectrum_print_hook_address;
+static zuint   zx_spectrum_tab;
+static zbool   zx_spectrum_bad_character;
 
 
 /* MARK: - CPU Callbacks: Auxiliary Functions */
@@ -392,7 +392,7 @@ static char const *compose_path(char const *base_path, char const *file_path)
 	}
 
 
-static zboolean load_file(
+static zbool load_file(
 	char const* base_path,
 	char const* file_path,
 	zuint16	    file_size,
@@ -401,7 +401,7 @@ static zboolean load_file(
 	void*	    buffer
 )
 	{
-	zboolean success = Z_FALSE;
+	zbool success = Z_FALSE;
 	FILE *file = fopen(compose_path(base_path, file_path), "rb");
 
 	if (file != Z_NULL)
@@ -420,10 +420,10 @@ static zboolean load_file(
 	}
 
 
-static zboolean load_test(char const *search_path, Test const *test, void *buffer)
+static zbool load_test(char const *search_path, Test const *test, void *buffer)
 	{
 #	ifdef TEST_Z80_WITH_ARCHIVE_EXTRACTION
-		zboolean success = load_file(
+		zbool success = load_file(
 			search_path, test->file_path, test->file_size,
 			test->code_offset, test->code_size, buffer);
 
@@ -704,11 +704,11 @@ static zuint8 run_test(int test_index)
 	}
 
 
-static zboolean string_is_option(char const* string, char const* short_option, char const* long_option)
+static zbool string_is_option(char const* string, char const* short_option, char const* long_option)
 	{return !strcmp(string, short_option) || !strcmp(string, long_option);}
 
 
-static zboolean string_to_uint8(char const* string, zuint8 maximum, zuint8 *value)
+static zbool string_to_uint8(char const* string, zuint8 maximum, zuint8 *value)
 	{
 	char *end;
 	zulong parsed = strtoul(string, &end, 0);
@@ -721,7 +721,7 @@ static zboolean string_to_uint8(char const* string, zuint8 maximum, zuint8 *valu
 
 int main(int argc, char **argv)
 	{
-	zboolean all = Z_FALSE;
+	zbool all = Z_FALSE;
 	zusize maximum_search_path_size = 0;
 	zuint32 tests_run;
 	int j, i = 0;
