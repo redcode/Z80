@@ -155,6 +155,11 @@ causes the P/V flag to be reset when a maskable interrupt is accepted \
 during the execution of the `ld a,{i|r}` instructions."
 NO)
 
+option(${PROJECT_NAME}_WITH_CODE_GENERATION_TOOLS
+"${PROJECT_NAME}: \
+Build the tools that have been used to generate parts of the source code."
+NO)
+
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 find_package(Zeta REQUIRED)
 
@@ -445,6 +450,28 @@ if(${PROJECT_NAME}_WITH_TESTS)
 		WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 
 	unset(_depot_dir)
+endif()
+
+if(${PROJECT_NAME}_WITH_CODE_GENERATION_TOOLS)
+	add_executable(
+		${PROJECT_NAME}-generate-daa-af-table
+		"${CMAKE_CURRENT_SOURCE_DIR}/sources/generate-daa-af-table.c")
+
+	set_target_properties(
+		${PROJECT_NAME}-generate-daa-af-table
+		PROPERTIES OUTPUT_NAME generate-daa-af-table)
+
+	target_link_libraries(${PROJECT_NAME}-generate-daa-af-table PRIVATE ${PROJECT_NAME})
+
+	add_executable(
+		${PROJECT_NAME}-generate-pf-parity-table
+		"${CMAKE_CURRENT_SOURCE_DIR}/sources/generate-pf-parity-table.c")
+
+	set_target_properties(
+		${PROJECT_NAME}-generate-pf-parity-table
+		PROPERTIES OUTPUT_NAME generate-pf-parity-table)
+
+	target_link_libraries(${PROJECT_NAME}-generate-pf-parity-table PRIVATE Zeta)
 endif()
 
 if(NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
