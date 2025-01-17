@@ -351,8 +351,8 @@ if(${PROJECT_NAME}_WITH_TESTS)
 		EXCLUDE_FROM_ALL)
 
 	if(${PROJECT_NAME}_FETCH_TEST_FILES)
-		function(_fetch_files _file_list _location _destination_dir)
-			file(STRINGS "${_file_list}" _lines)
+		function(_fetch_files _list_path _location _destination_dir)
+			file(STRINGS "${_list_path}" _lines)
 
 			if(_location MATCHES ".*://.*")
 				set(_message_action "Downloading")
