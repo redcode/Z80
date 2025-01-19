@@ -27,12 +27,11 @@
 #include <Z/macros/structure.h>
 #include <Z80.h>
 #include <Z80InsnClock.h>
-#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define INPUT_BLOCK_SIZE (512 * 1024)
+#define INPUT_BLOCK_SIZE (Z_USIZE(512) * Z_USIZE(1024))
 
 
 /* MARK: - Types */
@@ -348,7 +347,7 @@ static zbool validate_tests(cJSON *tests)
 		int size;
 
 		if (	!cJSON_IsObject(test)					||
-			(item = cJSON_GetObjectItem(test, "name")) == Z_NULL	||
+			(item = cJSON_GetObjectItem(test, "name"   )) == Z_NULL	||
 			!cJSON_IsString(item)					||
 			(item = cJSON_GetObjectItem(test, "initial")) == Z_NULL ||
 			!validate_test_state(item)				||
@@ -398,8 +397,7 @@ static zbool validate_tests(cJSON *tests)
 					!is_number_between(cJSON_GetArrayItem(array, 0), 0, Z_UINT16_MAXIMUM) ||
 					!is_number_between(cJSON_GetArrayItem(array, 1), 0, Z_UINT8_MAXIMUM ) ||
 					!cJSON_IsString(io_item = cJSON_GetArrayItem(array, 2))		      ||
-					(	strcmp(io_item->valuestring, "r") &&
-						strcmp(io_item->valuestring, "w"))
+					(strcmp(io_item->valuestring, "r") && strcmp(io_item->valuestring, "w"))
 				)
 					return Z_FALSE;
 				}
@@ -468,7 +466,7 @@ static void print_cycle_mismatch(cJSON *test, zuint index, Cycle const *actual, 
 		if (actual->value != expected->value)
 			printf(" %.2s/%.2s", actual_value, expected_value);
 
-		if (memcmp(actual->pins, expected->pins, 4))
+		if (*(zuint32 *)actual->pins != *(zuint32 *)expected->pins)
 			printf(" %.4s/%.4s", actual->pins, expected->pins);
 		}
 	}
@@ -525,8 +523,7 @@ static Cycle read_cycle_item(cJSON const *item)
 	cycle.address = (zuint16)cJSON_GetNumberValue(cJSON_GetArrayItem(item, 0));
 
 	cycle.value = cJSON_IsNull(item = cJSON_GetArrayItem(item, 1))
-		? -1
-		: (zsint16)cJSON_GetNumberValue(item);
+		? -1 : (zsint16)cJSON_GetNumberValue(item);
 
 	return cycle;
 	}
@@ -843,8 +840,7 @@ int main(int argc, char **argv)
 					cycles_index = ports_index = 0;
 
 					expected_port_count = (expected_ports = cJSON_GetObjectItem(test, "ports")) != Z_NULL
-						? (zuint)cJSON_GetArraySize(expected_ports)
-						: 0U;
+						? (zuint)cJSON_GetArraySize(expected_ports) : 0U;
 
 					/* Run the test. */
 					cpu_break = Z_FALSE;
@@ -873,8 +869,7 @@ int main(int argc, char **argv)
 							printf(	member->maximum_value == Z_UINT16_MAXIMUM
 								? "%s %s: %04X/%04X"
 								: (member->maximum_value == Z_UINT8_MAXIMUM
-									? "%s %s: %02X/%02X"
-									: "%s %s: %u/%u"),
+									? "%s %s: %02X/%02X" : "%s %s: %u/%u"),
 								field_separator, member->caption, actual, expected);
 
 							field_separator = ",";
