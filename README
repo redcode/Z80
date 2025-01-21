@@ -15,7 +15,7 @@
 |                            Zilog Z80 CPU Emulator                            |
 |                                  version 0.2                                 |
 |                                                                              |
-|            Copyright (C) 1999-2024 Manuel Sainz de Baranda y Goñi            |
+|            Copyright (C) 1999-2025 Manuel Sainz de Baranda y Goñi            |
 |     Released under the terms of the GNU Lesser General Public License v3     |
 |                                                                              |
 |                          https://zxe.io/software/Z80                         |
@@ -62,17 +62,25 @@ Test Suite", Patrik Rak's "Zilog Z80 CPU Test Suite" and Peter Helcmanovsky's
 3.  Installation from sources
 =============================
 
+3.1.  Prerequisites
+
 You will need CMake v3.14 or later to build the package and, optionally, recent
 versions of Doxygen, Sphinx and Breathe to compile the documentation. Also, make
 sure that you have LaTeX with PDF support installed on your system if you want
 to generate the documentation in PDF format.
 
-The emulator requires some types and macros included in Zeta (https://zeta.st),
-a dependency-free, header-only library used to retain compatibility with most C
-compilers. Install Zeta or extract its source code tarball to the root directory
-of the Z80 project or its parent directory. Zeta is the sole dependency; the
-emulator is a freestanding implementation and as such does not depend on the C
+The Z80 library requires some types and macros included in Zeta, a header-only,
+dependency-free library used for portability reasons. Install Zeta or extract
+its source code tarball to the root directory of the Z80 project or its parent
+directory. Zeta is the sole dependency; the emulator does not depend on the C
 standard library.
+
+Lastly, the package includes two testing tools. The first one runs various Z80-
+specific tests for CP/M and ZX Spectrum and will use libzip and zlib if they are
+available on your system. The second tool is for unit tests in JSON format and
+requires the cJSON and Z80InsnClock libraries. Building these tools is optional.
+
+3.2.  Configure
 
 Once the prerequisites are met, create a directory and run `cmake` from there to
 prepare the build system:
@@ -113,11 +121,12 @@ library:
 
     -DZ80_DEPOT_LOCATION="<location>"
         Specify the directory or URL of the depot containing the test files
-        (i.e., the firmware and software required by the testing tool).
+        (i.e., the firmware and software required by the `test-Z80` tool).
         The default is `http://zxe.io/depot`.
 
     -DZ80_FETCH_TEST_FILES=(YES|NO)
-        Copy or download the test files from the depot to the build directory.
+        If `Z80_WITH_TESTS` is `YES`, copy or download the test files from the
+        depot to the build directory.
         The default is `NO`.
 
     -DZ80_INSTALL_CMAKEDIR="<path>"
@@ -173,8 +182,14 @@ library:
         AUTHORS, COPYING, COPYING.LESSER, HISTORY, README and THANKS.
         The default is `NO`.
 
+    -DZ80_WITH_STEP_TESTS=(YES|NO)
+        Build `step-test-Z80`, a tool for unit tests in JSON format.
+        It requires cJSON and Z80InsnClock.
+        The default is `NO`.
+
     -DZ80_WITH_TESTS=(YES|NO)
-        Build the testing tool.
+        Build `test-Z80`, a tool that runs various Z80-specific tests for CP/M
+        and ZX Spectrum.
         The default is `NO`.
 
 The second group of package-specific options configures the source code of the
@@ -232,6 +247,8 @@ shared library:
     -DZ80_WITH_Q=YES
     -DZ80_WITH_ZILOG_NMOS_LD_A_IR_BUG=YES
 
+3.3.  Build and install
+
 Finally, once the build system is configured according to your needs, build and
 install the package:
 
@@ -268,15 +285,16 @@ the static versions, `BUILD_SHARED_LIBS` determines which one to link against.
 4.2.  As a CMake subproject
 
 To embed the Z80 library as a CMake subproject, extract the source code tarballs
-of Zeta (https://zeta.st) and Z80 (or clone their respective repositories) into
-a subdirectory of another project. Then use `add_subdirectory` in the parent
-project to add the Z80 source code tree to the build process (N.B., the Z80
-subproject will automatically find Zeta and import it as an interface library).
+of Zeta and Z80 (or clone their respective repositories) into a subdirectory of
+another project. Then use `add_subdirectory` in the parent project to add the
+Z80 source code tree to the build process (N.B., the Z80 subproject will
+automatically find Zeta and import it as an interface library).
 
 It is advisable to configure the Z80 library in the CMakeLists.txt of the parent
-project. This will prevent the user from having to specify configuration options
-for the Z80 subproject through the command line when building the main project.
-See section 3 of this document for a list of available configuration options.
+project. This will eliminate the need for the user to specify configuration
+options for the Z80 subproject through the command line when building the main
+project. See section 3.2 of this document for a list of available configuration
+options.
 
 Example:
 
@@ -301,24 +319,24 @@ rest of the macros are only relevant when compiling Z80.c:
         Specifies the only external header to `#include`, replacing all others.
         Predefine this macro to provide a header file that defines the external
         types and macros used by the emulator, thus preventing your project from
-        depending on Zeta. You can use this when compiling Z80.c as a part of
-        your project or (if your types do not break the binary compatibility)
-        when including `<Z80.h>` and linking against a pre-built Z80 library.
+        depending on Zeta. You can use this when compiling Z80.c within your
+        project or (if your types do not break the binary compatibility) when
+        including `<Z80.h>` and linking against a pre-built Z80 library.
 
     #define Z80_STATIC
-        Restricts the visibility of public symbols.
-        This macro is required if you are building Z80.c as a static library,
-        compiling it directly as a part of your project, or linking your program
-        against the static version of the Z80 library. In either of these cases,
-        make sure this macro is defined before including `"Z80.h"` or `<Z80.h>`.
+        Indicates that the emulator is a static library.
+        This macro must be predefined when building Z80.c as a static library.
+        Additionally, if you compile Z80.c directly within your project or link
+        your program against the static version of the Z80 library, ensure that
+        this macro is defined before including `"Z80.h"` or `<Z80.h>`.
 
     #define Z80_WITH_LOCAL_HEADER
         Tells Z80.c to `#include "Z80.h"` instead of `<Z80.h>`.
 
-The optional features of the emulator mentioned in section 3 of this document
-are disabled by default. If you compile Z80.c as a part of your project, enable
-those features you need by predefining their respective activation macros. They
-have the same name as their CMake equivalents:
+The optional features of the emulator mentioned in section 3.2 of this document
+are disabled by default. If you compile Z80.c within your project, enable those
+features you need by predefining their respective activation macros. They have
+the same name as their CMake equivalents:
 
     #define Z80_WITH_EXECUTE
     #define Z80_WITH_FULL_IM0
@@ -355,4 +373,4 @@ with this library. If not, see <http://www.gnu.org/licenses/>.
 
 
 ________________________________________________________________________________
-Last update: 2024-12-30                                               README EOF
+Last update: 2025-01-21                                               README EOF
