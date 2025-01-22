@@ -15,7 +15,7 @@ This is an important update that addresses a number of issues and also includes 
 2. Moved the public header from ``<emulation/CPU/Z80.h>`` to ``<Z80.h>``.
 3. Removed the Xcode project.
 4. Switched the build system from Premake to `CMake <https://cmake.org>`_.
-5. Switched to `Zeta <https://zeta.st>`_ v0.1.
+5. Switched to `Zeta <https://zxe.io/software/Zeta>`_ v0.1.
 6. Added `pkg-config <https://www.freedesktop.org/wiki/Software/pkg-config>`_ support.
 7. Added the following files to the project: :file:`.vimrc`, :file:`CITATION.cff` and :file:`THANKS`.
 8. Added detailed documentation.

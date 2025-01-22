@@ -28,9 +28,9 @@ When not specified as a component, the linking method is selected according to :
 As a CMake subproject
 =====================
 
-To embed the Z80 library as a CMake subproject, extract the source code tarballs of `Zeta <https://zeta.st/download>`__ and `Z80 <https://zxe.io/software/Z80/download>`_ (or clone their respective repositories) into a subdirectory of another project. Then use |add_subdirectory|_ in the parent project to add the Z80 source code tree to the build process (N.B., the Z80 subproject will automatically find Zeta and import it as an `interface library <https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#interface-libraries>`_).
+To embed the Z80 library as a CMake subproject, extract the source code tarballs of `Zeta <https://zxe.io/software/Zeta/download>`__ and `Z80 <https://zxe.io/software/Z80/download>`_ (or clone their respective repositories) into a subdirectory of another project. Then use |add_subdirectory|_ in the parent project to add the Z80 source code tree to the build process (N.B., the Z80 subproject will automatically find Zeta and import it as an `interface library <https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#interface-libraries>`_).
 
-It is advisable to configure the Z80 library in the :file:`CMakeLists.txt` of the parent project. This will prevent the user from having to specify :ref:`configuration options for the Z80 subproject <cmake_package_options>` through the command line when building the main project.
+It is advisable to configure the Z80 library in the :file:`CMakeLists.txt` of the parent project. This will eliminate the need for the user to specify :ref:`configuration options for the Z80 subproject <cmake_package_options>` through the command line when building the main project.
 
 Example:
 
@@ -54,25 +54,25 @@ The source code of the emulator can be configured at compile time by predefining
 
    Specifies the only external header to ``#include``, replacing all others.
 
-   Predefine this macro to provide a header file that defines the external types and macros used by the emulator, thus preventing your project from depending on `Zeta <https://zeta.st>`__:
+   Predefine this macro to provide a header file that defines the external types and macros used by the emulator, thus preventing your project from depending on `Zeta <https://zxe.io/software/Zeta>`__:
 
    * Macros: ``Z_ALWAYS_INLINE``, ``Z_API_EXPORT``, ``Z_API_IMPORT``, ``Z_CAST``, ``Z_EMPTY``, ``Z_EXTERN_C_BEGIN``, ``Z_EXTERN_C_END``, ``Z_MEMBER_OFFSET``, ``Z_NULL``, ``Z_UINT8_ROTATE_LEFT``, ``Z_UINT8_ROTATE_RIGHT``, ``Z_UINT16``, ``Z_UINT16_BIG_ENDIAN``, ``Z_UINT32``, ``Z_UINT32_BIG_ENDIAN``, ``Z_UNUSED``, ``Z_USIZE`` and ``Z_USIZE_MAXIMUM``.
 
    * Types: ``zbool``, ``zchar``, ``zsint``, ``zsint8``, ``zuint``, ``zuint8``, ``zuint16``, ``zuint32``, ``zusize``, ``ZInt16`` and ``ZInt32``.
 
-   You can use this macro when compiling :file:`Z80.c` as a part of your project or (if your types do not break the binary compatibility) when including ``<Z80.h>`` and linking against a pre-built Z80 library.
+   You can use this macro when compiling :file:`Z80.c` within your project or (if your types do not break the binary compatibility) when including ``<Z80.h>`` and linking against a pre-built Z80 library.
 
 .. c:macro:: Z80_STATIC
 
-   Restricts the visibility of public symbols.
+   Indicates that the emulator is a static library.
 
-   This macro is required if you are building :file:`Z80.c` as a static library, compiling it directly as a part of your project, or linking your program against the static version of the Z80 library. In either of these cases, make sure this macro is defined before including ``"Z80.h"`` or ``<Z80.h>``.
+   This macro must be predefined when building :file:`Z80.c` as a static library. Additionally, if you compile :file:`Z80.c` directly within your project or link your program against the static version of the Z80 library, ensure that this macro is defined before including ``"Z80.h"`` or ``<Z80.h>``.
 
 .. c:macro:: Z80_WITH_LOCAL_HEADER
 
    Tells :file:`Z80.c` to ``#include "Z80.h"`` instead of ``<Z80.h>``.
 
-The :ref:`optional features <Introduction:Optional features>` of the emulator mentioned in the ":doc:`installation-from-sources`" section are disabled by default. If you compile :file:`Z80.c` as a part of your project, enable those features you need by predefining their respective activation macros. They have the same name as their :ref:`CMake equivalents <cmake_package_source_code_options>`:
+The :ref:`optional features <introduction:Optional features>` of the emulator mentioned in the ":ref:`Configure <installation-from-sources:Configure>`" section of ":doc:`installation-from-sources`" are disabled by default. If you compile :file:`Z80.c` within your project, enable those features you need by predefining their respective activation macros. They have the same name as their :ref:`CMake equivalents <cmake_package_source_code_options>`:
 
 .. c:macro:: Z80_WITH_EXECUTE
 

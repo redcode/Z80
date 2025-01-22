@@ -14,11 +14,11 @@ Installation from sources
 
       \newline
 
-.. |cmake_option_build_config| replace:: ``--config``
-.. _cmake_option_build_config: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-build-config
-
 .. |cmake_option_install_component| replace:: ``--component``
 .. _cmake_option_install_component: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-component
+
+.. |cmake_option_build_config| replace:: ``--config``
+.. _cmake_option_build_config: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-build-config
 
 .. |cmake_option_install_strip| replace:: ``--strip``
 .. _cmake_option_install_strip: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-strip
@@ -27,6 +27,7 @@ Installation from sources
 .. _CP/M: https://en.wikipedia.org/wiki/CP/M
 .. _file: https://people.freedesktop.org/~dbn/pkg-config-guide.html
 .. _pkg-config: https://www.freedesktop.org/wiki/Software/pkg-config
+.. _unit tests in JSON format: https://github.com/SingleStepTests/z80
 .. _ZX Spectrum: https://en.wikipedia.org/wiki/ZX_Spectrum
 
 Prerequisites
@@ -34,7 +35,9 @@ Prerequisites
 
 You will need `CMake <https://cmake.org>`_ v3.14 or later to build the package and, optionally, recent versions of `Doxygen <https://www.doxygen.nl>`_, `Sphinx <https://www.sphinx-doc.org>`_ and `Breathe <https://www.breathe-doc.org>`_ to compile the documentation. Also, make sure that you have `LaTeX <https://www.latex-project.org>`_ with PDF support installed on your system if you want to generate the documentation in PDF format.
 
-The emulator requires some types and macros included in `Zeta <https://zeta.st>`_, a dependency-free, `header-only <https://en.wikipedia.org/wiki/Header-only>`_ library used to retain compatibility with most C compilers. Install Zeta or extract its `source code tarball <https://zeta.st/download>`_ to the root directory of the Z80 project or its parent directory. Zeta is the sole dependency; the emulator is a freestanding implementation and as such does not depend on the `C standard library <https://en.wikipedia.org/wiki/C_standard_library>`_.
+The Z80 library requires some types and macros included in `Zeta <https://zxe.io/software/Zeta>`_, a `header-only <https://en.wikipedia.org/wiki/Header-only>`_, dependency-free library used for portability reasons. Install Zeta or extract its `source code tarball <https://zxe.io/software/Zeta/download>`_ to the root directory of the Z80 project or its parent directory. Zeta is the sole dependency; the emulator does not depend on the `C standard library <https://en.wikipedia.org/wiki/C_standard_library>`_.
+
+Lastly, the package includes two testing tools. The first one runs various Z80-specific tests for `CP/M`_ and `ZX Spectrum`_ and will use `libzip <https://libzip.org>`_ and `zlib <https://zlib.net>`_ if they are available on your system. The second tool is for `unit tests in JSON format`_ and requires the `cJSON <https://github.com/DaveGamble/cJSON>`_ and `Z80InsnClock <https://zxe.io/software/Z80InsnClock>`_ libraries. Building these tools is optional.
 
 Configure
 =========
@@ -148,6 +151,12 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
    Install the standard text documents distributed with the package: :file:`AUTHORS`, :file:`COPYING`, :file:`COPYING.LESSER`, :file:`HISTORY`, :file:`README` and :file:`THANKS`. |br| |nl|
    The default is ``NO``.
 
+.. option:: -DZ80_WITH_STEP_TESTING_TOOL=(YES|NO)
+
+   Build :file:`step-test-Z80`, a tool for `unit tests in JSON format`_. |br| |nl|
+   It requires cJSON and Z80InsnClock. |br| |nl|
+   The default is ``NO``.
+
 .. option:: -DZ80_WITH_TESTING_TOOL=(YES|NO)
 
    Build :file:`test-Z80`, a tool that runs various Z80-specific tests for `CP/M`_ and `ZX Spectrum`_. |br| |nl|
@@ -155,7 +164,7 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 
 .. _cmake_package_source_code_options:
 
-The second group of package-specific options configures the source code of the library by predefining macros that enable :ref:`optional features <Introduction:Optional features>`:
+The second group of package-specific options configures the source code of the library by predefining macros that enable :ref:`optional features <introduction:Optional features>`:
 
 .. option:: -DZ80_WITH_EXECUTE=(YES|NO)
 
@@ -222,7 +231,9 @@ Finally, once the build system is configured according to your needs, build and 
    cmake --build . [--config (Debug|Release|RelWithDebInfo|MinSizeRel)]
    cmake --install . [--config <configuration>] [--strip] [--component <component>]
 
-The |cmake_option_build_config|_ option is only necessary for those `CMake generators <https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html>`_ that ignore :option:`CMAKE_BUILD_TYPE<-DCMAKE_BUILD_TYPE>` (e.g., Xcode and Visual Studio). Use |cmake_option_install_strip|_ to remove debugging information and non-public symbols when installing non-debug builds of the shared library. To install only a specific component of the package, use the |cmake_option_install_component|_ option. The project defines the following components:
+The |cmake_option_build_config|_ option is only necessary for those `CMake generators <https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html>`_ that ignore :option:`CMAKE_BUILD_TYPE<-DCMAKE_BUILD_TYPE>` (e.g., Xcode and Visual Studio). Use |cmake_option_install_strip|_ to remove debugging information and non-public symbols when installing non-debug builds of the shared library. To install only a specific component of the package, use the |cmake_option_install_component|_ option.
+
+The project defines the following components:
 
 .. option:: Z80_Runtime
 
@@ -242,3 +253,9 @@ The |cmake_option_build_config|_ option is only necessary for those `CMake gener
 
    * Documentation in HTML format.
    * Documentation in PDF format.
+
+.. option:: Z80_Testing
+
+   * Testing tools.
+
+By default, the build system will install ``Z80_Runtime``, ``Z80_Development`` and ``Z80_Documentation``. The ``Z80_Testing`` component can only be installed explicitly.
