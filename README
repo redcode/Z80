@@ -125,8 +125,8 @@ library:
         The default is `http://zxe.io/depot`.
 
     -DZ80_FETCH_TEST_FILES=(YES|NO)
-        If `Z80_WITH_TESTS` is `YES`, copy or download the test files from the
-        depot to the build directory.
+        If `Z80_WITH_TESTING_TOOL` is `YES`, copy or download the test files
+        from the depot to the build directory.
         The default is `NO`.
 
     -DZ80_INSTALL_CMAKEDIR="<path>"
@@ -182,12 +182,12 @@ library:
         AUTHORS, COPYING, COPYING.LESSER, HISTORY, README and THANKS.
         The default is `NO`.
 
-    -DZ80_WITH_STEP_TESTS=(YES|NO)
+    -DZ80_WITH_STEP_TESTING_TOOL=(YES|NO)
         Build `step-test-Z80`, a tool for unit tests in JSON format.
         It requires cJSON and Z80InsnClock.
         The default is `NO`.
 
-    -DZ80_WITH_TESTS=(YES|NO)
+    -DZ80_WITH_TESTING_TOOL=(YES|NO)
         Build `test-Z80`, a tool that runs various Z80-specific tests for CP/M
         and ZX Spectrum.
         The default is `NO`.
@@ -373,4 +373,4 @@ with this library. If not, see <http://www.gnu.org/licenses/>.
 
 
 ________________________________________________________________________________
-Last update: 2025-01-21                                               README EOF
+Last update: 2025-01-22                                               README EOF

@@ -92,12 +92,12 @@ Install the standard text documents distributed with the package: \
 AUTHORS, COPYING, COPYING.LESSER, HISTORY, README and THANKS."
 NO)
 
-option(${PROJECT_NAME}_WITH_STEP_TESTS
+option(${PROJECT_NAME}_WITH_STEP_TESTING_TOOL
 "${PROJECT_NAME}: \
 Build `step-test-Z80`, a tool for unit tests in JSON format."
 NO)
 
-option(${PROJECT_NAME}_WITH_TESTS
+option(${PROJECT_NAME}_WITH_TESTING_TOOL
 "${PROJECT_NAME}: \
 Build `test-Z80`, a tool that runs various Z80-specific tests for CP/M
 and ZX Spectrum."
@@ -314,7 +314,7 @@ if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION OR ${PROJECT_NAME}_WITH_PDF_DOCUMENTA
 	add_subdirectory(documentation)
 endif()
 
-if(${PROJECT_NAME}_WITH_STEP_TESTS)
+if(${PROJECT_NAME}_WITH_STEP_TESTING_TOOL)
 	find_package(cJSON	  REQUIRED)
 	find_package(Z80InsnClock REQUIRED)
 
@@ -327,7 +327,7 @@ if(${PROJECT_NAME}_WITH_STEP_TESTS)
 		EXCLUDE_FROM_ALL)
 endif()
 
-if(${PROJECT_NAME}_WITH_TESTS)
+if(${PROJECT_NAME}_WITH_TESTING_TOOL)
 	include(CTest)
 
 	find_package(libzip QUIET)

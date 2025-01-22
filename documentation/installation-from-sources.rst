@@ -17,11 +17,17 @@ Installation from sources
 .. |cmake_option_build_config| replace:: ``--config``
 .. _cmake_option_build_config: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-build-config
 
+.. |cmake_option_install_component| replace:: ``--component``
+.. _cmake_option_install_component: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-component
+
 .. |cmake_option_install_strip| replace:: ``--strip``
 .. _cmake_option_install_strip: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-strip
 
-.. |cmake_option_install_component| replace:: ``--component``
-.. _cmake_option_install_component: https://cmake.org/cmake/help/latest/manual/cmake.1.html#cmdoption-cmake-install-component
+.. _config-file package: https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages
+.. _CP/M: https://en.wikipedia.org/wiki/CP/M
+.. _file: https://people.freedesktop.org/~dbn/pkg-config-guide.html
+.. _pkg-config: https://www.freedesktop.org/wiki/Software/pkg-config
+.. _ZX Spectrum: https://en.wikipedia.org/wiki/ZX_Spectrum
 
 Prerequisites
 =============
@@ -75,12 +81,12 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
 
 .. option:: -DZ80_DEPOT_LOCATION="<location>"
 
-   Specify the directory or URL of the depot containing the test files (i.e., the firmware and software required by the :doc:`testing tool <tests>`). |br| |nl|
+   Specify the directory or URL of the depot containing the test files (i.e., the firmware and software required by the :file:`test-Z80` tool). |br| |nl|
    The default is ``"http://zxe.io/depot"``.
 
 .. option:: -DZ80_FETCH_TEST_FILES=(YES|NO)
 
-   Copy or download the test files from the depot to the build directory. |br| |nl|
+   If :option:`Z80_WITH_TESTING_TOOL<-DZ80_WITH_TESTING_TOOL>` is ``YES``, copy or download the test files from the depot to the build directory. |br| |nl|
    The default is ``NO``.
 
 .. option:: -DZ80_INSTALL_CMAKEDIR="<path>"
@@ -142,9 +148,9 @@ Package-specific options are prefixed with ``Z80_`` and can be divided into two 
    Install the standard text documents distributed with the package: :file:`AUTHORS`, :file:`COPYING`, :file:`COPYING.LESSER`, :file:`HISTORY`, :file:`README` and :file:`THANKS`. |br| |nl|
    The default is ``NO``.
 
-.. option:: -DZ80_WITH_TESTS=(YES|NO)
+.. option:: -DZ80_WITH_TESTING_TOOL=(YES|NO)
 
-   Build the :doc:`testing tool <tests>`. |br| |nl|
+   Build :file:`test-Z80`, a tool that runs various Z80-specific tests for `CP/M`_ and `ZX Spectrum`_. |br| |nl|
    The default is ``NO``.
 
 .. _cmake_package_source_code_options:
@@ -236,7 +242,3 @@ The |cmake_option_build_config|_ option is only necessary for those `CMake gener
 
    * Documentation in HTML format.
    * Documentation in PDF format.
-
-.. _config-file package: https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages
-.. _file: https://people.freedesktop.org/~dbn/pkg-config-guide.html
-.. _pkg-config: https://www.freedesktop.org/wiki/Software/pkg-config

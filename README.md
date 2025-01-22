@@ -2,8 +2,8 @@
 
 [![](https://zxe.io/software/Z80/assets/images/documentation-badge.svg)](https://zxe.io/software/Z80/documentation/latest)
 [![](https://github.com/redcode/Z80/actions/workflows/build-and-test-library.yml/badge.svg)](https://github.com/redcode/Z80/actions/workflows/build-and-test-library.yml)
-[![](https://github.com/redcode/Z80/actions/workflows/step-tests.yml/badge.svg)](https://github.com/redcode/Z80/actions/workflows/step-tests.yml)
 [![](https://github.com/redcode/Z80/actions/workflows/build-documentation.yml/badge.svg)](https://github.com/redcode/Z80/actions/workflows/build-documentation.yml)
+[![](https://github.com/redcode/Z80/actions/workflows/step-tests.yml/badge.svg)](https://github.com/redcode/Z80/actions/workflows/step-tests.yml)
 [![](https://zxe.io/software/Z80/assets/images/chat-badge.svg)](https://zxe.io/software/Z80/chat)
 ![](https://zxe.io/software/Z80/assets/images/mentioned-in-awesome-badge.svg)
 
@@ -397,11 +397,11 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 <span id="cmake_package_options">Package-specific options</span> are prefixed with `Z80_` and can be divided into two groups. The first one controls aspects not related to the source code of the library:
 
 * <span id="cmake_option_z80_depot_location">**`-DZ80_DEPOT_LOCATION="<location>"`**</span>  
-	Specify the directory or URL of the depot containing the test files (i.e., the firmware and software required by the [testing tool](#running-the-tests)).  
+	Specify the directory or URL of the depot containing the test files (i.e., the firmware and software required by the [`test-Z80`](#running-the-tests) tool).  
 	The default is `"http://zxe.io/depot"`.
 
 * <span id="cmake_option_z80_fetch_test_files">**`-DZ80_FETCH_TEST_FILES=(YES|NO)`**</span>  
-	Copy or download the test files from the depot to the build directory.  
+	If [`Z80_WITH_TESTING_TOOL`](#cmake_option_z80_with_testing_tool) is `YES`, copy or download the test files from the depot to the build directory.  
 	The default is `NO`.
 
 * <span id="cmake_option_z80_install_cmakedir">**`-DZ80_INSTALL_CMAKEDIR="<path>"`**</span>  
@@ -452,8 +452,8 @@ If in doubt, read the [CMake documentation](https://cmake.org/documentation/) fo
 	Install the standard text documents distributed with the package: [`AUTHORS`](AUTHORS), [`COPYING`](COPYING), [`COPYING.LESSER`](COPYING.LESSER), [`HISTORY`](HISTORY), [`README`](README) and [`THANKS`](THANKS).  
 	The default is `NO`.
 
-* <span id="cmake_option_z80_with_tests">**`-DZ80_WITH_TESTS=(YES|NO)`**</span>  
-	Build the [testing tool](#running-the-tests).  
+* <span id="cmake_option_z80_with_testing_tool">**`-DZ80_WITH_TESTING_TOOL=(YES|NO)`**</span>  
+	Build `test-Z80`, a tool that runs various Z80-specific tests for [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum).  
 	The default is `NO`.
 
 <span id="cmake_package_source_code_options">The second group of package-specific options</span> configures the source code of the library by predefining macros that enable [optional features](https://zxe.io/software/Z80/documentation/latest/introduction.html#optional-features):
@@ -553,7 +553,7 @@ cmake --install . --config Release --strip
 
 ## Running the tests
 
-The package includes a tool called [`test-Z80`](sources/test-Z80.c) capable of running the most relevant [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of the [major test suites](#major_test_suites). Configure the build system with <code>-D[Z80_WITH_TESTS](#cmake_option_z80_with_tests)=YES</code> to enable its compilation and <code>-D[Z80_FETCH_TEST_FILES](#cmake_option_z80_fetch_test_files)=YES</code> to download the firmware and software required. Also note that the Z80 library must be built with <code>-D[Z80_WITH_Q](#cmake_option_z80_with_q)=YES</code> to be able to pass [Patrik Rak's tests](#zilog-z80-cpu-test-suite-by-patrik-rak).
+The package includes a tool called [`test-Z80`](sources/test-Z80.c) that runs the most relevant [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) versions of the [major test suites](#major_test_suites). Configure the build system with <code>-D[Z80_WITH_TESTING_TOOL](#cmake_option_z80_with_testing_tool)=YES</code> to enable its compilation and <code>-D[Z80_FETCH_TEST_FILES](#cmake_option_z80_fetch_test_files)=YES</code> to download the firmware and software required. Also note that the Z80 library must be built with <code>-D[Z80_WITH_Q](#cmake_option_z80_with_q)=YES</code> to be able to pass [Patrik Rak's tests](#zilog-z80-cpu-test-suite-by-patrik-rak).
 
 Once you have built the package, type the following to run all tests:
 
@@ -590,7 +590,7 @@ mkdir build && cd build
 cmake \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DZ80_FETCH_TEST_FILES=YES \
-	-DZ80_WITH_TESTS=YES \
+	-DZ80_WITH_TESTING_TOOL=YES \
 	-DZ80_WITH_EXECUTE=YES \
 	-DZ80_WITH_FULL_IM0=YES \
 	-DZ80_WITH_IM0_RETX_NOTIFICATIONS=YES \
@@ -896,7 +896,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 ## License
 
-Copyright © 1999-2024 Manuel Sainz de Baranda y Goñi.
+Copyright © 1999-2025 Manuel Sainz de Baranda y Goñi.
 
 <img src="https://zxe.io/software/Z80/assets/images/lgplv3.svg" width="160" align="right">
 
