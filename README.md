@@ -364,7 +364,7 @@ You will need [CMake](https://cmake.org) v3.14 or later to build the package and
 
 The Z80 library requires some types and macros included in [Zeta](https://zxe.io/software/Zeta), a [header-only](https://en.wikipedia.org/wiki/Header-only), dependency-free library used for portability reasons. Install Zeta or extract its [source code tarball](https://zxe.io/software/Zeta/download) to the root directory of the Z80 project or its parent directory. Zeta is the sole dependency; the emulator does not depend on the [C standard library](https://en.wikipedia.org/wiki/C_standard_library).
 
-Lastly, the package includes two testing tools. The first one runs various Z80-specific tests for [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) and will use [libzip](https://libzip.org) and [zlib](https://zlib.net) if they are available on your system. The second tool is for [unit tests in JSON format](https://github.com/SingleStepTests/z80) and requires the [cJSON](https://github.com/DaveGamble/cJSON) and [Z80InsnClock](https://zxe.io/software/Z80InsnClock) libraries. Building these tools is optional.
+Lastly, the package includes two testing tools, which are optional to build. The first one runs various Z80-specific tests for [CP/M](https://en.wikipedia.org/wiki/CP/M) and [ZX Spectrum](https://en.wikipedia.org/wiki/ZX_Spectrum) and will use [libzip](https://libzip.org) and [zlib](https://zlib.net) if they are available on your system. The second tool is for [unit tests in JSON format](https://github.com/SingleStepTests/z80) and requires the [cJSON](https://github.com/DaveGamble/cJSON) and [Z80InsnClock](https://zxe.io/software/Z80InsnClock) libraries.
 
 ### Configure
 

@@ -37,7 +37,7 @@ You will need `CMake <https://cmake.org>`_ v3.14 or later to build the package a
 
 The Z80 library requires some types and macros included in `Zeta <https://zxe.io/software/Zeta>`_, a `header-only <https://en.wikipedia.org/wiki/Header-only>`_, dependency-free library used for portability reasons. Install Zeta or extract its `source code tarball <https://zxe.io/software/Zeta/download>`_ to the root directory of the Z80 project or its parent directory. Zeta is the sole dependency; the emulator does not depend on the `C standard library <https://en.wikipedia.org/wiki/C_standard_library>`_.
 
-Lastly, the package includes two testing tools. The first one runs various Z80-specific tests for `CP/M`_ and `ZX Spectrum`_ and will use `libzip <https://libzip.org>`_ and `zlib <https://zlib.net>`_ if they are available on your system. The second tool is for `unit tests in JSON format`_ and requires the `cJSON <https://github.com/DaveGamble/cJSON>`_ and `Z80InsnClock <https://zxe.io/software/Z80InsnClock>`_ libraries. Building these tools is optional.
+Lastly, the package includes two testing tools, which are optional to build. The first one runs various Z80-specific tests for `CP/M`_ and `ZX Spectrum`_ and will use `libzip <https://libzip.org>`_ and `zlib <https://zlib.net>`_ if they are available on your system. The second tool is for `unit tests in JSON format`_ and requires the `cJSON <https://github.com/DaveGamble/cJSON>`_ and `Z80InsnClock <https://zxe.io/software/Z80InsnClock>`_ libraries.
 
 Configure
 =========
