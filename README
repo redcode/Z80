@@ -59,8 +59,8 @@ Test Suite", Patrik Rak's "Zilog Z80 CPU Test Suite" and Peter Helcmanovsky's
 "Z80 Block Flags Test", to name a few.
 
 
-3.  Installation from sources
-=============================
+3.  Installation from source code
+=================================
 
 3.1.  Prerequisites
 
@@ -373,4 +373,4 @@ with this library. If not, see <http://www.gnu.org/licenses/>.
 
 
 ________________________________________________________________________________
-Last update: 2025-01-22                                               README EOF
+Last update: 2025-01-23                                               README EOF

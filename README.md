@@ -356,7 +356,7 @@ brew install redcode/zxe/z80
 
 Pre-built binaries for Windows are available on the [download](https://zxe.io/software/Z80/download) page.
 
-## Installation from sources
+## Installation from source code
 
 ### Prerequisites
 
@@ -665,7 +665,7 @@ The source code of the emulator can be configured at compile time by predefining
 * <span id="macro_z80_with_local_header">**`#define Z80_WITH_LOCAL_HEADER`**</span>  
 	Tells `Z80.c` to <code>#include&nbsp;"Z80.h"</code> instead of `<Z80.h>`.
 
-The optional features of the emulator mentioned in the "[Configure](#configure)" section of "[Installation from sources](#installation-from-sources)" are disabled by default. If you compile `Z80.c` within your project, enable those features you need by predefining their respective activation macros. They have the same name as their [CMake equivalents](#cmake_package_source_code_options):
+The optional features of the emulator mentioned in the "[Configure](#configure)" section of "[Installation from source code](#installation-from-source-code)" are disabled by default. If you compile `Z80.c` within your project, enable those features you need by predefining their respective activation macros. They have the same name as their [CMake equivalents](#cmake_package_source_code_options):
 
 * **<code>#define [Z80_WITH_EXECUTE](#cmake_option_z80_with_execute)</code>**
 * **<code>#define [Z80_WITH_FULL_IM0](#cmake_option_z80_with_full_im0)</code>**

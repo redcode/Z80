@@ -72,7 +72,7 @@ The source code of the emulator can be configured at compile time by predefining
 
    Tells :file:`Z80.c` to ``#include "Z80.h"`` instead of ``<Z80.h>``.
 
-The :ref:`optional features <introduction:Optional features>` of the emulator mentioned in the ":ref:`Configure <installation-from-sources:Configure>`" section of ":doc:`installation-from-sources`" are disabled by default. If you compile :file:`Z80.c` within your project, enable those features you need by predefining their respective activation macros. They have the same name as their :ref:`CMake equivalents <cmake_package_source_code_options>`:
+The :ref:`optional features <introduction:Optional features>` of the emulator mentioned in the ":ref:`Configure <installation-from-source-code:Configure>`" section of ":doc:`installation-from-source-code`" are disabled by default. If you compile :file:`Z80.c` within your project, enable those features you need by predefining their respective activation macros. They have the same name as their :ref:`CMake equivalents <cmake_package_source_code_options>`:
 
 .. c:macro:: Z80_WITH_EXECUTE
 

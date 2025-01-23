@@ -11,7 +11,7 @@ Contents
    :maxdepth: 2
 
    introduction
-   installation-from-sources
+   installation-from-source-code
    tests
    integration
    usage

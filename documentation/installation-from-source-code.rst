@@ -1,6 +1,6 @@
-=========================
-Installation from sources
-=========================
+=============================
+Installation from source code
+=============================
 
 .. only:: html
 
