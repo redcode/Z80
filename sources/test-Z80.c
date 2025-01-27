@@ -550,8 +550,8 @@ static zuint8 run_test(int test_index)
 		{
 		failure = "program";
 		error_loading_file:
-		if (verbosity > 2) printf("error\n%s", test_spacing);
-		else if (verbosity) printf("error: cannot load %s\n%s", failure, test_spacing);
+		if (verbosity > 2) printf("Error\n%s", test_spacing);
+		else if (verbosity) printf("Error: Cannot load %s\n%s", failure, test_spacing);
 		return Z_FALSE;
 		}
 
@@ -660,7 +660,7 @@ static zuint8 run_test(int test_index)
 	| and has printed the expected output within the correct margins.     |
 	'====================================================================*/
 
-	if (!completed) failure = "clock cycle limit exceeded; program aborted";
+	if (!completed) failure = "Aborted due to exceeding the clock cycle limit";
 
 	else if (
 		zx_spectrum_bad_character ||
@@ -668,7 +668,7 @@ static zuint8 run_test(int test_index)
 		lines   != test->lines    ||
 		columns != test->columns
 	)
-		failure = "incorrect behavior detected";
+		failure = "Incorrect behavior detected";
 
 	else if (
 #		if Z_USIZE_WIDTH < 64
@@ -676,7 +676,7 @@ static zuint8 run_test(int test_index)
 #		endif
 		cycles != test->cycles[0]
 	)
-		failure = "incorrect number of clock cycles";
+		failure = "Incorrect number of clock cycles";
 
 	else failure = Z_NULL;
 
@@ -695,8 +695,8 @@ static zuint8 run_test(int test_index)
 			}
 
 		else	{
-			if (failure == Z_NULL) printf("passed\n%s", test_spacing);
-			else printf("failed: %s\n%s", failure, test_spacing);
+			if (failure == Z_NULL) printf("Passed\n%s", test_spacing);
+			else printf("Failed: %s\n%s", failure, test_spacing);
 			}
 		}
 
@@ -975,9 +975,9 @@ int main(int argc, char **argv)
 	if (all) for (i = 0; i < (int)Z_ARRAY_SIZE(tests); i++)
 		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test(i)]++;
 
-	/*---------------------------------------------------.
-	| Finaly, print results, deallocate memory and exit. |
-	'===================================================*/
+	/*-------------------------------------------------------.
+	| Finaly, print the results, deallocate memory and exit. |
+	'=======================================================*/
 	printf(	"%sResults%s: %u test%s passed, %u failed.\n",
 		&new_line[!verbosity || *test_spacing],
 		show_test_output ? " summary" : "",
