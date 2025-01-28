@@ -164,8 +164,8 @@ static zbool	   show_test_output;
 static char const* test_spacing;
 
 /*-----------------------------------------------------------------------------.
-| [0]: Byte read from even I/O ports (specified with the `--even-in` option).  |
-| [1]: Byte read from odd I/O ports (specified with the `--odd-in` option).    |
+| [0]: Byte read from even I/O ports (specified with the `--in-even` option).  |
+| [1]: Byte read from odd I/O ports (specified with the `--in-odd` option).    |
 | The default values correspond to those of a Sinclair ZX Spectrum 48K with no |
 | devices connected.							       |
 '=============================================================================*/
@@ -764,8 +764,8 @@ int main(int argc, char **argv)
 				"\n"
 				"Options:\n"
 				"  -V, --version           Print version information and exit.\n"
-				"  -0, --even-in (0..255)  Set the byte read from even I/O ports [default: 191].\n"
-				"  -1, --odd-in (0..255)   Set the byte read from odd I/O ports [default: 255].\n"
+				"  -0, --in-even (0..255)  Set the byte read from even I/O ports [default: 191].\n"
+				"  -1, --in-odd (0..255)   Set the byte read from odd I/O ports [default: 255].\n"
 				"  -a, --all               Run all tests.\n"
 				"  -h, --help              Print this help message and exit.\n"
 				"  -m, --model <model>     Specify the CPU model to emulate.\n"
@@ -813,13 +813,13 @@ int main(int argc, char **argv)
 			goto exit_without_error;
 			}
 
-		else if (string_is_option(argv[i], "-0", "--even-in"))
+		else if (string_is_option(argv[i], "-0", "--in-even"))
 			{
 			if (++i == argc) goto incomplete_option;
 			if (!string_to_uint8(argv[i], 255, &in_values[0])) goto invalid_io_value;
 			}
 
-		else if (string_is_option(argv[i], "-1", "--odd-in"))
+		else if (string_is_option(argv[i], "-1", "--in-odd"))
 			{
 			if (++i == argc) goto incomplete_option;
 			if (!string_to_uint8(argv[i], 255, &in_values[1])) goto invalid_io_value;
