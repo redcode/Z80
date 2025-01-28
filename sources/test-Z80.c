@@ -143,30 +143,31 @@ static struct {char const *key; zuint8 options;} const cpu_models[4] = {
 static char const new_line[2] = "\n";
 
 /*---------------------------------------------------------------------------.
-| The search paths specified by using the `-p` option are collected into the |
+| The search paths specified with the `--path` option are collected into the |
 | `search_paths` array of size `search_path_count`. `path_buffer` is used to |
-| compose a complete file path consisting of "<search-path>/<filename>".     |
+| compose complete file paths in the format "<search-path>/<filename>".	     |
 '===========================================================================*/
 
 static char*  path_buffer	= Z_NULL;
 static char** search_paths	= Z_NULL;
 static zuint  search_path_count = 0;
 
-/*-----------------------------------------------------------------------------.
-| `verbosity` contains the verbosity level specified by using the `-v` option; |
-| `show_test_output` indicates whether to print the text output of the tests;  |
-| `test_spacing` points to the string to print beetween each test: "\n" or "". |
-'=============================================================================*/
+/*--------------------------------------------------------------------------.
+| `verbosity` contains the verbosity level specified with the `--verbosity` |
+| option; `show_test_output` indicates whether the text output of the tests |
+| should be printed; `test_spacing` points to the string to print between   |
+| each test: either "\n" or "".						    |
+'==========================================================================*/
 
 static zuint8	   verbosity = 4;
 static zbool	   show_test_output;
 static char const* test_spacing;
 
 /*-----------------------------------------------------------------------------.
-| [0]: The byte read from even I/O ports (specified by using the `-0` option). |
-| [1]: The byte read from odd I/O ports (specified by using the `-1` option).  |
-| The default values are those of a Sinclair ZX Spectrum 48K with no devices   |
-| connected.								       |
+| [0]: Byte read from even I/O ports (specified with the `--even-in` option).  |
+| [1]: Byte read from odd I/O ports (specified with the `--odd-in` option).    |
+| The default values correspond to those of a Sinclair ZX Spectrum 48K with no |
+| devices connected.							       |
 '=============================================================================*/
 
 static zuint8 in_values[2] = {191, 255};
@@ -180,9 +181,9 @@ static zuint8 memory[Z_USIZE(65536)];
 
 /*-----------------------------------------------------------------------------.
 | `completed` indicates whether the test has reached its exit address; `lines` |
-| is incremented every time the test prints a new line; `cursor_x` holds the X |
-| position of the cursor in the current line; `columns` contains the rightmost |
-| position reached by the cursor throughout the test; and `hash` keeps a FNV-1 |
+| is incremented each time the test prints a new line; `cursor_x` holds the X  |
+| position of the cursor in the current line; `columns` tracks the rightmost   |
+| position reached by the cursor during the test; and `hash` stores the FNV-1  |
 | hash of all bytes sent by the test to the print routine.		       |
 '=============================================================================*/
 
@@ -194,9 +195,9 @@ static zuint32 hash;
 | `zx_spectrum_print_hook_address` contains the address of the hook that       |
 | intercepts the routine called by the test to print characters. When a <TAB>  |
 | character (17h) is printed, the `zx_spectrum_tab` counter is set to 2 to     |
-| indicate that it is necessary to process the incoming <TAB n> and <TAB STOP> |
-| bytes before continuing to print characters. `zx_spectrum_bad_character` is  |
-| set to `Z_TRUE` if the test prints any unsupported control characters.       |
+| indicate that the incoming <TAB n> and <TAB STOP> bytes must be processed    |
+| before continuing to print characters. `zx_spectrum_bad_character` is set to |
+| `Z_TRUE` if the test prints any unsupported control characters.	       |
 |									       |
 | For more information about the TAB control sequence of the ZX Spectrum, see: |
 | * Sinclair Research (1983). "Sinclair ZX Spectrum BASIC Programming" 2nd     |
@@ -204,7 +205,7 @@ static zuint32 hash;
 | * Ardley, Neil (1984). "ZX Spectrum + User Guide" (Dorling Kindersley;       |
 |   Sinclair Research. ISBN 0863180809), pp. 67-68.			       |
 |									       |
-| These three variables are only used for ZX Spectrum tests.		       |
+| These three variables are used exclusively for ZX Spectrum tests.	       |
 '=============================================================================*/
 
 static zuint16 zx_spectrum_print_hook_address;
@@ -882,19 +883,20 @@ int main(int argc, char **argv)
 			}
 		}
 
-	/*------------------------------------------------.
-	| The user must specify at least one test number, |
-	| or the `-a` option otherwise.			  |
-	'================================================*/
+	/*---------------------------------------------------.
+	| The user must specify at least one test number or, |
+	| alternatively, pass the `--all` option.	     |
+	'===================================================*/
 	if (i == argc && !all)
 		{
 		fputs("test-Z80: No test specified.\n", stderr);
 		goto bad_syntax;
 		}
 
-	/*-------------------------------------------------------------.
-	| Check that all test numbers specified by the user are valid. |
-	'=============================================================*/
+	/*-----------------------------------------------------.
+	| All test numbers specified by the user must be valid |
+	| and must be decimal. Leading zeros are allowed.      |
+	'=====================================================*/
 	for (j = i; i < argc; i++)
 		{
 		char const *string = argv[i];
@@ -916,33 +918,33 @@ int main(int argc, char **argv)
 		goto exit_with_error;
 		}
 
-	/*--------------------------------------------------------------.
-	| Disable buffering on stdout if the verbosity level is greater |
-	| than 0 so that progress messages are visible immediately.	|
-	'==============================================================*/
+	/*----------------------------------------------------------------.
+	| Disable buffering on stdout when the verbosity level is greater |
+	| than 0 to ensure progress messages are displayed immediately.	  |
+	'================================================================*/
 	if (verbosity) setvbuf(stdout, Z_NULL, _IONBF, 0);
 
-	/*------------------------------------------------------------------.
-	| The output of the test programs will only be printed at verbosity |
-	| level 4. For levels 3 and 4, we also have to print an extra line  |
-	| feed between tests to make everything look pretty.		    |
-	'==================================================================*/
+	/*--------------------------------------------------------------.
+	| The output of the test programs is only printed at verbosity	|
+	| level 4. For levels 3 and 4, an additional line feed is added |
+	| between tests to ensure proper formatting.			|
+	'==============================================================*/
 	show_test_output = verbosity == 4;
 	test_spacing = &new_line[verbosity < 3];
 
-	/*------------------------------------------------------------------.
-	| Initialize the Z80 CPU emulator members:			    |
-	| * `context` is not necessary, as we are using global variables.   |
-	| * `fetch_opcode`, `write`, and `hook` are set by `run_test()`.    |
-	| * `fetch` and `read` use the same function because it is not	    |
-	|   necessary to distinguish between different cases of memory read |
-	|   M-cycles, as the test programs require neither precise timing   |
-	|   nor memory contention.					    |
-	| * `nmia`, `inta`, and `int_fetch` will never be called because    |
-	|   the test programs do not require interrupts.		    |
-	| * There is no need to use `nop`, `ld_i_a`, `ld_r_a`, `reti`,	    |
-	|   `retn`, or `illegal` either.				    |
-	'==================================================================*/
+	/*---------------------------------------------------------------------.
+	| Initialize the Z80 emulator:					       |
+	| * `context` is not needed, as global variables are used.	       |
+	| * `fetch` and `read` use the same function because it is unnecessary |
+	|   to distinguish between different types of M-cycles when reading    |
+	|   memory, as the test programs do not require precision down to the  |
+	|   T-state level.						       |
+	| * `nmia`, `inta`, and `int_fetch` will never be called because the   |
+	|   test programs do not require interrupts.			       |
+	| * `nop`, `ld_i_a`, `ld_r_a`, `reti`, `retn`, and `illegal` are also  |
+	|   not needed.							       |
+	| * `fetch_opcode`, `write`, and `hook` will be set by `run_test()`.   |
+	'=====================================================================*/
 	cpu.context   = Z_NULL;
 	cpu.fetch     =
 	cpu.read      = cpu_read;
@@ -960,7 +962,8 @@ int main(int argc, char **argv)
 	cpu.illegal   = Z_NULL;
 
 	/*------------------------------------------------------------.
-	| Run the tests whose numbers have been explicitly specified. |
+	| Run the tests whose numbers have been specified. Then, if   |
+	| the user has passed the `--all` option, run all the others. |
 	'============================================================*/
 	for (tests_run = 0; j < argc;)
 		{
@@ -968,10 +971,6 @@ int main(int argc, char **argv)
 		results[run_test(i)]++;
 		}
 
-	/*-----------------------------------------------.
-	| If the `-a` option has been specified, run all |
-	| tests except those that have already been run. |
-	'===============================================*/
 	if (all) for (i = 0; i < (int)Z_ARRAY_SIZE(tests); i++)
 		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test(i)]++;
 
