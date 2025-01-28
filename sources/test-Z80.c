@@ -271,7 +271,7 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 	/* BDOS function 2 (C_WRITE) - Console output */
 	if (Z80_C(cpu) == 2)
 		{
-		hash = Z_FNV1_32_UPDATE(hash, (character = Z80_E(cpu)));
+		hash = Z_FNV1_32_UPDATE(hash, character = Z80_E(cpu));
 
 		switch (character)
 			{
@@ -292,7 +292,7 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 
 		while (c--)
 			{
-			hash = Z_FNV1_32_UPDATE(hash, (character = memory[i++]));
+			hash = Z_FNV1_32_UPDATE(hash, character = memory[i++]);
 
 			switch (character)
 				{
@@ -328,7 +328,7 @@ static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 
 	Z_UNUSED(context)
 	if (address != zx_spectrum_print_hook_address) return OPCODE_NOP;
-	hash = Z_FNV1_32_UPDATE(hash, (character = Z80_A(cpu)));
+	hash = Z_FNV1_32_UPDATE(hash, character = Z80_A(cpu));
 
 	if (!zx_spectrum_tab) switch (character)
 		{
