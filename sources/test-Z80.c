@@ -59,11 +59,11 @@
 
 typedef struct {
 	/* Name of the archive if the file is compressed; `Z_NULL` otherwise. */
-	char const* archive_name;
+	char const *archive_name;
 
 	/* Name of the file, or path to the file inside the archive if the file
 	 * is compressed. */
-	char const* file_path;
+	char const *file_path;
 
 	/* Total number of clock cycles executed when the test passes. */
 	zusize cycles[1 + (Z_USIZE_WIDTH < 64)];
@@ -658,7 +658,7 @@ static zuint8 run_test(int test_index)
 	/*--------------------------------------------------------------------.
 	| The test is considered passed if it has reached its exit address at |
 	| the correct clock cycle, has not printed any unsupported characters |
-	| and has printed the expected output within the correct margins.     |
+	| and has produced the expected output within the correct margins.    |
 	'====================================================================*/
 
 	if (!completed) failure = "Aborted due to exceeding the clock cycle limit";
@@ -705,11 +705,11 @@ static zuint8 run_test(int test_index)
 	}
 
 
-static zbool string_is_option(char const* string, char const* short_option, char const* long_option)
-	{return !strcmp(string, short_option) || !strcmp(string, long_option);}
+static zbool string_is_option(char const *string, char const *option)
+	{return (*string == *option && string[1] == '\0') || !strcmp(string, &option[1]);}
 
 
-static zbool string_to_uint8(char const* string, zuint8 maximum, zuint8 *value)
+static zbool string_to_uint8(char const *string, zuint8 maximum, zuint8 *value)
 	{
 	char *end;
 	zulong parsed = strtoul(string, &end, 0);
@@ -726,12 +726,13 @@ int main(int argc, char **argv)
 	zusize maximum_search_path_size = 0;
 	zuint32 tests_run;
 	int j, i = 0;
+	char const *option;
 
 	/*--------------------------------------------.
 	| String specifying what has been detected as |
 	| invalid when parsing the command line.      |
 	'============================================*/
-	char const *invalid;
+#	define invalid option
 
 	/*------------------------------.
 	| [0] = Number of tests failed. |
@@ -747,7 +748,9 @@ int main(int argc, char **argv)
 
 	while (++i < argc && *argv[i] == '-')
 		{
-		if (string_is_option(argv[i], "-V", "--version"))
+		option = &argv[i][1];
+
+		if (string_is_option(option, "V-version"))
 			{
 			puts(	"test-Z80 v" Z80_LIBRARY_VERSION_STRING "\n"
 				"Copyright (C) 2021-2025 Manuel Sainz de Baranda y Goñi.\n"
@@ -756,7 +759,7 @@ int main(int argc, char **argv)
 			goto exit_without_error;
 			}
 
-		else if (string_is_option(argv[i], "-h", "--help"))
+		else if (string_is_option(option, "h-help"))
 			{
 			puts(	"Usage:\n"
 				"  test-Z80 [options] --all [<test>...]\n"
@@ -813,22 +816,22 @@ int main(int argc, char **argv)
 			goto exit_without_error;
 			}
 
-		else if (string_is_option(argv[i], "-0", "--in-even"))
+		else if (string_is_option(option, "0-in-even"))
 			{
 			if (++i == argc) goto incomplete_option;
 			if (!string_to_uint8(argv[i], 255, &in_values[0])) goto invalid_io_value;
 			}
 
-		else if (string_is_option(argv[i], "-1", "--in-odd"))
+		else if (string_is_option(option, "1-in-odd"))
 			{
 			if (++i == argc) goto incomplete_option;
 			if (!string_to_uint8(argv[i], 255, &in_values[1])) goto invalid_io_value;
 			}
 
-		else if (string_is_option(argv[i], "-a", "--all"))
+		else if (string_is_option(option, "a-all"))
 			all = Z_TRUE;
 
-		else if (string_is_option(argv[i], "-m", "--model"))
+		else if (string_is_option(option, "m-model"))
 			{
 			if (++i == argc) goto incomplete_option;
 
@@ -844,7 +847,7 @@ int main(int argc, char **argv)
 			cpu_model_found: continue;
 			}
 
-		else if (string_is_option(argv[i], "-p", "--path"))
+		else if (string_is_option(option, "p-path"))
 			{
 			char **p;
 			zusize s;
@@ -866,7 +869,7 @@ int main(int argc, char **argv)
 			search_paths[search_path_count++] = argv[i];
 			}
 
-		else if (string_is_option(argv[i], "-v", "--verbosity"))
+		else if (string_is_option(option, "v-verbosity"))
 			{
 			if (++i == argc) goto incomplete_option;
 

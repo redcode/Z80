@@ -94,16 +94,14 @@ static Z80 cpu;
 static Z80InsnClock insn_clock;
 static zuint8 memory[Z_USIZE(65536)];
 
-static Cycle *cycles;
-static zuint cycles_size;
-static zuint cycles_index;
-
-static Port *ports;
-static zuint ports_size;
-static zuint ports_index;
-
-static cJSON *expected_ports;
-static zuint expected_port_count;
+static Cycle* cycles;
+static zuint  cycles_size;
+static zuint  cycles_index;
+static Port*  ports;
+static zuint  ports_size;
+static zuint  ports_index;
+static cJSON* expected_ports;
+static zuint  expected_port_count;
 
 static zbool file_failed, test_failed, array_failed;
 static char const *field_separator = "";
@@ -448,16 +446,21 @@ static void print_cycle_mismatch(cJSON *test, zuint index, Cycle const *actual, 
 		field_separator = ",";
 		}
 
-	if (actual   != Z_NULL) *(zuint16 *)actual_value   = data_bus_value_to_string(actual  ->value);
-	if (expected != Z_NULL) *(zuint16 *)expected_value = data_bus_value_to_string(expected->value);
+	if (actual != Z_NULL)
+		*(zuint16 *)actual_value = data_bus_value_to_string(actual  ->value);
+
+	if (expected != Z_NULL)
+		*(zuint16 *)expected_value = data_bus_value_to_string(expected->value);
 
 	printf("%u", index + 1);
 
 	if (actual == Z_NULL)
-		printf(" ****""/%04X **""/%.2s ****""/%.4s", expected->address, expected_value, expected->pins);
+		printf(	" ****""/%04X **""/%.2s ****""/%.4s",
+			expected->address, expected_value, expected->pins);
 
 	else if (expected == Z_NULL)
-		printf(" %04X/""**** %.2s/""** %.4s/""****", actual->address, actual_value, actual->pins);
+		printf(	" %04X/""**** %.2s/""** %.4s/""****",
+			actual->address, actual_value, actual->pins);
 
 	else	{
 		if (actual->address != expected->address)
@@ -487,10 +490,12 @@ static void print_port_mismatch(cJSON *test, zuint index, Port const *actual, Po
 	printf("%u", index + 1);
 
 	if (actual == Z_NULL)
-		printf(" ****""/%04X **""/%02X *""/%c", expected->port, expected->value, expected->direction);
+		printf(	" ****""/%04X **""/%02X *""/%c",
+			expected->port, expected->value, expected->direction);
 
 	else if (expected == Z_NULL)
-		printf(" %04X/""**** %02X/""** %c/""*", actual->port, actual->value, actual->direction);
+		printf(	" %04X/""**** %02X/""** %c/""*",
+			actual->port, actual->value, actual->direction);
 
 	else	{
 		if (actual->port != expected->port)
@@ -540,8 +545,8 @@ static Port read_port_item(cJSON const *item)
 	}
 
 
-static zbool string_is_option(char const* string, char const* short_option, char const* long_option)
-	{return !strcmp(string, short_option) || !strcmp(string, long_option);}
+static zbool string_is_option(char const *string, char const *option)
+	{return (*string == *option && string[1] == '\0') || !strcmp(string, &option[1]);}
 
 
 int main(int argc, char **argv)
@@ -551,26 +556,27 @@ int main(int argc, char **argv)
 	zbool test_pins		   = Z_FALSE;
 	zbool read_from_stdin	   = Z_FALSE;
 	zuint8 verbosity	   = 2;
-	zuint file_count;
-	zuint read_error_count	   = 0;
-	zuint bad_file_count	   = 0;
-	zuint passed_file_count	   = 0;
-	zuint failed_file_count	   = 0;
-	zuint test_count;
-	zuint passed_test_count	   = 0;
-	zuint failed_test_count	   = 0;
 	int i			   = 0;
 	zuint j;
-	char const *invalid;
+	zuint file_count;
+	zuint read_error_count;
+	zuint bad_file_count;
+	zuint passed_file_count;
+	zuint failed_file_count;
+	zuint test_count;
+	zuint passed_test_count;
+	zuint failed_test_count;
+	char const *option;
+#	define invalid option
 
 	/* The emulator is set to Zilog NMOS by default */
 	cpu.options = Z80_MODEL_ZILOG_NMOS;
 
 	/* Parse the command line. */
 
-	while (++i < argc && *argv[i] == '-' && argv[i][1] != '\0')
+	while (++i < argc && *argv[i] == '-' && *(option = &argv[i][1]) != '\0')
 		{
-		if (string_is_option(argv[i], "-V", "--version"))
+		if (string_is_option(option, "V-version"))
 			{
 			puts(	"step-test-Z80 v" Z80_LIBRARY_VERSION_STRING "\n"
 				"Copyright (C) 2024-2025 Manuel Sainz de Baranda y Goñi.\n"
@@ -579,7 +585,7 @@ int main(int argc, char **argv)
 			return 0;
 			}
 
-		else if (string_is_option(argv[i], "-h", "--help"))
+		else if (string_is_option(option, "h-help"))
 			{
 			printf(	"Usage: step-test-Z80 [options] <JSON-file>...\n"
 				"\n"
@@ -603,10 +609,10 @@ int main(int argc, char **argv)
 			return 0;
 			}
 
-		else if (string_is_option(argv[i], "-j", "--json-output"))
+		else if (string_is_option(option, "j-json-output"))
 			produce_json_output = Z_TRUE;
 
-		else if (string_is_option(argv[i], "-m", "--model"))
+		else if (string_is_option(option, "m-model"))
 			{
 			if (++i == argc) goto incomplete_option;
 
@@ -622,13 +628,13 @@ int main(int argc, char **argv)
 			cpu_model_found: continue;
 			}
 
-		else if (string_is_option(argv[i], "-p", "--pins"))
+		else if (string_is_option(option, "p-pins"))
 			test_pins = Z_TRUE;
 
-		else if (string_is_option(argv[i], "-t", "--test-format"))
+		else if (string_is_option(option, "t-test-format"))
 			test_format_and_exit = Z_TRUE;
 
-		else if (string_is_option(argv[i], "-v", "--verbosity"))
+		else if (string_is_option(option, "v-verbosity"))
 			{
 			char *end;
 			zulong parsed;
@@ -657,8 +663,15 @@ int main(int argc, char **argv)
 		goto bad_syntax;
 		}
 
-	/* Initialize the CPU emulator and the instruction clock. */
+	/* Initialize the result counters. */
+	read_error_count  =
+	bad_file_count	  =
+	passed_file_count =
+	failed_file_count =
+	passed_test_count =
+	failed_test_count = 0;
 
+	/* Initialize the CPU emulator and the instruction clock. */
 	cpu.context	 = Z_NULL;
 	cpu.fetch_opcode = cpu_fetch_opcode;
 	cpu.nop		 = cpu_nop;
@@ -675,7 +688,7 @@ int main(int argc, char **argv)
 	cpu.hook	 = Z_NULL;
 	cpu.illegal	 = Z_NULL;
 
-	z80_insn_clock_initialize(&insn_clock, &cpu.af, &cpu.bc, &cpu.hl, &cpu, insn_clock_read);
+	z80_insn_clock_initialize(&insn_clock, &cpu.af, &cpu.bc, &cpu.hl, Z_NULL, insn_clock_read);
 
 	cycles = Z_NULL;
 	ports  = Z_NULL;
@@ -1019,7 +1032,7 @@ int main(int argc, char **argv)
 		return -1;
 		}
 
-	/* Print results summary. */
+	/* Print the results. */
 
 	printf(	"\nResults:%c%u file%s in total",
 		test_format_and_exit ? ' ' : '\n',
