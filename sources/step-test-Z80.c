@@ -566,14 +566,16 @@ int main(int argc, char **argv)
 	zuint test_count;
 	zuint passed_test_count;
 	zuint failed_test_count;
-	char const *option;
-#	define invalid option
+	char const *string;
 
-	/* The emulator is set to Zilog NMOS by default */
+#	define option  string
+#	define invalid string
+#	define error   string
+
+	/* The default CPU model to emulate is Zilog NMOS. */
 	cpu.options = Z80_MODEL_ZILOG_NMOS;
 
-	/* Parse the command line. */
-
+	/* Parse command line arguments. */
 	while (++i < argc && *argv[i] == '-' && *(option = &argv[i][1]) != '\0')
 		{
 		if (string_is_option(option, "V-version"))
@@ -698,10 +700,12 @@ int main(int argc, char **argv)
 
 	for (; !read_from_stdin && i != argc; i++)
 		{
-		char const *error = Z_NULL, *parse_end = Z_NULL;
+		char const *parse_end = Z_NULL;
 		char *json = Z_NULL;
 		zusize json_size;
 		cJSON *tests = Z_NULL;
+
+		error = Z_NULL;
 
 		if (argv[i][0] == '-' && argv[i][1] == '\0')
 			{

@@ -726,26 +726,18 @@ int main(int argc, char **argv)
 	zusize maximum_search_path_size = 0;
 	zuint32 tests_run;
 	int j, i = 0;
-	char const *option;
+	char const *string;
 
-	/*--------------------------------------------.
-	| String specifying what has been detected as |
-	| invalid when parsing the command line.      |
-	'============================================*/
-#	define invalid option
+#	define option  string
+#	define invalid string
 
-	/*------------------------------.
-	| [0] = Number of tests failed. |
-	| [1] = Number of tests passed. |
-	'==============================*/
+	/* [0] = Number of tests failed. [1] = Number of tests passed. */
 	zuint results[2] = {0, 0};
 
-	/*--------------------------------------------.
-	| The emulator will behave as a Zilog NMOS if |
-	| the user does not specify a CPU model.      |
-	'============================================*/
+	/* The default CPU model to emulate is Zilog NMOS. */
 	cpu.options = Z80_MODEL_ZILOG_NMOS;
 
+	/* Parse command line arguments. */
 	while (++i < argc && *argv[i] == '-')
 		{
 		option = &argv[i][1];
@@ -902,10 +894,9 @@ int main(int argc, char **argv)
 	'=====================================================*/
 	for (j = i; i < argc; i++)
 		{
-		char const *string = argv[i];
 		char *end;
 
-		if (strtoul(string, &end, 10) >= Z_ARRAY_SIZE(tests) || end == string || *end)
+		if (strtoul(argv[i], &end, 10) >= Z_ARRAY_SIZE(tests) || end == argv[i] || *end)
 			{
 			invalid = "test number";
 			goto invalid_argument;
@@ -977,9 +968,7 @@ int main(int argc, char **argv)
 	if (all) for (i = 0; i < (int)Z_ARRAY_SIZE(tests); i++)
 		if (!(tests_run & (Z_UINT32(1) << i))) results[run_test(i)]++;
 
-	/*-------------------------------------------------------.
-	| Finaly, print the results, deallocate memory and exit. |
-	'=======================================================*/
+	/* Print the results. */
 	printf(	"%sResults%s: %u test%s passed, %u failed.\n",
 		&new_line[!verbosity || *test_spacing],
 		show_test_output ? " summary" : "",
