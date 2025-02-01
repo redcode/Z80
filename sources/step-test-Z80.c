@@ -665,6 +665,13 @@ int main(int argc, char **argv)
 		goto bad_syntax;
 		}
 
+	for (j = (zuint)i; j < argc; j++) if (*argv[j] == '\0')
+		{
+		i = (int)j;
+		invalid = "file path";
+		goto invalid_argument;
+		}
+
 	/* Initialize the result counters. */
 	read_error_count  =
 	bad_file_count	  =
@@ -1083,7 +1090,8 @@ int main(int argc, char **argv)
 	goto bad_syntax;
 
 	invalid_argument:
-	fprintf(stderr, "step-test-Z80: Invalid %s: %s\n", invalid, argv[i]);
+	if (argv[i][0] != '\0') fprintf(stderr, "step-test-Z80: Invalid %s: %s\n", invalid, argv[i]);
+	else fprintf(stderr, "step-test-Z80: Bad syntax: Empty %s.\n", invalid);
 
 	bad_syntax:
 	fputs("step-test-Z80: Type 'step-test-Z80 -h' for help.\n", stderr);

@@ -989,7 +989,8 @@ int main(int argc, char **argv)
 	invalid = "I/O value";
 
 	invalid_argument:
-	fprintf(stderr, "test-Z80: Invalid %s: %s\n", invalid, argv[i]);
+	if (argv[i][0] != '\0') fprintf(stderr, "test-Z80: Invalid %s: %s\n", invalid, argv[i]);
+	else fprintf(stderr, "test-Z80: Bad syntax: Empty %s.\n", invalid);
 
 	bad_syntax:
 	fputs("test-Z80: Type 'test-Z80 -h' for help.\n", stderr);
