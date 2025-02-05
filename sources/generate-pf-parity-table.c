@@ -41,11 +41,11 @@ int main(int argc, char **argv)
 
 	for (y = 0; y < 16; y++)
 		{
-		printf("/* %X */", y);
+		printf("/* %X */", (zuint)y);
 
 		for (x = 0; x < 16; x++)
 			printf(" %u%s",
-				pf_parity(y * 16 + x),
+				(zuint)pf_parity(y * 16 + x),
 				x == 15 && y == 15 ? "};" : ",");
 
 		putchar('\n');

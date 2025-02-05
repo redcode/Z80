@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 
 		for (y = 0; y < 16; y++)
 			{
-			printf("/* %X */", y);
+			printf("/* %X */", (zuint)y);
 
 			for (x = 0; x < 16; x++)
 				{
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 				z80_execute(&cpu, 1);
 
 				printf(	" H(%04X)%s",
-					Z80_AF(cpu),
+					(zuint)Z80_AF(cpu),
 					x == 15 && y == 15 && hnc == 7
 						? "};" : ",");
 				}
