@@ -2662,7 +2662,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 						/*------------------------------------------------------------------------.
 						| The `Z80::fetch` callback is temporarily replaced by a trampoline that  |
-						| invokes `Z80::int_fecth`. This trampoline needs to access the callback  |
+						| invokes `Z80::int_fetch`. This trampoline needs to access the callback  |
 						| pointer in addition to the initial, non-incremented value of PC, so the |
 						| value of `Z80::context` is temporarily replaced by a pointer to an	  |
 						| `IM0` object that holds the real context and all this data, which also  |
