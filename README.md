@@ -695,6 +695,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **MSX1 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/msxemulator)
 * **MZ-1500 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/mz1500emulator)
 * **MZ-2000/80B Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/mz2000emulator)
+* **PASOPIA Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/pasopiaemulator)
 * **PC-6001mkII Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/p6mk2emulator)
 * **pico-sorcerer-2** <sub>_by [fruit-bat](https://github.com/fruit-bat)_</sub> ⟩ [GitHub](https://github.com/fruit-bat/pico-sorcerer-2)
 * **pico-zxspectrum** <sub>_by [fruit-bat](https://github.com/fruit-bat)_</sub> ⟩ [GitHub](https://github.com/fruit-bat/pico-zxspectrum)
