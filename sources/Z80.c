@@ -1284,24 +1284,24 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 | (*) Undocumented instruction.						      |
 '============================================================================*/
 
-INSN(ld_J_K	    ) {Q_0 J0 = K0;					 PC++;	  return  4;}
-INSN(ld_O_P	    ) {Q_0 O  = P;					 PC += 2; return  4;}
-INSN(ld_J_BYTE	    ) {Q_0 J0 = FETCH((PC += 2) - 1);				  return  7;}
-INSN(ld_O_BYTE	    ) {Q_0 O  = FETCH((PC += 3) - 1);				  return  7;}
-INSN(ld_J_vhl	    ) {Q_0 J0 = READ(HL);				 PC++;	  return  7;}
-INSN(ld_J_vXYpOFFSET) {Q_0 J1 = READ(FETCH_XY_EA((PC += 3) - 1));		  return 15;}
-INSN(ld_vhl_K	    ) {Q_0 WRITE(HL, K0);				 PC++;	  return  7;}
-INSN(ld_vXYpOFFSET_K) {Q_0 WRITE(FETCH_XY_EA((PC += 3) - 1), K1);		  return 15;}
-INSN(ld_vhl_BYTE    ) {Q_0 WRITE(HL,   FETCH((PC += 2) - 1));			  return 10;}
-INSN(ld_a_vbc	    ) {Q_0 MEMPTR  = BC + 1; A = READ(BC);		 PC++;	  return  7;}
-INSN(ld_a_vde	    ) {Q_0 MEMPTR  = DE + 1; A = READ(DE);		 PC++;	  return  7;}
-INSN(ld_a_vWORD	    ) {Q_0 MEMPTR  = FETCH_16((PC += 3) - 2); A = READ(MEMPTR++); return 13;}
-INSN(ld_vbc_a	    ) {Q_0 MEMPTRL = C + 1; WRITE(BC, MEMPTRH = A);	 PC++;	  return  7;}
-INSN(ld_vde_a	    ) {Q_0 MEMPTRL = E + 1; WRITE(DE, MEMPTRH = A);	 PC++;	  return  7;}
-INSN(ld_a_i	    ) {LD_A_IR(I);							    }
-INSN(ld_a_r	    ) {LD_A_IR(R_ALL);							    }
-INSN(ld_i_a	    ) {NOTIFY(ld_i_a); Q_0 I = A;			 PC += 2; return  9;}
-INSN(ld_r_a	    ) {NOTIFY(ld_r_a); Q_0 R = R7 = A;			 PC += 2; return  9;}
+INSN(ld_J_K	    ) {Q_0 J0 = K0;					  PC++;	   return  4;}
+INSN(ld_O_P	    ) {Q_0 O  = P;					  PC += 2; return  4;}
+INSN(ld_J_BYTE	    ) {Q_0 J0 = FETCH(PC + 1);				  PC += 2; return  7;}
+INSN(ld_O_BYTE	    ) {Q_0 O  = FETCH(PC + 2);				  PC += 3; return  7;}
+INSN(ld_J_vhl	    ) {Q_0 J0 = READ(HL);				  PC++;	   return  7;}
+INSN(ld_J_vXYpOFFSET) {Q_0 J1 = READ(FETCH_XY_EA(PC + 2));		  PC += 3; return 15;}
+INSN(ld_vhl_K	    ) {Q_0 WRITE(HL, K0);				  PC++;	   return  7;}
+INSN(ld_vXYpOFFSET_K) {Q_0 WRITE(FETCH_XY_EA(PC + 2), K1);		  PC += 3; return 15;}
+INSN(ld_vhl_BYTE    ) {Q_0 WRITE(HL, FETCH(PC + 1));			  PC += 2; return 10;}
+INSN(ld_a_vbc	    ) {Q_0 MEMPTR  = BC + 1; A = READ(BC);		  PC++;	   return  7;}
+INSN(ld_a_vde	    ) {Q_0 MEMPTR  = DE + 1; A = READ(DE);		  PC++;	   return  7;}
+INSN(ld_a_vWORD	    ) {Q_0 MEMPTR = FETCH_16(PC + 1); A = READ(MEMPTR++); PC += 3; return 13;}
+INSN(ld_vbc_a	    ) {Q_0 MEMPTRL = C + 1; WRITE(BC, MEMPTRH = A);	  PC++;	   return  7;}
+INSN(ld_vde_a	    ) {Q_0 MEMPTRL = E + 1; WRITE(DE, MEMPTRH = A);	  PC++;	   return  7;}
+INSN(ld_a_i	    ) {LD_A_IR(I);							     }
+INSN(ld_a_r	    ) {LD_A_IR(R_ALL);							     }
+INSN(ld_i_a	    ) {NOTIFY(ld_i_a); Q_0 I = A;			  PC += 2; return  9;}
+INSN(ld_r_a	    ) {NOTIFY(ld_r_a); Q_0 R = R7 = A;			  PC += 2; return  9;}
 
 
 INSN(ld_vXYpOFFSET_BYTE)
@@ -1309,8 +1309,9 @@ INSN(ld_vXYpOFFSET_BYTE)
 	zuint16 ea;
 
 	Q_0
-	ea = FETCH_XY_EA((PC += 4) - 2);
-	WRITE(ea, FETCH(PC - 1));
+	ea = FETCH_XY_EA(PC + 2);
+	WRITE(ea, FETCH(PC + 3));
+	PC += 4;
 	return 15;
 	}
 
@@ -1320,8 +1321,9 @@ INSN(ld_vWORD_a)
 	zuint16 ea;
 
 	Q_0
-	MEMPTRL = (zuint8)((ea = FETCH_16((PC += 3) - 2)) + 1);
+	MEMPTRL = (zuint8)((ea = FETCH_16(PC + 1)) + 1);
 	WRITE(ea, MEMPTRH = A);
+	PC += 3;
 	return 13;
 	}
 
@@ -1350,20 +1352,20 @@ INSN(ld_vWORD_a)
 |    M-cycles of the instruction.					|
 '======================================================================*/
 
-INSN(ld_SS_WORD ) {Q_0 SS0    = FETCH_16((PC += 3) - 2);			   return 10;}
-INSN(ld_XY_WORD ) {Q_0 XY     = FETCH_16((PC += 4) - 2);			   return 10;}
-INSN(ld_hl_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 3) - 2); HL  = READ_16(MEMPTR++);  return 16;}
-INSN(ld_SS_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); SS1 = READ_16(MEMPTR++);  return 20;}
-INSN(ld_XY_vWORD) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); XY  = READ_16(MEMPTR++);  return 16;}
-INSN(ld_vWORD_hl) {Q_0 MEMPTR = FETCH_16((PC += 3) - 2); WRITE_16F(MEMPTR++, HL ); return 16;}
-INSN(ld_vWORD_SS) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); WRITE_16F(MEMPTR++, SS1); return 20;}
-INSN(ld_vWORD_XY) {Q_0 MEMPTR = FETCH_16((PC += 4) - 2); WRITE_16F(MEMPTR++, XY ); return 16;}
-INSN(ld_sp_hl	) {Q_0 SP = HL;						  PC++;	   return  6;}
-INSN(ld_sp_XY	) {Q_0 SP = XY;						  PC += 2; return  6;}
-INSN(push_TT	) {Q_0 PUSH(TT);					  PC++;	   return 11;}
-INSN(push_XY	) {Q_0 PUSH(XY);					  PC += 2; return 11;}
-INSN(pop_TT	) {Q_0 TT = READ_16(SP); SP += 2;			  PC++;	   return 10;}
-INSN(pop_XY	) {Q_0 XY = READ_16(SP); SP += 2;			  PC += 2; return 10;}
+INSN(ld_SS_WORD ) {Q_0 SS0    = FETCH_16(PC + 1);			    PC += 3; return 10;}
+INSN(ld_XY_WORD ) {Q_0 XY     = FETCH_16(PC + 2);			    PC += 4; return 10;}
+INSN(ld_hl_vWORD) {Q_0 MEMPTR = FETCH_16(PC + 1); HL  = READ_16(MEMPTR++);  PC += 3; return 16;}
+INSN(ld_SS_vWORD) {Q_0 MEMPTR = FETCH_16(PC + 2); SS1 = READ_16(MEMPTR++);  PC += 4; return 20;}
+INSN(ld_XY_vWORD) {Q_0 MEMPTR = FETCH_16(PC + 2); XY  = READ_16(MEMPTR++);  PC += 4; return 16;}
+INSN(ld_vWORD_hl) {Q_0 MEMPTR = FETCH_16(PC + 1); WRITE_16F(MEMPTR++, HL ); PC += 3; return 16;}
+INSN(ld_vWORD_SS) {Q_0 MEMPTR = FETCH_16(PC + 2); WRITE_16F(MEMPTR++, SS1); PC += 4; return 20;}
+INSN(ld_vWORD_XY) {Q_0 MEMPTR = FETCH_16(PC + 2); WRITE_16F(MEMPTR++, XY ); PC += 4; return 16;}
+INSN(ld_sp_hl	) {Q_0 SP = HL;						    PC++;    return  6;}
+INSN(ld_sp_XY	) {Q_0 SP = XY;						    PC += 2; return  6;}
+INSN(push_TT	) {Q_0 PUSH(TT);					    PC++;    return 11;}
+INSN(push_XY	) {Q_0 PUSH(XY);					    PC += 2; return 11;}
+INSN(pop_TT	) {Q_0 TT = READ_16(SP); SP += 2;			    PC++;    return 10;}
+INSN(pop_XY	) {Q_0 XY = READ_16(SP); SP += 2;			    PC += 2; return 10;}
 
 
 /* MARK: - Instructions: Exchange, Block Transfer and Search Groups */
@@ -1420,15 +1422,15 @@ INSN(cpdr     ) {CPXR(--);								      }
 | (|) The flag is explained in table U/V.			     |
 '===================================================================*/
 
-INSN(U_a_K	   ) {U0(K0);						       PC++;	return	4;}
-INSN(U_a_P	   ) {U1(P);						       PC += 2; return	4;}
-INSN(U_a_BYTE	   ) {U0(FETCH((PC += 2) - 1));						return	7;}
-INSN(U_a_vhl	   ) {U0(READ(HL));					       PC++;	return	7;}
-INSN(U_a_vXYpOFFSET) {U1(READ(FETCH_XY_EA((PC += 3) - 1)));				return 15;}
-INSN(V_J	   ) {zuint8 *j = &J0; *j = V0(*j);			       PC++;	return	4;}
-INSN(V_O	   ) {zuint8 *o = &O;  *o = V1(*o);			       PC += 2; return	4;}
-INSN(V_vhl	   ) {WRITE(HL, V0(READ(HL)));				       PC++;	return 11;}
-INSN(V_vXYpOFFSET  ) {zuint16 ea = FETCH_XY_EA((PC += 3) - 1); WRITE(ea, V1(READ(ea))); return 19;}
+INSN(U_a_K	   ) {U0(K0);							 PC++;	  return  4;}
+INSN(U_a_P	   ) {U1(P);							 PC += 2; return  4;}
+INSN(U_a_BYTE	   ) {U0(FETCH(PC + 1));					 PC += 2; return  7;}
+INSN(U_a_vhl	   ) {U0(READ(HL));						 PC++;	  return  7;}
+INSN(U_a_vXYpOFFSET) {U1(READ(FETCH_XY_EA(PC + 2)));				 PC += 3; return 15;}
+INSN(V_J	   ) {zuint8 *j = &J0; *j = V0(*j);				 PC++;	  return  4;}
+INSN(V_O	   ) {zuint8 *o = &O;  *o = V1(*o);				 PC += 2; return  4;}
+INSN(V_vhl	   ) {WRITE(HL, V0(READ(HL)));					 PC++;	  return 11;}
+INSN(V_vXYpOFFSET  ) {zuint16 ea = FETCH_XY_EA(PC + 2); WRITE(ea, V1(READ(ea))); PC += 3; return 19;}
 
 
 /* MARK: - Instructions: General-Purpose Arithmetic and CPU Control Groups */
@@ -1975,9 +1977,10 @@ INSN(in_a_vBYTE)
 	| differs from all other instructions where MEMPTRH is set to A, but  |
 	| it has been verified on real hardware with the IN-MEMPTR test.      |
 	'====================================================================*/
-	MEMPTR = (t = (zuint16)(((zuint16)A << 8) | FETCH((PC += 2) - 1))) + 1;
+	MEMPTR = (t = (zuint16)(((zuint16)A << 8) | FETCH(PC + 1))) + 1;
 
 	A = IN(t);
+	PC += 2;
 	return 11;
 	}
 
@@ -1987,9 +1990,10 @@ INSN(out_vBYTE_a)
 	zuint8 t;
 
 	Q_0
-	MEMPTRL = (t = FETCH((PC += 2) - 1)) + 1;
+	MEMPTRL = (t = FETCH(PC + 1)) + 1;
 	MEMPTRH = A;
 	OUT((zuint16)(((zuint16)A << 8) | t), A);
+	PC += 2;
 	return 11;
 	}
 
@@ -2011,9 +2015,9 @@ INSN(out_vBYTE_a)
 INSN(out_vc_0)
 	{
 	Q_0
-	PC += 2;
 	MEMPTR = BC + 1;
 	OUT(BC, (zuint8)0 - (OPTIONS & (zuint8)Z80_OPTION_OUT_VC_255));
+	PC += 2;
 	return 12;
 	}
 
@@ -2142,7 +2146,9 @@ static Insn const xy_cb_insn_table[256] = {
 INSN(cb_prefix)
 	{
 	R++;
-	return cb_insn_table[DATA[1] = FETCH_OPCODE((PC += 2) - 1)](self);
+	zuint8 cycles = cb_insn_table[DATA[1] = FETCH_OPCODE(PC + 1)](self);
+	PC += 2;
+	return cycles;
 	}
 
 
@@ -2181,8 +2187,10 @@ INSN(fd_prefix) {XY_PREFIX(IY)}
 
 INSN(xy_cb_prefix)
 	{
-	FETCH_XY_EA((PC += 4) - 2);
-	return xy_cb_insn_table[DATA[3] = FETCH(PC - 1)](self);
+	FETCH_XY_EA(PC + 2);
+	zuint8 cycles = xy_cb_insn_table[DATA[3] = FETCH(PC + 3)](self);
+	PC += 4;
+	return cycles;
 	}
 
 
@@ -2662,7 +2670,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 						/*------------------------------------------------------------------------.
 						| The `Z80::fetch` callback is temporarily replaced by a trampoline that  |
-						| invokes `Z80::int_fecth`. This trampoline needs to access the callback  |
+						| invokes `Z80::int_fetch`. This trampoline needs to access the callback  |
 						| pointer in addition to the initial, non-incremented value of PC, so the |
 						| value of `Z80::context` is temporarily replaced by a pointer to an	  |
 						| `IM0` object that holds the real context and all this data, which also  |
