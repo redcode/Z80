@@ -2574,9 +2574,10 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 #				ifdef Z80_WITH_SPECIAL_RESET
 					(REQUEST & Z80_REQUEST_INT) &&
 #				endif
-				/* if the previous instruction is not `ei` and... */
+				/* If the previous instruction is not `ei` and... */
 				DATA[0] != 0xFB &&
-				/* the previous instruction is not `reti/retn` or IFF1 has not changed. */
+				/* the previous instruction is not `reti/retn`,
+				   or IFF1 has not changed. */
 				(self->data.uint32_value & Z_UINT32_BIG_ENDIAN(Z_UINT32(0xFFC70100)))
 				!=			   Z_UINT32_BIG_ENDIAN(Z_UINT32(0xED450000))
 			)
