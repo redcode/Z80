@@ -1087,19 +1087,19 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 	return 18
 
 
-#define DJNZ_JR_Z_OFFSET(condition, cycles_if_true, cycles_if_false) \
-	zsint8 offset;						     \
-								     \
-	Q_0							     \
-	offset = (zsint8)FETCH(PC + 1); /* Always read */	     \
-								     \
-	if (condition)						     \
-		{						     \
-		MEMPTR = (PC += 2 + offset);			     \
-		return cycles_if_true;				     \
-		}						     \
-								     \
-	PC += 2;						     \
+#define DJNZ_JR_Z(condition, cycles_if_true, cycles_if_false) \
+	zsint8 offset;					      \
+							      \
+	Q_0						      \
+	offset = (zsint8)FETCH(PC + 1); /* Always read */     \
+							      \
+	if (condition)					      \
+		{					      \
+		MEMPTR = (PC += 2 + offset);		      \
+		return cycles_if_true;			      \
+		}					      \
+							      \
+	PC += 2;					      \
 	return cycles_if_false
 
 
@@ -1875,10 +1875,10 @@ INSN(bit_N_vXYpOFFSET)
 INSN(jp_WORD	) {Q_0 MEMPTR = PC = FETCH_16(PC + 1);			       return 10;}
 INSN(jp_Z_WORD	) {Q_0 MEMPTR = FETCH_16(PC + 1); PC = Z(7) ? MEMPTR : PC + 3; return 10;}
 INSN(jr_OFFSET	) {Q_0 MEMPTR = (PC += 2 + (zsint8)FETCH(PC + 1));	       return 12;}
-INSN(jr_Z_OFFSET) {DJNZ_JR_Z_OFFSET(Z(3), 12, 7);					 }
+INSN(jr_Z_OFFSET) {DJNZ_JR_Z(Z(3), 12, 7);						 }
 INSN(jp_hl	) {Q_0 PC = HL;						       return  4;}
 INSN(jp_XY	) {Q_0 PC = XY;						       return  4;}
-INSN(djnz_OFFSET) {DJNZ_JR_Z_OFFSET(--B, 13, 8);					 }
+INSN(djnz_OFFSET) {DJNZ_JR_Z(--B, 13, 8);						 }
 
 
 /* MARK: - Instructions: Call and Return Group */
