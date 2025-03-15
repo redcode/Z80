@@ -1309,15 +1309,15 @@ INSN(ld_J_vXYpOFFSET) {Q_0 J1 = READ(FETCH_XY_EA((PC += 3) - 1));		 return 15;}
 INSN(ld_vhl_K	    ) {Q_0 PC++; WRITE(HL, K0);					 return	 7;}
 INSN(ld_vXYpOFFSET_K) {Q_0 WRITE(FETCH_XY_EA((PC += 3) - 1), K1);		 return 15;}
 INSN(ld_vhl_BYTE    ) {Q_0 WRITE(HL, FETCH((PC += 2) - 1));			 return 10;}
-INSN(ld_a_vbc	    ) {Q_0 MEMPTR = BC + 1; A = READ(BC); PC++;		 	 return	 7;}
-INSN(ld_a_vde	    ) {Q_0 MEMPTR = DE + 1; A = READ(DE); PC++;		 	 return	 7;}
+INSN(ld_a_vbc	    ) {Q_0 MEMPTR = BC + 1; A = READ(BC); PC++;			 return	 7;}
+INSN(ld_a_vde	    ) {Q_0 MEMPTR = DE + 1; A = READ(DE); PC++;			 return	 7;}
 INSN(ld_a_vWORD	    ) {Q_0 MEMPTR = FETCH_16((PC += 3) - 2); A = READ(MEMPTR++); return 13;}
 INSN(ld_vbc_a	    ) {Q_0 PC++; MEMPTRL = C + 1; WRITE(BC, MEMPTRH = A);	 return	 7;}
 INSN(ld_vde_a	    ) {Q_0 PC++; MEMPTRL = E + 1; WRITE(DE, MEMPTRH = A);	 return	 7;}
 INSN(ld_a_i	    ) {LD_A_IR(I);							   }
 INSN(ld_a_r	    ) {LD_A_IR(R_ALL);							   }
-INSN(ld_i_a	    ) {NOTIFY(ld_i_a); Q_0 I = A;      PC += 2;			 return  9;}
-INSN(ld_r_a	    ) {NOTIFY(ld_r_a); Q_0 R = R7 = A; PC += 2;			 return  9;}
+INSN(ld_i_a	    ) {NOTIFY(ld_i_a); Q_0 I = A;      PC += 2;			 return	 9;}
+INSN(ld_r_a	    ) {NOTIFY(ld_r_a); Q_0 R = R7 = A; PC += 2;			 return	 9;}
 
 
 INSN(ld_vXYpOFFSET_BYTE)
