@@ -701,6 +701,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **pico-zxspectrum** <sub>_by [fruit-bat](https://github.com/fruit-bat)_</sub> ⟩ [GitHub](https://github.com/fruit-bat/pico-zxspectrum)
 * **RadZ80** <sub>_by [RadAd](https://github.com/RadAd)_</sub> ⟩ [GitHub](https://github.com/RadAd/RadZ80)
 * **SEGA SC-3000 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/sc3000emulator)
+* **[The Second-Worst ZX Spectrum Emulator in the World](https://fuzzix.org/building-the-secondworst-zx-spectrum-emulator-in-the-world-with-perl)** <sub>_by [John Barrett](https://fuzzix.org/about)_</sub> ⟩ [GitHub Gist](https://gist.github.com/jbarrett/1dbcbd92d08af2f089bf6baff5cf065b)
 * **[tihle](https://www.taricorp.net/2020/introducing-tihle/)** <sub>_by [Peter Marheine](https://www.taricorp.net/about/)_</sub> ⟩ [GitHub](https://github.com/tari/tihle) · [GitLab](https://gitlab.com/taricorp/tihle)
 * **[TileMap](https://simonowen.com/spectrum/tilemap/)** <sub>_by [Simon Owen](https://simonowen.com/)_</sub> ⟩ [GitHub](https://github.com/simonowen/tilemap)
 * **<a href="https://eaw.app/tranzputer-fusionx">tranZPUter<sup>FusionX</sup></a>** <sub>_by [Philip Smart](https://eaw.app/about/)_</sub> ⟩ [GitHub](https://github.com/pdsmart/tzpuFusionX)
