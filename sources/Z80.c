@@ -2944,7 +2944,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			}
 
 		R++;
-		self->cycles += insn_table[DATA[0] = FETCH_OPCODE(PC)](self);
+		self->cycles = insn_table[DATA[0] = FETCH_OPCODE(PC)](self) + self->cycles;
 		}
 
 	R = R_ALL; /* Restore R7 bit. */
