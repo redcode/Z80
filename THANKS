@@ -63,8 +63,9 @@ Many thanks to the following individuals (in alphabetical order):
     2. For writing the "Z80 Block Flags Test" [1, 28].
     3. For writing the "Z80 CCF SCF Outcome Stability" test [28].
     4. For writing the "Z80 INT Skip" test [28].
-    5. For his research on the unstable behavior of the `ccf/scf` instructions.
-    6. For his invaluable help.
+    5. For writing "FDDD2", "Z80 DDFD3", "Z80 IM1 vs JR" and many other tests.
+    6. For his research on the unstable behavior of the `ccf/scf` instructions.
+    7. For his invaluable help.
 * Iborra Debón, Víctor (Eremus)
     For validating tests on real hardware.
 * icebear
@@ -99,7 +100,8 @@ Many thanks to the following individuals (in alphabetical order):
     3. For writing the "Zilog Z80 CPU Test Suite" [30, 31].
     4. For his research on the unstable behavior of the `ccf/scf` instructions.
 * Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)
-    For his research on the state of the registers after POWER-ON/RESET [32].
+    1. For his research on the state of the registers after POWER-ON/RESET [32].
+    2. For writing the "Z80 Initial Condition Retriever" [32.1].
 * Rodríguez Palomino, Mario (r-lyeh)
     For teaching me how emulators work.
 * Sainz de Baranda y Romero, Manuel
@@ -126,9 +128,9 @@ Many thanks to the following individuals (in alphabetical order):
 * Woodmass, Mark (Woody)
     1. For his invaluable contributions to the emuscene.
     2. For writing the "Z80 Test Suite" [15].
-    3. For his research on the `ccf/scf` instructions [36].
-    4. For writing the "HALT2INT" test.
-    5. For writing the "EIHALT" test.
+    3. For writing "ED777F", "FDDD", "EI48K", "EIHALT", "HALT2INT", "IFF2 Bug",
+       "Super HALT Invaders Test" and many other tests.
+    4. For his research on the `ccf/scf` instructions [36].
 * Young, Sean
     1. For his research work.
     2. For his technical documents about the Zilog Z80 [20, 29, 37].
@@ -204,6 +206,9 @@ References
     1. https://worldofspectrum.org/forums/discussion/comment/668760/#Comment_668
        760
 32. https://worldofspectrum.org/forums/discussion/34574
+    1. https://worldofspectrum.org/forums/discussion/comment/539714/#Comment_539
+       714
+        * http://zxprojects.com/images/stories/z80_startup/reg_start_value.zip
 33. https://jisanchez.com/test-a-dos-placas-de-zx-spectrum
 34. Weissflog, Andre (2021-12-17). "New Cycle-Stepped Z80 Emulator, A".
     * https://floooh.github.io/2021/12/17/cycle-stepped-z80.html

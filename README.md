@@ -771,8 +771,9 @@ Many thanks to the following individuals (in alphabetical order):
 	2. For writing the _"Z80 Block Flags Test"_. <sup>[1](#r_1), [28](#r_28)</sup>
 	3. For writing the _"Z80 CCF SCF Outcome Stability"_ test. <sup>[28](#r_28)</sup>
 	4. For writing the _"Z80 INT Skip"_ test. <sup>[28](#r_28)</sup>
-	5. For his research on the unstable behavior of the `ccf/scf` instructions.
-	6. For his invaluable help.
+	5. For writing _"FDDD2"_, _"Z80 DDFD3"_, _"Z80 IM1 vs JR"_ and many other tests.
+	6. For his research on the unstable behavior of the `ccf/scf` instructions.
+	7. For his invaluable help.
 * **Iborra Debón, Víctor (Eremus)**
 	* For validating tests on real hardware.
 * **icebear**
@@ -806,7 +807,8 @@ Many thanks to the following individuals (in alphabetical order):
 	3. For writing the _"Zilog Z80 CPU Test Suite"_. <sup>[30](#r_30), [31](#r_31)</sup>
 	4. For his research on the unstable behavior of the `ccf/scf` instructions.
 * **Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)**
-	* For his research on the state of the registers after POWER-ON/RESET. <sup>[32](#r_32)</sup>
+	1. For his research on the state of the registers after POWER-ON/RESET. <sup>[32](#r_32)</sup>
+	2. For writing the _"Z80 Initial Condition Retriever"_. <sup>[32.1](#r_32_1)</sup>
 * **Rodríguez Palomino, Mario (r-lyeh)**
 	* For teaching me how emulators work.
 * **Sainz de Baranda y Romero, Manuel**
@@ -832,9 +834,8 @@ Many thanks to the following individuals (in alphabetical order):
 * **Woodmass, Mark (Woody)** <sup>:medal_military:</sup>
 	1. For his invaluable contributions to the emuscene.
 	2. For writing the _"Z80 Test Suite"_. <sup>[15](#r_15)</sup>
-	3. For his research on the `ccf/scf` instructions. <sup>[36](#r_36)</sup>
-	4. For writing the _"HALT2INT"_ test.
-	5. For writing the _"EIHALT"_ test.
+	3. For writing _"ED777F"_, _"FDDD"_, _"EI48K"_, _"EIHALT"_, _"HALT2INT"_, _"IFF2 Bug"_, _"Super HALT Invaders Test"_ and many other tests.
+	4. For his research on the `ccf/scf` instructions. <sup>[36](#r_36)</sup>
 * **Young, Sean** <sup>:trophy:</sup>
 	1. For his research work.
 	2. For his technical documents about the Zilog Z80. <sup>[20](#r_20), [29](#r_29), [37](#r_37)</sup>
@@ -902,6 +903,8 @@ Many thanks to the following individuals (in alphabetical order):
 	* https://github.com/raxoft/z80test
 	1. <span id="r_31_1">https://worldofspectrum.org/forums/discussion/comment/668760/#Comment_668760</span>
 32. <span id="r_32">https://worldofspectrum.org/forums/discussion/34574</span>
+	1. <span id="r_32_1">https://worldofspectrum.org/forums/discussion/comment/539714/#Comment_539714</span>
+		* http://zxprojects.com/images/stories/z80_startup/reg_start_value.zip
 33. <span id="r_33">https://jisanchez.com/test-a-dos-placas-de-zx-spectrum</span>
 34. <span id="r_34">Weissflog, Andre (2021-12-17). _"New Cycle-Stepped Z80 Emulator, A"_.</span>
 	* https://floooh.github.io/2021/12/17/cycle-stepped-z80.html

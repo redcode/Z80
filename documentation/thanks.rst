@@ -129,8 +129,9 @@ Many thanks to the following individuals (in alphabetical order):
   2. For writing the *"Z80 Block Flags Test"*. |re| |fe| :ref:`1<r_1>`, :ref:`28<r_28>` |ren| |ces|
   3. For writing the *"Z80 CCF SCF Outcome Stability"* test. |re| |fe| :ref:`28<r_28>` |ren| |ces|
   4. For writing the *"Z80 INT Skip"* test. |re| |fe| :ref:`28<r_28>` |ren| |ces|
-  5. For his research on the ``ccf/scf`` instructions.
-  6. For his invaluable help.
+  5. For writing *"FDDD2"*, *"Z80 DDFD3"*, *"Z80 IM1 vs JR"* and many other tests.
+  6. For his research on the ``ccf/scf`` instructions.
+  7. For his invaluable help.
 
 * **Iborra Debón, Víctor (Eremus)**
 
@@ -194,7 +195,8 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)**
 
-  * For his research on the state of the registers after POWER-ON/RESET. |re| |fe| :ref:`32<r_32>` |ren| |ces|
+  1. For his research on the state of the registers after POWER-ON/RESET. |re| |fe| :ref:`32<r_32>` |ren| |ces|
+  2. For writing the *"Z80 Initial Condition Retriever"*. |re| |fe| :ref:`32.1<r_32_1>` |ren| |ces|
 
 * **Rodríguez Palomino, Mario (r-lyeh)**
 
@@ -242,9 +244,8 @@ Many thanks to the following individuals (in alphabetical order):
 
   1. For his invaluable contributions to the emuscene.
   2. For writing the *"Z80 Test Suite"*. |re| |fe| :ref:`15<r_15>` |ren| |ces|
-  3. For his research on the behavior of the `ccf/scf` instructions. |re| |fe| :ref:`36<r_36>` |ren| |ces|
-  4. For writing the *"HALT2INT"* test.
-  5. For writing the *"EIHALT"* test.
+  3. For writing *"ED777F"*, *"FDDD"*, *"EI48K"*, *"EIHALT"*, *"HALT2INT"*, *"IFF2 Bug"*, *"Super HALT Invaders Test"* and many other tests.
+  4. For his research on the behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`36<r_36>` |ren| |ces|
 
 * **Young, Sean**
 
@@ -534,6 +535,14 @@ References
    .. _r_32:
 
    https://worldofspectrum.org/forums/discussion/34574
+
+   1.
+
+      .. _r_32_1:
+
+      https://worldofspectrum.org/forums/discussion/comment/539714/#Comment_539714
+
+      * http://zxprojects.com/images/stories/z80_startup/reg_start_value.zip
 
 33.
 
