@@ -405,12 +405,12 @@ struct Z80 {
 
 	ZInt16 memptr; /**< @brief Register MEMPTR, also known as WZ.        */
 	ZInt16 af;     /**< @brief Register pair AF (accumulator and flags). */
-	ZInt16 bc;     /**< @brief Register pair BC.                         */
-	ZInt16 de;     /**< @brief Register pair DE.                         */
-	ZInt16 hl;     /**< @brief Register pair HL.                         */
 	ZInt16 af_;    /**< @brief Register pair AF'.                        */
+	ZInt16 bc;     /**< @brief Register pair BC.                         */
 	ZInt16 bc_;    /**< @brief Register pair BC'.                        */
+	ZInt16 de;     /**< @brief Register pair DE.                         */
 	ZInt16 de_;    /**< @brief Register pair DE'.                        */
+	ZInt16 hl;     /**< @brief Register pair HL.                         */
 	ZInt16 hl_;    /**< @brief Register pair HL'.                        */
 	zuint8 r;      /**< @brief Register R (memory refresh).              */
 	zuint8 i;      /**< @brief Register I (interrupt vector base).       */
