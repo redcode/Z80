@@ -6,7 +6,7 @@ authors:
     email: 'manuel@zxe.io'
     website: 'https://zxe.io'
 cff-version: '1.2.0'
-date-released: '2024-09-21'
+date-released: '2025-05-02'
 keywords:
   - CPU
   - LLE
@@ -18,5 +18,5 @@ message: If you use this software, please cite it using these metadata.
 repository-code: 'https://github.com/redcode/Z80'
 title: Z80
 type: software
-version: '0.2-pre-2024-09-21'
+version: '0.2-pre-2025-05-02'
 url: 'https://zxe.io/software/Z80'
