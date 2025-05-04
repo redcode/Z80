@@ -346,6 +346,7 @@ the same name as their CMake equivalents:
     #define Z80_WITH_Q
     #define Z80_WITH_SPECIAL_RESET
     #define Z80_WITH_UNOFFICIAL_RETI
+    #define Z80_WITH_VOLATILE_CYCLES
     #define Z80_WITH_ZILOG_NMOS_LD_A_IR_BUG
 
 Except for `Z80_EXTERNAL_HEADER`, the above macros can be empty; the source code
@@ -373,4 +374,4 @@ with this library. If not, see <http://www.gnu.org/licenses/>.
 
 
 ________________________________________________________________________________
-Last update: 2026-01-26                                               README EOF
+Last update: 2025-05-04                                               README EOF
