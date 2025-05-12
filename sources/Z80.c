@@ -2038,7 +2038,7 @@ INSN(out_vc_0)
 
 /* MARK: - Instructions: Optimizations */
 
-INSN(nop_nop) {Q_0; PC += 2; return 4;}
+INSN(nop_nop) {Q_0 PC += 2; return 4;}
 
 
 /* MARK: - Instruction Function Tables */
