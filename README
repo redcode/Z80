@@ -41,7 +41,7 @@ need for major changes.
 ============
 
 This Z80 CPU emulator has a classic design with instruction-level granularity
-that delivers the best performance, whilst offering a reasonable flexibility to
+that delivers high performance, whilst offering reasonable flexibility to
 achieve precision down to the T-state level.
 
 Instruction-level granularity implies that, except in a few well-defined cases,
@@ -374,4 +374,4 @@ with this library. If not, see <http://www.gnu.org/licenses/>.
 
 
 ________________________________________________________________________________
-Last update: 2025-05-04                                               README EOF
+Last update: 2025-05-18                                               README EOF

@@ -17,7 +17,7 @@ The source code is written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C) for
 
 ## Accuracy
 
-This Z80 CPU emulator has a classic design with instruction-level granularity that delivers the best performance, whilst offering a reasonable flexibility to achieve [precision down to the T-state level](https://github.com/agaxia/Z80InsnClock).
+This Z80 CPU emulator has a classic design with instruction-level granularity that delivers high performance, whilst offering reasonable flexibility to achieve [precision down to the T-state level](https://github.com/agaxia/Z80InsnClock).
 
 Instruction-level granularity implies that, except in a few well-defined cases, the execution of a given instruction cannot stop until all its internal M-cycles have been processed (i.e., instructions are not divided into micro-operations). Moreover, registers are modified only once per instruction and the [T-state counter](https://zxe.io/software/Z80/documentation/latest/api-reference.html#c.Z80.cycles) is normally updated after a full instruction has been executed.
 
