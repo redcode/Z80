@@ -46,12 +46,23 @@ env:
 
 jobs:
   step-tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install dependencies
+    - name: Install dependencies (macOS)
+      if: startsWith(matrix.os, 'macos')
+      run: |
+        brew install cjson
+        brew install redcode/zxe/z80insnclock
+
+    - name: Install dependencies (Ubuntu)
+      if: startsWith(matrix.os, 'ubuntu')
       run: |
         curl -L https://zxe.io/scripts/add-zxe-apt-repo.sh | sudo sh
         sudo apt-get update
@@ -61,8 +72,9 @@ jobs:
     - name: Fetch test files
       run: |
         mkdir -p "${{ github.workspace }}/build/step-tests"
-        curl -L $(curl -L -s "${{ env.TEST_FILES_QUERY_URL }}" | grep tarball_url | cut -d ":" -f 2,3 | tr -d '" ,') |
-        gzip -cd | tar -C "${{ github.workspace }}/build/step-tests" --strip-components=2 -xf - --wildcards "${{ env.TEST_FILES_PATH }}"
+        curl -L $(curl -sL "${{ env.TEST_FILES_QUERY_URL }}" | jq -r '.tarball_url') |
+        gzip -cd |
+        tar -C "${{ github.workspace }}/build/step-tests" --strip-components=2 -xf - $([[ $(tar --version | head -n 1 | cut -d " " -f 1) = tar ]] && echo --wildcards) "${{ env.TEST_FILES_PATH }}"
 
     - name: Configure CMake
       run: >-
