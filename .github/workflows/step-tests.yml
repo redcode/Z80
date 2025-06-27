@@ -72,7 +72,7 @@ jobs:
     - name: Fetch test files
       run: |
         mkdir -p "${{ github.workspace }}/build/step-tests"
-        curl -L $(curl -sL "${{ env.TEST_FILES_QUERY_URL }}" | jq -r '.tarball_url') |
+        curl -L $(curl -sL "${{ env.TEST_FILES_QUERY_URL }}" | jq -r .tarball_url) |
         gzip -cd |
         tar -C "${{ github.workspace }}/build/step-tests" --strip-components=2 -xf - $([[ $(tar --version | head -n 1 | cut -d " " -f 1) = tar ]] && echo --wildcards) "${{ env.TEST_FILES_PATH }}"
 
