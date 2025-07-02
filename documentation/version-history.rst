@@ -5,7 +5,7 @@ Version history
 Z80 v0.2-pre
 ============
 
-*Released on 2025-05-02*
+*Released on 2025-07-02*
 
 This is an important update that addresses a number of issues and also includes new features. Please note that the changes introduced in this release break the binary compatibility with the previous version.
 

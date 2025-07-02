@@ -30,8 +30,8 @@
   * of the Zilog Z80 that emulates all that is known to date about this CPU,
   * including the undocumented behaviors, MEMPTR, Q and the special RESET.
   *
-  * @version 0.2-pre-2025-05-02
-  * @date 2025-05-02
+  * @version 0.2-pre-2025-07-02
+  * @date 2025-07-02
   * @author Manuel Sainz de Baranda y Goñi */
 
 #ifdef Z80_EXTERNAL_HEADER
