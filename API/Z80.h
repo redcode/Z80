@@ -160,10 +160,10 @@ typedef zuint8 (* Z80Illegal)(Z80 *cpu, zuint8 opcode);
   * in use. */
 
 struct Z80 {
-
-	/** @brief Number of clock cycles already executed. */
-
-	zusize cycles;
+#	if !defined(__DOXYGEN__) && defined(Z80_WITH_VOLATILE_CYCLES)
+		volatile
+#	endif
+	zusize cycles; /**< @brief Number of clock cycles already executed. */
 
 	/** @brief Maximum number of clock cycles to be executed. */
 
