@@ -99,7 +99,7 @@ NO)
 
 option(${PROJECT_NAME}_WITH_TESTING_TOOL
 "${PROJECT_NAME}: \
-Build `test-Z80`, a tool that runs various Z80-specific tests for CP/M
+Build `test-Z80`, a tool that runs various Z80-specific tests for CP/M \
 and ZX Spectrum."
 NO)
 
