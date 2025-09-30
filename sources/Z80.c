@@ -1181,7 +1181,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 | Block instructions produce an extra M-cycle of 5 T-states to decrement PC if |
 | the loop condition is met. In 2018, David Banks (AKA hoglet) discovered that |
 | the Z80 CPU performs additional flag changes during this M-cycle and managed |
-| to decipher the behaviors. All block instructions copy bits 13 and 11 of PCi |
+| to decipher the behaviors: All block instructions copy bits 13 and 11 of PCi |
 | to YF and XF, respectively [1.1], but `inir`, `indr`, `otir` and `otdr` also |
 | modify HF and PF in a very complicated way [1.2]. These latter two flags are |
 | not commented here because the explanation would not be simpler than the     |
