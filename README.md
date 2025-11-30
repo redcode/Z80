@@ -9,7 +9,7 @@
 
 ## Introduction
 
-<img src="https://zxe.io/software/Z80/assets/images/Z80.svg" width="256" align="right">
+<img src="https://zxe.io/software/Z80/assets/images/Z80.svg" height="72" width="256" align="right">
 
 The [Z80 library](https://zxe.io/software/Z80) implements a fast, small and accurate [emulator](https://en.wikipedia.org/wiki/Emulator) of the [Zilog Z80](https://en.wikipedia.org/wiki/Zilog_Z80). It emulates all that is known to date about this CPU, including the undocumented behaviors, [MEMPTR](https://zxpress.ru/zxnet/zxnet.pc/5909), [Q](https://worldofspectrum.org/forums/discussion/41704) and the [special RESET](http://www.primrosebank.net/computers/z80/z80_special_reset.htm). It also has the honor of having been the first open-source project to provide full emulation of the interrupt mode 0.
 
@@ -307,7 +307,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 
 ## Installation
 
-### <sub><img src="https://zxe.io/software/Z80/assets/images/debian-icon.svg" height="24"></sub> Debian, <sub><img src="https://zxe.io/software/Z80/assets/images/ubuntu-icon.svg" height="24"></sub> Ubuntu and other Debian-based Linux distributions
+### <sub><img src="https://zxe.io/software/Z80/assets/images/debian-icon.svg" height="24" width="20"></sub> Debian, <sub><img src="https://zxe.io/software/Z80/assets/images/ubuntu-icon.svg" height="24" width="25"></sub> Ubuntu and other Debian-based Linux distributions
 
 First, add the `zxe` repository and update the package index:
 
@@ -331,7 +331,7 @@ In case you need to build software that requires the Z80 library, install the de
 sudo apt install libz80-dev
 ```
 
-### <sub><img src="https://zxe.io/software/Z80/assets/images/gentoo-icon.svg" height="24"></sub> Gentoo
+### <sub><img src="https://zxe.io/software/Z80/assets/images/gentoo-icon.svg" height="24" width="24"></sub> Gentoo
 
 First, add and sync the [`zxe`](https://github.com/redcode/zxe-gentoo-overlay) overlay:
 
@@ -346,13 +346,13 @@ Then install the library:
 emerge emulation-libs/z80
 ```
 
-### <sub><img src="https://zxe.io/software/Z80/assets/images/homebrew-icon.svg" height="24"></sub> Homebrew
+### <sub><img src="https://zxe.io/software/Z80/assets/images/homebrew-icon.svg" height="24" width="16"></sub> Homebrew
 
 ```shell
 brew install redcode/zxe/z80
 ```
 
-### <sub><img src="https://zxe.io/software/Z80/assets/images/windows-icon.png" height="24"></sub> Windows
+### <sub><img src="https://zxe.io/software/Z80/assets/images/windows-icon.png" height="24" width="24"></sub> Windows
 
 Pre-built binaries for Windows are available on the [download](https://zxe.io/software/Z80/download) page.
 
@@ -562,7 +562,7 @@ cmake --build . --config Release
 cmake --install . --config Release --strip
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/sh.svg" height="14"></sub> build-and-install-Z80.sh](https://zxe.io/software/Z80/scripts/build-and-install-Z80.sh)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/sh.svg" height="14" width="19"></sub> build-and-install-Z80.sh](https://zxe.io/software/Z80/scripts/build-and-install-Z80.sh)**</sup>
 
 ## Running the tests
 
@@ -614,7 +614,7 @@ cmake --build . --config Release
 ctest --verbose --build-config Release
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/sh.svg" height="14"></sub> build-and-test-Z80.sh](https://zxe.io/software/Z80/scripts/build-and-test-Z80.sh) &nbsp;&nbsp; [<sub><img src="https://zxe.io/software/Z80/assets/images/bat.svg" height="14"></sub> build-and-test-Z80.bat](https://zxe.io/software/Z80/scripts/build-and-test-Z80.bat)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/sh.svg" height="14" width="19"></sub> build-and-test-Z80.sh](https://zxe.io/software/Z80/scripts/build-and-test-Z80.sh) &nbsp;&nbsp; [<sub><img src="https://zxe.io/software/Z80/assets/images/bat.svg" height="14" width="19"></sub> build-and-test-Z80.bat](https://zxe.io/software/Z80/scripts/build-and-test-Z80.bat)**</sup>
 
 ## Integration
 
@@ -917,7 +917,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 Copyright © 1999-2025 Manuel Sainz de Baranda y Goñi.
 
-<img src="https://zxe.io/software/Z80/assets/images/lgplv3.svg" width="160" align="right">
+<img src="https://zxe.io/software/Z80/assets/images/lgplv3.svg" height="70" width="160" align="right">
 
 This library is [free software](https://www.gnu.org/philosophy/free-sw.html): you can redistribute it and/or modify it under the terms of the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.html) as published by the [Free Software Foundation](https://www.fsf.org), either version 3 of the License, or (at your option) any later version.
 
