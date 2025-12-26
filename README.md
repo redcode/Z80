@@ -312,10 +312,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 First, add the `zxe` repository and update the package index:
 
 ```shell
-sudo mkdir -pm700 /root/.gnupg
-sudo mkdir -pm755 /etc/apt/keyrings
-sudo gpg --no-default-keyring --keyring /etc/apt/keyrings/zxe-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys FE214A38D6A0C01D9AF514EE841EA3BD3A7E1487
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/zxe-archive-keyring.gpg] https://zxe.io/repos/apt stable main" | sudo tee /etc/apt/sources.list.d/zxe.list
+curl -L https://zxe.io/scripts/add-zxe-apt-repo.sh | sudo sh
 sudo apt update
 ```
 
