@@ -1023,7 +1023,7 @@ int main(int argc, char **argv)
 
 				else	{
 					passed_file_count++;
-					puts("OK");
+					puts("Passed");
 					}
 				}
 
