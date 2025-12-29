@@ -261,20 +261,6 @@ static zuint8 insn_clock_read(void *context, zuint16 address)
 	}
 
 
-/* Member Lookup */
-
-static Member const *find_member(char const *key)
-	{
-	int i;
-
-	for (i = 0; i != (int)Z_ARRAY_SIZE(members); i++)
-		if (!strcmp(key, members[i].key))
-			return (Member const *)&members[i];
-
-	return Z_NULL;
-	}
-
-
 /* MARK: - JSON Validation */
 
 static zbool is_number_between(cJSON *number, int minimum, int maximum)
@@ -289,46 +275,34 @@ static zbool is_number_between(cJSON *number, int minimum, int maximum)
 
 static zbool validate_test_state(cJSON *state)
 	{
-	cJSON *item = Z_NULL;
+	cJSON *item, *subitem;
+	Member const *member;
 
-	if (	!cJSON_IsObject(state) ||
-		cJSON_GetArraySize(state) != (int)Z_ARRAY_SIZE(members) + /* "ram" */ 1
+	if (	!cJSON_IsObject(state)							||
+		cJSON_GetArraySize(state) != (int)Z_ARRAY_SIZE(members) + /* "ram" */ 1 ||
+		(item = cJSON_GetObjectItem(state, "ram")) == Z_NULL			||
+		!cJSON_IsArray(item)
 	)
 		return Z_FALSE;
 
-	cJSON_ArrayForEach(item, state)
-		{
-		char const *key = item->string;
+	cJSON_ArrayForEach(subitem, item) if (
+		!cJSON_IsArray(subitem)							||
+		cJSON_GetArraySize(subitem) != 2					||
+		!is_number_between(cJSON_GetArrayItem(subitem, 0), 0, Z_UINT16_MAXIMUM) ||
+		!is_number_between(cJSON_GetArrayItem(subitem, 1), 0, Z_UINT8_MAXIMUM)
+	)
+		return Z_FALSE;
 
-		if (!strcmp(key, "ram"))
-			{
-			cJSON *subitem;
-
-			if (!cJSON_IsArray(item)) return Z_FALSE;
-
-			cJSON_ArrayForEach(subitem, item) if (
-				!cJSON_IsArray(subitem)							||
-				cJSON_GetArraySize(subitem) != 2					||
-				!is_number_between(cJSON_GetArrayItem(subitem, 0), 0, Z_UINT16_MAXIMUM) ||
-				!is_number_between(cJSON_GetArrayItem(subitem, 1), 0, Z_UINT8_MAXIMUM)
-			)
-				return Z_FALSE;
-			}
-
-		else	{
-			Member const *member;
-
-			if (	(member = find_member(key)) == NULL ||
-				!is_number_between(item, 0, member->maximum_value)
-			)
-				return Z_FALSE;
-			}
-		}
-
-/*	return	cJSON_GetNumberValue(cJSON_GetObjectItem(state, "ei")) == 0.0 ||
-		cJSON_GetNumberValue(cJSON_GetObjectItem(state, "p" )) == 0.0;*/
+	for (member = members; member != members + Z_ARRAY_SIZE(members) - 2; member++)
+		if (	(item = cJSON_GetObjectItem(state, member->key)) == Z_NULL ||
+			!is_number_between(item, 0, member->maximum_value)
+		)
+			return Z_FALSE;
 
 	return Z_TRUE;
+/*	return	2.0 !=
+		cJSON_GetNumberValue(cJSON_GetObjectItem(state, "ei")) +
+		cJSON_GetNumberValue(cJSON_GetObjectItem(state, "p" ));*/
 	}
 
 
@@ -379,7 +353,7 @@ static zbool validate_tests(cJSON *tests)
 				return Z_FALSE;
 			}
 
-		if ((item = cJSON_GetObjectItem(test, "ports")) != NULL)
+		if ((item = cJSON_GetObjectItem(test, "ports")) != Z_NULL)
 			{
 			if (!cJSON_IsArray(item) || !(size = cJSON_GetArraySize(item)))
 				return Z_FALSE;
@@ -745,14 +719,14 @@ int main(int argc, char **argv)
 			printf("%s: ", argv[i]);
 
 			if ((file = fopen(argv[i], "r")) == Z_NULL)
-				error = "cannot open file";
+				error = "Cannot open file";
 
 			else	{
 				if (	fseek(file, 0, SEEK_END)      ||
 					(file_size = ftell(file)) < 0 ||
 					fseek(file, 0, SEEK_SET)
 				)
-					error = "cannot determine file size";
+					error = "Cannot determine file size";
 
 				else if ((json_size = (zusize)file_size))
 					{
@@ -770,7 +744,7 @@ int main(int argc, char **argv)
 				}
 			}
 
-		if (error)
+		if (error != Z_NULL)
 			{
 			free(json);
 			printf("Error: %s\n", error);
@@ -846,11 +820,11 @@ int main(int argc, char **argv)
 						}
 
 					if (cJSON_GetNumberValue(cJSON_GetObjectItem(initial, "ei")) == 1.0)
-						cpu.data.uint8_array[0] = 0xFB;
+						cpu.data.uint8_array[0] = 0xFB; /* `ei` */
 
 					else if (cJSON_GetNumberValue(cJSON_GetObjectItem(initial, "p")) == 1.0)
 						{
-						cpu.data.uint8_array[0] = 0xED;
+						cpu.data.uint8_array[0] = 0xED; /* `ld a,i` */
 						cpu.data.uint8_array[1] = 0x57;
 						}
 
