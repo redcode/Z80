@@ -307,7 +307,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 
 ## Installation
 
-The Z80 library is available on various package managers. For an up-to-date list and installation instructions, see the "[Installation](https://github.com/redcode/Z80/wiki/Installation)" page on the repository [wiki](https://github.com/redcode/Z80/wiki).
+The Z80 library is available through various package managers. For an up-to-date list and installation instructions, see the "[Installation](https://github.com/redcode/Z80/wiki/Installation)" page on the repository wiki.
 
 ## Installation from source code
 
