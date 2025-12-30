@@ -307,51 +307,7 @@ Frank Cringle's _Z80 Instruction Set Exerciser_ attempts to execute every Z80 op
 
 ## Installation
 
-### <sub><img src="https://zxe.io/software/Z80/assets/images/debian-icon.svg" height="24" width="20"></sub> Debian, <sub><img src="https://zxe.io/software/Z80/assets/images/ubuntu-icon.svg" height="24" width="25"></sub> Ubuntu and other Debian-based Linux distributions
-
-First, add the `zxe` repository and update the package index:
-
-```shell
-curl -L https://zxe.io/scripts/add-zxe-apt-repo.sh | sudo sh
-sudo apt update
-```
-
-Next, install the library package:
-
-```shell
-sudo apt install libz80
-```
-
-In case you need to build software that requires the Z80 library, install the development package too:
-
-```shell
-sudo apt install libz80-dev
-```
-
-### <sub><img src="https://zxe.io/software/Z80/assets/images/gentoo-icon.svg" height="24" width="24"></sub> Gentoo
-
-First, add and sync the [`zxe`](https://github.com/redcode/zxe-gentoo-overlay) overlay:
-
-```shell
-eselect repository add zxe git https://github.com/redcode/zxe-gentoo-overlay.git
-emaint sync --repo zxe
-```
-
-Then install the library:
-
-```shell
-emerge emulation-libs/z80
-```
-
-### <sub><img src="https://zxe.io/software/Z80/assets/images/homebrew-icon.svg" height="24" width="16"></sub> Homebrew
-
-```shell
-brew install redcode/zxe/z80
-```
-
-### <sub><img src="https://zxe.io/software/Z80/assets/images/windows-icon.png" height="24" width="24"></sub> Windows
-
-Pre-built binaries for Windows are available on the [download](https://zxe.io/software/Z80/download) page.
+The Z80 library is available on various package managers. For an up-to-date list and installation instructions, see the "[Installation](https://github.com/redcode/Z80/wiki/Installation)" page on the repository [wiki](https://github.com/redcode/Z80/wiki).
 
 ## Installation from source code
 
