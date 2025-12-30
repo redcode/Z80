@@ -2626,18 +2626,17 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						FLAGS = F & ~(zuint8)PF;
 #				endif
 
-				/*---------------------------------------------------------------------.
-				| The INT acknowledge cycle (INTA) indicates that the interrupting I/O |
-				| device can write to the data bus. 2 wait T-states are automatically  |
-				| added to this M-cycle, allowing sufficient time to identify which    |
-				| device must insert the interrupt response data (IRD). The first and  |
-				| possibly sole byte of the IRD is read from the data bus during this  |
-				| special M1 cycle.						       |
-				|								       |
-				| The value FFh is assumed when the `Z80::inta` callback is not used.  |
-				| This is the most convenient default IRD, since an `rst 38h` will be  |
-				| executed if the interrupt mode is 0.				       |
-				'=====================================================================*/
+				/*-----------------------------------------------------------------------.
+				| The INT acknowledge M-cycle (INTA) indicates that the interrupting I/O |
+				| device can write to the data bus. The CPU adds 2 wait T-states to this |
+				| M-cycle, allowing sufficient time to identify which device must insert |
+				| the interrupt response data (IRD). The first and possibly sole byte of |
+				| the IRD is read from the data bus during this special M1 cycle.	 |
+				|									 |
+				| The value FFh is assumed when the `Z80::inta` callback is not used.	 |
+				| This is the most convenient default IRD, since an `rst 38h` will be	 |
+				| executed if the interrupt mode is 0.					 |
+				'=======================================================================*/
 				R++;
 				ird = (self->inta != Z_NULL) ? self->inta(CONTEXT, PC) : 0xFF;
 
@@ -2651,15 +2650,15 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| Interrupt Mode 0: Execute Instruction	     | T-states: 2*n + instruction |
 					|--------------------------------------------------------------------------|
 					| An instruction supplied via the data bus is executed. Its first byte is  |
-					| read during the INT acknowledge cycle (INTA). If it is an opcode prefix, |
-					| additional M-cycles of this kind are produced until the final opcode of  |
-					| the instruction is fetched [1]. Each INTA M-cycle takes as many T-states |
-					| as its normal M1 counterpart (the opcode fetch M-cycle) plus the 2 wait  |
-					| T-states mentioned above [1]. Subsequent bytes of the instruction are	   |
-					| fetched by using normal memory read M-cycles [1, 2], during which the	   |
-					| interrupting I/O device must still supply the data [2]. The PC register, |
-					| however, remains at its pre-interrupt state, not being incremented as a  |
-					| result of the instruction fetch [1, 2].				   |
+					| read during the INTA M-cycle and, if it is an opcode prefix, additional  |
+					| M-cycles of this kind are produced until the final opcode of the	   |
+					| instruction is fetched [1]. Each INTA M-cycle takes as many T-states as  |
+					| its normal M1 counterpart (the opcode fetch M-cycle) plus the 2 wait	   |
+					| T-states mentioned in the previous comment [1]. Subsequent bytes of the  |
+					| instruction are fetched by using normal memory read M-cycles [1, 2],	   |
+					| during which the interrupting I/O device must still supply the data [2]. |
+					| The PC register, however, remains at its pre-interrupt state, not being  |
+					| incremented as a result of the instruction fetch [1, 2].		   |
 					|									   |
 					| References:								   |
 					| 1. Checked with "Visual Z80 Remix".					   |
@@ -2901,9 +2900,9 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| of the interrupt response vector "must be a zero", since the address |
 					| formed "is used to get two adjacent bytes to form a complete 16-bit  |
 					| service routine starting address and the addresses must always start |
-					| in even locations" [1]. However, Sean Young's experiments confirmed  |
-					| that there is no such limitation [2]; any vector works regardless of |
-					| whether it is even or odd.					       |
+					| in even locations" [1]. However, Sean Young's confirmed that there   |
+					| is no such limitation [2]; the CPU fetches the ISR pointer from the  |
+					| specified location regardless of the value of bit 0 of the IRD.      |
 					|								       |
 					| References:							       |
 					| 1. Zilog (2005-03). "Z80 CPU User Manual" rev. 5, pp. 25-26.	       |

@@ -37,11 +37,25 @@
 /* MARK: - Types */
 
 typedef struct {
+	/* Title of the member as shown in the mismatch reports. */
 	char const *caption;
+
+	/* Key of the member as shown in the JSON files. */
 	char const *key;
+
+	/* Offset of the member within the Z80 structure. */
 	zusize offset;
+
+	/* Maximum value the member can hold. */
 	zuint16 maximum_value;
 } Member;
+
+/*-----------------------------------------------------------------------------.
+| `Cycle` and `Port` store information about a clock cycle and an I/O port     |
+| operation, respectively. They are packed to avoid any padding bytes, so that |
+| the actual results can be compared directly with the expected ones read from |
+| the JSON test files.							       |
+'=============================================================================*/
 
 typedef Z_PACKED_STRUCTURE_BEGIN {
 	zuint16 address;
@@ -109,6 +123,12 @@ static char const *field_separator = "";
 static zbool cpu_break;
 
 
+/*----------------------------------------------------------------------------.
+| `add_cycle` and `add_port` add entries to the lists of recorded cycles and  |
+| I/O port operations, respectively. If memory reallocation fails, they break |
+| the CPU emulation and ignore further entries.				      |
+'============================================================================*/
+
 static void add_cycle(zuint16 address, zsint16 value, char const *pins)
 	{
 	Cycle *c;
@@ -121,6 +141,7 @@ static void add_cycle(zuint16 address, zsint16 value, char const *pins)
 		if ((c = realloc(cycles, cycles_size * sizeof(Cycle))) == Z_NULL)
 			{
 			z80_break(&cpu);
+			cpu_break = Z_TRUE;
 			return;
 			}
 
@@ -164,7 +185,7 @@ static void add_port(zuint16 port, zuint8 value, char direction)
 	}
 
 
-/* MARK: - Callbacks */
+/* MARK: - CPU Callbacks */
 
 static zuint8 cpu_fetch_opcode(void *context, zuint16 address)
 	{
@@ -278,6 +299,7 @@ static zbool validate_test_state(cJSON *state)
 	cJSON *item, *subitem;
 	Member const *member;
 
+	/* The state object must contain all CPU members plus the `"ram"` array. */
 	if (	!cJSON_IsObject(state)							||
 		cJSON_GetArraySize(state) != (int)Z_ARRAY_SIZE(members) + /* "ram" */ 1 ||
 		(item = cJSON_GetObjectItem(state, "ram")) == Z_NULL			||
@@ -285,6 +307,8 @@ static zbool validate_test_state(cJSON *state)
 	)
 		return Z_FALSE;
 
+	/* The `"ram"` array must contain arrays of two numbers: 16-bit address and
+	   8-bit value. */
 	cJSON_ArrayForEach(subitem, item) if (
 		!cJSON_IsArray(subitem)							||
 		cJSON_GetArraySize(subitem) != 2					||
@@ -293,6 +317,7 @@ static zbool validate_test_state(cJSON *state)
 	)
 		return Z_FALSE;
 
+	/* Each CPU member must be present and hold a valid number according to its type. */
 	for (member = members; member != members + Z_ARRAY_SIZE(members) - 2; member++)
 		if (	(item = cJSON_GetObjectItem(state, member->key)) == Z_NULL ||
 			!is_number_between(item, 0, member->maximum_value)
@@ -300,7 +325,12 @@ static zbool validate_test_state(cJSON *state)
 			return Z_FALSE;
 
 	return Z_TRUE;
-/*	return	2.0 !=
+
+	/*-------------------------------------------------------------.
+	| EI and P are mutually exclusive, as the previous instruction |
+	| cannot be `ei` and `ld a,{i|r}` at the same time.	       |
+	'=============================================================
+	return	2.0 !=
 		cJSON_GetNumberValue(cJSON_GetObjectItem(state, "ei")) +
 		cJSON_GetNumberValue(cJSON_GetObjectItem(state, "p" ));*/
 	}
