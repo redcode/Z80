@@ -2517,8 +2517,8 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 			| The non-maskable interrupt takes priority over the maskable interrupt	   |
 			| and cannot be disabled under software control. Its usual function is to  |
 			| provide immediate response to important signals. The CPU responds to an  |
-			| NMI by pushing PC onto the stack and jumping to the ISR located at	   |
-			| address 0066h. The interrupt enable flip-flop #1 (IFF1) is reset to	   |
+			| NMI request by pushing PC onto the stack and jumping to the ISR located  |
+			| at address 0066h. The interrupt enable flip-flop #1 (IFF1) is reset to   |
 			| prevent any maskable interrupt from being accepted during the execution  |
 			| of this routine, which is usually exited by using a `reti` or `retn`	   |
 			| instruction to restore the original state of IFF1 [1].		   |
