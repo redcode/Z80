@@ -37,36 +37,28 @@
 /* MARK: - Types */
 
 typedef struct {
-	/* Title of the member as shown in the mismatch reports. */
-	char const *caption;
-
-	/* Key of the member as shown in the JSON files. */
-	char const *key;
-
-	/* Offset of the member within the Z80 structure. */
-	zusize offset;
-
-	/* Maximum value the member can hold. */
-	zuint16 maximum_value;
+	char const *caption;   /* Name used in the mismatch reports. */
+	char const *key;       /* JSON key.			     */
+	zusize offset;	       /* Offset within the Z80 structure.   */
+	zuint16 maximum_value; /* Maximum value the member can hold. */
 } Member;
 
-/*-----------------------------------------------------------------------------.
-| `Cycle` and `Port` store information about a clock cycle and an I/O port     |
-| operation, respectively. They are packed to avoid any padding bytes, so that |
-| the actual results can be compared directly with the expected ones read from |
-| the JSON test files.							       |
-'=============================================================================*/
+/*--------------------------------------------------------------------.
+| `Cycle` and `Port` store information about a clock cycle and an I/O |
+| operation, respectively. These structures are packed to avoid any   |
+| padding bytes, so that they can be compared using `memcmp`.	      |
+'====================================================================*/
 
 typedef Z_PACKED_STRUCTURE_BEGIN {
-	zuint16 address;
-	zsint16 value;
-	char pins[4];
+	zuint16 address; /* Value on the address bus. */
+	zsint16 value;   /* Value on the data bus.    */
+	char pins[4];    /* State of the pins.	      */
 } Z_PACKED_STRUCTURE_END Cycle;
 
 typedef Z_PACKED_STRUCTURE_BEGIN {
-	zuint16 port;
-	zuint8 value;
-	char direction;
+	zuint16 port;   /* I/O port number.			       */
+	zuint8 value;   /* Value read from or written to the I/O port. */
+	char direction; /* 'r' = read, 'w' = write.		       */
 } Z_PACKED_STRUCTURE_END Port;
 
 
@@ -274,6 +266,8 @@ static void cpu_out(void *context, zuint16 port, zuint8 value)
 	add_port (port, value, 'w');
 	}
 
+
+/* MARK: - Instruction Clock Callback */
 
 static zuint8 insn_clock_read(void *context, zuint16 address)
 	{

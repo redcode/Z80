@@ -932,7 +932,7 @@ int main(int argc, char **argv)
 	|   test programs do not require interrupts.			       |
 	| * `nop`, `ld_i_a`, `ld_r_a`, `reti`, `retn`, and `illegal` are also  |
 	|   not needed.							       |
-	| * `fetch_opcode`, `write`, and `hook` will be set by `run_test()`.   |
+	| * `fetch_opcode`, `write`, and `hook` will be set by `run_test`.     |
 	'=====================================================================*/
 	cpu.context   = Z_NULL;
 	cpu.fetch     =
