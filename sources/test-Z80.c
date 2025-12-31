@@ -44,11 +44,6 @@
 #	define RUN z80_run
 #endif
 
-#define OPCODE_NOP     0x00
-#define OPCODE_RET     0xC9
-#define OPCODE_HALT    0x76
-#define OPCODE_JP_WORD 0xC3
-
 #define TEST_FORMAT_CPM	     0 /* CP/M program in COM format.		      */
 #define TEST_FORMAT_HARSTON  1 /* Z80 Instruction Set Exerciser for Spectrum. */
 #define TEST_FORMAT_RAK	     2 /* Patrik Rak's Zilog Z80 CPU Test Suite.      */
@@ -266,7 +261,7 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 	zuint8 character;
 
 	Z_UNUSED(context)
-	if (address != 5) return OPCODE_NOP;
+	if (address != 5) return Z80_NOP;
 
 	/* BDOS function 2 (C_WRITE) - Console output */
 	if (Z80_C(cpu) == 2)
@@ -296,7 +291,7 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 
 			switch (character)
 				{
-				case 0x24: /* $  */ return OPCODE_RET;
+				case 0x24: /* $  */ return Z80_RET;
 				case 0x0A: /* LF */ lf();
 				case 0x0D: /* CR */ break;
 
@@ -309,7 +304,7 @@ static zuint8 cpm_cpu_hook(void *context, zuint16 address)
 		if (show_test_output) puts(" [TRUNCATED]");
 		}
 
-	return OPCODE_RET;
+	return Z80_RET;
 	}
 
 
@@ -327,7 +322,7 @@ static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 	zuint8 character;
 
 	Z_UNUSED(context)
-	if (address != zx_spectrum_print_hook_address) return OPCODE_NOP;
+	if (address != zx_spectrum_print_hook_address) return Z80_NOP;
 	hash = Z_FNV1_32_UPDATE(hash, character = Z80_A(cpu));
 
 	if (!zx_spectrum_tab) switch (character)
@@ -364,7 +359,7 @@ static zuint8 zx_spectrum_cpu_hook(void *context, zuint16 address)
 		if (show_test_output) while (c--) putchar(' ');
 		}
 
-	return OPCODE_RET;
+	return Z80_RET;
 	}
 
 
@@ -374,7 +369,7 @@ static zuint8 zx_spectrum_cpu_fetch_opcode(void *context, zuint16 address)
 	Z_UNUSED(context)
 
 	return address == 0x1601 /* 1601: THE 'CHAN_OPEN' SUBROUTINE */
-		? OPCODE_RET : memory[address];
+		? Z80_RET : memory[address];
 	}
 
 
@@ -564,7 +559,7 @@ static zuint8 run_test(int test_index)
 		cpu.fetch_opcode = cpu_read;
 		cpu.write	 = cpm_cpu_write;
 		cpu.hook	 = cpm_cpu_hook;
-		memory[0]	 = OPCODE_HALT;
+		memory[0]	 = Z80_HALT;
 		memory[5]	 = Z80_HOOK; /* PRINT */
 		}
 
@@ -591,7 +586,7 @@ static zuint8 run_test(int test_index)
 			Z80_AF(cpu) = 0x3222;
 
 			/* 0010: THE 'PRINT A CHARACTER' RESTART */
-			memory[0x0010] = OPCODE_JP_WORD; /* jp PRINT */
+			memory[0x0010] = Z80_JP_WORD; /* jp PRINT */
 			memory[0x0011] = 0xF2;
 			memory[0x0012] = 0x70;
 
@@ -607,7 +602,7 @@ static zuint8 run_test(int test_index)
 			memory[zx_spectrum_print_hook_address = 0x0010] = Z80_HOOK;
 
 			/* 1601: THE 'CHAN_OPEN' SUBROUTINE */
-			memory[0x1601] = OPCODE_RET;
+			memory[0x1601] = Z80_RET;
 			}
 
 		cpu.write = zx_spectrum_cpu_write;
@@ -615,10 +610,10 @@ static zuint8 run_test(int test_index)
 		cpu.i	  = 0x3F;
 
 		/* 0D6B: THE 'CLS' COMMAND ROUTINE */
-		memory[0x0D6B] = OPCODE_RET;
+		memory[0x0D6B] = Z80_RET;
 		}
 
-	memory[test->exit_address] = OPCODE_HALT;
+	memory[test->exit_address] = Z80_HALT;
 	Z80_PC(cpu)		   = start_address;
 	hash			   = Z_FNV1_32_INITIALIZER;
 	lines			   =

@@ -88,10 +88,26 @@
 
 #define Z80_MINIMUM_CYCLES_PER_STEP 4
 
+/** @brief Opcode of the @c halt instruction in the Z80 ISA. */
+
+#define Z80_HALT 0x76
+
 /** @brief Opcode interpreted as a trap by the Z80 library. It corresponds to
   * the <tt>ld h,h</tt> instruction in the Z80 ISA. */
 
 #define Z80_HOOK 0x64
+
+/** @brief Opcode of the <tt>jp WORD</tt> instruction in the Z80 ISA. */
+
+#define Z80_JP_WORD 0xC3
+
+/** @brief Opcode of the @c nop instruction in the Z80 ISA. */
+
+#define Z80_NOP 0x00
+
+/** @brief Opcode of the @c ret instruction in the Z80 ISA. */
+
+#define Z80_RET 0xC9
 
 #define Z80_SF 128 /**< @brief Bitmask of the Z80 S flag.   */
 #define Z80_ZF  64 /**< @brief Bitmask of the Z80 Z flag.   */

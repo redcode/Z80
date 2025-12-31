@@ -47,7 +47,11 @@ const
 	Z80_MAXIMUM_CYCLES = SizeUInt(SizeUInt(SizeUInt.MaxValue) - 30);
 	Z80_MAXIMUM_CYCLES_PER_STEP = 23;
 
-	Z80_HOOK = $64;
+	Z80_HALT    = $76;
+	Z80_HOOK    = $64;
+	Z80_JP_WORD = $C3;
+	Z80_NOP     = $00;
+	Z80_RET     = $C9;
 
 	Z80_SF = 128;
 	Z80_ZF =  64;

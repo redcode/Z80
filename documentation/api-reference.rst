@@ -80,7 +80,11 @@ Limits
 Opcodes
 -------
 
+.. doxygendefine:: Z80_HALT
 .. doxygendefine:: Z80_HOOK
+.. doxygendefine:: Z80_JP_WORD
+.. doxygendefine:: Z80_NOP
+.. doxygendefine:: Z80_RET
 
 Flags
 -----

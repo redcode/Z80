@@ -1672,7 +1672,7 @@ INSN(halt)
 						if (self->halt != Z_NULL)
 							self->halt(CONTEXT, Z80_HALT_EXIT_EARLY);
 
-						if ((DATA[0] = opcode) != 0x76)
+						if ((DATA[0] = opcode) != Z80_HALT)
 							{
 							self->cycles -= 4;
 							PC--;
@@ -2451,7 +2451,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					if (IS_XY_PREFIX(DATA[0] = opcode = DATA[2]))
 						self->cycles += insn_table[FETCH_OPCODE(PC)](self);
 
-					else if (opcode != 0x76)
+					else if (opcode != Z80_HALT)
 						{
 						PC--;
 						self->cycles += insn_table[opcode](self) - 4;
@@ -2726,7 +2726,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 							}
 
 						/* `halt` */
-						else if (ird == 0x76) HALT_LINE = 1;
+						else if (ird == Z80_HALT) HALT_LINE = 1;
 
 						/*---------------------------------------------------------------.
 						| Instructions with the CBh prefix are called directly from here |
@@ -2928,7 +2928,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| The /HALT line goes low and then high during TLAST if a  |
 					| special RESET is detected during the `halt` instruction. |
 					'=========================================================*/
-					if (DATA[0] == 0x76 && self->halt != Z_NULL)
+					if (DATA[0] == Z80_HALT && self->halt != Z_NULL)
 						self->halt(CONTEXT, Z80_HALT_CANCEL);
 
 					R++;
