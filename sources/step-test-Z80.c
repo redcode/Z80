@@ -4,7 +4,7 @@
  ____ \/__/  /\_\  __ \\ \/\ \ ________________________________________________
 |        /\_____\\_____\\_____\                                                |
 |  Zilog \/_____//_____//_____/ CPU Emulator - Step Testing Tool               |
-|  Copyright (C) 2024-2025 Manuel Sainz de Baranda y Goñi.                     |
+|  Copyright (C) 2024-2026 Manuel Sainz de Baranda y Goñi.                     |
 |                                                                              |
 |  This program is free software: you can redistribute it and/or modify it     |
 |  under the terms of the GNU General Public License as published by the Free  |
@@ -50,9 +50,9 @@ typedef struct {
 '====================================================================*/
 
 typedef Z_PACKED_STRUCTURE_BEGIN {
-	zuint16 address; /* Value on the address bus. */
-	zsint16 value;   /* Value on the data bus.    */
-	char pins[4];    /* State of the pins.	      */
+	zuint16 address; /* Value on the address bus.		       */
+	zsint16 value;   /* Value on the data bus (-1 = do not check). */
+	char pins[4];    /* State of the pins: /RD, WR, /MREQ, /IORQ.  */
 } Z_PACKED_STRUCTURE_END Cycle;
 
 typedef Z_PACKED_STRUCTURE_BEGIN {
@@ -159,9 +159,8 @@ static void add_port(zuint16 port, zuint8 value, char direction)
 	if (ports_index == ports_size)
 		{
 		if (cpu_break) return;
-		ports_size += Z80_MAXIMUM_CYCLES_PER_STEP;
 
-		if ((p = realloc(ports, ports_size * sizeof(Port))) == Z_NULL)
+		if ((p = realloc(ports, ++ports_size * sizeof(Port))) == Z_NULL)
 			{
 			z80_break(&cpu);
 			cpu_break = Z_TRUE;
@@ -320,10 +319,10 @@ static zbool validate_test_state(cJSON *state)
 
 	return Z_TRUE;
 
-	/*-------------------------------------------------------------.
-	| EI and P are mutually exclusive, as the previous instruction |
-	| cannot be `ei` and `ld a,{i|r}` at the same time.	       |
-	'=============================================================
+	/*--------------------------------------------------------------.
+	| `"ei"` and `"p"` are mutually exclusive, as the previous	|
+	| instruction cannot be `ei` and `ld a,{i|r}` at the same time. |
+	'==============================================================
 	return	2.0 !=
 		cJSON_GetNumberValue(cJSON_GetObjectItem(state, "ei")) +
 		cJSON_GetNumberValue(cJSON_GetObjectItem(state, "p" ));*/
@@ -579,7 +578,7 @@ int main(int argc, char **argv)
 		if (string_is_option(option, "V-version"))
 			{
 			puts(	"step-test-Z80 v" Z80_LIBRARY_VERSION_STRING "\n"
-				"Copyright (C) 2024-2025 Manuel Sainz de Baranda y Goñi.\n"
+				"Copyright (C) 2024-2026 Manuel Sainz de Baranda y Goñi.\n"
 				"Released under the terms of the GNU General Public License v3.");
 
 			return 0;
@@ -961,7 +960,6 @@ int main(int argc, char **argv)
 					array_check_end();
 
 					/* Check cycles. */
-
 					if (test_pins)
 						{
 						for (j = 0; j != expected_cycle_count; j++)
@@ -990,7 +988,6 @@ int main(int argc, char **argv)
 						}
 
 					/* Check ports. */
-
 					for (j = 0; j != expected_port_count; j++)
 						{
 						Port expected_port = read_port_item(cJSON_GetArrayItem(expected_ports, (int)j));
@@ -1042,7 +1039,6 @@ int main(int argc, char **argv)
 		}
 
 	/* Print the results. */
-
 	printf(	"\nResults:%c%u file%s in total",
 		test_format_and_exit ? ' ' : '\n',
 		file_count,
