@@ -21,7 +21,7 @@ BEGIN
 			VALUE "FileDescription",  "@PROJECT_DESCRIPTION@"
 			VALUE "FileVersion",      "@PROJECT_VERSION@"
 			VALUE "InternalName",     "@PROJECT_NAME@"
-			VALUE "LegalCopyright",   "Copyright © 1999-2025 Manuel Sainz de Baranda y Goñi"
+			VALUE "LegalCopyright",   "Copyright © 1999-2026 Manuel Sainz de Baranda y Goñi"
 			VALUE "OriginalFilename", "@PROJECT_NAME@.dll"
 			VALUE "ProductName",      "@PROJECT_NAME@"
 			VALUE "ProductVersion",   "@PROJECT_VERSION@"

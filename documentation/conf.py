@@ -4,7 +4,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 author = u'Manuel Sainz de Baranda y Goñi'
-copyright = u'1999-2025 Manuel Sainz de Baranda y Goñi'
+copyright = u'1999-2026 Manuel Sainz de Baranda y Goñi'
 extensions = ['sphinx.ext.autosectionlabel', 'breathe']
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']

@@ -4,7 +4,7 @@
  ____ \/__/  /\_\  __ \\ \/\ \ ________________________________________________
 |        /\_____\\_____\\_____\                                                |
 |  Zilog \/_____//_____//_____/ CPU Emulator - Testing Tool                    |
-|  Copyright (C) 2021-2025 Manuel Sainz de Baranda y Goñi.                     |
+|  Copyright (C) 2021-2026 Manuel Sainz de Baranda y Goñi.                     |
 |                                                                              |
 |  This program is free software: you can redistribute it and/or modify it     |
 |  under the terms of the GNU General Public License as published by the Free  |
@@ -740,7 +740,7 @@ int main(int argc, char **argv)
 		if (string_is_option(option, "V-version"))
 			{
 			puts(	"test-Z80 v" Z80_LIBRARY_VERSION_STRING "\n"
-				"Copyright (C) 2021-2025 Manuel Sainz de Baranda y Goñi.\n"
+				"Copyright (C) 2021-2026 Manuel Sainz de Baranda y Goñi.\n"
 				"Released under the terms of the GNU General Public License v3.");
 
 			goto exit_without_error;

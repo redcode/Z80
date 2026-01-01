@@ -15,7 +15,7 @@
 |                            Zilog Z80 CPU Emulator                            |
 |                                  version 0.2                                 |
 |                                                                              |
-|            Copyright (C) 1999-2025 Manuel Sainz de Baranda y Goñi            |
+|            Copyright (C) 1999-2026 Manuel Sainz de Baranda y Goñi            |
 |     Released under the terms of the GNU Lesser General Public License v3     |
 |                                                                              |
 |                          https://zxe.io/software/Z80                         |
@@ -374,4 +374,4 @@ with this library. If not, see <http://www.gnu.org/licenses/>.
 
 
 ________________________________________________________________________________
-Last update: 2025-05-18                                               README EOF
+Last update: 2026-01-01                                               README EOF

@@ -868,7 +868,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 ## License
 
-Copyright © 1999-2025 Manuel Sainz de Baranda y Goñi.
+Copyright © 1999-2026 Manuel Sainz de Baranda y Goñi.
 
 <img src="https://zxe.io/software/Z80/assets/images/lgplv3.svg" height="70" width="160" align="right">
 

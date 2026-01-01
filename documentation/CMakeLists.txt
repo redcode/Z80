@@ -4,7 +4,7 @@
 #    \/__/  /\_\  __ \\ \/\ \
 #       /\_____\\_____\\_____\
 # Zilog \/_____//_____//_____/ CPU Emulator
-# Copyright (C) 1999-2025 Manuel Sainz de Baranda y Goñi.
+# Copyright (C) 1999-2026 Manuel Sainz de Baranda y Goñi.
 # Released under the terms of the GNU Lesser General Public License v3.
 
 find_package(Doxygen REQUIRED)
