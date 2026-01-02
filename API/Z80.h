@@ -825,7 +825,8 @@ Z80_API void z80_int(Z80 *self, zbool state);
 Z80_API void z80_nmi(Z80 *self);
 
 /** @brief Runs a <tt>@ref Z80</tt> for a given number of clock @p cycles,
-  * executing only instructions without responding to signals.
+  * executing only instructions without responding to interrupts requests or
+  * special RESET signals.
   *
   * @param self Pointer to the object on which the function is called.
   * @param cycles Number of clock cycles to be emulated.
@@ -913,6 +914,19 @@ static Z_ALWAYS_INLINE zuint8 z80_out_cycle(Z80 const *self)
 		+ /* outi / outd / otir / otdr : 4+5+3 */
 		((self->data.uint8_array[1] >> 7) << 2));
 	}
+
+
+/** @brief Sends a WAIT signal to a <tt>@ref Z80</tt>.
+  *
+  * This function should only be used inside callback functions. It adds the
+  * given number of clock @p cycles to <tt>@ref Z80::cycles</tt>, thus
+  * lengthening the ongoing emulation step.
+  *
+  * @param self Pointer to the object on which the function is called.
+  * @param cycles Duration of the WAIT signal, in clock cycles. */
+
+static Z_ALWAYS_INLINE void z80_wait(Z80 *self, zusize cycles)
+	{self->cycles += cycles;}
 
 
 Z_EXTERN_C_END
