@@ -43,13 +43,14 @@ Stopping the emulation
 
 .. doxygenfunction:: z80_break
 
-Requesting interrupts
----------------------
+Sending signals
+---------------
 
 .. doxygenfunction:: z80_int
 .. doxygenfunction:: z80_nmi
 .. doxygenfunction:: z80_instant_reset
 .. doxygenfunction:: z80_special_reset
+.. doxygenfunction:: z80_wait
 
 Obtaining information
 ---------------------
