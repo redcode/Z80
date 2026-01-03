@@ -38,12 +38,6 @@
 
 /* MARK: - Macros */
 
-#ifdef TEST_Z80_WITH_EXECUTE
-#	define RUN z80_execute
-#else
-#	define RUN z80_run
-#endif
-
 #define TEST_FORMAT_CPM	     0 /* CP/M program in COM format.		      */
 #define TEST_FORMAT_HARSTON  1 /* Z80 Instruction Set Exerciser for Spectrum. */
 #define TEST_FORMAT_RAK	     2 /* Patrik Rak's Zilog Z80 CPU Test Suite.      */
@@ -173,6 +167,18 @@ static zuint8 in_values[2] = {191, 255};
 
 static Z80    cpu;
 static zuint8 memory[Z_USIZE(65536)];
+
+/*----------------------------------------------------------------------------.
+| `run` points to the function used to run the emulator: either `z80_execute` |
+| or `z80_run`, depending on whether the `--run` option was specified.	      |
+'============================================================================*/
+
+#ifdef TEST_Z80_WITH_EXECUTE
+	static zusize (* run)(Z80 *self, zusize cycles) = z80_execute;
+#	define RUN run
+#else
+#	define RUN z80_run
+#endif
 
 /*-----------------------------------------------------------------------------.
 | `completed` indicates whether the test has reached its exit address; `lines` |
@@ -760,6 +766,9 @@ int main(int argc, char **argv)
 				"  -h, --help              Print this help message and exit.\n"
 				"  -m, --model <model>     Specify the CPU model to emulate.\n"
 				"  -p, --path <path>       Add a path where to look for the required files.\n"
+#				ifdef TEST_Z80_WITH_EXECUTE
+					"  -r, --run               Emulate using `z80_run` instead of `z80_execute`.\n"
+#				endif
 				"  -v, --verbosity (0..4)  Set the verbosity level [default: 4].\n"
 				"\n"
 				"CPU models:\n"
@@ -855,6 +864,11 @@ int main(int argc, char **argv)
 			search_paths = p;
 			search_paths[search_path_count++] = argv[i];
 			}
+
+#		ifdef TEST_Z80_WITH_EXECUTE
+			else if (string_is_option(option, "r-run"))
+				run = z80_run;
+#		endif
 
 		else if (string_is_option(option, "v-verbosity"))
 			{

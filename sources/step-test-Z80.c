@@ -100,6 +100,15 @@ static Z80 cpu;
 static Z80InsnClock insn_clock;
 static zuint8 memory[Z_USIZE(65536)];
 
+/*----------------------------------------------------------------------------.
+| `run` points to the function used to run the emulator: either `z80_execute` |
+| or `z80_run`, depending on whether the `--run` option was specified.	      |
+'============================================================================*/
+
+#ifdef STEP_TEST_Z80_WITH_EXECUTE
+	static zusize (* run)(Z80 *self, zusize cycles) = z80_execute;
+#endif
+
 static Cycle* cycles;
 static zuint  cycles_size;
 static zuint  cycles_index;
@@ -594,6 +603,9 @@ int main(int argc, char **argv)
 				"  -j, --json-output       Produce output in JSON format.\n"
 				"  -m, --model <model>     Specify the CPU model to emulate.\n"
 				"  -p, --pins              Test address bus, data bus and control pins.\n"
+#				ifdef STEP_TEST_Z80_WITH_EXECUTE
+					"  -r, --run               Emulate using `z80_run` instead of `z80_execute`.\n"
+#				endif
 				"  -t, --test-format       Test format of the JSON file(s) and exit.\n"
 				"  -v, --verbosity (0..2)  Set the verbosity level [default: 2].\n"
 				"\n"
@@ -629,6 +641,11 @@ int main(int argc, char **argv)
 
 		else if (string_is_option(option, "p-pins"))
 			test_pins = Z_TRUE;
+
+#		ifdef STEP_TEST_Z80_WITH_EXECUTE
+			else if (string_is_option(option, "r-run"))
+				run = z80_run;
+#		endif
 
 		else if (string_is_option(option, "t-test-format"))
 			test_format_and_exit = Z_TRUE;
@@ -867,7 +884,7 @@ int main(int argc, char **argv)
 					cpu_break = Z_FALSE;
 
 #					ifdef STEP_TEST_Z80_WITH_EXECUTE
-						z80_execute(&cpu, expected_cycle_count);
+						run(&cpu, expected_cycle_count);
 #					else
 						z80_run(&cpu, expected_cycle_count);
 #					endif

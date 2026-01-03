@@ -455,6 +455,18 @@ if(${PROJECT_NAME}_WITH_TESTING_TOOL)
 			--all
 		WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 
+	if(${PROJECT_NAME}_WITH_EXECUTE)
+		add_test(
+			NAME "test-${PROJECT_NAME} --run"
+			COMMAND test-${PROJECT_NAME}
+				--run
+				--path "${_depot_dir}/firmware"
+				--path "${_depot_dir}/software/POSIX"
+				--path "${_depot_dir}/software/ZX Spectrum"
+				--all
+			WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+	endif()
+
 	unset(_depot_dir)
 endif()
 

@@ -110,3 +110,7 @@ jobs:
     - name: Test
       working-directory: ${{ github.workspace }}/build
       run: ./step-test-Z80 step-tests/*.json
+
+    - name: Test with `--run`
+      working-directory: ${{ github.workspace }}/build
+      run: ./step-test-Z80 --run step-tests/*.json
