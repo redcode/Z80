@@ -323,6 +323,10 @@ if(${PROJECT_NAME}_WITH_STEP_TESTING_TOOL)
 	add_executable(step-test-${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/sources/step-test-Z80.c")
 	target_link_libraries(step-test-${PROJECT_NAME} PRIVATE ${PROJECT_NAME} cjson Z80InsnClock)
 
+	target_compile_definitions(
+		step-test-${PROJECT_NAME} PRIVATE
+		$<$<BOOL:${${PROJECT_NAME}_WITH_EXECUTE}>:STEP_TEST_Z80_WITH_EXECUTE>)
+
 	install(TARGETS step-test-${PROJECT_NAME}
 		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
 		COMPONENT ${PROJECT_NAME}_Testing

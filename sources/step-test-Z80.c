@@ -865,7 +865,13 @@ int main(int argc, char **argv)
 
 					/* Run the test. */
 					cpu_break = Z_FALSE;
-					z80_run(&cpu, expected_cycle_count);
+
+#					ifdef STEP_TEST_Z80_WITH_EXECUTE
+						z80_execute(&cpu, expected_cycle_count);
+#					else
+						z80_run(&cpu, expected_cycle_count);
+#					endif
+
 					if (cpu_break) goto cannot_allocate_memory;
 
 					test_failed = array_failed = Z_FALSE;
