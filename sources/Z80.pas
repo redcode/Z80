@@ -217,6 +217,12 @@ begin
 end;
 
 
+procedure z80_wait(self: PZ80; cycles: SizeUInt);
+begin
+	self^.cycles := self^.cycles + cycles;
+end;
+
+
 var
 	LibHandle: TLibHandle;
 
