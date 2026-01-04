@@ -911,9 +911,9 @@ int main(int argc, char **argv)
 							mismatch_found(test);
 
 							printf(	member->maximum_value == Z_UINT16_MAXIMUM
-								? "%s %s: %04X/%04X"
-								: (member->maximum_value == Z_UINT8_MAXIMUM
-									? "%s %s: %02X/%02X" : "%s %s: %u/%u"),
+									? "%s %s: %04X/%04X"
+									: (member->maximum_value == Z_UINT8_MAXIMUM
+										? "%s %s: %02X/%02X" : "%s %s: %u/%u"),
 								field_separator, member->caption, actual, expected);
 
 							field_separator = ",";

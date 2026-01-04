@@ -36,14 +36,6 @@
 #include <string.h>
 
 
-/* MARK: - Macros */
-
-#define TEST_FORMAT_CPM	     0 /* CP/M program in COM format.		      */
-#define TEST_FORMAT_HARSTON  1 /* Z80 Instruction Set Exerciser for Spectrum. */
-#define TEST_FORMAT_RAK	     2 /* Patrik Rak's Zilog Z80 CPU Test Suite.      */
-#define TEST_FORMAT_WOODMASS 3 /* Mark Woodmass' Z80 Test Suite.	      */
-
-
 /* MARK: - Types */
 
 typedef struct {
@@ -87,6 +79,11 @@ typedef struct {
 	/* Rightmost position reached by the cursor when the test passes. */
 	zuint8 columns;
 } Test;
+
+#define TEST_FORMAT_CPM	     0 /* CP/M program in COM format.		      */
+#define TEST_FORMAT_HARSTON  1 /* Z80 Instruction Set Exerciser for Spectrum. */
+#define TEST_FORMAT_RAK	     2 /* Patrik Rak's Zilog Z80 CPU Test Suite.      */
+#define TEST_FORMAT_WOODMASS 3 /* Mark Woodmass' Z80 Test Suite.	      */
 
 
 /* MARK: - Global Variables */
