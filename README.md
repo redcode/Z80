@@ -536,7 +536,7 @@ ctest -N # List available tests
 ctest --verbose --build-config (Debug|Release|RelWithDebInfo|MinSizeRel) [-I <test-index>,<test-index>]
 ```
 
-By default, CTest will run `test-Z80` twice if the library has been built with <code>-D[Z80_WITH_EXECUTE](#cmake_option_z80_with_execute)=YES</code>, invoking this tool with `--run` the second time. Using [`-I`](https://cmake.org/cmake/help/latest/manual/ctest.1.html#cmdoption-ctest-I) allows you to run only the test corresponding to the specified index.
+By default, CTest will run the tests twice to increase coverage if the library has been built with <code>-D[Z80_WITH_EXECUTE](#cmake_option_z80_with_execute)=YES</code>. Using [`-I`](https://cmake.org/cmake/help/latest/manual/ctest.1.html#cmdoption-ctest-I) allows you to run only the test corresponding to the specified index.
 
 ### TL;DR
 

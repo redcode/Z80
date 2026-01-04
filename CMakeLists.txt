@@ -446,8 +446,14 @@ if(${PROJECT_NAME}_WITH_TESTING_TOOL)
 		set(_depot_dir "${${PROJECT_NAME}_DEPOT_LOCATION}")
 	endif()
 
+	set(_test_name "Z80 test suites for CP/M and ZX Spectrum")
+
+	if(${PROJECT_NAME}_WITH_EXECUTE)
+		string(APPEND _test_name " (using `z80_execute`)")
+	endif()
+
 	add_test(
-		NAME test-${PROJECT_NAME}
+		NAME "${_test_name}"
 		COMMAND test-${PROJECT_NAME}
 			--path "${_depot_dir}/firmware"
 			--path "${_depot_dir}/software/POSIX"
@@ -455,9 +461,11 @@ if(${PROJECT_NAME}_WITH_TESTING_TOOL)
 			--all
 		WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 
+	unset(_test_name)
+
 	if(${PROJECT_NAME}_WITH_EXECUTE)
 		add_test(
-			NAME "test-${PROJECT_NAME} --run"
+			NAME "Z80 test suites for CP/M and ZX Spectrum (using `z80_run`)"
 			COMMAND test-${PROJECT_NAME}
 				--run
 				--path "${_depot_dir}/firmware"
