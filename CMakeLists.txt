@@ -449,7 +449,7 @@ if(${PROJECT_NAME}_WITH_TESTING_TOOL)
 	set(_test_name "Z80 test suites for CP/M and ZX Spectrum")
 
 	if(${PROJECT_NAME}_WITH_EXECUTE)
-		string(APPEND _test_name " (using `z80_execute`)")
+		string(APPEND _test_name " (use `z80_execute`)")
 	endif()
 
 	add_test(
@@ -465,7 +465,7 @@ if(${PROJECT_NAME}_WITH_TESTING_TOOL)
 
 	if(${PROJECT_NAME}_WITH_EXECUTE)
 		add_test(
-			NAME "Z80 test suites for CP/M and ZX Spectrum (using `z80_run`)"
+			NAME "Z80 test suites for CP/M and ZX Spectrum (use `z80_run`)"
 			COMMAND test-${PROJECT_NAME}
 				--run
 				--path "${_depot_dir}/firmware"
