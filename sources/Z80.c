@@ -1052,7 +1052,7 @@ static Z_ALWAYS_INLINE zuint8 m(Z80 *self, zuint8 offset, zuint8 value)
 		/* HF = high-half-carry (adc), high-half-borrow (sbc)	 */ \
 		| (((HL ^ ss ^ t) >> 8) & HF)				    \
 		/* PF = overflow					 */ \
-		| PF_OVERFLOW(16, t, HL, pf_overflow_rhs)		    \
+		| PF_OVERFLOW(16, (zuint16)t, HL, pf_overflow_rhs)	    \
 		| ((t >> 16) & 1) /* CF = carry (adc), borrow (sbc)	 */ \
 		or_nf);		  /* NF = 0 (adc), 1 (sbc)		 */ \
 									    \
@@ -1510,9 +1510,9 @@ INSN(daa)
 
 INSN(cpl)
 	{
-	FLAGS = F_SZPC		 | /* SF, ZF, PF, CF unchanged */
-		((A = ~A) & YXF) | /* YF = Y; XF = X	       */
-		HF | NF;	   /* HF, NF = 1	       */
+	FLAGS = F_SZPC			 | /* SF, ZF, PF, CF unchanged */
+		((A = (zuint8)~A) & YXF) | /* YF = Y; XF = X	       */
+		HF | NF;		   /* HF, NF = 1	       */
 
 	PC++;
 	return 4;
