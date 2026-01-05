@@ -475,7 +475,7 @@ static void print_cycle_mismatch(cJSON *test, zuint index, Cycle const *actual, 
 		if (actual->value != expected->value)
 			printf(" %.2s/%.2s", actual_value, expected_value);
 
-		if (*(zuint32 *)actual->pins != *(zuint32 *)expected->pins)
+		if (*(zuint32 const *)actual->pins != *(zuint32 const *)expected->pins)
 			printf(" %.4s/%.4s", actual->pins, expected->pins);
 		}
 	}
@@ -679,7 +679,7 @@ int main(int argc, char **argv)
 		goto bad_syntax;
 		}
 
-	for (j = (zuint)i; j < argc; j++) if (*argv[j] == '\0')
+	for (j = (zuint)i; j < (zuint)argc; j++) if (*argv[j] == '\0')
 		{
 		i = (int)j;
 		invalid = "file path";
@@ -721,10 +721,10 @@ int main(int argc, char **argv)
 
 	for (; !read_from_stdin && i != argc; i++)
 		{
-		char const *parse_end = Z_NULL;
-		char *json = Z_NULL;
-		zusize json_size;
-		cJSON *tests = Z_NULL;
+		cJSON*	    tests     = Z_NULL;
+		char const* parse_end = Z_NULL;
+		char*	    json      = Z_NULL;
+		zusize	    json_size = 0;
 
 		error = Z_NULL;
 
@@ -736,9 +736,15 @@ int main(int argc, char **argv)
 			printf("-: ");
 
 			do	{
-				if ((json = realloc(json, buffer_size += INPUT_BLOCK_SIZE)) == Z_NULL)
-					goto cannot_allocate_memory;
+				char *buffer = realloc(json, buffer_size += INPUT_BLOCK_SIZE);
 
+				if (buffer == Z_NULL)
+					{
+					free(json);
+					goto cannot_allocate_memory;
+					}
+
+				json = buffer;
 				json_size = fread(json + buffer_size - INPUT_BLOCK_SIZE, 1, INPUT_BLOCK_SIZE, stdin);
 
 				if (ferror(stdin))
