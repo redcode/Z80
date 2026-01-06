@@ -37,6 +37,8 @@ Many thanks to the following individuals (in alphabetical order):
 * Cooke, Simon
     For discovering how the `out (c),0` instruction behaves on the Zilog Z80
     CMOS [16].
+* creator
+    For testing the `ccf/scf` instructions on real hardware [2, 3].
 * Cringle, Frank D.
     For writing the "Z80 Instruction Set Exerciser" [17].
 * Devic, Goran
@@ -51,13 +53,16 @@ Many thanks to the following individuals (in alphabetical order):
     1. For his research work [20].
     2. For writing the first-ever ZX Spectrum emulator [21, 22].
 * goodboy
-    For testing the behavior of MEMPTR on real hardware [8, 9, 10, 11].
+    1. For testing the behavior of MEMPTR on real hardware [8, 9, 10, 11].
+    2. For testing the `ccf/scf` instructions on real hardware [2].
 * Greenway, Ian
     For testing the `ccf/scf` instructions on real hardware [12, 23].
 * Harston, Jonathan Graham
     1. For his research work.
     2. For his technical documents about the Zilog Z80 [24, 25, 26].
     3. For porting the "Z80 Instruction Set Exerciser" to the ZX Spectrum [27].
+* haywire
+    For testing the `ccf/scf` instructions on real hardware [3].
 * Helcmanovsky, Peter (Ped7g)
     1. For helping me to write the "IN-MEMPTR" test.
     2. For writing the "Z80 Block Flags Test" [1, 28].
@@ -94,6 +99,8 @@ Many thanks to the following individuals (in alphabetical order):
     For the idea of the hooking method used in this emulator.
 * Ownby, Matthew P.
     For his research on the state of the registers after POWER-ON [29].
+* P321
+    For testing the `ccf/scf` instructions on real hardware [2].
 * Rak, Patrik
     1. For improving the "Z80 Instruction Set Exerciser for Spectrum" [30].
     2. For deciphering the behavior of the `ccf/scf` instructions [15, 30].
@@ -110,6 +117,8 @@ Many thanks to the following individuals (in alphabetical order):
     For validating tests on real hardware [31.1, 33].
 * Sevillano Mancilla, Marta (TheMartian)
     For validating tests on real hardware [14.1].
+* SoftLight
+    For testing the `ccf/scf` instructions on real hardware [2].
 * Stevenson, Dave
     1. For testing the special RESET on real hardware [13].
     2. For conducting low-level tests on real hardware [4.4].

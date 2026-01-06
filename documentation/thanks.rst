@@ -84,6 +84,10 @@ Many thanks to the following individuals (in alphabetical order):
 
   * For discovering how the ``out (c),0`` instruction behaves on the Zilog Z80 CMOS. |re| |fe| :ref:`16<r_16>` |ren| |ces|
 
+* **creator**
+
+  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`2<r_2>`, :ref:`3<r_3>` |ren| |ces|
+
 * **Cringle, Frank D.**
 
   * For writing the *"Z80 Instruction Set Exerciser"*. |re| |fe| :ref:`17<r_17>` |ren| |ces|
@@ -111,7 +115,8 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **goodboy**
 
-  * For testing the behavior of MEMPTR on real hardware. |re| |fe| :ref:`8<r_8>`, :ref:`9<r_9>`, :ref:`10<r_10>`, :ref:`11<r_11>` |ren| |ces|
+  1. For testing the behavior of MEMPTR on real hardware. |re| |fe| :ref:`8<r_8>`, :ref:`9<r_9>`, :ref:`10<r_10>`, :ref:`11<r_11>` |ren| |ces|
+  2. For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`2<r_2>` |ren| |ces|
 
 * **Greenway, Ian**
 
@@ -122,6 +127,10 @@ Many thanks to the following individuals (in alphabetical order):
   1. For his research work.
   2. For his technical documents about the Zilog Z80. |re| |fe| :ref:`24<r_24>`, :ref:`25<r_25>`, :ref:`26<r_26>` |ren| |ces|
   3. For porting the *"Z80 Instruction Set Exerciser"* to the ZX Spectrum. |re| |fe| :ref:`27<r_27>` |ren| |ces|
+
+* **haywire**
+
+  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`3<r_3>` |ren| |ces|
 
 * **Helcmanovsky, Peter (Ped7g)**
 
@@ -186,6 +195,10 @@ Many thanks to the following individuals (in alphabetical order):
 
   * For his research on the state of the registers after POWER-ON. |re| |fe| :ref:`29<r_29>` |ren| |ces|
 
+* **P321**
+
+  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`2<r_2>` |ren| |ces|
+
 * **Rak, Patrik**
 
   1. For improving the *"Z80 Instruction Set Exerciser for Spectrum"*. |re| |fe| :ref:`30<r_30>` |ren| |ces|
@@ -213,6 +226,10 @@ Many thanks to the following individuals (in alphabetical order):
 * **Sevillano Mancilla, Marta (TheMartian)**
 
   * For validating tests on real hardware. |re| |fe| :ref:`14.1<r_14_1>` |ren| |ces|
+
+* **SoftLight**
+
+  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`2<r_2>` |ren| |ces|
 
 * **Stevenson, Dave**
 

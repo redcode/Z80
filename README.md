@@ -705,6 +705,8 @@ Many thanks to the following individuals (in alphabetical order):
 	* For validating the _"Z80 Test Suite"_ on several Z80 clones. <sup>[15](#r_15)</sup>
 * **Cooke, Simon** <sup>:trophy:</sup>
 	* For discovering how the <code>out&nbsp;(c),0</code> instruction behaves on the Zilog Z80 CMOS. <sup>[16](#r_16)</sup>
+* **creator**
+	* For testing the `ccf/scf` instructions on real hardware. <sup>[2](#r_2), [3](#r_3)</sup>
 * **Cringle, Frank D.**
 	* For writing the _"Z80 Instruction Set Exerciser"_. <sup>[17](#r_17)</sup>
 * **Devic, Goran**
@@ -719,13 +721,16 @@ Many thanks to the following individuals (in alphabetical order):
 	1. For his research work. <sup>[20](#r_20)</sup>
 	2. For writing the first-ever ZX Spectrum emulator. <sup>[21](#r_21), [22](#r_22)</sup>
 * **goodboy**
-	* For testing the behavior of MEMPTR on real hardware. <sup>[8](#r_8), [9](#r_9), [10](#r_10), [11](#r_11)</sup>
+	1. For testing the behavior of MEMPTR on real hardware. <sup>[8](#r_8), [9](#r_9), [10](#r_10), [11](#r_11)</sup>
+	2. For testing the `ccf/scf` instructions on real hardware. <sup>[2](#r_2)</sup>
 * **Greenway, Ian**
 	* For testing the `ccf/scf` instructions on real hardware. <sup>[12](#r_12), [23](#r_23)</sup>
 * **Harston, Jonathan Graham**
 	1. For his research work.
 	2. For his technical documents about the Zilog Z80. <sup>[24](#r_24), [25](#r_25), [26](#r_26)</sup>
 	3. For porting the _"Z80 Instruction Set Exerciser"_ to the ZX Spectrum. <sup>[27](#r_27)</sup>
+* **haywire**
+	* For testing the `ccf/scf` instructions on real hardware. <sup>[3](#r_3)</sup>
 * **Helcmanovsky, Peter (Ped7g)** <sup>:medal_military:</sup>
 	1. For helping me to write the _"IN-MEMPTR"_ test.
 	2. For writing the _"Z80 Block Flags Test"_. <sup>[1](#r_1), [28](#r_28)</sup>
@@ -761,6 +766,8 @@ Many thanks to the following individuals (in alphabetical order):
 	* For the idea of the hooking method used in this emulator.
 * **Ownby, Matthew P.**
 	* For his research on the state of the registers after POWER-ON. <sup>[29](#r_29)</sup>
+* **P321**
+	* For testing the `ccf/scf` instructions on real hardware. <sup>[2](#r_2)</sup>
 * **Rak, Patrik** <sup>:trophy:</sup>
 	1. For improving the _"Z80 Instruction Set Exerciser for Spectrum"_. <sup>[30](#r_30)</sup>
 	2. For deciphering the behavior of the `ccf/scf` instructions. <sup>[15](#r_15), [30](#r_30)</sup>
@@ -777,6 +784,8 @@ Many thanks to the following individuals (in alphabetical order):
 	* For validating tests on real hardware. <sup>[31.1](#r_31_1), [33](#r_33)</sup>
 * **Sevillano Mancilla, Marta (TheMartian)**
 	* For validating tests on real hardware. <sup>[14.1](#r_14_1)</sup>
+* **SoftLight**
+	* For testing the `ccf/scf` instructions on real hardware. <sup>[2](#r_2)</sup>
 * **Stevenson, Dave**
 	1. For testing the special RESET on real hardware. <sup>[13](#r_13)</sup>
 	2. For conducting low-level tests on real hardware. <sup>[4.4](#r_4_4)</sup>
