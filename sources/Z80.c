@@ -2934,7 +2934,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					R++;
 					if (self->nop != Z_NULL) (void)self->nop(CONTEXT, PC);
 					DATA[0] = 0;
-					Q_0;
+					Q_0
 					PC = 0;
 					self->cycles += 4;
 					continue;
