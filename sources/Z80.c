@@ -2463,10 +2463,10 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		else (void)halt(self);
 		break;
 
-		/*--------------------------------------------------------------.
-		| The CPU is in normal operation state; the emulator ran out of |
-		| clock cycles by fetching a prefix DDh or FDh.			|
-		'==============================================================*/
+		/*-------------------------------------------------------.
+		| The CPU is in normal operation state; the emulator ran |
+		| out of clock cycles by fetching a prefix DDh or FDh.	 |
+		'=======================================================*/
 		case Z80_RESUME_XY:
 		RESUME = 0;
 		R++;
@@ -2475,10 +2475,10 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 		xy->uint16_value = XY;
 		break;
 
-		/*----------------------------------------------------------------.
-		| The CPU is responding to an INT in mode 0; the emulator ran out |
-		| of clock cycles by fetching a prefix DDh or FDh.		  |
-		'================================================================*/
+		/*---------------------------------------------------------.
+		| The CPU is responding to an INT in mode 0; the emulator  |
+		| ran out of clock cycles by fetching a prefix DDh or FDh. |
+		'=========================================================*/
 #		ifdef Z80_WITH_FULL_IM0
 			case Z80_RESUME_IM0_XY:
 			ird = DATA[0];
