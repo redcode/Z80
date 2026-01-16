@@ -28,11 +28,15 @@ Many thanks to the following individuals (in alphabetical order):
 
   * For testing the library on many different platforms and CPU architectures.
 
+* **Anisimov, Alexey (SoftLight)**
+
+  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`1<r_1>` |ren| |ces|
+
 * **azesmbog**
 
-  1. For validating tests on real hardware. |re| |fe| :ref:`1.1<r_1_1>` |ren| |ces|
+  1. For validating tests on real hardware. |re| |fe| :ref:`2.1<r_2_1>` |ren| |ces|
   2. For discovering the unstable behavior of the ``ccf/scf`` instructions.
-  3. For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`2<r_2>`, :ref:`3<r_3>` |ren| |ces|
+  3. For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`1<r_1>`, :ref:`3<r_3>` |ren| |ces|
   4. For his invaluable help.
 
 * **Banks, David (hoglet)**
@@ -42,11 +46,11 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Beliansky, Anatoly (Tolik_Trek)**
 
-  * For validating tests on real hardware. |re| |fe| :ref:`1.2<r_1_2>` |ren| |ces|
+  * For validating tests on real hardware. |re| |fe| :ref:`2.2<r_2_2>` |ren| |ces|
 
 * **Bobrowski, Jan**
 
-  * For fixing the *"Z80 Full Instruction Set Exerciser for Spectrum"*. |re| |fe| :ref:`7<r_7>` |ren| |ces|
+  * For fixing *"Z80 Full Instruction Set Exerciser for Spectrum"*. |re| |fe| :ref:`7<r_7>` |ren| |ces|
 
 * **boo_boo**
 
@@ -65,7 +69,11 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Bystrov, Dmitry (Alone Coder)**
 
-  * For validating tests on real hardware. |re| |fe| :ref:`1.2<r_1_2>` |ren| |ces|
+  * For validating tests on real hardware. |re| |fe| :ref:`2.2<r_2_2>` |ren| |ces|
+
+* **Chaikin, Mikhail (P321)**
+
+  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`1<r_1>` |ren| |ces|
 
 * **Chandler, Richard**
 
@@ -78,23 +86,23 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Conway, Simon (BadBeard)**
 
-  * For validating the *"Z80 Test Suite"* on several Z80 clones. |re| |fe| :ref:`15<r_15>` |ren| |ces|
+  * For validating *"Z80 Test Suite"* on several Z80 clones. |re| |fe| :ref:`15<r_15>` |ren| |ces|
 
 * **Cooke, Simon**
 
   * For discovering how the ``out (c),0`` instruction behaves on the Zilog Z80 CMOS. |re| |fe| :ref:`16<r_16>` |ren| |ces|
 
-* **creator**
-
-  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`2<r_2>`, :ref:`3<r_3>` |ren| |ces|
-
 * **Cringle, Frank D.**
 
-  * For writing the *"Z80 Instruction Set Exerciser"*. |re| |fe| :ref:`17<r_17>` |ren| |ces|
+  * For writing *"Z80 Instruction Set Exerciser"*. |re| |fe| :ref:`17<r_17>` |ren| |ces|
 
 * **Devic, Goran**
 
   * For his research on undocumented behaviors of the Z80 CPU. |re| |fe| :ref:`18<r_18>` |ren| |ces|
+
+* **Dmitriev, Dmitry (DDp)**
+
+  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`3<r_3>` |ren| |ces|
 
 * **Dunn, Paul (ZXDunny)**
 
@@ -113,11 +121,6 @@ Many thanks to the following individuals (in alphabetical order):
   1. For his research work. |re| |fe| :ref:`20<r_20>` |ren| |ces|
   2. For writing the first-ever ZX Spectrum emulator. |re| |fe| :ref:`21<r_21>`, :ref:`22<r_22>` |ren| |ces|
 
-* **goodboy**
-
-  1. For testing the behavior of MEMPTR on real hardware. |re| |fe| :ref:`8<r_8>`, :ref:`9<r_9>`, :ref:`10<r_10>`, :ref:`11<r_11>` |ren| |ces|
-  2. For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`2<r_2>` |ren| |ces|
-
 * **Greenway, Ian**
 
   * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`12<r_12>`, :ref:`23<r_23>` |ren| |ces|
@@ -126,20 +129,16 @@ Many thanks to the following individuals (in alphabetical order):
 
   1. For his research work.
   2. For his technical documents about the Zilog Z80. |re| |fe| :ref:`24<r_24>`, :ref:`25<r_25>`, :ref:`26<r_26>` |ren| |ces|
-  3. For porting the *"Z80 Instruction Set Exerciser"* to the ZX Spectrum. |re| |fe| :ref:`27<r_27>` |ren| |ces|
-
-* **haywire**
-
-  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`3<r_3>` |ren| |ces|
+  3. For porting *"Z80 Instruction Set Exerciser"* to the ZX Spectrum. |re| |fe| :ref:`27<r_27>` |ren| |ces|
 
 * **Helcmanovsky, Peter (Ped7g)**
 
-  1. For helping me to write the *"IN-MEMPTR"* test.
-  2. For writing the *"Z80 Block Flags Test"*. |re| |fe| :ref:`1<r_1>`, :ref:`28<r_28>` |ren| |ces|
-  3. For writing the *"Z80 CCF SCF Outcome Stability"* test. |re| |fe| :ref:`28<r_28>` |ren| |ces|
-  4. For writing the *"Z80 INT Skip"* test. |re| |fe| :ref:`28<r_28>` |ren| |ces|
+  1. For helping me to write *"IN-MEMPTR"*.
+  2. For writing *"Z80 Block Flags Test"*. |re| |fe| :ref:`2<r_2>`, :ref:`28<r_28>` |ren| |ces|
+  3. For writing *"Z80 CCF SCF Outcome Stability"*. |re| |fe| :ref:`28<r_28>` |ren| |ces|
+  4. For writing *"Z80 INT Skip"*. |re| |fe| :ref:`28<r_28>` |ren| |ces|
   5. For writing *"FDDD2"*, *"Z80 DDFD3"*, *"Z80 IM1 vs JR"* and many other tests.
-  6. For his research on the ``ccf/scf`` instructions.
+  6. For his research on the unstable behavior of the ``ccf/scf`` instructions.
   7. For his invaluable help.
 
 * **Iborra Debón, Víctor (Eremus)**
@@ -154,13 +153,21 @@ Many thanks to the following individuals (in alphabetical order):
 
   * For validating tests on real hardware.
 
+* **Ilyichev, Ivan (ivang78)**
+
+  * For testing the behavior of MEMPTR on real hardware. |re| |fe| :ref:`29<r_29>` |ren| |ces|
+
 * **Kladov, Vladimir**
 
   * For deciphering the behavior of MEMPTR. |re| |fe| :ref:`8<r_8>`, :ref:`9<r_9>`, :ref:`10<r_10>`, :ref:`11<r_11>` |ren| |ces|
 
+* **Kovrigin, Alexey (creator)**
+
+  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`1<r_1>`, :ref:`3<r_3>` |ren| |ces|
+
 * **Krook, Magnus**
 
-  * For validating tests on real hardware. |re| |fe| :ref:`1.3<r_1_3>` |ren| |ces|
+  * For validating tests on real hardware. |re| |fe| :ref:`2.3<r_2_3>` |ren| |ces|
 
 * **London, Matthew (mattinx)**
 
@@ -176,7 +183,7 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Nair, Arjun**
 
-  * For validating tests on real hardware. |re| |fe| :ref:`1<r_1>` |ren| |ces|
+  * For validating tests on real hardware. |re| |fe| :ref:`2<r_2>` |ren| |ces|
 
 * **Nicolás-González, César**
 
@@ -193,23 +200,19 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Ownby, Matthew P.**
 
-  * For his research on the state of the registers after POWER-ON. |re| |fe| :ref:`29<r_29>` |ren| |ces|
-
-* **P321**
-
-  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`2<r_2>` |ren| |ces|
+  * For his research on the state of the registers after POWER-ON. |re| |fe| :ref:`30<r_30>` |ren| |ces|
 
 * **Rak, Patrik**
 
-  1. For improving the *"Z80 Instruction Set Exerciser for Spectrum"*. |re| |fe| :ref:`30<r_30>` |ren| |ces|
-  2. For deciphering the behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`15<r_15>`, :ref:`30<r_30>` |ren| |ces|
-  3. For writing the *"Zilog Z80 CPU Test Suite"*. |re| |fe| :ref:`30<r_30>`, :ref:`31<r_31>` |ren| |ces|
+  1. For improving *"Z80 Instruction Set Exerciser for Spectrum"*. |re| |fe| :ref:`31<r_31>` |ren| |ces|
+  2. For deciphering the behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`15<r_15>`, :ref:`31<r_31>` |ren| |ces|
+  3. For writing *"Zilog Z80 CPU Test Suite"*. |re| |fe| :ref:`31<r_31>`, :ref:`32<r_32>` |ren| |ces|
   4. For his research on the unstable behavior of the ``ccf/scf`` instructions.
 
 * **Rodríguez Jódar, Miguel Ángel (mcleod_ideafix)**
 
-  1. For his research on the state of the registers after POWER-ON/RESET. |re| |fe| :ref:`32<r_32>` |ren| |ces|
-  2. For writing the *"Z80 Initial Condition Retriever"*. |re| |fe| :ref:`32.1<r_32_1>` |ren| |ces|
+  1. For his research on the state of the registers after POWER-ON/RESET. |re| |fe| :ref:`33<r_33>` |ren| |ces|
+  2. For writing *"Z80 Initial Condition Retriever"*. |re| |fe| :ref:`33.1<r_33_1>` |ren| |ces|
 
 * **Rodríguez Palomino, Mario (r-lyeh)**
 
@@ -219,17 +222,21 @@ Many thanks to the following individuals (in alphabetical order):
 
   * For teaching me programming and giving me my first computer.
 
+* **Sanarin, Dmitry (haywire)**
+
+  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`3<r_3>` |ren| |ces|
+
 * **Sánchez Ordiñana, José Ismael (Vaporatorius)**
 
-  * For validating tests on real hardware. |re| |fe| :ref:`31.1<r_31_1>`, :ref:`33<r_33>` |ren| |ces|
+  * For validating tests on real hardware. |re| |fe| :ref:`32.1<r_32_1>`, :ref:`34<r_34>` |ren| |ces|
+
+* **Sapach, Michael (cafedead)**
+
+  * For writing *"CPD-Test"*. |re| |fe| :ref:`29<r_29>` |ren| |ces|
 
 * **Sevillano Mancilla, Marta (TheMartian)**
 
   * For validating tests on real hardware. |re| |fe| :ref:`14.1<r_14_1>` |ren| |ces|
-
-* **SoftLight**
-
-  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`2<r_2>` |ren| |ces|
 
 * **Stevenson, Dave**
 
@@ -238,7 +245,12 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Titov, Andrey (Titus)**
 
-  * For his research on the ``ccf/scf`` instructions. |re| |fe| :ref:`2<r_2>`, :ref:`3<r_3>` |ren| |ces|
+  * For his research on the ``ccf/scf`` instructions. |re| |fe| :ref:`1<r_1>`, :ref:`3<r_3>` |ren| |ces|
+
+* **Vasin, Yuriy (goodboy)**
+
+  1. For testing the behavior of MEMPTR on real hardware. |re| |fe| :ref:`8<r_8>`, :ref:`9<r_9>`, :ref:`10<r_10>`, :ref:`11<r_11>`, :ref:`29<r_29>` |ren| |ces|
+  2. For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`1<r_1>`, :ref:`29<r_29>` |ren| |ces|
 
 * **Vučenović, Zoran**
 
@@ -246,12 +258,12 @@ Many thanks to the following individuals (in alphabetical order):
 
 * **Weissflog, Andre (Floh)**
 
-  1. For discovering that the ``reti/retn`` instructions defer the acceptance of the maskable interrupt. |re| |fe| :ref:`34<r_34>` |ren| |ces|
-  2. For writing the *"Visual Z80 Remix"* simulator. |re| |fe| :ref:`35<r_35>` |ren| |ces|
+  1. For discovering that the ``reti/retn`` instructions defer the acceptance of the maskable interrupt. |re| |fe| :ref:`35<r_35>` |ren| |ces|
+  2. For writing the *"Visual Z80 Remix"* simulator. |re| |fe| :ref:`36<r_36>` |ren| |ces|
 
 * **Wilkinson, Oli (evolutional)**
 
-  * For validating tests on real hardware. |re| |fe| :ref:`1<r_1>` |ren| |ces|
+  * For validating tests on real hardware. |re| |fe| :ref:`2<r_2>` |ren| |ces|
 
 * **Wlodek**
 
@@ -260,19 +272,22 @@ Many thanks to the following individuals (in alphabetical order):
 * **Woodmass, Mark (Woody)**
 
   1. For his invaluable contributions to the emuscene.
-  2. For writing the *"Z80 Test Suite"*. |re| |fe| :ref:`15<r_15>` |ren| |ces|
+  2. For writing *"Z80 Test Suite"*. |re| |fe| :ref:`15<r_15>` |ren| |ces|
   3. For writing *"ED777F"*, *"FDDD"*, *"EI48K"*, *"EIHALT"*, *"HALT2INT"*, *"IFF2 Bug"*, *"Super HALT Invaders Test"* and many other tests.
-  4. For his research on the behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`36<r_36>` |ren| |ces|
+  4. For his research on the ``ccf/scf`` instructions. |re| |fe| :ref:`37<r_37>` |ren| |ces|
 
 * **Young, Sean**
 
   1. For his research work.
-  2. For his technical documents about the Zilog Z80. |re| |fe| :ref:`20<r_20>`, :ref:`29<r_29>`, :ref:`37<r_37>` |ren| |ces|
+  2. For his technical documents about the Zilog Z80. |re| |fe| :ref:`20<r_20>`, :ref:`30<r_30>`, :ref:`38<r_38>` |ren| |ces|
+
+* **Zarubin, Stanislav (JeRrS)**
+
+  * For testing the ``ccf/scf`` instructions on real hardware. |re| |fe| :ref:`3<r_3>`, :ref:`29<r_29>` |ren| |ces|
 
 * **ZXGuesser**
 
   * For validating tests on real hardware.
-
 
 References
 ==========
@@ -281,32 +296,31 @@ References
 
    .. _r_1:
 
-   https://spectrumcomputing.co.uk/forums/viewtopic.php?t=6102
-
-   1.
-
-      .. _r_1_1:
-
-      https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83384#p83384
-
-   2.
-
-      .. _r_1_2:
-
-      https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83041#p83041
-
-   3.
-
-      .. _r_1_3:
-
-      https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83157#p83157
+   https://zx-pk.ru/threads/34173-revers-inzhiniring-z80.html
 
 2.
 
    .. _r_2:
 
-   https://zx-pk.ru/threads/34173-revers-inzhiniring-z80.html
+   https://spectrumcomputing.co.uk/forums/viewtopic.php?t=6102
 
+   1.
+
+      .. _r_2_1:
+
+      https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83384#p83384
+
+   2.
+
+      .. _r_2_2:
+
+      https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83041#p83041
+
+   3.
+
+      .. _r_2_3:
+
+      https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83157#p83157
 3.
 
    .. _r_3:
@@ -519,22 +533,28 @@ References
 
    .. _r_29:
 
-   Young, Sean (2005-09-18). *"Undocumented Z80 Documented, The"* v0.91.
-
-   * http://www.myquest.nl/z80undocumented
-   * http://www.myquest.nl/z80undocumented/z80-documented-v0.91.pdf
+   https://zx-pk.ru/threads/36139-cpd-test-dlya-proverki-izmeneniya-registra-memptr-instruktsiyami-proverte-na-reale-plz.html
 
 30.
 
    .. _r_30:
 
-   https://worldofspectrum.org/forums/discussion/41704
+   Young, Sean (2005-09-18). *"Undocumented Z80 Documented, The"* v0.91.
 
-   * http://zxds.raxoft.cz/taps/misc/zexall2.zip
+   * http://www.myquest.nl/z80undocumented
+   * http://www.myquest.nl/z80undocumented/z80-documented-v0.91.pdf
 
 31.
 
    .. _r_31:
+
+   https://worldofspectrum.org/forums/discussion/41704
+
+   * http://zxds.raxoft.cz/taps/misc/zexall2.zip
+
+32.
+
+   .. _r_32:
 
    https://worldofspectrum.org/forums/discussion/41834
 
@@ -543,53 +563,53 @@ References
 
    1.
 
-      .. _r_31_1:
-
-      https://worldofspectrum.org/forums/discussion/comment/668760/#Comment_668760
-
-32.
-
-   .. _r_32:
-
-   https://worldofspectrum.org/forums/discussion/34574
-
-   1.
-
       .. _r_32_1:
 
-      https://worldofspectrum.org/forums/discussion/comment/539714/#Comment_539714
-
-      * http://zxprojects.com/images/stories/z80_startup/reg_start_value.zip
+      https://worldofspectrum.org/forums/discussion/comment/668760/#Comment_668760
 
 33.
 
    .. _r_33:
 
-   https://jisanchez.com/test-a-dos-placas-de-zx-spectrum
+   https://worldofspectrum.org/forums/discussion/34574
+
+   1.
+
+      .. _r_33_1:
+
+      https://worldofspectrum.org/forums/discussion/comment/539714/#Comment_539714
+
+      * http://zxprojects.com/images/stories/z80_startup/reg_start_value.zip
 
 34.
 
    .. _r_34:
 
-   Weissflog, Andre (2021-12-17). *"New Cycle-Stepped Z80 Emulator, A"*.
-
-   * https://floooh.github.io/2021/12/17/cycle-stepped-z80.html
+   https://jisanchez.com/test-a-dos-placas-de-zx-spectrum
 
 35.
 
    .. _r_35:
 
-   https://github.com/floooh/v6502r
+   Weissflog, Andre (2021-12-17). *"New Cycle-Stepped Z80 Emulator, A"*.
+
+   * https://floooh.github.io/2021/12/17/cycle-stepped-z80.html
 
 36.
 
    .. _r_36:
 
-   https://groups.google.com/g/comp.sys.sinclair/c/WPsPr6j6w5k/m/O_u1zNQf3VYJ
+   https://github.com/floooh/v6502r
 
 37.
 
    .. _r_37:
+
+   https://groups.google.com/g/comp.sys.sinclair/c/WPsPr6j6w5k/m/O_u1zNQf3VYJ
+
+38.
+
+   .. _r_38:
 
    Young, Sean (1997-09-21). *"Zilog Z80 CPU Specifications"*.
 
