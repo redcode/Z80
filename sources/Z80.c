@@ -375,13 +375,13 @@ static Z_ALWAYS_INLINE void write_16b(Z80 *self, zuint16 address, zuint16 value)
 
 
 #	ifdef Z80_WITH_IM0_RETX_NOTIFICATIONS
-		#define IM0_NOTIFY_RETX(callback)		     \
+#		define IM0_NOTIFY_RETX(callback)		     \
 			if (	self->callback != Z_NULL &&	     \
 				(self->z80->options &		     \
 				Z80_OPTION_IM0_RETX_NOTIFICATIONS)   \
 			)					     \
 				{				     \
-				self->z80->data.uint8_array[2] |= 2; \
+				self->z80->data.uint8_array[2] |= 4; \
 				self->callback(CONTEXT);	     \
 				}
 
