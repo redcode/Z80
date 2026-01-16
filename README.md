@@ -799,7 +799,7 @@ Many thanks to the following individuals (in alphabetical order):
 	1. For testing the behavior of MEMPTR on real hardware. <sup>[8](#r_8), [9](#r_9), [10](#r_10), [11](#r_11), [29](#r_29)</sup>
 	2. For testing the `ccf/scf` instructions on real hardware. <sup>[1](#r_1), [29](#r_29)</sup>
 * **Vučenović, Zoran**
-	* For writing the Pascal binding.
+	* For writing the [Pascal binding](sources/Z80.pas).
 * **Weissflog, Andre (Floh)** <sup>:trophy:</sup>
 	1. For discovering that the `reti/retn` instructions defer the acceptance of the maskable interrupt. <sup>[35](#r_35)</sup>
 	2. For writing the _"Visual Z80 Remix"_ simulator. <sup>[36](#r_36)</sup>
