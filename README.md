@@ -864,12 +864,12 @@ Many thanks to the following individuals (in alphabetical order):
 22. <span id="r_22">https://elmundodelspectrum.com/con-vosotros-el-emulador-de-pedro-gimeno-1989</span>
 23. <span id="r_23">https://sourceforge.net/p/fuse-emulator/mailman/message/4502844</span>
 24. <span id="r_24">Harston, Jonathan Graham (2008). _"Full Z80 Opcode List Including Undocumented Opcodes"_ v0.11 (revised).</span>
-	* https://mdfs.net/Docs/Comp/Z80/OpList
+	* http://www.mdfsnet.f9.co.uk/Docs/Comp/Z80/OpList
 25. <span id="r_25">Harston, Jonathan Graham (2012). _"Z80 Microprocessor Undocumented Instructions"_ v0.15.</span>
-	* https://mdfs.net/Docs/Comp/Z80/UnDocOps
+	* http://mdfs.net/Docs/Comp/Z80/UnDocOps
 26. <span id="r_26">Harston, Jonathan Graham (2014). _"Z80 Opcode Map"_ v0.10 (revised).</span>
-	* https://mdfs.net/Docs/Comp/Z80/OpCodeMap
-27. <span id="r_27">https://mdfs.net/Software/Z80/Exerciser/Spectrum</span>
+	* http://mdfs.net/Docs/Comp/Z80/OpCodeMap
+27. <span id="r_27">http://mdfs.net/Software/Z80/Exerciser/Spectrum</span>
 28. <span id="r_28">https://github.com/MrKWatkins/ZXSpectrumNextTests</span>
 29. <span id="r_29">https://zx-pk.ru/threads/36139-cpd-test-dlya-proverki-izmeneniya-registra-memptr-instruktsiyami-proverte-na-reale-plz.html</span>
 30. <span id="r_30">Young, Sean (2005-09-18). _"Undocumented Z80 Documented, The"_ v0.91.</span>

@@ -499,7 +499,7 @@ References
 
    Harston, Jonathan Graham (2008). *"Full Z80 Opcode List Including Undocumented Opcodes"* v0.11 (revised).
 
-   * https://mdfs.net/Docs/Comp/Z80/OpList
+   * http://www.mdfsnet.f9.co.uk/Docs/Comp/Z80/OpList
 
 25.
 
@@ -507,7 +507,7 @@ References
 
    Harston, Jonathan Graham (2012). *"Z80 Microprocessor Undocumented Instructions"* v0.15.
 
-   * https://mdfs.net/Docs/Comp/Z80/UnDocOps
+   * http://mdfs.net/Docs/Comp/Z80/UnDocOps
 
 26.
 
@@ -515,13 +515,13 @@ References
 
    Harston, Jonathan Graham (2014). *"Z80 Opcode Map"* v0.10 (revised).
 
-   * https://mdfs.net/Docs/Comp/Z80/OpCodeMap
+   * http://mdfs.net/Docs/Comp/Z80/OpCodeMap
 
 27.
 
    .. _r_27:
 
-   https://mdfs.net/Software/Z80/Exerciser/Spectrum
+   http://mdfs.net/Software/Z80/Exerciser/Spectrum
 
 28.
 
