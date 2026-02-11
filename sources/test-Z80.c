@@ -128,6 +128,16 @@ static struct {char const *key; zuint8 options;} const cpu_models[4] = {
 
 static char const new_line[2] = "\n";
 
+/*----------------------------------------------------------------------------.
+| `in_values` holds the bytes returned when reading from I/O ports:	      |
+| [0]: Byte read from even I/O ports (specified with the `--in-even` option). |
+| [1]: Byte read from odd I/O ports (specified with the `--in-odd` option).   |
+| The default values correspond to those of a Sinclair ZX Spectrum 48K with   |
+| no devices connected.							      |
+'============================================================================*/
+
+static zuint8 in_values[2] = {191, 255};
+
 /*---------------------------------------------------------------------------.
 | The search paths specified with the `--path` option are collected into the |
 | `search_paths` array of size `search_path_count`. `path_buffer` is used to |
@@ -148,15 +158,6 @@ static zuint  search_path_count = 0;
 static zuint8	   verbosity = 4;
 static zbool	   show_test_output;
 static char const* test_spacing;
-
-/*-----------------------------------------------------------------------------.
-| [0]: Byte read from even I/O ports (specified with the `--in-even` option).  |
-| [1]: Byte read from odd I/O ports (specified with the `--in-odd` option).    |
-| The default values correspond to those of a Sinclair ZX Spectrum 48K with no |
-| devices connected.							       |
-'=============================================================================*/
-
-static zuint8 in_values[2] = {191, 255};
 
 /*---------------------------------------------------.
 | Instance of the Z80 emulator and 64 KiB of memory. |
