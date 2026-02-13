@@ -18,7 +18,7 @@ if(	CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR AND
 endif()
 
 file(READ "${CMAKE_CURRENT_SOURCE_DIR}/API/Z80.h" _)
-string(REGEX MATCH ".*Z80_LIBRARY_VERSION_STRING \"([^\n]*)\".*" _ ${_})
+string(REGEX MATCH ".*Z80_LIBRARY_VERSION_STRING \"([^\"]+)\".*" _ ${_})
 
 project(Z80
 	VERSION ${CMAKE_MATCH_1}
@@ -205,11 +205,19 @@ else()
 			set(PROJECT_VERSION_PATCH 0)
 		endif()
 
+		file(READ "${CMAKE_CURRENT_SOURCE_DIR}/README" _)
+		string(REGEX MATCH ".*Copyright \\(C\\) ([^ ]+) (([^. \t\n]+ ?)*[^. \t\n]+).*" _ ${_})
+		set(RC_COPYRIGHT_YEAR ${CMAKE_MATCH_1})
+		set(RC_AUTHOR	      ${CMAKE_MATCH_3})
+		unset(_)
+
 		configure_file(
 			"${CMAKE_CURRENT_SOURCE_DIR}/sources/Z80.rc.in"
 			"${CMAKE_CURRENT_BINARY_DIR}/Z80.rc"
 			@ONLY)
 
+		unset(RC_COPYRIGHT_YEAR)
+		unset(RC_AUTHOR)
 		target_sources(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/Z80.rc")
 	endif()
 

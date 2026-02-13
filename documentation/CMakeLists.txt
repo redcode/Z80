@@ -43,6 +43,12 @@ set(DOXYGEN_XML_PROGRAMLISTING	  YES			     )
 
 get_target_property(DOXYGEN_INCLUDE_PATH Zeta INTERFACE_INCLUDE_DIRECTORIES)
 
+file(READ "${PROJECT_SOURCE_DIR}/README" _)
+string(REGEX MATCH ".*Copyright \\(C\\) ([^ ]+) (([^. \t\n]+ ?)*[^. \t\n]+).*" _ ${_})
+set(_copyright_year ${CMAKE_MATCH_1})
+set(_author	    ${CMAKE_MATCH_2})
+unset(_)
+
 doxygen_add_docs(
 	${PROJECT_NAME}-API-XML
 	"${PROJECT_SOURCE_DIR}/API"
@@ -65,6 +71,8 @@ if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION)
 			"-Dproject=${PROJECT_NAME}"
 			"-Dversion=${PROJECT_VERSION}"
 			"-Drelease=${PROJECT_VERSION}"
+			"-Dauthor=${_author}"
+			"-Dcopyright=${_copyright_year} ${_author}"
 			${_html_theme_option}
 			"-Dhtml_title=${PROJECT_NAME} Documentation"
 			"-Dbreathe_default_project=${PROJECT_NAME}"
@@ -98,6 +106,8 @@ if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
 			"-Dproject=${PROJECT_NAME}"
 			"-Dversion=${PROJECT_VERSION}"
 			"-Drelease=${PROJECT_VERSION}"
+			"-Dauthor=${_author}"
+			"-Dcopyright=${_copyright_year} ${_author}"
 			"-Dbreathe_default_project=${PROJECT_NAME}"
 			"-Dbreathe_projects.${PROJECT_NAME}=${_api_xml_output}"
 			"${CMAKE_CURRENT_SOURCE_DIR}"
