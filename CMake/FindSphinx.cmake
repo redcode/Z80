@@ -1,5 +1,5 @@
 # FindSphinx.cmake
-# Copyright (C) 2021-2024 Manuel Sainz de Baranda y Goñi.
+# Copyright (C) 2021-2026 Manuel Sainz de Baranda y Goñi.
 # This "find module" is distributed as public domain software.
 
 #[=======================================================================[.rst:
@@ -74,31 +74,28 @@ foreach(_Sphinx_tool IN LISTS Sphinx_FIND_COMPONENTS)
 	list(	APPEND _Sphinx_required_vars
 		${_Sphinx_tool_executable_var} ${_Sphinx_tool_version_var})
 
-	if(NOT DEFINED ${_Sphinx_tool_executable_var})
-		find_program(
-			${_Sphinx_tool_executable_var}
-			NAMES sphinx-${_Sphinx_tool}
-			DOC "`sphinx-${_Sphinx_tool}` executable.")
+	find_program(
+		${_Sphinx_tool_executable_var}
+		NAMES sphinx-${_Sphinx_tool}
+		DOC "`sphinx-${_Sphinx_tool}` executable.")
 
-		if(${_Sphinx_tool_executable_var})
-			execute_process(
-				COMMAND "${${_Sphinx_tool_executable_var}}" --version
-				OUTPUT_VARIABLE _Sphinx_output)
+	if(${_Sphinx_tool_executable_var})
+		execute_process(
+			COMMAND "${${_Sphinx_tool_executable_var}}" --version
+			OUTPUT_VARIABLE _Sphinx_output)
 
-			if("${_Sphinx_output}" MATCHES ".* ([0-9]+(\\.[0-9]+(\\.[0-9]+)?)?).*\n")
-				set(${_Sphinx_tool_version_var} "${CMAKE_MATCH_1}")
+		if("${_Sphinx_output}" MATCHES ".* ([0-9]+(\\.[0-9]+(\\.[0-9]+)?)?).*\n")
+			set(${_Sphinx_tool_version_var} "${CMAKE_MATCH_1}")
 
-				if(NOT DEFINED Sphinx_VERSION)
-					set(Sphinx_VERSION ${${_Sphinx_tool_version_var}})
-				endif()
+			if(NOT DEFINED Sphinx_VERSION)
+				set(Sphinx_VERSION ${${_Sphinx_tool_version_var}})
 			endif()
-
-			unset(_Sphinx_output)
 		endif()
 
-		mark_as_advanced(${_Sphinx_tool_executable_var})
+		unset(_Sphinx_output)
 	endif()
 
+	mark_as_advanced(${_Sphinx_tool_executable_var})
 	unset(_Sphinx_tool_version_var)
 	unset(_Sphinx_tool_executable_var)
 	unset(_Sphinx_tool_uppercase)
