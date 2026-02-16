@@ -208,7 +208,7 @@ else()
 		file(READ "${CMAKE_CURRENT_SOURCE_DIR}/README" _)
 		string(REGEX MATCH ".*Copyright \\(C\\) ([^ ]+) (([^. \t\n]+ ?)*[^. \t\n]+).*" _ ${_})
 		set(RC_COPYRIGHT_YEAR ${CMAKE_MATCH_1})
-		set(RC_AUTHOR	      ${CMAKE_MATCH_3})
+		set(RC_AUTHOR	      ${CMAKE_MATCH_2})
 		unset(_)
 
 		configure_file(
