@@ -2900,7 +2900,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 					| of the interrupt response vector "must be a zero", since the address |
 					| formed "is used to get two adjacent bytes to form a complete 16-bit  |
 					| service routine starting address and the addresses must always start |
-					| in even locations" [1]. However, Sean Young's confirmed that there   |
+					| in even locations" [1]. However, Sean Young's tests found that there |
 					| is no such limitation [2]; the CPU fetches the ISR pointer from the  |
 					| specified location regardless of the value of bit 0 of the IRD.      |
 					|								       |
