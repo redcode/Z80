@@ -74,6 +74,14 @@
 
 
 /* MARK: - Precomputed Values of AF for `daa` */
+/*---------------------------------------------------------------------------.
+| Enabling `Z80_WITH_PRECOMPUTED_DAA` makes the `daa` instruction faster by  |
+| using a lookup table. However, this instruction is rarely used in typical  |
+| programs, so the overall speedup is minimal, and incresing the size of the |
+| emulator by 2 KiB may negatively impact cache efficiency. It is therefore  |
+| recommended to leave this option disabled unless serious profiling on the  |
+| target platform shows a significant benefit.				     |
+'===========================================================================*/
 
 #ifdef Z80_WITH_PRECOMPUTED_DAA
 #	define H(value) Z_UINT16(0x##value)
@@ -250,7 +258,7 @@ typedef zuint8 (* Insn)(Z80 *self);
 #endif
 
 
-/* MARK: - Instance Variable and Callback Shortcuts */
+/* MARK: - Shortcuts for Instance Variables and Callbacks */
 
 #define MEMPTR	  self->memptr.uint16_value
 #define PC	  self->pc.uint16_value
@@ -458,6 +466,15 @@ static Z_ALWAYS_INLINE void write_16b(Z80 *self, zuint16 address, zuint16 value)
 
 #define ZF_ZERO(value) (!(value) << 6)
 
+/*---------------------------------------------------------------------.
+| `PF_PARITY` computes PF according to the parity of the given byte.   |
+| Enabling `Z80_WITH_PARITY_COMPUTATION` is strongly discouraged and   |
+| is provided only for benchmarking and educational purposes.	       |
+|								       |
+| For an explanation of the parity computation formula, check:	       |
+| * http://graphics.stanford.edu/~seander/bithacks.html#ParityParallel |
+'=====================================================================*/
+
 #ifdef Z80_WITH_PARITY_COMPUTATION
 	static Z_ALWAYS_INLINE zuint8 pf_parity(zuint8 value)
 		{return (zuint8)(((0x9669U >> ((value ^ (value >> 4)) & 0xF)) & 1) << 2);}
@@ -489,7 +506,9 @@ static Z_ALWAYS_INLINE void write_16b(Z80 *self, zuint16 address, zuint16 value)
 /*-----------------------------------------------------------------------------.
 | `PF_OVERFLOW` computes PF according to whether signed overflow occurs in the |
 | addition or subtraction of two integers. For additions, `rhs` must be passed |
-| bit-wise ~inverted. For an explanation of the formula, check:		       |
+| bitwise ~inverted.							       |
+|									       |
+| For an explanation of the formula, check:				       |
 | * https://stackoverflow.com/a/199668					       |
 | * http://www.cs.umd.edu/class/spring2003/cmsc311/Notes/Comb/overflow.html    |
 '=============================================================================*/
@@ -2678,20 +2697,20 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 						hook	   = self->hook;
 						self->hook = Z_NULL;
 
-						/*------------------------------------------------------------------------.
-						| The `Z80::fetch` callback is temporarily replaced by a trampoline that  |
-						| invokes `Z80::int_fetch`. This trampoline needs to access the callback  |
-						| pointer in addition to the initial, non-incremented value of PC, so the |
-						| value of `Z80::context` is temporarily replaced by a pointer to an	  |
-						| `IM0` object that holds the real context and all this data, which also  |
-						| makes it necessary to replace other callbacks with trampolines so that  |
-						| the real context can be passed to them.				  |
-						|									  |
-						| The main idea here is that the instruction code will invoke trampolines |
-						| rather than callbacks, and the one assigned to `Z80::fetch` will ignore |
-						| the received fetch address, passing instead to `Z80::int_fetch` the	  |
-						| initial, non-incremented value of PC.					  |
-						'========================================================================*/
+						/*-----------------------------------------------------------------------.
+						| The `Z80::fetch` callback is temporarily replaced with a trampoline    |
+						| that invokes `Z80::int_fetch`. This trampoline needs access to the     |
+						| callback pointer as well as the initial, non-incremented value of PC.  |
+						| To provide this, the value of `Z80::context` is temporarily replaced   |
+						| with a pointer to an `IM0` object that holds the real context and all  |
+						| required data. As a consequence, other callbacks must also be replaced |
+						| with trampolines so that the real context can be passed to them.       |
+						|                                                                        |
+						| The main idea is that the instruction code invokes trampolines rather  |
+						| than callbacks. The trampoline assigned to `Z80::fetch` ignores the    |
+						| received fetch address and passes the initial, non-incremented value   |
+						| of PC to `Z80::int_fetch` instead.                                     |
+						'=======================================================================*/
 						im0.z80	      = self;
 						im0.context   = CONTEXT;
 						im0.fetch     = self->fetch;
@@ -2709,16 +2728,16 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 
 						im0_execute:
 
-						/*------------------------------------------------------------------------.
-						| `call`, `djnz`, `jr` and `rst` increment PC before pushing it onto the  |
-						| stack or using it as the base address. This makes it necessary to	  |
-						| decrement PC before executing any of these instructions so that the	  |
-						| final address is correct. `jmp` and `ret` are handled here too because  |
-						| in their case this pre-decrement has no effect and PC must also not be  |
-						| corrected after executing the instruction. These groups of instructions |
-						| are identified by using a table of decrements. Note that `jmp (XY)` and |
-						| `reti/retn` are prefixed and will be handled later.			  |
-						'========================================================================*/
+						/*-----------------------------------------------------------------------.
+						| `call`, `djnz`, `jr` and `rst` increment PC before pushing it onto the |
+						| stack or using it as the base address. This makes it necessary to      |
+						| decrement PC before executing any of these instructions so that the    |
+						| final address is correct. `jmp` and `ret` are handled here as well     |
+						| because in this case the pre-decrement has no effect and PC must not   |
+						| be corrected either after executing the instruction. This group of     |
+						| instructions is identified using a table of decrements. Note that      |
+						| `jmp (XY)`, `reti` and `retn` are prefixed and will be handled later.  |
+						'=======================================================================*/
 						if (im0_pc_decrement_table[ird])
 							{
 							PC -= im0_pc_decrement_table[ird];
@@ -2779,7 +2798,7 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 								self->cycles += 4 + 8;
 
 							else	{
-								DATA[2] = 4;
+								DATA[2] = 4; /* Notify wait T-states. */
 								self->cycles += 4 + self->illegal(self, ird);
 								}
 							}
