@@ -436,14 +436,14 @@ if(${PROJECT_NAME}_WITH_TESTING_TOOL)
 			(NOT ZLIB_FOUND OR NOT libzip_FOUND)
 		)
 			message(WARNING
-				"libzip or zlib were not found on your system, which will cause "
-				"`test-Z80` to be built without archive extraction support. When "
-				"this happens, the build system extracts the test files that "
-				"are compressed so that `test-Z80` can use them later, but this "
-				"has failed because the version of CMake you are using is too "
-				"old and does not support archive extraction.\n"
-				"To fix this, expand all archives with \".tar.gz\" or \".zip\" "
-				"extension located in "
+				"libzip or zlib could not be found on your system, which causes "
+				"`test-Z80` to be built without archive extraction support. "
+				"In this case, the build system normally extracts compressed test "
+				"files so that `test-Z80` can use them later, but this step has "
+				"failed because the version of CMake you are using is too old and "
+				"does not support archive extraction.\n"
+				"To fix this, extract all archives with the \".tar.gz\" or \".zip\" "
+				"extension located under "
 				"\"${CMAKE_CURRENT_BINARY_DIR}/depot/software/**/\".")
 		endif()
 	endif()
@@ -457,7 +457,7 @@ if(${PROJECT_NAME}_WITH_TESTING_TOOL)
 	set(_test_name "Z80 test suites for CP/M and ZX Spectrum")
 
 	if(${PROJECT_NAME}_WITH_EXECUTE)
-		string(APPEND _test_name " (use `z80_execute`)")
+		string(APPEND _test_name " (using `z80_execute`)")
 	endif()
 
 	add_test(
@@ -473,7 +473,7 @@ if(${PROJECT_NAME}_WITH_TESTING_TOOL)
 
 	if(${PROJECT_NAME}_WITH_EXECUTE)
 		add_test(
-			NAME "Z80 test suites for CP/M and ZX Spectrum (use `z80_run`)"
+			NAME "Z80 test suites for CP/M and ZX Spectrum (using `z80_run`)"
 			COMMAND test-${PROJECT_NAME}
 				--run
 				--path "${_depot_dir}/firmware"
