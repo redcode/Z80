@@ -66,6 +66,7 @@ Many thanks to the following individuals (in alphabetical order):
   2. For helping to decipher the additional flag changes of the block instructions. |re| |fe| :ref:`4<r_4>` |ren| |ces|
   3. For conducting low-level tests on real hardware. |re| |fe| :ref:`4<r_4>` |ren| |ces|
   4. For helping me to test different undocumented behaviors of the Zilog Z80.
+  5. For discovering that the ``DD/FD`` prefixes affect the behavior of the ``ccf/scf`` instructions. |re| |fe| :ref:`4.4<r_4_4>` |ren| |ces|
 
 * **Bystrov, Dmitry (Alone Coder)**
 
@@ -241,7 +242,7 @@ Many thanks to the following individuals (in alphabetical order):
 * **Stevenson, Dave**
 
   1. For testing the special RESET on real hardware. |re| |fe| :ref:`13<r_13>` |ren| |ces|
-  2. For conducting low-level tests on real hardware. |re| |fe| :ref:`4.4<r_4_4>` |ren| |ces|
+  2. For conducting low-level tests on real hardware. |re| |fe| :ref:`4.5<r_4_5>` |ren| |ces|
 
 * **Titov, Andrey (Titus)**
 
@@ -354,6 +355,12 @@ References
    4.
 
       .. _r_4_4:
+
+      https://stardot.org.uk/forums/viewtopic.php?p=481595#p481595
+
+   5.
+
+      .. _r_4_5:
 
       https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360
 

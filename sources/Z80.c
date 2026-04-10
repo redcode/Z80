@@ -2300,6 +2300,7 @@ INSN(ed_illegal)
 
 INSN(xy_illegal)
 	{
+	Q_0
 	PC++;
 	return insn_table[DATA[0] = DATA[1]](self);
 	}

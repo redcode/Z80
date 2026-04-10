@@ -698,6 +698,7 @@ Many thanks to the following individuals (in alphabetical order):
 	2. For helping to decipher the additional flag changes of the block instructions. <sup>[4](#r_4)</sup>
 	3. For conducting low-level tests on real hardware. <sup>[4](#r_4)</sup>
 	4. For helping me to test different undocumented behaviors of the Zilog Z80.
+	5. For discovering that the `DD/FD` prefixes affect the behavior of the `ccf/scf` instructions. <sup>[4.4](#r_4_4)</sup>
 * **Bystrov, Dmitry (Alone Coder)**
 	* For validating tests on real hardware. <sup>[2.2](#r_2_2)</sup>
 * **Chaikin, Mikhail (P321)**
@@ -793,7 +794,7 @@ Many thanks to the following individuals (in alphabetical order):
 	* For validating tests on real hardware. <sup>[14.1](#r_14_1)</sup>
 * **Stevenson, Dave**
 	1. For testing the special RESET on real hardware. <sup>[13](#r_13)</sup>
-	2. For conducting low-level tests on real hardware. <sup>[4.4](#r_4_4)</sup>
+	2. For conducting low-level tests on real hardware. <sup>[4.5](#r_4_5)</sup>
 * **Titov, Andrey (Titus)**
 	* For his research on the `ccf/scf` instructions. <sup>[1](#r_1), [3](#r_3)</sup>
 * **Vasin, Yuriy (goodboy)**
@@ -833,7 +834,8 @@ Many thanks to the following individuals (in alphabetical order):
 	1. <span id="r_4_1">https://stardot.org.uk/forums/viewtopic.php?p=211042#p211042</span>
 	2. <span id="r_4_2">https://stardot.org.uk/forums/viewtopic.php?p=212021#p212021</span>
 	3. <span id="r_4_3">https://stardot.org.uk/forums/viewtopic.php?p=357136#p357136</span>
-	4. <span id="r_4_4">https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360</span>
+	4. <span id="r_4_4">https://stardot.org.uk/forums/viewtopic.php?p=481595#p481595</span>
+	5. <span id="r_4_5">https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360</span>
 5. <span id="r_5">Banks, David (2018-08-21). _"Undocumented Z80 Flags"_ rev. 1.0.</span>
 	* https://stardot.org.uk/forums/download/file.php?id=39831
 	* https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags

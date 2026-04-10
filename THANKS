@@ -27,6 +27,8 @@ Many thanks to the following individuals (in alphabetical order):
        instructions [4].
     3. For conducting low-level tests on real hardware [4].
     4. For helping me to test different undocumented behaviors of the Zilog Z80.
+    5. For discovering that the `DD/FD` prefixes affect the behavior of the
+       `ccf/scf` instructions [4.4].
 * Bystrov, Dmitry (Alone Coder)
     For validating tests on real hardware [2.2].
 * Chaikin, Mikhail (P321)
@@ -124,7 +126,7 @@ Many thanks to the following individuals (in alphabetical order):
     For validating tests on real hardware [14.1].
 * Stevenson, Dave
     1. For testing the special RESET on real hardware [13].
-    2. For conducting low-level tests on real hardware [4.4].
+    2. For conducting low-level tests on real hardware [4.5].
 * Titov, Andrey (Titus)
     For his research on the `ccf/scf` instructions [1, 3].
 * Vasin, Yuriy (goodboy)
@@ -169,7 +171,8 @@ References
     1. https://stardot.org.uk/forums/viewtopic.php?p=211042#p211042
     2. https://stardot.org.uk/forums/viewtopic.php?p=212021#p212021
     3. https://stardot.org.uk/forums/viewtopic.php?p=357136#p357136
-    4. https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360
+    4. https://stardot.org.uk/forums/viewtopic.php?p=481595#p481595
+    5. https://stardot.org.uk/forums/viewtopic.php?p=212360#p212360
  5. Banks, David (2018-08-21). "Undocumented Z80 Flags" rev. 1.0.
     * https://stardot.org.uk/forums/download/file.php?id=39831
     * https://github.com/hoglet67/Z80Decoder/wiki/Undocumented-Flags
