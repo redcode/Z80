@@ -2123,8 +2123,9 @@ INSN(xy_cb_prefix)
 
 INSN(xy_xy)
 	{
-	zuint8 cycles;
-	zuint8 first_prefix = DATA[0];
+	ZInt16  *xy;
+	zuint16 t;
+	zuint8	cycles;
 
 	do	{
 		PC++;
@@ -2140,23 +2141,11 @@ INSN(xy_xy)
 		}
 	while (IS_XY_PREFIX(DATA[1] = FETCH_OPCODE(PC + 1)));
 
-	if (DATA[0] == first_prefix) return xy_insn_table[DATA[1]](self);
-
-	if (first_prefix == 0xFD)
-		{
-		XY = IX;
-		cycles = xy_insn_table[DATA[1]](self);
-		IX = XY;
-		XY = IY;
-		}
-
-	else	{
-		XY = IY;
-		cycles = xy_insn_table[DATA[1]](self);
-		IY = XY;
-		XY = IX;
-		}
-
+	t = XY;
+	XY = (xy = &self->ix_iy[(DATA[0] >> 5) & 1])->uint16_value;
+	cycles = xy_insn_table[DATA[1]](self);
+	xy->uint16_value = XY;
+	XY = t;
 	return cycles;
 	}
 
@@ -2201,7 +2190,7 @@ INSN(xy_illegal)
 		{
 		Q_0
 		PC++;
-		return insn_table[DATA[1]](self);
+		return insn_table[DATA[0] = DATA[1]](self);
 		}
 #else
 #	define xy_xcf xy_illegal
@@ -2841,7 +2830,8 @@ Z80_API zusize z80_run(Z80 *self, zusize cycles)
 								goto im0_execute;
 								}
 
-							XY = (xy = &self->ix_iy[((DATA[1] = ird) >> 5) & 1])->uint16_value;
+							DATA[1] = ird;
+							XY = (xy = &self->ix_iy[(DATA[0] >> 5) & 1])->uint16_value;
 							self->cycles += 2 + insn(self);
 							xy->uint16_value = XY;
 
