@@ -651,6 +651,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **CPM-Emulator** <sub>_by [Marc Sibert](https://github.com/Marcussacapuces91)_</sub> ⟩ [GitHub](https://github.com/Marcussacapuces91/CPM-Emulator)
 * **f80** <sub>_by [Richard J. Prinz](https://www.min.at/prinz)_</sub> ⟩ [GitHub](https://github.com/rprinz08/f80)
 * **[Google Capture the Flag (2021)](https://capturetheflag.withgoogle.com)** <sub>_by [Google](https://www.google.com)_</sub> ⟩ [GitHub](https://github.com/google/google-ctf)
+* **GSP** <sub>_by [Constantin](https://github.com/billgilbert7000)_</sub> ⟩ [GitHub](https://github.com/billgilbert7000/GeneralSoundPico_SpeccyP)
 * **[King of the Grid](https://kingofthegrid.com)** <sub>_by [Alex Siryi](https://github.com/desertkun)_</sub> ⟩ [GitHub](https://github.com/kingofthegrid/king-of-the-grid)
 * **MSX1 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/msxemulator)
 * **MZ-1500 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/mz1500emulator)
@@ -662,6 +663,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **[picoZ80](https://eaw.app/picoz80)** <sub>_by [Philip Smart](https://eaw.app/contact)_</sub>
 * **RadZ80** <sub>_by [RadAd](https://github.com/RadAd)_</sub> ⟩ [GitHub](https://github.com/RadAd/RadZ80)
 * **SEGA SC-3000 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/sc3000emulator)
+* **[Smemu6](https://sch-lika.github.io/smemu6)** <sub>_by [Marcel Prisi](https://github.com/Sch-LikA)_</sub> ⟩ [GitHub](https://github.com/Sch-LikA/smemu6)
 * **[SpeccyP](https://t.me/c/ZX_MURMULATOR/241406)** <sub>_by [Constantin](https://github.com/billgilbert7000)_</sub> ⟩ [GitHub](https://github.com/billgilbert7000/SpeccyP)
 * **[The Second-Worst ZX Spectrum Emulator in the World](https://fuzzix.org/building-the-secondworst-zx-spectrum-emulator-in-the-world-with-perl)** <sub>_by [John Barrett](https://fuzzix.org/about)_</sub> ⟩ [GitHub Gist](https://gist.github.com/jbarrett/1dbcbd92d08af2f089bf6baff5cf065b)
 * **[tihle](https://www.taricorp.net/2020/introducing-tihle/)** <sub>_by [Peter Marheine](https://www.taricorp.net/about/)_</sub> ⟩ [GitHub](https://github.com/tari/tihle) · [GitLab](https://gitlab.com/taricorp/tihle)
