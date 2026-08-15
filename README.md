@@ -653,6 +653,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **FK-1 Emulator** <sub>_by [omikron88](https://github.com/omikron88)_</sub> ⟩ [GitHub](https://github.com/omikron88/FK1)
 * **[Google Capture the Flag (2021)](https://capturetheflag.withgoogle.com)** <sub>_by [Google](https://www.google.com)_</sub> ⟩ [GitHub](https://github.com/google/google-ctf)
 * **GSP** <sub>_by [Constantin](https://github.com/billgilbert7000)_</sub> ⟩ [GitHub](https://github.com/billgilbert7000/GeneralSoundPico_SpeccyP)
+* **HCppBox** <sub>_by [Heyahong](https://hyhsystem.cn)_</sub> ⟩ [GitHub](https://github.com/HEYAHONG/HCppBox)
 * **[King of the Grid](https://kingofthegrid.com)** <sub>_by [Alex Siryi](https://github.com/desertkun)_</sub> ⟩ [GitHub](https://github.com/kingofthegrid/king-of-the-grid)
 * **MSX1 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/msxemulator)
 * **MZ-1500 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/mz1500emulator)
