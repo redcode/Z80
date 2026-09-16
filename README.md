@@ -647,6 +647,7 @@ Except for [`Z80_EXTERNAL_HEADER`](#macro_z80_external_header), the above macros
 This emulator has been used by the following projects (listed in alphabetical order):
 
 * **[Augmentinel](https://simonowen.com/spectrum/augmentinel/)** <sub>_by [Simon Owen](https://simonowen.com)_</sub> ⟩ [GitHub](https://github.com/simonowen/augmentinel)
+* **BareMSX** <sub>_by [Jos Kwanten](https://github.com/joskwanten)_</sub> ⟩ [GitHub](https://github.com/joskwanten/BareMSX)
 * **ceda-cemu** <sub>_by [Retrofficina GLG Programs](https://retrofficina.glgprograms.it)_</sub> ⟩ [GitHub](https://github.com/GLGPrograms/ceda-cemu)
 * **CPM-Emulator** <sub>_by [Marc Sibert](https://github.com/Marcussacapuces91)_</sub> ⟩ [GitHub](https://github.com/Marcussacapuces91/CPM-Emulator)
 * **[Emu80](https://emu80.org)** <sub>_by [Viktor Pykhonin](https://github.com/vpyk)_</sub> ⟩ [GitHub](https://github.com/vpyk/emu80v4)
