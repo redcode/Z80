@@ -662,6 +662,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **MSX1 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/msxemulator)
 * **MZ-1500 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/mz1500emulator)
 * **MZ-2000/80B Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/mz2000emulator)
+* **Ondra** <sub>_by [omikron88](https://github.com/omikron88)_</sub> ⟩ [GitHub](https://github.com/omikron88/ondra)
 * **OpenCOMAL** <sub>_by [Peter N. Andreasen](https://github.com/oz1ktx)_</sub> ⟩ [GitHub](https://github.com/oz1ktx/OpenCOMAL)
 * **PASOPIA/PASOPIA 7 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/pasopiaemulator)
 * **PC-6001mkII Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/p6mk2emulator)
