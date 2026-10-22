@@ -10,7 +10,7 @@ trim_trailing_whitespace = true
 [*.md]
 trim_trailing_whitespace = false
 
-[*.rc]
+[*.rc.in]
 charset = utf-8-bom
 
 [*.{cff,yml}]
