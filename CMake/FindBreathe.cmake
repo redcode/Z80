@@ -1,5 +1,5 @@
 # FindBreathe.cmake
-# Copyright (C) 2021-2024 Manuel Sainz de Baranda y Goñi.
+# Copyright (C) 2021-2026 Manuel Sainz de Baranda y Goñi.
 # This "find module" is distributed as public domain software.
 
 #[=======================================================================[.rst:
@@ -34,21 +34,30 @@ Search results are saved persistently in CMake cache entries:
 
 include(FindPackageHandleStandardArgs)
 
+unset(Breathe_VERSION)
+unset(Breathe_APIDOC_VERSION)
+
 find_program(
 	Breathe_APIDOC_EXECUTABLE
 	NAMES breathe-apidoc
-	DOC "`breathe-apidoc` executable.")
+	DOC "Path to the `breathe-apidoc` executable.")
 
 if(Breathe_APIDOC_EXECUTABLE)
 	execute_process(
 		COMMAND "${Breathe_APIDOC_EXECUTABLE}" --version
-		OUTPUT_VARIABLE _Breathe_output)
+		RESULT_VARIABLE _Breathe_result
+		OUTPUT_VARIABLE _Breathe_output
+		ERROR_QUIET
+		OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-	if("${_Breathe_output}" MATCHES ".* ([0-9]+(\\.[0-9]+(\\.[0-9]+)?)?).*\n")
+	if(	_Breathe_result EQUAL 0 AND
+		_Breathe_output MATCHES "([0-9]+(\\.[0-9]+(\\.[0-9]+)?)?)"
+	)
 		set(Breathe_APIDOC_VERSION "${CMAKE_MATCH_1}")
 		set(Breathe_VERSION ${Breathe_APIDOC_VERSION})
 	endif()
 
+	unset(_Breathe_result)
 	unset(_Breathe_output)
 endif()
 

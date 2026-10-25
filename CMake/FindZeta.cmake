@@ -3,7 +3,7 @@
 # |__   / |  ___|___  ___|/   \
 #   /  /__|  __|   |  |  /  -  \
 #  /______|_____|  |__| /__/ \__\
-# Copyright (C) 2006-2024 Manuel Sainz de Baranda y Goñi.
+# Copyright (C) 2006-2026 Manuel Sainz de Baranda y Goñi.
 # This "find module" is distributed as public domain software.
 
 #[=======================================================================[.rst:
@@ -16,7 +16,7 @@ Search behavior
 ^^^^^^^^^^^^^^^
 
 By default, this module will search for Zeta in the directory specified by the
-``ZETA_DIR`` environment variable. If this variable is not defined, it will
+``ZETA_DIR`` environment variable.  If this variable is not defined, it will
 search in ``PROJECT_BINARY_DIR`` and the following paths relative to
 ``PROJECT_SOURCE_DIR`` (in the listed order):
 
@@ -41,7 +41,7 @@ search in ``PROJECT_BINARY_DIR`` and the following paths relative to
 * :file:`externals`
 * :file:`..`
 
-Finally, if the relaive search is unsuccessful, the module will search for the
+Finally, if the relative search is unsuccessful, the module will search for the
 headers of the Zeta library in system include directories.
 
 Input variables
@@ -106,20 +106,30 @@ Hints
 ^^^^^
 
 The user can set the ``ZETA_DIR`` environment variable to specify the include
-directory of the Zeta library or the directory where its tarball has been
-extracted. However, if this variable is defined and Zeta is not found in the
-specified directory, the module will fail and will not look anywhere else.
+directory of the Zeta library, the directory where its tarball has been
+extracted, or the installation prefix.  However, if this variable is defined
+and Zeta is not found in the specified directory, the module will fail and will
+not look anywhere else.
 
 #]=======================================================================]
 
 include(FindPackageHandleStandardArgs)
+
+unset(Zeta_VERSION)
+unset(Zeta_VERSION_MAJOR)
+unset(Zeta_VERSION_MINOR)
+unset(Zeta_VERSION_MICRO)
+unset(Zeta_VERSION_PATCH)
+unset(Zeta_INCLUDE_DIRS)
 
 if(	DEFINED ENV{ZETA_DIR} AND
 	(NOT DEFINED Zeta_IGNORE_ZETA_DIR OR NOT Zeta_IGNORE_ZETA_DIR)
 )
 	find_path(
 		Zeta_INCLUDE_DIR "Z/version.h"
-		PATHS "$ENV{ZETA_DIR}"
+		PATHS	"$ENV{ZETA_DIR}"
+			"$ENV{ZETA_DIR}/API"
+			"$ENV{ZETA_DIR}/include"
 		NO_DEFAULT_PATH)
 
 else()
@@ -211,16 +221,19 @@ find_package_handle_standard_args(
 	REQUIRED_VARS Zeta_INCLUDE_DIR Zeta_VERSION
 	VERSION_VAR Zeta_VERSION)
 
-if(Zeta_FOUND AND NOT TARGET Zeta)
+if(Zeta_FOUND)
 	set(Zeta_INCLUDE_DIRS "${Zeta_INCLUDE_DIR}")
-	add_library(Zeta INTERFACE IMPORTED)
 
-	if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.11)
-		set_property(
-			TARGET Zeta
-			PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${Zeta_INCLUDE_DIR}")
-	else()
-		target_include_directories(Zeta INTERFACE "${Zeta_INCLUDE_DIR}")
+	if(NOT TARGET Zeta)
+		add_library(Zeta INTERFACE IMPORTED)
+
+		if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_LESS 3.11)
+			set_property(
+				TARGET Zeta
+				PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${Zeta_INCLUDE_DIR}")
+		else()
+			target_include_directories(Zeta INTERFACE "${Zeta_INCLUDE_DIR}")
+		endif()
 	endif()
 endif()
 
