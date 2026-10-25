@@ -10,9 +10,12 @@ foreach(@PROJECT_NAME@_component IN LISTS ${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPON
 			"`${@PROJECT_NAME@_component}` is not a valid component.")
 
 		set(${CMAKE_FIND_PACKAGE_NAME}_FOUND FALSE)
+		unset(@PROJECT_NAME@_component)
 		return()
 	endif()
 endforeach()
+
+unset(@PROJECT_NAME@_component)
 
 if(@PROJECT_NAME@_component_Static AND @PROJECT_NAME@_component_Shared)
 	set(	${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE

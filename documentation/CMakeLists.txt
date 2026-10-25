@@ -83,6 +83,8 @@ if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION)
 		WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 		COMMENT "Generating documentation in HTML format for ${PROJECT_NAME}")
 
+	unset(_html_theme_option)
+
 	add_custom_target(
 		${PROJECT_NAME}-Documentation-HTML ALL
 		DEPENDS "${_html_documentation_output}")
@@ -92,6 +94,8 @@ if(${PROJECT_NAME}_WITH_HTML_DOCUMENTATION)
 	install(DIRECTORY "${_html_documentation_output}/"
 		DESTINATION "${CMAKE_INSTALL_DOCDIR}/documentation"
 		COMPONENT ${PROJECT_NAME}_Documentation)
+
+	unset(_html_documentation_output)
 endif()
 
 if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
@@ -132,6 +136,8 @@ if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
 		WORKING_DIRECTORY "${_latex_documentation_output}"
 		COMMENT "Generating documentation in PDF format for ${PROJECT_NAME}")
 
+	unset(_latex_documentation_output)
+
 	add_custom_target(
 		${PROJECT_NAME}-Documentation-PDF ALL
 		DEPENDS "${_pdf_documentation_output}")
@@ -142,6 +148,12 @@ if(${PROJECT_NAME}_WITH_PDF_DOCUMENTATION)
 		DESTINATION "${CMAKE_INSTALL_DOCDIR}"
 		RENAME "${PROJECT_NAME}-${PROJECT_VERSION}-documentation.pdf"
 		COMPONENT ${PROJECT_NAME}_Documentation)
+
+	unset(_pdf_documentation_output)
 endif()
+
+unset(_api_xml_output)
+unset(_copyright_year)
+unset(_author	     )
 
 # documentation/CMakeLists.txt EOF
