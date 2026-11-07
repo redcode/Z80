@@ -650,6 +650,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **BareMSX** <sub>_by [Jos Kwanten](https://github.com/joskwanten)_</sub> ⟩ [GitHub](https://github.com/joskwanten/BareMSX)
 * **ceda-cemu** <sub>_by [Retrofficina GLG Programs](https://retrofficina.glgprograms.it)_</sub> ⟩ [GitHub](https://github.com/GLGPrograms/ceda-cemu)
 * **CPM-Emulator** <sub>_by [Marc Sibert](https://github.com/Marcussacapuces91)_</sub> ⟩ [GitHub](https://github.com/Marcussacapuces91/CPM-Emulator)
+* **EBTKS Z80 Emulator** <sub>_by [timob0](https://github.com/timob0)_</sub> ⟩ [GitHub](https://github.com/timob0/EBTKS-Z80-Emulator)
 * **[Emu80](https://emu80.org)** <sub>_by [Viktor Pykhonin](https://github.com/vpyk)_</sub> ⟩ [GitHub](https://github.com/vpyk/emu80v4)
 * **Emulátor Vzlet Z-256** <sub>_by [omikron88](https://github.com/omikron88)_</sub> ⟩ [GitHub](https://github.com/omikron88/Vzlet-Z256)
 * **f80** <sub>_by [Richard J. Prinz](https://www.min.at/prinz)_</sub> ⟩ [GitHub](https://github.com/rprinz08/f80)
@@ -665,6 +666,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **Ondra** <sub>_by [omikron88](https://github.com/omikron88)_</sub> ⟩ [GitHub](https://github.com/omikron88/ondra)
 * **OpenCOMAL** <sub>_by [Peter N. Andreasen](https://github.com/oz1ktx)_</sub> ⟩ [GitHub](https://github.com/oz1ktx/OpenCOMAL)
 * **PASOPIA/PASOPIA 7 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/pasopiaemulator)
+* **PBCemu** <sub>_by [Jan Schulz](https://github.com/hcl1981)_</sub> ⟩ [GitHub](https://github.com/hcl1981/pbc-emu)
 * **PC-6001mkII Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/p6mk2emulator)
 * **PC-8031 Emulator** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/nise8031)
 * **pico-sorcerer-2** <sub>_by [fruit-bat](https://github.com/fruit-bat)_</sub> ⟩ [GitHub](https://github.com/fruit-bat/pico-sorcerer-2)
@@ -676,8 +678,9 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **[SpeccyP](https://t.me/c/ZX_MURMULATOR/241406)** <sub>_by [Constantin](https://github.com/billgilbert7000)_</sub> ⟩ [GitHub](https://github.com/billgilbert7000/SpeccyP)
 * **[The Second-Worst ZX Spectrum Emulator in the World](https://fuzzix.org/building-the-secondworst-zx-spectrum-emulator-in-the-world-with-perl)** <sub>_by [John Barrett](https://fuzzix.org/about)_</sub> ⟩ [GitHub Gist](https://gist.github.com/jbarrett/1dbcbd92d08af2f089bf6baff5cf065b)
 * **[tihle](https://www.taricorp.net/2020/introducing-tihle/)** <sub>_by [Peter Marheine](https://www.taricorp.net/about/)_</sub> ⟩ [GitHub](https://github.com/tari/tihle) · [GitLab](https://gitlab.com/taricorp/tihle)
-* **[TileMap](https://simonowen.com/spectrum/tilemap/)** <sub>_by [Simon Owen](https://simonowen.com/)_</sub> ⟩ [GitHub](https://github.com/simonowen/tilemap)
+* **[TileMap](https://simonowen.com/spectrum/tilemap/)** <sub>_by [Simon Owen](https://simonowen.com)_</sub> ⟩ [GitHub](https://github.com/simonowen/tilemap)
 * **<a href="https://eaw.app/tranzputer-fusionx">tranZPUter<sup>FusionX</sup></a>** <sub>_by [Philip Smart](https://eaw.app/contact)_</sub>
+* **z80cemu** <sub>_by [Eric Zhang](https://www.ecust.icu)_</sub> ⟩ [GitHub](https://github.com/ericzhang-debug/z80cemu)
 * **Zemu** <sub>_by [Jay Valentine](https://jayvalentine.github.io/)_</sub> ⟩ [GitHub](https://github.com/jayvalentine/zemu) · [RubyGems](https://rubygems.org/gems/zemu)
 
 ## Thanks
