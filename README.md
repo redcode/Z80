@@ -672,6 +672,7 @@ This emulator has been used by the following projects (listed in alphabetical or
 * **pico-sorcerer-2** <sub>_by [fruit-bat](https://github.com/fruit-bat)_</sub> ⟩ [GitHub](https://github.com/fruit-bat/pico-sorcerer-2)
 * **pico-zxspectrum** <sub>_by [fruit-bat](https://github.com/fruit-bat)_</sub> ⟩ [GitHub](https://github.com/fruit-bat/pico-zxspectrum)
 * **[picoZ80](https://eaw.app/picoz80)** <sub>_by [Philip Smart](https://eaw.app/contact)_</sub>
+* **PSModern** <sub>_by [carbiecarbie](https://github.com/carbiecarbie)_</sub> ⟩ [GitHub](https://github.com/carbiecarbie/psmodern)
 * **RadZ80** <sub>_by [RadAd](https://github.com/RadAd)_</sub> ⟩ [GitHub](https://github.com/RadAd/RadZ80)
 * **SEGA SC-3000 Emulator for Raspberry Pi Pico** <sub>_by [shippoiincho](https://github.com/shippoiincho)_</sub> ⟩ [GitHub](https://github.com/shippoiincho/sc3000emulator)
 * **[Smemu6](https://sch-lika.github.io/smemu6)** <sub>_by [Marcel Prisi](https://github.com/Sch-LikA)_</sub> ⟩ [GitHub](https://github.com/Sch-LikA/smemu6)
@@ -840,9 +841,9 @@ Many thanks to the following individuals (in alphabetical order):
 
 1. <span id="r_1">https://zx-pk.ru/threads/34173-revers-inzhiniring-z80.html</span>
 2. <span id="r_2">https://spectrumcomputing.co.uk/forums/viewtopic.php?t=6102</span>
- 	1. <span id="r_2_1">https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83384#p83384</span>
- 	2. <span id="r_2_2">https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83041#p83041</span>
- 	3. <span id="r_2_3">https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83157#p83157</span>
+	1. <span id="r_2_1">https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83384#p83384</span>
+	2. <span id="r_2_2">https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83041#p83041</span>
+	3. <span id="r_2_3">https://spectrumcomputing.co.uk/forums/viewtopic.php?p=83157#p83157</span>
 3. <span id="r_3">https://zx-pk.ru/threads/35936-zagadka-plavayushchikh-flagov-scf-ccf-raskryta!.html</span>
 4. <span id="r_4">https://stardot.org.uk/forums/viewtopic.php?t=15464</span>
 	1. <span id="r_4_1">https://stardot.org.uk/forums/viewtopic.php?p=211042#p211042</span>
