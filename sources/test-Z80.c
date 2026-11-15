@@ -665,7 +665,7 @@ static zuint8 run_test(int test_index)
 	else if (
 		zx_spectrum_bad_character ||
 		hash	!= test->hash	  ||
-		lines   != test->lines    ||
+		lines	!= test->lines	  ||
 		columns != test->columns
 	)
 		failure = "Incorrect behavior detected";
@@ -986,7 +986,7 @@ int main(int argc, char **argv)
 	exit_without_error:
 	free(search_paths);
 	free(path_buffer);
-	return results[0] ? -1 : 0;
+	return results[0] ? EXIT_FAILURE : EXIT_SUCCESS;
 
 	incomplete_option:
 	fprintf(stderr, "test-Z80: Incomplete option: %s\n", argv[i - 1]);
@@ -1005,7 +1005,7 @@ int main(int argc, char **argv)
 	exit_with_error:
 	free(search_paths);
 	free(path_buffer);
-	return -1;
+	return EXIT_FAILURE;
 	}
 
 

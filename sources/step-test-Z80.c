@@ -24,6 +24,7 @@
 #include <cjson/cJSON.h>
 #include <Z/constants/pointer.h>
 #include <Z/macros/array.h>
+#include <Z/macros/bitwise.h>
 #include <Z/macros/structure.h>
 #include <Z80.h>
 #include <Z80InsnClock.h>
@@ -37,7 +38,7 @@
 /* MARK: - Types */
 
 typedef struct {
-	char const *caption;   /* Name used in the mismatch reports. */
+	char const *caption;   /* Name to show in mismatch reports.  */
 	char const *key;       /* JSON key.			     */
 	zusize offset;	       /* Offset within the Z80 structure.   */
 	zuint16 maximum_value; /* Maximum value the member can hold. */
@@ -52,7 +53,7 @@ typedef struct {
 typedef Z_PACKED_STRUCTURE_BEGIN {
 	zuint16 address; /* Value on the address bus.		       */
 	zsint16 value;   /* Value on the data bus (-1 = do not check). */
-	char pins[4];    /* State of the pins: /RD, WR, /MREQ, /IORQ.  */
+	char pins[4];    /* State of the pins: /RD, /WR, /MREQ, /IORQ. */
 } Z_PACKED_STRUCTURE_END Cycle;
 
 typedef Z_PACKED_STRUCTURE_BEGIN {
@@ -107,6 +108,8 @@ static zuint8 memory[Z_USIZE(65536)];
 
 #ifdef STEP_TEST_Z80_WITH_EXECUTE
 	static zusize (* run)(Z80 *self, zusize cycles) = z80_execute;
+#else
+#	define run z80_run
 #endif
 
 static Cycle* cycles;
@@ -124,13 +127,15 @@ static char const *field_separator = "";
 static zbool cpu_break;
 
 
+/* MARK: - Helpers for Recording Cycles and I/O Port Operations */
+
 /*----------------------------------------------------------------------------.
 | `add_cycle` and `add_port` add entries to the lists of recorded cycles and  |
 | I/O port operations, respectively. If memory reallocation fails, they break |
 | the CPU emulation and ignore further entries.				      |
 '============================================================================*/
 
-static void add_cycle(zuint16 address, zsint16 value, char const *pins)
+static void add_cycle(char const *pins, zuint16 address, zsint16 value)
 	{
 	Cycle *c;
 
@@ -158,7 +163,7 @@ static void add_cycle(zuint16 address, zsint16 value, char const *pins)
 
 
 static void add_extra_cycles(zuint16 address, zuint8 count)
-	{while (count--) add_cycle(address, -1, "----");}
+	{while (count--) add_cycle("----", address, -1);}
 
 
 static void add_port(zuint16 port, zuint8 value, char direction)
@@ -195,12 +200,12 @@ static zuint8 cpu_fetch_opcode(void *context, zuint16 address)
 
 	Z_UNUSED(context)
 	z80_insn_clock_extra_add_m1(&insn_clock, extra);
-	add_cycle(address,	   -1,	   "----");
-	add_cycle(address,	   -1,	   "r-m-");
-	add_cycle(refresh_address, opcode, "----");
-	add_cycle(refresh_address, -1,	   "--m-");
+	add_cycle("----", address,	   -1	 );
+	add_cycle("r-m-", address,	   -1	 );
+	add_cycle("----", refresh_address, opcode);
+	add_cycle("--m-", refresh_address, -1	 );
 	add_extra_cycles(refresh_address, extra);
-	return memory[address];
+	return opcode;
 	}
 
 
@@ -209,10 +214,10 @@ static zuint8 cpu_nop(void *context, zuint16 address)
 	zuint16 refresh_address = z80_refresh_address(&cpu);
 
 	Z_UNUSED(context)
-	add_cycle(address,	   -1,		    "----");
-	add_cycle(address,	   -1,		    "r-m-");
-	add_cycle(refresh_address, memory[address], "----");
-	add_cycle(refresh_address, -1,		    "--m-");
+	add_cycle("----", address,	   -1		  );
+	add_cycle("r-m-", address,	   -1		  );
+	add_cycle("----", refresh_address, memory[address]);
+	add_cycle("--m-", refresh_address, -1		  );
 	return 0;
 	}
 
@@ -220,14 +225,15 @@ static zuint8 cpu_nop(void *context, zuint16 address)
 static zuint8 cpu_read(void *context, zuint16 address)
 	{
 	zuint8 extra = z80_insn_clock_extra_m(&insn_clock);
+	zuint8 value = memory[address];
 
 	Z_UNUSED(context)
 	z80_insn_clock_extra_add_m(&insn_clock, extra);
-	add_cycle(address, -1,		    "----");
-	add_cycle(address, -1,		    "r-m-");
-	add_cycle(address, memory[address], "r-m-");
+	add_cycle("----", address, -1	);
+	add_cycle("r-m-", address, -1	);
+	add_cycle("r-m-", address, value);
 	add_extra_cycles(address, extra);
-	return memory[address];
+	return value;
 	}
 
 
@@ -237,9 +243,9 @@ static void cpu_write(void *context, zuint16 address, zuint8 value)
 
 	Z_UNUSED(context)
 	z80_insn_clock_extra_add_m(&insn_clock, extra);
-	add_cycle(address, -1,	  "----");
-	add_cycle(address, value, "--m-");
-	add_cycle(address, value, "-wm-");
+	add_cycle("----", address, -1	);
+	add_cycle("--m-", address, value);
+	add_cycle("-wm-", address, value);
 	add_extra_cycles(address, extra);
 	memory[address] = value;
 	}
@@ -252,11 +258,11 @@ static zuint8 cpu_in(void *context, zuint16 port)
 
 	Z_UNUSED(context)
 	z80_insn_clock_extra_add_in(&insn_clock);
-	add_cycle(port,	-1,    "----");
-	add_cycle(port,	-1,    "r--i");
-	add_cycle(port,	-1,    "r--i");
-	add_cycle(port, value, "r--i");
-	add_port (port, value, 'r');
+	add_cycle("----", port,	-1   );
+	add_cycle("r--i", port,	-1   );
+	add_cycle("r--i", port,	-1   );
+	add_cycle("r--i", port, value);
+	add_port(port, value, 'r');
 	return value;
 	}
 
@@ -266,12 +272,12 @@ static void cpu_out(void *context, zuint16 port, zuint8 value)
 	zuint8 extra = z80_insn_clock_extra_out(&insn_clock);
 
 	Z_UNUSED(context)
-	add_cycle(port,	-1,    "----");
-	add_cycle(port, value, "-w-i");
-	add_cycle(port, value, "-w-i");
-	add_cycle(port, value, "-w-i");
+	add_cycle("----", port,	-1   );
+	add_cycle("-w-i", port, value);
+	add_cycle("-w-i", port, value);
+	add_cycle("-w-i", port, value);
 	add_extra_cycles(port, extra);
-	add_port (port, value, 'w');
+	add_port(port, value, 'w');
 	}
 
 
@@ -301,7 +307,7 @@ static zbool validate_test_state(cJSON *state)
 	cJSON *item, *subitem;
 	Member const *member;
 
-	/* The state object must contain all CPU members plus the `"ram"` array. */
+	/* A state object must contain all CPU members plus a `"ram"` array. */
 	if (	!cJSON_IsObject(state)							||
 		cJSON_GetArraySize(state) != (int)Z_ARRAY_SIZE(members) + /* "ram" */ 1 ||
 		(item = cJSON_GetObjectItem(state, "ram")) == Z_NULL			||
@@ -309,8 +315,8 @@ static zbool validate_test_state(cJSON *state)
 	)
 		return Z_FALSE;
 
-	/* The `"ram"` array must contain arrays of two numbers: 16-bit address and
-	   8-bit value. */
+	/* The `"ram"` array must contain arrays of two numbers: 16-bit address
+	   and 8-bit value. */
 	cJSON_ArrayForEach(subitem, item) if (
 		!cJSON_IsArray(subitem)							||
 		cJSON_GetArraySize(subitem) != 2					||
@@ -319,7 +325,8 @@ static zbool validate_test_state(cJSON *state)
 	)
 		return Z_FALSE;
 
-	/* Each CPU member must be present and hold a valid number according to its type. */
+	/* Each CPU member must be present and hold a valid number according to
+	   its type. */
 	for (member = members; member != members + Z_ARRAY_SIZE(members) - 2; member++)
 		if (	(item = cJSON_GetObjectItem(state, member->key)) == Z_NULL ||
 			!is_number_between(item, 0, member->maximum_value)
@@ -328,11 +335,9 @@ static zbool validate_test_state(cJSON *state)
 
 	return Z_TRUE;
 
-	/*--------------------------------------------------------------.
-	| `"ei"` and `"p"` are mutually exclusive, as the previous	|
-	| instruction cannot be `ei` and `ld a,{i|r}` at the same time. |
-	'==============================================================
-	return	2.0 !=
+	/* `"ei"` and `"p"` are mutually exclusive, as the previous instruction
+	   cannot be `ei` and `ld a,{i|r}` at the same time. */
+/*	return	2.0 !=
 		cJSON_GetNumberValue(cJSON_GetObjectItem(state, "ei")) +
 		cJSON_GetNumberValue(cJSON_GetObjectItem(state, "p" ));*/
 	}
@@ -590,7 +595,7 @@ int main(int argc, char **argv)
 				"Copyright (C) 2024-2026 Manuel Sainz de Baranda y Goñi.\n"
 				"Released under the terms of the GNU General Public License v3.");
 
-			return 0;
+			return EXIT_SUCCESS;
 			}
 
 		else if (string_is_option(option, "h-help"))
@@ -600,7 +605,7 @@ int main(int argc, char **argv)
 				"Options:\n"
 				"  -V, --version           Print version information and exit.\n"
 				"  -h, --help              Print this help message and exit.\n"
-				"  -j, --json-output       Produce output in JSON format.\n"
+				/*"  -j, --json-output       Produce output in JSON format.\n"*/
 				"  -m, --model <model>     Specify the CPU model to emulate.\n"
 				"  -p, --pins              Test address bus, data bus and control pins.\n"
 #				ifdef STEP_TEST_Z80_WITH_EXECUTE
@@ -617,7 +622,7 @@ int main(int argc, char **argv)
 				"Email bug reports to <manuel@zxe.io>\n"
 				"Open issues at <https://github.com/redcode/Z80>\n");
 
-			return 0;
+			return EXIT_SUCCESS;
 			}
 
 		else if (string_is_option(option, "j-json-output"))
@@ -874,6 +879,10 @@ int main(int argc, char **argv)
 						cpu.data.uint8_array[1] = 0x57;
 						}
 
+#					ifdef STEP_TEST_Z80_WITH_QFF
+						cpu.q = !!cpu.q;
+#					endif
+
 					/* Set initial memory state. */
 					item = cJSON_GetObjectItem(initial, "ram");
 
@@ -888,17 +897,14 @@ int main(int argc, char **argv)
 
 					/* Run the test. */
 					cpu_break = Z_FALSE;
-
-#					ifdef STEP_TEST_Z80_WITH_EXECUTE
-						run(&cpu, expected_cycle_count);
-#					else
-						z80_run(&cpu, expected_cycle_count);
-#					endif
-
+					run(&cpu, expected_cycle_count);
 					if (cpu_break) goto cannot_allocate_memory;
-
 					test_failed = array_failed = Z_FALSE;
 					field_separator = "";
+
+#					ifdef STEP_TEST_Z80_WITH_QFF
+						if (cpu.q) cpu.q = Z80_F(cpu);
+#					endif
 
 					/* Check final CPU state. */
 					for (j = 0; j != Z_ARRAY_SIZE(members) - 2; j++)
@@ -937,8 +943,8 @@ int main(int argc, char **argv)
 
 					if (	(expected = (zuint)cJSON_GetNumberValue(cJSON_GetObjectItem(final, "p"))) !=
 						(actual =
-							cpu.data.uint8_array[0] == 0xED && (
-							cpu.data.uint8_array[1] == 0x57 || cpu.data.uint8_array[1] == 0x5F))
+							(cpu.data.uint16_array[0] & Z_UINT16_BIG_ENDIAN(Z_UINT16(0xFFF7)))
+							==			    Z_UINT16_BIG_ENDIAN(Z_UINT16(0xED57)))
 					)
 						{
 						mismatch_found(test);
@@ -1064,7 +1070,7 @@ int main(int argc, char **argv)
 		if (tests != Z_NULL) cJSON_Delete(tests);
 		puts("Error");
 		fputs("step-test-Z80: Cannot allocate memory.\n", stderr);
-		return -1;
+		return EXIT_FAILURE;
 		}
 
 	/* Print the results. */
@@ -1106,7 +1112,8 @@ int main(int argc, char **argv)
 		}
 
 	puts(".");
-	return read_error_count + bad_file_count + failed_file_count == 0 ? 0 : -1;
+	return read_error_count + bad_file_count + failed_file_count == 0
+		? EXIT_SUCCESS : EXIT_FAILURE;
 
 	incomplete_option:
 	fprintf(stderr, "step-test-Z80: Incomplete option: %s\n", argv[i - 1]);
@@ -1118,7 +1125,7 @@ int main(int argc, char **argv)
 
 	bad_syntax:
 	fputs("step-test-Z80: Type 'step-test-Z80 -h' for help.\n", stderr);
-	return -1;
+	return EXIT_FAILURE;
 	}
 
 
