@@ -705,7 +705,7 @@ static zuint8 run_test(int test_index)
 
 
 static zbool string_is_option(char const *string, char const *option)
-	{return (*string == *option && string[1] == '\0') || !strcmp(string, &option[1]);}
+	{return (*string == *option && !string[1]) || !strcmp(string, &option[1]);}
 
 
 static zbool string_to_uint8(char const *string, zuint8 maximum, zuint8 *value)
@@ -996,7 +996,7 @@ int main(int argc, char **argv)
 	invalid = "I/O value";
 
 	invalid_argument:
-	if (*argv[i] != '\0') fprintf(stderr, "test-Z80: Invalid %s: %s\n", invalid, argv[i]);
+	if (*argv[i]) fprintf(stderr, "test-Z80: Invalid %s: %s\n", invalid, argv[i]);
 	else fprintf(stderr, "test-Z80: Bad syntax: Empty %s.\n", invalid);
 
 	bad_syntax:

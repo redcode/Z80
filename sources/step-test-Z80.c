@@ -557,7 +557,7 @@ static Port read_port_item(cJSON const *item)
 
 
 static zbool string_is_option(char const *string, char const *option)
-	{return (*string == *option && string[1] == '\0') || !strcmp(string, &option[1]);}
+	{return (*string == *option && !string[1]) || !strcmp(string, &option[1]);}
 
 
 int main(int argc, char **argv)
@@ -587,7 +587,7 @@ int main(int argc, char **argv)
 	cpu.options = Z80_MODEL_ZILOG_NMOS;
 
 	/* Parse command line arguments. */
-	while (++i < argc && *argv[i] == '-' && *(option = &argv[i][1]) != '\0')
+	while (++i < argc && *argv[i] == '-' && *(option = &argv[i][1]))
 		{
 		if (string_is_option(option, "V-version"))
 			{
@@ -684,7 +684,7 @@ int main(int argc, char **argv)
 		goto bad_syntax;
 		}
 
-	for (j = (zuint)i; j < (zuint)argc; j++) if (*argv[j] == '\0')
+	for (j = (zuint)i; j < (zuint)argc; j++) if (!*argv[j])
 		{
 		i = (int)j;
 		invalid = "file path";
@@ -733,7 +733,7 @@ int main(int argc, char **argv)
 
 		error = Z_NULL;
 
-		if (argv[i][0] == '-' && argv[i][1] == '\0')
+		if (argv[i][0] == '-' && !argv[i][1])
 			{
 			zusize buffer_size = 0;
 
@@ -1120,7 +1120,7 @@ int main(int argc, char **argv)
 	goto bad_syntax;
 
 	invalid_argument:
-	if (*argv[i] != '\0') fprintf(stderr, "step-test-Z80: Invalid %s: %s\n", invalid, argv[i]);
+	if (*argv[i]) fprintf(stderr, "step-test-Z80: Invalid %s: %s\n", invalid, argv[i]);
 	else fprintf(stderr, "step-test-Z80: Bad syntax: Empty %s.\n", invalid);
 
 	bad_syntax:
