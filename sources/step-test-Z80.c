@@ -684,6 +684,12 @@ int main(int argc, char **argv)
 		goto bad_syntax;
 		}
 
+	if (file_count > 1 && argv[i][0] == '-' && !argv[i][1])
+		{
+		fputs("step-test-Z80: Bad syntax: Arguments are not allowed after '-'.\n", stderr);
+		goto bad_syntax;
+		}
+
 	for (j = (zuint)i; j < (zuint)argc; j++) if (!*argv[j])
 		{
 		i = (int)j;
